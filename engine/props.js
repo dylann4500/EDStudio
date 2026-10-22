@@ -165,3 +165,29 @@ export function makeHotDog() {
   const mus = mk(new THREE.CapsuleGeometry(0.006, 0.14, 3, 6), mat(0xf1c24a, 0.5), g, 0, 0.052, 0); mus.rotation.z = Math.PI / 2;
   return g;
 }
+
+// ---------------------------------------------------------------- flashlight (handheld; beam along local +z)
+/** Returns {g, setOn(v), aim(pos, target)}: a toy flashlight with a soft additive beam cone + a spot light. */
+export function makeFlashlight({ length = 34, radius = 2.4, color = 0xfff0d2 } = {}) {
+  const g = new THREE.Group();
+  const body = mk(new THREE.CylinderGeometry(0.022, 0.026, 0.19, 14), mat(0x2b2f36, 0.45), g, 0, 0, -0.02); body.rotation.x = Math.PI / 2;
+  const headM = mat(0x3a3f47, 0.4);
+  const head = mk(new THREE.CylinderGeometry(0.038, 0.028, 0.06, 16), headM, g, 0, 0, 0.1); head.rotation.x = Math.PI / 2;
+  const lensM = new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(2.5), toneMapped: false });
+  const lens = new THREE.Mesh(new THREE.CircleGeometry(0.034, 18), lensM); lens.position.z = 0.131; g.add(lens);
+  // soft volumetric cone: alpha fades along the length and toward the silhouette edges (no texture → no hard end cap)
+  const geo = new THREE.CylinderGeometry(0.035, radius, length, 40, 1, true); geo.translate(0, -length / 2, 0); geo.rotateX(-Math.PI / 2);
+  const beamMat = new THREE.ShaderMaterial({
+    uniforms: { uColor: { value: new THREE.Color(color) }, uOpacity: { value: 0.3 }, uLen: { value: length } },
+    vertexShader: 'varying float vD; varying vec3 vN; varying vec3 vV; void main(){ vD = position.z; vec4 mv = modelViewMatrix * vec4(position, 1.0); vV = mv.xyz; vN = normalMatrix * normal; gl_Position = projectionMatrix * mv; }',
+    fragmentShader: 'uniform vec3 uColor; uniform float uOpacity, uLen; varying float vD; varying vec3 vN; varying vec3 vV; void main(){ float d = clamp(vD / uLen, 0.0, 1.0); float a = pow(1.0 - d, 1.7) * uOpacity; float edge = abs(dot(normalize(vN), normalize(-vV))); a *= mix(0.45, 1.0, smoothstep(0.0, 0.7, edge)); gl_FragColor = vec4(uColor * a, a); }',
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+  });
+  const beam = new THREE.Mesh(geo, beamMat);
+  beam.position.z = 0.13; beam.castShadow = false; g.add(beam);
+  const spot = new THREE.SpotLight(color, 0, 60, 0.12, 0.6, 1.2); spot.position.z = 0.13; spot.target.position.set(0, 0, 10); g.add(spot, spot.target);
+  const setOn = (v, beamOpacity = 0.3) => { lensM.color.setHex(color).multiplyScalar(0.1 + 2.4 * v); beamMat.uniforms.uOpacity.value = beamOpacity * v; beam.visible = v > 0.001; spot.intensity = 60 * v; };
+  const aim = (pos, target) => { g.position.copy(pos); g.lookAt(target); };
+  setOn(0);
+  return { g, beam, spot, setOn, aim };
+}

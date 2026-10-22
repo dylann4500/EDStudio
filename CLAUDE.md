@@ -74,6 +74,14 @@ videos/NNN-slug/
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
 - **Kids:** `makePerson({headR: 0.175, ...})` + `rig.root.scale.setScalar(0.62)`. Walking: pass `dist/scale`. Sitting: after `applyPose`,
   set `root.position.y = pose.y * scale` (else feet float). See 003 `applyScaled`.
+- `engine/sets/city.js` (004): night toy city — main street + intersection, ~48 blocks out to a downtown skyline, a rooftop
+  (`DIMS.roof`, `ROOF_Y`), `makeCar(color)` (`setLights`, `setRust`). Controls: `setTime({day, golden, milky, moon})`,
+  `setPower(1→0)` (blackout far→near, streetlamps last), `setGrowth(0..1)` (grass, trees in the road, vines, cracks),
+  `setSnow`, `setWeather(t, season)` (roof only), `setSignal('red'|'yellow'|'green'|'off')`, `setAnswer(v, glow)` (one lit window
+  in a far tower, sight line kept clear), `setShadowFocus(x, z, half)` per shot. Video must set `camera.far ≈ 1500`.
+  People on the roof: put the rig in a carrier group at `y = ROOF_Y` (or use `floor`); never `pose.y = 16` (the leg IK reaches for y=0).
+- `engine/props.js` `makeFlashlight({length, radius})`: `aim(pos, target)`, `setOn(v, beamOpacity)`. The beam is a shader cone
+  (fades along its length) — a texture gradient on an open cone read as a solid grey tube with an end cap.
 - **Two sets in one video:** build both, toggle `set.root.visible` per section (hidden lights don't render). See 003.
 
 ## User's taste (direct feedback — non-negotiable)
@@ -112,6 +120,12 @@ videos/NNN-slug/
 - Outdoor sets: `studio.camera.far` defaults to 80 m — street.js raises it to 400 (sky dome + skyline). Raise it in any big set.
 - Keep crowd extras out of the lens between the camera and the hero (check the frames where the hero walks — 002's market shot
   hid Gary behind a watcher). Hide set props per shot when they clutter a long lens (002 hides the cart in the queue shot).
+- **Frame the hero by bearing, not by eye** (004 lost the hero off-frame twice): a vertical 50° fov is only ±15° wide. Put the camera
+  behind the hero along their facing line (3–4 m back, ~1 m to the side) and aim ≤ 10° off that line; check that no parked car
+  sits on the camera path (004's day shot started *inside* a car).
+- Big painted skies on a 700 m dome need 4096-px textures and soft round stars (2-px squares showed as a grid at fov 50; big stars read as snow).
+- **After resolving a merge in a shared file, run `node --check`** (copy to `.mjs` first). Two sessions appending to props.js lost a
+  closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` before picking NNN — numbers get claimed in worktrees before they're pushed.
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)

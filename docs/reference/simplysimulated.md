@@ -16,6 +16,12 @@ Frames were sampled every ~5 s in the in-app browser (TikTok works logged out; d
 - **Every beat = a new location + one italic subtitle** (~5–6 s each). Grey-blue daylight, low-poly city, no faces up close.
 - **The hook is a loss that everyone can picture**, and the **turn is hope/recovery driven by real biology** (births continue).
 
+## How EDStudio adapted it (video 004, "every human disappeared except you")
+- Kept: SECOND 0 → +1 MINUTE → +1 DAY → +2 DAYS → +3 WEEKS → +4 YEARS stamps in the HUD time line, the phone beat (yours: "Mom · calling…",
+  everyone else's phones ringing on the sidewalk), the grid failing in days, a counter that *is* the plot (PEOPLE ON EARTH 8,231,604,112 → 1).
+- Changed: one set (city.js) re-dressed per beat instead of a new location each time; a nightly ritual (8:14 PM flashlight from the roof)
+  replaces the vignette list; ending = a far window blinks back (counter 1 → 2, gold) + end card question "Who would you look for first?".
+
 ## How EDStudio adapted it (video 003, "all children disappeared")
 - Kept: the what-if title, a counter that *is* the plot (CHILDREN ON EARTH: 2.4 B → 0 → 1 → 718 M), elapsed-time stamps
   in the HUD time line (+6 HOURS … +5 YEARS 8 MONTHS), and real numbers (≈132 M births/yr ≈ 4.2 per second).

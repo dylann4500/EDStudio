@@ -1,0 +1,271 @@
+{
+  "tone": "emotional",
+  "look": {
+    "exposure": 1.25,
+    "fill": 0.6
+  },
+  "fps": 30,
+  "duration": 70.6,
+  "title": {
+    "html": "What if every human disappeared <em>except you</em>?",
+    "in": 0.3,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.75,
+      6.15,
+      "Tuesday, 8:14 PM. Rush hour."
+    ],
+    [
+      6.85,
+      9.4,
+      "You blink. Everyone else is gone."
+    ],
+    [
+      9.9,
+      12.6,
+      "You call your mom. It just rings."
+    ],
+    [
+      12.9,
+      16.1,
+      "Every phone on Earth is ringing. Nobody picks up."
+    ],
+    [
+      16.9,
+      19.8,
+      "Day one. The traffic lights still change…"
+    ],
+    [
+      20.15,
+      23.2,
+      "…for nobody."
+    ],
+    [
+      24.0,
+      27.3,
+      "Day two. Power plants can’t run without people."
+    ],
+    [
+      27.6,
+      30.7,
+      "The city goes dark, one block at a time."
+    ],
+    [
+      31.4,
+      34.6,
+      "Week three. Not one light left on Earth."
+    ],
+    [
+      35.0,
+      38.6,
+      "For the first time, you see the Milky Way."
+    ],
+    [
+      39.3,
+      42.8,
+      "Every night at 8:14, you shine a light at the city."
+    ],
+    [
+      43.1,
+      46.6,
+      "Just in case someone shines one back."
+    ],
+    [
+      47.4,
+      50.4,
+      "Year four. Trees grow through the road."
+    ],
+    [
+      50.8,
+      53.1,
+      "You haven’t missed a single night."
+    ],
+    [
+      54.0,
+      56.8,
+      "Night 1,461."
+    ],
+    [
+      57.9,
+      60.9,
+      "Across the city, a light blinks back."
+    ],
+    [
+      61.5,
+      64.4,
+      "You were never the only one."
+    ]
+  ],
+  "hudLabel": "PEOPLE ON EARTH",
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 9.6,
+      "from": 8231604112,
+      "to": 1,
+      "r0": 6.5,
+      "r1": 8.1,
+      "time": "TUESDAY · 8:14 PM",
+      "age": "SECOND 0"
+    },
+    {
+      "t0": 9.6,
+      "t1": 16.4,
+      "from": 1,
+      "to": 1,
+      "time": "TUESDAY · 8:15 PM",
+      "age": "+1 MINUTE"
+    },
+    {
+      "t0": 16.4,
+      "t1": 23.6,
+      "from": 1,
+      "to": 1,
+      "time": "WEDNESDAY · 9:40 AM",
+      "age": "+1 DAY"
+    },
+    {
+      "t0": 23.6,
+      "t1": 31.0,
+      "from": 1,
+      "to": 1,
+      "time": "THURSDAY · 8:14 PM",
+      "age": "+2 DAYS"
+    },
+    {
+      "t0": 31.0,
+      "t1": 39.0,
+      "from": 1,
+      "to": 1,
+      "time": "11:02 PM",
+      "age": "+3 WEEKS"
+    },
+    {
+      "t0": 39.0,
+      "t1": 41.0,
+      "from": 1,
+      "to": 1,
+      "time": "8:14 PM",
+      "age": "NIGHT 41"
+    },
+    {
+      "t0": 41.0,
+      "t1": 43.0,
+      "from": 1,
+      "to": 1,
+      "time": "8:14 PM",
+      "age": "NIGHT 97"
+    },
+    {
+      "t0": 43.0,
+      "t1": 45.0,
+      "from": 1,
+      "to": 1,
+      "time": "8:14 PM",
+      "age": "NIGHT 212"
+    },
+    {
+      "t0": 45.0,
+      "t1": 47.0,
+      "from": 1,
+      "to": 1,
+      "time": "8:14 PM",
+      "age": "NIGHT 640"
+    },
+    {
+      "t0": 47.0,
+      "t1": 53.4,
+      "from": 1,
+      "to": 1,
+      "time": "6:50 PM",
+      "age": "+4 YEARS"
+    },
+    {
+      "t0": 53.4,
+      "t1": 70.6,
+      "from": 1,
+      "to": 2,
+      "r0": 58.3,
+      "r1": 58.4,
+      "time": "8:14 PM",
+      "age": "NIGHT 1,461",
+      "ageGoldAt": 58.35
+    }
+  ],
+  "end": {
+    "in": 66.6,
+    "html": "Who would you look for <em>first</em>?",
+    "small": "SEND THIS TO THEM"
+  },
+  "dips": [
+    [
+      0.0,
+      0.0,
+      0.45
+    ],
+    [
+      6.3,
+      6.45,
+      6.62
+    ],
+    [
+      16.25,
+      16.4,
+      16.55
+    ],
+    [
+      23.45,
+      23.6,
+      23.75
+    ],
+    [
+      30.85,
+      31.0,
+      31.15
+    ],
+    [
+      38.85,
+      39.0,
+      39.15
+    ],
+    [
+      40.9,
+      41.0,
+      41.1
+    ],
+    [
+      42.9,
+      43.0,
+      43.1
+    ],
+    [
+      44.9,
+      45.0,
+      45.1
+    ],
+    [
+      46.85,
+      47.0,
+      47.15
+    ],
+    [
+      53.25,
+      53.4,
+      53.55
+    ]
+  ],
+  "finalFade": [
+    66.0,
+    66.6
+  ],
+  "debugView": {
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "height": 40
+  }
+}

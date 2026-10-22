@@ -13,10 +13,11 @@ Follow `CLAUDE.md` exactly. Steps:
    otherwise develop $ARGUMENTS into a concept that follows the format bible (opening question alone + centered with one gold
    keyword, NO 'told by' tag/subtext, a HUD number that changes across a time skip, 2–4 eras, a strong ending, hyper-specific
    details). Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, silence before punch lines, warm last beat).
-   Respect the originality rule. If a reference video link is given, sample frames every ~5 s in the browser
+   Respect the originality rule. Emotional what-ifs (003, 004): keep ONE human thread through the consequence ladder
+   (a ritual the hero repeats) and end on a reunion beat that flips the HUD counter (004: PEOPLE ON EARTH 8.2 B → 1 → 2). If a reference video link is given, sample frames every ~5 s in the browser
    (TikTok: dismiss the login modal, seek `video.currentTime`) and save the takeaways to `docs/reference/<account>.md`.
 3. Work in your own worktree/branch if other sessions may be active (CLAUDE.md → Parallel sessions). Pick the next free number
-   and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` / `--from 002-everyone-pregnant` to fork a reference).
+   (`git fetch`, check `videos/`, `origin/main` and `.claude/worktrees/`) and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` / `--from 002-everyone-pregnant` to fork a reference).
    If the story needs a new location, build `engine/sets/<name>.js` modeled on `bedroom.js` (indoor) or `street.js` (outdoor).
 4. Write story.json (all text + HUD + timing, `"tone"`; end card fully visible ≥ 3.5 s), then shots.js (shots, cameras, poses, props).
 5. Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
