@@ -186,12 +186,8 @@ export function createOverlay(story) {
     const seg = segs.find((s) => t >= s.t0 && t < s.t1) || segs[segs.length - 1];
     if (seg) {
       const endT = story.finalFade ? story.finalFade[0] : 1e9;
-      // "only bright when relevant": full opacity at a segment start and while the number rolls, ~55% otherwise
-      const near = (a, b) => (t < a ? smooth(1 - (a - t) / 0.4) : t > b ? smooth(1 - (t - b) / 1.0) : 1);
-      let act = near(seg.t0, seg.t0 + 1.6);
-      if (seg.r0 !== undefined) act = Math.max(act, near(seg.r0 - 0.2, seg.r1 + 0.6));
-      if (seg.ageGoldAt !== undefined) act = Math.max(act, near(seg.ageGoldAt, seg.ageGoldAt + 1.6));
-      hud.style.opacity = afterTitle * (1 - smooth((t - endT) / 0.3)) * lerp(story.hudIdleOpacity ?? 0.55, 1, act);
+      // Steady: fades in once after the opening title, stays at full opacity, fades out once at the end. Never pulses/dims.
+      hud.style.opacity = afterTitle * (1 - smooth((t - endT) / 0.3));
       let n = seg.from, u = 1;
       if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, easeIO(u)); }
       num.textContent = fmt(n);
@@ -200,8 +196,6 @@ export function createOverlay(story) {
       const g = seg.ageGoldAt !== undefined ? clamp(1 - (t - seg.ageGoldAt) / 1.6) * (t >= seg.ageGoldAt ? 1 : 0) : 0;
       num.style.color = g > 0 ? `rgb(${lerp(255, 243, g)},${lerp(255, 196, g)},${lerp(255, 107, g)})` : '#fff';
       age.classList.toggle('gold', t >= (seg.ageGoldAt ?? 1e9));
-      const pulse = g > 0 ? 1 + 0.14 * Math.sin(Math.min(1, (t - seg.ageGoldAt) / 0.45) * Math.PI) : 1;
-      num.style.transform = `scale(${pulse})`;
     }
 
     // subtitles
