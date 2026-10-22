@@ -167,10 +167,9 @@ const $ = (id) => document.getElementById(id);
 const fmt = (n) => Math.round(n).toLocaleString('en-US');
 
 export function createOverlay(story) {
-  const title = $('title'), tag = $('tag'), hud = $('hud'), num = $('hudNum'), time = $('hudTime'), age = $('hudAge');
+  const title = $('title'), hud = $('hud'), num = $('hudNum'), time = $('hudTime'), age = $('hudAge');
   const sub = $('sub'), fade = $('fade'), end = $('end');
   if (story.title) title.innerHTML = story.title.html;
-  if (story.tag) tag.querySelector('span').textContent = story.tag.text; else tag.style.display = 'none';
   $('hudLabel').textContent = story.hudLabel || '';
   if (story.end) end.innerHTML = story.end.html + (story.end.small ? `<span class="small">${story.end.small}</span>` : '');
   let lastSub = null;
@@ -178,9 +177,9 @@ export function createOverlay(story) {
   const inOut = (t, a, b, f = 0.35) => smooth((t - a) / f) * (1 - smooth((t - (b - f)) / f));
 
   function update(t) {
-    // title + tag
+    // opening: the title alone, centered. HUD + subtitles only appear after it has faded out.
     if (story.title) title.style.opacity = inOut(t, story.title.in, story.title.out);
-    if (story.tag) tag.style.opacity = inOut(t, story.tag.in, story.tag.out);
+    const afterTitle = story.title ? smooth((t - story.title.out) / 0.35) : 1;
 
     // HUD: segments of {t0,t1,from,to,r0,r1,time,age,ageFrom,ageGoldAt}
     const segs = story.hud || [];
@@ -192,7 +191,7 @@ export function createOverlay(story) {
       let act = near(seg.t0, seg.t0 + 1.6);
       if (seg.r0 !== undefined) act = Math.max(act, near(seg.r0 - 0.2, seg.r1 + 0.6));
       if (seg.ageGoldAt !== undefined) act = Math.max(act, near(seg.ageGoldAt, seg.ageGoldAt + 1.6));
-      hud.style.opacity = smooth((t - 0.5) / 0.4) * (1 - smooth((t - endT) / 0.3)) * lerp(story.hudIdleOpacity ?? 0.55, 1, act);
+      hud.style.opacity = afterTitle * (1 - smooth((t - endT) / 0.3)) * lerp(story.hudIdleOpacity ?? 0.55, 1, act);
       let n = seg.from, u = 1;
       if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, easeIO(u)); }
       num.textContent = fmt(n);
@@ -210,7 +209,7 @@ export function createOverlay(story) {
     if (s) {
       if (lastSub !== s[2]) { sub.textContent = s[2]; lastSub = s[2]; }
       const a = smooth((t - s[0]) / 0.22) * (1 - smooth((t - (s[1] - 0.22)) / 0.22));
-      sub.style.opacity = a; sub.style.transform = `translateY(${(1 - smooth((t - s[0]) / 0.3)) * 10}px)`;
+      sub.style.opacity = a * afterTitle; sub.style.transform = `translateY(${(1 - smooth((t - s[0]) / 0.3)) * 10}px)`;
     } else { sub.style.opacity = 0; }
 
     // dips to black [start, peak, end] + final fade + end card

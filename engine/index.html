@@ -15,14 +15,11 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 #ui { position: absolute; inset: 0; pointer-events: none; color: #fff; }
 
-/* Title: serif, one keyword in gold via <em>. Keep it inside the top 25% (IG UI covers the bottom ~22%). */
-.title { position: absolute; top: 170px; left: 60px; right: 60px; text-align: center;
-  font-family: 'Newsreader'; font-weight: 300; font-size: 74px; line-height: 1.13; letter-spacing: -0.005em;
+/* Opening title: the main question, centered, alone on screen. Nothing else shows until it's gone (core.js). */
+.title { position: absolute; top: 50%; left: 70px; right: 70px; transform: translateY(-50%); text-align: center;
+  font-family: 'Newsreader'; font-weight: 300; font-size: 78px; line-height: 1.14; letter-spacing: -0.005em;
   text-shadow: 0 1px 3px rgba(0,0,0,.5), 0 0 16px rgba(0,0,0,.3); }
 .title em { font-style: normal; color: #f3c46b; }
-.tag { position: absolute; top: 380px; left: 0; right: 0; text-align: center; }
-.tag span { display: inline-block; font-family: 'Inter'; font-weight: 600; font-size: 21px; letter-spacing: .22em;
-  padding: 9px 18px 8px 22px; background: rgba(20,16,14,.55); border-radius: 4px; color: rgba(255,255,255,.88); }
 
 /* HUD: compact, top-left, out of the action. Dims when idle; brightens when the number changes (core.js). */
 .hud { position: absolute; left: 64px; top: 468px; font-family: 'Inter';
@@ -55,7 +52,6 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 <canvas id="gl" width="1080" height="1920"></canvas>
 <div id="ui">
   <div class="title" id="title"></div>
-  <div class="tag" id="tag"><span></span></div>
   <div class="hud" id="hud">
     <div class="label" id="hudLabel"></div>
     <div class="num" id="hudNum"></div>

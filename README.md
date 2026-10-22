@@ -4,7 +4,7 @@ Procedural 3D story Reels — toy-like characters, warm night light, a counter o
 Each video is code (Three.js) rendered frame-by-frame in headless Chrome and encoded with ffmpeg. Music + sound effects are
 synthesized in Python (royalty-free). Built to be driven by Claude Code: `/new-video 2` makes the next video end to end.
 
-**Video 001:** `videos/001-bedroom-door/final.mp4` — *"What your mom did every night after you fell asleep — told by your bedroom door."*
+**Video 001:** `videos/001-bedroom-door/final.mp4` — *"What your mom did every night after you fell asleep."*
 
 ## Quick start (any Mac / Windows / Linux with a GPU)
 Needs: **Node 18+**, **Google Chrome**, **Python 3 + numpy + scipy** (`python3 -m pip install numpy scipy`).

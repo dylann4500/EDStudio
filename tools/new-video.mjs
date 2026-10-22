@@ -25,7 +25,7 @@ for (const f of ['story.json', 'shots.js', 'cues.json', 'caption.md']) {
 if (!fs.existsSync(path.join(dst, 'caption.md'))) fs.writeFileSync(path.join(dst, 'caption.md'), '# Caption\n\n<hook line + emoji>\n\n<2–3 sentence summary>\n\n<question CTA> 👇\nSend this to your ___\n\n#tag1 #tag2 #tag3 #tag4 #animation\n');
 console.log(`created videos/${slug}/ from videos/${from}/
 next:
-  1. edit videos/${slug}/story.json   (title, tag, HUD, subtitles, timing)
+  1. edit videos/${slug}/story.json   (opening question, HUD, subtitles, timing)
   2. edit videos/${slug}/shots.js     (shots, cameras, poses)
   3. node tools/render.mjs ${slug} --stills 1,4,8 && node tools/sheet.mjs ${slug}   (look at stills/_sheet.jpg)
   4. python3 -I audio/synth.py ${slug}   (writes videos/${slug}/audio.wav from cues.json)

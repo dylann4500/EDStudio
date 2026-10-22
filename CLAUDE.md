@@ -2,6 +2,7 @@
 
 You are making **faceless emotional 3D story Reels** (1080×1920, 45–80 s) in the style of @tinyplanetlab:
 toy-like characters, warm night lighting, a counter on screen, a time skip, a gut-punch ending.
+Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
 Everything is procedural code: **Three.js scene → headless Chrome → ffmpeg**. No paid tools, no downloads at render time.
 
 Read `docs/FORMAT.md` (the style bible) before writing any story. `schedule/` has the 30-day plan of concepts.
@@ -9,7 +10,7 @@ Read `docs/FORMAT.md` (the style bible) before writing any story. `schedule/` ha
 ## One video = one folder
 ```
 videos/NNN-slug/
-  story.json   text layer: title, TOLD BY tag, HUD counter segments, subtitles, dips, end card, timing
+  story.json   text layer: opening title (the question), HUD counter segments, subtitles, dips, end card, timing
   shots.js     3D layer: SHOTS (time ranges), CAMS (camera moves), pose functions, build()/update(t)
   cues.json    audio cue sheet (SFX + music sections) -> audio/synth.py -> audio.wav
   caption.md   Instagram caption
@@ -49,6 +50,9 @@ videos/NNN-slug/
 - `engine/sky.js`: painted night skies + weather particles.
 
 ## User's taste (direct feedback — non-negotiable)
+- **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
+  subtitles, no other text while it's up (the engine hides them until `title.out`). Then the story begins.
+- **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.
 - **Persistent text stays out of the way.** The HUD is small, top-left, and dims when idle (brightens only when the number changes).
   Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third with a subtle shadow.
 - **Sound is minimal and soft.** Piano-led, few quiet low-passed foley hits only on story beats. No ticks/whooshes/chimes.
@@ -63,13 +67,13 @@ videos/NNN-slug/
   Use `--cam top` to verify. People standing in the hallway stay at z > 0.25 (outside the door's swing arc).
 - **Black rectangles** = NaN pixels smeared by bloom. core.js scrubs them, but also fix the source (degenerate normals: clamp them).
 - **Faces need light:** the camera carries a soft fill (story.look.fill, default 0.5). Backlit silhouettes are fine in doorways.
-- **Text safe zones:** title in the top 25 %, HUD top-left (y≈470, never right side — IG buttons), subtitles y≈1340, nothing below y≈1450.
+- **Text safe zones:** opening title centered (alone), HUD top-left (y≈470, never right side — IG buttons), subtitles y≈1340, nothing below y≈1450.
 - **Claude Code sandbox:** headless Chrome and `git` writes into `.git/` are blocked by the macOS sandbox → run those commands
   with the sandbox disabled. `npm install` needs `--cache ./.npm-cache` inside the sandbox.
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)
-- [ ] Frame 1 is a hook: title readable, scene legible, something already slightly wrong/curious.
+- [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
 - [ ] Every subtitle readable (≥ 0.3 s per word), never over a face, never overlapping the HUD.
 - [ ] HUD numbers are correct math and change across the time skip; final value lands with the emotional beat.
 - [ ] No character clips through doors/furniture; props stay in hands; no popping between shots unless it's a cut.

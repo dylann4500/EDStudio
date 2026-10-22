@@ -9,7 +9,7 @@ Follow `CLAUDE.md` exactly. Steps:
 
 1. Read `CLAUDE.md`, `docs/FORMAT.md`, and `videos/001-bedroom-door/` (story.json + shots.js) as the reference implementation.
 2. Pick the concept: if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md`; otherwise develop $ARGUMENTS
-   into a concept that follows the format bible (title with one gold keyword, TOLD BY object, a HUD number that changes across a
+   into a concept that follows the format bible (opening question alone + centered with one gold keyword, NO 'told by' tag/subtext, a HUD number that changes across a
    time skip, 2–4 eras, reversal/reunion ending, hyper-specific details). Respect the originality rule.
 3. Pick the next free number and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` if it's a bedroom story).
    If the story needs a new location, build `engine/sets/<name>.js` modeled on `engine/sets/bedroom.js`.

@@ -19,8 +19,10 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
 | What if every volcano erupted at once | 487 | — |
 
 ## The template
-1. **Title (top, serif, one keyword in gold):** "What your [person] did/does [moment]" or "The last time [X]". ≤ 12 words.
-2. **TOLD BY YOUR [OBJECT]** tag (optional, strongest): an inanimate witness that saw decades — door, hallway, kitchen table, car seat.
+1. **Opening (house rule):** the main question ALONE, centered in the middle of the screen, serif, one keyword in gold, ~3 s —
+   "What your [person] did/does [moment]" or "The last time [X]". ≤ 12 words. Nothing else on screen until it fades.
+2. **No "TOLD BY YOUR ___" tag or any subtext/tagline** (house rule — the reference account uses one; we don't).
+   An object can still be the silent witness in the visuals (same room across decades) — just never as text.
 3. **HUD (small, top-left, dims when idle):** small-caps label + big serif number that *means something* (nights, visits left, days until, height, age),
    plus a time line and an age line. It rolls fast across time skips and lands on the final beat (+1, 0, gold flash).
 4. **Subtitles:** small italic serif, second person ("you/your"), one short line at a time, hyper-specific details
