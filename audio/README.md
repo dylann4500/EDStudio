@@ -11,14 +11,24 @@
 - Foley bus low-passed (`"sfx_lowpass_hz": 4200`), sfx stem around −9 dB, ambience around −8 dB, master ≈ −15 LUFS.
 - Copy `videos/001-bedroom-door/cues.json` (emotional) or `videos/002-everyone-pregnant/cues.json` (funny) as the starting point.
 
-## World tone (005) — curious explainer, NOT sad
-- Only emotional videos get the sad/nostalgic piano. A world what-if should feel like a documentary explainer: intrigued, forward-moving.
-- `style: "ostinato"` = a repeating figure over chord tones on the soft **mallet** voice (marimba-like, low-passed; `inst: "piano"`
-  to use piano instead). `step` 0.18–0.31 s, `pattern` indexes [triad, triad+12], `bass_every` steps for a short piano bass,
-  `len` = note length in steps. `mallet_melody: [[t, midi, vel, len]]` for motifs; `mallet_db` sets the mallet level (−3).
-- Harmony: D major / D lydian (D ↔ E/D) for wonder, I–V6–vi–IV for relief, vi–IV–ii–III (Bm G Em F#) with a low `pulse` for
-  tension, ostinato speeding up across a time skip, a held sus4 bed (never a rest) before the reveal, swell + pad on the reveal,
-  and end OPEN (Gmaj7 → Asus4) — the end card asks a question, so the music shouldn't resolve.
+## Match the music to the reel's vibe (user rule)
+Pick the score from what the story *feels* like, not from the last video: tender family story → soft piano (001); comedy →
+bouncy piano (002); curious science → mallet explainer; **high-stakes / ominous world what-if → cinematic drama (005)**.
+005 took three tries: 001's sad piano ("too sad"), a calm mallet explainer ("too calm for how dramatic/ominous it is"), then this.
+
+## Dramatic world tone (005) — cinematic, ominous
+- `style: "strings"` = low spiccato string-section ostinato (the "Zimmer drive") on the chord: `step` 0.125 (16ths at 120 bpm),
+  `pattern` indexes [bass, chord tones], `accent` per-step multipliers, **`octave: 1`** (an octave up — at the raw register the
+  drive sits at 40–110 Hz, which K-weighted loudness and phone speakers barely register), `sustain` adds a held upper chord,
+  `len` = note length in steps (≥ 0.9 for slow pulses so there are no gaps). Level with `strings_db` (005: +8).
+- `drums: [[t, vel, kind]]` single hits and `drum_patterns: [{t0, t1, step, pattern: [vel mult...], vel, kind}]`; kinds
+  `taiko` (warm low boom), `tom` (rolls into a hit), `boom` (huge sub hit: midnight / the reveal / the end card), `tick`.
+  Soft, low-passed, no snap. Drums are ~7× louder than strings per note, so set `drums_db` low (005: −7) and re-check the arc.
+- Pad `notes: [26, 38, 45, 50, 57]` + `"hp": 30` = sub drone you can also hear on a phone (the pad's default 110 Hz high-pass
+  removes anything lower). A "braam" = the same with more low notes, `level` 1.5, `attack` 0.15, on the reveal.
+- Arc (LUFS per shot from the synth's table): quiet tension (−20) → hit (−14) → eerie dip that still has a drone (−22) →
+  build (−17 … −12) → reveal (−12) → darker close (−17). Read the per-shot table after every change.
+- Soft mallet voice (`ostinato` style, `mallet_melody`, `mallet_db`) is still there for calmer curious/science reels.
 - Reference script: `videos/005-no-nukes/make_cues.py`.
 
 ## Sound identity per video (user steer, Oct 22)

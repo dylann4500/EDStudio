@@ -94,6 +94,8 @@ videos/NNN-slug/
   no network), `makeDots(globe, [{lat,lon}])` instanced glowing dots (`set(i, scale)`/`setAll(fn)` + `commit()`; 12k+ is fine),
   `makeBars` (glowing columns), `scatter(rng, sites, n)`, `faceLon(lon)`. `engine/sets/warroom.js`: round war room + table + globe
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
+- `audio/synth.py` voices: piano (default), `mallet` (`ostinato` style), cinematic `strings` style, `drums`/`drum_patterns`
+  (taiko, tom, boom), pad `notes` + `hp` for sub drones/braams. 005's `make_cues.py` uses all of the dramatic ones.
 - `engine/sets/military.js` (005): `buildSilo` (missile `setDissolve(t, t0, t1)`: clipping plane + rising embers), `buildBase`
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
@@ -120,8 +122,9 @@ videos/NNN-slug/
   001 shipped with ~1 s and the user called it out. `tools/render.mjs` warns when it's too short.
 - **Tone is per video** (emotional / funny / world / montage / whatif, `docs/TONES.md`). Funny still means minimal/soft sound and kind humor.
   **Each tone has its own vibe and harness — only emotional videos sound sad/nostalgic.** Never copy 001's cue sheet into
-  another tone (user, on 005's first score: "why is the music sad… it doesn't fit"). World what-ifs = curious explainer
-  energy (mallet ostinato, major/lydian, driving pulse, open ending) — see audio/README.md.
+  another tone (user, on 005's first score: "why is the music sad… it doesn't fit"). **The music must fit the reel's vibe:**
+  ominous/high-stakes (005 nukes) = cinematic drama — low string drive, soft taiko, sub drones, hits on the big beats
+  (a calm explainer score was "too calm"); light science = curious mallet; family = soft piano. See audio/README.md.
 - **Scene variety (all videos):** cut between many distinct locations, and **show what each subtitle says** — "countries build
   armies" → soldiers marching, tanks leaving a hangar; never keep returning to one set (user, on 005's first cut). Plan 4+
   locations per video; reuse `engine/sets/*` from earlier videos (they can all live in one scene, one `root` visible per shot).

@@ -20,7 +20,7 @@ Follow `CLAUDE.md` exactly. Steps:
    World-scale what-ifs (the whole planet, geopolitics, science — 005): follow `docs/WORLD-WHATIF.md` (war room + hologram
    globe, `engine/globe.js`) and web-search every real number for the latest sourced figure.
    Every tone: plan a shot list where **each subtitle's claim is shown in its own scene** (4+ locations; reuse `engine/sets/*`),
-   and pick the music for the tone (TONES.md / audio/README.md) — never reuse 001's sad piano cue sheet for a non-emotional video.
+   and score it to fit the reel's vibe (tender / funny / curious / ominous — audio/README.md); never reuse 001's sad piano for a non-emotional video.
 3. Work in your own worktree/branch if other sessions may be active (CLAUDE.md → Parallel sessions). Pick the next free number
    (`git fetch`, check `videos/`, `origin/main` and `.claude/worktrees/`) and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` / `--from 002-everyone-pregnant` to fork a reference).
    If the story needs a new location, build `engine/sets/<name>.js` modeled on `bedroom.js` (indoor) or `street.js` (outdoor).

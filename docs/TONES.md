@@ -20,6 +20,7 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 | Caption CTA | "Send this to your mom" | "Send this to the Gary in your life" / "Tag someone who…" |
 
 **Every tone (house rule): show what the subtitle says, in its own scene** — many locations per video, never one set on repeat.
+**And the music fits the reel's vibe** (tender / funny / curious / ominous) — choose it per video (audio/README.md).
 
 ## Funny: the rules that made 002 work
 1. **One named everyman.** "Yes. Even Gary." A name + a mustache + a bald head = instant character. He gets the gag in every era
@@ -52,8 +53,9 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 `"tone": "world"` — "What if every nuclear weapon disappeared?" (`videos/005-no-nukes`). A hologram Earth whose dots ARE the HUD
 number, intercut with a different real-world scene for every claim (silo, capsule, sunrise city, marching soldiers, border post,
 tank hangar, power plant), Day-1 relief → the consequence nobody expected → time skip → the number comes back by one → a debate
-question on the end card. **Vibe: curious and intriguing (documentary explainer), not sad** — mallet ostinato, major/lydian,
-driving pulse for tension, an open unresolved last chord. Real numbers only, sourced and current; neutral on real countries.
+question on the end card. **Vibe follows the subject:** 005 is ominous/high-stakes, so its score is cinematic drama (low string drive,
+soft taiko drums, sub drones, a hit at midnight and a braam on the reveal, D minor); a lighter science what-if would use the
+curious mallet ostinato instead. Never default to the sad piano. Real numbers only, sourced and current; neutral on real countries.
 Full playbook: **`docs/WORLD-WHATIF.md`**.
 
 ## Montage: the premise everywhere at once (`videos/007-twice-as-smart`)

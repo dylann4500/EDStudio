@@ -809,6 +809,49 @@ def mallet_note(midi, vel=0.5, hold=0.4):
     return y
 
 
+def string_note(midi, vel=0.5, hold=0.12, rng=None):
+    """Cinematic string-section note (world/dramatic tone): 3 detuned PolyBLEP saws, bowed attack, velocity-dependent
+    low-pass. Short holds = spiccato ostinato (the 'Zimmer drive'); long holds = sustained section."""
+    key = ("str", int(midi), round(float(vel), 2), round(float(hold), 3))
+    if key in _PIANO_CACHE:
+        return _PIANO_CACHE[key]
+    f = mtof(midi)
+    rel = 0.09 if hold < 0.4 else 0.35
+    n = nsamp(hold + rel)
+    t = tvec(n)
+    y = np.zeros(n)
+    for c, ph in ((-7, 0.1), (0, 0.5), (6, 0.8)):
+        y += saw_blep(f * 2 ** (c / 1200), n, ph)
+    att = 0.012 if hold < 0.4 else 0.08
+    env = np.clip(t / att, 0, 1) * (0.75 + 0.25 * np.exp(-t / 0.06))
+    env *= np.where(t < hold, 1.0, np.exp(-(t - hold) / (rel / 3)))
+    y = hp(lp(lp(y, 700 + 2600 * vel), 2400), 45) * env
+    y = fades(y, 0.0, 0.02) * vel * 0.45
+    _PIANO_CACHE[key] = y
+    return y
+
+
+def drum_hit(kind="taiko", vel=0.6):
+    """Soft cinematic drums (no snap/crack, house style): 'taiko' (warm low boom), 'tom' (shorter, higher),
+    'boom' (huge sub hit for a reveal), 'tick' (felt rim for an ostinato pulse). Pitch-swept sines + low-passed noise."""
+    key = ("drum", kind, round(float(vel), 2))
+    if key in _PIANO_CACHE:
+        return _PIANO_CACHE[key]
+    f0, f1, sw, dec, nz, nzf, dur = {"taiko": (150, 62, 0.08, 0.7, 0.45, 450, 1.6), "tom": (170, 95, 0.06, 0.32, 0.3, 600, 0.8),
+                                     "boom": (75, 34, 0.35, 2.4, 0.25, 180, 4.0), "tick": (900, 700, 0.01, 0.05, 0.6, 2500, 0.2)}[kind]
+    n = nsamp(dur)
+    t = tvec(n)
+    f = f1 + (f0 - f1) * np.exp(-t / sw)
+    y = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / dec)
+    rng = seeded("drum", kind)
+    y += nz * lp(rng.standard_normal(n), nzf) * np.exp(-t / 0.04)
+    y = np.tanh(1.6 * y) / np.tanh(1.6)
+    y = lp(y, 2800) * np.clip(t / 0.002, 0, 1)
+    y = fades(y, 0.0, 0.1) * vel
+    _PIANO_CACHE[key] = y
+    return y
+
+
 def sfx_gold_chime(rng, notes=(84, 89, 93, 96), spacing=0.065, vel=0.55, shimmer=0.0, dur=2.2, decay=1.0):
     """Warm celesta/bell sparkle arpeggio (notes = MIDI)."""
     n = nsamp(dur + spacing * len(notes))
@@ -1350,11 +1393,12 @@ def interp_bp(points, t):
     return float(np.interp(t, ts, vs))
 
 
-def compose(M, mallet=None):
+def compose(M, mallet=None, strings=None):
     """Turn chord timeline + section styles + explicit melody into a note list.
     Each note: (t, midi, vel, hold). Sustain pedal changes at every chord change.
     Mallet notes (style "ostinato" with inst "mallet", and M["mallet_melody"]) go to the `mallet` list if one is passed."""
     mallet = [] if mallet is None else mallet
+    strings = [] if strings is None else strings
     chords = sorted(M["chords"], key=lambda c: c[0])
     end = M.get("end", 62.0)
     ctimes = [c[0] for c in chords] + [end]
@@ -1375,6 +1419,9 @@ def compose(M, mallet=None):
     def add(t, m, v, hold=None):
         h = (pedal_up(t) - t) if hold is None else hold
         notes.append((round(t, 4), int(m), float(np.clip(v, 0.05, 1.0)), max(0.12, min(h, end - t + 0.5))))
+
+    def adds(t, m, v, hold):
+        strings.append((round(t, 4), int(m), float(np.clip(v, 0.05, 1.0)), max(0.05, hold)))
 
     def addm(t, m, v, hold):
         mallet.append((round(t, 4), int(m), float(np.clip(v, 0.05, 1.0)), max(0.06, hold)))
@@ -1441,6 +1488,22 @@ def compose(M, mallet=None):
                 else:
                     for j, m in enumerate(V["rh"][:3]):
                         add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+        elif st == "strings":
+            # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
+            # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
+            step = S.get("step", 0.125)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            tones = [m + 12 * S.get("octave", 0) for m in V["lh"]]
+            pat = S.get("pattern", [0, 0, 1, 0, 2, 0, 1, 0])
+            acc = S.get("accent", [1.0, 0.7, 0.8, 0.7])
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.3), tk) * acc[k % len(acc)]
+                adds(tk, tones[pat[k % len(pat)] % len(tones)], vk, stp * S.get("len", 0.6))
+            if S.get("sustain"):
+                for j, m in enumerate(V["rh"]):
+                    adds(t0 + 0.01 * j, m - 12 + 12 * S.get("sustain_octave", 0), interp_bp(S.get("vel", 0.3), t0) * S["sustain"], span)
         elif st == "ostinato":
             # world/explainer tone: a steady, curious repeating figure (default on the soft mallet) over chord tones,
             # + a short piano bass note every `bass_every` steps. pattern indexes [rh triad, rh triad + 12].
@@ -1500,7 +1563,7 @@ def render_pad(regions, n_total):
                     y[ch] += saw_blep(f * 2 ** (c / 1200) * vib, n, rng.uniform())
         y *= 0.05 / np.sqrt(len(notes) * 3)  # ~ -30 LUFS at level 1.0
         cut = r.get("cutoff", 1500)
-        y = hp(lp(lp(y, cut), cut * 1.6), 110)
+        y = hp(lp(lp(y, cut), cut * 1.6), r.get("hp", 110))   # "hp": 30 for sub drones / braams
         y *= env * r.get("level", 1.0)
         place(out, fades(y, 0.01, 0.05), nsamp(r["t0"]))
     return out
@@ -1520,8 +1583,8 @@ def leveler(x, thr_rel_db=4.0, ratio=2.0, tau=0.25):
 
 
 def render_music(M, n_total, log=print):
-    mallet = []
-    notes = compose(M, mallet)
+    mallet, strs = [], []
+    notes = compose(M, mallet, strs)
     dry = np.zeros((2, n_total))
     t0 = time.time()
     inst = M.get("instrument", "piano")      # per-video sound identity: piano (emotional/funny) | pluck | bell (sims, tech, wonder)
@@ -1535,6 +1598,27 @@ def render_music(M, n_total, log=print):
             place(md, pan2(mallet_note(m, v, h), float(np.clip((m - 70) / 30.0, -0.3, 0.3)) * (1 if k % 2 else -1)), nsamp(t))
         dry += db2lin(M.get("mallet_db", -4.0)) * md
         log(f"  mallet: {len(mallet)} notes")
+    if strs:
+        sd = np.zeros((2, n_total))
+        for k, (t, m, v, h) in enumerate(strs):
+            place(sd, pan2(string_note(m, v, h), float(np.clip((m - 50) / 40.0, -0.35, 0.35))), nsamp(t))
+        dry += db2lin(M.get("strings_db", 0.0)) * sd
+        log(f"  strings: {len(strs)} notes")
+    hits = [list(h) for h in M.get("drums", [])]          # [t, vel, kind]
+    for P in M.get("drum_patterns", []):                  # {t0, t1, step, pattern: [vel mult...], vel, kind}
+        nst = int(round((P["t1"] - P["t0"]) / P["step"]))
+        for k in range(nst):
+            a = P["pattern"][k % len(P["pattern"])]
+            if a > 0:
+                tk = P["t0"] + k * P["step"]
+                hits.append([tk, interp_bp(P.get("vel", 0.5), tk) * a, P.get("kind", "taiko")])
+    if hits:
+        dd = np.zeros((2, n_total))
+        for (t, v, kind) in hits:
+            place(dd, pan2(drum_hit(kind, round(float(np.clip(v, 0.05, 1.0)), 2)), 0.0), nsamp(t))
+        dd = dd + db2lin(-8.0) * convolve(dd, hall_ir())
+        dry += db2lin(M.get("drums_db", -2.0)) * dd
+        log(f"  drums: {len(hits)} hits")
     if M.get("echo"):
         dry = echo(dry, **M["echo"])
     piano = dry + db2lin(M.get("reverb_db", -9)) * convolve(dry, hall_ir())
