@@ -88,3 +88,9 @@ Reference: `docs/reference/simplysimulated.md` (841K likes). Not every video has
 4. **Reuse sets across beats**; dress them per beat (posters, chairs, cars, season, time of day). Four sets made nine places.
 5. **End on one small human beat + a question end card** ("Who's the first person you'd *look for*?" / SEND THIS TO THEM).
 6. **Sound-design-led:** the moment is subtractive (every voice + footstep stops at 9:00, traffic keeps going). See audio/README.md.
+7. **Go dark when the premise is dark (user steer on 006 v1: "too tame… take a heavier doomer perspective").** v1 showed people
+   adapting (phones, posters, a love story) and was rejected. v2 follows what breaks: cars running reds → planes with nowhere to
+   land → leaders who don't know they lead → strangers beside a launch key → reactors nobody can run → blackout → tanks at the
+   border → food riots → an overgrown city a year later. The HUD number crashes to 0 and **never recovers**; the second HUD line
+   carries the escalating stat (PLANES IN THE AIR · 10,000+, NUCLEAR WARHEADS · 12,187). End on a debate question
+   ("Would humanity survive the *first year*?"). Keep it non-graphic: wrecks, glows, crowds — no bodies, no blood.

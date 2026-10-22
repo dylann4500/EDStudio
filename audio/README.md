@@ -70,5 +70,8 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   beats. Stem gains that balanced it: `music -16, sfx -2, amb +4` → LRA ≈ 6–8 LU, every shot window −16…−19 LUFS, ending −13.
   Check the per-shot table: if the ending sits > 4 dB above the ladder (LRA > 12), pull the music stem down.
 - New SFX: `car_horn` (`dur`, `pitch`, `distance` → darker + more verb). Use 1–2, far away, ≤ −31 dB.
+- `car_crash` (`weight`): low thump + short crunch + rattles, low-passed (≈ −24…−29 dB). `distant_boom` (`size`): far
+  explosion, soft onset, long outdoor tail (≈ −24 dB). A stuck horn (`car_horn` `dur 3.3`) after a crash sells the aftermath.
+- Hums (`lamp_hum`) get loud fast — keep them ≤ −50 dB or they become the loudest thing in the shot (006 capsule hit −12.7 LUFS).
 - Don't put an event at t < 0.03 s (verify() slices a window before the cue and crashes on an empty array).
 - Generate the sheet with a script (`videos/006-memory-loss/make_cues.py`).

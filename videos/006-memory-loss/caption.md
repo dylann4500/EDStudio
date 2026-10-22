@@ -1,8 +1,8 @@
-What if everyone on Earth lost their memory at the same time? 🧠
+What if everyone on Earth lost their memory at the same time? 🧠💀
 
-At 9:00 AM New York time, 8.2 billion people forget who they are, but not how to talk, walk or drive. Cars stop on green lights in Seoul, Face ID still recognizes everyone, and "Do you know me?" posters cover every wall. A year later, some couples meet again as strangers and fall in love anyway.
+At 9:00 AM, 8.2 billion people forget everything. Drivers keep driving, 10,000 planes have no idea where to land, and presidents don't know they're presidents. In 400 silos, two strangers sit beside a launch key. Within a year, the cities still stand, but nobody remembers why.
 
-Who's the first person you'd look for? 👇
-Send this to the person you'd find first
+Would humanity survive the first year? 👇
+Send this to someone who'd make it
 
-#whatif #animation #memory #simulation #3danimation
+#whatif #animation #memory #doomsday #simulation

@@ -886,6 +886,38 @@ def sfx_car_horn(rng, dur=0.42, pitch=1.0, distance=1.0):
     return Sound(norm(x, 0.9), anchor=0.0, onsets=[0.0])
 
 
+def sfx_car_crash(rng, dur=1.2, weight=1.0):
+    """A car collision heard from across the street: a low body thump + a short crunch of bent metal + a few settling
+    rattles. Kept dark (low-passed) so it lands as weight, not as a harsh bang (006)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    thump = np.sin(2 * np.pi * (55 + 40 * np.exp(-t / 0.05)) * t) * np.exp(-t / 0.12) * weight
+    crunch = bp(white(n, rng), 300, 2600) * np.exp(-t / 0.09)
+    metal = modal([173, 412, 689, 1130], [0.25, 0.18, 0.12, 0.08], [0.5, 0.35, 0.25, 0.15], dur) * 0.35
+    rattle = np.zeros(n)
+    for k in range(5):
+        t0 = 0.12 + 0.11 * k + rng.uniform(0, 0.05)
+        i0 = nsamp(t0)
+        burst = bp(white(nsamp(0.04), rng), 900, 3000) * np.exp(-tvec(nsamp(0.04)) / 0.01) * (0.4 / (k + 1))
+        rattle[i0:i0 + len(burst)] += burst[: max(0, n - i0)]
+    x = 1.1 * thump + 0.8 * crunch + metal + rattle
+    x = lp(x, 3200, 2)
+    x = x + 2.0 * convolve(x, outdoor_ir())          # (2, n)
+    return Sound(norm(fades(x, 0.001, 0.2), 0.9), anchor=0.0, onsets=[0.0])
+
+
+def sfx_distant_boom(rng, dur=3.5, size=1.0):
+    """A far-away explosion / impact over a city: a slow low rumble with a soft onset (no crack), long outdoor tail (006)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = (1 - np.exp(-t / 0.06)) * np.exp(-t / (0.9 * size))
+    body = lp(brown(n, rng), 140, 2) * env
+    sub = np.sin(2 * np.pi * (38 + 12 * np.exp(-t / 0.4)) * t) * env * 0.6
+    x = unit_rms(body) * 0.8 + sub
+    x = x + 2.5 * convolve(x, outdoor_ir())          # (2, n)
+    return Sound(norm(fades(x, 0.002, 0.5), 0.9), anchor=0.0, onsets=[0.0])
+
+
 def amb_room_tone(dur, rng):
     n = nsamp(dur)
     out = []
@@ -1734,6 +1766,8 @@ SFX = {
     "whoosh_timeskip": (sfx_whoosh_timeskip, "ui"),
     "flash_swish": (sfx_flash_swish, "ui"),
     "car_horn": (sfx_car_horn, "prop"),
+    "car_crash": (sfx_car_crash, "prop"),
+    "distant_boom": (sfx_distant_boom, "prop"),
 }
 
 # =============================================================================
