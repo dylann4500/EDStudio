@@ -9,9 +9,10 @@
 // 21.5–27.0  phones   +1 day              | street     | everyone staring at phones… all pocket them at once, look up, talk
 // 27.0–33.0  war      +3 months           | war room   | six leaders sign in sync, stand, applaud; the globe turns green
 // 33.0–39.0  hosp     +1 year             | street     | CANCER: CURED banner, doctors run out, crowd jumps, confetti
-// 39.0–44.5  solar    +5 years            | city roof  | solar panels on the roof, wind turbines on the horizon, clear sky
-// 44.5–50.0  rocket   +12 years           | city roof  | a rocket climbs out from behind downtown; the roof crowd watches
-// 50.0–61.5  sheet    +20 years           | bedroom    | Gary (cameo from 002) loses to a fitted sheet, wads it up. "Almost."
+// 39.0–45.5  grow     +5 years            | city roof  | TIME-LAPSE: futuristic towers rise out of downtown (cranes on top), days flicker past
+// 45.5–50.0  rocket   +12 years           | city roof  | a rocket climbs out from behind downtown; the roof crowd watches
+// 50.0–58.0  mars     +12 years           | mars       | the rocket lands in a dust cloud → TIME-LAPSE: solar fields, domes, tubes, towers; dusk, lights on
+// 58.0–69.5  sheet    +20 years           | bedroom    | Gary (cameo from 002) loses to a fitted sheet, wads it up. "Almost."
 import * as THREE from 'three';
 import { K, clamp, lerp, lerpAngle, faceToward, rng, mat, mk, canvasTex } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink, handWorld } from '@engine/rig.js';
@@ -21,10 +22,13 @@ import { buildCity, makeCar, ROOF_Y } from '@engine/sets/city.js';
 import { buildClassroom, DIMS as CD } from '@engine/sets/classroom.js';
 import { buildWarRoom, DIMS as WD } from '@engine/sets/warroom.js';
 import { buildBedroom } from '@engine/sets/bedroom.js';
+import { buildMars, DIMS as MD } from '@engine/sets/mars.js';
 
 const PI = Math.PI;
 // where each set lives in the world (city stays at the origin: its sky domes follow the camera)
-const OFF = { city: [0, 0, 0], street: [1500, 0, 0], cls: [3000, 0, 0], war: [4500, 0, 0], bed: [6000, 0, 0] };
+const OFF = { city: [0, 0, 0], street: [1500, 0, 0], cls: [3000, 0, 0], war: [4500, 0, 0], bed: [6000, 0, 0], mars: [7500, 0, 0] };
+const LIFT = 46.0;            // rocket lift-off (city roof shot)
+const TS = 8.0;               // the bedroom ending was authored at t-8 (it moved later when the Mars beat was added)
 
 export const SHOTS = [
   { t0: 0, t1: 9.5, cam: 'street', set: 'street' },
@@ -33,9 +37,10 @@ export const SHOTS = [
   { t0: 21.5, t1: 27.0, cam: 'phones', set: 'street' },
   { t0: 27.0, t1: 33.0, cam: 'war', set: 'war' },
   { t0: 33.0, t1: 39.0, cam: 'hosp', set: 'street' },
-  { t0: 39.0, t1: 44.5, cam: 'solar', set: 'city' },
-  { t0: 44.5, t1: 50.0, cam: 'rocket', set: 'city' },
-  { t0: 50.0, t1: 61.5, cam: 'sheet', set: 'bed' },
+  { t0: 39.0, t1: 45.5, cam: 'grow', set: 'city' },
+  { t0: 45.5, t1: 50.0, cam: 'rocket', set: 'city' },
+  { t0: 50.0, t1: 58.0, cam: 'mars', set: 'mars' },
+  { t0: 58.0, t1: 69.5, cam: 'sheet', set: 'bed' },
 ];
 // camera coordinates are LOCAL to the shot's set (OFF is added at runtime). p/a = start→end, fov, amp = handheld drift
 export const CAMS = {
@@ -45,8 +50,9 @@ export const CAMS = {
   phones:  { p: [[-5.8, 1.6, 5.2], [-5.8, 1.55, 4.4]], a: [[-5.8, 1.3, -1.5], [-5.8, 1.28, -1.5]], fov: 46, amp: 0.005 },
   war:     { p: [[0.0, 2.35, 3.9], [0.0, 2.2, 3.35]], a: [[0, 1.05, -0.2], [0, 1.1, -0.2]], fov: 52, amp: 0.004 },
   hosp:    { p: [[-11.3, 1.75, 7.4], [-11.35, 1.7, 6.6]], a: [[-11.45, 2.3, -2.0], [-11.45, 2.25, -2.0]], fov: 50, amp: 0.006 },
-  solar:   { p: [[-8.6, ROOF_Y + 1.9, 12.6], [-9.2, ROOF_Y + 1.8, 12.3]], a: [[-200, ROOF_Y + 18, -20], [-200, ROOF_Y + 17, -30]], fov: 46, amp: 0.004 },
-  rocket:  { p: [[-11.2, ROOF_Y + 1.7, 16.0], [-11.4, ROOF_Y + 1.6, 15.6]], a: [[-24, ROOF_Y + 20, -300], [-24, 120, -300]], fov: 34, amp: 0.003, ease: 'track' },
+  grow:    { p: [[-11.6, ROOF_Y + 1.8, 13.6], [-11.8, ROOF_Y + 1.75, 12.8]], a: [[-6, ROOF_Y + 24, -150], [-6, ROOF_Y + 34, -150]], fov: 54, amp: 0.003 },
+  mars:    { p: [[-16.0, 5.0, 52.0], [-22.0, 25.0, 64.0]], a: [[16, 17.0, 8], [-1, 4.0, -30.0]], fov: 50, amp: 0.004, ease: 'mars' },
+  rocket:  { p: [[-13.6, ROOF_Y + 1.7, 12.6], [-13.8, ROOF_Y + 1.6, 12.4]], a: [[-24, ROOF_Y + 20, -300], [-24, 120, -300]], fov: 34, amp: 0.003, ease: 'track' },
   sheet:   { p: [[1.75, 1.6, 1.45], [1.45, 1.52, 1.05]], a: [[-0.3, 1.05, -1.6], [-0.2, 1.05, -1.65]], fov: 52, amp: 0.004 },
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -92,9 +98,10 @@ export async function build(studio, story) {
   const bed = buildBedroom(studio, {}); bed.root.position.set(...OFF.bed);
   bed.crib.visible = false; Object.values(bed.decor).forEach((g) => (g.visible = false)); bed.setDoor(0); bed.setLamp(1); bed.setNightlight(0); bed.setXmas(0, 0);
   bed.lights.spill.intensity = 0;
-  const ROOTS = { street: street.root, city: city.root, cls: cls.root, war: war.root, bed: bed.root };
-  const FOGS = { street: streetFog, city: cityFog, cls: null, war: null, bed: null };
-  const FAR = { street: 400, city: 900, cls: 60, war: 60, bed: 60 };
+  const mars = buildMars(studio, {}); mars.root.position.set(...OFF.mars);
+  const ROOTS = { street: street.root, city: city.root, cls: cls.root, war: war.root, bed: bed.root, mars: mars.root };
+  const FOGS = { street: streetFog, city: cityFog, cls: null, war: null, bed: null, mars: mars.fog };
+  const FAR = { street: 400, city: 900, cls: 60, war: 60, bed: 60, mars: 900 };
 
   // ---------------------------------------------------------------- props built for this video
   // classroom: a step stool at the board
@@ -134,8 +141,27 @@ export async function build(studio, story) {
     for (let b = 0; b < 3; b++) { const bl = mk(new THREE.BoxGeometry(1.4, 26, 0.5), towerM, hub, 0, 13, 0); bl.geometry.translate(0, 0, 0); const arm = new THREE.Group(); arm.rotation.z = (b * 2 * PI) / 3; hub.add(arm); arm.add(bl); }
     turbines.push({ hub, ph: i * 0.7 });
   }
+  // future towers that grow out of downtown in the +5 years time-lapse (each with a crane riding its top while it builds)
+  const winTex = canvasTex(128, 256, (g, w, h) => { g.fillStyle = '#0b1622'; g.fillRect(0, 0, w, h); const r = rng(5); for (let y = 6; y < h; y += 16) for (let x = 6; x < w; x += 14) { g.fillStyle = r() < 0.75 ? '#ffd79a' : '#2a3a4a'; g.fillRect(x, y, 8, 9); } }, [3, 10]);
+  const glassM = new THREE.MeshStandardMaterial({ color: 0x8fb6d9, roughness: 0.12, metalness: 0.65, emissive: 0xffffff, emissiveMap: winTex, emissiveIntensity: 0 });
+  const whiteM = mat(0xeef0ef, 0.4), greenM = mat(0x5f9a48, 0.85), craneM = mat(0xf2b632, 0.5);
+  const future = [];
+  const FT = [[-44, -78, 92, 'twist'], [-8, -96, 128, 'round'], [26, -70, 84, 'box'], [52, -110, 110, 'twist'], [-70, -120, 100, 'round'], [8, -140, 150, 'spire'], [-30, -150, 118, 'box'], [36, -160, 96, 'round'], [70, -66, 70, 'box'], [-62, -60, 66, 'round']];
+  FT.forEach(([x, z, h, kind], i) => {
+    const g = new THREE.Group(); g.position.set(x, 0, z); city.root.add(g);
+    const body = new THREE.Group(); g.add(body);
+    if (kind === 'twist') { for (let k = 0; k < 14; k++) { const b = mk(new THREE.BoxGeometry(16, h / 14 + 0.05, 16), glassM, body, 0, (k + 0.5) * h / 14, 0); b.rotation.y = k * 0.09; } }
+    else if (kind === 'round' || kind === 'spire') { mk(new THREE.CylinderGeometry(7, 10, h, 24), glassM, body, 0, h / 2, 0); }
+    else mk(new THREE.BoxGeometry(14, h, 12), glassM, body, 0, h / 2, 0);
+    for (let k = 1; k < 5; k++) mk(new THREE.BoxGeometry(kind === 'box' ? 14.6 : 15, 1.2, kind === 'box' ? 12.6 : 15), k % 2 ? greenM : whiteM, body, 0, (k * h) / 5, 0);  // terraces
+    mk(new THREE.BoxGeometry(12, 2.5, 12), greenM, body, 0, h + 1.2, 0);                                                           // roof garden
+    if (kind === 'spire') mk(new THREE.ConeGeometry(2, 40, 10), whiteM, body, 0, h + 20, 0);
+    const crane = new THREE.Group(); g.add(crane);
+    mk(new THREE.BoxGeometry(1.2, 22, 1.2), craneM, crane, 0, 11, 0); mk(new THREE.BoxGeometry(30, 1.0, 1.0), craneM, crane, 8, 21.5, 0);
+    future.push({ g, body, crane, h, t0: 39.4 + i * 0.42, t1: 39.4 + i * 0.42 + 2.6 });
+  });
   // rocket + launch glow + smoke column
-  const ROCKET = [-24, 0, -300];
+  const ROCKET = [300, 0, -60];   // east of the city — the new downtown towers would hide it to the south
   const rocket = new THREE.Group(); city.root.add(rocket);
   const hull = mat(0xf4f4f2, 0.35);
   mk(new THREE.CylinderGeometry(3.2, 3.2, 44, 24), hull, rocket, 0, 22, 0);
@@ -187,7 +213,15 @@ export async function build(studio, story) {
   });
   const doctors = [0, 1, 2].map((i) => { const d = makePerson({ skin: [0xf1c3a1, 0x9a6447, 0xe2ad8c][i], top: 0xf7f7f4, collar: 0x7fb7b0, pants: [0x5fa39b, 0x7fa0c9, 0x5fa39b][i], shoes: 0xf2f2f2, hair: [0x9a6a3a, 0x1a1a1a, 0x2a1d16][i], hairStyle: ['short', 'bob', 'messy'][i], glasses: i === 0 }); scene.add(d.root); return d; });
   const gary = makePerson({ skin: 0xe9b48f, top: 0x3d7bd9, collar: 0xf5f0e2, pants: 0x6b5a48, shoes: 0x3a2e2a, hair: 0x5a3a24, hairStyle: 'none', mustache: 0x4a2e1c, headR: 0.142 }); scene.add(gary.root);
-  const ALL = [...extras, ...kids, teacher, ...leaders, ...doctors, gary];
+  // astronauts: white suits, glass helmets, backpacks
+  const helmetM = new THREE.MeshStandardMaterial({ color: 0xcfe6ff, roughness: 0.05, metalness: 0.3, transparent: true, opacity: 0.35, depthWrite: false });
+  const astros = Array.from({ length: 6 }, (_, i) => {
+    const a = makePerson({ skin: SKINS[i % SKINS.length], top: 0xf2f1ee, collar: [0xd2483f, 0x3d7bd9, 0xf1c24a][i % 3], pants: 0xe9e7e2, shoes: 0x6a6a6a, hair: 0x2a1d16, hairStyle: 'none' });
+    mk(new THREE.SphereGeometry(0.2, 20, 14), helmetM, a.headG, 0, 0.13, 0.01).castShadow = false;
+    mk(new THREE.BoxGeometry(0.3, 0.36, 0.16), mat(0xdcd8d0, 0.5), a.spine, 0, 0.3, -0.2);
+    scene.add(a.root); return a;
+  });
+  const ALL = [...extras, ...kids, teacher, ...leaders, ...doctors, gary, ...astros];
   const hide = () => ALL.forEach((p) => (p.root.visible = false));
   const glowCol = new THREE.Color(0x7fc8ff);
   // "brain doubles" halo: a soft additive blue glow parented to every extra's head (S1 only)
@@ -275,15 +309,15 @@ export async function build(studio, story) {
     return p;
   }
   function roofCrowd(t, e, i, shot) { // S7/S8: people on the roof (backs to us), pointing at the rocket
-    const spots = shot === 'solar' ? [[-15.8, 8.9, 0.0], [-15.0, 8.7, 0.0]] : [[-12.6, 9.0, PI], [-11.0, 8.8, PI], [-13.9, 9.3, PI], [-9.6, 9.1, PI]];
+    const spots = shot === 'grow' ? [[-13.4, 9.0, PI], [-9.9, 9.2, PI]] : [[-8.5, 10.6, PI / 2], [-8.4, 12.4, PI / 2], [-8.6, 14.2, PI / 2], [-9.4, 11.4, PI / 2]];
     if (i >= spots.length) return null;
     const [x, z, r] = spots[i];
     const p = basePose(); p.eyes = blink(t, i); p.y = ROOF_Y; p.floor = ROOF_Y; p.x = x; p.z = z;
-    if (shot === 'solar') { p.rotY = -PI / 2 - 0.3 + i * 0.6; p.armA = A(0.1, 0.1, -0.3, 0); p.headYaw = i ? -0.4 : 0.4; return p; }
+    if (shot === 'grow') { p.rotY = PI + (i ? -0.25 : 0.2); p.headPitch = -0.35; p.headYaw = Math.sin(t * 0.6 + i) * 0.4; return p; }
     p.rotY = r + (e.seed - 0.5) * 0.3;
-    const lift = K(t, [[45.6, 0], [47.0, 1]]);
+    const lift = K(t, [[LIFT + 0.6, 0], [LIFT + 2.0, 1]]);
     p.headPitch = lerp(0, -0.6, lift);
-    if (i % 2 === 0) p.armB = mixArm(REST, POINT_B, K(t, [[46.0 + i * 0.2, 0], [46.5 + i * 0.2, 1]]));
+    if (i % 2 === 0) p.armB = mixArm(REST, POINT_B, K(t, [[LIFT + 1.0 + i * 0.2, 0], [LIFT + 1.5 + i * 0.2, 1]]));
     return p;
   }
 
@@ -406,34 +440,59 @@ export async function build(studio, story) {
           c.g.rotation.y = Math.atan2(L.d[0], L.d[1]);
         });
       } else cars.forEach(({ c }) => (c.g.visible = false));
-      solar.visible = shot.cam === 'solar' || shot.cam === 'rocket';
+      solar.visible = shot.cam === 'grow' || shot.cam === 'rocket';
       turbines.forEach((tb) => (tb.hub.rotation.x = t * 1.1 + tb.ph));
       rocket.visible = smoke.visible = shot.cam === 'rocket';
-      if (shot.cam !== 'traffic') { city.setShadowFocus(-12, 13, 14); city.setTime({}); cityFog.color.setHex(0xa9c8ec); cityFog.near = 250; cityFog.far = 1400; } // clean air: push the haze way back
+      future.forEach((f) => {
+        const g = shot.cam === 'grow' ? K(t, [[f.t0, 0], [f.t1, 1]]) : shot.cam === 'rocket' ? 1 : 0;
+        f.g.visible = g > 0.002; f.body.scale.y = Math.max(g, 1e-3); f.crane.visible = g > 0.01 && g < 0.985; f.crane.position.y = f.h * g;
+      });
+      // time-lapse: two quick day/night cycles across the growth (starts and ends in daylight); new towers' windows glow at night
+      const day = shot.cam === 'grow' ? 0.5 + 0.5 * Math.cos((2 * PI * (t - 39.0)) / 3.25) : 1;
+      glassM.emissiveIntensity = 1.3 * (1 - day);
+      if (shot.cam !== 'traffic') { city.setShadowFocus(-12, 13, 14); city.setTime({ day, power: 1 }); if (day > 0.95) { cityFog.color.setHex(0xa9c8ec); cityFog.near = 250; cityFog.far = 1400; } } // clean air: push the haze way back
       extras.forEach((e, i) => { const p = shot.cam === 'traffic' ? null : roofCrowd(t, e, i, shot.cam); if (p) { put(e, 'city', p); e.root.visible = true; } });
       if (shot.cam === 'rocket') {
-        const lt = Math.max(0, t - 45.0), h = 0.5 * 9 * lt * lt + 2 * lt;
+        const lt = Math.max(0, t - LIFT), h = 0.5 * 9 * lt * lt + 2 * lt;
         rocket.position.set(ROCKET[0], h, ROCKET[2]);
-        const ign = clamp((t - 44.8) / 0.4);
+        const ign = clamp((t - (LIFT - 0.2)) / 0.4);
         flame.visible = flameCore.visible = ign > 0; flame.scale.set(1, 0.7 + 0.3 * ign + 0.08 * Math.sin(t * 40), 1);
         launchLight.position.set(ROCKET[0], h + 5, ROCKET[2] + 20); launchLight.intensity = 40 * ign;
         const m = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), v3 = new THREE.Vector3();
         smokeSeeds.forEach((s, i) => {
-          const birth = 44.8 + (i / SMOKE) * 5.2;               // puffs emitted along the climb
+          const birth = LIFT - 0.2 + (i / SMOKE) * 4.2;               // puffs emitted along the climb
           if (t < birth) { m.makeScale(0, 0, 0); smoke.setMatrixAt(i, m); return; }
-          const lb = Math.max(0, birth - 45.0), hy = 0.5 * 9 * lb * lb + 2 * lb, age = t - birth;
+          const lb = Math.max(0, birth - LIFT), hy = 0.5 * 9 * lb * lb + 2 * lb, age = t - birth;
           v3.set(ROCKET[0] + (s[0] - 0.5) * (6 + age * 6), Math.max(2, hy - 6) + age * 1.5, ROCKET[2] + (s[1] - 0.5) * (6 + age * 6));
           const r = 4 + age * 5 + s[2] * 4; sc.set(r, r * 0.85, r);
           m.compose(v3, q.identity(), sc); smoke.setMatrixAt(i, m);
         });
         smoke.instanceMatrix.needsUpdate = true;
       } else launchLight.intensity = 0;
+    } else if (S === 'mars') {
+      // the lander touches down (50.0→51.6), its dust settles, then the colony builds itself while the sun goes down
+      const e = clamp((t - 50.0) / 1.6), y = 70 * Math.pow(1 - e, 2.2);
+      mars.lander.g.position.set(MD.pad[0], y, MD.pad[1]); mars.lander.flame.visible = t < 51.75;
+      mars.lander.flame.scale.set(1, 0.8 + 0.25 * Math.sin(t * 37), 1);
+      mars.setDust(Math.max(0, t - 51.0), t > 51.0 ? 1 : 0);
+      mars.setBuild(clamp((t - 52.0) / 5.4));
+      mars.setDusk(K(t, [[55.2, 0], [57.6, 1]]));
+      mars.rover.position.set(-24 + ((t - 50) * 4.5) % 48, 0, -6); mars.rover.rotation.y = PI / 2;
+      astros.forEach((a, i) => {
+        const p = basePose(); p.eyes = blink(t, i); p.mouth = 'smile';
+        const v = (i % 2 ? -1 : 1) * 0.9, lane = [-5, -8, -11, 5, 7.5, -3][i];
+        if (t < 52.6) { p.visible = false; a.root.visible = false; return; }        // they come out once the dust settles
+        const d = v * (t - 52.6) + (i * 7.3) % 20 - 10;
+        Object.assign(p, { x: lane > 0 ? 12 + (i % 2) * 2 : d, z: lane > 0 ? 2 + d * 0.4 : lane, rotY: lane > 0 ? 0.3 : (v > 0 ? PI / 2 : -PI / 2), dist: Math.abs(v * (t - 52.6)), speed: 0.9 });
+        if (lane > 0) { p.dist = 0; p.speed = 0; p.armB = A(-2.0, 0.3, -0.2, 0); p.headPitch = -0.3; }    // two of them wave up at the camera
+        put(a, 'mars', p); a.root.visible = true;
+      });
     } else if (S === 'bed') {
-      put(gary, 'bed', garyPose(t)); gary.root.visible = true;
+      const tb = t - TS; put(gary, 'bed', garyPose(tb)); gary.root.visible = true;
       bed.setSeason('summer', t); bed.lights.moon.intensity = 1.2;
       const hA = handWorld(gary, -1), hB = handWorld(gary, 1);
-      const crumple = K(t, [[54.1, 0], [54.6, 1]]);
-      const toss = K(t, [[55.05, 0], [55.6, 1]]);
+      const crumple = K(tb, [[54.1, 0], [54.6, 1]]);
+      const toss = K(tb, [[55.05, 0], [55.6, 1]]);
       const mid = new THREE.Vector3().addVectors(hA, hB).multiplyScalar(0.5);
       const bedSpot = new THREE.Vector3(...off('bed', -0.25, 0.72, -1.45));
       const ball = mid.clone().lerp(bedSpot, toss); ball.y += Math.sin(PI * toss) * 0.35;
@@ -443,11 +502,12 @@ export async function build(studio, story) {
     // camera (local → world)
     const c = CAMS[shot.cam], u = clamp((t - shot.t0) / (shot.t1 - shot.t0));
     let e = u * u * (3 - 2 * u) * 0.6 + u * 0.4;
-    if (c.ease === 'track') e = K(t, [[45.4, 0], [49.8, 1]]);
+    if (c.ease === 'track') e = K(t, [[LIFT + 0.4, 0], [49.8, 1]]);
+    if (c.ease === 'mars') e = K(t, [[51.6, 0], [57.8, 1]]);
     const o = OFF[S];
     const P = c.p[0].map((v, i) => lerp(v, c.p[1][i], e) + o[i]);
     let Aim = c.a[0].map((v, i) => lerp(v, c.a[1][i], e) + o[i]);
-    if (shot.cam === 'rocket') { const lt = Math.max(0, t - 45.0), h = 0.5 * 9 * lt * lt + 2 * lt; Aim = [ROCKET[0], Math.max(ROOF_Y + 20, h * 0.85 + 22), ROCKET[2]]; }
+    if (shot.cam === 'rocket') { const lt = Math.max(0, t - LIFT), h = 0.5 * 9 * lt * lt + 2 * lt; Aim = [ROCKET[0], Math.max(ROOF_Y + 20, h * 0.85 + 22), ROCKET[2]]; }
     setCamera(P, Aim, c.fov, t, c.amp);
   }
   return { update };

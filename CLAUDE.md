@@ -73,6 +73,9 @@ videos/NNN-slug/
   (sharp shadows where the action is), `setSeason('spring'|'summer'|'autumn'|'winter', t, center)` (leaf color, bare trees, snow).
   Everyone on the sidewalk stands at `y = floor = SIDEWALK_H`. Vertical frames are narrow (~3 m wide at 6 m): shoot crowds
   side-on from across the street, or along the sidewalk with a long lens (fov 30–40).
+- `engine/sets/mars.js` (007): Mars terrain + mesas, butterscotch sky (blue dusk), landing pad (`DIMS.pad`), lander + `setDust(age)`,
+  and a colony that builds itself: `setBuild(0..1)` grows solar fields → glass domes (with houses/trees inside) → tubes → towers;
+  `setDusk(0..1)` turns on the lights. Set `camera.far` ≥ 900.
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.

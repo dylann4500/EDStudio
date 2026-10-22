@@ -64,6 +64,10 @@ different places instead of hovering around one scene**: every beat = a new loca
   "hmm" pose), then escalate small → personal → societal → planetary (classroom → traffic → phones → peace deal → cures → energy → Mars).
 - HUD: the premise number (AVERAGE HUMAN IQ 100 → 200) + the time stamp line + one stat line per beat ("TRAFFIC JAMS 0", "PEOPLE ON MARS 10,000").
 - Keep each beat's action **one readable picture** (the board filling up, cars zippering, phones going down in sync, a banner + confetti).
+- **Show the spectacle, don't just state it** (user steer on 007's first cut: "I want to see more cool stuff — cities growing,
+  the Mars city actually being built"). Big claims get a TIME-LAPSE beat: build-ups with growth handles (towers rising with a crane
+  riding the top, domes/tubes/solar fields popping up in order), fast day/night cycles (`city.setTime({day})` with cos), dusk → lights on.
+  Budget ~6–8 s for each spectacle beat; they're the shareable moments.
 - End on a human-scale button that undercuts the grandeur (+20 years… "Almost." — a genius loses to a fitted sheet), then a comment-bait
   question card ("What would you invent first?").
 - Sound: its own identity — synth plucks + echo, a scene-specific bed per beat, synced foley (see audio/README.md → Sound identity).
