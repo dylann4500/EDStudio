@@ -21,6 +21,25 @@
   and end OPEN (Gmaj7 → Asus4) — the end card asks a question, so the music shouldn't resolve.
 - Reference script: `videos/005-no-nukes/make_cues.py`.
 
+## Sound identity per video (user steer, Oct 22)
+EDStudio makes sims of every kind; the soundtrack must not sound like the last video. Choose per video:
+| type | voice | bed / foley |
+|---|---|---|
+| emotional (001, 003) | soft piano (`instrument: "piano"`, held/arp/cadence) | room tone, a few quiet foley hits |
+| funny (002) | bouncy piano (`style: "bounce"`) + pad | city murmur, cartoon boops |
+| montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
+| world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
+- Successful sim accounts are often **SFX-led** (little/no music, realistic immersive sound). 007 runs 6.6 s with no music at all —
+  just a street — and the synth enters on the premise. You may go music-free for a whole video if the sound design carries it.
+- Plucks decay fast: **never use `held`/`cadence` sections with `pluck`** (they leave gaps) — use slow `arp` (step 0.375–0.75)
+  and a louder pad bed (`pad_db` ≈ +1, `level` 0.55–0.8).
+- New beds: `applause` (density), `crowd_cheer`, `traffic_flow`, `rocket_rumble`, `turbines`. New events: `car_pass` (t = closest
+  point, Doppler), `chalk_write`, `pen_scribble`, `low_swell` (anchor = peak). Sync event times to the picture (007 computes car
+  crossings from the same formula as shots.js).
+- Raise `stem_gain_db.sfx/amb` (≈ −4/−3) for SFX-led mixes; keep `sfx_lowpass_hz` ≤ 6000 so nothing gets harsh.
+- Self-check: the synth prints `music dropouts: none` — anything else must be fixed before muxing.
+- The onset checker flags overlapping/gradual sounds (car passes, stacked scribbles) as "--"; that's expected for beds of sound.
+
 ## Funny tone (002) — same softness, different timing
 - `style: "bounce"` section = "oom-pah" piano (bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm; note lengths
   `bass_hold` (default 1.6 beats) / `stab_hold` (0.8) — keep them long enough that the groove doesn't sound choppy.
@@ -36,10 +55,10 @@
 
 ## cues.json schema (short)
 - `duration`, `target_lufs`, `stem_gain_db {music,sfx,amb}`, `sfx_lowpass_hz`
-- `ambience`: `[{sound, t0, t1, fade_in, fade_out, gain_db, args?, seed?}]` — sounds: room_tone, city_day, crickets, clock, wind, dry_leaves, rain_window, sleigh_bells, lamp_hum
+- `ambience`: `[{sound, t0, t1, fade_in, fade_out, gain_db, args?, seed?}]` — sounds: room_tone, city_day, applause, crowd_cheer, traffic_flow, rocket_rumble, turbines, crickets, clock, wind, dry_leaves, rain_window, sleigh_bells, lamp_hum
 - `events`: `[{t, sound, args?, gain_db, pan, room?, hall?}]` — sounds: door_open, door_close, latch_click, footstep, floorboard_creak,
-  blanket_rustle, mattress_sit, plush_pickup, plush_squeak, plush_place, phone_pickup, phone_set_down_wood, lamp_switch_click,
+  blanket_rustle, mattress_sit, car_pass, chalk_write, pen_scribble, low_swell, plush_pickup, plush_squeak, plush_place, phone_pickup, phone_set_down_wood, lamp_switch_click,
   counter_tick, gold_chime, whoosh_timeskip, flash_swish. Generators: `{sound: "footsteps", t0, t1, pan0, pan1, gain_db}`,
   `{sound: "tick_roll", t0, t1, peak_rate}`.
-- `music`: `chords [[t, "F"], [t, "C/E"], ...]`, `sections [{t0, t1, style: held|arp|thin|pulse|swell|sparse|cadence|bounce, vel, ...}]`,
+- `music`: `instrument` (piano|pluck|bell), `echo`, `chords [[t, "F"], [t, "C/E"], ...]`, `sections [{t0, t1, style: held|arp|thin|pulse|swell|sparse|cadence|bounce, vel, ...}]`,
   `melody [[t, midi, vel, octave_double?]]`, `pad`, `stings`, `eq`, `auto_duck`.

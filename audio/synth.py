@@ -594,6 +594,61 @@ def sfx_blanket_rustle(rng, dur=0.8, intensity=1.0, softness=0.5, strokes=1, con
     return Sound(norm(fades(y, 0.01, 0.04)), onsets=[(0.0, "soft")])
 
 
+def sfx_car_pass(rng, dur=1.4, size=1.0):
+    """A car driving past close: tyre noise + engine hum whose pitch drops (Doppler) under a pass-by swell.
+    The event time t = the moment the car is closest. anchor = dur/2."""
+    n = nsamp(dur)
+    t = tvec(n) - dur / 2
+    env = 1 / (1 + (t / (0.22 * dur)) ** 2)
+    tyre = unit_rms(bp(pink(n, rng), 300, 2600))
+    f = (70 + 30 * size) * (1.08 - 0.16 / (1 + np.exp(-t / 0.08)))  # higher approaching, lower leaving
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    eng = np.sin(ph) + 0.5 * np.sin(2 * ph) + 0.25 * np.sin(3 * ph)
+    y = env * (tyre + 0.6 * unit_rms(eng)) + 0.3 * env ** 2 * unit_rms(lp(brown(n, rng), 120))
+    return Sound(norm(fades(y, 0.05, 0.08)), anchor=dur / 2, onsets=[(0.0, "soft")])
+
+
+def sfx_chalk_write(rng, dur=0.9, strokes=5):
+    """Chalk on a board: dry scratchy strokes + little taps at stroke starts. Kept soft (band-limited, no squeal)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = np.zeros(n)
+    for i in range(strokes):
+        c = (i + 0.2) / strokes * dur
+        w = dur / strokes * 0.7
+        env += np.clip(1 - np.abs(t - c - w / 2) / (w / 2), 0, 1) ** 0.6
+    scratch = unit_rms(bp(white(n, rng), 1500, 4200)) * (0.5 + 0.5 * smooth_rand(n, 40, rng) ** 2)
+    taps = np.zeros(n)
+    for i in range(strokes):
+        st = nsamp((i + 0.2) / strokes * dur)
+        k = nsamp(0.01)
+        if st + k < n:
+            taps[st:st + k] += np.exp(-np.arange(k) / (k / 6)) * rng.standard_normal(k)
+    y = env * scratch + 1.5 * bp(taps, 800, 3000)
+    return Sound(norm(fades(y, 0.005, 0.03)), onsets=[(0.0, "soft")])
+
+
+def sfx_pen_scribble(rng, dur=0.7):
+    """Pen signing on paper on a table: quick soft scribble."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = np.clip(np.sin(np.pi * t / dur), 0, 1) * (0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 7.5 * t)))
+    y = env * unit_rms(bp(white(n, rng), 900, 3500)) + 0.4 * env * unit_rms(lp(pink(n, rng), 500))
+    return Sound(norm(fades(y, 0.005, 0.03)), onsets=[(0.0, "soft")])
+
+
+def sfx_low_swell(rng, dur=1.6, pitch=1.0):
+    """A soft rising filtered-noise + sub swell that peaks at the end (anchor = end) — for a reveal, never harsh."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = (t / dur) ** 2.2
+    fc = 200 + 1600 * (t / dur) ** 2
+    nz = sweep_filter(pink(n, rng), fc * pitch, q=0.9, kind="bp")
+    sub = np.sin(2 * np.pi * 55 * pitch * t)
+    y = env * (unit_rms(nz) + 0.6 * sub)
+    return Sound(norm(fades(y, 0.02, 0.02)), anchor=dur, onsets=[(0.0, "soft")])
+
+
 def sfx_mattress_sit(rng, dur=0.85):
     n = nsamp(dur)
     t = tvec(n)
@@ -839,6 +894,74 @@ def amb_city_day(dur, rng, murmur=0.5, traffic=0.6):
     return norm(np.vstack(out))
 
 
+def amb_applause(dur, rng, density=40.0, swell=0.6):
+    """Crowd applause: many independent hand-claps (short band-passed noise bursts) at `density` claps/s."""
+    n = nsamp(dur)
+    out = np.zeros((2, n))
+    k = nsamp(0.012)
+    for ch in range(2):
+        imp = (rng.random(n) < density / SR) * rng.uniform(0.3, 1.0, n)
+        kern = rng.standard_normal(k) * np.exp(-np.arange(k) / (k / 4.0))
+        x = bp(np.convolve(imp, kern)[:n], 700, 3800)
+        x += 0.25 * unit_rms(bp(pink(n, rng), 500, 2500)) * np.std(x)
+        out[ch] = x
+    t = tvec(n)
+    out *= (1 - swell) + swell * np.clip(t / max(dur * 0.25, 0.01), 0, 1)
+    return norm(out)
+
+
+def amb_crowd_cheer(dur, rng, excite=1.0):
+    """Outdoor crowd celebrating: vowel-ish murmur formants that swell + applause underneath (no screams)."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        v = 0.6 * unit_rms(bp(pink(n, rng), 450, 900)) + 0.4 * unit_rms(bp(pink(n, rng), 1000, 1900))
+        v *= 0.55 + 0.45 * np.abs(smooth_rand(n, 2.5, rng))
+        out.append(v)
+    out = np.vstack(out)
+    out = unit_rms(out) * excite + 0.8 * unit_rms(amb_applause(dur, rng, density=55.0))
+    return norm(out)
+
+
+def amb_traffic_flow(dur, rng, density=0.6):
+    """Busy-but-calm traffic bed: tyre roar + low engine rumble with slow surges."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        tyre = unit_rms(bp(pink(n, rng), 250, 2200)) * (0.6 + 0.4 * np.abs(smooth_rand(n, 0.5 + density, rng)))
+        eng = unit_rms(lp(brown(n, rng), 160))
+        out.append(0.7 * tyre + 0.6 * eng)
+    return norm(np.vstack(out))
+
+
+def amb_rocket_rumble(dur, rng, rise=1.0):
+    """Rocket launch from a distance: sub rumble swelling in + crackle (the 'tearing' of the exhaust), all low-passed."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        sub = unit_rms(lp(brown(n, rng), 90))
+        mid = unit_rms(bp(pink(n, rng), 120, 700))
+        imp = (rng.random(n) < 260.0 / SR) * rng.exponential(1.0, n)
+        crack = bp(np.convolve(imp, np.exp(-np.arange(nsamp(0.004)) / nsamp(0.0008)))[:n], 300, 2400)
+        crack = unit_rms(crack) * (0.5 + 0.5 * np.abs(smooth_rand(n, 6.0, rng)))
+        out.append(1.0 * sub + 0.55 * mid + 0.35 * crack)
+    out = np.vstack(out) * np.clip(t / max(dur * 0.35 * rise, 0.01), 0, 1) ** 1.5
+    return norm(out)
+
+
+def amb_turbines(dur, rng, rate=0.55):
+    """Wind on a roof + the slow rhythmic swish of distant turbine blades."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        wind = unit_rms(lp(pink(n, rng), 700)) * (0.7 + 0.3 * smooth_rand(n, 0.2, rng))
+        sw = unit_rms(bp(pink(n, rng), 300, 1400)) * (0.5 + 0.5 * np.sin(2 * np.pi * rate * t + ch * 1.3)) ** 3
+        out.append(0.8 * wind + 0.5 * sw)
+    return norm(np.vstack(out))
+
+
 def amb_crickets(dur, rng, count=4, density=0.6, fc_range=(3700, 4700)):
     """Distant summer crickets heard through a window: sparse chirp bouts, lowpassed, outdoor verb."""
     n = nsamp(dur)
@@ -993,6 +1116,11 @@ def amb_lamp_hum(dur, rng):
 
 AMBIENCE = {
     "room_tone": amb_room_tone,
+    "applause": amb_applause,
+    "crowd_cheer": amb_crowd_cheer,
+    "traffic_flow": amb_traffic_flow,
+    "rocket_rumble": amb_rocket_rumble,
+    "turbines": amb_turbines,
     "city_day": amb_city_day,
     "crickets": amb_crickets,
     "clock": amb_clock,
@@ -1073,6 +1201,55 @@ def piano_note(midi, vel, hold):
     y = fades(y, 0.0, 0.015) * 0.5 * vel ** 1.5 * db2lin(1.5 * (midi - 60) / 12.0)
     _PIANO_CACHE[key] = y
     return y
+
+
+_PLUCK_CACHE = {}
+
+
+def pluck_note(midi, vel, hold, kind="pluck"):
+    """Soft electronic voice (non-piano identity for sims / tech / wonder videos).
+    kind 'pluck': warm detuned triangle-ish pluck (fast attack, exp decay, filter closes as it decays).
+    kind 'bell' : glassy FM-ish bell (sine carrier + one inharmonic partial), long tail. Mono, peak ~1."""
+    key = (int(midi), round(float(vel), 2), round(float(hold), 2), kind)
+    if key in _PLUCK_CACHE:
+        return _PLUCK_CACHE[key]
+    f0 = mtof(midi)
+    ring = min(max(hold, 0.25) + (1.6 if kind == "pluck" else 3.0), 6.0)
+    n = nsamp(ring)
+    t = tvec(n)
+    if kind == "bell":
+        y = np.sin(2 * np.pi * f0 * t) + 0.35 * np.sin(2 * np.pi * f0 * 2.76 * t) * np.exp(-t / 0.6) + 0.12 * np.sin(2 * np.pi * f0 * 5.4 * t) * np.exp(-t / 0.25)
+        env = (1 - np.exp(-t / 0.004)) * np.exp(-t / 1.4)
+    else:
+        y = np.zeros(n)
+        for det in (-4.0, 0.0, 4.0):                                   # 3 slightly detuned voices
+            ph = 2 * np.pi * f0 * 2 ** (det / 1200) * t
+            y += np.sin(ph) + 0.22 * np.sin(3 * ph) / 3 + 0.12 * np.sin(2 * ph)
+        y /= 3
+        env = (1 - np.exp(-t / 0.003)) * np.exp(-t / (0.28 + 0.5 * (1 - vel)))
+        rel = np.clip((t - hold) / 0.25, 0, 1)
+        env *= np.where(t < hold, 1.0, np.cos(np.pi / 2 * rel) ** 2) * 0.6 + 0.4 * np.exp(-t / 0.18)
+    y = lp(y * env * (0.35 + 0.65 * vel), 900 + 3800 * vel, 2)
+    y = fades(norm(y) * vel, 0.001, 0.05)
+    _PLUCK_CACHE[key] = y
+    return y
+
+
+def echo(x, delay=0.375, feedback=0.35, mix=0.28, lp_hz=3200):
+    """Ping-pong echo (L at d, R at 2d, …), darker each repeat — gives the synth voice its space."""
+    out = x.copy()
+    d = nsamp(delay)
+    tap = lp(x.mean(axis=0), lp_hz)
+    g = mix
+    for k in range(1, 7):
+        ch = (k - 1) % 2
+        sh = d * k
+        if sh >= x.shape[1]:
+            break
+        out[ch, sh:] += g * tap[:x.shape[1] - sh]
+        tap = lp(tap, lp_hz * 0.85)
+        g *= feedback
+    return out
 
 
 def saw_blep(freq, n, phase0=0.0):
@@ -1300,8 +1477,9 @@ def render_music(M, n_total, log=print):
     notes = compose(M, mallet)
     dry = np.zeros((2, n_total))
     t0 = time.time()
+    inst = M.get("instrument", "piano")      # per-video sound identity: piano (emotional/funny) | pluck | bell (sims, tech, wonder)
     for (t, m, v, h) in notes:
-        y = piano_note(m, v, h)
+        y = piano_note(m, v, h) if inst == "piano" else pluck_note(m, v, h, inst)
         place(dry, pan2(y, float(np.clip((m - 62) / 34.0, -0.4, 0.4))), nsamp(t))
     log(f"  piano: {len(notes)} notes ({len(_PIANO_CACHE)} unique) in {time.time() - t0:.1f}s")
     if mallet:
@@ -1310,6 +1488,8 @@ def render_music(M, n_total, log=print):
             place(md, pan2(mallet_note(m, v, h), float(np.clip((m - 70) / 30.0, -0.3, 0.3)) * (1 if k % 2 else -1)), nsamp(t))
         dry += db2lin(M.get("mallet_db", -4.0)) * md
         log(f"  mallet: {len(mallet)} notes")
+    if M.get("echo"):
+        dry = echo(dry, **M["echo"])
     piano = dry + db2lin(M.get("reverb_db", -9)) * convolve(dry, hall_ir())
     pad = render_pad(M.get("pad", []), n_total)
     pad = pad + db2lin(M.get("pad_reverb_db", -5)) * convolve(pad, hall_ir())
@@ -1523,6 +1703,10 @@ SFX = {
     "footstep": (sfx_footstep, "footstep"),
     "floorboard_creak": (sfx_floorboard_creak, "footstep"),
     "blanket_rustle": (sfx_blanket_rustle, "cloth"),
+    "car_pass": (sfx_car_pass, "prop"),
+    "chalk_write": (sfx_chalk_write, "prop"),
+    "pen_scribble": (sfx_pen_scribble, "prop"),
+    "low_swell": (sfx_low_swell, "ui"),
     "mattress_sit": (sfx_mattress_sit, "cloth"),
     "plush_pickup": (sfx_plush_pickup, "prop"),
     "plush_squeak": (sfx_plush_squeak, "prop"),
@@ -1956,8 +2140,21 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
             seg = duck[nsamp(d["t0"]):nsamp(d["t1"])]
             log(f"music duck {d['t0']:.2f}-{d['t1']:.2f}s: {lin2db(seg.min()):.1f} dB (explicit {d['db']} dB)")
         log(f"foley-keyed music duck active (< -1 dB) {np.mean(duck < db2lin(-1)) * 100:.0f}% of the time")
-    tail = m[:, nsamp(61.99):]
+    tail = m[:, -nsamp(0.01):]
     log(f"last 10 ms peak {lin2db(np.max(np.abs(tail))):.1f} dBFS; first sample {m[:, 0]}, last sample {m[:, -1]}")
+    # house rule: once the music has started it must never drop out (user feedback on 002)
+    mus = proc.get("music") if isinstance(proc, dict) else None
+    if mus is not None:
+        hop = nsamp(0.05)
+        mono = mus.mean(axis=0)
+        w = np.array([np.sqrt(np.mean(mono[i * hop:(i + 1) * hop] ** 2)) + 1e-12 for i in range(len(mono) // hop)])
+        wdb = 20 * np.log10(w)
+        on = np.where(wdb > wdb.max() - 30)[0]
+        if len(on):
+            a0, a1 = on[0] + 10, min(len(wdb), on[-1] - 10)       # ignore the entrance + the final fade
+            med = np.median(wdb[a0:a1]) if a1 > a0 else 0
+            drops = [i * 0.05 for i in range(a0, a1) if wdb[i] < med - 12]
+            log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s  <-- FIX (music must never cut out)"))
     shots = cues["shots"]
     log("\nper-shot window | master peak   RMS   LUFS | music   sfx    amb (ungated LUFS) | limiter maxGR %>1dB")
     for a, b in zip(shots[:-1], shots[1:]):
@@ -1976,7 +2173,7 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
         bad += (not ok) and kind != "ui"
         ls, mm = l100_at(data["sfx"], t), momentary_at(data["music"], t)
         margin.setdefault(cat, []).append(ls - mm)
-        pk = lin2db(np.max(np.abs(data["sfx"][:, nsamp(t - 0.02):nsamp(t + 0.3)])))
+        pk = lin2db(np.max(np.abs(data["sfx"][:, max(0, nsamp(t - 0.02)):nsamp(t + 0.3) + 1])) + 1e-12)
         log(f"  {t:7.3f}  {name:19s}  {cat:8s}  {kind:9s} {to:9.3f}  {dms:+7.1f}  {rise:7.1f} | {ls:6.1f} {mm:6.1f}"
             f"  {pk:6.1f}   {'OK' if ok else '--'}")
     log(f"onsets checked: {sum(r[3] != 'ui' for r in rows)}, failing: {bad}")

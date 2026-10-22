@@ -99,8 +99,13 @@ videos/NNN-slug/
 - **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.
 - **Persistent text stays out of the way.** The HUD is small, top-left, and steady.
   Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third. **All text has a strong shadow + a soft dark backdrop** (engine/index.html) so it reads over bright areas — never remove it.
-- **Sound is minimal and soft.** Piano-led, few quiet low-passed foley hits only on story beats. No ticks/whooshes/chimes.
-  **The music is continuous — it never cuts out** (no hard rests/ducks for comedic timing; gentle −4 dB dips at most).
+- **Every video type gets its own sound identity — EDStudio makes sims of all kinds, not only nostalgia** (user steer after 002 sounded
+  like 001). Pick the voice for the tone: emotional = soft piano; funny = bouncy piano; montage/science/tech = synth plucks + echo
+  (`music.instrument: "pluck"|"bell"`) and **immersive scene sound design** (traffic, chalk, applause, rocket, wind) — successful sim
+  accounts are often SFX-led with little or no music. Never harsh: everything low-passed, no ear-piercing highs, no ticks/whooshes/chimes.
+  See audio/README.md → Sound identity. Don't reuse the previous video's progression/voice unchanged.
+- **The music is continuous — it never cuts out** once it has started (no hard rests/ducks for comedic timing; gentle −4 dB dips at
+  most). `audio/synth.py` now prints `music dropouts: none` (or the first gap) in its self-check — it must say none.
   See `audio/README.md` → House style. If anything sounds harsh, cut it rather than fix it.
 - Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes, incl. whatiflab.md).
 - **The end card must stay up long enough to read:** fully visible for **≥ 3.5 s** (set `duration ≥ end.in + 4.0`).
@@ -138,6 +143,11 @@ videos/NNN-slug/
 - **Parallel sessions:** more than one agent may work in this repo at once. Do your video in its own git worktree/branch
   (`git worktree add -b video/NNN-slug ../EDStudio-NNN main`, symlink `node_modules` into it — never commit the symlink),
   take the next free NNN, keep engine changes additive (new options, unchanged defaults), and merge to main when done.
+- **Montage across many locations (007):** build several sets in one scene and park each set's `root` at its own offset
+  (`OFF = {street: [1500,0,0], cls: [3000,0,0], …}`), then per shot show only that root (hidden roots also switch off their lights),
+  swap `scene.fog` to that set's fog (save `scene.fog` right after each build — builders overwrite it), and set `camera.far`.
+  **city.js must stay at the origin** (its sky domes follow the camera in world space). Add OFF to every character + camera position
+  (camera coords in CAMS stay local to the set). Hide extras with `root.visible=false` and re-place them per shot.
 - Outdoor sets: `studio.camera.far` defaults to 80 m — street.js raises it to 400 (sky dome + skyline). Raise it in any big set.
 - Keep crowd extras out of the lens between the camera and the hero (check the frames where the hero walks — 002's market shot
   hid Gary behind a watcher). Hide set props per shot when they clutter a long lens (002 hides the cart in the queue shot).

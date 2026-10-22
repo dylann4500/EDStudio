@@ -1,6 +1,6 @@
 # Tones: emotional vs funny
 
-Every video declares its tone in `story.json` → `"tone": "emotional" | "funny" | "world"`. Both tones use the same engine,
+Every video declares its tone in `story.json` → `"tone": "emotional" | "funny" | "world" | "montage"`. Both tones use the same engine,
 the same text kit (centered serif question, small top-left HUD, italic subtitles with shadow + backdrop) and the
 same house rules (CLAUDE.md). What changes is the **story shape, the timing, the acting, the music and the ending**.
 
@@ -55,3 +55,16 @@ tank hangar, power plant), Day-1 relief → the consequence nobody expected → 
 question on the end card. **Vibe: curious and intriguing (documentary explainer), not sad** — mallet ostinato, major/lydian,
 driving pulse for tension, an open unresolved last chord. Real numbers only, sourced and current; neutral on real countries.
 Full playbook: **`docs/WORLD-WHATIF.md`**.
+
+## Montage: the premise everywhere at once (`videos/007-twice-as-smart`)
+`"tone": "montage"` — "What if every human became twice as smart?" The user wants these sims to **show the effect in lots of
+different places instead of hovering around one scene**: every beat = a new location + one or two subtitles + a HUD time stamp
+(SECOND 0 → +1 MINUTE → +1 HOUR → +1 DAY → +3 MONTHS → +1 YEAR → +5 YEARS → +12 YEARS → +20 YEARS), ~5.5–6 s each, hard cuts.
+- Open on an ordinary place, show the premise *happening* (007: a blue glow wave passes through every head, the crowd strikes the same
+  "hmm" pose), then escalate small → personal → societal → planetary (classroom → traffic → phones → peace deal → cures → energy → Mars).
+- HUD: the premise number (AVERAGE HUMAN IQ 100 → 200) + the time stamp line + one stat line per beat ("TRAFFIC JAMS 0", "PEOPLE ON MARS 10,000").
+- Keep each beat's action **one readable picture** (the board filling up, cars zippering, phones going down in sync, a banner + confetti).
+- End on a human-scale button that undercuts the grandeur (+20 years… "Almost." — a genius loses to a fitted sheet), then a comment-bait
+  question card ("What would you invent first?").
+- Sound: its own identity — synth plucks + echo, a scene-specific bed per beat, synced foley (see audio/README.md → Sound identity).
+- Multi-set technique: CLAUDE.md → Hard-won rules → "Montage across many locations". Reuse every set in `engine/sets/`.

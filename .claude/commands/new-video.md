@@ -12,7 +12,7 @@ Follow `CLAUDE.md` exactly. Steps:
 2. Pick the concept + tone: if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md` (emotional);
    otherwise develop $ARGUMENTS into a concept that follows the format bible (opening question alone + centered with one gold
    keyword, NO 'told by' tag/subtext, a HUD number that changes across a time skip, 2–4 eras, a strong ending, hyper-specific
-   details). Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, picture delivers the punch, music never cuts out, warm last beat).
+   details). Montage (the premise in many places, 007) or Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, picture delivers the punch, music never cuts out, warm last beat).
    Respect the originality rule. Emotional what-ifs (003, 004): keep ONE human thread through the consequence ladder
    (a ritual the hero repeats) and end on a reunion beat that flips the HUD counter (004: PEOPLE ON EARTH 8.2 B → 1 → 2). If a reference video link is given, sample frames every ~5 s in the browser
    (TikTok: dismiss the login modal, seek `video.currentTime`) and save the takeaways to `docs/reference/<account>.md`.
@@ -28,7 +28,9 @@ Follow `CLAUDE.md` exactly. Steps:
    build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup
    for arm poses. Check that no text sits over a face or a sign. Do not full-render before the sheet looks good;
    a `--preview` render is a cheap motion check.
-6. Write cues.json and run `python3 -I audio/synth.py NNN-slug`.
+6. Pick this video's **sound identity** (audio/README.md → Sound identity: piano / bouncy piano / synth pluck / SFX-led — not a copy of
+   the last video), write cues.json (a `make_cues.py` generator for long sheets) and run `python3 -I audio/synth.py NNN-slug`;
+   it must report `music dropouts: none`.
 7. Full render: `node tools/render.mjs NNN-slug`. Spot-check 6 frames of `final.mp4` (ffmpeg -ss) for black blocks/flicker.
 8. Run the QC checklist in CLAUDE.md; fix anything failing.
 9. Write `caption.md`. Commit the video folder (not out/ or stills/) with a message like `video NNN: <title>` and push.
