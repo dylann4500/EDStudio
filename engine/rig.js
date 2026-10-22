@@ -37,7 +37,13 @@ export function makeHead(o) {
   }
   const smile = mk(new THREE.TorusGeometry(r * 0.15, r * 0.032, 6, 18, Math.PI), mMouth, g, 0, -r * 0.33, r * 0.895); smile.rotation.z = Math.PI; smile.scale.set(1, 0.7, 1);
   const flat = mk(new RoundedBoxGeometry(r * 0.22, r * 0.045, r * 0.05, 2, r * 0.018), mMouth, g, 0, -r * 0.4, r * 0.895);
+  const oMouth = mk(new THREE.SphereGeometry(r * 0.1, 14, 10), mat(0x3a1512, 0.6), g, 0, -r * 0.38, r * 0.86); oMouth.scale.set(0.85, 1.15, 0.5); oMouth.visible = false; // shocked "O"
   for (const s of [-1, 1]) { const c = mk(new THREE.SphereGeometry(r * 0.14, 12, 8), mat(0xe8a08f, 0.7), g, s * r * 0.55, -r * 0.2, r * 0.77); c.scale.set(1, 0.6, 0.35); }
+  // optional mustache (o.mustache = color): two fat capsules under the nose — instantly reads as "a grown man"
+  if (o.mustache) {
+    const mM = mat(o.mustache, 0.8);
+    for (const s of [-1, 1]) { const m = mk(new THREE.CapsuleGeometry(r * 0.075, r * 0.2, 4, 10), mM, g, s * r * 0.13, -r * 0.22, r * 0.93); m.rotation.z = s * (Math.PI / 2 - 0.35); }
+  }
 
   // hair
   const rh = r * 1.07, hair = new THREE.Group(); g.add(hair);
@@ -82,7 +88,7 @@ export function makeHead(o) {
   }
   tear.visible = false;
 
-  return { g, head, eyesOpen, eyesClosed, smile, flat, brows, hair, hairMat: mHair, glasses, tear };
+  return { g, head, eyesOpen, eyesClosed, smile, flat, oMouth, brows, hair, hairMat: mHair, skinMat: mSkin, glasses, tear };
 }
 
 // ---------------------------------------------------------------- standing figure
@@ -105,11 +111,15 @@ export function makePerson(o) {
   const hips = mk(new THREE.CapsuleGeometry(0.15, 0.06, 6, 18), mPants, pelvis, 0, 0.02, 0); hips.scale.set(1.12, 1, 0.82);
   const spine = new THREE.Group(); pelvis.add(spine);
   const torso = mk(new THREE.CapsuleGeometry(0.165, 0.27, 8, 22), mTop, spine, 0, 0.27, 0); torso.scale.set(1.12, 1, 0.78);
+  // pregnancy/belly bump (pose.belly 0..1): a shirt-colored sphere on the lower front of the torso, scaled from nothing
+  const belly = new THREE.Group(); belly.position.set(0, 0.14, 0.05); spine.add(belly);
+  const bellyMesh = mk(new THREE.SphereGeometry(0.2, 28, 20), mTop, belly); bellyMesh.scale.set(0.95, 0.92, 1);
+  belly.visible = false;
   if (o.collar) { const c = mk(new THREE.TorusGeometry(0.075, 0.022, 8, 20), mat(o.collar, 0.9), spine, 0, 0.535, 0.01); c.rotation.x = Math.PI / 2; }
   mk(new THREE.CylinderGeometry(0.045, 0.052, 0.09, 12), mSkin, spine, 0, 0.56, 0);
   const headG = new THREE.Group(); headG.position.y = 0.59; spine.add(headG);
   const headR = o.headR ?? 0.135;
-  const H = makeHead({ r: headR, skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, glasses: o.glasses, browColor: o.browColor });
+  const H = makeHead({ r: headR, skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, glasses: o.glasses, browColor: o.browColor, mustache: o.mustache });
   H.g.position.y = headR * 0.95; headG.add(H.g);
 
   const arms = [];
@@ -124,7 +134,7 @@ export function makePerson(o) {
     mk(new THREE.CapsuleGeometry(0.016, 0.03, 4, 8), mSkin, hand, -0.035 * s * -1, 0.005, 0.03).rotation.z = 0.6 * s;
     arms.push({ shoulder, elbow, hand, s });
   }
-  return { root, legs, pelvis, spine, headG, head: H, arms, mats: { top: mTop, pants: mPants, hair: H.hairMat } };
+  return { root, legs, pelvis, spine, headG, head: H, arms, belly, mats: { top: mTop, pants: mPants, hair: H.hairMat, skin: mSkin, faceSkin: H.skinMat } };
 }
 
 /** Default standing pose. armA = the arm on the figure's local -x side, armB = local +x. */
@@ -134,6 +144,7 @@ export function basePose() {
     lean: 0.03, crouch: 0, footFwd: 0, headPitch: 0.05, headYaw: 0, headRoll: 0,
     armA: { sx: 0.03, sz: 0.07, el: -0.18, free: 1 }, armB: { sx: 0.03, sz: 0.07, el: -0.18, free: 1 },
     smile: 1, eyes: 'open', tear: false, glasses: false,
+    belly: 0, waddle: 0, mouth: null, floor: 0,
   };
 }
 
@@ -154,6 +165,13 @@ export function applyPose(P, p) {
   P.root.rotation.y = p.rotY;
   const walk = clamp(p.speed / 0.35);
   const ph = (p.dist * Math.PI) / (2 * STEP_A);
+  // waddle (0..1): side-to-side roll locked to the gait + legs splayed (penguin walk). Use with lean < 0 (leaning back).
+  const wd = p.waddle || 0;
+  P.root.rotation.z = wd * (0.02 + 0.09 * walk) * Math.sin(ph);
+  P.legs.forEach((leg) => { leg.hip.rotation.z = leg.s * 0.07 * wd; });
+  const bl = Math.max(0, p.belly || 0);
+  P.belly.visible = bl > 0.01;
+  if (P.belly.visible) { P.belly.scale.setScalar(Math.min(bl, 1.6)); P.belly.position.z = 0.03 + 0.12 * Math.min(bl, 1.3); P.belly.position.y = 0.15 - 0.02 * bl; } // front of bump ≈ 0.03 + 0.32·belly m
   const hipY = HIP_H - p.crouch + walk * 0.012 * Math.abs(Math.sin(ph));
   P.pelvis.position.y = hipY;
   P.legs.forEach((leg, i) => {
@@ -161,7 +179,7 @@ export function applyPose(P, p) {
     const phi = ph + (i ? Math.PI : 0);
     const fz = walk * STEP_A * Math.sin(phi) + (p.footFwd || 0);
     const lift = walk * 0.075 * Math.max(0, Math.cos(phi));
-    legIK(leg, fz, ANKLE + lift - (p.y || 0) - hipY);
+    legIK(leg, fz, ANKLE + lift + (p.floor || 0) - (p.y || 0) - hipY); // p.floor = ground height under the feet (sidewalks, steps)
   });
   P.spine.rotation.set(p.lean + walk * 0.04, walk * 0.07 * Math.sin(ph), 0);
   P.headG.rotation.set(p.headPitch, p.headYaw, p.headRoll);
@@ -169,11 +187,14 @@ export function applyPose(P, p) {
     const a = arm.s < 0 ? p.armA : p.armB;
     const free = a.free ?? 1;
     const swing = walk * 0.3 * Math.sin(ph + (arm.s < 0 ? 0 : Math.PI)) * free;
-    arm.shoulder.rotation.set(a.sx + swing, a.twist || 0, arm.s * a.sz);
+    const splay = 0.2 * Math.min(Math.max(0, p.belly || 0), 1.3) * free; // free-hanging arms swing out around a big belly
+    arm.shoulder.rotation.set(a.sx + swing, a.twist || 0, arm.s * (a.sz + splay));
     arm.elbow.rotation.x = a.el - walk * 0.12 * free;
   }
   const h = P.head;
-  h.smile.visible = p.smile > 0.5; h.flat.visible = !h.smile.visible;
+  // mouth: p.mouth = 'smile' | 'flat' | 'o' (shocked) overrides the legacy p.smile flag
+  const mouth = p.mouth || (p.smile > 0.5 ? 'smile' : 'flat');
+  h.smile.visible = mouth === 'smile'; h.flat.visible = mouth === 'flat'; h.oMouth.visible = mouth === 'o';
   h.eyesOpen.visible = p.eyes !== 'closed'; h.eyesClosed.visible = p.eyes === 'closed';
   h.tear.visible = !!p.tear; h.glasses.visible = !!p.glasses;
 }

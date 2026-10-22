@@ -7,6 +7,7 @@
 //   node tools/render.mjs <video> --preview            fast draft: 15 fps, half size
 //   node tools/render.mjs <video> --from 20 --to 28    render a time range only
 //   node tools/render.mjs <video> --stills 5 --cam top  bird's-eye debug view (check blocking, light, collisions)
+//   (--stills clears previous stills first; add --keep to append)
 //
 // Env overrides: CHROME_PATH, FFMPEG_PATH.
 import http from 'node:http';
@@ -39,6 +40,8 @@ function serve() {
 }
 
 const story = JSON.parse(fs.readFileSync(path.join(videoDir, 'story.json'), 'utf8'));
+// house rule: the end card must stay fully readable for >= 3.5 s (user feedback on 001: it vanished before it could be read)
+if (story.end && story.duration - (story.end.in + 0.5) < 3.5) console.warn(`⚠️  end card is fully visible for only ${(story.duration - story.end.in - 0.5).toFixed(1)} s — set duration ≥ end.in + 4.0 (house rule: ≥ 3.5 s)`);
 const preview = !!flag('preview', false);
 const fps = Number(flag('fps', preview ? 15 : story.fps || 30));
 const t0 = Number(flag('from', 0)), t1 = Number(flag('to', story.duration));
@@ -70,6 +73,8 @@ async function frameAt(t) {
 
 if (stills) {
   const outDir = path.join(videoDir, 'stills'); fs.mkdirSync(outDir, { recursive: true });
+  // start each batch clean so _sheet.jpg only shows this batch (old stills confuse reviews); --keep to add to the existing set
+  if (!flag('keep', false)) for (const f of fs.readdirSync(outDir)) if (/^t[\d.]+\.jpg$/.test(f)) fs.unlinkSync(path.join(outDir, f));
   for (const t of String(stills).split(',').map(Number)) {
     const f = path.join(outDir, `t${t.toFixed(2).padStart(6, '0')}.jpg`);
     fs.writeFileSync(f, await frameAt(t)); console.log(f);

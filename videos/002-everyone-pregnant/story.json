@@ -1,0 +1,39 @@
+{
+  "tone": "funny",
+  "look": { "exposure": 1.0, "fill": 0.35, "vignette": 0.3, "bloom": 0.18, "bloomThreshold": 0.95 },
+  "fps": 30,
+  "duration": 62.5,
+  "title": { "html": "What if everyone on Earth woke up <em>pregnant</em>?", "in": -0.4, "out": 3.4 },
+  "subs": [
+    [3.8, 6.3, "Monday. 7:02 AM. A normal morning."],
+    [6.6, 9.2, "Then 8.2 billion people look down."],
+    [9.6, 11.6, "Yes. Even Gary."],
+    [12.2, 14.8, "Week 6. Morning sickness hits."],
+    [15.2, 17.7, "It does not stay in the morning."],
+    [18.4, 21.6, "Week 20. Earth runs out of pickles in 41 minutes."],
+    [22.0, 25.0, "Gary has the last jar. Everyone knows."],
+    [25.9, 28.9, "Week 32. Nobody has seen their feet since July."],
+    [29.4, 33.0, "Shoelaces are officially over."],
+    [33.9, 36.9, "Week 36. Everyone walks like a penguin."],
+    [37.3, 41.0, "The bathroom line is 2.1 miles long."],
+    [41.9, 44.9, "Week 40. Everyone is due on the same day."],
+    [45.4, 48.6, "Including every doctor."],
+    [50.0, 53.4, "December 9th. 8.2 billion new babies."],
+    [53.8, 57.2, "And every single human calls their mom."]
+  ],
+  "hudLabel": "WEEKS PREGNANT",
+  "hud": [
+    { "t0": 0.0, "t1": 9.4, "from": 0, "to": 1, "r0": 7.6, "r1": 7.7, "time": "MARCH 3 · 7:02 AM", "ageFrom": "PEOPLE AFFECTED 0", "age": "PEOPLE AFFECTED 8.2 BILLION" },
+    { "t0": 9.4, "t1": 11.8, "from": 1, "to": 1, "time": "MARCH 3 · 7:03 AM", "age": "PEOPLE AFFECTED 8.2 BILLION" },
+    { "t0": 11.8, "t1": 18.0, "from": 1, "to": 6, "r0": 11.9, "r1": 13.0, "time": "APRIL 14", "ageFrom": "PEOPLE AFFECTED 8.2 BILLION", "age": "HOT DOGS EATEN TODAY 0" },
+    { "t0": 18.0, "t1": 25.5, "from": 6, "to": 20, "r0": 18.1, "r1": 19.4, "time": "JULY 21", "ageFrom": "HOT DOGS EATEN TODAY 0", "age": "PICKLE JARS LEFT ON EARTH 1" },
+    { "t0": 25.5, "t1": 33.5, "from": 20, "to": 32, "r0": 25.6, "r1": 26.8, "time": "OCTOBER 13", "ageFrom": "PICKLE JARS LEFT ON EARTH 1", "age": "FEET LAST SEEN JULY 9" },
+    { "t0": 33.5, "t1": 41.5, "from": 32, "to": 36, "r0": 33.6, "r1": 34.5, "time": "NOVEMBER 10", "ageFrom": "FEET LAST SEEN JULY 9", "age": "BATHROOM LINE 2.1 MI · 3.4 KM" },
+    { "t0": 41.5, "t1": 49.5, "from": 36, "to": 40, "r0": 41.6, "r1": 42.6, "time": "DECEMBER 8 · DUE DATE", "ageFrom": "BATHROOM LINE 2.1 MI · 3.4 KM", "age": "DOCTORS AVAILABLE 0", "ageGoldAt": 47.1 },
+    { "t0": 49.5, "t1": 62.5, "from": 40, "to": 0, "r0": 49.6, "r1": 50.6, "time": "DECEMBER 9 · 6:40 AM", "ageFrom": "DOCTORS AVAILABLE 0", "age": "NEW HUMANS 8.2 BILLION", "ageGoldAt": 50.6 }
+  ],
+  "end": { "in": 58.0, "html": "Call your mom. Say <em>thank you</em>.", "small": "SEND THIS TO HER" },
+  "dips": [],
+  "finalFade": [57.4, 58.0],
+  "debugView": { "center": [2, 0, 1], "height": 26 }
+}

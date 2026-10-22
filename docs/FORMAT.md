@@ -1,5 +1,7 @@
 # Format bible (reverse-engineered from @tinyplanetlab, Oct 2026)
 
+> This is the **emotional** tone. For **funny** videos, the differences are in `docs/TONES.md` (house rules still apply).
+
 ## What wins
 The account went from ~480 likes ("What if" science sims) to **16K–440K likes** the day it switched to
 **family-nostalgia stories**. Top post: *"The last time your dad carried you — told by your hallway"* (440K likes, 1.8K comments).
@@ -33,8 +35,9 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
    slow push-ins, soft handheld drift, tears as thin glowing streaks, gray hair + glasses to show aging.
 7. **Sound:** soft solo piano + a *few* quiet foley sounds on story beats (door latch, soft steps, blanket tuck). Minimal — the
    user found dense/bright SFX harsh. No ticks, whooshes or chimes. Music swells at the reveal. No voiceover.
-8. **Caption:** hook + emoji / 2–3 sentence summary / question CTA + 👇 / "Send this to your ___" / exactly 5 hashtags incl. #animation.
-9. **Cadence:** 1–2 posts per day. Post a "part 2" only for concepts that clearly overperform.
+8. **End card:** fully readable for ≥ 3.5 s before the video ends (user feedback — 001's was too short).
+9. **Caption:** hook + emoji / 2–3 sentence summary / question CTA + 👇 / "Send this to your ___" / exactly 5 hashtags incl. #animation.
+10. **Cadence:** 1–2 posts per day. Post a "part 2" only for concepts that clearly overperform.
 
 ## Originality rule
 Copy the **format**, never their specific concepts (dad carrying you, grandma cooking, siblings after you move out, porch-light
@@ -44,6 +47,8 @@ visits math, best-friend handshake, kindergarten crayons, dog's life, parents th
 - `docs/reference/realityrendered.md` — @realityrendered__ (71K in ~a month): "What if you [verb] [extreme physical thing]?" science POVs.
   Best lessons: title gone by ~3–4 s, one continuous camera move, a new text line every ~5 s, **seamless loop back to frame 0**,
   subtitles centered at x≈45 % to clear IG's right-side buttons.
+- `docs/reference/whatiflab.md` — @what.if.lab_ (441K-like "gravity off for 10 seconds"): toy city + crowd, deadpan narrator
+  lines, HUD sub-line that changes every beat, scale-out to 8 billion at the end. The user's style inspiration for funny sims.
 - `docs/reference/whatifpov.md` — @whatifpov (264K-like hit in week 1): "What if your X doubled every 3 seconds?" on the viewer's own
   body/life. Lessons: cold open on the climax → quick rewind → fixed 3 s beat clock (one doubling = one shot = one line),
   a comparison line under the counter ("faster than Usain Bolt"), last frame matches frame 0 for a seamless loop.

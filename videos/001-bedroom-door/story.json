@@ -3,7 +3,7 @@
     "exposure": 1.2
   },
   "fps": 30,
-  "duration": 62.0,
+  "duration": 65.0,
   "title": {
     "html": "What your mom did every night after you <em>fell asleep</em>",
     "in": 0.3,
@@ -141,7 +141,7 @@
     },
     {
       "t0": 45.0,
-      "t1": 62.0,
+      "t1": 65.0,
       "from": 7665,
       "to": 7666,
       "r0": 51.85,

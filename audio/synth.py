@@ -805,6 +805,17 @@ def amb_room_tone(dur, rng):
     return norm(np.vstack(out))
 
 
+def amb_city_day(dur, rng, murmur=0.5, traffic=0.6):
+    """Soft daytime street: far traffic rumble + an indistinct crowd murmur (no horns, no birds - house style)."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        rumble = unit_rms(hp(lp(brown(n, rng), 220), 35)) * (1 + 0.25 * smooth_rand(n, 0.07, rng))
+        talk = unit_rms(bp(pink(n, rng), 320, 1400)) * (0.6 + 0.4 * np.abs(smooth_rand(n, 3.5, rng)))
+        out.append(traffic * rumble + murmur * 0.55 * talk)
+    return norm(np.vstack(out))
+
+
 def amb_crickets(dur, rng, count=4, density=0.6, fc_range=(3700, 4700)):
     """Distant summer crickets heard through a window: sparse chirp bouts, lowpassed, outdoor verb."""
     n = nsamp(dur)
@@ -959,6 +970,7 @@ def amb_lamp_hum(dur, rng):
 
 AMBIENCE = {
     "room_tone": amb_room_tone,
+    "city_day": amb_city_day,
     "crickets": amb_crickets,
     "clock": amb_clock,
     "rain_window": amb_rain_window,
@@ -1163,6 +1175,19 @@ def compose(M):
                 vk = interp_bp(S.get("vel", 0.25), tk) * (0.95 if k % 2 == 0 else 0.78)
                 for m in pair:
                     add(tk, m, vk * 0.75, hold=min(stp * 1.6, pedal_up(tk) - tk))
+        elif st == "bounce":
+            # comedy "oom-pah": short bass on beats 1+3, short soft chord stabs on 2+4 (staccato, no pedal smear)
+            step = S.get("step", 0.5)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.25), tk)
+                if k % 2 == 0:
+                    add(tk, V["bass"] if k % 4 == 0 else V["bass"] + 7 if V["bass"] + 7 < 60 else V["bass"], vk * 0.85, hold=stp * 0.55)
+                else:
+                    for j, m in enumerate(V["rh"][:3]):
+                        add(tk + 0.008 * j, m, vk * 0.5, hold=stp * 0.3)
         elif st == "cadence":
             for k, m in enumerate(V["lh"][:3]):
                 add(t0 + k * roll, m, v * (1.0 - 0.1 * k))
@@ -1171,7 +1196,7 @@ def compose(M):
     for mel in M.get("melody", []):
         t, m, v = mel[0], mel[1], mel[2]
         octv = len(mel) > 3 and mel[3]
-        add(t, m, v)
+        add(t, m, v, hold=mel[4] if len(mel) > 4 else None)  # 5th element = note length (s) for staccato lines
         if octv:
             add(t + 0.012, m + 12, v * 0.62)
     for s in M.get("stings", []):

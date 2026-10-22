@@ -128,3 +128,40 @@ export function makeMovingBox(w = 0.46, h = 0.36, d = 0.4) {
   mk(new THREE.BoxGeometry(w * 1.002, 0.004, 0.06), mat(0xd8c49a, 0.5), g, 0, h + 0.001, 0);
   return g;
 }
+
+// ---------------------------------------------------------------- food + baby props (video 002; reusable)
+/** Swaddled newborn: blanket capsule + tiny sleeping head. Lies along local x (head at +x). */
+export function makeBabyBundle(blanket = 0xf3d9e2, skin = 0xebb996) {
+  const g = new THREE.Group(), m = mat(blanket, 0.95);
+  const body = mk(new THREE.CapsuleGeometry(0.075, 0.16, 6, 14), m, g, -0.03, 0, 0); body.rotation.z = Math.PI / 2;
+  const hood = mk(new THREE.SphereGeometry(0.085, 16, 12), m, g, 0.11, 0.01, -0.01); hood.scale.set(1, 1, 0.9);
+  const face = mk(new THREE.SphereGeometry(0.058, 16, 12), mat(skin, 0.6), g, 0.12, 0.02, 0.04); face.scale.set(1, 1, 0.75);
+  const dark = mat(0x1b1310, 0.4);
+  for (const s of [-1, 1]) { const e = mk(new THREE.TorusGeometry(0.011, 0.003, 4, 10, Math.PI), dark, g, 0.12 + s * 0.02, 0.03, 0.083); e.rotation.z = Math.PI; }
+  return g;
+}
+export function makePickleJar() {
+  const g = new THREE.Group();
+  const glass = new THREE.MeshStandardMaterial({ color: 0xcfe8b8, roughness: 0.08, transparent: true, opacity: 0.38, depthWrite: false });
+  const jar = mk(new THREE.CylinderGeometry(0.13, 0.13, 0.34, 24), glass, g, 0, 0.17, 0); jar.castShadow = false;
+  const brine = mk(new THREE.CylinderGeometry(0.122, 0.122, 0.28, 20), new THREE.MeshStandardMaterial({ color: 0xb9c95a, roughness: 0.3, transparent: true, opacity: 0.5, depthWrite: false }), g, 0, 0.15, 0); brine.castShadow = false;
+  const pk = mat(0x5f8a2e, 0.55), R = rng(17);
+  for (let i = 0; i < 9; i++) { const a = i * 2.4, rr = 0.06 * (i % 3) / 2 + 0.02, p = mk(new THREE.CapsuleGeometry(0.025, 0.14, 4, 8), pk, g, Math.cos(a) * rr, 0.15 + (R() - 0.5) * 0.06, Math.sin(a) * rr); p.rotation.set((R() - 0.5) * 0.5, 0, (R() - 0.5) * 0.5); }
+  mk(new THREE.CylinderGeometry(0.135, 0.135, 0.05, 24), mat(0xd9b23a, 0.35, { metalness: 0.5 }), g, 0, 0.36, 0);
+  const label = new THREE.Mesh(new THREE.CylinderGeometry(0.1315, 0.1315, 0.12, 24, 1, true), new THREE.MeshStandardMaterial({ map: canvasTex(512, 96, (c, w, h) => { c.fillStyle = '#fff4d6'; c.fillRect(0, 0, w, h); c.fillStyle = '#2f7d4f'; c.font = 'bold 54px Helvetica, Arial, sans-serif'; c.textAlign = 'center'; c.fillText('PICKLES', w / 4, 66); c.fillText('PICKLES', (3 * w) / 4, 66); }), roughness: 0.7 }));
+  label.position.y = 0.17; g.add(label);
+  return g;
+}
+export function makeIceCreamTub() {
+  const g = new THREE.Group();
+  mk(new THREE.CylinderGeometry(0.11, 0.09, 0.15, 24), mat(0xf2a7bb, 0.6), g, 0, 0.075, 0);
+  mk(new THREE.CylinderGeometry(0.115, 0.115, 0.025, 24), mat(0xfaf6ee, 0.5), g, 0, 0.16, 0);
+  return g;
+}
+export function makeHotDog() {
+  const g = new THREE.Group();
+  const bun = mk(new THREE.CapsuleGeometry(0.035, 0.13, 4, 10), mat(0xd9a05b, 0.8), g); bun.rotation.z = Math.PI / 2; bun.scale.set(1, 1, 0.8);
+  const dog = mk(new THREE.CapsuleGeometry(0.02, 0.17, 4, 8), mat(0xb5462e, 0.5), g, 0, 0.03, 0); dog.rotation.z = Math.PI / 2;
+  const mus = mk(new THREE.CapsuleGeometry(0.006, 0.14, 3, 6), mat(0xf1c24a, 0.5), g, 0, 0.052, 0); mus.rotation.z = Math.PI / 2;
+  return g;
+}

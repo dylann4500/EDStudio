@@ -1,11 +1,11 @@
 {
  "title": "001 - What your mom did every night after you fell asleep (soft/minimal mix)",
- "duration": 62.0,
+ "duration": 65.0,
  "target_lufs": -15.0,
  "limiter_ceiling_dbtp": -1.5,
  "end_fade": [
-  61.9,
-  62.0
+  64.5,
+  65.0
  ],
  "stem_gain_db": {
   "music": 0.0,
@@ -35,7 +35,7 @@
   48.6,
   54,
   57.6,
-  62
+  65
  ],
  "ambience": [
   {
@@ -194,7 +194,7 @@
    "ratio": 2.5,
    "tau": 0.25
   },
-  "end": 62.0,
+  "end": 65.0,
   "chords": [
    [
     0.4,
@@ -410,7 +410,7 @@
    },
    {
     "t0": 57.6,
-    "t1": 62.0,
+    "t1": 65.0,
     "style": "cadence",
     "vel": [
      [
@@ -758,11 +758,11 @@
    },
    {
     "t0": 60.9,
-    "t1": 61.4,
+    "t1": 64.0,
     "chord": "F",
     "level": 0.5,
     "attack": 0.5,
-    "release": 0.55
+    "release": 0.9
    }
   ],
   "ducks": [],
