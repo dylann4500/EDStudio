@@ -42,4 +42,6 @@ visits math, best-friend handshake, kindergarten crayons, dog's life, parents th
 - `docs/reference/realityrendered.md` — @realityrendered__ (71K in ~a month): "What if you [verb] [extreme physical thing]?" science POVs.
   Best lessons: title gone by ~3–4 s, one continuous camera move, a new text line every ~5 s, **seamless loop back to frame 0**,
   subtitles centered at x≈45 % to clear IG's right-side buttons.
-- `docs/reference/whatifpov.md` — @whatifpov (if present).
+- `docs/reference/whatifpov.md` — @whatifpov (264K-like hit in week 1): "What if your X doubled every 3 seconds?" on the viewer's own
+  body/life. Lessons: cold open on the climax → quick rewind → fixed 3 s beat clock (one doubling = one shot = one line),
+  a comparison line under the counter ("faster than Usain Bolt"), last frame matches frame 0 for a seamless loop.
