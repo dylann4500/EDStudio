@@ -70,6 +70,11 @@ videos/NNN-slug/
   Everyone on the sidewalk stands at `y = floor = SIDEWALK_H`. Vertical frames are narrow (~3 m wide at 6 m): shoot crowds
   side-on from across the street, or along the sidewalk with a long lens (fov 30–40).
 - `engine/sky.js`: painted night skies + weather particles.
+- `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
+  `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
+- **Kids:** `makePerson({headR: 0.175, ...})` + `rig.root.scale.setScalar(0.62)`. Walking: pass `dist/scale`. Sitting: after `applyPose`,
+  set `root.position.y = pose.y * scale` (else feet float). See 003 `applyScaled`.
+- **Two sets in one video:** build both, toggle `set.root.visible` per section (hidden lights don't render). See 003.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
@@ -92,7 +97,10 @@ videos/NNN-slug/
 - **Never append code after a `//` comment on the same line** when editing with scripts/sed — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
+  The classroom door swings flat against the inside wall instead, so the camera sees people come through the opening (003).
   Use `--cam top` to verify. People standing in the hallway stay at z > 0.25 (outside the door's swing arc).
+- **`Blanket` only drapes toward +z** (it needs `zHead > zFoot`). The bedroom bed's foot is at +z, so `zFoot: B.z1` gives a hanging sheet
+  instead of a blanket (001 has this bug). Fix per video: `blanket.mesh.scale.z = -1` and pass negated z's (zFoot 0.5, zHead 1.93, body zA/zB > 0).
 - **Black rectangles** = NaN pixels smeared by bloom. core.js scrubs them, but also fix the source (degenerate normals: clamp them).
 - **Faces need light:** the camera carries a soft fill (story.look.fill, default 0.5). Backlit silhouettes are fine in doorways.
 - **Text safe zones:** opening title centered (alone), HUD top-left (y≈470, never right side — IG buttons), subtitles y≈1340, nothing below y≈1450.

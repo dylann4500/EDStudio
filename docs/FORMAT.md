@@ -44,6 +44,8 @@ Copy the **format**, never their specific concepts (dad carrying you, grandma co
 visits math, best-friend handshake, kindergarten crayons, dog's life, parents the week after you move out).
 
 ## Other reference accounts
+- `docs/reference/simplysimulated.md` — @simplysimulated (841K likes on "what if all men disappeared?"): a countdown, then a time-stamped
+  consequence ladder (+10 SEC … +25 YEARS). The user likes it. In house style, keep the ladder in the HUD time line and follow one human thread through it (003).
 - `docs/reference/realityrendered.md` — @realityrendered__ (71K in ~a month): "What if you [verb] [extreme physical thing]?" science POVs.
   Best lessons: title gone by ~3–4 s, one continuous camera move, a new text line every ~5 s, **seamless loop back to frame 0**,
   subtitles centered at x≈45 % to clear IG's right-side buttons.
