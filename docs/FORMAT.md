@@ -25,7 +25,7 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
    An object can still be the silent witness in the visuals (same room across decades) — just never as text.
 3. **HUD (small, top-left, dims when idle):** small-caps label + big serif number that *means something* (nights, visits left, days until, height, age),
    plus a time line and an age line. It rolls fast across time skips and lands on the final beat (+1, 0, gold flash).
-4. **Subtitles:** small italic serif, second person ("you/your"), one short line at a time, hyper-specific details
+4. **Subtitles:** small italic serif with a strong shadow + soft dark backdrop (readability first), second person ("you/your"), one short line at a time, hyper-specific details
    ("eleven times", "24 crayons", "no onions", "41 pictures").
 5. **Structure (60–80 s):** ritual established → repetition across ages (2–4 eras) → the change (you leave / grow up / stop) →
    they keep doing it anyway → time skip → reversal/reunion that echoes shot 1 → one quiet final line.

@@ -18,12 +18,12 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 /* Opening title: the main question, centered, alone on screen. Nothing else shows until it's gone (core.js). */
 .title { position: absolute; top: 50%; left: 70px; right: 70px; transform: translateY(-50%); text-align: center;
   font-family: 'Newsreader'; font-weight: 300; font-size: 78px; line-height: 1.14; letter-spacing: -0.005em;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5), 0 0 16px rgba(0,0,0,.3); }
+  text-shadow: 0 2px 4px rgba(0,0,0,.85), 0 0 14px rgba(0,0,0,.65), 0 0 32px rgba(0,0,0,.45); }
 .title em { font-style: normal; color: #f3c46b; }
 
 /* HUD: compact, top-left, out of the action. Dims when idle; brightens when the number changes (core.js). */
 .hud { position: absolute; left: 64px; top: 468px; font-family: 'Inter';
-  text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 0 10px rgba(0,0,0,.3); }
+  text-shadow: 0 2px 4px rgba(0,0,0,.85), 0 0 14px rgba(0,0,0,.65), 0 0 32px rgba(0,0,0,.45); }
 .hud .label { font-weight: 600; font-size: 16px; letter-spacing: .17em; color: rgba(255,255,255,.9); }
 .hud .num { font-family: 'Newsreader'; font-weight: 300; font-size: 60px; line-height: 1.02; margin: 2px 0 4px -2px; transform-origin: left center; }
 .hud .small { font-weight: 500; font-size: 14px; letter-spacing: .15em; color: rgba(255,255,255,.8); line-height: 1.6; }
@@ -32,7 +32,16 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 /* Subtitles: small italic serif, lower third, subtle shadow (like the reference accounts). */
 .sub { position: absolute; top: 1340px; left: 80px; right: 80px; text-align: center;
   font-family: 'Newsreader'; font-style: italic; font-weight: 400; font-size: 40px; line-height: 1.25;
-  text-shadow: 0 1px 3px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.28); }
+  text-shadow: 0 2px 4px rgba(0,0,0,.85), 0 0 14px rgba(0,0,0,.65), 0 0 32px rgba(0,0,0,.45); }
+
+
+/* Soft dark backdrop behind every text block (readability on bright doorways / lamps). */
+.title::before, .sub::before, .hud::before, .end::before { content: ''; position: absolute; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(0,0,0,.5), rgba(0,0,0,.28) 55%, rgba(0,0,0,0)); }
+.title::before { left: -60px; right: -60px; top: -70px; bottom: -70px; }
+.sub::before { left: -40px; right: -40px; top: -45px; bottom: -45px; }
+.hud::before { left: -70px; top: -50px; width: 520px; height: 230px; }
+.end::before { left: -60px; right: -60px; top: -60px; bottom: -60px; }
 
 #fade { position: absolute; inset: 0; background: #000; opacity: 0; }
 .end { position: absolute; top: 820px; left: 80px; right: 80px; text-align: center;

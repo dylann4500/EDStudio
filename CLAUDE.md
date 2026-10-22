@@ -54,7 +54,7 @@ videos/NNN-slug/
   subtitles, no other text while it's up (the engine hides them until `title.out`). Then the story begins.
 - **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.
 - **Persistent text stays out of the way.** The HUD is small, top-left, and dims when idle (brightens only when the number changes).
-  Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third with a subtle shadow.
+  Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third. **All text has a strong shadow + a soft dark backdrop** (engine/index.html) so it reads over bright areas — never remove it.
 - **Sound is minimal and soft.** Piano-led, few quiet low-passed foley hits only on story beats. No ticks/whooshes/chimes.
   See `audio/README.md` → House style. If anything sounds harsh, cut it rather than fix it.
 - Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes).
@@ -77,7 +77,7 @@ videos/NNN-slug/
 - [ ] Every subtitle readable (≥ 0.3 s per word), never over a face, never overlapping the HUD.
 - [ ] HUD numbers are correct math and change across the time skip; final value lands with the emotional beat.
 - [ ] No character clips through doors/furniture; props stay in hands; no popping between shots unless it's a cut.
-- [ ] No black blocks, flicker, or blown-out white areas behind text.
+- [ ] No black blocks or flicker; every text block clearly readable (shadow + backdrop present, nothing blown-out behind it).
 - [ ] Audio: minimal + soft (house style), the few cues land on actions, music swells at the reveal, ends clean; ≈ −15 LUFS.
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
 - [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", exactly 5 hashtags incl. #animation.
