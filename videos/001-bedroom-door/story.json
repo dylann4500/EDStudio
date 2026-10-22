@@ -1,0 +1,224 @@
+{
+  "look": {
+    "exposure": 1.2
+  },
+  "fps": 30,
+  "duration": 62.0,
+  "title": {
+    "html": "What your mom did every night after you <em>fell asleep</em>",
+    "in": 0.25,
+    "out": 5.7
+  },
+  "tag": {
+    "text": "TOLD BY YOUR BEDROOM DOOR",
+    "in": 0.7,
+    "out": 5.7
+  },
+  "subs": [
+    [
+      3.9,
+      6.0,
+      "Night one. She checked on you eleven times."
+    ],
+    [
+      6.4,
+      9.0,
+      "She stood there just to watch you breathe."
+    ],
+    [
+      9.3,
+      11.75,
+      "Tired or not. Every single night."
+    ],
+    [
+      12.6,
+      15.9,
+      "At six, she picked your bunny up off the floor…"
+    ],
+    [
+      16.1,
+      19.7,
+      "…and tucked it back under your arm."
+    ],
+    [
+      20.5,
+      23.9,
+      "At fifteen, you stopped saying goodnight."
+    ],
+    [
+      24.2,
+      27.75,
+      "She kept saying it anyway."
+    ],
+    [
+      28.7,
+      32.1,
+      "The night you moved out, she opened the door anyway."
+    ],
+    [
+      32.5,
+      36.7,
+      "“Habit,” she told your dad."
+    ],
+    [
+      37.5,
+      41.0,
+      "She kept checking a room nobody slept in."
+    ],
+    [
+      41.3,
+      44.75,
+      "1,095 more nights."
+    ],
+    [
+      45.7,
+      48.5,
+      "Then one December, the bed wasn’t empty."
+    ],
+    [
+      49.0,
+      53.8,
+      "She tucked you in like you were three days old."
+    ],
+    [
+      54.6,
+      57.5,
+      "“Goodnight, baby.”"
+    ]
+  ],
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 6.0,
+      "from": 0,
+      "to": 1,
+      "r0": 3.95,
+      "r1": 4.05,
+      "time": "11:52 PM",
+      "age": "FIRST NIGHT HOME"
+    },
+    {
+      "t0": 6.0,
+      "t1": 12.0,
+      "from": 1,
+      "to": 365,
+      "r0": 9.5,
+      "r1": 11.6,
+      "time": "3:10 AM",
+      "age": "YOU'RE 1",
+      "ageFrom": "FIRST NIGHT HOME"
+    },
+    {
+      "t0": 12.0,
+      "t1": 20.0,
+      "from": 2190,
+      "to": 2190,
+      "time": "9:41 PM",
+      "age": "YOU'RE 6"
+    },
+    {
+      "t0": 20.0,
+      "t1": 28.0,
+      "from": 5475,
+      "to": 5475,
+      "time": "12:37 AM",
+      "age": "YOU'RE 15"
+    },
+    {
+      "t0": 28.0,
+      "t1": 37.0,
+      "from": 6570,
+      "to": 6571,
+      "r0": 29.0,
+      "r1": 29.1,
+      "time": "11:52 PM",
+      "age": "YOU MOVED OUT TODAY"
+    },
+    {
+      "t0": 37.0,
+      "t1": 45.0,
+      "from": 6571,
+      "to": 7665,
+      "r0": 37.3,
+      "r1": 44.4,
+      "time": "11:52 PM",
+      "age": "ROOM EMPTY"
+    },
+    {
+      "t0": 45.0,
+      "t1": 62.0,
+      "from": 7665,
+      "to": 7666,
+      "r0": 51.85,
+      "r1": 51.95,
+      "time": "11:52 PM · DEC 23",
+      "age": "YOU'RE HOME",
+      "ageGoldAt": 51.9
+    }
+  ],
+  "hudLabel": "NIGHTS SHE CHECKED ON YOU",
+  "end": {
+    "in": 60.9,
+    "html": "Text your mom <em>goodnight</em> tonight.",
+    "small": "SEND THIS TO HER"
+  },
+  "dips": [
+    [
+      0.0,
+      0.0,
+      0.45
+    ],
+    [
+      11.85,
+      12.0,
+      12.15
+    ],
+    [
+      19.85,
+      20.0,
+      20.15
+    ],
+    [
+      27.85,
+      28.0,
+      28.15
+    ],
+    [
+      36.85,
+      37.0,
+      37.15
+    ],
+    [
+      38.9,
+      39.0,
+      39.1
+    ],
+    [
+      40.9,
+      41.0,
+      41.1
+    ],
+    [
+      42.9,
+      43.0,
+      43.1
+    ],
+    [
+      44.85,
+      45.0,
+      45.15
+    ]
+  ],
+  "finalFade": [
+    60.3,
+    60.9
+  ],
+  "debugView": {
+    "center": [
+      -0.8,
+      0,
+      -0.3
+    ],
+    "height": 7.5
+  }
+}
