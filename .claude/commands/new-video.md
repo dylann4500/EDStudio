@@ -16,6 +16,8 @@ Follow `CLAUDE.md` exactly. Steps:
    Respect the originality rule. Emotional what-ifs (003, 004): keep ONE human thread through the consequence ladder
    (a ritual the hero repeats) and end on a reunion beat that flips the HUD counter (004: PEOPLE ON EARTH 8.2 B → 1 → 2). If a reference video link is given, sample frames every ~5 s in the browser
    (TikTok: dismiss the login modal, seek `video.currentTime`) and save the takeaways to `docs/reference/<account>.md`.
+   World-scale what-ifs (the whole planet, geopolitics, science — 005): follow `docs/WORLD-WHATIF.md` (war room + hologram
+   globe, `engine/globe.js`) and web-search every real number for the latest sourced figure.
 3. Work in your own worktree/branch if other sessions may be active (CLAUDE.md → Parallel sessions). Pick the next free number
    (`git fetch`, check `videos/`, `origin/main` and `.claude/worktrees/`) and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` / `--from 002-everyone-pregnant` to fork a reference).
    If the story needs a new location, build `engine/sets/<name>.js` modeled on `bedroom.js` (indoor) or `street.js` (outdoor).

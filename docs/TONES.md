@@ -1,6 +1,6 @@
 # Tones: emotional vs funny
 
-Every video declares its tone in `story.json` → `"tone": "emotional" | "funny"`. Both tones use the same engine,
+Every video declares its tone in `story.json` → `"tone": "emotional" | "funny" | "world"`. Both tones use the same engine,
 the same text kit (centered serif question, small top-left HUD, italic subtitles with shadow + backdrop) and the
 same house rules (CLAUDE.md). What changes is the **story shape, the timing, the acting, the music and the ending**.
 
@@ -45,3 +45,9 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 - Funny "what if" crowd sims: `docs/reference/whatiflab.md` (@what.if.lab_, 441K-like gravity reel), `docs/reference/whatifpov.md`.
 - Emotional family stories: `docs/FORMAT.md` (@tinyplanetlab).
 - Science/scale POVs: `docs/reference/realityrendered.md`.
+
+## World: big thought experiments about the whole planet
+`"tone": "world"` — "What if every nuclear weapon disappeared?" (`videos/005-no-nukes`). A war room with a hologram Earth whose
+dots ARE the HUD number, one human-scale witness, Day-1 relief → the consequence nobody expected → time skip → the number comes
+back by one → a debate question on the end card. Real numbers only, sourced and current; neutral on real countries.
+Full playbook: **`docs/WORLD-WHATIF.md`**.

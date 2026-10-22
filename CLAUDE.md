@@ -3,6 +3,7 @@
 You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in two tones:
 - **emotional** (@tinyplanetlab style, `videos/001-bedroom-door`): toy-like characters, warm night lighting, a counter, a time skip, a gut-punch ending.
 - **funny** ("What if…" crowd sims, `videos/002-everyone-pregnant`): a named everyman + a crowd in sync, deadpan subtitles, one gag per era, a warm last beat.
+- **world** (planet-scale thought experiments, `videos/005-no-nukes`): hologram globe whose dots are the HUD number, real sourced facts, a debate-question end card (`docs/WORLD-WHATIF.md`).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them.
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
 Everything is procedural code: **Three.js scene → headless Chrome → ffmpeg**. No paid tools, no downloads at render time.
@@ -83,6 +84,10 @@ videos/NNN-slug/
 - `engine/props.js` `makeFlashlight({length, radius})`: `aim(pos, target)`, `setOn(v, beamOpacity)`. The beam is a shader cone
   (fades along its length) — a texture gradient on an open cone read as a solid grey tube with an end cap.
 - **Two sets in one video:** build both, toggle `set.root.visible` per section (hidden lights don't render). See 003.
+- `engine/globe.js` (world-scale what-ifs): `makeGlobe({r})` hologram Earth (Natural Earth borders baked in `engine/data/world110.js`,
+  no network), `makeDots(globe, [{lat,lon}])` instanced glowing dots (`set(i, scale)`/`setAll(fn)` + `commit()`; 12k+ is fine),
+  `makeBars` (glowing columns), `scatter(rng, sites, n)`, `faceLon(lon)`. `engine/sets/warroom.js`: round war room + table + globe
+  (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
 
 ## User's taste (direct feedback — non-negotiable)
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
@@ -103,6 +108,11 @@ videos/NNN-slug/
 
 ## Hard-won rules (each one cost a debugging round)
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
+- **Real-world facts must be current and sourced** (web-search the latest edition: SIPRI/IISS/IAEA/UN…); cite in the shots.js header +
+  a comment in caption.md. 005's first draft used last year's warhead total.
+- **Emissive "screens/holograms" use Lambert or Basic materials**, not Standard: a warm key light gives a Standard material's dark
+  areas a tan specular haze (005's globe oceans turned brown).
+- **Hide characters that would only appear as cropped heads** at a frame edge in close-ups (set `root.visible` per shot).
 - **Never append code after a `//` comment on the same line** when editing with scripts/sed — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
