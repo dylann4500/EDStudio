@@ -48,6 +48,13 @@ videos/NNN-slug/
   **New sets:** copy bedroom.js's structure into `engine/sets/<name>.js` (kitchen, porch, car, living room…); export `DIMS` + handles.
 - `engine/sky.js`: painted night skies + weather particles.
 
+## User's taste (direct feedback — non-negotiable)
+- **Persistent text stays out of the way.** The HUD is small, top-left, and dims when idle (brightens only when the number changes).
+  Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third with a subtle shadow.
+- **Sound is minimal and soft.** Piano-led, few quiet low-passed foley hits only on story beats. No ticks/whooshes/chimes.
+  See `audio/README.md` → House style. If anything sounds harsh, cut it rather than fix it.
+- Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes).
+
 ## Hard-won rules (each one cost a debugging round)
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
 - **Never append code after a `//` comment on the same line** when editing with scripts/sed — it silently comments the code out
@@ -56,7 +63,7 @@ videos/NNN-slug/
   Use `--cam top` to verify. People standing in the hallway stay at z > 0.25 (outside the door's swing arc).
 - **Black rectangles** = NaN pixels smeared by bloom. core.js scrubs them, but also fix the source (degenerate normals: clamp them).
 - **Faces need light:** the camera carries a soft fill (story.look.fill, default 0.5). Backlit silhouettes are fine in doorways.
-- **Text safe zones:** title in the top 25 %, HUD on the left (never right — IG buttons), nothing important below y≈1450.
+- **Text safe zones:** title in the top 25 %, HUD top-left (y≈470, never right side — IG buttons), subtitles y≈1340, nothing below y≈1450.
 - **Claude Code sandbox:** headless Chrome and `git` writes into `.git/` are blocked by the macOS sandbox → run those commands
   with the sandbox disabled. `npm install` needs `--cache ./.npm-cache` inside the sandbox.
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
@@ -67,6 +74,6 @@ videos/NNN-slug/
 - [ ] HUD numbers are correct math and change across the time skip; final value lands with the emotional beat.
 - [ ] No character clips through doors/furniture; props stay in hands; no popping between shots unless it's a cut.
 - [ ] No black blocks, flicker, or blown-out white areas behind text.
-- [ ] Audio: cues land on actions (door, footsteps, props), music swells at the reveal, ends clean; ≈ −14 LUFS.
+- [ ] Audio: minimal + soft (house style), the few cues land on actions, music swells at the reveal, ends clean; ≈ −15 LUFS.
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
 - [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", exactly 5 hashtags incl. #animation.

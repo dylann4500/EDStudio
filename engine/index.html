@@ -18,25 +18,24 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 /* Title: serif, one keyword in gold via <em>. Keep it inside the top 25% (IG UI covers the bottom ~22%). */
 .title { position: absolute; top: 170px; left: 60px; right: 60px; text-align: center;
   font-family: 'Newsreader'; font-weight: 300; font-size: 74px; line-height: 1.13; letter-spacing: -0.005em;
-  text-shadow: 0 2px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.4); }
+  text-shadow: 0 1px 3px rgba(0,0,0,.5), 0 0 16px rgba(0,0,0,.3); }
 .title em { font-style: normal; color: #f3c46b; }
 .tag { position: absolute; top: 380px; left: 0; right: 0; text-align: center; }
 .tag span { display: inline-block; font-family: 'Inter'; font-weight: 600; font-size: 21px; letter-spacing: .22em;
   padding: 9px 18px 8px 22px; background: rgba(20,16,14,.55); border-radius: 4px; color: rgba(255,255,255,.88); }
 
-/* HUD: left side, small-caps label + big serif counter + two small lines. Never on the right (IG buttons). */
-.hud { position: absolute; left: 68px; top: 800px; font-family: 'Inter'; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
-.hud::before { content: ''; position: absolute; left: -120px; top: -90px; width: 560px; height: 360px; z-index: -1;
-  background: radial-gradient(closest-side, rgba(0,0,0,.42), rgba(0,0,0,0)); }  /* keeps the HUD readable over bright doorways */
-.hud .label { font-weight: 600; font-size: 20px; letter-spacing: .17em; color: rgba(255,255,255,.86); }
-.hud .num { font-family: 'Newsreader'; font-weight: 300; font-size: 88px; line-height: 1.02; margin: 4px 0 6px -3px; transform-origin: left center; }
-.hud .small { font-weight: 500; font-size: 18px; letter-spacing: .15em; color: rgba(255,255,255,.78); line-height: 1.6; }
+/* HUD: compact, top-left, out of the action. Dims when idle; brightens when the number changes (core.js). */
+.hud { position: absolute; left: 64px; top: 468px; font-family: 'Inter';
+  text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 0 10px rgba(0,0,0,.3); }
+.hud .label { font-weight: 600; font-size: 16px; letter-spacing: .17em; color: rgba(255,255,255,.9); }
+.hud .num { font-family: 'Newsreader'; font-weight: 300; font-size: 60px; line-height: 1.02; margin: 2px 0 4px -2px; transform-origin: left center; }
+.hud .small { font-weight: 500; font-size: 14px; letter-spacing: .15em; color: rgba(255,255,255,.8); line-height: 1.6; }
 .hud .gold { color: #f3c46b; }
 
-/* Subtitles: small italic serif, centered, second person. */
-.sub { position: absolute; top: 1250px; left: 70px; right: 70px; text-align: center;
-  font-family: 'Newsreader'; font-style: italic; font-weight: 400; font-size: 44px; line-height: 1.25;
-  text-shadow: 0 2px 12px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.6); }
+/* Subtitles: small italic serif, lower third, subtle shadow (like the reference accounts). */
+.sub { position: absolute; top: 1340px; left: 80px; right: 80px; text-align: center;
+  font-family: 'Newsreader'; font-style: italic; font-weight: 400; font-size: 40px; line-height: 1.25;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.28); }
 
 #fade { position: absolute; inset: 0; background: #000; opacity: 0; }
 .end { position: absolute; top: 820px; left: 80px; right: 80px; text-align: center;

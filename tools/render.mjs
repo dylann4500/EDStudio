@@ -79,7 +79,7 @@ if (stills) {
   const silent = path.join(outDir, preview ? 'preview.mp4' : 'silent.mp4');
   const ffmpeg = await findFfmpeg();
   const ff = spawn(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-preset', preview ? 'veryfast' : 'slow', '-crf', preview ? '24' : '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', silent], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-c:v', 'libx264', '-preset', preview ? 'veryfast' : 'medium', '-crf', preview ? '24' : '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', silent], { stdio: ['pipe', 'inherit', 'inherit'] });
   const n = Math.round((t1 - t0) * fps), start = Date.now();
   for (let i = 0; i < n; i++) {
     const buf = await frameAt(t0 + i / fps);

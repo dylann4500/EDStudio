@@ -21,7 +21,7 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
 ## The template
 1. **Title (top, serif, one keyword in gold):** "What your [person] did/does [moment]" or "The last time [X]". ≤ 12 words.
 2. **TOLD BY YOUR [OBJECT]** tag (optional, strongest): an inanimate witness that saw decades — door, hallway, kitchen table, car seat.
-3. **HUD (left):** small-caps label + big serif number that *means something* (nights, visits left, days until, height, age),
+3. **HUD (small, top-left, dims when idle):** small-caps label + big serif number that *means something* (nights, visits left, days until, height, age),
    plus a time line and an age line. It rolls fast across time skips and lands on the final beat (+1, 0, gold flash).
 4. **Subtitles:** small italic serif, second person ("you/your"), one short line at a time, hyper-specific details
    ("eleven times", "24 crayons", "no onions", "41 pictures").
@@ -29,8 +29,8 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
    they keep doing it anyway → time skip → reversal/reunion that echoes shot 1 → one quiet final line.
 6. **Look:** toy-like characters (big heads, dot eyes, capsule limbs), cozy rooms, warm practical light vs cool moonlight,
    slow push-ins, soft handheld drift, tears as thin glowing streaks, gray hair + glasses to show aging.
-7. **Sound:** soft solo piano + intimate foley (door creaks, socks on wood, blanket rustles, clock ticks), counter ticks during rolls,
-   whooshes on time skips, music swells at the reveal. No voiceover.
+7. **Sound:** soft solo piano + a *few* quiet foley sounds on story beats (door latch, soft steps, blanket tuck). Minimal — the
+   user found dense/bright SFX harsh. No ticks, whooshes or chimes. Music swells at the reveal. No voiceover.
 8. **Caption:** hook + emoji / 2–3 sentence summary / question CTA + 👇 / "Send this to your ___" / exactly 5 hashtags incl. #animation.
 9. **Cadence:** 1–2 posts per day. Post a "part 2" only for concepts that clearly overperform.
 

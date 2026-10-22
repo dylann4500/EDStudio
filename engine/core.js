@@ -187,7 +187,12 @@ export function createOverlay(story) {
     const seg = segs.find((s) => t >= s.t0 && t < s.t1) || segs[segs.length - 1];
     if (seg) {
       const endT = story.finalFade ? story.finalFade[0] : 1e9;
-      hud.style.opacity = smooth((t - 0.5) / 0.4) * (1 - smooth((t - endT) / 0.3));
+      // "only bright when relevant": full opacity at a segment start and while the number rolls, ~55% otherwise
+      const near = (a, b) => (t < a ? smooth(1 - (a - t) / 0.4) : t > b ? smooth(1 - (t - b) / 1.0) : 1);
+      let act = near(seg.t0, seg.t0 + 1.6);
+      if (seg.r0 !== undefined) act = Math.max(act, near(seg.r0 - 0.2, seg.r1 + 0.6));
+      if (seg.ageGoldAt !== undefined) act = Math.max(act, near(seg.ageGoldAt, seg.ageGoldAt + 1.6));
+      hud.style.opacity = smooth((t - 0.5) / 0.4) * (1 - smooth((t - endT) / 0.3)) * lerp(story.hudIdleOpacity ?? 0.55, 1, act);
       let n = seg.from, u = 1;
       if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, easeIO(u)); }
       num.textContent = fmt(n);
