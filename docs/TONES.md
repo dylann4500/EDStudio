@@ -68,3 +68,19 @@ different places instead of hovering around one scene**: every beat = a new loca
   question card ("What would you invent first?").
 - Sound: its own identity — synth plucks + echo, a scene-specific bed per beat, synced foley (see audio/README.md → Sound identity).
 - Multi-set technique: CLAUDE.md → Hard-won rules → "Montage across many locations". Reuse every set in `engine/sets/`.
+
+## What-if ripple ladder (`"tone": "whatif"`, `videos/006-memory-loss`)
+A sibling of **montage** (007): same many-places ladder, but each beat is a *consequence* with a real mechanism, the HUD number
+crashes and climbs back, and the mix is sound-design-led (no score until the ending).
+User steer (after 003): global what-ifs should show **the resounding effects in many places**, not one character's angle.
+Reference: `docs/reference/simplysimulated.md` (841K likes). Not every video has to be emotional.
+1. **One consequence per place, ~6 s each.** 006: New York street (everyone stops at 9:00) → the same street, two strangers
+   (+10 s) → Seoul, cars stopped at a green light (+30 s) → Sydney bedroom (+2 min) → a phone's Face ID (+1 h) → "Do you know me?"
+   posters (+1 day) → school for adults (+1 week) → soldiers shake hands (+1 month) → old couple on a bench (+1 year).
+2. **HUD = a number that is the plot**, time line = the stamp ("+1 HOUR"), second line = the place ("SEOUL · 11:00 PM").
+   The number crashes at SECOND 0 and climbs back as the world adapts (006: PEOPLE WHO KNOW THEIR OWN NAME 8.2 B → 0 → 8.2 B).
+3. **Use real mechanisms + one sharp line per beat.** Amnesia keeps language and skills ("Nobody forgets how to talk, or walk.
+   Only who they are."), Face ID still works ("Face ID knows who you are. You don't."). Comment bait comes from these.
+4. **Reuse sets across beats**; dress them per beat (posters, chairs, cars, season, time of day). Four sets made nine places.
+5. **End on one small human beat + a question end card** ("Who's the first person you'd *look for*?" / SEND THIS TO THEM).
+6. **Sound-design-led:** the moment is subtractive (every voice + footstep stops at 9:00, traffic keeps going). See audio/README.md.

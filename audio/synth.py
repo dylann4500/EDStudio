@@ -871,6 +871,21 @@ def sfx_flash_swish(rng, dur=0.2, peak=0.07):
 # =============================================================================
 
 
+def sfx_car_horn(rng, dur=0.42, pitch=1.0, distance=1.0):
+    """A far-off car horn (two detuned reedy tones), low-passed + outdoor verb so it sits behind the scene (006)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    x = np.zeros(n)
+    for f in (412.0 * pitch, 518.0 * pitch):
+        ph = 2 * np.pi * f * t + 0.003 * np.sin(2 * np.pi * 5.5 * t)
+        x += np.tanh(2.2 * np.sin(ph)) + 0.25 * np.sin(2 * ph)
+    env = np.minimum(1.0, t / 0.012) * np.minimum(1.0, (dur - t) / 0.07)
+    x = lp(hp(x * env, 180), 2400 / max(1.0, distance), 2)
+    x = with_tail(x, 1.2)
+    x = x + 3.0 * convolve(x, outdoor_ir())          # (2, n)
+    return Sound(norm(x, 0.9), anchor=0.0, onsets=[0.0])
+
+
 def amb_room_tone(dur, rng):
     n = nsamp(dur)
     out = []
@@ -1718,6 +1733,7 @@ SFX = {
     "gold_chime": (sfx_gold_chime, "ui"),
     "whoosh_timeskip": (sfx_whoosh_timeskip, "ui"),
     "flash_swish": (sfx_flash_swish, "ui"),
+    "car_horn": (sfx_car_horn, "prop"),
 }
 
 # =============================================================================

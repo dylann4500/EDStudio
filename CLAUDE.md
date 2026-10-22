@@ -1,10 +1,13 @@
 # EDStudio — instructions for AI agents (Claude Code, etc.)
 
-You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in two tones:
+You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several tones (all listed in `docs/TONES.md`):
 - **emotional** (@tinyplanetlab style, `videos/001-bedroom-door`): toy-like characters, warm night lighting, a counter, a time skip, a gut-punch ending.
 - **funny** ("What if…" crowd sims, `videos/002-everyone-pregnant`): a named everyman + a crowd in sync, deadpan subtitles, one gag per era, a warm last beat.
 - **world** (planet-scale thought experiments, `videos/005-no-nukes`): hologram globe whose dots are the HUD number, real sourced facts, a debate-question end card (`docs/WORLD-WHATIF.md`).
-Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them.
+- **whatif** (global "What if everyone…" ripple ladder, `videos/006-memory-loss`): one consequence per place, time-stamped in the HUD
+  (SECOND 0 → +1 YEAR), many sets/cities, sound-design-led audio, a small human beat to end on.
+Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
+ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
 Everything is procedural code: **Three.js scene → headless Chrome → ffmpeg**. No paid tools, no downloads at render time.
 
@@ -92,6 +95,8 @@ videos/NNN-slug/
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
   Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
+- **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
+  and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
@@ -110,13 +115,15 @@ videos/NNN-slug/
 - Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes, incl. whatiflab.md).
 - **The end card must stay up long enough to read:** fully visible for **≥ 3.5 s** (set `duration ≥ end.in + 4.0`).
   001 shipped with ~1 s and the user called it out. `tools/render.mjs` warns when it's too short.
-- **Tone is per video** (emotional / funny / world, `docs/TONES.md`). Funny still means minimal/soft sound and kind humor.
+- **Tone is per video** (emotional / funny / world / montage / whatif, `docs/TONES.md`). Funny still means minimal/soft sound and kind humor.
   **Each tone has its own vibe and harness — only emotional videos sound sad/nostalgic.** Never copy 001's cue sheet into
   another tone (user, on 005's first score: "why is the music sad… it doesn't fit"). World what-ifs = curious explainer
   energy (mallet ostinato, major/lydian, driving pulse, open ending) — see audio/README.md.
 - **Scene variety (all videos):** cut between many distinct locations, and **show what each subtitle says** — "countries build
   armies" → soldiers marching, tanks leaving a hangar; never keep returning to one set (user, on 005's first cut). Plan 4+
   locations per video; reuse `engine/sets/*` from earlier videos (they can all live in one scene, one `root` visible per shot).
+- **Sound-design-led mixes are allowed** (user noticed top what-if accounts often skip music): places carry the sound (crowd,
+  traffic, room tone, a far horn), a pad bed ~9 dB under the ambience, piano only for the ending. Still soft. See audio/README.md.
 
 - **No flickering, pulsing, dimming or popping text.** Every text element fades in once and out once; the HUD stays at a steady
   opacity the whole time (numbers may roll, nothing else changes). Anything that blinks or breathes is distracting.
@@ -157,6 +164,9 @@ videos/NNN-slug/
 - Big painted skies on a 700 m dome need 4096-px textures and soft round stars (2-px squares showed as a grid at fov 50; big stars read as snow).
 - **After resolving a merge in a shared file, run `node --check`** (copy to `.mjs` first). Two sessions appending to props.js lost a
   closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` before picking NNN — numbers get claimed in worktrees before they're pushed.
+- **Readable props (phone screens, posters, signs)** must sit in the clear band: ≈38–65 % of frame height and right of x≈40 %,
+  so the HUD (top-left) and subtitles (≈70 %) never cover their text. Phones read best as a POV shot: camera 0.17 m in front of
+  the face, aimed at the screen (006). Keep any line of card text above the subtitle band.
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)

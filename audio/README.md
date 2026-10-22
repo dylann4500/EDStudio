@@ -62,3 +62,13 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   `{sound: "tick_roll", t0, t1, peak_rate}`.
 - `music`: `instrument` (piano|pluck|bell), `echo`, `chords [[t, "F"], [t, "C/E"], ...]`, `sections [{t0, t1, style: held|arp|thin|pulse|swell|sparse|cadence|bounce, vel, ...}]`,
   `melody [[t, midi, vel, octave_double?]]`, `pad`, `stings`, `eq`, `auto_duck`.
+
+## Sound-design-led mix (whatif tone, 006) — little or no music
+- The **places** carry the sound: `city_day` split into a voices layer (`murmur 1, traffic 0`) and a traffic layer (`murmur 0`)
+  so the crowd can go silent on a beat while the street keeps rumbling; `room_tone` indoors; `wind`, `dry_leaves`.
+- Music = a pad bed only (`pad` level ~0.25, leveler `ratio 1.0`), ~9 dB under the ambience; piano `sections` start on the last
+  beats. Stem gains that balanced it: `music -16, sfx -2, amb +4` → LRA ≈ 6–8 LU, every shot window −16…−19 LUFS, ending −13.
+  Check the per-shot table: if the ending sits > 4 dB above the ladder (LRA > 12), pull the music stem down.
+- New SFX: `car_horn` (`dur`, `pitch`, `distance` → darker + more verb). Use 1–2, far away, ≤ −31 dB.
+- Don't put an event at t < 0.03 s (verify() slices a window before the cue and crashes on an empty array).
+- Generate the sheet with a script (`videos/006-memory-loss/make_cues.py`).
