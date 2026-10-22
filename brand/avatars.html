@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- EDStudios profile pictures. Rendered by tools/avatars.mjs -> brand/avatars/<n>-<name>.png (1080x1080).
+     House style: one centered emblem, dark navy circle, warm gold glow, Newsreader serif. Keep everything inside the circle. -->
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: 'Newsreader'; font-weight: 400; src: url(/node_modules/@fontsource/newsreader/files/newsreader-latin-400-normal.woff2) format('woff2'); }
+html, body { margin: 0; width: 1080px; height: 1080px; background: transparent; overflow: hidden; }
+svg, canvas { position: absolute; inset: 0; width: 1080px; height: 1080px; }
+</style>
+<script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js" } }</script>
+</head><body>
+<svg id="svg" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script type="module">
+import * as THREE from 'three';
+const n = Number(new URLSearchParams(location.search).get('n') || 1);
+const svg = document.getElementById('svg');
+const GOLD = '#e9b85c', GOLD2 = '#f6d48e', TEAL = '#2f8fa3';
+
+// shared background: navy disc + soft gold glow + faint stars
+const bg = (glowY = 470, glow = 0.55, stars = true) => `
+<defs>
+  <radialGradient id="navy" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#16273f"/><stop offset="1" stop-color="#0a1426"/></radialGradient>
+  <radialGradient id="glow" cx="50%" cy="${glowY / 10.8}%" r="34%"><stop offset="0" stop-color="${GOLD}" stop-opacity="${glow}"/><stop offset="1" stop-color="${GOLD}" stop-opacity="0"/></radialGradient>
+  <linearGradient id="teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3aa7b6"/><stop offset="1" stop-color="#1d5c73"/></linearGradient>
+  <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3a6"/><stop offset="1" stop-color="#e9a64c"/></linearGradient>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<circle cx="540" cy="540" r="540" fill="url(#navy)"/>
+<circle cx="540" cy="540" r="540" fill="url(#glow)"/>
+${stars ? Array.from({ length: 60 }, (_, i) => { const a = i * 2.39996, r = 120 + ((i * 97) % 380); const x = 540 + Math.cos(a) * r, y = 540 + Math.sin(a) * r; return `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(1 + (i % 3) * 0.8).toFixed(1)}" fill="#fff" opacity="${0.25 + (i % 4) * 0.12}"/>`; }).join('') : ''}`;
+
+const EMBLEMS = {
+  // 1 — stories: a door ajar, warm light spilling across the floor
+  1: () => bg(470, 0.5) + `
+    <polygon points="610,300 610,740 900,860 560,860" fill="url(#warm)" opacity="0.35" filter="url(#soft)"/>
+    <polygon points="610,320 610,740 860,840 600,840" fill="${GOLD2}" opacity="0.55"/>
+    <rect x="420" y="300" width="200" height="440" rx="6" fill="none" stroke="${GOLD}" stroke-width="16"/>
+    <rect x="435" y="315" width="175" height="425" fill="#fff1cc" opacity="0.95"/>
+    <polygon points="435,315 555,345 555,770 435,740" fill="#24344f" stroke="${GOLD}" stroke-width="10" stroke-linejoin="round"/>
+    <circle cx="538" cy="560" r="10" fill="${GOLD}"/>
+    <line x1="300" y1="742" x2="780" y2="742" stroke="${GOLD}" stroke-width="10" stroke-linecap="round" opacity="0.8"/>`,
+  // 3 — doubling: "2×" over three growing bars
+  3: () => bg(430, 0.55) + `
+    ${[[350, 80], [470, 160], [600, 320]].map(([x, h], i) => `<rect x="${x}" y="${790 - h}" width="${90 + i * 10}" height="${h}" rx="10" fill="url(#teal)" stroke="${GOLD}" stroke-width="8"/>`).join('')}
+    <text x="540" y="430" text-anchor="middle" font-family="Newsreader" font-size="250" fill="${GOLD2}" style="filter:drop-shadow(0 0 22px rgba(233,184,92,.7))">2×</text>
+    <line x1="300" y1="796" x2="780" y2="796" stroke="${GOLD}" stroke-width="10" stroke-linecap="round"/>`,
+  // 4 — the last time: an hourglass, warm sand running out
+  4: () => bg(540, 0.5) + `
+    <rect x="370" y="250" width="340" height="34" rx="12" fill="${GOLD}"/><rect x="370" y="796" width="340" height="34" rx="12" fill="${GOLD}"/>
+    <path d="M410,284 C410,420 520,470 530,540 C520,610 410,660 410,796 L670,796 C670,660 560,610 550,540 C560,470 670,420 670,284 Z" fill="#0d1a2e" stroke="${GOLD}" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M455,380 C480,440 525,470 535,520 L545,520 C555,470 600,440 625,380 Z" fill="url(#warm)"/>
+    <rect x="535" y="520" width="10" height="230" fill="${GOLD2}" opacity="0.9"/>
+    <path d="M430,790 C450,720 500,700 540,690 C580,700 630,720 650,790 Z" fill="url(#warm)"/>
+    <circle cx="540" cy="540" r="60" fill="${GOLD}" opacity="0.18" filter="url(#soft)"/>`,
+  // 5 — rooms / one house: little house at night, one lit window, moon
+  5: () => bg(560, 0.45) + `
+    <circle cx="745" cy="320" r="62" fill="#fff4d6"/><circle cx="772" cy="300" r="56" fill="#13233a"/>
+    <path d="M300,560 L540,360 L780,560" fill="none" stroke="${GOLD}" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="345" y="545" width="390" height="260" fill="#1d2f4a" stroke="${GOLD}" stroke-width="14" stroke-linejoin="round"/>
+    <rect x="395" y="600" width="110" height="95" rx="6" fill="url(#warm)" style="filter:drop-shadow(0 0 26px rgba(255,190,90,.85))"/>
+    <line x1="450" y1="600" x2="450" y2="695" stroke="#1d2f4a" stroke-width="7"/><line x1="395" y1="647" x2="505" y2="647" stroke="#1d2f4a" stroke-width="7"/>
+    <rect x="575" y="640" width="95" height="165" rx="6" fill="#0f1c30" stroke="${GOLD}" stroke-width="10"/>
+    <circle cx="652" cy="725" r="8" fill="${GOLD}"/>
+    <line x1="270" y1="805" x2="810" y2="805" stroke="${GOLD}" stroke-width="10" stroke-linecap="round"/>`,
+};
+
+if (n === 2) {
+  // 2 — what if: low-poly planet (three.js), like the reference style
+  svg.innerHTML = bg(540, 0.35);
+  const canvas = document.createElement('canvas'); document.body.appendChild(canvas);
+  const r = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  r.setSize(1080, 1080, false); r.setPixelRatio(1); r.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, 1, 0.1, 50); cam.position.set(0, 0, 12.5);
+  const geo = new THREE.IcosahedronGeometry(1.9, 4).toNonIndexed();
+  const pos = geo.attributes.position, colors = [], c = new THREE.Color(), v = new THREE.Vector3();
+  // continents = blobs around fixed points on the sphere (Americas, Europe/Africa, Asia, Australia) + wobble
+  const C = [[-0.55, 0.55, 0.62, 0.42], [-0.35, -0.2, 0.9, 0.34], [-0.15, -0.65, 0.73, 0.3], [0.35, 0.5, 0.79, 0.36], [0.55, -0.1, 0.83, 0.38], [0.85, 0.35, -0.4, 0.45], [0.7, -0.55, -0.45, 0.24], [0.0, 0.95, 0.3, 0.25]]
+    .map(([x, y, z, r]) => [new THREE.Vector3(x, y, z).normalize(), r]);
+  const land = (p) => { const u = p.clone().normalize(); const w = 0.07 * Math.sin(u.x * 9 + u.y * 7) + 0.05 * Math.sin(u.z * 11 - u.x * 5); return C.some(([c, r]) => u.distanceTo(c) < r * 0.72 + w); };
+  for (let i = 0; i < pos.count; i += 3) {
+    v.set(0, 0, 0); for (let k = 0; k < 3; k++) v.add(new THREE.Vector3().fromBufferAttribute(pos, i + k)); v.divideScalar(3);
+    const isLand = land(v), shade = 0.85 + ((i * 7919) % 100) / 100 * 0.3;
+    c.set(isLand ? 0x7cc63a : 0x2f9fd6).multiplyScalar(shade);
+    if (isLand) for (let k = 0; k < 3; k++) { const p = new THREE.Vector3().fromBufferAttribute(pos, i + k); p.multiplyScalar(1.035); pos.setXYZ(i + k, p.x, p.y, p.z); }
+    for (let k = 0; k < 3; k++) colors.push(c.r, c.g, c.b);
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3)); geo.computeVertexNormals();
+  const planet = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.8 }));
+  planet.rotation.set(0.25, 0.15, 0.05); scene.add(planet);
+  const cloud = (x, y, z, s) => { const g = new THREE.Group(); [[0, 0, 0.3], [0.28, 0.06, 0.24], [-0.26, 0.02, 0.22]].forEach(([a, b, rr]) => { const m = new THREE.Mesh(new THREE.IcosahedronGeometry(rr, 0), new THREE.MeshStandardMaterial({ color: 0xe8edf2, flatShading: true, roughness: 0.9 })); m.position.set(a, b, 0); g.add(m); }); g.position.set(x, y, z); g.scale.setScalar(s); scene.add(g); };
+  cloud(1.6, 1.2, 1.3, 1.0); cloud(-1.7, -1.0, 1.3, 0.9);
+  scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x1a2a40, 0.9));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.4); sun.position.set(-3, 3, 5); scene.add(sun);
+  r.render(scene, cam);
+} else {
+  svg.innerHTML = EMBLEMS[n]();
+}
+await document.fonts.ready;
+window.AVATAR_READY = true;
+</script>
+</body></html>

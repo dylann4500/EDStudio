@@ -44,5 +44,6 @@ audio/       synth.py — procedural piano + SFX library; sfx/ = reusable sound 
 tools/       render, sheet, new-video, doctor
 docs/        FORMAT.md (style bible + what performs), reference analysis
 schedule/    30-day content plan
+brand/       the 5 EDStudios channels: handles, bios, profile pictures (ACCOUNTS.md, avatars/)
 CLAUDE.md    step-by-step instructions + hard-won rules for AI agents
 ```
