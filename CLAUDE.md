@@ -88,6 +88,10 @@ videos/NNN-slug/
   no network), `makeDots(globe, [{lat,lon}])` instanced glowing dots (`set(i, scale)`/`setAll(fn)` + `commit()`; 12k+ is fine),
   `makeBars` (glowing columns), `scatter(rng, sites, n)`, `faceLon(lon)`. `engine/sets/warroom.js`: round war room + table + globe
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
+- `engine/sets/military.js` (005): `buildSilo` (missile `setDissolve(t, t0, t1)`: clipping plane + rising embers), `buildBase`
+  (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
+  `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
+  Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
 
 ## User's taste (direct feedback — non-negotiable)
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
@@ -101,7 +105,13 @@ videos/NNN-slug/
 - Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes, incl. whatiflab.md).
 - **The end card must stay up long enough to read:** fully visible for **≥ 3.5 s** (set `duration ≥ end.in + 4.0`).
   001 shipped with ~1 s and the user called it out. `tools/render.mjs` warns when it's too short.
-- **Tone is per video** (funny or emotional, `docs/TONES.md`). Funny still means minimal/soft sound and kind humor.
+- **Tone is per video** (emotional / funny / world, `docs/TONES.md`). Funny still means minimal/soft sound and kind humor.
+  **Each tone has its own vibe and harness — only emotional videos sound sad/nostalgic.** Never copy 001's cue sheet into
+  another tone (user, on 005's first score: "why is the music sad… it doesn't fit"). World what-ifs = curious explainer
+  energy (mallet ostinato, major/lydian, driving pulse, open ending) — see audio/README.md.
+- **Scene variety (all videos):** cut between many distinct locations, and **show what each subtitle says** — "countries build
+  armies" → soldiers marching, tanks leaving a hangar; never keep returning to one set (user, on 005's first cut). Plan 4+
+  locations per video; reuse `engine/sets/*` from earlier videos (they can all live in one scene, one `root` visible per shot).
 
 - **No flickering, pulsing, dimming or popping text.** Every text element fades in once and out once; the HUD stays at a steady
   opacity the whole time (numbers may roll, nothing else changes). Anything that blinks or breathes is distracting.

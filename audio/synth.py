@@ -731,6 +731,29 @@ def celesta_note(midi, vel=0.5, dur=1.8, decay=1.0):
     return fades(y, 0.0, 0.2) * vel ** 1.3
 
 
+def mallet_note(midi, vel=0.5, hold=0.4):
+    """Soft marimba-like mallet (world/explainer tone): wooden fundamental + the 3.93x and 9.2x bar modes,
+    a felt-soft attack, damped after `hold` s. Low-passed so it stays gentle (house style: nothing bright)."""
+    key = ("mallet", int(midi), round(float(vel), 2), round(float(hold), 2))
+    if key in _PIANO_CACHE:
+        return _PIANO_CACHE[key]
+    f = mtof(midi)
+    dur = min(hold, 1.2) + 0.25
+    n = nsamp(dur)
+    t = tvec(n)
+    tau = 0.55 * 2 ** (-(midi - 60) / 30.0)
+    y = np.zeros(n)
+    for r, a, df in ((1.0, 1.0, 1.0), (3.93, 0.16, 0.18), (9.2, 0.035, 0.05)):
+        if f * r < 0.45 * SR:
+            y += a * np.exp(-t / (tau * df)) * np.sin(2 * np.pi * f * r * t)
+    y *= np.clip(t / 0.004, 0, 1)                                   # felt attack (no click)
+    y *= np.where(t < hold, 1.0, np.exp(-(t - hold) / 0.06))       # damp after the hold
+    y = lp(y, 3200)
+    y = fades(y, 0.0, 0.03) * vel ** 1.2 * 0.9
+    _PIANO_CACHE[key] = y
+    return y
+
+
 def sfx_gold_chime(rng, notes=(84, 89, 93, 96), spacing=0.065, vel=0.55, shimmer=0.0, dur=2.2, decay=1.0):
     """Warm celesta/bell sparkle arpeggio (notes = MIDI)."""
     n = nsamp(dur + spacing * len(notes))
@@ -1103,9 +1126,11 @@ def interp_bp(points, t):
     return float(np.interp(t, ts, vs))
 
 
-def compose(M):
+def compose(M, mallet=None):
     """Turn chord timeline + section styles + explicit melody into a note list.
-    Each note: (t, midi, vel, hold). Sustain pedal changes at every chord change."""
+    Each note: (t, midi, vel, hold). Sustain pedal changes at every chord change.
+    Mallet notes (style "ostinato" with inst "mallet", and M["mallet_melody"]) go to the `mallet` list if one is passed."""
+    mallet = [] if mallet is None else mallet
     chords = sorted(M["chords"], key=lambda c: c[0])
     end = M.get("end", 62.0)
     ctimes = [c[0] for c in chords] + [end]
@@ -1126,6 +1151,9 @@ def compose(M):
     def add(t, m, v, hold=None):
         h = (pedal_up(t) - t) if hold is None else hold
         notes.append((round(t, 4), int(m), float(np.clip(v, 0.05, 1.0)), max(0.12, min(h, end - t + 0.5))))
+
+    def addm(t, m, v, hold):
+        mallet.append((round(t, 4), int(m), float(np.clip(v, 0.05, 1.0)), max(0.06, hold)))
 
     for i, (t0, sym) in enumerate(chords):
         t1 = ctimes[i + 1]
@@ -1189,6 +1217,25 @@ def compose(M):
                 else:
                     for j, m in enumerate(V["rh"][:3]):
                         add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+        elif st == "ostinato":
+            # world/explainer tone: a steady, curious repeating figure (default on the soft mallet) over chord tones,
+            # + a short piano bass note every `bass_every` steps. pattern indexes [rh triad, rh triad + 12].
+            step = S.get("step", 0.27)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            tones = V["rh"] + [m + 12 for m in V["rh"]]
+            pat = S.get("pattern", [0, 1, 2, 4, 2, 1])
+            be = S.get("bass_every", 4)
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.25), tk) * (1.0 if k % 2 == 0 else 0.82)
+                m = tones[pat[(k + int(round((t0 - S["t0"]) / stp))) % len(pat)] % len(tones)] + S.get("transpose", 0)
+                if S.get("inst", "mallet") == "mallet":
+                    addm(tk, m, vk, stp * S.get("len", 0.9))
+                else:
+                    add(tk, m, vk * 0.8, hold=stp * S.get("len", 0.9))
+                if be and k % be == 0:
+                    add(tk, V["bass"], interp_bp(S.get("vel", 0.25), tk) * S.get("bass_vel", 0.8), hold=stp * be * 0.9)
         elif st == "cadence":
             for k, m in enumerate(V["lh"][:3]):
                 add(t0 + k * roll, m, v * (1.0 - 0.1 * k))
@@ -1202,6 +1249,8 @@ def compose(M):
             add(t + 0.012, m + 12, v * 0.62)
     for s in M.get("stings", []):
         add(s["t"], s["midi"], s["vel"], hold=s.get("hold"))
+    for mm in M.get("mallet_melody", []):     # [t, midi, vel, len]
+        addm(mm[0], mm[1], mm[2], mm[3] if len(mm) > 3 else 0.35)
     return sorted(notes)
 
 
@@ -1247,13 +1296,20 @@ def leveler(x, thr_rel_db=4.0, ratio=2.0, tau=0.25):
 
 
 def render_music(M, n_total, log=print):
-    notes = compose(M)
+    mallet = []
+    notes = compose(M, mallet)
     dry = np.zeros((2, n_total))
     t0 = time.time()
     for (t, m, v, h) in notes:
         y = piano_note(m, v, h)
         place(dry, pan2(y, float(np.clip((m - 62) / 34.0, -0.4, 0.4))), nsamp(t))
     log(f"  piano: {len(notes)} notes ({len(_PIANO_CACHE)} unique) in {time.time() - t0:.1f}s")
+    if mallet:
+        md = np.zeros((2, n_total))
+        for k, (t, m, v, h) in enumerate(mallet):
+            place(md, pan2(mallet_note(m, v, h), float(np.clip((m - 70) / 30.0, -0.3, 0.3)) * (1 if k % 2 else -1)), nsamp(t))
+        dry += db2lin(M.get("mallet_db", -4.0)) * md
+        log(f"  mallet: {len(mallet)} notes")
     piano = dry + db2lin(M.get("reverb_db", -9)) * convolve(dry, hall_ir())
     pad = render_pad(M.get("pad", []), n_total)
     pad = pad + db2lin(M.get("pad_reverb_db", -5)) * convolve(pad, hall_ir())

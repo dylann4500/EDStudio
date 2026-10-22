@@ -19,6 +19,8 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 | Ending | reunion that echoes shot 1, a quiet line | the premise resolves + **one warm turn** that makes it shareable ("And every single human calls their mom." → "Call your mom. Say thank you.") |
 | Caption CTA | "Send this to your mom" | "Send this to the Gary in your life" / "Tag someone who…" |
 
+**Every tone (house rule): show what the subtitle says, in its own scene** — many locations per video, never one set on repeat.
+
 ## Funny: the rules that made 002 work
 1. **One named everyman.** "Yes. Even Gary." A name + a mustache + a bald head = instant character. He gets the gag in every era
    (hot dog → trash can, last pickle jar, can't reach shoes, last in the bathroom line, baby + phone). Recurring character = the
@@ -47,7 +49,9 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 - Science/scale POVs: `docs/reference/realityrendered.md`.
 
 ## World: big thought experiments about the whole planet
-`"tone": "world"` — "What if every nuclear weapon disappeared?" (`videos/005-no-nukes`). A war room with a hologram Earth whose
-dots ARE the HUD number, one human-scale witness, Day-1 relief → the consequence nobody expected → time skip → the number comes
-back by one → a debate question on the end card. Real numbers only, sourced and current; neutral on real countries.
+`"tone": "world"` — "What if every nuclear weapon disappeared?" (`videos/005-no-nukes`). A hologram Earth whose dots ARE the HUD
+number, intercut with a different real-world scene for every claim (silo, capsule, sunrise city, marching soldiers, border post,
+tank hangar, power plant), Day-1 relief → the consequence nobody expected → time skip → the number comes back by one → a debate
+question on the end card. **Vibe: curious and intriguing (documentary explainer), not sad** — mallet ostinato, major/lydian,
+driving pulse for tension, an open unresolved last chord. Real numbers only, sourced and current; neutral on real countries.
 Full playbook: **`docs/WORLD-WHATIF.md`**.

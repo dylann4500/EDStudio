@@ -11,6 +11,16 @@
 - Foley bus low-passed (`"sfx_lowpass_hz": 4200`), sfx stem around −9 dB, ambience around −8 dB, master ≈ −15 LUFS.
 - Copy `videos/001-bedroom-door/cues.json` (emotional) or `videos/002-everyone-pregnant/cues.json` (funny) as the starting point.
 
+## World tone (005) — curious explainer, NOT sad
+- Only emotional videos get the sad/nostalgic piano. A world what-if should feel like a documentary explainer: intrigued, forward-moving.
+- `style: "ostinato"` = a repeating figure over chord tones on the soft **mallet** voice (marimba-like, low-passed; `inst: "piano"`
+  to use piano instead). `step` 0.18–0.31 s, `pattern` indexes [triad, triad+12], `bass_every` steps for a short piano bass,
+  `len` = note length in steps. `mallet_melody: [[t, midi, vel, len]]` for motifs; `mallet_db` sets the mallet level (−3).
+- Harmony: D major / D lydian (D ↔ E/D) for wonder, I–V6–vi–IV for relief, vi–IV–ii–III (Bm G Em F#) with a low `pulse` for
+  tension, ostinato speeding up across a time skip, a held sus4 bed (never a rest) before the reveal, swell + pad on the reveal,
+  and end OPEN (Gmaj7 → Asus4) — the end card asks a question, so the music shouldn't resolve.
+- Reference script: `videos/005-no-nukes/make_cues.py`.
+
 ## Funny tone (002) — same softness, different timing
 - `style: "bounce"` section = "oom-pah" piano (bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm; note lengths
   `bass_hold` (default 1.6 beats) / `stab_hold` (0.8) — keep them long enough that the groove doesn't sound choppy.

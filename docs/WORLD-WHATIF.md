@@ -7,13 +7,17 @@ Same engine, same text kit, same house rules as the emotional format (CLAUDE.md,
 | | Emotional (`001`) | **World what-if (`005`)** |
 |---|---|---|
 | Title | "What your mom did…" | "What if every [thing] [disappeared / doubled / stopped]?" — gold keyword = the thing |
-| Stage | a home | **a war room with a hologram Earth** (`engine/sets/warroom.js` + `engine/globe.js`) plus ONE human-scale cutaway set (005: a launch capsule) |
+| Stage | a home | **many locations**: a war room with a hologram Earth as the hub (`engine/sets/warroom.js` + `engine/globe.js`) for the numbers, and a new real-world scene for every claim (005: silo, launch capsule, city at sunrise, parade ground, border post, tank hangar, power plant — `engine/sets/military.js`, `city.js`) |
 | HUD number | sentimental count | **the premise itself, counted for real** (warheads on Earth 12,187 → 0 → 1). Time line = "TONIGHT / DAY 1 / MONTH 6 / YEAR 3"; second line = who holds it |
 | Structure | ritual → eras → reunion | baseline fact → the premise hits (number rolls, visibly) → one human witness → **Day 1 relief** → **the twist consequence** (power shifts) → time skip → **reversal: the number comes back by one** → open question |
 | Ending | warm line | a debate question on the end card ("Safer — or just *different*?") + "SEND THIS TO SOMEONE WHO'LL DISAGREE" — comments are the growth engine for this tone |
-| Music | soft piano | same piano, minor key (Dm), descending arp as the thing vanishes, pulse for tension, a soft held 'thin' bar right before the reversal (**never a rest — the music must stay continuous**), swell + pad on it |
+| Music | sad/nostalgic soft piano | **curious explainer, not sad**: soft mallet ostinato (`style: "ostinato"`) in D major / D lydian (D ↔ E/D), bright ostinato for relief, a driving low piano `pulse` for the tension, a faster ostinato building through the time skip, a held Asus4 bed before the reveal (never a rest), swell + pad on the reveal, and an OPEN ending (Gmaj7 → Asus4: the video ends on a question). Script: `videos/005-no-nukes/make_cues.py` |
 
 ## Rules that made 005 work
+0. **Show every claim in its own scene** (user steer on the first cut, which kept returning to the war room): the globe is the
+   hub for the *numbers*, but "power is counted in soldiers again" cuts to soldiers marching, "small countries lost their shield"
+   to one guard at a border facing a row of tanks, "big ones build armies" to tanks rolling out of a hangar, "the world can't
+   forget how" to a power plant time-lapse. 005 = 7 locations in 71 s; aim for a new location every 4–8 s.
 1. **The number on screen IS the picture.** Each warhead is one dot on the globe (12,187 instanced dots); dot *k* is visible
    while *k* < the HUD count, so the counter and the globe drain together, frame-exact (`makeDots` + a seeded permutation).
 2. **Every real-world number has a source** (put it in the shots.js header + an HTML comment in caption.md). 005: SIPRI Yearbook
