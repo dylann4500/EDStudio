@@ -12,10 +12,13 @@
 - Copy `videos/001-bedroom-door/cues.json` (emotional) or `videos/002-everyone-pregnant/cues.json` (funny) as the starting point.
 
 ## Funny tone (002) — same softness, different timing
-- `style: "bounce"` section = staccato "oom-pah" piano (short bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm.
+- `style: "bounce"` section = "oom-pah" piano (bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm; note lengths
+  `bass_hold` (default 1.6 beats) / `stab_hold` (0.8) — keep them long enough that the groove doesn't sound choppy.
 - Melody entries take an optional 5th element = note length: `[t, midi, vel, false, 0.16]` → staccato motif.
-- **Comedic silence:** a `music.ducks` entry `{t0, t1, db: -40, ramp: 0.05}` right before each punch line, then one soft low
-  `stings` note (midi 36–41, vel ~0.33) as the button. Silence is funnier than any sound effect.
+- **Never let the music drop out** (user feedback on 002: hard −40 dB rests before punch lines sounded like the music
+  "cutting in and out"). Punch lines get at most a gentle `ducks` dip (`db: -4`, `ramp` ≥ 0.3), plus one soft low `stings`
+  note (midi 36–41, vel ~0.33) as the button. Keep a quiet pad bed (`level` ~0.32) under staccato sections so there are no gaps.
+- Check before muxing: compute 50 ms RMS windows of `out/stems/music.wav` — nothing mid-video should sit > 10 dB below the median.
 - Cartoon moment ("bellies pop"): 4–5 `plush_squeak` with `pitch` 0.55–0.8, −27 dB, staggered 60 ms — soft boops, not boings.
 - Turn warm for the ending (arp + pad) so the last line lands sincerely.
 - Ambience `city_day` (`murmur`, `traffic` args): far traffic rumble + indistinct crowd murmur, around −44 dB.

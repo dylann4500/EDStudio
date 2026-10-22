@@ -1183,11 +1183,12 @@ def compose(M):
             for k in range(nst):
                 tk = t0 + k * stp
                 vk = interp_bp(S.get("vel", 0.25), tk)
+                # note lengths as a fraction of the beat; long enough that the groove never sounds like it cuts out
                 if k % 2 == 0:
-                    add(tk, V["bass"] if k % 4 == 0 else V["bass"] + 7 if V["bass"] + 7 < 60 else V["bass"], vk * 0.85, hold=stp * 0.55)
+                    add(tk, V["bass"] if k % 4 == 0 else V["bass"] + 7 if V["bass"] + 7 < 60 else V["bass"], vk * 0.85, hold=stp * S.get("bass_hold", 1.6))
                 else:
                     for j, m in enumerate(V["rh"][:3]):
-                        add(tk + 0.008 * j, m, vk * 0.5, hold=stp * 0.3)
+                        add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
         elif st == "cadence":
             for k, m in enumerate(V["lh"][:3]):
                 add(t0 + k * roll, m, v * (1.0 - 0.1 * k))

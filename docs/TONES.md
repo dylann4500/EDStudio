@@ -14,7 +14,7 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 | Subtitle voice | tender, specific ("She checked on you eleven times.") | **deadpan narrator**, specific absurd numbers ("Earth runs out of pickles in 41 minutes.") |
 | Acting | slow, small (lean, tuck, a tear) | **big readable poses, everyone in sync** (whole crowd looks down / turns heads / freezes at once) |
 | Faces | smile / closed eyes / tear | flat mouth (deadpan), `mouth: 'o'` (shocked), green skin (nausea), the stare at camera |
-| Music | soft piano held/arp, swell at the reveal | **bouncy staccato piano** (`style: "bounce"`), melody notes with short holds, **silence right before each punch line** (`ducks` −40 dB), one soft low "plonk" sting after it |
+| Music | soft piano held/arp, swell at the reveal | **bouncy piano** (`style: "bounce"`) over a quiet pad bed, a staccato melody motif per era, one soft low "plonk" sting as the button — **music never drops out** |
 | Foley | door, steps, blanket | still minimal: crowd steps, soft low "boops" (plush_squeak, pitch 0.55–0.8) for a cartoon moment, a plop |
 | Ending | reunion that echoes shot 1, a quiet line | the premise resolves + **one warm turn** that makes it shareable ("And every single human calls their mom." → "Call your mom. Say thank you.") |
 | Caption CTA | "Send this to your mom" | "Send this to the Gary in your life" / "Tag someone who…" |
@@ -26,8 +26,10 @@ same house rules (CLAUDE.md). What changes is the **story shape, the timing, the
 2. **Synchrony is the joke.** 8 billion people doing the same thing at the same moment: all stop, all look down, all bellies
    pop, all heads track the guy with the last jar, the whole line shuffles 20 cm at once. Code it as one keyframe shared by the
    crowd with a tiny per-person delay (`e.seed * 0.12 s`).
-3. **Setup line → beat → visual punch.** The subtitle sets it up, the music stops (0.5–1.5 s of silence), the picture delivers
-   (Gary stares at the camera, gives up, grabs his own belly). Never put the punch in the text when the picture can do it.
+3. **Setup line → beat → visual punch.** The subtitle sets it up, the picture delivers (Gary stares at the camera, gives up,
+   grabs his own belly), a soft low note buttons it. Never put the punch in the text when the picture can do it.
+   **Do NOT stop the music for the beat** — the user heard 002's first-cut −40 dB rests as the music "cutting in and out".
+   At most a gentle −4 dB dip with a slow ramp (≥ 0.3 s).
 4. **Specific absurd numbers, deadpan.** "41 minutes", "2.1 miles · 3.4 km", "since July". The HUD's second line is a running
    joke stat, swapped each era. Label units both ways (whatif reference lesson).
 5. **Rule of three.** Three reaches for the shoe, three rocks to stand up, the third one fails.

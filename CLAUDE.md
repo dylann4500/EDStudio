@@ -91,6 +91,7 @@ videos/NNN-slug/
 - **Persistent text stays out of the way.** The HUD is small, top-left, and steady.
   Never put persistent text in the middle of the frame or over faces/action. Subtitles sit in the lower third. **All text has a strong shadow + a soft dark backdrop** (engine/index.html) so it reads over bright areas — never remove it.
 - **Sound is minimal and soft.** Piano-led, few quiet low-passed foley hits only on story beats. No ticks/whooshes/chimes.
+  **The music is continuous — it never cuts out** (no hard rests/ducks for comedic timing; gentle −4 dB dips at most).
   See `audio/README.md` → House style. If anything sounds harsh, cut it rather than fix it.
 - Reference accounts: `docs/FORMAT.md` (@tinyplanetlab) and `docs/reference/*.md` (other accounts the user likes, incl. whatiflab.md).
 - **The end card must stay up long enough to read:** fully visible for **≥ 3.5 s** (set `duration ≥ end.in + 4.0`).
@@ -134,7 +135,8 @@ videos/NNN-slug/
 - [ ] HUD numbers are correct math and change across the time skip; final value lands with the emotional beat.
 - [ ] No character clips through doors/furniture; props stay in hands; no popping between shots unless it's a cut.
 - [ ] No black blocks or flicker; no text opacity/scale pulsing (scrub the HUD across a roll to check); every text block clearly readable (shadow + backdrop present, nothing blown-out behind it).
-- [ ] Audio: minimal + soft (house style), the few cues land on actions, music swells at the reveal, ends clean; ≈ −15 LUFS.
+- [ ] Audio: minimal + soft (house style), the few cues land on actions, music swells at the reveal, ends clean; ≈ −15 LUFS;
+      the music never drops out mid-video (no 50 ms window of the music stem > 10 dB under its median, see audio/README.md).
 - [ ] End card fully visible ≥ 3.5 s before the video ends (no render warning).
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
 - [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", exactly 5 hashtags incl. #animation.

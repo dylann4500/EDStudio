@@ -11,8 +11,8 @@ chords = [[0.2,"F"],[3.6,"F"],[5.6,"C"],[8.0,"Bb"],[9.4,"F"],
 sections = [
   {"t0":0.2,"t1":3.6,"style":"held","vel":0.18,"roll":0.08},
   {"t0":3.6,"t1":8.0,"style":"bounce","vel":0.22,"step":0.5},
-  {"t0":8.0,"t1":9.4,"style":"sparse","vel":0.22},
-  {"t0":9.4,"t1":11.8,"style":"sparse","vel":0.16},
+  {"t0":8.0,"t1":9.4,"style":"held","vel":0.22,"roll":0.07},
+  {"t0":9.4,"t1":11.8,"style":"held","vel":0.18,"roll":0.09},
   {"t0":11.8,"t1":41.5,"style":"bounce","vel":[[11.8,0.22],[25.5,0.24],[41.5,0.25]],"step":0.5},
   {"t0":41.5,"t1":47.3,"style":"pulse","vel":[[41.5,0.2],[47.0,0.27]],"step":0.25},
   {"t0":47.3,"t1":49.5,"style":"held","vel":0.2,"roll":0.1},
@@ -29,14 +29,10 @@ for t0, shift in [(3.6,0),(11.8,0),(18.0,2),(25.5,0),(33.5,-2)]:
 # warm ending tune (legato)
 for t,m,v in [(49.5,72,0.27),(50.5,69,0.24),(51.5,67,0.27),(52.5,64,0.22),(53.5,65,0.28),(54.5,69,0.25),(55.5,70,0.3),(56.4,69,0.27),(57.0,67,0.28),(58.0,65,0.3)]:
     melody.append([t,m,v])
-# comedic silences right before punch lines (the music just stops), then a soft low "plonk"
-ducks = [{"t0":7.3,"t1":8.0,"db":-40,"ramp":0.05},
-         {"t0":9.4,"t1":10.7,"db":-40,"ramp":0.05},
-         {"t0":16.45,"t1":17.0,"db":-40,"ramp":0.05},
-         {"t0":20.1,"t1":21.6,"db":-40,"ramp":0.05},
-         {"t0":31.2,"t1":31.9,"db":-40,"ramp":0.05},
-         {"t0":38.0,"t1":38.8,"db":-40,"ramp":0.05},
-         {"t0":46.85,"t1":47.3,"db":-40,"ramp":0.05}]
+# NO hard silences: the user heard the punch-line rests as the music "cutting in and out". Music stays continuous;
+# punch lines get at most a gentle dip, and a soft low note on top as the button.
+ducks = [{"t0":9.45,"t1":10.7,"db":-4,"ramp":0.4},
+         {"t0":46.9,"t1":47.3,"db":-4,"ramp":0.3}]
 stings = [{"t":10.75,"midi":41,"vel":0.34,"hold":0.6},
           {"t":31.9,"midi":36,"vel":0.32,"hold":0.6},
           {"t":38.8,"midi":41,"vel":0.3,"hold":0.5},
@@ -71,7 +67,7 @@ cues = {
   "music":{"gain_db":0.0,"reverb_db":-8.0,"pad_db":-7.0,"pad_reverb_db":-4.0,
     "leveler":{"thr_rel_db":3.0,"ratio":2.5,"tau":0.25},"end":D,
     "chords":chords,"sections":sections,"melody":melody,"stings":stings,"ducks":ducks,
-    "pad":[{"t0":49.5,"t1":53.5,"chord":"F","level":0.5,"attack":1.5,"release":0.8},{"t0":53.5,"t1":57.0,"chord":"Dm","level":0.7,"attack":0.8,"release":0.8},{"t0":57.0,"t1":58.0,"chord":"C","level":0.6,"attack":0.5,"release":0.6},{"t0":58.0,"t1":62.0,"chord":"F","level":0.6,"attack":0.5,"release":0.5}],
+    "pad":[{"t0":c[0],"t1":(chords[i+1][0] if i+1<len(chords) else 49.5)+0.05,"chord":c[1],"level":0.32,"attack":0.35,"release":0.5} for i,c in enumerate(chords) if 3.6<=c[0]<49.5]+[{"t0":0.2,"t1":3.65,"chord":"F","level":0.32,"attack":0.8,"release":0.5},{"t0":49.5,"t1":53.5,"chord":"F","level":0.5,"attack":1.5,"release":0.8},{"t0":53.5,"t1":57.0,"chord":"Dm","level":0.7,"attack":0.8,"release":0.8},{"t0":57.0,"t1":58.0,"chord":"C","level":0.6,"attack":0.5,"release":0.6},{"t0":58.0,"t1":62.0,"chord":"F","level":0.6,"attack":0.5,"release":0.5}],
     "eq":[{"f":2800,"q":0.8,"db":-2.0},{"f":6500,"q":0.6,"db":-4.0}]},
 }
 json.dump(cues, open(sys.argv[1],"w"), indent=1)
