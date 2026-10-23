@@ -29,10 +29,10 @@
   "hud": [
     { "t0": 0.0, "t1": 7.0, "from": 8200000000, "to": 8200000000, "time": "MONDAY · 8:59 AM", "age": "SEARCH HISTORIES VISIBLE 0" },
     { "t0": 7.0, "t1": 10.0, "from": 8200000000, "to": 0, "r0": 7.6, "r1": 9.8, "time": "MONDAY · 9:00 AM", "ageFrom": "SEARCH HISTORIES VISIBLE 0", "age": "SEARCH HISTORIES VISIBLE 6 BILLION" },
-    { "t0": 10.0, "t1": 16.5, "from": 0, "to": 0, "time": "+10 SECONDS", "age": "GARY'S SEARCHES ABOUT PIGEONS 212" },
+    { "t0": 10.0, "t1": 16.5, "from": 0, "to": 0, "time": "+10 SECONDS", "age": "GARY'S PIGEON SEARCHES 212" },
     { "t0": 16.5, "t1": 23.0, "from": 0, "to": 0, "time": "+1 MINUTE", "age": "DAYS UNTIL SUMMER BREAK 214" },
     { "t0": 23.0, "t1": 29.5, "from": 0, "to": 0, "time": "+1 HOUR", "age": "SECOND DATES 0" },
-    { "t0": 29.5, "t1": 36.0, "from": 0, "to": 0, "time": "+1 DAY", "age": "LEADERS WHO KNOW WHAT GDP MEANS 0" },
+    { "t0": 29.5, "t1": 36.0, "from": 0, "to": 0, "time": "+1 DAY", "age": "SEARCH HISTORIES DELETED 0" },
     { "t0": 36.0, "t1": 42.5, "from": 0, "to": 0, "time": "+1 WEEK", "age": "SECOND OPINIONS 41 MILLION" },
     { "t0": 42.5, "t1": 49.0, "from": 0, "to": 0, "time": "+3 MONTHS", "age": "SECRET AGENTS 0" },
     { "t0": 49.0, "t1": 55.5, "from": 0, "to": 0, "time": "+6 MONTHS", "age": "THANK-YOUS TO A SEARCH BAR 2,031" },

@@ -5,14 +5,14 @@
 //
 // Shot list (seconds)                  | set      | what happens
 //  0.0–10.0  walk   8:59 → 9:00         | street   | crowd walks; at 9:00 a search card pops above every head; all stop, look up, look away
-// 10.0–16.5  gary   +10 seconds         | street   | Gary's card fills with pigeon searches; the neighbour reads it and side-steps; Gary covers his head
+// 10.0–16.5  gary   +10 seconds         | street   | Gary's card: "is it legal to marry a pigeon" + worse; the neighbour reads it and side-steps; Gary covers his head
 // 16.5–23.0  class  +1 minute           | classroom| the teacher's card: "how many days until summer" … then every kid's card says the same
 // 23.0–29.5  date   +1 hour             | street   | bench first date: "how to not look like a serial killer" / "how to tell if he's a serial killer"; she leaves
-// 29.5–36.0  war    +1 day              | war room | six leaders, five cards say "what does GDP stand for"; they all look down at the table
-// 36.0–42.5  hosp   +1 week             | street   | a surgeon walks out of the hospital: "what does the spleen do"; the waiting patient backs away
+// 29.5–36.0  war    +1 day              | war room | six leaders, five cards say "how to delete search history"; they all look down at the table
+// 36.0–42.5  hosp   +1 week             | street   | a surgeon walks out of the hospital: "can you put a spleen back in"; the waiting patient backs away
 // 42.5–49.0  spy    +3 months           | border   | a spy in a trench coat: "how to look less suspicious"; the guard points at it; he turns back
-// 49.0–55.5  gran   +6 months           | bedroom  | grandma on her tablet: "HOW DO I MAKE THE LETTERS BIGGER" … "thank you so much dear"
-// 55.5–68.0  end    +1 year             | street   | Gary meets a stranger whose card says "can pigeons sense fear" too; high five. Fade → question card
+// 49.0–55.5  gran   +6 months           | bedroom  | grandma on her tablet: "HOW DO I MAKE THE LETTERS BIGGER" → "SINGLE GRANDPAS NEAR ME" → "thank you so much dear"
+// 55.5–68.0  end    +1 year             | street   | Gary meets a stranger whose card says "is it legal to marry a pigeon" too; high five. Fade → question card
 import * as THREE from 'three';
 import { K, clamp, lerp, lerpAngle, faceToward, rng, mat, mk } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink } from '@engine/rig.js';
@@ -76,14 +76,15 @@ const HAIRS = [0x2a1d16, 0x5a3a24, 0x9a6a3a, 0xd9b46a, 0x1a1a1a, 0xc9c4be];
 const STYLES = ['short', 'bob', 'messy', 'none', 'short', 'bob', 'messy'];
 const KS = 0.62; // kid scale
 
-// the crowd's searches (short, harmless, specific)
+// the crowd's searches (sus + specific, suggestive at most — nothing explicit, nothing about kids)
 const CROWD_Q = [
-  'is cereal a soup', 'how to unsend a text', 'do fish get thirsty', 'why do i smell like soup', 'can dogs eat pizza crust',
-  'am i the drama', 'how to fake a sneeze', 'is it illegal to lick a frog', 'how to quit my job politely', 'why is my cat staring at me',
-  'how to pretend i read the book', 'do ducks have ears', 'how long can you not shower', 'is my neighbor a spy', 'how to win an argument online',
-  'how to fold a fitted sheet', 'why does my knee pop', 'how to look rich', 'can i sue my cat', 'how to fall asleep in 10 sec',
-  'is it rude to eat my roommate\'s leftovers', 'does my boss know', 'how to leave a group chat', 'why do i have 3,000 tabs open',
-  'can you train a crow', 'how to text back after 6 weeks',
+  'how to delete search history', 'feet pics side hustle', 'how to get rid of a body', 'is it cheating if it was a dream',
+  'how to explain the hotel charge to my wife', 'why is my roommate\'s toothbrush wet', 'how to tell my mom i\'m a furry',
+  'can you marry a cartoon', 'is it illegal to lick a frog', 'incognito mode actually private??', 'how to win back my ex\'s mom',
+  'is my dentist flirting', 'can you be allergic to your wife', 'how long can you not shower', 'my neighbor\'s wifi password',
+  'can you sue a goose', 'why do i miss my ex\'s dog more than my ex', 'is it weird to lick batteries', 'can you get arrested for doing this',
+  'how to text back after 6 weeks', 'does my boss know', 'why do i smell like soup', 'how to make my cat love me back',
+  'is it normal to eat butter alone', 'how to look rich', 'how to hide a goat in an apartment',
 ];
 
 export async function build(studio, story) {
@@ -152,19 +153,19 @@ export async function build(studio, story) {
   const crowdB = extras.map((e, i) => B({ query: CROWD_Q[i % CROWD_Q.length], width: 0.9, maxChars: 14 }));
   const kidB = kids.map(() => B({ query: 'how many days until summer', width: 0.62, maxChars: 12 }));
   const hero = {
-    gary: B({ query: 'can pigeons sense fear', history: ['pigeon staring at me what does it mean', 'is it weird to name my houseplants', 'how to look busy at work', 'can a pigeon hold a grudge'], width: 1.15, maxChars: 24, offX: -0.18 }),
-    neighbor: B({ query: 'how to leave a conversation politely', width: 0.7, maxChars: 20, offX: 0.25 }),
-    teacher: B({ query: 'how many days until summer', history: ['how to look like i\'m grading', 'can i nap during a quiz'], width: 0.62, maxChars: 22 }),
+    gary: B({ query: 'is it legal to marry a pigeon', history: ['pigeon costume adult size', 'how to tell if a pigeon is flirting', 'why do pigeons look at me like that', 'how to delete search history'], width: 1.1, maxChars: 30, offX: -0.3 }),
+    neighbor: B({ query: 'how to make gary stop talking about pigeons', width: 0.7, maxChars: 18, offX: 0.25 }),
+    teacher: B({ query: 'how many days until summer', history: ['wine that looks like coffee', 'how to fake my death before parent night'], width: 0.62, maxChars: 22 }),
     him: B({ query: 'how to not look like a serial killer', width: 0.72, maxChars: 12, offX: 0.2 }),
     her: B({ query: 'how to tell if he\'s a serial killer', width: 0.72, maxChars: 12, offX: -0.2 }),
-    leaders: LEAD.map((L, i) => B({ query: i === 4 ? 'how to look like i know what GDP is' : 'what does GDP stand for', width: 0.8, maxChars: 11 })),
-    doctor: B({ query: 'what does the spleen do', history: ['surgery for beginners', 'is the spleen important', 'how to hold a scalpel'], width: 0.85, maxChars: 22, offX: -0.12 }),
-    patient: B({ query: 'sneezed twice am i dying', width: 0.5, maxChars: 12, offX: 0.05 }),
-    spy: B({ query: 'how to look less suspicious', history: ['is a fake mustache illegal', 'how to say "tourist" in 40 languages', 'spy school online free'], width: 1.05, maxChars: 24, offX: -0.15 }),
-    guard: B({ query: 'how to make friends at work', width: 0.6, maxChars: 14, offX: 0.1 }),
-    gran: B({ query: 'HOW DO I MAKE THE LETTERS BIGGER', history: ['is my grandson eating enough', 'how to send a heart', 'thank you so much dear'], width: 0.8, maxChars: 22 }),
-    garyEnd: B({ query: 'can pigeons sense fear', width: 0.7, maxChars: 10, offX: 0.2 }),
-    linda: B({ query: 'can pigeons sense fear', width: 0.7, maxChars: 10, offX: -0.2 }),
+    leaders: LEAD.map((L, i) => B({ query: i === 4 ? 'is incognito mode actually incognito' : 'how to delete search history', width: 0.8, maxChars: 11 })),
+    doctor: B({ query: 'can you put a spleen back in', history: ['surgery tutorial 2x speed', 'lost my wedding ring inside a patient', 'is it bad if they woke up'], width: 0.85, maxChars: 22, offX: -0.12 }),
+    patient: B({ query: 'webmd says i\'m pregnant. i\'m a man', width: 0.55, maxChars: 13, offX: -0.15 }),
+    spy: B({ query: 'how to look less suspicious', history: ['how to get rid of a body (asking for a friend)', 'my handler is my mom what do i do', 'how to delete search history'], width: 1.3, maxChars: 26, offX: 0.12 }),
+    guard: B({ query: 'how to ask out a spy', width: 0.6, maxChars: 14, offX: 0.1 }),
+    gran: B({ query: 'HOW DO I MAKE THE LETTERS BIGGER', history: ['SINGLE GRANDPAS NEAR ME', 'is 91 too old for a tattoo', 'thank you so much dear'], width: 0.8, maxChars: 22 }),
+    garyEnd: B({ query: 'is it legal to marry a pigeon', width: 0.7, maxChars: 10, offX: 0.2 }),
+    linda: B({ query: 'is it legal to marry a pigeon', width: 0.7, maxChars: 10, offX: -0.2 }),
   };
   const BUBBLES = [...crowdB, ...kidB, ...Object.values(hero).flat()];
   const _v = new THREE.Vector3();
