@@ -136,7 +136,8 @@ videos/NNN-slug/
   atmosphere, `setSpin`, `focusShadow`, `makeStarlinkSwarm(n, alt)`), `buildLaunch` (`setMode('island'|'landing'|'starbase',
   sky)`, `setExplosion(pos, age)`, `setPlume(pos, k, L, width, cloud)`, catch `tower.setArms(k)`), `buildFactory`
   (`setMode('day'|'night'|'showroom')`, turntable), `buildSuburb` (1970s Pretoria, jacarandas), `buildCampus` (sandstone
-  arcade), `buildFlight` (above the clouds). Props: `makeFalcon('f1'|'f9')` (`setLegs`, `setFins`), `makeSuperHeavy`,
+  arcade), `buildFlight` (above the clouds). FX: `makeSpritePool`, Earth city lights + `makeTrain` (Starlink train), factory `setSparks` (welding),
+  flight `setTrail` (contrails), suburb `update(t)` (falling petals). Props: `makeFalcon('f1'|'f9')` (`setLegs`, `setFins`), `makeSuperHeavy`, `makeStarship`,
   `makeTower`, `makeDragon`, `makeISS`, `makeRoadster`, `makeModelS`, `makeCybertruck`, `makeJet`, `makeCRT` (canvas screen),
   `makeSink`, `makeSatellite`. Space scenes need `camera.far` ≈ 6000 and `near` ≈ 0.3.
 - `engine/rig.js` (009): `makePerson({beard: color})` chin-curtain beard (`head.beard`, grow with `.scale` 0.62 → 1 and
@@ -250,6 +251,13 @@ videos/NNN-slug/
   with a negative `i` → `arr[-1]`. Use `((i % n) + n) % n`. To identify any mystery pixel, serve the repo
   (`python3 -m http.server`), open the page in the browser pane, expose `window.__studio = studio` temporarily, and raycast
   from `studio.camera` at that pixel (prints geometry, world point, material).
+- **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
+  as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
+  offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.
+- **Black patches in an outdoor sky = the sky dome is beyond `camera.far`** (011's Pretoria: dome r=400, far=400, camera 13 m
+  off-center → a clipped wedge of black). Keep `far` ≥ dome radius + camera offset (or shrink the dome). Raycast to confirm.
+- **Screen glow lights (CRTs, phones) stay soft and ≥ 0.7 m out** — 1.6 at 0.45 m blew the beige bezel to white and lit a shirt
+  bright blue; turn them off in daylight shots.
 - **Point lights ≥ 0.7 m from walls**: a fire light 15 cm from log walls blew them out to white (009).
 - **Check every still for the HUD (top-left, y≈470–640 at full size) covering a face** — 009's theatre box and riverA put a
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
