@@ -114,3 +114,13 @@ should we tell next? 👇", "Send this to your history buff friend", exactly 5 h
 - A capsule docking seen end-on looks like one more module — film docking from the side.
 - The last shot under the end card is only visible until `finalFade` — land everything (the build-up, the reveal) inside
   that window, not across the whole shot length.
+
+## 11. The enhancement pass (user on 011 v1: "some scenes / props lack detail / light — make it more interesting")
+Budget a dedicated polish pass after the first full cut. Review every shot at full size and fix in this order:
+1. **Rendering bugs** (black patches, blown highlights, things blocking the subject, leftovers from a reused set).
+2. **Detail on the hero props** — anything the camera lingers on gets windows, trims, lights, a readable detail (Dragon's
+   windows/thrusters, ISS golden arrays facing the camera, the Roadster's "DON'T PANIC!" screen, Cybertruck light bars).
+3. **Light** — every shot needs a key on the face, a practical in frame where it makes sense, and contrast with the background.
+4. **Secondary action** — one extra living thing per shot: passers-by doing a double take, a welder's sparks, confetti,
+   phones up in a crowd, falling petals, a Starlink train, contrails, a sign crew on a lift.
+5. **Story-true dressing** — the real place, not the reused set (a glass HQ at 1355 Market St over a toy-street storefront).
