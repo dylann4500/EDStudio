@@ -26,6 +26,9 @@ Follow `CLAUDE.md` exactly. Steps:
    (`git fetch`, check `videos/`, `origin/main` and `.claude/worktrees/`) and scaffold: `npm run new -- NNN-slug` (use `--from 001-bedroom-door` / `--from 002-everyone-pregnant` to fork a reference).
    If the story needs a new location, build `engine/sets/<name>.js` modeled on `bedroom.js` (indoor) or `street.js` (outdoor).
 4. Write story.json (all text + HUD + timing, `"tone"`; end card fully visible ≥ 3.5 s), then shots.js (shots, cameras, poses, props).
+   **Lean on drama:** every beat should end in something big and physical (collapse, crush, snap, time-lapse) — CLAUDE.md.
+   **New places:** if the story goes somewhere the existing sets don't cover (or a set was used in the last videos), build a new
+   `engine/sets/<name>.js` and new props. **Dress every scene** — never ship a bare still (CLAUDE.md → No bare scenes).
 5. Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
    build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup
    for arm poses. Check that no text sits over a face or a sign. If the premise is a readable prop (cards, signs, screens), check that

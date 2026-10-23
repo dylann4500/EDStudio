@@ -38,6 +38,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | emotional (001, 003) | soft piano (`instrument: "piano"`, held/arp/cadence) | room tone, a few quiet foley hits |
 | funny (002) | bouncy piano (`style: "bounce"`) + pad | city murmur, cartoon boops |
 | montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
+| funny-dramatic (010) | mock-epic strings + taiko march, booms on impacts | heavy soft foley: giant steps, snaps, crunches, groans |
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
 | funny montage / "sus" (008) | **sneaky pizzicato**: `instrument: "pluck"` + `style: "bounce"` in D minor + a creeping chromatic `mallet_melody` motif per place, warm major arp for the ending | scene beds + soft low `plush_squeak` boops synced to each card/row appearing |
@@ -56,6 +57,16 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   Fix (008): one long drone pad region under the whole groove (`level` ≈ 0.85) + `pad_db` +1; patch a last stray dip with a soft
   pickup note. With a dense groove, pull `stem_gain_db.music` to ≈ −21 so beds/boops sit ~15 dB under it instead of ~30.
 - The onset checker flags overlapping/gradual sounds (car passes, stacked scribbles) as "--"; that's expected for beds of sound.
+
+## Mock-epic (010, funny-dramatic) — a "kaiju march"
+- C minor, 90 bpm: `strings` stomp pattern `[0,0,0,1,0,0,2,0]` in 8ths (octave 1, sustain 0.3), soft `taiko` on the beats like
+  footfalls, a braam (pad `notes` low, level 1.5) + `boom` the moment the premise hits, a `boom` on every collapse, a `tom` roll
+  into a grand major lift (Eb) for the rebuild, then it deflates to slow pulses for the final joke. Deadpan text + epic score = funny.
+- New foley: `giant_step` (size, surface 'wood'), `wood_snap` (size), `bonk`, `metal_groan` (pitch, dur) + existing `car_crash`.
+- **Heavy-foley balance:** with strings at +8 dB the foley vanished (sfx 30 dB under the music). What worked: stems
+  `music −6, sfx +13, amb +10`, sfx limiter `−4 dBFS`, `auto_duck {db: −4, categories: ['prop']}` → impacts land level with the score
+  (margin ≈ 0 dB, peaks ≈ −8 dBFS). Read the synth's "foley-over-music margin" line; for impact-led reels it should be ≥ −6 dB.
+- Reference script: `videos/010-giant-height/make_cues.py`.
 
 ## Funny tone (002) — same softness, different timing
 - `style: "bounce"` section = "oom-pah" piano (bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm; note lengths

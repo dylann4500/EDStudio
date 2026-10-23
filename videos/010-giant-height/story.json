@@ -1,0 +1,43 @@
+{
+  "tone": "whatif",
+  "look": { "exposure": 1.0, "fill": 0.4, "vignette": 0.32, "bloom": 0.2, "bloomThreshold": 0.93 },
+  "fps": 30,
+  "duration": 69.5,
+  "title": { "html": "What if every person's height <em>doubled</em> overnight?", "in": -0.4, "out": 3.4 },
+  "subs": [
+    [3.8, 6.6, "Tuesday, 3:00 AM. 8.2 billion people are asleep."],
+    [6.9, 9.6, "Then every human doubles in height."],
+    [10.4, 13.2, "+3 hours. Everyone wakes up 3.3 meters tall."],
+    [13.6, 16.6, "Every door on Earth is now too small."],
+    [17.4, 20.2, "+4 hours. 8.2 billion giants go to work."],
+    [20.6, 22.8, "The sidewalks were not ready."],
+    [23.4, 26.4, "+5 hours. There are 1.4 billion cars on Earth."],
+    [26.9, 29.2, "None of them fit."],
+    [29.9, 32.7, "+6 hours. A city bus holds 60 people."],
+    [33.2, 36.2, "Now it holds seven."],
+    [36.9, 39.9, "+1 week. Everyone needs five times more food."],
+    [40.3, 42.7, "Supermarkets are empty by 8 AM."],
+    [43.4, 46.4, "+1 month. Every bone carries twice the stress."],
+    [46.8, 49.2, "So does every chair."],
+    [49.9, 52.9, "+1 year. The world rebuilds at double size."],
+    [53.3, 56.2, "Cars, doors, chairs. Everything twice as big."],
+    [56.9, 59.6, "And every human can dunk."],
+    [60.2, 63.6, "Basketball has never been more boring."]
+  ],
+  "hudLabel": "AVERAGE HUMAN HEIGHT · CM",
+  "hud": [
+    { "t0": 0.0, "t1": 10.0, "from": 165, "to": 330, "r0": 7.0, "r1": 8.6, "time": "TUESDAY · 3:00 AM", "ageFrom": "5 FT 5 IN · 62 KG", "age": "10 FT 10 IN · 496 KG" },
+    { "t0": 10.0, "t1": 17.0, "from": 330, "to": 330, "time": "+3 HOURS", "age": "DOORS THAT FIT 0" },
+    { "t0": 17.0, "t1": 23.0, "from": 330, "to": 330, "time": "+4 HOURS", "age": "WEIGHT ×8 · STRENGTH ×4" },
+    { "t0": 23.0, "t1": 29.5, "from": 330, "to": 330, "time": "+5 HOURS", "age": "CARS THAT FIT 0" },
+    { "t0": 29.5, "t1": 36.5, "from": 330, "to": 330, "time": "+6 HOURS", "age": "BUS CAPACITY 60 → 7" },
+    { "t0": 36.5, "t1": 43.0, "from": 330, "to": 330, "time": "+1 WEEK", "age": "FOOD NEEDED ×5" },
+    { "t0": 43.0, "t1": 49.5, "from": 330, "to": 330, "time": "+1 MONTH", "age": "BONE STRESS ×2" },
+    { "t0": 49.5, "t1": 56.5, "from": 330, "to": 330, "time": "+1 YEAR", "age": "EVERYTHING ×2" },
+    { "t0": 56.5, "t1": 69.5, "from": 330, "to": 330, "time": "+1 YEAR", "age": "DUNKS TODAY 4.1 BILLION", "ageGoldAt": 59.0 }
+  ],
+  "end": { "in": 65.0, "html": "Would you want to be <em>11 feet</em> tall?", "small": "TELL US BELOW" },
+  "dips": [],
+  "finalFade": [64.4, 65.0],
+  "debugView": { "center": [0, 0, 0], "height": 14 }
+}

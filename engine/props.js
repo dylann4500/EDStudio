@@ -248,3 +248,47 @@ export function makeSearchBubble(o = {}) {
   resize();
   return { sprite, material, setRows, setPop, width };
 }
+
+// ---------------------------------------------------------------- city bus + basketball hoop (010; reusable)
+/**
+ * City bus (12 m, faces +z, front at z=+L/2). Returns {g, body, wheels, setSag(k), setSign(text)}.
+ * setSag(k 0..1): the body sinks onto its axles and rolls toward the curb (−x side) — "too heavy".
+ */
+export function makeBus({ color = 0x2f7d6a, stripe = 0xf2c14e, L = 12, sign = '42 DOWNTOWN' } = {}) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const W = 2.55, H = 3.0, paint = mat(color, 0.4), glass = new THREE.MeshStandardMaterial({ color: 0x1d2a38, roughness: 0.1, metalness: 0.3, transparent: true, opacity: 0.55 });
+  mk(new RoundedBoxGeometry(W, 0.9, L, 3, 0.12), paint, body, 0, 0.75, 0);                       // lower body
+  mk(new RoundedBoxGeometry(W, 0.35, L, 3, 0.12), paint, body, 0, H - 0.18, 0);                  // roof
+  for (const s of [-1, 1]) for (let k = 0; k < 6; k++) mk(new THREE.BoxGeometry(0.08, 1.55, 0.12), paint, body, s * (W / 2 - 0.04), 2.0, -L / 2 + 0.6 + k * (L - 1.2) / 5); // window pillars
+  const win = mk(new THREE.BoxGeometry(W - 0.06, 1.55, L - 0.3), glass, body, 0, 2.0, 0); win.castShadow = false;            // glass box (people inside show through)
+  mk(new THREE.BoxGeometry(W + 0.01, 0.16, L + 0.01), mat(stripe, 0.5), body, 0, 1.12, 0);
+  const signTex = canvasTex(512, 96, (c, w, h) => { c.fillStyle = '#111'; c.fillRect(0, 0, w, h); c.fillStyle = '#ffb21c'; c.font = 'bold 64px Helvetica, Arial, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(sign, w / 2, h / 2 + 3); });
+  const signMat = new THREE.MeshBasicMaterial({ map: signTex, toneMapped: false });
+  const signM = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.34), signMat); signM.position.set(0, H - 0.5, L / 2 + 0.07); body.add(signM);
+  const door = mk(new THREE.BoxGeometry(0.06, 2.1, 1.1), glass, body, -W / 2 - 0.01, 1.25, L / 2 - 1.6); door.castShadow = false;
+  const wheels = [];
+  for (const z of [L / 2 - 2.2, -L / 2 + 2.4]) for (const s of [-1, 1]) {
+    const w = mk(new THREE.CylinderGeometry(0.5, 0.5, 0.32, 18), mat(0x1c1c1e, 0.8), g, s * (W / 2 - 0.15), 0.5, z); w.rotation.z = Math.PI / 2; wheels.push(w);
+    mk(new THREE.CylinderGeometry(0.22, 0.22, 0.34, 14), mat(0xbfc4ca, 0.3), w, 0, 0, 0);
+  }
+  const setSag = (k) => { body.position.y = -0.42 * k; body.rotation.z = 0.06 * k; wheels.forEach((w) => w.scale.set(1, 1, 1 - 0.18 * k)); };
+  const setSign = (text) => { const c = signTex.image.getContext('2d'); c.fillStyle = '#111'; c.fillRect(0, 0, 512, 96); c.fillStyle = '#ffb21c'; c.font = 'bold 64px Helvetica, Arial, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(text, 256, 51); signTex.needsUpdate = true; };
+  return { g, body, wheels, door, setSag, setSign, W, H, L };
+}
+/** Driveway basketball hoop: pole + backboard + orange rim at y=3.05 (regulation). Rim center at (0, 3.05, 0.55) local. */
+export function makeHoop() {
+  const g = new THREE.Group(), metal = mat(0x3d4a45, 0.5);
+  mk(new THREE.CylinderGeometry(0.07, 0.09, 3.6, 12), metal, g, 0, 1.8, -0.35);
+  mk(new THREE.BoxGeometry(0.06, 0.06, 0.5), metal, g, 0, 3.35, -0.12);
+  const board = mk(new THREE.BoxGeometry(1.8, 1.05, 0.05), new THREE.MeshStandardMaterial({ color: 0xf6f6f4, roughness: 0.3 }), g, 0, 3.4, 0.12);
+  mk(new THREE.BoxGeometry(0.6, 0.45, 0.01), mat(0xd2483f, 0.5), g, 0, 3.27, 0.15).scale.set(1, 1, 1);
+  mk(new THREE.BoxGeometry(0.52, 0.37, 0.012), new THREE.MeshStandardMaterial({ color: 0xf6f6f4, roughness: 0.3 }), g, 0, 3.27, 0.152);
+  const rim = mk(new THREE.TorusGeometry(0.23, 0.018, 8, 28), mat(0xe2572b, 0.4), g, 0, 3.05, 0.4); rim.rotation.x = Math.PI / 2;
+  const net = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.15, 0.4, 14, 3, true), new THREE.MeshStandardMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.8 }));
+  net.position.set(0, 2.84, 0.4); g.add(net);
+  return { g, rim: new THREE.Vector3(0, 3.05, 0.4), board };
+}
+export function makeBasketball(r = 0.12) {
+  const tex = canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#e0722f'; c.fillRect(0, 0, w, h); c.strokeStyle = '#2a1a10'; c.lineWidth = 4; c.beginPath(); c.moveTo(0, h / 2); c.lineTo(w, h / 2); c.moveTo(w / 4, 0); c.lineTo(w / 4, h); c.moveTo((3 * w) / 4, 0); c.lineTo((3 * w) / 4, h); c.stroke(); });
+  const g = new THREE.Group(); mk(new THREE.SphereGeometry(r, 24, 16), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }), g); return g;
+}

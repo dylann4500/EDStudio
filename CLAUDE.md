@@ -81,6 +81,17 @@ videos/NNN-slug/
 - `engine/sets/mars.js` (007): Mars terrain + mesas, butterscotch sky (blue dusk), landing pad (`DIMS.pad`), lander + `setDust(age)`,
   and a colony that builds itself: `setBuild(0..1)` grows solar fields → glass domes (with houses/trees inside) → tubes → towers;
   `setDusk(0..1)` turns on the lights. Set `camera.far` ≥ 900.
+- `engine/sets/suburb.js` (010): sunny bungalow street — `houses[i]` {door (hinge group: `rotation.y = 1.45` opens it), doorPos, drive,
+  garage}, porches (top `DIMS.porchY`), mailboxes, picket fences, flower beds, power poles + wires (`opts.poleClear` x-list keeps
+  them out of shots), a kid's bike, gnome, doghouse, far-curb cars, clouds, a pocket park with a two-half bench
+  (`bench.userData.halves` → rotate `.z` ±0.55 to snap it), a driveway hoop (`hoop.rim` local). `aimSun(cx, cz, half)`, own `fog`.
+- `engine/sets/supermarket.js` (010): 4 aisles of instanced products, `setStock(0..1)` (a time-lapse emptying in one call), `setSoldOut(v)`
+  banners, checkouts, carts, produce bins, fluorescent panels. Ceiling 4.4 m (a 3.3 m giant still fits).
+- `engine/props.js` (010): `makeBus({sign})` → `setSag(k)` (body sinks + rolls, tires squash), `setSign(text)`; `makeHoop()` (rim at
+  3.05 m), `makeBasketball()`.
+- **Giants / scaled people (010):** `rig.root.scale.setScalar(2)` and pose them with a helper that passes the ground in LOCAL units:
+  `p.y = 0; p.floor = (groundY − rootY) / s; applyPose(); root.position.y = rootY` (010 `putG`). Sitting on something at height h:
+  `rootY = h − s·(HIP_H − 0.17)`. Walking: `dist/s`, `speed/s`. A doubled person under a 2.7 m ceiling needs `crouch ≈ 0.3, lean ≈ 0.5`.
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
@@ -149,6 +160,14 @@ videos/NNN-slug/
 - **Scene variety (all videos):** cut between many distinct locations, and **show what each subtitle says** — "countries build
   armies" → soldiers marching, tanks leaving a hangar; never keep returning to one set (user, on 005's first cut). Plan 4+
   locations per video; reuse `engine/sets/*` from earlier videos (they can all live in one scene, one `root` visible per shot).
+- **Lean on drama + the biggest visible effect (user steer, 010):** every beat should end in something physically big —
+  a collapse, a crush, a snap, a time-lapse — with an impact (camera shake + dust burst + a boom/foley hit). Deadpan text over an
+  epic score + big physical consequences = the comedy. Low "ant's-eye" camera angles make giants/scale read.
+- **New places, not repeats (user steer, 010):** build new sets/props when the story moves somewhere new — viewers don't want the
+  same street every video. 010 added `suburb.js` + `supermarket.js` + `makeBus`/`makeHoop` instead of reusing street.js 5×.
+- **No bare scenes (user steer, 010):** dress every shot — posters, a glowing alarm clock, slippers, laundry, plants indoors;
+  power poles + wires, picket fences, flower beds, a kid's bike, a gnome, parked cars, clouds outdoors; carts and produce bins in a store.
+  If a still looks empty, add 4–6 props before re-rendering. Keep them out of the hero's sightline (`poleClear` in suburb.js).
 - **Sound-design-led mixes are allowed** (user noticed top what-if accounts often skip music): places carry the sound (crowd,
   traffic, room tone, a far horn), a pad bed ~9 dB under the ambience, piano only for the ending. Still soft. See audio/README.md.
 

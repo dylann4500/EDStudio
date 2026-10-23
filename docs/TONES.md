@@ -109,3 +109,10 @@ Reference: `docs/reference/simplysimulated.md` (841K likes). Not every video has
 tells the story in full connected sentences (never fragments — user steer on 009 v1), `tools/biography.py` sizes every shot
 from its narration, HUD = age + date + place, a new set per era, a clear but non-graphic death beat, a legacy ending and a
 "Whose story should we tell next?" end card. Length follows the life (009 = 2:19).
+
+## Funny-dramatic what-if (`videos/010-giant-height`)
+"What if every person's height doubled overnight?" — a whatif ladder where **every beat ends in a big physical consequence**:
+the bed snaps, a doorway is waist-high, giants step out over their porches, the car roof crushes flat, the bus bottoms out
+("FULL · 7 PEOPLE"), shelves empty in a time-lapse, a bench snaps, double-size cars, everyone can dunk. Real mechanism for comment
+bait: the square–cube law (height ×2 → weight ×8, bone strength ×4 → stress ×2, food ≈ ×5). Gary (002/007) is the recurring
+everyman. Impacts = camera shake + a dust burst + a boom. Score = mock-epic march (audio/README.md). New sets every few beats.

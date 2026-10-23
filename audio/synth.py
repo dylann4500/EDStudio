@@ -929,6 +929,58 @@ def sfx_car_horn(rng, dur=0.42, pitch=1.0, distance=1.0):
     return Sound(norm(x, 0.9), anchor=0.0, onsets=[0.0])
 
 
+def sfx_giant_step(rng, size=1.0, surface="ground"):
+    """A 3-meter person's footfall (010): a deep sub thud + a low-passed body knock + a tiny settle of grit. No click.
+    size scales the weight (pitch drops, tail lengthens). surface 'wood' adds a floorboard groan."""
+    dur = 0.7
+    n = nsamp(dur)
+    t = tvec(n)
+    f0 = (58 - 14 * (size - 1)) * rng.uniform(0.92, 1.08)
+    sub = np.sin(2 * np.pi * f0 * t * (1 - 0.25 * np.clip(t / 0.25, 0, 1))) * np.exp(-t / (0.12 * size)) * (1 - np.exp(-t / 0.004))
+    knock = norm(modal([rng.uniform(110, 150), rng.uniform(230, 290)], [0.05, 0.025], [1.0, 0.4], dur, contact=0.008))
+    grit = lp(white(n, rng), 1800) * np.exp(-t / 0.06) * (1 - np.exp(-t / 0.01))
+    y = 1.0 * sub + 0.5 * knock + 0.12 * norm(grit)
+    if surface == "wood":                                   # the floor takes it: a short low groan of boards
+        y += 0.25 * norm(lp(white(n, rng), 600) * np.exp(-t / 0.2))
+    return Sound(norm(fades(lp(y, 2500), 0.001, 0.08)), onsets=[(0.0, "soft")])
+
+
+def sfx_wood_snap(rng, dur=0.9, size=1.0):
+    """Furniture breaking under weight (010 bed frame, park bench): a dry crack (band-limited, not bright) + splinter
+    crackle + a low thud as it drops. anchor = the crack."""
+    n = nsamp(dur)
+    t = tvec(n)
+    crack = bp(white(n, rng), 700, 3800) * np.exp(-t / 0.018) * (1 - np.exp(-t / 0.0015))
+    imp = (rng.random(n) < 420.0 / SR * np.exp(-t / 0.15)) * rng.exponential(1.0, n)
+    crackle = bp(np.convolve(imp, np.exp(-np.arange(nsamp(0.003)) / nsamp(0.0006)))[:n], 900, 3600)
+    k = nsamp(0.09)
+    thud = np.zeros(n)
+    thud[k:] = (np.sin(2 * np.pi * 70 * size ** -0.3 * t[:n - k]) * np.exp(-t[:n - k] / 0.09))
+    y = 0.9 * norm(crack) + 0.45 * (norm(crackle) if np.any(crackle) else crackle) + 0.8 * thud
+    return Sound(norm(fades(lp(y, 4200), 0.0005, 0.06)), onsets=[(0.0, "transient")])
+
+
+def sfx_bonk(rng, dur=0.6):
+    """Head meets ceiling (010): a soft hollow knock (low modal) + a little plaster dust trickle. Cartoon, never painful."""
+    n = nsamp(dur)
+    t = tvec(n)
+    knock = norm(modal([rng.uniform(150, 175), rng.uniform(330, 380), rng.uniform(610, 690)], [0.08, 0.04, 0.02], [1.0, 0.5, 0.2], dur, contact=0.006))
+    dust = lp(white(n, rng), 2600) * np.exp(-((t - 0.25) / 0.12) ** 2) * 0.25
+    return Sound(norm(fades(knock + dust, 0.0005, 0.05)), onsets=[(0.0, "transient")])
+
+
+def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
+    """A vehicle's suspension bottoming out (010 bus): a low metallic groan + a clunk at the start."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 85 * pitch * (1 - 0.18 * np.clip(t / dur, 0, 1))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    groan = (np.sin(ph) + 0.5 * np.sin(2.01 * ph) + 0.3 * np.sin(3.03 * ph)) * (0.6 + 0.4 * smooth_rand(n, 7, rng)) * np.exp(-t / (0.45 * dur))
+    clunk = norm(modal([rng.uniform(90, 110), rng.uniform(260, 300)], [0.06, 0.03], [1.0, 0.5], dur, contact=0.006))
+    y = 0.7 * norm(lp(groan, 900)) + 0.8 * clunk
+    return Sound(norm(fades(y, 0.001, 0.1)), onsets=[(0.0, "transient")])
+
+
 def sfx_car_crash(rng, dur=1.2, weight=1.0):
     """A car collision heard from across the street: a low body thump + a short crunch of bent metal + a few settling
     rattles. Kept dark (low-passed) so it lands as weight, not as a harsh bang (006)."""
@@ -1851,6 +1903,10 @@ SFX = {
     "flash_swish": (sfx_flash_swish, "ui"),
     "car_horn": (sfx_car_horn, "prop"),
     "car_crash": (sfx_car_crash, "prop"),
+    "giant_step": (sfx_giant_step, "footstep"),
+    "wood_snap": (sfx_wood_snap, "prop"),
+    "bonk": (sfx_bonk, "prop"),
+    "metal_groan": (sfx_metal_groan, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),
 }
 
