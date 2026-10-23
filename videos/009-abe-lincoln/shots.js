@@ -35,6 +35,8 @@ export const CAMS = {
   reading:  { p: [[0.55, 1.15, 1.45], [0.35, 1.1, 1.25]], a: [[-1.0, 0.8, 0.1], [-1.0, 0.78, 0.1]], fov: 48, amp: 0.004 },
   riverA:   { track: 'boat', p: [[-6.4, 2.2, 5.8], [-5.8, 2.0, 5.2]], a: [[-3.0, 1.55, 0.55], [-2.9, 1.55, 0.55]], fov: 48, amp: 0.006 },
   riverB:   { track: 'abe', p: [[1.0, 0.05, -2.3], [0.85, 0.05, -2.0]], a: [[0, -0.15, 0], [0, -0.15, 0]], fov: 40, amp: 0.004 },
+  auctionB: { p: [[1.85, 1.9, 5.35], [1.75, 1.89, 5.5]], a: [[0.95, 1.55, 7.0], [0.95, 1.54, 7.0]], fov: 38, amp: 0.003 },   // Abe 3/4 front, looking past camera at the block
+  auction:  { p: [[1.9, 2.9, 10.6], [1.75, 2.8, 10.0]], a: [[0.05, 1.85, -2.2], [0.05, 1.85, -2.2]], fov: 42, amp: 0.004 },   // wide: the block, the people, the buyers   // over Abe's shoulder (he stands on the camera→platform line)
   store:    { p: [[2.75, 1.78, 1.65], [2.6, 1.74, 1.45]], a: [[0.3, 1.42, -0.8], [0.3, 1.42, -0.8]], fov: 48, amp: 0.004 },
   road:     { track: 'abe', p: [[3.4, 1.35, 0.7], [3.2, 1.3, 0.65]], a: [[-6, 1.0, 0.1], [-6, 1.0, 0.1]], fov: 44, amp: 0.004 },
   law:      { p: [[1.15, 1.48, -1.85], [1.05, 1.44, -1.82]], a: [[-0.05, 1.1, -0.5], [-0.05, 1.08, -0.5]], fov: 46, amp: 0.003 },
@@ -151,6 +153,19 @@ export async function build(studio, story) {
     P.head.g.add(h); h.position.set(0, woman ? 0.0 : 0.135 * 0.8, 0); P.hat = h; P.woman = woman;
     P.seed = R(); P.seed2 = R(); scene.add(P.root); return P;
   });
+  // New Orleans auction (riverB's line). Shown with dignity: people standing still, heads lowered — the horror is the
+  // situation and Abe's reaction, nothing graphic.
+  const ENS = [[0x5a3626, 0xd8ccb0, 0x6a5a48, false], [0x7a4a32, 0x8a7a68, 0x5a4a3a, true], [0x4e3022, 0xc8b898, 0x5a4a3a, false],
+    [0x8a5a3c, 0x9a8a6a, 0x4a3a2a, true], [0x6e4430, 0xb8a888, 0x5a4a38, false], [0x5a3626, 0xd0c4a8, 0x6a5a48, false]];
+  const enslaved = ENS.map(([skin, top, pants, woman], i) => {
+    const P = makePerson({ skin, top, pants, shoes: 0x3a2a1e, hair: 0x1a1210, hairStyle: woman ? 'none' : 'short', dress: woman ? top : null });
+    if (woman) { const wrap = mk(new THREE.SphereGeometry(0.135 * 1.12, 20, 12, 0, PI * 2, 0, PI * 0.55), mat([0x8a4a3a, 0x3a5a7a][i % 2], 0.9), P.head.g, 0, 0.02, -0.01); wrap.scale.set(1, 1.05, 1.05); }
+    scene.add(P.root); return P;
+  });
+  const child = makePerson({ skin: 0x6e4430, top: 0xc8b898, pants: 0x5a4a3a, hair: 0x1a1210, hairStyle: 'short', headR: 0.17 });
+  child.root.scale.setScalar(0.6); SC.set(child, 0.6); scene.add(child.root);
+  const auctioneer = makePerson({ skin: 0xf0c8a8, top: 0x4a4a52, collar: 0xf1ece0, pants: 0x3a3a42, hair: 0x6a5a48, hairStyle: 'short', mustache: 0x6a5a48 });
+  scene.add(auctioneer.root);
   const visitors = Array.from({ length: 9 }, (_, i) => { const P = makePerson({ skin: SKINS[i % SKINS.length], top: [0xd2483f, 0x3d7bd9, 0xf1c24a, 0x6fa84f, 0xf5f0e2, 0x8f6fb8, 0xe58fa6, 0x2f4f73, 0x4fb3a8][i], pants: [0x34405c, 0x2a2a2a, 0x6b5a48][i % 3], hair: [0x2a1d16, 0x5a3a24, 0xd9b46a, 0x1a1a1a][i % 4], hairStyle: ['short', 'bob', 'messy', 'bob'][i % 4] }); scene.add(P.root); P.seed = R(); return P; });
   const soldiers = Array.from({ length: 22 }, (_, i) => {
     const blue = i < 16;
@@ -160,7 +175,7 @@ export async function build(studio, story) {
     P.blue = blue; P.seed = R(); scene.add(P.root); return P;
   });
   const flagBearer = makeFlag(0.9, 0.55, 2.4, 3); scene.add(flagBearer.g);
-  const ALL = [...ABES, nancy, thomas, customer, douglas, everett, mary, booth, ...friends, ...cabinet, ...crowd, ...visitors, ...soldiers];
+  const ALL = [...ABES, nancy, thomas, customer, douglas, everett, mary, booth, ...friends, ...cabinet, ...crowd, ...visitors, ...soldiers, ...enslaved, child, auctioneer];
 
   // ---------------------------------------------------------------- props
   const baby = makeBabyBundle(0xf4ead8, 0xf0c0a0); cabin.rock.add(baby); baby.position.set(0, 0.32, 0.05); baby.rotation.y = PI / 2;
@@ -329,6 +344,34 @@ export async function build(studio, story) {
       }
       put(P, 'square', p);
     });
+  }
+  function auction(t) {
+    square.setMode('summer'); square.setDress({ town: true, cemetery: false, dome: false, banner: false, bunting: false });
+    square.chairs.forEach((c) => (c.visible = false));
+    const D = DECK;
+    // the auctioneer at the block, pointing; the people stand in a line on the deck, heads lowered
+    const point = 0.5 + 0.5 * Math.sin(t * 2.2);
+    put(auctioneer, 'square', pose(t, 21, { x: 2.2, z: -1.45, y: D, floor: D, rotY: faceToward(2.2, -1.45, 0, 4), armA: mixArm(A(-1.2, 0.35, -0.3, 0), A(-1.7, 0.5, -0.1, 0), point), armB: A(-0.6, 0.1, -0.9, -0.4), mouth: Math.sin(t * 9) > 0 ? 'o' : 'flat' }));
+    enslaved.forEach((P, i) => {
+      const x = -2.6 + i * 0.85, z = -2.3 + (i % 2) * 0.12;
+      const p = pose(t, 30 + i, { x, z, y: D, floor: D, rotY: 0.05 * (i - 2.5), headPitch: 0.38 + 0.05 * (i % 3), armA: CLASP_A, armB: CLASP_B, mouth: 'flat', eyes: 'open' });
+      if (i === 1) { p.armB = A(-0.2, 0.25, -0.2, -0.2); }              // a mother holding her child's hand
+      put(P, 'square', p); if (P.dress) P.dress.visible = true;
+    });
+    put(child, 'square', pose(t, 37, { x: -1.45, z: -2.05, y: D / 0.6, floor: D / 0.6, rotY: -0.2, headPitch: -0.2, armA: A(-0.1, 0.3, -0.2, 0.2), mouth: 'flat' }));
+    // buyers (men from the crowd) watch; two raise a hand to bid
+    let k = 0;
+    crowd.forEach((P, i) => {
+      if (P.woman) return;
+      const [x, z] = crowdSpots[k++];
+      const p = pose(t, i + 10, { x, z: z + 0.6, rotY: faceToward(x, z, 0, -2) + (P.seed - 0.5) * 0.25, headPitch: -0.15 });
+      if (k === 4 || k === 9) p.armB = mixArm(REST, A(-2.6, 0.2, -0.3, 0), K(t, [[22.9 + k * 0.08, 0], [23.3 + k * 0.08, 1]]));
+      if (P.hat.parent !== P.head.g) { P.head.g.add(P.hat); P.hat.position.set(0, 0.135 * 0.8, 0); P.hat.rotation.set(0, 0, 0); }
+      put(P, 'square', p);
+    });
+    // Abe at the back of the crowd, taller than everyone; he looks, then turns away
+    const down = K(t, [[24.85, 0], [25.35, 1]]);   // auctionB: he watches, then lowers his head and closes his eyes
+    put(abeYoung, 'square', pose(t, 4, { x: 0.95, z: 7.0, rotY: faceToward(0.95, 7.0, 0, -2), headPitch: 0.02 + 0.42 * down, mouth: 'flat', eyes: down > 0.6 ? 'closed' : 'open', armA: REST, armB: REST }));
   }
   const DECK = CD.square.deck, LECT = [0, -1.15], STAND = [0, -1.62];   // lectern center / where the speaker stands (behind it)
   function speaker(t, P, seed, gestureK) {
@@ -505,7 +548,8 @@ export async function build(studio, story) {
       if (cam === 'dawn') dawn(t);
       room.flag.update(t * 0.2, 0.3);
     } else if (S === 'square') {
-      square.update(t);
+      square.update(t); square.chairs.forEach((c) => (c.visible = true));
+      if (cam === 'auction' || cam === 'auctionB') auction(t);
       if (cam.startsWith('debate')) debate(t, cam);
       if (cam.startsWith('gettys')) gettys(t, cam);
       if (cam === 'victory') victory(t);
