@@ -9,7 +9,7 @@ Run it with `/new-biography <name>` (`.claude/commands/new-biography.md`).
 |---|---|---|
 | Text | short punchy lines | **a narrator telling a story**: full, connected, present-tense sentences (one or two per scene) |
 | Timing | fixed shot clock, text fits the shot | **the narration sets the clock**: `tools/biography.py` sizes every shot from its lines |
-| Length | 45–80 s | as long as the life needs (009 = 2:19). Never rush a scene to save seconds. render.mjs lowers the bitrate cap automatically so long reels stay < 100 MB. |
+| Length | 45–80 s | as long as the life needs, but aim **under 2:00** (user steer on 009's 2:19 cut; v3 = 1:59 via pace 0.30, lead/tail 0.2/0.25, small trims). Never rush a scene to save seconds. render.mjs lowers the bitrate cap automatically so long reels stay < 100 MB. |
 | HUD | premise number | **their AGE** (rolls at each cut) + date + place |
 | Sets | reuse `engine/sets/*` | **build what the life needs** (user: "don't worry about previous artifacts") — new sets per era |
 | Ending | twist / question | death (non-graphic but *clear*), aftermath, legacy, "Whose story should we tell *next*?" |
@@ -29,7 +29,12 @@ context** — fragments are not narration. Rules:
 - Present tense, third person, the person's name early ("…Abraham Lincoln is born."), then "he/she".
 - One or two lines per scene. **≤ ~95 characters per line** (the subtitle box wraps at ~48 chars → max two rows).
   Split a long sentence across two lines with a comma/ellipsis so each line still reads as a phrase.
-- Every line must be **shown** by its scene (house rule): the line about the axe plays over the axe.
+- Every line must be **shown** by its scene (house rule): the line about the axe plays over the axe. **This includes the
+  dark chapters** — 009 v2 said "he sees people sold at a slave auction" over a close-up on a boat and the user called it
+  out. Show them with dignity (v3: people standing still on the block, heads lowered, buyers bidding, the auctioneer
+  pointing — then the hero's face as he lowers his head). Never graphic, never played for spectacle.
+- A wide + a reaction close-up under ONE line is strong for those moments: give the wide beat `"len"` (fixed length) and
+  the reaction beat no lines — the sentence runs on across the cut (009 auction → auctionB).
 - Keep the specific number or quote in the line; the HUD carries age/date/place so the line doesn't have to.
 - End on legacy in two short lines ("The boy from a log cabin held a breaking country together," / "and helped set four
   million people free.").

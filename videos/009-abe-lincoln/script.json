@@ -10,14 +10,14 @@
  "fps": 30,
  "title": {
   "html": "The story of <em>Abraham Lincoln</em>",
-  "len": 4.0
+  "len": 3.6
  },
- "pace": 0.31,
- "gap": 0.3,
- "lead": 0.3,
- "tail": 0.35,
+ "pace": 0.3,
+ "gap": 0.25,
+ "lead": 0.2,
+ "tail": 0.25,
  "min_line": 1.8,
- "min_shot": 3.6,
+ "min_shot": 3.5,
  "hudLabel": "AGE",
  "beats": [
   {
@@ -39,13 +39,13 @@
    "date": "FEB 12, 1809",
    "place": "HODGENVILLE, KENTUCKY",
    "lines": [
-    "On February 12, 1809, in a one-room log cabin in Kentucky, Abraham Lincoln is born."
+    "February 12, 1809: in a one-room log cabin in Kentucky, Abraham Lincoln is born."
    ],
    "src": [
     3.6,
     6.9
    ],
-   "extra": 0.4
+   "extra": 0.0
   },
   {
    "cam": "forest",
@@ -54,7 +54,7 @@
    "date": "DEC 1816",
    "place": "PIGEON CREEK, INDIANA",
    "lines": [
-    "When he's seven, his family moves deep into the Indiana woods,",
+    "At seven, his family moves into the Indiana woods,",
     "and his father hands him an axe he'll swing for fifteen years."
    ],
    "src": [
@@ -69,13 +69,13 @@
    "date": "OCT 1818",
    "place": "PIGEON CREEK, INDIANA",
    "lines": [
-    "Two years later, his mother Nancy gets sick and dies. Abe is nine."
+    "Two years later, his mother Nancy dies. Abe is nine."
    ],
    "src": [
     12.9,
     15.9
    ],
-   "extra": 0.6
+   "extra": 0.3
   },
   {
    "cam": "reading",
@@ -84,7 +84,7 @@
    "date": "1824",
    "place": "PIGEON CREEK, INDIANA",
    "lines": [
-    "He'll get less than one year of school in his whole life,",
+    "He gets less than a year of school in his whole life,",
     "so he teaches himself, reading every book he can borrow by firelight."
    ],
    "src": [
@@ -105,11 +105,11 @@
     19.6,
     22.7
    ],
-   "extra": 0.3
+   "extra": 0.0
   },
   {
-   "cam": "riverB",
-   "set": "river",
+   "cam": "auction",
+   "set": "square",
    "age": 19,
    "date": "1828",
    "place": "NEW ORLEANS, LOUISIANA",
@@ -118,9 +118,22 @@
    ],
    "src": [
     22.7,
+    24.2
+   ],
+   "len": 3.1
+  },
+  {
+   "cam": "auctionB",
+   "set": "square",
+   "age": 19,
+   "date": "1828",
+   "place": "NEW ORLEANS, LOUISIANA",
+   "lines": [],
+   "src": [
+    24.2,
     25.6
    ],
-   "extra": 0.5
+   "len": 2.5
   },
   {
    "cam": "store",
@@ -129,13 +142,13 @@
    "date": "1831",
    "place": "NEW SALEM, ILLINOIS",
    "lines": [
-    "Back in Illinois, he becomes a clerk in a small-town general store."
+    "Back in Illinois, he clerks at a small-town general store."
    ],
    "src": [
     25.6,
     28.6
    ],
-   "extra": 0.3
+   "extra": 0.0
   },
   {
    "cam": "road",
@@ -144,7 +157,7 @@
    "date": "1831",
    "place": "NEW SALEM, ILLINOIS",
    "lines": [
-    "When he overcharges a woman a few cents, he walks miles that night to pay her back.",
+    "When he overcharges a woman a few cents, he walks miles to pay her back.",
     "People start calling him “Honest Abe.”"
    ],
    "src": [
@@ -159,13 +172,13 @@
    "date": "1836",
    "place": "NEW SALEM, ILLINOIS",
    "lines": [
-    "Reading borrowed law books late into the night, he becomes a lawyer at 27."
+    "Reading borrowed law books late at night, he becomes a lawyer at 27."
    ],
    "src": [
     32.0,
     35.2
    ],
-   "extra": 0.3
+   "extra": 0.0
   },
   {
    "cam": "debateA",
@@ -174,7 +187,7 @@
    "date": "1858",
    "place": "OTTAWA, ILLINOIS",
    "lines": [
-    "In 1858, he faces Senator Stephen Douglas in seven famous debates over slavery."
+    "In 1858, he faces Stephen Douglas in seven famous debates over slavery."
    ],
    "src": [
     35.2,
@@ -194,7 +207,7 @@
     38.1,
     41.2
    ],
-   "extra": 0.3
+   "extra": 0.0
   },
   {
    "cam": "electedA",
@@ -209,7 +222,7 @@
     41.2,
     44.0
    ],
-   "extra": 0.4
+   "extra": 0.0
   },
   {
    "cam": "beard",
@@ -218,14 +231,13 @@
    "date": "FEB 1861",
    "place": "ON THE WAY TO WASHINGTON",
    "lines": [
-    "An eleven-year-old girl writes that he'd look better with a beard…",
-    "…so he grows one."
+    "An eleven-year-old girl writes that he'd look better with a beard, so he grows one."
    ],
    "src": [
     44.0,
     47.6
    ],
-   "extra": 0.5
+   "extra": 0.3
   },
   {
    "cam": "war",
@@ -234,13 +246,13 @@
    "date": "APRIL 12, 1861",
    "place": "THE CIVIL WAR BEGINS",
    "lines": [
-    "Before he even takes office, the South breaks away. The Civil War begins."
+    "Before he even takes office, the South breaks away, and war begins."
    ],
    "src": [
     47.6,
     51.0
    ],
-   "extra": 0.6
+   "extra": 0.2
   },
   {
    "cam": "signingA",
@@ -263,13 +275,13 @@
    "date": "JAN 1, 1863",
    "place": "THE WHITE HOUSE",
    "lines": [
-    "His hand is shaking from hours of handshakes, so he waits until it's steady."
+    "His hand shakes from hours of handshakes, so he waits until it's steady."
    ],
    "src": [
     53.7,
     57.2
    ],
-   "extra": 0.6
+   "extra": 0.2
   },
   {
    "cam": "gettysA",
@@ -284,7 +296,7 @@
     57.2,
     60.1
    ],
-   "extra": 0.4
+   "extra": 0.1
   },
   {
    "cam": "gettysB",
@@ -299,7 +311,7 @@
     60.1,
     63.2
    ],
-   "extra": 0.4
+   "extra": 0.1
   },
   {
    "cam": "victory",
@@ -308,13 +320,13 @@
    "date": "APRIL 9, 1865",
    "place": "WASHINGTON, D.C.",
    "lines": [
-    "On April 9, 1865, after four brutal years, the war is finally over."
+    "April 9, 1865: after four brutal years, the war is over."
    ],
    "src": [
     63.2,
     66.4
    ],
-   "extra": 0.3
+   "extra": 0.0
   },
   {
    "cam": "theatreA",
@@ -329,7 +341,7 @@
     66.4,
     68.0
    ],
-   "extra": 0.2
+   "extra": 0.0
   },
   {
    "cam": "theatreB",
@@ -344,7 +356,7 @@
     68.0,
     70.6
    ],
-   "extra": 0.9
+   "extra": 0.5
   },
   {
    "cam": "dawn",
@@ -353,15 +365,15 @@
    "date": "APRIL 15, 1865 · 7:22 AM",
    "place": "PETERSEN HOUSE",
    "lines": [
-    "Lincoln dies the next morning. He is 56 years old.",
+    "Lincoln dies the next morning. He is 56.",
     "“Now he belongs to the ages.”"
    ],
    "src": [
     70.6,
     76.4
    ],
-   "extra": 0.8,
-   "delay": 0.5
+   "extra": 0.3,
+   "delay": 0.3
   },
   {
    "cam": "memorial",
@@ -377,8 +389,8 @@
     76.4,
     86.5
    ],
-   "extra": 1.0,
-   "delay": 0.6
+   "extra": 0.3,
+   "delay": 0.3
   }
  ],
  "dips_src": [
@@ -391,8 +403,8 @@
  "end": {
   "html": "Whose story should we tell <em>next</em>?",
   "small": "TELL US BELOW",
-  "after": 0.7,
-  "hold": 4.3
+  "after": 0.5,
+  "hold": 4.05
  },
  "goldLast": true,
  "debugView": {

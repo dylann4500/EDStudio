@@ -31,7 +31,8 @@ c["ambience"] = [
     {"sound": "wind", "t0": 6.9, "t1": 12.9, "fade_in": 0.3, "fade_out": 0.3, "gain_db": -47, "args": {"darkness": 0.4, "gust": 0.3, "whistle": 0.0}},
     {"sound": "dry_leaves", "t0": 12.9, "t1": 15.9, "fade_in": 0.3, "fade_out": 0.3, "gain_db": -44, "args": {"density": 0.6}},
     {"sound": "room_tone", "t0": 15.9, "t1": 19.6, "fade_in": 0.2, "fade_out": 0.2, "gain_db": -44},
-    {"sound": "wind", "t0": 19.6, "t1": 25.6, "fade_in": 0.3, "fade_out": 0.3, "gain_db": -46, "args": {"darkness": 0.6, "gust": 0.2, "whistle": 0.0}},
+    {"sound": "wind", "t0": 19.6, "t1": 22.7, "fade_in": 0.3, "fade_out": 0.2, "gain_db": -46, "args": {"darkness": 0.6, "gust": 0.2, "whistle": 0.0}},
+    {"sound": "city_day", "t0": 22.7, "t1": 25.6, "fade_in": 0.2, "fade_out": 0.4, "gain_db": -47, "args": {"murmur": 1.0, "traffic": 0.0}},   # the auction crowd
     {"sound": "room_tone", "t0": 25.6, "t1": 28.6, "fade_in": 0.2, "fade_out": 0.2, "gain_db": -43},
     {"sound": "wind", "t0": 28.6, "t1": 32.0, "fade_in": 0.3, "fade_out": 0.3, "gain_db": -45, "args": {"darkness": 0.9, "gust": 0.3, "whistle": 0.0}},
     {"sound": "room_tone", "t0": 32.0, "t1": 35.2, "fade_in": 0.2, "fade_out": 0.2, "gain_db": -45},

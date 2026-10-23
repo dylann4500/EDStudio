@@ -16,6 +16,7 @@ script.json:
     "hudLabel": "AGE",
     "beats": [ {"cam": "birth", "set": "cabin", "age": 0, "date": "FEB 12, 1809", "place": "HODGENVILLE, KENTUCKY",
                 "lines": ["On February 12, 1809, ..."], "extra": 0.4, "src": [3.6, 6.9]}, ... ],
+    # "len": 3.0 fixes a beat's length instead; its line can run on under the next (line-less) beat = a cut mid-sentence
     "dips_src": [[s_start, s_peak, s_end]],      # in shots.js (src) time, mapped onto the new timeline
     "end": {"html": "...", "small": "TELL US BELOW", "after": 0.6, "hold": 4.2},
     "goldLast": true }
@@ -41,6 +42,7 @@ def build(slug):
         durs = [max(min_line, len(l.split()) * pace) + b.get("line_extra", 0) for l in lines]
         body = sum(durs) + gap * max(0, len(lines) - 1)
         L = S["title"]["len"] if i == 0 and not lines else max(min_shot, lead + body + tail) + b.get("extra", 0)
+        if "len" in b: L = b["len"]   # fixed length: its lines may run on into the next beat (give that beat no lines) — a cut under a line
         t0, t1 = round(t, 3), round(t + L, 3)
         sh = {"cam": b["cam"], "set": b["set"], "t0": t0, "t1": t1}
         if "src" in b: sh["s0"], sh["s1"] = b["src"]
@@ -76,6 +78,8 @@ def build(slug):
     for sh in shots:
         n = [s for s in subs if sh["t0"] <= s[0] < sh["t1"]]
         print(f"  {sh['cam']:10s} {sh['t0']:6.2f}-{sh['t1']:6.2f}  ({sh['t1'] - sh['t0']:4.1f} s)  {len(n)} line(s)")
+    for (a0, b0, l0), (a1, b1, l1) in zip(subs, subs[1:]):
+        if a1 < b0: print(f"  ⚠️  overlapping lines: {l0!r} / {l1!r}")
     for a, b, l in subs:
         if (b - a) / len(l.split()) < 0.299: print(f"  ⚠️  reads too fast ({(b - a) / len(l.split()):.2f} s/word): {l}")
         if len(l) > 96: print(f"  ⚠️  {len(l)} chars — may wrap to 3 lines (keep ≤ ~95): {l}")
