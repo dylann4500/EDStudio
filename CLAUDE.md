@@ -6,6 +6,8 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
 - **world** (planet-scale thought experiments, `videos/005-no-nukes`): hologram globe whose dots are the HUD number, real sourced facts, a debate-question end card (`docs/WORLD-WHATIF.md`).
 - **whatif** (global "What if everyone…" ripple ladder, `videos/006-memory-loss`): one consequence per place, time-stamped in the HUD
   (SECOND 0 → +1 YEAR), many sets/cities, sound-design-led audio, a small human beat to end on.
+- **biography** ("The story of [Name]", `videos/009-abe-lincoln`): one real life birth → death, HUD = their AGE + date + place,
+  one scene per verified detail, non-graphic death beat, legacy ending, "Whose story should we tell next?" end card (docs/TONES.md).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
@@ -98,6 +100,22 @@ videos/NNN-slug/
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
 - `audio/synth.py` voices: piano (default), `mallet` (`ostinato` style), cinematic `strings` style, `drums`/`drum_patterns`
   (taiko, tom, boom), pad `notes` + `hp` for sub drones/braams. 005's `make_cues.py` uses all of the dramatic ones.
+- `engine/sets/frontier.js` (009, early-1800s America): `buildCabin` (log cabin inside + snowy night outside, fire `update(t)`,
+  `setExterior(v)` window glow), `buildWoods` (`setMode('summer'|'autumn'|'night')`, chopping stump + `chips`, half-built cabin,
+  grave knoll `DIMS.woods.grave`, dirt road z=9 to a far lit cabin), `buildRiver` (sunset river, flatboat `boat` + `sweep`,
+  New Orleans skyline, `update(t)` scrolls water), `buildStore` (general store, counter at z=-0.8). Props: `makeAxe`, `makeBook`,
+  `makeOpenBook`, `makeLantern` ({g, light}), `makeCoin`, `makeTree(kind, leafMat, R)`, `makeRailFence(x0,z0,x1,z1)`.
+- `engine/sets/capital.js` (009, mid-1800s): `buildRoom` (office/study: desk + paper `setSign(k)` reveals a signature, candle,
+  rocker, flag, portrait, `setClock(h,m)`, `setMode('candle'|'day'|'dawn')`, `setWallpaper(c1,c2)`), `buildSquare` (speaking
+  platform deck y=1.0 + lectern + 6 `chairs`, bunting, `setBanner(text)`, `setDress({town, cemetery, dome, banner, bunting})`,
+  `setMode('summer'|'autumn'|'spring')`), `buildBattlefield` (`update(t, [[time, cannon]])` recoil + flash + smoke, `heightAt`),
+  `buildTheatre` (stage + house + the flag-draped box, `DIMS.theatre.box`), `buildMemorial` (marble temple, pedestal + chair for a
+  5.2× statue at z=-5.45 on top of `floorY + 3`). Props: `makeTopHat`, `makeDerby`, `makeBonnet`, `makeKepi`, `makeRifle`,
+  `makeQuill`, `makeCannon`, `makeFlag(w,h,poleH)` (`update(t)` waves it), `usFlagTexture()`.
+- `engine/rig.js` (009): `makePerson({beard: color})` chin-curtain beard (`head.beard`, grow with `.scale` 0.62 → 1 and
+  `.visible`), `makePerson({dress: color})` long skirt cone (`rig.dress`; hide it when seated — trouser legs in the dress color
+  read as a skirt, the cone reads as standing). Marble statue = any rig with every mesh's material swapped to one marble mat,
+  in a scaled carrier group. Proper seat: `y: -0.375, footFwd: 0.42` (thighs level, shins vertical; seat top at 0.42).
 - `engine/sets/military.js` (005): `buildSilo` (missile `setDissolve(t, t0, t1)`: clipping plane + rising embers), `buildBase`
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
@@ -179,6 +197,17 @@ videos/NNN-slug/
   (≈1.6 m at 3.5 m, fov 48). A hero card reads at ~50–70 % of that width; 008's first sheet had 0.8 m cards at 7 m = unreadable.
   Move the camera in (≈3 m for heroes) instead of only scaling the card. In crowds, **stagger card heights** (3 lifts) or they
   form one row that hides itself. `clamp(x)` is 0..1 — never use it for a row count (008's history rows never appeared).
+- **Page never becomes ready / render times out with no error = an infinite loop in build()** (009: iterating `crown.children`
+  while adding snow caps to it). Iterate over a copy (`[...g.children]`). Bisect with `console.log` between builders.
+- **A mesh that renders flat white = undefined material** (three.js falls back to a white MeshBasicMaterial). 009: `arr[i % 3]`
+  with a negative `i` → `arr[-1]`. Use `((i % n) + n) % n`. To identify any mystery pixel, serve the repo
+  (`python3 -m http.server`), open the page in the browser pane, expose `window.__studio = studio` temporarily, and raycast
+  from `studio.camera` at that pixel (prints geometry, world point, material).
+- **Point lights ≥ 0.7 m from walls**: a fire light 15 cm from log walls blew them out to white (009).
+- **Check every still for the HUD (top-left, y≈470–640 at full size) covering a face** — 009's theatre box and riverA put a
+  face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
+- **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
+  the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)

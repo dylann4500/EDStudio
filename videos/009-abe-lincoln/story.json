@@ -1,0 +1,480 @@
+{
+ "tone": "biography",
+ "look": {
+  "exposure": 1.0,
+  "fill": 0.45,
+  "vignette": 0.36,
+  "bloom": 0.25,
+  "bloomThreshold": 0.9
+ },
+ "fps": 30,
+ "duration": 86.5,
+ "title": {
+  "html": "The story of <em>Abraham Lincoln</em>",
+  "in": -0.4,
+  "out": 3.4
+ },
+ "shots": [
+  {
+   "cam": "cabinExt",
+   "t0": 0,
+   "t1": 3.6,
+   "set": "cabin"
+  },
+  {
+   "cam": "birth",
+   "t0": 3.6,
+   "t1": 6.9,
+   "set": "cabin"
+  },
+  {
+   "cam": "forest",
+   "t0": 6.9,
+   "t1": 12.9,
+   "set": "woods"
+  },
+  {
+   "cam": "grave",
+   "t0": 12.9,
+   "t1": 15.9,
+   "set": "woods"
+  },
+  {
+   "cam": "reading",
+   "t0": 15.9,
+   "t1": 19.6,
+   "set": "cabin"
+  },
+  {
+   "cam": "riverA",
+   "t0": 19.6,
+   "t1": 22.7,
+   "set": "river"
+  },
+  {
+   "cam": "riverB",
+   "t0": 22.7,
+   "t1": 25.6,
+   "set": "river"
+  },
+  {
+   "cam": "store",
+   "t0": 25.6,
+   "t1": 28.6,
+   "set": "store"
+  },
+  {
+   "cam": "road",
+   "t0": 28.6,
+   "t1": 32.0,
+   "set": "woods"
+  },
+  {
+   "cam": "law",
+   "t0": 32.0,
+   "t1": 35.2,
+   "set": "room"
+  },
+  {
+   "cam": "debateA",
+   "t0": 35.2,
+   "t1": 38.1,
+   "set": "square"
+  },
+  {
+   "cam": "debateB",
+   "t0": 38.1,
+   "t1": 41.2,
+   "set": "square"
+  },
+  {
+   "cam": "electedA",
+   "t0": 41.2,
+   "t1": 44.0,
+   "set": "room"
+  },
+  {
+   "cam": "beard",
+   "t0": 44.0,
+   "t1": 47.6,
+   "set": "room"
+  },
+  {
+   "cam": "war",
+   "t0": 47.6,
+   "t1": 51.0,
+   "set": "battle"
+  },
+  {
+   "cam": "signingA",
+   "t0": 51.0,
+   "t1": 53.7,
+   "set": "room"
+  },
+  {
+   "cam": "signingB",
+   "t0": 53.7,
+   "t1": 57.2,
+   "set": "room"
+  },
+  {
+   "cam": "gettysA",
+   "t0": 57.2,
+   "t1": 60.1,
+   "set": "square"
+  },
+  {
+   "cam": "gettysB",
+   "t0": 60.1,
+   "t1": 63.2,
+   "set": "square"
+  },
+  {
+   "cam": "victory",
+   "t0": 63.2,
+   "t1": 66.4,
+   "set": "square"
+  },
+  {
+   "cam": "theatre",
+   "t0": 66.4,
+   "t1": 70.6,
+   "set": "theatre"
+  },
+  {
+   "cam": "dawn",
+   "t0": 70.6,
+   "t1": 76.4,
+   "set": "room"
+  },
+  {
+   "cam": "memorial",
+   "t0": 76.4,
+   "t1": 86.5,
+   "set": "memorial"
+  }
+ ],
+ "subs": [
+  [
+   3.7,
+   6.7,
+   "February 12, 1809. A log cabin in Kentucky."
+  ],
+  [
+   7.0,
+   9.8,
+   "At 7, his family moves to the Indiana woods."
+  ],
+  [
+   10.0,
+   13.0,
+   "He's handed an axe. He'll swing it for 15 years."
+  ],
+  [
+   13.08,
+   15.7,
+   "At 9, he loses his mother, Nancy."
+  ],
+  [
+   16.0,
+   19.4,
+   "Less than one year of school. So he reads by firelight."
+  ],
+  [
+   19.7,
+   22.7,
+   "At 19, he rafts over 1,000 miles to New Orleans."
+  ],
+  [
+   22.78,
+   25.78,
+   "He sees people sold at auction. He never forgets it."
+  ],
+  [
+   25.86,
+   28.4,
+   "22. A store clerk in New Salem, Illinois."
+  ],
+  [
+   28.7,
+   31.8,
+   "He walks miles to return a few cents. “Honest Abe.”"
+  ],
+  [
+   32.1,
+   35.0,
+   "He teaches himself law. Lawyer at 27."
+  ],
+  [
+   35.3,
+   38.0,
+   "1858: seven debates with Stephen Douglas over slavery."
+  ],
+  [
+   38.2,
+   41.0,
+   "He loses. But now the whole country knows him."
+  ],
+  [
+   41.3,
+   43.8,
+   "1860: elected the 16th President."
+  ],
+  [
+   44.0,
+   47.4,
+   "An 11-year-old girl writes him: grow a beard. He does."
+  ],
+  [
+   47.7,
+   50.8,
+   "Then the country splits in two. Civil War."
+  ],
+  [
+   51.1,
+   53.6,
+   "January 1, 1863. The Emancipation Proclamation."
+  ],
+  [
+   53.8,
+   57.0,
+   "After hours of handshakes, he waits for a steady hand."
+  ],
+  [
+   57.3,
+   60.0,
+   "Gettysburg. The main speaker talks for 2 hours."
+  ],
+  [
+   60.2,
+   63.0,
+   "Lincoln speaks for 2 minutes. 272 words."
+  ],
+  [
+   63.3,
+   66.3,
+   "April 9, 1865. After four years, the war is over."
+  ],
+  [
+   66.5,
+   69.4,
+   "Five days later: Ford's Theatre. 10:15 PM."
+  ],
+  [
+   71.0,
+   73.6,
+   "He dies the next morning. He was 56."
+  ],
+  [
+   73.8,
+   76.2,
+   "“Now he belongs to the ages.”"
+  ],
+  [
+   76.6,
+   79.6,
+   "The boy from the log cabin held the country together."
+  ],
+  [
+   79.68,
+   81.8,
+   "And helped free 4 million people."
+  ]
+ ],
+ "hudLabel": "AGE",
+ "hud": [
+  {
+   "t0": 0,
+   "t1": 6.9,
+   "from": 0,
+   "to": 0,
+   "time": "FEB 12, 1809",
+   "age": "HODGENVILLE, KENTUCKY"
+  },
+  {
+   "t0": 6.9,
+   "t1": 12.9,
+   "from": 0,
+   "to": 7,
+   "time": "DEC 1816",
+   "age": "PIGEON CREEK, INDIANA",
+   "r0": 6.95,
+   "r1": 7.6
+  },
+  {
+   "t0": 12.9,
+   "t1": 15.9,
+   "from": 7,
+   "to": 9,
+   "time": "OCT 1818",
+   "age": "PIGEON CREEK, INDIANA",
+   "r0": 12.95,
+   "r1": 13.4
+  },
+  {
+   "t0": 15.9,
+   "t1": 19.6,
+   "from": 9,
+   "to": 15,
+   "time": "1824",
+   "age": "PIGEON CREEK, INDIANA",
+   "r0": 15.95,
+   "r1": 16.7
+  },
+  {
+   "t0": 19.6,
+   "t1": 22.7,
+   "from": 15,
+   "to": 19,
+   "time": "1828",
+   "age": "THE MISSISSIPPI RIVER",
+   "r0": 19.65,
+   "r1": 20.3
+  },
+  {
+   "t0": 22.7,
+   "t1": 25.6,
+   "from": 19,
+   "to": 19,
+   "time": "1828",
+   "age": "NEW ORLEANS, LOUISIANA"
+  },
+  {
+   "t0": 25.6,
+   "t1": 32.0,
+   "from": 19,
+   "to": 22,
+   "time": "1831",
+   "age": "NEW SALEM, ILLINOIS",
+   "r0": 25.65,
+   "r1": 26.2
+  },
+  {
+   "t0": 32.0,
+   "t1": 35.2,
+   "from": 22,
+   "to": 27,
+   "time": "1836",
+   "age": "NEW SALEM, ILLINOIS",
+   "r0": 32.05,
+   "r1": 32.6
+  },
+  {
+   "t0": 35.2,
+   "t1": 41.2,
+   "from": 27,
+   "to": 49,
+   "time": "1858",
+   "age": "OTTAWA, ILLINOIS",
+   "r0": 35.25,
+   "r1": 36.2
+  },
+  {
+   "t0": 41.2,
+   "t1": 44.0,
+   "from": 49,
+   "to": 51,
+   "time": "NOV 6, 1860",
+   "age": "SPRINGFIELD, ILLINOIS",
+   "r0": 41.25,
+   "r1": 41.8
+  },
+  {
+   "t0": 44.0,
+   "t1": 47.6,
+   "from": 51,
+   "to": 52,
+   "time": "FEB 1861",
+   "age": "ON THE WAY TO WASHINGTON",
+   "r0": 44.05,
+   "r1": 44.4
+  },
+  {
+   "t0": 47.6,
+   "t1": 51.0,
+   "from": 52,
+   "to": 52,
+   "time": "APRIL 12, 1861",
+   "age": "THE CIVIL WAR BEGINS"
+  },
+  {
+   "t0": 51.0,
+   "t1": 57.2,
+   "from": 52,
+   "to": 53,
+   "time": "JAN 1, 1863",
+   "age": "THE WHITE HOUSE",
+   "r0": 51.05,
+   "r1": 51.5
+  },
+  {
+   "t0": 57.2,
+   "t1": 63.2,
+   "from": 53,
+   "to": 54,
+   "time": "NOV 19, 1863",
+   "age": "GETTYSBURG, PENNSYLVANIA",
+   "r0": 57.25,
+   "r1": 57.6
+  },
+  {
+   "t0": 63.2,
+   "t1": 66.4,
+   "from": 54,
+   "to": 56,
+   "time": "APRIL 9, 1865",
+   "age": "WASHINGTON, D.C.",
+   "r0": 63.25,
+   "r1": 63.8
+  },
+  {
+   "t0": 66.4,
+   "t1": 70.6,
+   "from": 56,
+   "to": 56,
+   "time": "APRIL 14, 1865 · 10:15 PM",
+   "age": "FORD'S THEATRE"
+  },
+  {
+   "t0": 70.6,
+   "t1": 76.4,
+   "from": 56,
+   "to": 56,
+   "time": "APRIL 15, 1865 · 7:22 AM",
+   "age": "PETERSEN HOUSE"
+  },
+  {
+   "t0": 76.4,
+   "t1": 86.5,
+   "from": 56,
+   "to": 56,
+   "time": "1809 – 1865",
+   "age": "LINCOLN MEMORIAL",
+   "ageGoldAt": 79.6
+  }
+ ],
+ "end": {
+  "in": 82.3,
+  "html": "Whose story should we tell <em>next</em>?",
+  "small": "TELL US BELOW"
+ },
+ "dips": [
+  [
+   69.6,
+   70.2,
+   71.0
+  ]
+ ],
+ "finalFade": [
+  81.8,
+  82.3
+ ],
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 12
+ }
+}
