@@ -172,6 +172,11 @@ videos/NNN-slug/
   the video, and paste the caption text (paste-ready, without the sources comment) in the report next to the file path.
   `tools/render.mjs` warns when caption.md is missing or still the template. If a revision changes what the video shows,
   update the caption to match.
+- **Every caption carries the course link (user rule, Oct 23)** — this exact line, on its own line right after "Send this to
+  your ___" and before the hashtags: `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q`
+  (the user's "AI 3D Animation Masterclass Prompt Vault" for people who want to make their own reels). Keep the URL as
+  written (short, no https://) — Instagram doesn't make caption links clickable, so it must be easy to read and type.
+  Never put it in the video itself. `tools/render.mjs` warns when it's missing.
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
   subtitles, no other text while it's up (the engine hides them until `title.out`). Then the story begins.
 - **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.
@@ -302,4 +307,4 @@ videos/NNN-slug/
       the music never drops out mid-video (no 50 ms window of the music stem > 10 dB under its median, see audio/README.md).
 - [ ] End card fully visible ≥ 3.5 s before the video ends (no render warning).
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
-- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", exactly 5 hashtags incl. #animation.
+- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", the course-link line (payhip.com/b/rim0Q), exactly 5 hashtags incl. #animation.

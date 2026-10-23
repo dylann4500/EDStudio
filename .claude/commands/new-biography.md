@@ -26,7 +26,7 @@ engine cheat sheet, hard-won rules). Reference video: `videos/009-abe-lincoln` (
    and that the death beat reads without the subtitle.
 8. **Audio**: `make_cues.py` → `python3 -I audio/synth.py NNN-slug` (≈ −15 LUFS, `music dropouts: none`). A theme that returns.
 9. **Render** `node tools/render.mjs NNN-slug`, spot-check frames, run the CLAUDE.md QC checklist (length rule excepted).
-10. **caption.md** (BIOGRAPHY.md §8, sources in a comment). Commit the video folder (incl. script.json + make_cues.py), merge
+10. **caption.md** (BIOGRAPHY.md §8 incl. the payhip.com/b/rim0Q course line, sources in a comment). Commit the video folder (incl. script.json + make_cues.py), merge
     to main, push.
 11. **Update the harness**: new lessons → docs/BIOGRAPHY.md (biography-specific) / CLAUDE.md (engine-wide).
 12. Report: title, duration, path, **the full caption text pasted in the message (paste-ready — every first cut and every revision,

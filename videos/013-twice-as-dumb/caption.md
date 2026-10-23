@@ -4,6 +4,7 @@ At 9:41 AM every brain on Earth gets 2x dumber. Classrooms vote that 2 + 2 = 5, 
 
 Would anyone even notice? 👇
 Send this to your smartest friend
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
 
 #whatif #funny #simulation #science #animation
 
