@@ -38,6 +38,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | emotional (001, 003) | soft piano (`instrument: "piano"`, held/arp/cadence) | room tone, a few quiet foley hits |
 | funny (002) | bouncy piano (`style: "bounce"`) + pad | city murmur, cartoon boops |
 | montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
+| wacky funny (012) | "mischief": pizzicato `strings` (len 0.45, 8ths at 104 bpm) + mallet "uh-oh" (falling minor third) per beat, E minor → warm C/G turn | the room's chatter cuts at the moment, a low cartoon boop, shutter clicks, a soft dog "hmph" |
 | funny-dramatic (010) | mock-epic strings + taiko march, booms on impacts | heavy soft foley: giant steps, snaps, crunches, groans |
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
@@ -61,6 +62,10 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 ## Open quiet, then the music enters (user steer, Oct 23)
 Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat
 (007 at 6.6 s, 010 at 4.2 s with a braam + boom). The "music never cuts out" rule applies from the moment it starts.
+
+## Gotcha: drum hits are on the MUSIC bus (012)
+A `drums` hit placed before the first note makes the music "start" there, so the dropout check flags the gap after it. Put the
+first drum hit on (or after) the music's entrance.
 
 ## Mock-epic (010, funny-dramatic) — a "kaiju march"
 - C minor, 90 bpm: `strings` stomp pattern `[0,0,0,1,0,0,2,0]` in 8ths (octave 1, sustain 0.3), soft `taiko` on the beats like

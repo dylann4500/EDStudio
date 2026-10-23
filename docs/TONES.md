@@ -116,3 +116,14 @@ the bed snaps, a doorway is waist-high, giants step out over their porches, the 
 ("FULL · 7 PEOPLE"), shelves empty in a time-lapse, a bench snaps, double-size cars, everyone can dunk. Real mechanism for comment
 bait: the square–cube law (height ×2 → weight ×8, bone strength ×4 → stress ×2, food ≈ ×5). Gary (002/007) is the recurring
 everyman. Impacts = camera shake + a dust burst + a boom. Score = mock-epic march (audio/README.md). New sets every few beats.
+
+## Wacky ripple (`videos/012-pee-pants`) — "What if everyone on Earth suddenly peed their pants?"
+The funny tone at full silliness: one embarrassing moment shared by 8.2 billion people, then **11 imaginative places** (classroom,
+a presidential press briefing, a wedding, a swimming pool, a job interview, "blame the dog", a laundromat of people in towel
+skirts, the power grid failing from dryers, TOWELS SOLD OUT, strangers laughing together, a WET PANTS DAY street party).
+- Keep body comedy **cartoon + kind**: a dark patch and the reaction — never liquid, puddles or bodily detail. The joke is the
+  shared embarrassment and how normal life copes (he keeps going; they still say "I do"; nobody noticed in the pool).
+- Find the deadpan non-reaction beat (pool: "…nobody noticed.") and the warm one ("For once, we were all in it together.").
+- A real number for comment bait: 400 mL × 8.2 B ≈ 3.3 billion liters ≈ 1,312 Olympic pools (in the HUD stat line).
+- Gary appears 3× (the interview candidate, the dog-blamer, the finale) — a running cameo across videos (002, 007, 010, 012).
+- Sound: "mischief" — pizzicato strings + mallet "uh-oh" motif (audio/README.md); the room's chatter STOPS at the moment.

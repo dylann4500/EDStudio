@@ -86,5 +86,11 @@ export function buildSupermarket(studio, opts = {}) {
   for (const x of [-4, 4]) for (const z of [-7, 0]) { const L = new THREE.PointLight(0xf4f8ff, 6, 9, 1.6); L.position.set(x, 3.6, z); root.add(L); }
 
   root.traverse((o) => { if (o.isMesh && o.material.isMeshBasicMaterial) o.castShadow = false; });
-  return { root, D: DIMS, setStock, setSoldOut: (v) => (sold.visible = !!v), lights: { hemi, key } };
+  // setSoldOut(v, text?) — optional custom banner text (012: 'TOWELS SOLD OUT')
+  let soldText = 'SOLD OUT';
+  const setSoldOut = (v, text) => {
+    sold.visible = !!v;
+    if (text && text !== soldText) { soldText = text; const c = soldTex.image.getContext('2d'); c.fillStyle = '#d23a3f'; c.fillRect(0, 0, 640, 160); c.fillStyle = '#fff'; let fs = 104; do { c.font = `bold ${fs}px Helvetica, Arial, sans-serif`; fs -= 4; } while (c.measureText(text).width > 590 && fs > 30); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(text, 320, 86); soldTex.needsUpdate = true; }
+  };
+  return { root, D: DIMS, setStock, setSoldOut, lights: { hemi, key } };
 }

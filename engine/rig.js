@@ -245,3 +245,28 @@ export function makeSleeper(o) {
 
 export const hairColor = (young, old, age) => new THREE.Color(young).lerp(new THREE.Color(old), clamp(age));
 export { lerp };
+
+// ---------------------------------------------------------------- wet pants (012) — a cartoon dark patch, never liquid
+/**
+ * addWetPatch(rig, { color }) → setWet(k 0..1): a darker, glossier patch spreads over the crotch + inner thighs.
+ * color = the rig's pants color (the patch is that color × 0.5, low roughness = "wet" sheen). Pure cartoon: no drips/puddles.
+ */
+export function addWetPatch(P, o = {}) {
+  const base = new THREE.Color(o.color ?? 0x6b5a48);
+  const wetM = new THREE.MeshStandardMaterial({ color: base.clone().multiplyScalar(0.48), roughness: 0.28, metalness: 0.05 });
+  const front = new THREE.Mesh(new THREE.SphereGeometry(0.13, 18, 12), wetM); front.position.set(0, -0.05, 0.085); front.scale.set(1, 0.85, 0.5);
+  P.pelvis.add(front);
+  const back = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 10), wetM); back.position.set(0, -0.04, -0.07); back.scale.set(1, 0.8, 0.45);
+  P.pelvis.add(back);
+  const thighs = P.legs.map((leg) => { const m = new THREE.Mesh(new THREE.CapsuleGeometry(0.0735, 0.2, 6, 14), wetM); m.position.y = -0.12; leg.hip.add(m); return m; });
+  const all = [front, back, ...thighs];
+  all.forEach((m) => { m.castShadow = false; m.visible = false; });
+  const setWet = (k) => {
+    k = Math.max(0, Math.min(1, k));
+    all.forEach((m) => (m.visible = k > 0.01));
+    front.scale.set(0.35 + 0.65 * k, (0.35 + 0.65 * k) * 0.85, 0.5); back.scale.set(0.3 + 0.7 * k, (0.3 + 0.7 * k) * 0.8, 0.45);
+    thighs.forEach((m) => { m.scale.set(1, Math.max(0.05, k), 1); m.position.y = -0.03 - 0.09 * k; });
+  };
+  setWet(0);
+  return setWet;
+}

@@ -100,6 +100,15 @@ videos/NNN-slug/
   `makeMug(color)`. suburb.js houses now expose `porchRoof` (hinge group: `rotation.z −0.42` = collapsed).
 - Crush a `makeCar` without squashing its wheels: scale `body.children[1]` (cab) + `[2]` (glass) in y, not `body`.
 - `audio/synth.py` (010 v2): `snore`, `dog_bark` (soft boof), `slurp`, `cabin_hum` ambience.
+- **New sets (012):** `podium.js` (press-briefing room: fictional seal, flags, lectern + mics, teleprompters, TV camera, press
+  chairs, `setFlashes(t, rate)` = a storm of camera flashes), `pool.js` (sunny public pool: see-through rippling water `update(t)`,
+  lane ropes, lifeguard tower `DIMS.tower`, deck chairs, umbrellas, snack hut; swimmers stand on `DIMS.floor` with shoulders at the
+  surface), `office.js` (interview office: skyline windows, desk + laptop + HR nameplate, two chairs `DIMS.boss/guest`, shelf, poster),
+  `laundromat.js` (washer/dryer wall with tumbling drums `update(t, spin)`, chairs, vending machine, neon OPEN 24H), `wedding.js`
+  (garden arch, aisle + petals, chairs with bows, string lights, cake; `DIMS.bride/groom/officiant`). supermarket `setSoldOut(v, text)`
+  auto-fits custom text.
+- `addWetPatch(rig, {color})` (rig.js, 012) → `setWet(0..1)`: a darker glossy patch spreads over the crotch + thighs. Cartoon only —
+  no liquid, ever. Give crowds LIGHT pants so it reads; a dressed figure gets a separate darker spot on `rig.dress`.
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
@@ -207,7 +216,8 @@ videos/NNN-slug/
 - **Emissive "screens/holograms" use Lambert or Basic materials**, not Standard: a warm key light gives a Standard material's dark
   areas a tan specular haze (005's globe oceans turned brown).
 - **Hide characters that would only appear as cropped heads** at a frame edge in close-ups (set `root.visible` per shot).
-- **Never append code after a `//` comment on the same line** when editing with scripts/sed (bit TWICE in 009: a pistol's
+- **Never append code after a `//` comment on the same line** (012 hit it again: an edit appended `// auto-fit` mid-line and commented out
+  the rest of the line → `Unexpected end of input`; the grep below misses comments followed by `}` — when in doubt run `node --check` on a `.mjs` copy) when editing with scripts/sed (bit TWICE in 009: a pistol's
   placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
   `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
