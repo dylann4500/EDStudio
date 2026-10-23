@@ -16,7 +16,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
-import { findChrome, findFfmpeg } from './lib.mjs';
+import { findChrome, findFfmpeg, finalRateArgs } from './lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -101,7 +101,7 @@ if (stills) {
   if (!preview && t0 === 0 && fs.existsSync(wav)) {
     const final = path.join(videoDir, 'final.mp4');
     // re-encode at a capped bitrate so final.mp4 stays < 100 MB (GitHub limit) and well within Instagram's spec
-    await new Promise((r) => spawn(ffmpeg, ['-y', '-loglevel', 'error', '-i', silent, '-i', wav, '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-maxrate', '6M', '-bufsize', '12M', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart', final], { stdio: 'inherit' }).on('close', r));
+    await new Promise((r) => spawn(ffmpeg, ['-y', '-loglevel', 'error', '-i', silent, '-i', wav, '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', ...finalRateArgs(story.duration), '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart', final], { stdio: 'inherit' }).on('close', r));
     console.log('final (with audio): ' + final);
   } else if (!preview) console.log('(no videos/' + path.basename(videoDir) + '/audio.wav yet — run the audio step, then re-run or mux with tools/mux.mjs)');
 }

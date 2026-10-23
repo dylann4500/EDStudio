@@ -450,11 +450,11 @@ export function buildTheatre(studio, opts = {}) {
   const B = DIMS.theatre.box, box = new THREE.Group(); box.position.set(B[0], B[1], B[2]); root.add(box);
   mk(new THREE.BoxGeometry(1.8, 0.2, 2.4), creamM, box, 0.0, -0.1, 0);                              // floor slab
   mk(new THREE.BoxGeometry(0.1, 2.6, 2.4), wallM, box, 0.92, 1.3, 0);                                 // back wall (on the house wall)
-  for (const s of [-1, 1]) mk(new THREE.BoxGeometry(1.8, 2.6, 0.08), wallM, box, 0, 1.3, s * 1.2);    // side partitions
+  const partitions = [-1, 1].map((s) => mk(new THREE.BoxGeometry(1.8, 2.6, 0.08), wallM, box, 0, 1.3, s * 1.2));    // side partitions ([0] = stage side; hide it to film into the box from the stage)
   mk(new THREE.BoxGeometry(1.8, 0.15, 2.4), creamM, box, 0, 2.6, 0);
   const rail = mk(new THREE.BoxGeometry(0.12, 0.9, 2.4), creamM, box, -0.9, 0.35, 0);                 // front parapet
   mk(new THREE.BoxGeometry(0.14, 0.08, 2.44), goldM, box, -0.9, 0.82, 0);
-  for (const s of [-1, 1]) mk(new THREE.CylinderGeometry(0.06, 0.06, 2.6, 10), goldM, box, -0.9, 1.3, s * 1.18);
+  const posts = [-1, 1].map((s) => mk(new THREE.CylinderGeometry(0.06, 0.06, 2.6, 10), goldM, box, -0.9, 1.3, s * 1.18));   // [0] = stage side
   // draped flags on the parapet + Washington's portrait at its center
   const flagTex = usFlagTexture(512, 300);
   for (const s of [-1, 1]) { const f = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 1.0, 16, 1, true, PI, PI), new THREE.MeshStandardMaterial({ map: flagTex, roughness: 0.9, side: THREE.DoubleSide })); f.rotation.set(0, 0, PI / 2); f.scale.set(1, 1, 0.3); f.rotation.order = 'ZYX'; f.position.set(-0.98, 0.2, s * 0.62); box.add(f); f.rotation.y = 0; }
@@ -469,9 +469,30 @@ export function buildTheatre(studio, opts = {}) {
   const uph = mat(0x8a2a2a, 0.85), rw = mat(0x4a2818, 0.5);
   mk(new RoundedBoxGeometry(0.55, 0.1, 0.52, 2, 0.03), uph, rocker, 0, 0.48, 0);
   mk(new RoundedBoxGeometry(0.55, 0.62, 0.08, 2, 0.03), uph, rocker, 0.27, 0.82, 0).rotation.set(0, PI / 2, 0.18);
+  // a plain side chair for the second guest (Mary) — seat 0.45
+  const chair2 = new THREE.Group(); box.add(chair2); chair2.position.set(-0.15, 0, 0.35);
+  mk(new THREE.BoxGeometry(0.46, 0.06, 0.46), uph, chair2, 0, 0.45, 0);
+  for (const [a, b] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) mk(new THREE.CylinderGeometry(0.022, 0.022, 0.45, 6), rw, chair2, a * 0.19, 0.225, b * 0.19);
+  mk(new THREE.BoxGeometry(0.06, 0.55, 0.46), uph, chair2, 0.21, 0.75, 0);
+  // muzzle flash (sphere + light) and a smoke puff, posed by the video
+  const flash = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffe0a0).multiplyScalar(5), toneMapped: false, transparent: true, depthWrite: false }));
+  flash.visible = false; root.add(flash);
+  const flashL = new THREE.PointLight(0xffd090, 0, 9, 1.3); root.add(flashL);
+  const puff = new THREE.Group(); root.add(puff);
+  for (let i = 0; i < 6; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 8), new THREE.MeshStandardMaterial({ color: 0xbdb6aa, roughness: 1, transparent: true, opacity: 0.6, depthWrite: false })); m.userData.d = [Math.sin(i * 2.1) * 0.08, 0.03 + i * 0.02, Math.cos(i * 1.7) * 0.08]; puff.add(m); }
+  puff.visible = false;
   root.traverse((o) => { if (o.isMesh && (o.material.isMeshBasicMaterial || o.material.transparent)) { o.castShadow = false; o.receiveShadow = false; } });
   const hemi = new THREE.HemisphereLight(0xffd8b0, 0x2a1810, 0.35); root.add(hemi);
-  return { root, box, rocker, doorway, portrait: port, lights: { hemi, foot, houseL, boxL } };
+  /** fire(pos, age): pos = world muzzle position, age = seconds since the shot (<0 = not yet). */
+  function setShot(pos, age) {
+    flash.visible = age >= 0 && age < 0.1; flashL.intensity = age >= 0 && age < 0.14 ? 16 * (1 - age / 0.14) : 0;
+    if (pos) { flash.position.copy(pos); flashL.position.copy(pos); puff.position.copy(pos); }
+    flash.scale.setScalar(1 + Math.max(0, age) * 8);
+    puff.visible = age >= 0 && age < 2.5;
+    puff.children.forEach((m) => { const k = Math.max(0, age); m.position.set(m.userData.d[0] * (1 + k * 3), m.userData.d[1] + k * 0.12, m.userData.d[2] * (1 + k * 3)); m.scale.setScalar(1 + k * 2.2); m.material.opacity = 0.55 * Math.max(0, 1 - k / 2.5); });
+  }
+  setShot(null, -1);
+  return { root, box, rocker, chair2, doorway, portrait: port, partitions, posts, setShot, lights: { hemi, foot, houseL, boxL, flashL } };
 }
 
 // ---------------------------------------------------------------- MEMORIAL

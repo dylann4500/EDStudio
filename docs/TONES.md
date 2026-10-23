@@ -105,22 +105,7 @@ Reference: `docs/reference/simplysimulated.md` (841K likes). Not every video has
    ("Would humanity survive the *first year*?"). Keep it non-graphic: wrecks, glows, crowds — no bodies, no blood.
 
 ## Biography: one real life, birth → death (`"tone": "biography"`, `videos/009-abe-lincoln`)
-User's new series (Oct 23): "stories of people / biographies and their really interesting lives" — ≥ 1 minute, the FULL life.
-Title is the user's phrasing, no question needed: **"The story of *[Name]*"** (name in gold), alone, centered.
-1. **HUD = their AGE** (0 → death), time line = the date ("FEB 12, 1809"), second line = the place ("HODGENVILLE, KENTUCKY").
-   The number rolls fast at each cut (r0 = shot start, ~0.5 s) — the age jump IS the time skip. Last segment: "1809 – 1865" +
-   the memorial/legacy place, `ageGoldAt` on the final line.
-2. **One scene per subtitle, ~3–6 s, a new place almost every line** (009: 23 shots in 86 s across 9 new sets). Childhood →
-   youth → rise → the big job → the turning points → death → legacy. Each era gets its own look (snowy night, summer woods,
-   autumn grave, sunset river, candlelit desk, flag-draped platform, dusk battlefield, theatre, marble).
-3. **Hyper-specific, verified details beat dates**: "less than one year of school", "272 words", "he waits for a steady hand",
-   "an 11-year-old girl writes him: grow a beard". Web-search every claim; where sources disagree, say it loosely
-   ("over 1,000 miles", "a few cents"). Cite in the shots.js header + a caption comment.
-4. **Show the person aging**: separate rigs per era (kid scale 0.62 → teen 0.86 → adult 1.08–1.1), wardrobe changes, a
-   signature feature that arrives on screen (Lincoln's beard grows in the shot where the letter arrives — `makePerson({beard})`,
-   grow with `head.beard.scale` 0.62 → 1), a signature prop (top hat; it's left on the empty chair at dawn).
-5. **Death is non-graphic**: the danger beat cuts to black on a shadow (story `dips`), one low boom under the black (no gunshot
-   SFX), then the quiet aftermath (empty rocking chair, hat, clock at 7:22) and a famous quote.
-6. **End on legacy + a series CTA end card**: "Whose story should we tell *next*?" / TELL US BELOW (comment bait for the series).
-7. Length: biographies run longer than the 45–80 s format (009 = 86.5 s) — keep every shot short instead of cutting life chapters.
-8. Sound: Americana for an American 1800s life — see audio/README.md → Sound identity. Pick the period/region's flavor per person.
+**Its own category with its own playbook: `docs/BIOGRAPHY.md`** and command `/new-biography <name>`. In short: a narrator
+tells the story in full connected sentences (never fragments — user steer on 009 v1), `tools/biography.py` sizes every shot
+from its narration, HUD = age + date + place, a new set per era, a clear but non-graphic death beat, a legacy ending and a
+"Whose story should we tell next?" end card. Length follows the life (009 = 2:19).

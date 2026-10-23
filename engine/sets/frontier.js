@@ -9,7 +9,7 @@
 //                        mother's grave on a knoll (DIMS.woods.grave), a dirt road (z=+9) to a far cabin window.
 //                        setMode('summer'|'autumn'|'night', t), setShadowFocus(x, z, half), falling leaves in autumn.
 //   buildRiver(studio)   a wide river at sunset (flows along +x), tree banks, a flatboat (boat.g: deck at y=0.55, sweep oar
-//                        boat.sweep), New Orleans on the far bank (x>40). update(t) scrolls the water.
+//                        boat.sweep — handle end at boat x≈-3.8, y≈1.6: stand the steersman at x=-3.3 facing -x), New Orleans on the far bank (x>40). update(t) scrolls the water.
 //   buildStore(studio)   general store interior (x∈[-3,3], z∈[-2.5,2.5]): counter at z=-0.8, shelves, barrels, sacks, scale,
 //                        window light from +x.
 //   Props: makeAxe(), makeBook(color), makeLantern() ({g, light}), makeCoin(), makeTree(kind, leafMat, R), makeRailFence()
@@ -476,10 +476,11 @@ export function buildRiver(studio, opts = {}) {
   const barrelM = mat(0x7a5434, 0.85), hoopM = mat(0x3a3a3a, 0.5);
   [[4.3, 1.2], [4.3, -1.2], [4.9, 0], [3.7, 0]].forEach(([x, z]) => { mk(new THREE.CylinderGeometry(0.3, 0.27, 0.75, 12), barrelM, boat, x, 1.0, z); mk(new THREE.TorusGeometry(0.3, 0.02, 6, 16), hoopM, boat, x, 1.15, z).rotation.x = PI / 2; });
   mk(new THREE.BoxGeometry(0.8, 0.5, 0.8), woodMat(0x9a7a50), boat, 4.0, 0.9, 1.5);
-  const sweep = new THREE.Group(); sweep.position.set(-5.0, 1.35, 0); boat.add(sweep);   // pivot on a post at the stern
-  mk(new THREE.CylinderGeometry(0.08, 0.1, 0.8, 8), woodMat(0x5a4030), boat, -5.0, 0.95, 0);
-  const oar = mk(new THREE.CylinderGeometry(0.05, 0.05, 9, 8), woodMat(0xa08060), sweep, -2.0, 0, 0); oar.rotation.z = PI / 2 - 0.1;
-  mk(new THREE.BoxGeometry(1.6, 0.05, 0.5), woodMat(0xa08060), sweep, -6.2, -0.5, 0).rotation.z = -0.1;
+  // steering sweep: pivot on a post at the stern; the handle ends at boat x≈-3.8 (where the steersman's hands are), blade aft
+  const sweep = new THREE.Group(); sweep.position.set(-5.0, 1.5, 0); boat.add(sweep);
+  mk(new THREE.CylinderGeometry(0.08, 0.1, 1.0, 8), woodMat(0x5a4030), boat, -5.0, 1.0, 0);
+  const oar = mk(new THREE.CylinderGeometry(0.045, 0.05, 5.7, 8), woodMat(0xa08060), sweep, -1.65, 0, 0); oar.rotation.z = PI / 2 + 0.12;   // blade end dips aft, handle rises to the hands
+  mk(new THREE.BoxGeometry(1.4, 0.05, 0.45), woodMat(0xa08060), sweep, -4.4, -0.56, 0).rotation.z = 0.12;
   // lights
   const hemi = new THREE.HemisphereLight(0xb8c4e8, 0x5a4a30, 0.75); root.add(hemi);
   const sun = new THREE.DirectionalLight(0xffb878, 2.4); sun.position.set(-30, 10, -14); sun.target.position.set(0, 0, 0);
