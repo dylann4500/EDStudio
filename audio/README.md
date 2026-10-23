@@ -77,6 +77,15 @@ first drum hit on (or after) the music's entrance.
   (margin ≈ 0 dB, peaks ≈ −8 dBFS). Read the synth's "foley-over-music margin" line; for impact-led reels it should be ≥ −6 dB.
 - Reference script: `videos/010-giant-height/make_cues.py`.
 
+## Twin videos share a family, not a cue sheet (013 vs 007)
+013 (twice as dumb) keeps 007's `pluck` + echo voice so the pair feels related, but changes everything else: F major `bounce`
+oom-pah (step 0.4, `bass_hold 2.2`, `stab_hold 1.3`) with a chromatic slip (F – F#dim – Gm – C7), a 3-note descending "wrong"
+motif at each beat, a lift to Bb for the twist, half-speed arp for the punch line. Plucks decay, so the pad carries the floor:
+`pad_db +3.5`, each pad chord overlapping the next by 0.35 s (`attack 0.15`, `release 0.6`).
+- **Gotcha: `auto_duck` + a gap in a plucked groove = a dropout.** A crow caw landing in a bounce gap right before a chord change
+  dipped the music stem ~12 dB (flagged at 40.7 s). Move the foley 0.2 s off the chord boundary (or soften the duck) and re-run.
+- New foley: `keyboard_type` (dur, rate — soft low key taps), `crow_caw` (pitch — round, low-passed). Reference: `videos/013-twice-as-dumb/make_cues.py`.
+
 ## Funny tone (002) — same softness, different timing
 - `style: "bounce"` section = "oom-pah" piano (bass on 1+3, soft chord stabs on 2+4), `step` 0.5 s = 120 bpm; note lengths
   `bass_hold` (default 1.6 beats) / `stab_hold` (0.8) — keep them long enough that the groove doesn't sound choppy.

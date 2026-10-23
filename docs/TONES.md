@@ -81,6 +81,12 @@ different places instead of hovering around one scene**: every beat = a new loca
   User steer on v1: "make it weirder, more unhinged… sus". The searches should allude to what search-history jokes allude to:
   innuendo, "how to delete search history" panic, "how to get rid of a body (asking for a friend)", grandma's "SINGLE GRANDPAS
   NEAR ME". Suggestive, never explicit; nothing involving kids (the kids' cards stay innocent).
+- **Counterpart montage (013, "twice as DUMB" — the funny twin of 007):** keep the twin's energy (same ladder, ~5 s beats,
+  spectacle beats, same synth family) but flip every beat into a dumb consequence, and (user steer) **make it informative: every
+  beat's HUD stat line is a real, sourced number about a bad outcome** ("SCAMS ALREADY TAKE $1 TRILLION / YEAR", "ROAD DEATHS
+  1.19 M / YEAR · BEFORE TODAY", "FLIGHTS IN THE AIR ~100,000", "WORLD ECONOMY $117 TRILLION · AT STAKE") — the subtitle is the
+  gag, the HUD is the fact. Web-search each number; list sources in the shots.js header + caption.md comment. A science twist works
+  as the final turn (IQ is normed to 100 → the HUD rolls 50 → 100: "technically… nothing changed"), then the 007 callback ending.
 
 ## What-if ripple ladder (`"tone": "whatif"`, `videos/006-memory-loss`)
 A sibling of **montage** (007): same many-places ladder, but each beat is a *consequence* with a real mechanism, the HUD number

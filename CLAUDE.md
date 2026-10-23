@@ -129,6 +129,12 @@ videos/NNN-slug/
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
 - `audio/synth.py` voices: piano (default), `mallet` (`ostinato` style), cinematic `strings` style, `drums`/`drum_patterns`
   (taiko, tom, boom), pad `notes` + `hp` for sub drones/braams. 005's `make_cues.py` uses all of the dramatic ones.
+- 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
+  (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
+  jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
+  money fountain, kid **two-sided signs** (two planes back to back = readable from the teacher's AND the camera's side), a
+  tic-tac-toe hologram replacing the war-room globe, a press-room bell-curve screen, a leash (`TubeGeometry` on a bezier rebuilt
+  per frame), a boomerang rocket (up → hover → lands back on its pad).
 - `engine/sets/frontier.js` (009, early-1800s America): `buildCabin` (log cabin inside + snowy night outside, fire `update(t)`,
   `setExterior(v)` window glow), `buildWoods` (`setMode('summer'|'autumn'|'night')`, chopping stump + `chips`, half-built cabin,
   grave knoll `DIMS.woods.grave`, dirt road z=9 to a far lit cabin), `buildRiver` (sunset river, flatboat `boat` + `sweep`,
@@ -274,6 +280,11 @@ videos/NNN-slug/
 - **Screen glow lights (CRTs, phones) stay soft and ≥ 0.7 m out** — 1.6 at 0.45 m blew the beige bezel to white and lit a shirt
   bright blue; turn them off in daylight shots.
 - **Point lights ≥ 0.7 m from walls**: a fire light 15 cm from log walls blew them out to white (009).
+- **Overlaying a set's built-in sign/board with your own canvas plane: put it IN FRONT** (013: the classroom board plane is at
+  z −2.96; a big-chalk overlay at −2.975 rendered behind it = a blank board). The set's own `setBoard` font is too small for a
+  1-second read from the back of the room — overlay big text instead (and `setBoard('')`).
+- **Tracking shots with two subjects (a dog walking a man, 013): aim between them** — aiming at the leader lost the follower
+  off-frame; and park the destination prop (hydrant) where the leader actually stops (compute it from the walk), not a guess.
 - **Check every still for the HUD (top-left, y≈470–640 at full size) covering a face** — 009's theatre box and riverA put a
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs

@@ -1005,6 +1005,33 @@ def sfx_bonk(rng, dur=0.6):
     return Sound(norm(fades(knock + dust, 0.0005, 0.05)), onsets=[(0.0, "transient")])
 
 
+def sfx_keyboard_type(rng, dur=1.2, rate=11.0):
+    """Office typing (013): soft plastic key taps (low modal clicks, low-passed), slightly irregular. Never clicky-bright."""
+    n = nsamp(dur)
+    y = np.zeros(n)
+    tk = 0.01
+    while tk < dur - 0.05:
+        k = modal([rng.uniform(900, 1300), rng.uniform(2100, 2600)], [0.012, 0.006], [1.0, 0.35], 0.06, contact=0.002)
+        i0 = nsamp(tk)
+        m = min(len(k), n - i0)
+        y[i0:i0 + m] += rng.uniform(0.5, 1.0) * norm(k)[:m]
+        tk += rng.uniform(0.6, 1.4) / rate
+    return Sound(norm(fades(lp(y, 3200), 0.001, 0.02)), onsets=[(0.0, "transient")])
+
+
+def sfx_crow_caw(rng, pitch=1.0):
+    """A crow's caw (013) — kept soft and round: a nasal buzzy tone through two formants, quick pitch fall, low-passed."""
+    dur = 0.36
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 520 * pitch * (1.08 - 0.22 * t / dur)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    saw = sum(np.sin(k * ph) / k for k in range(1, 9))
+    v = 0.7 * bp(saw, 700, 1500) + 0.4 * bp(saw, 1900, 2600) + 0.15 * bp(white(n, rng), 800, 2400)
+    env = (1 - np.exp(-t / 0.012)) * np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 0.6
+    return Sound(norm(fades(lp(v * env, 2800), 0.002, 0.05)), onsets=[(0.0, "soft")])
+
+
 def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
     """A vehicle's suspension bottoming out (010 bus): a low metallic groan + a clunk at the start."""
     n = nsamp(dur)
@@ -1958,6 +1985,8 @@ SFX = {
     "wood_snap": (sfx_wood_snap, "prop"),
     "bonk": (sfx_bonk, "prop"),
     "metal_groan": (sfx_metal_groan, "prop"),
+    "keyboard_type": (sfx_keyboard_type, "prop"),
+    "crow_caw": (sfx_crow_caw, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),
 }
 

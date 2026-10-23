@@ -1,0 +1,2107 @@
+{
+ "title": "013 - What if every human became twice as dumb? (montage: foley-led, goofy pluck bounce + echo)",
+ "duration": 76.0,
+ "target_lufs": -15.0,
+ "limiter_ceiling_dbtp": -1.5,
+ "end_fade": [
+  75.6,
+  76.0
+ ],
+ "stem_gain_db": {
+  "music": -5.0,
+  "sfx": 12.0,
+  "amb": 9.0
+ },
+ "stem_dynamics": {
+  "music": {
+   "limit_dbfs": -3.0,
+   "lim_win": 0.015
+  },
+  "sfx": {
+   "comp_thr_dbfs": -15.0,
+   "ratio": 2.5,
+   "win": 0.004,
+   "limit_dbfs": -5.0
+  }
+ },
+ "sfx_lowpass_hz": 5500,
+ "shots": [
+  0,
+  8.2,
+  13.4,
+  18.6,
+  23.8,
+  29.0,
+  34.2,
+  39.4,
+  44.6,
+  49.8,
+  55.0,
+  60.2,
+  66.2,
+  72.0,
+  76.0
+ ],
+ "ambience": [
+  {
+   "sound": "city_day",
+   "t0": 0.0,
+   "t1": 8.25,
+   "fade_in": 0.3,
+   "fade_out": 0.06,
+   "gain_db": -38,
+   "seed": 1
+  },
+  {
+   "sound": "room_tone",
+   "t0": 8.2,
+   "t1": 13.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40
+  },
+  {
+   "sound": "city_day",
+   "t0": 8.2,
+   "t1": 13.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -47,
+   "args": {
+    "murmur": 1.0,
+    "traffic": 0.0
+   },
+   "seed": 2
+  },
+  {
+   "sound": "room_tone",
+   "t0": 13.4,
+   "t1": 18.65,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40
+  },
+  {
+   "sound": "lamp_hum",
+   "t0": 13.4,
+   "t1": 18.65,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -50
+  },
+  {
+   "sound": "traffic_flow",
+   "t0": 18.6,
+   "t1": 23.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -38,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 23.8,
+   "t1": 29.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 3
+  },
+  {
+   "sound": "wind",
+   "t0": 29.0,
+   "t1": 34.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -42,
+   "args": {
+    "darkness": 0.6,
+    "gust": 0.3,
+    "whistle": 0.0
+   },
+   "seed": 2
+  },
+  {
+   "sound": "rocket_rumble",
+   "t0": 29.0,
+   "t1": 34.25,
+   "fade_in": 0.3,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "args": {
+    "rise": 0.0
+   },
+   "seed": 3
+  },
+  {
+   "sound": "room_tone",
+   "t0": 34.2,
+   "t1": 39.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40
+  },
+  {
+   "sound": "clock",
+   "t0": 34.2,
+   "t1": 39.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -52
+  },
+  {
+   "sound": "wind",
+   "t0": 39.4,
+   "t1": 49.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -46,
+   "args": {
+    "darkness": 0.5,
+    "gust": 0.2,
+    "whistle": 0.0
+   },
+   "seed": 5
+  },
+  {
+   "sound": "dry_leaves",
+   "t0": 39.4,
+   "t1": 44.65,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -48,
+   "args": {
+    "density": 0.5
+   },
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 44.6,
+   "t1": 49.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -46,
+   "args": {
+    "murmur": 0.2,
+    "traffic": 0.4
+   },
+   "seed": 6
+  },
+  {
+   "sound": "room_tone",
+   "t0": 49.8,
+   "t1": 55.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40
+  },
+  {
+   "sound": "lamp_hum",
+   "t0": 49.8,
+   "t1": 55.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -50
+  },
+  {
+   "sound": "applause",
+   "t0": 54.1,
+   "t1": 55.05,
+   "fade_in": 0.1,
+   "fade_out": 0.06,
+   "gain_db": -36,
+   "args": {
+    "density": 26.0
+   },
+   "seed": 1
+  },
+  {
+   "sound": "wind",
+   "t0": 55.0,
+   "t1": 60.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -44,
+   "args": {
+    "darkness": 0.6,
+    "gust": 0.3,
+    "whistle": 0.0
+   },
+   "seed": 2
+  },
+  {
+   "sound": "rocket_rumble",
+   "t0": 55.4,
+   "t1": 60.1,
+   "fade_in": 0.1,
+   "fade_out": 0.4,
+   "gain_db": -27,
+   "seed": 1
+  },
+  {
+   "sound": "crowd_cheer",
+   "t0": 60.0,
+   "t1": 60.25,
+   "fade_in": 0.2,
+   "fade_out": 0.06,
+   "gain_db": -34,
+   "seed": 2
+  },
+  {
+   "sound": "room_tone",
+   "t0": 60.2,
+   "t1": 66.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40
+  },
+  {
+   "sound": "applause",
+   "t0": 63.9,
+   "t1": 66.25,
+   "fade_in": 0.15,
+   "fade_out": 0.06,
+   "gain_db": -35,
+   "args": {
+    "density": 30.0
+   },
+   "seed": 2
+  },
+  {
+   "sound": "room_tone",
+   "t0": 66.2,
+   "t1": 76.0,
+   "fade_in": 0.05,
+   "fade_out": 1.0,
+   "gain_db": -42
+  }
+ ],
+ "events": [
+  {
+   "sound": "footsteps",
+   "t0": 0.0,
+   "t1": 5.9,
+   "pan0": -0.4,
+   "pan1": 0.3,
+   "gain_db": -30,
+   "rate": 2.1
+  },
+  {
+   "sound": "footsteps",
+   "t0": 0.25,
+   "t1": 6.1,
+   "pan0": 0.4,
+   "pan1": -0.2,
+   "gain_db": -32,
+   "rate": 1.8
+  },
+  {
+   "t": 5.45,
+   "sound": "low_swell",
+   "args": {
+    "dur": 1.2,
+    "pitch": 0.55
+   },
+   "gain_db": -26,
+   "pan": 0.0,
+   "hall": -14
+  },
+  {
+   "t": 6.72,
+   "sound": "bonk",
+   "gain_db": -22,
+   "pan": 0.05,
+   "room": -16
+  },
+  {
+   "t": 7.47,
+   "sound": "bonk",
+   "gain_db": -22,
+   "pan": 0.05,
+   "room": -16
+  },
+  {
+   "t": 9.9,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": -0.32,
+   "room": -16
+  },
+  {
+   "t": 10.06,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": -0.24,
+   "room": -16
+  },
+  {
+   "t": 10.22,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": -0.16,
+   "room": -16
+  },
+  {
+   "t": 10.38,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": -0.08,
+   "room": -16
+  },
+  {
+   "t": 10.54,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "t": 10.7,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": 0.08,
+   "room": -16
+  },
+  {
+   "t": 10.86,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": 0.16,
+   "room": -16
+  },
+  {
+   "t": 11.02,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": 0.24,
+   "room": -16
+  },
+  {
+   "t": 11.18,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.25,
+    "softness": 0.4,
+    "intensity": 0.5
+   },
+   "gain_db": -32,
+   "pan": 0.32,
+   "room": -16
+  },
+  {
+   "t": 12.08,
+   "sound": "chalk_write",
+   "args": {
+    "dur": 0.7,
+    "strokes": 4
+   },
+   "gain_db": -22,
+   "pan": -0.15,
+   "room": -14
+  },
+  {
+   "t": 13.9,
+   "sound": "keyboard_type",
+   "args": {
+    "dur": 1.3,
+    "rate": 6.0
+   },
+   "gain_db": -24,
+   "pan": -0.1,
+   "room": -16
+  },
+  {
+   "t": 16.5,
+   "sound": "keyboard_type",
+   "args": {
+    "dur": 0.7,
+    "rate": 7.0
+   },
+   "gain_db": -24,
+   "pan": -0.1,
+   "room": -16
+  },
+  {
+   "t": 17.3,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": -0.3,
+   "room": -18
+  },
+  {
+   "t": 17.43,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": -0.15,
+   "room": -18
+  },
+  {
+   "t": 17.56,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 17.69,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.15,
+   "room": -18
+  },
+  {
+   "t": 17.82,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.3,
+   "room": -18
+  },
+  {
+   "t": 17.95,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": -0.3,
+   "room": -18
+  },
+  {
+   "t": 18.08,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": -0.15,
+   "room": -18
+  },
+  {
+   "t": 18.21,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 18.34,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.15,
+   "room": -18
+  },
+  {
+   "t": 18.47,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.3,
+    "softness": 0.3,
+    "intensity": 0.55
+   },
+   "gain_db": -29,
+   "pan": 0.3,
+   "room": -18
+  },
+  {
+   "t": 18.79,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": 0.25,
+   "room": -18
+  },
+  {
+   "t": 19.61,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": 0.25,
+   "room": -18
+  },
+  {
+   "t": 20.43,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": 0.25,
+   "room": -18
+  },
+  {
+   "t": 18.63,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": -0.25,
+   "room": -18
+  },
+  {
+   "t": 19.45,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": -0.25,
+   "room": -18
+  },
+  {
+   "t": 20.27,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.3,
+    "size": 1.0
+   },
+   "gain_db": -20,
+   "pan": -0.25,
+   "room": -18
+  },
+  {
+   "t": 21.75,
+   "sound": "car_pass",
+   "args": {
+    "dur": 1.0,
+    "size": 1.2
+   },
+   "gain_db": -20,
+   "pan": 0.1,
+   "room": -18
+  },
+  {
+   "t": 22.53,
+   "sound": "car_crash",
+   "args": {
+    "dur": 0.9,
+    "weight": 0.6
+   },
+   "gain_db": -20,
+   "pan": 0.1,
+   "room": -16
+  },
+  {
+   "t": 22.82,
+   "sound": "car_crash",
+   "args": {
+    "dur": 0.9,
+    "weight": 0.45
+   },
+   "gain_db": -20,
+   "pan": 0.1,
+   "room": -16
+  },
+  {
+   "t": 23.1,
+   "sound": "car_crash",
+   "args": {
+    "dur": 0.9,
+    "weight": 0.4
+   },
+   "gain_db": -20,
+   "pan": 0.1,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 24.3,
+   "t1": 24.68,
+   "pan0": 0.2,
+   "pan1": 0.0,
+   "gain_db": -32,
+   "rate": 4.0
+  },
+  {
+   "t": 24.88,
+   "sound": "bonk",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 25.25,
+   "t1": 25.63,
+   "pan0": 0.2,
+   "pan1": 0.0,
+   "gain_db": -32,
+   "rate": 4.0
+  },
+  {
+   "t": 25.83,
+   "sound": "bonk",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 26.2,
+   "t1": 26.58,
+   "pan0": 0.2,
+   "pan1": 0.0,
+   "gain_db": -32,
+   "rate": 4.0
+  },
+  {
+   "t": 26.78,
+   "sound": "bonk",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 27.15,
+   "t1": 27.529999999999998,
+   "pan0": 0.2,
+   "pan1": 0.0,
+   "gain_db": -32,
+   "rate": 4.0
+  },
+  {
+   "t": 27.73,
+   "sound": "bonk",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 28.1,
+   "t1": 28.48,
+   "pan0": 0.2,
+   "pan1": 0.0,
+   "gain_db": -32,
+   "rate": 4.0
+  },
+  {
+   "t": 28.68,
+   "sound": "bonk",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "t": 37.0,
+   "sound": "phone_pickup",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16
+  },
+  {
+   "t": 39.9,
+   "sound": "crow_caw",
+   "args": {
+    "pitch": 1.05
+   },
+   "gain_db": -27,
+   "pan": 0.1,
+   "room": -18
+  },
+  {
+   "t": 41.0,
+   "sound": "crow_caw",
+   "args": {
+    "pitch": 0.95
+   },
+   "gain_db": -27,
+   "pan": -0.2,
+   "room": -18
+  },
+  {
+   "t": 41.55,
+   "sound": "crow_caw",
+   "args": {
+    "pitch": 0.95
+   },
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 42.7,
+   "sound": "crow_caw",
+   "args": {
+    "pitch": 1.05
+   },
+   "gain_db": -27,
+   "pan": 0.25,
+   "room": -18
+  },
+  {
+   "t": 43.3,
+   "sound": "crow_caw",
+   "args": {
+    "pitch": 0.95
+   },
+   "gain_db": -27,
+   "pan": -0.1,
+   "room": -18
+  },
+  {
+   "t": 41.5,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.35,
+    "softness": 0.35,
+    "intensity": 0.7,
+    "strokes": 2
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 42.65,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.35,
+    "softness": 0.35,
+    "intensity": 0.7,
+    "strokes": 2
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 42.8,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.35,
+    "softness": 0.35,
+    "intensity": 0.7,
+    "strokes": 2
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 42.95,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.35,
+    "softness": 0.35,
+    "intensity": 0.7,
+    "strokes": 2
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "t": 43.1,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.35,
+    "softness": 0.35,
+    "intensity": 0.7,
+    "strokes": 2
+   },
+   "gain_db": -29,
+   "pan": 0.0,
+   "room": -18
+  },
+  {
+   "sound": "footsteps",
+   "t0": 44.8,
+   "t1": 47.4,
+   "pan0": -0.2,
+   "pan1": 0.1,
+   "gain_db": -31,
+   "rate": 1.9
+  },
+  {
+   "t": 45.4,
+   "sound": "dog_bark",
+   "args": {
+    "pitch": 0.9
+   },
+   "gain_db": -26,
+   "pan": 0.2,
+   "room": -18
+  },
+  {
+   "t": 48.3,
+   "sound": "slurp",
+   "args": {
+    "dur": 0.5
+   },
+   "gain_db": -30,
+   "pan": 0.2,
+   "room": -18
+  },
+  {
+   "t": 48.9,
+   "sound": "dog_bark",
+   "args": {
+    "pitch": 1.0
+   },
+   "gain_db": -26,
+   "pan": 0.1,
+   "room": -18
+  },
+  {
+   "t": 50.3,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": -0.2,
+   "room": -14
+  },
+  {
+   "t": 50.6,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.0,
+   "room": -14
+  },
+  {
+   "t": 50.9,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.2,
+   "room": -14
+  },
+  {
+   "t": 51.2,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": -0.2,
+   "room": -14
+  },
+  {
+   "t": 51.5,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.0,
+   "room": -14
+  },
+  {
+   "t": 51.8,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.2,
+   "room": -14
+  },
+  {
+   "t": 52.1,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": -0.2,
+   "room": -14
+  },
+  {
+   "t": 52.4,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.0,
+   "room": -14
+  },
+  {
+   "t": 52.7,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.18
+   },
+   "gain_db": -28,
+   "pan": 0.2,
+   "room": -14
+  },
+  {
+   "t": 54.0,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.15
+   },
+   "gain_db": -30,
+   "pan": -0.2,
+   "room": -14
+  },
+  {
+   "t": 54.25,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.15
+   },
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -14
+  },
+  {
+   "t": 54.5,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.15
+   },
+   "gain_db": -30,
+   "pan": 0.2,
+   "room": -14
+  },
+  {
+   "t": 54.75,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.15
+   },
+   "gain_db": -30,
+   "pan": -0.2,
+   "room": -14
+  },
+  {
+   "t": 55.0,
+   "sound": "pen_scribble",
+   "args": {
+    "dur": 0.15
+   },
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -14
+  },
+  {
+   "t": 59.9,
+   "sound": "distant_boom",
+   "args": {
+    "dur": 2.0,
+    "size": 0.6
+   },
+   "gain_db": -26,
+   "pan": 0.3,
+   "hall": -14
+  },
+  {
+   "t": 66.8,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.7,
+    "softness": 0.35,
+    "intensity": 0.9,
+    "strokes": 2
+   },
+   "gain_db": -22,
+   "pan": 0.1,
+   "room": -14
+  },
+  {
+   "t": 68.1,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.7,
+    "softness": 0.35,
+    "intensity": 1.0,
+    "strokes": 2
+   },
+   "gain_db": -22,
+   "pan": 0.1,
+   "room": -14
+  },
+  {
+   "t": 69.3,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.7,
+    "softness": 0.35,
+    "intensity": 1.0,
+    "strokes": 2
+   },
+   "gain_db": -22,
+   "pan": 0.1,
+   "room": -14
+  },
+  {
+   "t": 70.3,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.55,
+    "softness": 0.3,
+    "intensity": 1.0,
+    "strokes": 3
+   },
+   "gain_db": -21,
+   "pan": 0.1,
+   "room": -14
+  },
+  {
+   "t": 71.65,
+   "sound": "mattress_sit",
+   "args": {
+    "dur": 0.5
+   },
+   "gain_db": -30,
+   "pan": -0.2,
+   "room": -16
+  }
+ ],
+ "music": {
+  "instrument": "pluck",
+  "echo": {
+   "delay": 0.4,
+   "feedback": 0.35,
+   "mix": 0.26,
+   "lp_hz": 2800
+  },
+  "gain_db": 0.0,
+  "reverb_db": -9.0,
+  "pad_db": 3.5,
+  "pad_reverb_db": -4.0,
+  "leveler": {
+   "thr_rel_db": 3.0,
+   "ratio": 2.5,
+   "tau": 0.25
+  },
+  "end": 76.0,
+  "chords": [
+   [
+    0.2,
+    "F"
+   ],
+   [
+    5.6,
+    "F"
+   ],
+   [
+    7.2,
+    "F#dim"
+   ],
+   [
+    8.8,
+    "Gm"
+   ],
+   [
+    10.4,
+    "C7"
+   ],
+   [
+    12.0,
+    "F"
+   ],
+   [
+    13.6,
+    "F#dim"
+   ],
+   [
+    15.2,
+    "Gm"
+   ],
+   [
+    16.8,
+    "C7"
+   ],
+   [
+    18.4,
+    "F"
+   ],
+   [
+    20.0,
+    "F#dim"
+   ],
+   [
+    21.6,
+    "Gm"
+   ],
+   [
+    23.2,
+    "C7"
+   ],
+   [
+    24.8,
+    "F"
+   ],
+   [
+    26.4,
+    "F#dim"
+   ],
+   [
+    28.0,
+    "Gm"
+   ],
+   [
+    29.6,
+    "C7"
+   ],
+   [
+    31.2,
+    "F"
+   ],
+   [
+    32.8,
+    "F#dim"
+   ],
+   [
+    34.4,
+    "Gm"
+   ],
+   [
+    36.0,
+    "C7"
+   ],
+   [
+    37.6,
+    "F"
+   ],
+   [
+    39.2,
+    "F#dim"
+   ],
+   [
+    40.8,
+    "Gm"
+   ],
+   [
+    42.4,
+    "C7"
+   ],
+   [
+    44.0,
+    "F"
+   ],
+   [
+    45.6,
+    "F#dim"
+   ],
+   [
+    47.2,
+    "Gm"
+   ],
+   [
+    48.8,
+    "C7"
+   ],
+   [
+    50.4,
+    "F"
+   ],
+   [
+    52.0,
+    "F#dim"
+   ],
+   [
+    53.6,
+    "Gm"
+   ],
+   [
+    55.2,
+    "C7"
+   ],
+   [
+    56.8,
+    "F"
+   ],
+   [
+    58.4,
+    "F#dim"
+   ],
+   [
+    60.0,
+    "Gm"
+   ],
+   [
+    60.2,
+    "Bb"
+   ],
+   [
+    61.8,
+    "C"
+   ],
+   [
+    62.4,
+    "Dm"
+   ],
+   [
+    63.8,
+    "Bb"
+   ],
+   [
+    65.0,
+    "C7"
+   ],
+   [
+    66.2,
+    "F"
+   ],
+   [
+    67.8,
+    "Dm"
+   ],
+   [
+    69.4,
+    "Bb"
+   ],
+   [
+    71.0,
+    "C"
+   ],
+   [
+    72.0,
+    "F"
+   ],
+   [
+    74.0,
+    "Bb"
+   ],
+   [
+    75.0,
+    "F"
+   ]
+  ],
+  "sections": [
+   {
+    "t0": 5.6,
+    "t1": 8.2,
+    "style": "bounce",
+    "vel": 0.2,
+    "step": 0.4,
+    "bass_hold": 2.2,
+    "stab_hold": 1.3
+   },
+   {
+    "t0": 8.2,
+    "t1": 60.2,
+    "style": "bounce",
+    "vel": [
+     [
+      8.2,
+      0.22
+     ],
+     [
+      29.0,
+      0.26
+     ],
+     [
+      49.8,
+      0.29
+     ],
+     [
+      60.2,
+      0.3
+     ]
+    ],
+    "step": 0.4,
+    "bass_hold": 2.2,
+    "stab_hold": 1.3
+   },
+   {
+    "t0": 60.2,
+    "t1": 66.2,
+    "style": "arp",
+    "vel": 0.26,
+    "step": 0.2,
+    "pattern": [
+     0,
+     1,
+     2,
+     3,
+     2,
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "t0": 66.2,
+    "t1": 72.0,
+    "style": "arp",
+    "vel": 0.21,
+    "step": 0.4,
+    "pattern": [
+     0,
+     2,
+     1,
+     3
+    ]
+   },
+   {
+    "t0": 72.0,
+    "t1": 76.0,
+    "style": "arp",
+    "vel": 0.22,
+    "step": 0.4,
+    "pattern": [
+     0,
+     1,
+     2,
+     3,
+     2,
+     1
+    ]
+   }
+  ],
+  "melody": [
+   [
+    8.25,
+    77,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    8.45,
+    76,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    8.649999999999999,
+    72,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    13.450000000000001,
+    79,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    13.65,
+    78,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    13.85,
+    74,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    18.650000000000002,
+    81,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    18.85,
+    80,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    19.05,
+    76,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    23.85,
+    77,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    24.05,
+    76,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    24.25,
+    72,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    29.05,
+    79,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    29.25,
+    78,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    29.45,
+    74,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    34.25,
+    84,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    34.45,
+    83,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    34.650000000000006,
+    79,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    39.449999999999996,
+    81,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    39.65,
+    80,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    39.85,
+    76,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    44.65,
+    79,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    44.85,
+    78,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    45.050000000000004,
+    74,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    49.849999999999994,
+    82,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    50.05,
+    81,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    50.25,
+    77,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    55.05,
+    84,
+    0.24,
+    false,
+    0.18
+   ],
+   [
+    55.25,
+    83,
+    0.22,
+    false,
+    0.18
+   ],
+   [
+    55.45,
+    79,
+    0.24,
+    false,
+    0.35
+   ],
+   [
+    60.25,
+    77,
+    0.24,
+    false,
+    0.3
+   ],
+   [
+    60.65,
+    81,
+    0.24,
+    false,
+    0.3
+   ],
+   [
+    61.05,
+    84,
+    0.26,
+    false,
+    0.5
+   ],
+   [
+    63.85,
+    86,
+    0.26,
+    false,
+    0.3
+   ],
+   [
+    64.25,
+    89,
+    0.26,
+    false,
+    0.6
+   ]
+  ],
+  "pad": [
+   {
+    "t0": 5.6,
+    "t1": 7.55,
+    "chord": "F",
+    "level": 0.8,
+    "attack": 0.8,
+    "release": 0.6
+   },
+   {
+    "t0": 7.2,
+    "t1": 9.15,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 8.8,
+    "t1": 10.75,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 10.4,
+    "t1": 12.35,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 12.0,
+    "t1": 13.95,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 13.6,
+    "t1": 15.549999999999999,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 15.2,
+    "t1": 17.150000000000002,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 16.8,
+    "t1": 18.75,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 18.4,
+    "t1": 20.35,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 20.0,
+    "t1": 21.950000000000003,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 21.6,
+    "t1": 23.55,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 23.2,
+    "t1": 25.150000000000002,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 24.8,
+    "t1": 26.75,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 26.4,
+    "t1": 28.35,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 28.0,
+    "t1": 29.950000000000003,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 29.6,
+    "t1": 31.55,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 31.2,
+    "t1": 33.15,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 32.8,
+    "t1": 34.75,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 34.4,
+    "t1": 36.35,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 36.0,
+    "t1": 37.95,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 37.6,
+    "t1": 39.550000000000004,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 39.2,
+    "t1": 41.15,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 40.8,
+    "t1": 42.75,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 42.4,
+    "t1": 44.35,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 44.0,
+    "t1": 45.95,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 45.6,
+    "t1": 47.550000000000004,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 47.2,
+    "t1": 49.15,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 48.8,
+    "t1": 50.75,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 50.4,
+    "t1": 52.35,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 52.0,
+    "t1": 53.95,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 53.6,
+    "t1": 55.550000000000004,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 55.2,
+    "t1": 57.15,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 56.8,
+    "t1": 58.75,
+    "chord": "F",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 58.4,
+    "t1": 60.35,
+    "chord": "F#dim",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 60.0,
+    "t1": 60.550000000000004,
+    "chord": "Gm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 60.2,
+    "t1": 62.15,
+    "chord": "Bb",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 61.8,
+    "t1": 62.75,
+    "chord": "C",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 62.4,
+    "t1": 64.14999999999999,
+    "chord": "Dm",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 63.8,
+    "t1": 65.35,
+    "chord": "Bb",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 65.0,
+    "t1": 66.55,
+    "chord": "C7",
+    "level": 0.7,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 66.2,
+    "t1": 68.14999999999999,
+    "chord": "F",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 67.8,
+    "t1": 69.75,
+    "chord": "Dm",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 69.4,
+    "t1": 71.35,
+    "chord": "Bb",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 71.0,
+    "t1": 72.35,
+    "chord": "C",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 72.0,
+    "t1": 74.35,
+    "chord": "F",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 74.0,
+    "t1": 75.35,
+    "chord": "Bb",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 75.0,
+    "t1": 76.05,
+    "chord": "F",
+    "level": 0.8,
+    "attack": 0.15,
+    "release": 0.6
+   }
+  ],
+  "stings": [
+   {
+    "t": 5.45,
+    "midi": 29,
+    "vel": 0.3,
+    "hold": 1.4
+   },
+   {
+    "t": 62.4,
+    "midi": 34,
+    "vel": 0.26,
+    "hold": 1.2
+   }
+  ],
+  "ducks": [],
+  "auto_duck": {
+   "db": -4.0,
+   "categories": [
+    "prop"
+   ],
+   "lookahead": 0.04,
+   "hold": 0.5,
+   "smooth": 0.15,
+   "max_len": 1.0
+  },
+  "eq": [
+   {
+    "f": 2800,
+    "q": 0.8,
+    "db": -2.0
+   },
+   {
+    "f": 6500,
+    "q": 0.6,
+    "db": -4.0
+   }
+  ]
+ }
+}
