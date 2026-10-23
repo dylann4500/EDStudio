@@ -29,4 +29,5 @@ engine cheat sheet, hard-won rules). Reference video: `videos/009-abe-lincoln` (
 10. **caption.md** (BIOGRAPHY.md §8, sources in a comment). Commit the video folder (incl. script.json + make_cues.py), merge
     to main, push.
 11. **Update the harness**: new lessons → docs/BIOGRAPHY.md (biography-specific) / CLAUDE.md (engine-wide).
-12. Report: title, duration, path, caption, anything unfinished.
+12. Report: title, duration, path, **the full caption text pasted in the message (paste-ready — every first cut and every revision,
+    user rule)**, anything unfinished.

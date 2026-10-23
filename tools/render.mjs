@@ -42,6 +42,9 @@ function serve() {
 const story = JSON.parse(fs.readFileSync(path.join(videoDir, 'story.json'), 'utf8'));
 // house rule: the end card must stay fully readable for >= 3.5 s (user feedback on 001: it vanished before it could be read)
 if (story.end && story.duration - (story.end.in + 0.5) < 3.5) console.warn(`⚠️  end card is fully visible for only ${(story.duration - story.end.in - 0.5).toFixed(1)} s — set duration ≥ end.in + 4.0 (house rule: ≥ 3.5 s)`);
+// house rule: every video ships with a real caption (user: "make sure every video generation has a caption")
+{ const cap = path.join(videoDir, 'caption.md'); const txt = fs.existsSync(cap) ? fs.readFileSync(cap, 'utf8') : '';
+  if (!txt || txt.includes('<hook line')) console.warn('⚠️  caption.md is ' + (txt ? 'still the template' : 'missing') + ' — write it (hook + emoji, 2–3 sentences, question CTA 👇, "Send this to your ___", 5 hashtags incl. #animation) and paste it in your report'); }
 const preview = !!flag('preview', false);
 const fps = Number(flag('fps', preview ? 15 : story.fps || 30));
 const t0 = Number(flag('from', 0)), t1 = Number(flag('to', story.duration));

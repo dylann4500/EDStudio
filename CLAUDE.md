@@ -152,6 +152,11 @@ videos/NNN-slug/
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
 ## User's taste (direct feedback — non-negotiable)
+- **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
+  video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with
+  the video, and paste the caption text (paste-ready, without the sources comment) in the report next to the file path.
+  `tools/render.mjs` warns when caption.md is missing or still the template. If a revision changes what the video shows,
+  update the caption to match.
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
   subtitles, no other text while it's up (the engine hides them until `title.out`). Then the story begins.
 - **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.

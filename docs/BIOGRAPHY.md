@@ -85,7 +85,7 @@ Pick a flavor from the person's time and place (009: Americana — dulcimer-like
 strings + soft taiko for war, hymn at the speech, solo piano at the death, full theme at the legacy). One theme that
 returns across the life ties it together. Scene beds per place + a few synced foley hits. Music never drops out.
 
-## 8. Caption
+## 8. Caption (always shipped + pasted in the report — user rule)
 Hook ("From a dirt-floor log cabin to the Lincoln Memorial 🎩🪓"), 2–3 sentences of the most surprising facts, "Whose story
 should we tell next? 👇", "Send this to your history buff friend", exactly 5 hashtags incl. #animation (+ the name and
 #biography).
