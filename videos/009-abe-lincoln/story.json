@@ -8,7 +8,7 @@
   "bloomThreshold": 0.9
  },
  "fps": 30,
- "duration": 86.5,
+ "duration": 138.99,
  "title": {
   "html": "The story of <em>Abraham Lincoln</em>",
   "in": -0.4,
@@ -17,457 +17,579 @@
  "shots": [
   {
    "cam": "cabinExt",
-   "t0": 0,
-   "t1": 3.6,
-   "set": "cabin"
+   "set": "cabin",
+   "t0": 0.0,
+   "t1": 4.0,
+   "s0": 0,
+   "s1": 3.6
   },
   {
    "cam": "birth",
-   "t0": 3.6,
-   "t1": 6.9,
-   "set": "cabin"
+   "set": "cabin",
+   "t0": 4.0,
+   "t1": 9.7,
+   "s0": 3.6,
+   "s1": 6.9
   },
   {
    "cam": "forest",
-   "t0": 6.9,
-   "t1": 12.9,
-   "set": "woods"
+   "set": "woods",
+   "t0": 9.7,
+   "t1": 17.78,
+   "s0": 6.9,
+   "s1": 12.9
   },
   {
    "cam": "grave",
-   "t0": 12.9,
-   "t1": 15.9,
-   "set": "woods"
+   "set": "woods",
+   "t0": 17.78,
+   "t1": 23.06,
+   "s0": 12.9,
+   "s1": 15.9
   },
   {
    "cam": "reading",
-   "t0": 15.9,
-   "t1": 19.6,
-   "set": "cabin"
+   "set": "cabin",
+   "t0": 23.06,
+   "t1": 31.45,
+   "s0": 15.9,
+   "s1": 19.6
   },
   {
    "cam": "riverA",
-   "t0": 19.6,
-   "t1": 22.7,
-   "set": "river"
+   "set": "river",
+   "t0": 31.45,
+   "t1": 36.12,
+   "s0": 19.6,
+   "s1": 22.7
   },
   {
    "cam": "riverB",
-   "t0": 22.7,
-   "t1": 25.6,
-   "set": "river"
+   "set": "river",
+   "t0": 36.12,
+   "t1": 41.61,
+   "s0": 22.7,
+   "s1": 25.6
   },
   {
    "cam": "store",
-   "t0": 25.6,
-   "t1": 28.6,
-   "set": "store"
+   "set": "store",
+   "t0": 41.61,
+   "t1": 46.28,
+   "s0": 25.6,
+   "s1": 28.6
   },
   {
    "cam": "road",
-   "t0": 28.6,
-   "t1": 32.0,
-   "set": "woods"
+   "set": "woods",
+   "t0": 46.28,
+   "t1": 54.36,
+   "s0": 28.6,
+   "s1": 32.0
   },
   {
    "cam": "law",
-   "t0": 32.0,
-   "t1": 35.2,
-   "set": "room"
+   "set": "room",
+   "t0": 54.36,
+   "t1": 59.65,
+   "s0": 32.0,
+   "s1": 35.2
   },
   {
    "cam": "debateA",
-   "t0": 35.2,
-   "t1": 38.1,
-   "set": "square"
+   "set": "square",
+   "t0": 59.65,
+   "t1": 64.33,
+   "s0": 35.2,
+   "s1": 38.1
   },
   {
    "cam": "debateB",
-   "t0": 38.1,
-   "t1": 41.2,
-   "set": "square"
+   "set": "square",
+   "t0": 64.33,
+   "t1": 69.0,
+   "s0": 38.1,
+   "s1": 41.2
   },
   {
    "cam": "electedA",
-   "t0": 41.2,
-   "t1": 44.0,
-   "set": "room"
+   "set": "room",
+   "t0": 69.0,
+   "t1": 73.46,
+   "s0": 41.2,
+   "s1": 44.0
   },
   {
    "cam": "beard",
-   "t0": 44.0,
-   "t1": 47.6,
-   "set": "room"
+   "set": "room",
+   "t0": 73.46,
+   "t1": 80.12,
+   "s0": 44.0,
+   "s1": 47.6
   },
   {
    "cam": "war",
-   "t0": 47.6,
-   "t1": 51.0,
-   "set": "battle"
+   "set": "battle",
+   "t0": 80.12,
+   "t1": 85.4,
+   "s0": 47.6,
+   "s1": 51.0
   },
   {
    "cam": "signingA",
-   "t0": 51.0,
-   "t1": 53.7,
-   "set": "room"
+   "set": "room",
+   "t0": 85.4,
+   "t1": 90.08,
+   "s0": 51.0,
+   "s1": 53.7
   },
   {
    "cam": "signingB",
-   "t0": 53.7,
-   "t1": 57.2,
-   "set": "room"
+   "set": "room",
+   "t0": 90.08,
+   "t1": 95.67,
+   "s0": 53.7,
+   "s1": 57.2
   },
   {
    "cam": "gettysA",
-   "t0": 57.2,
-   "t1": 60.1,
-   "set": "square"
+   "set": "square",
+   "t0": 95.67,
+   "t1": 99.67,
+   "s0": 57.2,
+   "s1": 60.1
   },
   {
    "cam": "gettysB",
-   "t0": 60.1,
-   "t1": 63.2,
-   "set": "square"
+   "set": "square",
+   "t0": 99.67,
+   "t1": 104.13,
+   "s0": 60.1,
+   "s1": 63.2
   },
   {
    "cam": "victory",
-   "t0": 63.2,
-   "t1": 66.4,
-   "set": "square"
+   "set": "square",
+   "t0": 104.13,
+   "t1": 109.11,
+   "s0": 63.2,
+   "s1": 66.4
   },
   {
-   "cam": "theatre",
-   "t0": 66.4,
-   "t1": 70.6,
-   "set": "theatre"
+   "cam": "theatreA",
+   "set": "theatre",
+   "t0": 109.11,
+   "t1": 114.3,
+   "s0": 66.4,
+   "s1": 68.0
+  },
+  {
+   "cam": "theatreB",
+   "set": "theatre",
+   "t0": 114.3,
+   "t1": 120.5,
+   "s0": 68.0,
+   "s1": 70.6
   },
   {
    "cam": "dawn",
-   "t0": 70.6,
-   "t1": 76.4,
-   "set": "room"
+   "set": "room",
+   "t0": 120.5,
+   "t1": 127.21,
+   "s0": 70.6,
+   "s1": 76.4
   },
   {
    "cam": "memorial",
-   "t0": 76.4,
-   "t1": 86.5,
-   "set": "memorial"
+   "set": "memorial",
+   "t0": 127.21,
+   "t1": 138.99,
+   "s0": 76.4,
+   "s1": 86.5
   }
  ],
  "subs": [
   [
-   3.7,
-   6.7,
-   "February 12, 1809. A log cabin in Kentucky."
-  ],
-  [
-   7.0,
-   9.8,
-   "At 7, his family moves to the Indiana woods."
+   4.3,
+   8.95,
+   "On February 12, 1809, in a one-room log cabin in Kentucky, Abraham Lincoln is born."
   ],
   [
    10.0,
-   13.0,
-   "He's handed an axe. He'll swing it for 15 years."
+   13.41,
+   "When he's seven, his family moves deep into the Indiana woods,"
   ],
   [
-   13.08,
-   15.7,
-   "At 9, he loses his mother, Nancy."
+   13.71,
+   17.43,
+   "and his father hands him an axe he'll swing for fifteen years."
   ],
   [
-   16.0,
-   19.4,
-   "Less than one year of school. So he reads by firelight."
+   18.08,
+   22.11,
+   "Two years later, his mother Nancy gets sick and dies. Abe is nine."
   ],
   [
-   19.7,
-   22.7,
-   "At 19, he rafts over 1,000 miles to New Orleans."
+   23.36,
+   27.08,
+   "He'll get less than one year of school in his whole life,"
   ],
   [
-   22.78,
-   25.78,
-   "He sees people sold at auction. He never forgets it."
+   27.38,
+   31.1,
+   "so he teaches himself, reading every book he can borrow by firelight."
   ],
   [
-   25.86,
-   28.4,
-   "22. A store clerk in New Salem, Illinois."
+   31.75,
+   35.47,
+   "At nineteen, he rafts over a thousand miles downriver to New Orleans."
   ],
   [
-   28.7,
-   31.8,
-   "He walks miles to return a few cents. “Honest Abe.”"
+   36.42,
+   40.76,
+   "There he sees people sold at a slave auction, and he never forgets it."
   ],
   [
-   32.1,
-   35.0,
-   "He teaches himself law. Lawyer at 27."
+   41.91,
+   45.63,
+   "Back in Illinois, he becomes a clerk in a small-town general store."
   ],
   [
-   35.3,
-   38.0,
-   "1858: seven debates with Stephen Douglas over slavery."
+   46.58,
+   51.85,
+   "When he overcharges a woman a few cents, he walks miles that night to pay her back."
   ],
   [
-   38.2,
-   41.0,
-   "He loses. But now the whole country knows him."
+   52.15,
+   54.01,
+   "People start calling him “Honest Abe.”"
   ],
   [
-   41.3,
-   43.8,
-   "1860: elected the 16th President."
+   54.66,
+   59.0,
+   "Reading borrowed law books late into the night, he becomes a lawyer at 27."
   ],
   [
-   44.0,
-   47.4,
-   "An 11-year-old girl writes him: grow a beard. He does."
+   59.95,
+   63.98,
+   "In 1858, he faces Senator Stephen Douglas in seven famous debates over slavery."
   ],
   [
-   47.7,
-   50.8,
-   "Then the country splits in two. Civil War."
+   64.63,
+   68.35,
+   "He loses the race, but now the whole country knows his name."
   ],
   [
-   51.1,
-   53.6,
-   "January 1, 1863. The Emancipation Proclamation."
+   69.3,
+   72.71,
+   "In 1860, he's elected the 16th President of the United States."
   ],
   [
-   53.8,
-   57.0,
-   "After hours of handshakes, he waits for a steady hand."
+   73.76,
+   77.17,
+   "An eleven-year-old girl writes that he'd look better with a beard…"
   ],
   [
-   57.3,
-   60.0,
-   "Gettysburg. The main speaker talks for 2 hours."
+   77.47,
+   79.27,
+   "…so he grows one."
   ],
   [
-   60.2,
-   63.0,
-   "Lincoln speaks for 2 minutes. 272 words."
+   80.42,
+   84.45,
+   "Before he even takes office, the South breaks away. The Civil War begins."
   ],
   [
-   63.3,
-   66.3,
-   "April 9, 1865. After four years, the war is over."
+   85.7,
+   89.73,
+   "On New Year's Day, 1863, he sits down to sign the Emancipation Proclamation."
   ],
   [
-   66.5,
-   69.4,
-   "Five days later: Ford's Theatre. 10:15 PM."
+   90.38,
+   94.72,
+   "His hand is shaking from hours of handshakes, so he waits until it's steady."
   ],
   [
-   71.0,
-   73.6,
-   "He dies the next morning. He was 56."
+   95.97,
+   98.76,
+   "At Gettysburg, the main speaker talks for two hours."
   ],
   [
-   73.8,
-   76.2,
+   99.97,
+   103.38,
+   "Lincoln speaks for two minutes. 272 words people still quote today."
+  ],
+  [
+   104.43,
+   108.46,
+   "On April 9, 1865, after four brutal years, the war is finally over."
+  ],
+  [
+   109.41,
+   113.75,
+   "Five days later, Abe and Mary go to see a comedy at Ford's Theatre."
+  ],
+  [
+   114.6,
+   119.25,
+   "At 10:15 PM, an actor named John Wilkes Booth slips into their box and fires."
+  ],
+  [
+   121.3,
+   124.4,
+   "Lincoln dies the next morning. He is 56 years old."
+  ],
+  [
+   124.7,
+   126.56,
    "“Now he belongs to the ages.”"
   ],
   [
-   76.6,
-   79.6,
-   "The boy from the log cabin held the country together."
+   128.11,
+   131.52,
+   "The boy from a log cabin held a breaking country together,"
   ],
   [
-   79.68,
-   81.8,
-   "And helped free 4 million people."
+   131.82,
+   133.99,
+   "and helped set four million people free."
   ]
  ],
  "hudLabel": "AGE",
  "hud": [
   {
-   "t0": 0,
-   "t1": 6.9,
+   "t0": 0.0,
+   "t1": 4.0,
    "from": 0,
    "to": 0,
    "time": "FEB 12, 1809",
    "age": "HODGENVILLE, KENTUCKY"
   },
   {
-   "t0": 6.9,
-   "t1": 12.9,
+   "t0": 4.0,
+   "t1": 9.7,
+   "from": 0,
+   "to": 0,
+   "time": "FEB 12, 1809",
+   "age": "HODGENVILLE, KENTUCKY"
+  },
+  {
+   "t0": 9.7,
+   "t1": 17.78,
    "from": 0,
    "to": 7,
    "time": "DEC 1816",
    "age": "PIGEON CREEK, INDIANA",
-   "r0": 6.95,
-   "r1": 7.6
+   "r0": 9.75,
+   "r1": 10.35
   },
   {
-   "t0": 12.9,
-   "t1": 15.9,
+   "t0": 17.78,
+   "t1": 23.06,
    "from": 7,
    "to": 9,
    "time": "OCT 1818",
    "age": "PIGEON CREEK, INDIANA",
-   "r0": 12.95,
-   "r1": 13.4
+   "r0": 17.83,
+   "r1": 18.43
   },
   {
-   "t0": 15.9,
-   "t1": 19.6,
+   "t0": 23.06,
+   "t1": 31.45,
    "from": 9,
    "to": 15,
    "time": "1824",
    "age": "PIGEON CREEK, INDIANA",
-   "r0": 15.95,
-   "r1": 16.7
+   "r0": 23.11,
+   "r1": 23.71
   },
   {
-   "t0": 19.6,
-   "t1": 22.7,
+   "t0": 31.45,
+   "t1": 36.12,
    "from": 15,
    "to": 19,
    "time": "1828",
    "age": "THE MISSISSIPPI RIVER",
-   "r0": 19.65,
-   "r1": 20.3
+   "r0": 31.5,
+   "r1": 32.1
   },
   {
-   "t0": 22.7,
-   "t1": 25.6,
+   "t0": 36.12,
+   "t1": 41.61,
    "from": 19,
    "to": 19,
    "time": "1828",
    "age": "NEW ORLEANS, LOUISIANA"
   },
   {
-   "t0": 25.6,
-   "t1": 32.0,
+   "t0": 41.61,
+   "t1": 46.28,
    "from": 19,
    "to": 22,
    "time": "1831",
    "age": "NEW SALEM, ILLINOIS",
-   "r0": 25.65,
-   "r1": 26.2
+   "r0": 41.66,
+   "r1": 42.26
   },
   {
-   "t0": 32.0,
-   "t1": 35.2,
+   "t0": 46.28,
+   "t1": 54.36,
+   "from": 22,
+   "to": 22,
+   "time": "1831",
+   "age": "NEW SALEM, ILLINOIS"
+  },
+  {
+   "t0": 54.36,
+   "t1": 59.65,
    "from": 22,
    "to": 27,
    "time": "1836",
    "age": "NEW SALEM, ILLINOIS",
-   "r0": 32.05,
-   "r1": 32.6
+   "r0": 54.41,
+   "r1": 55.01
   },
   {
-   "t0": 35.2,
-   "t1": 41.2,
+   "t0": 59.65,
+   "t1": 64.33,
    "from": 27,
    "to": 49,
    "time": "1858",
    "age": "OTTAWA, ILLINOIS",
-   "r0": 35.25,
-   "r1": 36.2
+   "r0": 59.7,
+   "r1": 60.3
   },
   {
-   "t0": 41.2,
-   "t1": 44.0,
+   "t0": 64.33,
+   "t1": 69.0,
+   "from": 49,
+   "to": 49,
+   "time": "1858",
+   "age": "OTTAWA, ILLINOIS"
+  },
+  {
+   "t0": 69.0,
+   "t1": 73.46,
    "from": 49,
    "to": 51,
    "time": "NOV 6, 1860",
    "age": "SPRINGFIELD, ILLINOIS",
-   "r0": 41.25,
-   "r1": 41.8
+   "r0": 69.05,
+   "r1": 69.65
   },
   {
-   "t0": 44.0,
-   "t1": 47.6,
+   "t0": 73.46,
+   "t1": 80.12,
    "from": 51,
    "to": 52,
    "time": "FEB 1861",
    "age": "ON THE WAY TO WASHINGTON",
-   "r0": 44.05,
-   "r1": 44.4
+   "r0": 73.51,
+   "r1": 74.11
   },
   {
-   "t0": 47.6,
-   "t1": 51.0,
+   "t0": 80.12,
+   "t1": 85.4,
    "from": 52,
    "to": 52,
    "time": "APRIL 12, 1861",
    "age": "THE CIVIL WAR BEGINS"
   },
   {
-   "t0": 51.0,
-   "t1": 57.2,
+   "t0": 85.4,
+   "t1": 90.08,
    "from": 52,
    "to": 53,
    "time": "JAN 1, 1863",
    "age": "THE WHITE HOUSE",
-   "r0": 51.05,
-   "r1": 51.5
+   "r0": 85.45,
+   "r1": 86.05
   },
   {
-   "t0": 57.2,
-   "t1": 63.2,
+   "t0": 90.08,
+   "t1": 95.67,
+   "from": 53,
+   "to": 53,
+   "time": "JAN 1, 1863",
+   "age": "THE WHITE HOUSE"
+  },
+  {
+   "t0": 95.67,
+   "t1": 99.67,
    "from": 53,
    "to": 54,
    "time": "NOV 19, 1863",
    "age": "GETTYSBURG, PENNSYLVANIA",
-   "r0": 57.25,
-   "r1": 57.6
+   "r0": 95.72,
+   "r1": 96.32
   },
   {
-   "t0": 63.2,
-   "t1": 66.4,
+   "t0": 99.67,
+   "t1": 104.13,
+   "from": 54,
+   "to": 54,
+   "time": "NOV 19, 1863",
+   "age": "GETTYSBURG, PENNSYLVANIA"
+  },
+  {
+   "t0": 104.13,
+   "t1": 109.11,
    "from": 54,
    "to": 56,
    "time": "APRIL 9, 1865",
    "age": "WASHINGTON, D.C.",
-   "r0": 63.25,
-   "r1": 63.8
+   "r0": 104.18,
+   "r1": 104.78
   },
   {
-   "t0": 66.4,
-   "t1": 70.6,
+   "t0": 109.11,
+   "t1": 114.3,
+   "from": 56,
+   "to": 56,
+   "time": "APRIL 14, 1865 · 8:30 PM",
+   "age": "FORD'S THEATRE"
+  },
+  {
+   "t0": 114.3,
+   "t1": 120.5,
    "from": 56,
    "to": 56,
    "time": "APRIL 14, 1865 · 10:15 PM",
    "age": "FORD'S THEATRE"
   },
   {
-   "t0": 70.6,
-   "t1": 76.4,
+   "t0": 120.5,
+   "t1": 127.21,
    "from": 56,
    "to": 56,
    "time": "APRIL 15, 1865 · 7:22 AM",
    "age": "PETERSEN HOUSE"
   },
   {
-   "t0": 76.4,
-   "t1": 86.5,
+   "t0": 127.21,
+   "t1": 138.99,
    "from": 56,
    "to": 56,
    "time": "1809 – 1865",
    "age": "LINCOLN MEMORIAL",
-   "ageGoldAt": 79.6
+   "ageGoldAt": 131.82
   }
  ],
  "end": {
-  "in": 82.3,
+  "in": 134.69,
   "html": "Whose story should we tell <em>next</em>?",
   "small": "TELL US BELOW"
  },
  "dips": [
   [
-   69.6,
-   70.2,
-   71.0
+   119.832,
+   120.262,
+   120.847
   ]
  ],
  "finalFade": [
-  81.8,
-  82.3
+  134.19,
+  134.69
  ],
  "debugView": {
   "center": [

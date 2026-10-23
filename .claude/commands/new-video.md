@@ -15,8 +15,7 @@ Follow `CLAUDE.md` exactly. Steps:
    details). Montage (the premise in many places, 007) or Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, picture delivers the punch, music never cuts out, warm last beat).
    Respect the originality rule. Choose the harness per concept (user steer): **global what-ifs ("what if everyone…") → a
    many-places ladder — tone `montage` (007) or `whatif` (006: consequence per place, HUD crashes + recovers, sound-design-led)**.
-   **Biographies ("The story of [Name]") → tone `biography` (009): HUD = age + date + place, a scene per verified life detail, new
-   sets per era (`engine/sets/frontier.js`, `capital.js`), non-graphic death, legacy ending, "Whose story should we tell next?".**
+   **Biographies ("The story of [Name]") are their own category → use `/new-biography` and `docs/BIOGRAPHY.md` instead.**
    Personal what-ifs ("…except you") can keep ONE human thread and a reunion that flips the HUD counter (004: 8.2 B → 1 → 2). If a reference video link is given, sample frames every ~5 s in the browser
    (TikTok: dismiss the login modal, seek `video.currentTime`) and save the takeaways to `docs/reference/<account>.md`.
    World-scale what-ifs (the whole planet, geopolitics, science — 005): follow `docs/WORLD-WHATIF.md` (war room + hologram

@@ -6,8 +6,9 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
 - **world** (planet-scale thought experiments, `videos/005-no-nukes`): hologram globe whose dots are the HUD number, real sourced facts, a debate-question end card (`docs/WORLD-WHATIF.md`).
 - **whatif** (global "What if everyone…" ripple ladder, `videos/006-memory-loss`): one consequence per place, time-stamped in the HUD
   (SECOND 0 → +1 YEAR), many sets/cities, sound-design-led audio, a small human beat to end on.
-- **biography** ("The story of [Name]", `videos/009-abe-lincoln`): one real life birth → death, HUD = their AGE + date + place,
-  one scene per verified detail, non-graphic death beat, legacy ending, "Whose story should we tell next?" end card (docs/TONES.md).
+- **biography** ("The story of [Name]", `videos/009-abe-lincoln`) — **its own category: follow `docs/BIOGRAPHY.md` and
+  `/new-biography`**. A narrator tells one real life birth → death in full connected sentences; `tools/biography.py` turns a
+  beat table (`script.json`) into story.json with shot lengths set by the narration. HUD = AGE + date + place.
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
@@ -161,7 +162,9 @@ videos/NNN-slug/
 - **Emissive "screens/holograms" use Lambert or Basic materials**, not Standard: a warm key light gives a Standard material's dark
   areas a tan specular haze (005's globe oceans turned brown).
 - **Hide characters that would only appear as cropped heads** at a frame edge in close-ups (set `root.visible` per shot).
-- **Never append code after a `//` comment on the same line** when editing with scripts/sed — it silently comments the code out
+- **Never append code after a `//` comment on the same line** when editing with scripts/sed (bit TWICE in 009: a pistol's
+  placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
+  `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
   The classroom door swings flat against the inside wall instead, so the camera sees people come through the opening (003).
@@ -197,6 +200,11 @@ videos/NNN-slug/
   (≈1.6 m at 3.5 m, fov 48). A hero card reads at ~50–70 % of that width; 008's first sheet had 0.8 m cards at 7 m = unreadable.
   Move the camera in (≈3 m for heroes) instead of only scaling the card. In crowds, **stagger card heights** (3 lifts) or they
   form one row that hides itself. `clamp(x)` is 0..1 — never use it for a row count (008's history rows never appeared).
+- **Props that live inside a set's root use the set's LOCAL space** (009: the muzzle flash was posed with world coordinates
+  inside the theatre root parked at x=7000 → rendered 7 km away). Convert with `set.root.worldToLocal(v)`. And call
+  `rig.root.updateMatrixWorld(true)` before `localToWorld` on anything in a rig you just posed (matrices are a frame stale).
+- **To film into an enclosed space (a theatre box, a booth), hide one wall/post for that shot only** — a film cheat no viewer
+  notices; better than a camera angle where the key action is hidden behind a head (009 theatre).
 - **Page never becomes ready / render times out with no error = an infinite loop in build()** (009: iterating `crown.children`
   while adding snow caps to it). Iterate over a copy (`[...g.children]`). Bisect with `console.log` between builders.
 - **A mesh that renders flat white = undefined material** (three.js falls back to a white MeshBasicMaterial). 009: `arr[i % 3]`
@@ -208,7 +216,8 @@ videos/NNN-slug/
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
   the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
-- GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
+- GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
+  `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.

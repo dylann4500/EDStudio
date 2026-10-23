@@ -6,13 +6,14 @@ a minor turn at New Orleans, a rising pulse for the debates and the election, lo
 on every cannon), a hushed hymn for the signing and Gettysburg, a bright swell for the victory, a music-box lilt in the theatre
 that drains to a drone as the shadow appears (one low boom under the black — no gunshot), solo piano at dawn, and the full theme
 at the memorial. Music never drops out (house rule). Scene beds + a few synced foley hits sit under it.
-Shot times come from story.json → shots (single source of truth)."""
+Shot times come from story.json → shots (single source of truth). Every time below is in shots.js's own (src) clock;
+remap() at the end moves the whole sheet onto the narrated timeline that tools/biography.py wrote (shots s0/s1 → t0/t1)."""
 import json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 story = json.load(open(os.path.join(HERE, "story.json")))
 T = {s["cam"]: (s["t0"], s["t1"]) for s in story["shots"]}
-DUR = story["duration"]
+DUR = 86.5            # src clock length; remap() stretches everything to story["duration"]
 
 c = {
     "title": "009 - The story of Abraham Lincoln (biography: Americana)",
@@ -42,7 +43,8 @@ c["ambience"] = [
     {"sound": "city_day", "t0": 57.2, "t1": 62.3, "fade_in": 0.3, "fade_out": 0.4, "gain_db": -50, "args": {"murmur": 1.0, "traffic": 0.0}},
     {"sound": "applause", "t0": 62.2, "t1": 63.3, "fade_in": 0.3, "fade_out": 0.2, "gain_db": -40, "args": {"density": 30, "swell": 0.5}},
     {"sound": "crowd_cheer", "t0": 63.2, "t1": 66.4, "fade_in": 0.15, "fade_out": 0.4, "gain_db": -38, "args": {"excite": 0.9}},
-    {"sound": "city_day", "t0": 66.4, "t1": 69.8, "fade_in": 0.3, "fade_out": 0.4, "gain_db": -48, "args": {"murmur": 1.0, "traffic": 0.0}},
+    {"sound": "city_day", "t0": 66.4, "t1": 70.0, "fade_in": 0.3, "fade_out": 0.1, "gain_db": -48, "args": {"murmur": 1.0, "traffic": 0.0}},
+    {"sound": "applause", "t0": 67.0, "t1": 67.9, "fade_in": 0.2, "fade_out": 0.3, "gain_db": -44, "args": {"density": 20, "swell": 0.3}},   # the audience laughs
     {"sound": "room_tone", "t0": 70.6, "t1": 76.4, "fade_in": 0.8, "fade_out": 0.4, "gain_db": -45},
     {"sound": "wind", "t0": 76.4, "t1": DUR, "fade_in": 0.6, "fade_out": 1.2, "gain_db": -48, "args": {"darkness": 0.4, "gust": 0.2, "whistle": 0.0}},
 ]
@@ -57,6 +59,7 @@ ev.append({"t": 34.3, "sound": "blanket_rustle", "args": {"dur": 0.35, "softness
 ev.append({"t": 18.3, "sound": "blanket_rustle", "args": {"dur": 0.3, "softness": 0.9, "intensity": 0.35}, "gain_db": -35, "pan": 0.0, "room": -16})  # page turn
 for t in (47.75, 48.35, 49.0, 49.7, 50.4):                  # cannons: far, soft booms (synced to battle.update shots)
     ev.append({"t": t, "sound": "distant_boom", "args": {"size": 0.7}, "gain_db": -27, "pan": -0.1, "room": -18})
+ev.append({"t": 70.0, "sound": "distant_boom", "args": {"size": 0.3}, "gain_db": -22, "pan": 0.1, "room": -10})   # the shot: one muffled crack, no gunshot sample
 ev.append({"t": 55.62, "sound": "pen_scribble", "args": {"dur": 0.95}, "gain_db": -30, "pan": 0.1, "room": -18})   # the signature
 c["events"] = ev
 
@@ -140,12 +143,12 @@ mel += theme(76.8, 0.62, 0.28, octave=True)                      # memorial: the
 mel += [[85.0, 67, 0.22]]
 M["melody"] = mel
 M["mallet_melody"] = [[0.6, 79, 0.18, 0.6], [2.0, 83, 0.16, 0.6]]
-M["drums"] = [[47.6, 0.32, "boom"], [63.2, 0.32, "boom"], [70.2, 0.45, "boom"], [82.3, 0.3, "boom"]]
+M["drums"] = [[47.6, 0.32, "boom"], [63.2, 0.32, "boom"], [70.05, 0.4, "boom"], [82.3, 0.3, "boom"]]
 M["drum_patterns"] = [
     {"t0": 47.6, "t1": 51.0, "step": 0.5, "pattern": [1, 0, 0.5, 0], "vel": [[47.6, 0.18], [51.0, 0.26]], "kind": "taiko"},
     {"t0": 63.2, "t1": 66.2, "step": 0.5, "pattern": [1, 0, 0.6, 0], "vel": 0.2, "kind": "taiko"},
 ]
-M["stings"] = [{"t": 70.2, "midi": 28, "vel": 0.42, "hold": 3.0}]
+M["stings"] = [{"t": 70.05, "midi": 28, "vel": 0.42, "hold": 3.0}]
 M["pad"] = [
     {"t0": 0.0, "t1": 3.7, "notes": [43, 55, 62, 67, 71], "level": 0.95, "attack": 0.35, "release": 0.6, "cutoff": 1400},
     {"t0": 3.6, "t1": 12.95, "chord": "G", "level": 0.45, "attack": 0.6, "release": 0.6},
@@ -162,5 +165,30 @@ M["pad"] = [
     {"t0": 76.3, "t1": DUR, "chord": "G", "level": 0.6, "attack": 0.4, "release": 1.2},
 ]
 c["music"] = M
+
+# ---------------------------------------------------------------- src clock -> narrated timeline
+SH = [s for s in story["shots"] if "s0" in s]
+NEW_DUR = story["duration"]
+def remap(x):
+    for s in SH:
+        if s["s0"] - 1e-6 <= x <= s["s1"] + 1e-6:
+            return round(s["t0"] + (x - s["s0"]) / (s["s1"] - s["s0"]) * (s["t1"] - s["t0"]), 3)
+    last = SH[-1]
+    return round(last["t1"] if x > last["s1"] else 0.0, 3)
+def bp(v): return [[remap(a), b] for a, b in v] if isinstance(v, list) else v
+for a in c["ambience"]: a["t0"], a["t1"] = remap(a["t0"]), remap(a["t1"])
+for e in c["events"]:
+    for k in ("t", "t0", "t1"):
+        if k in e: e[k] = remap(e[k])
+M["chords"] = [[remap(t), sym] for t, sym in M["chords"]]
+for sec in M["sections"]: sec["t0"], sec["t1"] = remap(sec["t0"]), remap(sec["t1"]); sec["vel"] = bp(sec["vel"])
+M["melody"] = [[remap(m[0])] + m[1:] for m in M["melody"]]
+M["mallet_melody"] = [[remap(m[0])] + m[1:] for m in M["mallet_melody"]]
+M["drums"] = [[remap(d[0])] + d[1:] for d in M["drums"]]
+for d in M["drum_patterns"]: d["t0"], d["t1"] = remap(d["t0"]), remap(d["t1"]); d["vel"] = bp(d["vel"])
+for st in M["stings"]: st["t"] = remap(st["t"])
+for p in M["pad"]: p["t0"], p["t1"] = remap(p["t0"]), remap(p["t1"])
+M["end"] = NEW_DUR; c["duration"] = NEW_DUR; c["end_fade"] = [NEW_DUR - 1.8, NEW_DUR]
+c["shots"] = sorted({s["t0"] for s in story["shots"]} | {NEW_DUR})
 json.dump(c, open(os.path.join(HERE, "cues.json"), "w"), indent=1)
 print("wrote cues.json:", len(chords), "chords,", len(M["sections"]), "sections,", len(mel), "melody notes")

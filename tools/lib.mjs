@@ -13,3 +13,10 @@ export async function findFfmpeg() {
   if (process.env.FFMPEG_PATH) return process.env.FFMPEG_PATH;
   try { return (await import('@ffmpeg-installer/ffmpeg')).default.path; } catch { return 'ffmpeg'; }
 }
+
+/** Video bitrate cap for final.mp4 so the file stays under ~90 MB (GitHub rejects > 100 MB) — 6 Mbps for reels up to ~115 s,
+ *  lower for long ones (009's 2:19 biography came out at 101 MB with a flat 6M cap). Returns ffmpeg args. */
+export function finalRateArgs(durationSec) {
+  const kbps = Math.max(2500, Math.min(6000, Math.floor((90e6 * 8) / Math.max(1, durationSec) / 1000 - 230)));
+  return ['-maxrate', `${kbps}k`, '-bufsize', `${kbps * 2}k`];
+}

@@ -39,16 +39,17 @@ export const CAMS = {
   road:     { track: 'abe', p: [[3.4, 1.35, 0.7], [3.2, 1.3, 0.65]], a: [[-6, 1.0, 0.1], [-6, 1.0, 0.1]], fov: 44, amp: 0.004 },
   law:      { p: [[1.15, 1.48, -1.85], [1.05, 1.44, -1.82]], a: [[-0.05, 1.1, -0.5], [-0.05, 1.08, -0.5]], fov: 46, amp: 0.003 },
   debateA:  { p: [[1.2, 2.7, 5.6], [1.05, 2.6, 5.0]], a: [[0.0, 2.15, -1.4], [0.0, 2.15, -1.4]], fov: 40, amp: 0.005 },
-  debateB:  { p: [[-0.7, 2.25, 2.1], [-0.6, 2.2, 1.85]], a: [[0, 2.65, -1.1], [0, 2.65, -1.1]], fov: 42, amp: 0.004 },
+  debateB:  { p: [[-0.75, 2.3, 1.75], [-0.65, 2.25, 1.5]], a: [[0, 2.68, -1.55], [0, 2.68, -1.55]], fov: 42, amp: 0.004 },
   electedA: { p: [[-0.1, 1.65, 1.35], [0.0, 1.62, 1.15]], a: [[1.4, 1.45, -0.4], [1.4, 1.45, -0.4]], fov: 46, amp: 0.004 },
-  beard:    { p: [[0.95, 1.78, 0.75], [0.85, 1.76, 0.62]], a: [[1.7, 1.72, -0.35], [1.7, 1.72, -0.35]], fov: 40, amp: 0.003 },
+  beard:    { p: [[0.55, 1.62, 1.25], [0.5, 1.6, 1.1]], a: [[1.72, 1.42, -0.38], [1.72, 1.42, -0.38]], fov: 40, amp: 0.003 },   // pulled back: face + letter both above the subtitle band
   war:      { p: [[-4.0, 2.1, 9.5], [-4.0, 2.0, 8.6]], a: [[-4.0, 1.3, -30], [-4.0, 1.3, -30]], fov: 50, amp: 0.006 },
   signingA: { p: [[1.35, 1.6, -1.72], [1.25, 1.55, -1.7]], a: [[-0.05, 1.08, -0.55], [-0.05, 1.08, -0.55]], fov: 46, amp: 0.003 },
   signingB: { p: [[0.55, 1.62, -0.48], [0.5, 1.55, -0.55]], a: [[0.08, 0.82, -0.92], [0.08, 0.82, -0.92]], fov: 40, amp: 0.002 },
   gettysA:  { p: [[2.9, 2.7, 6.2], [2.7, 2.6, 5.6]], a: [[0.45, 2.1, -2.2], [0.45, 2.1, -2.2]], fov: 42, amp: 0.005 },
-  gettysB:  { p: [[-0.9, 2.15, 2.25], [-0.8, 2.1, 2.0]], a: [[0, 2.65, -1.15], [0, 2.65, -1.15]], fov: 42, amp: 0.004 },
+  gettysB:  { p: [[-0.95, 2.2, 1.9], [-0.85, 2.15, 1.65]], a: [[0, 2.68, -1.6], [0, 2.68, -1.6]], fov: 42, amp: 0.004 },
   victory:  { p: [[6.0, 3.0, 13.0], [5.4, 3.2, 12.0]], a: [[-6, 5.0, -50], [-6, 6.0, -50]], fov: 50, amp: 0.006 },
-  theatre:  { p: [[-0.9, 3.05, 1.0], [-0.5, 3.1, 1.2]], a: [[4.1, 4.35, 2.1], [4.1, 4.35, 2.1]], fov: 36, amp: 0.004 },
+  theatreA: { p: [[-0.9, 3.05, 1.0], [-0.6, 3.1, 1.15]], a: [[4.1, 4.35, 2.1], [4.1, 4.35, 2.1]], fov: 36, amp: 0.004 },
+  theatreB: { p: [[1.6, 4.15, -1.1], [1.85, 4.1, -0.9]], a: [[4.85, 4.4, 1.6], [4.85, 4.35, 1.6]], fov: 44, amp: 0.003 },
   dawn:     { p: [[-1.0, 1.4, 1.55], [-0.75, 1.32, 1.35]], a: [[1.2, 0.75, -0.4], [1.2, 0.75, -0.45]], fov: 46, amp: 0.002 },
   memorial: { p: [[0, 1.7, 24.0], [0, 6.2, 9.0]], a: [[0, 9.0, -5], [0, 9.6, -5]], fov: 46, amp: 0.003 },
 };
@@ -176,6 +177,10 @@ export async function build(studio, story) {
     ['Dear Sir,', 'if you will let', 'your whiskers grow…', 'you would look a', 'great deal better,', 'for your face', 'is so thin.', '', '   — Grace Bedell, 11'].forEach((l, i) => g.fillText(l, 22, 46 + i * 40));
   }), roughness: 0.9, side: THREE.DoubleSide }));
   scene.add(letter);
+  // pistol in armB (the hand on the camera side in theatreB); barrel (+z) along the forearm (hand -y)
+  const pistol = new THREE.Group(); booth.arms[1].hand.add(pistol);
+  pistol.position.set(0, -0.06, 0.03); pistol.rotation.x = PI / 2;
+  mk(new THREE.BoxGeometry(0.03, 0.05, 0.13), mat(0x2a2a2e, 0.4, { metalness: 0.6 }), pistol, 0, 0, 0.05); mk(new THREE.BoxGeometry(0.03, 0.08, 0.035), mat(0x4a3020, 0.7), pistol, 0, -0.045, -0.01);
   const quill = makeQuill(); abe.arms[0].hand.add(quill); quill.position.set(0.0, -0.06, 0.04); quill.rotation.set(0.6, 0, 0.2);
   const speech = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 0.24), new THREE.MeshStandardMaterial({ color: 0xf2ead6, roughness: 0.9, side: THREE.DoubleSide })); scene.add(speech);
   // chips flying off the log (forest)
@@ -196,13 +201,13 @@ export async function build(studio, story) {
   function hideAll() {
     ALL.forEach((P) => (P.root.visible = false));
     [axe, book, telegram, letter, speech, hatProp, flagBearer.g, ...coins].forEach((o) => (o.visible = false));
-    statueCarrier.visible = false; lantern.g.visible = false;
+    statueCarrier.visible = false; lantern.g.visible = false; quill.visible = false;
   }
   const anchor = (obj, pos) => { obj.position.copy(pos); obj.visible = true; };
 
   // the boat drifts down-river (+x); Abe rides at the stern
   const boatX = (t) => -6 + (t - 19.6) * 1.15;
-  const ABE_ON_BOAT = [-3.0, 0.64, 0.55];
+  const ABE_ON_BOAT = [-3.3, 0.64, 0.0];   // at the sweep's handle (frontier.js), facing aft
 
   // ---------------------------------------------------------------- per-shot performances
   function birth(t) {
@@ -260,7 +265,7 @@ export async function build(studio, story) {
   }
   function reading(t) {
     const C = FD.cabin;
-    cabin.cradle.visible = false; floorBooks.visible = true; cabin.stool.position.set(-1.0, 0, 0.1);
+    cabin.cradle.visible = false; floorBooks.visible = true; cabin.chair.visible = false; cabin.stool.position.set(-1.0, 0, 0.1);
     const p = pose(t, 3, { x: -1.0, z: 0.1, rotY: 0.95, y: -0.135, footFwd: 0.36, lean: 0.2, headPitch: 0.5, armA: READ_A, armB: READ_B, mouth: 'flat' });
     p.eyes = 'open';
     put(abeTeen, 'cabin', p);
@@ -273,13 +278,13 @@ export async function build(studio, story) {
   function riverShot(t, cam) {
     const bx = boatX(t);
     river.boat.position.set(bx, 0.02 * Math.sin(t * 1.3), 0); river.boat.rotation.z = 0.006 * Math.sin(t * 1.1);
-    river.sweep.rotation.y = 0.18 * Math.sin(t * 0.9);
-    const p = pose(t, 4, { x: bx + ABE_ON_BOAT[0], z: ABE_ON_BOAT[2], y: ABE_ON_BOAT[1], floor: ABE_ON_BOAT[1] / 1.08, rotY: -PI / 2 + 0.25, armA: OAR_A, armB: OAR_B, lean: 0.18, headPitch: -0.05 });
+    river.sweep.rotation.y = 0.05 * Math.sin(t * 0.9);
+    const p = pose(t, 4, { x: bx + ABE_ON_BOAT[0], z: ABE_ON_BOAT[2], y: ABE_ON_BOAT[1], floor: ABE_ON_BOAT[1] / 1.08, rotY: -PI / 2, armA: OAR_A, armB: OAR_B, lean: 0.18, headPitch: -0.05 });
     p.y = ABE_ON_BOAT[1] / 1.08;
     p.armA.sx += 0.15 * Math.sin(t * 0.9); p.armB.sx += 0.15 * Math.sin(t * 0.9);
     if (cam === 'riverB') {
       const look = K(t, [[22.9, 0], [23.6, 1]]);
-      p.rotY = lerpAngle(-PI / 2 + 0.25, PI - 0.25, look); p.headYaw = 0; p.headPitch = 0.08 * look; p.lean = lerp(0.18, 0.02, look);
+      p.rotY = lerpAngle(-PI / 2, PI - 0.25, look); p.headYaw = 0; p.headPitch = 0.08 * look; p.lean = lerp(0.18, 0.02, look);
       p.armA = mixArm(OAR_A, REST, look); p.armB = mixArm(OAR_B, REST, look); p.mouth = look > 0.5 ? 'flat' : 'smile'; p.eyes = 'open';
     }
     put(abeYoung, 'river', p);
@@ -325,10 +330,10 @@ export async function build(studio, story) {
       put(P, 'square', p);
     });
   }
-  const DECK = CD.square.deck, LECT = [0, -1.15];
+  const DECK = CD.square.deck, LECT = [0, -1.15], STAND = [0, -1.62];   // lectern center / where the speaker stands (behind it)
   function speaker(t, P, seed, gestureK) {
     const g = gestureK * (0.5 + 0.5 * Math.sin(t * 2.3 + seed));
-    return pose(t, seed, { x: LECT[0], z: LECT[1], y: DECK / (SC.get(P) || 1), floor: DECK / (SC.get(P) || 1), rotY: 0.05, armA: mixArm(A(-0.75, 0.08, -0.6, 0.3), GESTURE_A, g), armB: A(-0.7, 0.1, -0.7, -0.3), headPitch: -0.12, mouth: Math.sin(t * 9 + seed) > 0 ? 'o' : 'flat' });
+    return pose(t, seed, { x: STAND[0], z: STAND[1], y: DECK / (SC.get(P) || 1), floor: DECK / (SC.get(P) || 1), rotY: 0.05, armA: mixArm(A(-0.75, 0.08, -0.6, 0.3), GESTURE_A, g), armB: A(-0.7, 0.1, -0.7, -0.3), headPitch: -0.12, mouth: Math.sin(t * 9 + seed) > 0 ? 'o' : 'flat' });
   }
   function seated(t, P, seed, ci) {
     const c = square.chairs[ci].position, s = SC.get(P) || 1;
@@ -366,7 +371,8 @@ export async function build(studio, story) {
     const p = pose(t, 4, { x: 1.7, z: -0.35, rotY: faceToward(1.7, -0.35, 0.9, 0.7), armA: mixArm(READ_A, REST, lift), armB: READ_B, headPitch: lerp(0.3, -0.02, lift), mouth: lift > 0.5 ? 'smile' : 'flat' });
     put(abe, 'room', p);
     const b = handWorld(abe, 1);
-    letter.position.copy(b); letter.position.y += 0.1; letter.rotation.set(0, abe.root.rotation.y, 0); letter.rotateX(-0.45 + 0.3 * lift); letter.visible = true;
+    // the letter drops once the beard is in, so it doesn't cover it
+    letter.position.copy(b); letter.position.y += 0.1 - 0.22 * lift; letter.rotation.set(0, abe.root.rotation.y, 0); letter.rotateX(-0.45 + 0.3 * lift); letter.visible = true;
   }
   function war(t) {
     battle.update(t, [[47.75, 0], [48.35, 2], [49.0, 1], [49.7, 3], [50.4, 0]]);
@@ -418,18 +424,31 @@ export async function build(studio, story) {
     square.setMode('spring'); square.setDress({ town: true, cemetery: false, dome: true, banner: true, bunting: true }); square.setBanner('THE UNION IS SAVED');
     crowdAt(t, [0, -2], 'cheer');
   }
-  function theatreShot(t) {
+  // Ford's Theatre (src 66.4–70.6). A: they laugh at the play. B: a man steps out of the lit doorway behind Lincoln (68.2),
+  // raises a pistol (69.35), one flash + smoke (SHOT), Lincoln slumps, Mary turns — then the story dip cuts to black.
+  const SHOT = 70.0;
+  function theatreShot(t, cam) {
     const B = CD.theatre.box, bx = B[0], by = B[1], bz = B[2];
     hat.visible = false; abe.head.beard.visible = true; abe.head.beard.scale.setScalar(1);
-    theatre.rocker.rotation.y = 0.35;
-    const laugh = Math.sin(t * 5) > -0.2 && t > 67.4 && t < 69.2;
-    put(abe, 'theatre', pose(t, 4, { ...SIT, x: bx + 0.1, z: bz - 0.45, y: by / 1.1 - 0.22, floor: by / 1.1, rotY: -PI / 2 - 0.2, armA: LAP_A, armB: LAP_B, headPitch: -0.05, lean: laugh ? 0.08 : 0.0, mouth: 'smile', eyes: laugh ? 'closed' : blink(t, 4) }));
-    put(mary, 'theatre', pose(t, 9, { ...SIT, x: bx - 0.15, z: bz + 0.35, y: by - 0.22, floor: by, rotY: -PI / 2 - 0.5, armA: LAP_A, armB: LAP_B, headPitch: -0.05, mouth: 'smile' }));
+    theatre.rocker.rotation.y = 0.35; theatre.partitions[0].visible = theatre.posts[0].visible = cam !== 'theatreB';   // film cheat: open the stage-side wall for B
+    const laugh = Math.sin(t * 5) > -0.2 && t > 66.9 && t < 68.4;
+    const slump = K(t, [[SHOT + 0.04, 0], [SHOT + 0.24, 1]]);
+    put(abe, 'theatre', pose(t, 4, { ...SIT, x: bx + 0.1, z: bz - 0.45, y: by / 1.1 - 0.22, floor: by / 1.1, rotY: -PI / 2 - 0.2, armA: LAP_A, armB: LAP_B,
+      headPitch: lerp(-0.05, 0.75, slump), headRoll: 0.25 * slump, lean: laugh ? 0.08 : 0.35 * slump, mouth: slump > 0.2 ? 'flat' : 'smile', eyes: laugh || slump > 0.2 ? 'closed' : blink(t, 4) }));
+    const turn = K(t, [[SHOT + 0.08, 0], [SHOT + 0.24, 1]]);
+    put(mary, 'theatre', pose(t, 9, { ...SIT, x: bx - 0.15, z: bz + 0.35, y: by - 0.22, floor: by, rotY: -PI / 2 - 0.35 + 0.9 * turn,
+      armA: mixArm(LAP_A, A(-1.6, 0.3, -1.6, 0.4), turn), armB: mixArm(LAP_B, A(-1.6, 0.3, -1.6, -0.4), turn), headPitch: -0.05, headYaw: 0.3 * turn, mouth: turn > 0.3 ? 'o' : 'smile' }));
     mary.dress.visible = false;
-    // a shadow fills the doorway behind them, then black (story dips 69.6 → 70.2)
-    const come = K(t, [[68.7, 0], [69.6, 1]]);
-    put(booth, 'theatre', pose(t, 0, { x: bx + lerp(1.3, 0.72, come), z: bz - 0.95, y: by, floor: by, rotY: -PI / 2, armA: REST, armB: REST, mouth: 'flat' }));
-    booth.root.visible = come > 0.01;
+    // the shadow: out of the doorway (box-local x 0.86, z -0.95) to just behind Lincoln, pistol up
+    const come = K(t, [[68.2, 0], [69.0, 1]]), aim = K(t, [[69.35, 0], [69.75, 1]]);
+    const lx = lerp(1.0, 0.82, come), lz = lerp(-0.95, -1.02, come);   // stays a step behind him: the arm must not pass through Lincoln
+    const p = pose(t, 0, { x: bx + lx, z: bz + lz, y: by, floor: by, rotY: faceToward(lx, lz, 0.1, -0.45), dist: come * 0.55, speed: come > 0.02 && come < 0.98 ? 0.5 : 0,
+      armB: mixArm(REST, A(-1.5, 0.08, -0.3, -0.1), aim), armA: REST, mouth: 'flat' });   // bent arm: the muzzle stays ~0.3 m behind his head, in view
+    put(booth, 'theatre', p); booth.root.visible = cam === 'theatreB' && t > 68.15;
+    pistol.visible = booth.root.visible;
+    booth.root.updateMatrixWorld(true);   // stale matrices would put the flash where the pistol was last frame
+    const muzzle = booth.root.visible ? theatre.root.worldToLocal(pistol.localToWorld(new THREE.Vector3(0, 0, 0.12))) : null;   // setShot works in the set's local space (the set is parked at OFF.theatre)
+    theatre.setShot(muzzle, cam === 'theatreB' ? t - SHOT : -1);
   }
   function dawn(t) {
     room.setMode('dawn'); room.setWallpaper('#5a5a62', '#62626a'); room.openBook.visible = false; room.candle.visible = false; room.setSign(0);
@@ -451,11 +470,14 @@ export async function build(studio, story) {
 
   // ---------------------------------------------------------------- per-frame update
   let lastSet = null;
-  function update(t) {
-    const shot = shotAt(SHOTS, t), S = shot.set, cam = shot.cam;
+  function update(tr) {
+    // story.json shots carry s0/s1 = the shot's range in this file's own clock (tools/biography.py stretches shots to fit the
+    // narration); everything below is authored in that clock, so map real time → src time once here.
+    const shot = shotAt(SHOTS, tr), S = shot.set, cam = shot.cam;
+    const t = shot.s0 !== undefined ? shot.s0 + ((tr - shot.t0) / (shot.t1 - shot.t0)) * (shot.s1 - shot.s0) : tr;
     if (S !== lastSet) { for (const [k, r] of Object.entries(ROOTS)) r.visible = k === S; lastSet = S; }
     scene.fog = FOGS[S]; studio.camera.far = FAR[S]; studio.fill.intensity = FILL[S];
-    hideAll(); cabin.cradle.visible = true; floorBooks.visible = false; woods.chips.visible = false;
+    hideAll(); cabin.cradle.visible = true; cabin.chair.visible = true; floorBooks.visible = false; woods.chips.visible = false;
     SC.set(abeKid, 0.62); abeKid.root.scale.setScalar(0.62);
     let track = null;
 
@@ -475,7 +497,7 @@ export async function build(studio, story) {
     } else if (S === 'store') {
       storeShot(t);
     } else if (S === 'room') {
-      room.rocker.position.set(CD.room.rocker[0], 0, CD.room.rocker[1]); room.rocker.rotation.set(0, -2.4, 0); room.setSign(0);
+      room.rocker.position.set(CD.room.rocker[0], 0, CD.room.rocker[1]); room.rocker.rotation.set(0, -2.4, 0); room.setSign(0); room.rocker.visible = cam === 'dawn';
       if (cam === 'law') law(t);
       if (cam === 'electedA') elected(t);
       if (cam === 'beard') beard(t);
@@ -490,18 +512,18 @@ export async function build(studio, story) {
     } else if (S === 'battle') {
       war(t);
     } else if (S === 'theatre') {
-      theatreShot(t);
+      theatreShot(t, cam);
     } else if (S === 'memorial') {
       memorialShot(t);
     }
 
     // camera (local → world; track cameras ride on a subject)
-    const c = CAMS[cam], u = clamp((t - shot.t0) / (shot.t1 - shot.t0));
+    const c = CAMS[cam], u = clamp((tr - shot.t0) / (shot.t1 - shot.t0));
     const e = u * u * (3 - 2 * u) * 0.5 + u * 0.5;
     const o = OFF[S], base = c.track && track ? track : [0, 0, 0];
     const P = c.p[0].map((v, i) => lerp(v, c.p[1][i], e) + base[i] + o[i]);
     const Aim = c.a[0].map((v, i) => lerp(v, c.a[1][i], e) + base[i] + o[i]);
-    setCamera(P, Aim, c.fov, t, c.amp);
+    setCamera(P, Aim, c.fov, tr, c.amp);
   }
   return { update };
 }
