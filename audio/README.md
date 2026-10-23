@@ -39,6 +39,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | funny (002) | bouncy piano (`style: "bounce"`) + pad | city murmur, cartoon boops |
 | montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
+| biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
 | funny montage / "sus" (008) | **sneaky pizzicato**: `instrument: "pluck"` + `style: "bounce"` in D minor + a creeping chromatic `mallet_melody` motif per place, warm major arp for the ending | scene beds + soft low `plush_squeak` boops synced to each card/row appearing |
 - Successful sim accounts are often **SFX-led** (little/no music, realistic immersive sound). 007 runs 6.6 s with no music at all —
   just a street — and the synth enters on the premise. You may go music-free for a whole video if the sound design carries it.
@@ -48,7 +49,9 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   point, Doppler), `chalk_write`, `pen_scribble`, `low_swell` (anchor = peak). Sync event times to the picture (007 computes car
   crossings from the same formula as shots.js).
 - Raise `stem_gain_db.sfx/amb` (≈ −4/−3) for SFX-led mixes; keep `sfx_lowpass_hz` ≤ 6000 so nothing gets harsh.
-- Self-check: the synth prints `music dropouts: none` — anything else must be fixed before muxing.
+- Self-check: the synth prints `music dropouts: none` — anything else must be fixed before muxing. It also prints the grouped
+  `dropout ranges` (009) so you know which section to fill: a pad region whose `attack` starts too slowly after the previous one
+  ends, a decayed `sparse`/`held` section (raise the pad there), or a gap at a pad hand-off (add a soft pickup melody note).
 - Pluck + `bounce` leaves 50 ms holes between stabs (dropout check fails even with chord pads — they crossfade at chord changes).
   Fix (008): one long drone pad region under the whole groove (`level` ≈ 0.85) + `pad_db` +1; patch a last stray dip with a soft
   pickup note. With a dense groove, pull `stem_gain_db.music` to ≈ −21 so beds/boops sit ~15 dB under it instead of ~30.

@@ -45,6 +45,17 @@ export function makeHead(o) {
     for (const s of [-1, 1]) { const m = mk(new THREE.CapsuleGeometry(r * 0.075, r * 0.2, 4, 10), mM, g, s * r * 0.13, -r * 0.22, r * 0.93); m.rotation.z = s * (Math.PI / 2 - 0.35); }
   }
 
+  // optional chin-curtain beard (o.beard = color; 009 Lincoln): a fat U along the jaw + a chin tuft, no mustache.
+  // Grow it with H.beard.scale.setScalar(k) (0.62 → 1); below k≈0.6 it sits inside the head — also set beard.visible=false.
+  const beard = new THREE.Group(); g.add(beard);
+  if (o.beard) {
+    const mBd = mat(o.beard, 0.9);
+    const u = mk(new THREE.TorusGeometry(r * 1.0, r * 0.22, 10, 28, Math.PI), mBd, beard, 0, 0, r * 0.12);
+    u.rotation.set(-0.85, 0, Math.PI);
+    const chin = mk(new THREE.SphereGeometry(r * 0.36, 16, 12), mBd, beard, 0, -r * 0.84, r * 0.7); chin.scale.set(1.35, 1.1, 0.8);
+  }
+  beard.visible = !!o.beard;
+
   // hair
   const rh = r * 1.07, hair = new THREE.Group(); g.add(hair);
   const cap = (mtl) => { const m = mk(new THREE.SphereGeometry(rh, 36, 18, 0, Math.PI * 2, 0, Math.PI * 0.5), mtl, hair); m.rotation.x = -0.3; m.scale.set(1, 1.04, 1); return m; };
@@ -88,7 +99,7 @@ export function makeHead(o) {
   }
   tear.visible = false;
 
-  return { g, head, eyesOpen, eyesClosed, smile, flat, oMouth, brows, hair, hairMat: mHair, skinMat: mSkin, glasses, tear };
+  return { g, head, eyesOpen, eyesClosed, smile, flat, oMouth, brows, hair, hairMat: mHair, skinMat: mSkin, glasses, tear, beard };
 }
 
 // ---------------------------------------------------------------- standing figure
@@ -119,8 +130,16 @@ export function makePerson(o) {
   mk(new THREE.CylinderGeometry(0.045, 0.052, 0.09, 12), mSkin, spine, 0, 0.56, 0);
   const headG = new THREE.Group(); headG.position.y = 0.59; spine.add(headG);
   const headR = o.headR ?? 0.135;
-  const H = makeHead({ r: headR, skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, glasses: o.glasses, browColor: o.browColor, mustache: o.mustache });
+  const H = makeHead({ r: headR, skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, glasses: o.glasses, browColor: o.browColor, mustache: o.mustache, beard: o.beard });
   H.g.position.y = headR * 0.95; headG.add(H.g);
+
+  // optional long dress (o.dress = color; 009 period women): a cone skirt from the waist to the floor, parented to the
+  // root so it stays upright while the legs walk inside it. Seated figures: hide it behind furniture or set dress.visible.
+  let dress = null;
+  if (o.dress) {
+    dress = mk(new THREE.CylinderGeometry(0.17, 0.44, HIP_H + 0.1, 24, 1, true), mat(o.dress, 0.9, { side: THREE.DoubleSide }), root, 0, (HIP_H + 0.1) / 2 - 0.02, 0.01);
+    mk(new THREE.CircleGeometry(0.17, 24), mat(o.dress, 0.9), dress, 0, (HIP_H + 0.1) / 2, 0).rotation.x = -Math.PI / 2;
+  }
 
   const arms = [];
   for (const s of [-1, 1]) {
@@ -134,7 +153,7 @@ export function makePerson(o) {
     mk(new THREE.CapsuleGeometry(0.016, 0.03, 4, 8), mSkin, hand, -0.035 * s * -1, 0.005, 0.03).rotation.z = 0.6 * s;
     arms.push({ shoulder, elbow, hand, s });
   }
-  return { root, legs, pelvis, spine, headG, head: H, arms, belly, mats: { top: mTop, pants: mPants, hair: H.hairMat, skin: mSkin, faceSkin: H.skinMat } };
+  return { root, legs, pelvis, spine, headG, head: H, arms, belly, dress, mats: { top: mTop, pants: mPants, hair: H.hairMat, skin: mSkin, faceSkin: H.skinMat } };
 }
 
 /** Default standing pose. armA = the arm on the figure's local -x side, armB = local +x. */

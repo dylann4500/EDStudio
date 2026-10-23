@@ -2289,6 +2289,12 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
             med = np.median(wdb[a0:a1]) if a1 > a0 else 0
             drops = [i * 0.05 for i in range(a0, a1) if wdb[i] < med - 12]
             log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s  <-- FIX (music must never cut out)"))
+            if drops:  # grouped ranges, so you know which section to fill (a pad / a longer note / a pickup)
+                grp = []
+                for d in drops:
+                    if grp and d - grp[-1][1] <= 0.06: grp[-1][1] = d
+                    else: grp.append([d, d])
+                log("   dropout ranges: " + ", ".join(f"{g0:.2f}-{g1 + 0.05:.2f}s" for g0, g1 in grp[:12]) + (" …" if len(grp) > 12 else ""))
     shots = cues["shots"]
     log("\nper-shot window | master peak   RMS   LUFS | music   sfx    amb (ungated LUFS) | limiter maxGR %>1dB")
     for a, b in zip(shots[:-1], shots[1:]):
