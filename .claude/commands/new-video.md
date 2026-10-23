@@ -34,7 +34,7 @@ Follow `CLAUDE.md` exactly. Steps:
    for arm poses. Check that no text sits over a face or a sign. If the premise is a readable prop (cards, signs, screens), check that
    every one you mean to be read is actually legible in the still at half size — compute frame width from distance + fov (CLAUDE.md). Do not full-render before the sheet looks good;
    a `--preview` render is a cheap motion check.
-6. Pick this video's **sound identity** (audio/README.md → Sound identity: piano / bouncy piano / synth pluck / SFX-led — not a copy of
+6. Open quiet (subtle SFX only), music enters on the premise beat. Pick this video's **sound identity** (audio/README.md → Sound identity: piano / bouncy piano / synth pluck / SFX-led — not a copy of
    the last video), write cues.json (a `make_cues.py` generator for long sheets) and run `python3 -I audio/synth.py NNN-slug`;
    it must report `music dropouts: none`.
 7. Full render: `node tools/render.mjs NNN-slug`. Spot-check 6 frames of `final.mp4` (ffmpeg -ss) for black blocks/flicker.

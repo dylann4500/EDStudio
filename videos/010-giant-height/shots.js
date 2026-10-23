@@ -4,42 +4,58 @@
 // Average adult height ≈ 165 cm, mass ≈ 62 kg (global means, NCD-RisC / Walpole 2012) → 330 cm, ~496 kg. ~1.4–1.5 B vehicles on Earth.
 // Giants = normal rigs at root.scale 2 in a normal-size world. Every beat ends in an IMPACT (shake + dust) — user steer: lean on drama.
 //
+// v2 (user: "rendering issues, scenes too bare, more different funny scenes"): ~5 s beats, something happening in every frame,
+// two NEW sets (kitchen, airplane cabin) + new props (dog, ceiling fan, mug), no dead frames, a quiet open (music enters at the growth).
+//
 // Shot list (seconds)                       | set     | what happens
-//  0.0–10.0  bed      3:00 AM               | bedroom | Gary asleep; he grows, feet burst out the end, the bed frame snaps
-// 10.0–17.0  door     +3 hours              | bedroom | giant Gary hunched under the ceiling: BONK, then squeezes out the door
-// 17.0–23.0  leave    +4 hours              | suburb  | ant's-eye view: giants crawl out of front doors and tower over the houses
-// 23.0–29.5  car      +5 hours              | suburb  | Gary sits on his car — the roof crushes flat
-// 29.5–36.5  bus      +6 hours              | city    | giants packed in a bus; the 7th boards and the bus bottoms out ("FULL · 7")
-// 36.5–43.0  market   +1 week               | market  | time-lapse: shelves empty as giants haul armfuls; SOLD OUT banners drop
-// 43.0–49.5  bench    +1 month              | suburb  | Gary sits on a park bench; it snaps in half
-// 49.5–56.5  rebuild  +1 year               | city    | double-size cars cruise the intersection, giants on the corner
-// 56.5–69.5  dunk     +1 year               | suburb  | Gary drops a ball through the hoop flat-footed, yawns. End card.
+//  0.0– 6.6  bed      3:00 AM               | bedroom | Gary snores; he grows, feet burst out the end, the frame snaps
+//  6.6–11.8  door     +3 hours              | bedroom | stands up into the ceiling fan (BONK, the fan wobbles), squeezes into the doorway
+// 11.8–17.2  kitchen  +3 h 10 min           | kitchen | kneels at the table; a coffee mug is one pinched sip; a chair lies crushed
+// 17.2–22.4  leave    +4 hours              | suburb  | ant's-eye: giants duck out of front doors; one stands up through his porch roof
+// 22.4–27.6  dog      +4 h 20 min           | suburb  | Gary walks a normal-size dog (now hamster-size); it scrambles, stops, barks up at him
+// 27.6–33.2  car      +5 hours              | suburb  | he sits on the car: the cab crushes flat, glass sprays, the alarm goes off
+// 33.2–38.8  bus      +6 hours              | city    | packed bus (one head through the roof); the 7th boards → it bottoms out ("FULL · 7")
+// 38.8–44.4  plane    +1 day                | plane   | economy: giants folded with knees at their chins; the flight attendant crawls the cart
+// 44.4–49.8  market   +1 week               | market  | time-lapse: shelves empty, SOLD OUT
+// 49.8–55.2  bench    +1 month              | suburb  | the park bench snaps in half
+// 55.2–60.4  rebuild  +1 year               | city    | double-size cars at the intersection
+// 60.4–71.0  dunk     +1 year               | suburb  | a flat-footed dunk, a yawn. End card at 66.4
 import * as THREE from 'three';
 import { K, clamp, lerp, lerpAngle, faceToward, rng, mat, mk, canvasTex, walkLegs } from '@engine/core.js';
 import { makePerson, makeSleeper, basePose, applyPose, blink, handWorld, HIP_H } from '@engine/rig.js';
-import { Blanket, quiltTexture, makeBus, makeBasketball } from '@engine/props.js';
+import { Blanket, quiltTexture, makeBus, makeBasketball, makeDog, makeCeilingFan, makeMug } from '@engine/props.js';
+import { buildKitchen, DIMS as KD } from '@engine/sets/kitchen.js';
+import { buildPlane, seatPos } from '@engine/sets/plane.js';
 import { buildBedroom } from '@engine/sets/bedroom.js';
-import { buildSuburb, DIMS as SUB } from '@engine/sets/suburb.js';
+import { buildSuburb, DIMS as SUB, SW_H } from '@engine/sets/suburb.js';
 import { buildCity, makeCar } from '@engine/sets/city.js';
 import { buildSupermarket } from '@engine/sets/supermarket.js';
 
 const PI = Math.PI;
 const GS = 2.0;                                           // giant scale
-const OFF = { city: [0, 0, 0], sub: [2000, 0, 0], bed: [4000, 0, 0], mkt: [6000, 0, 0] };   // city stays at the origin (sky domes)
+const OFF = { city: [0, 0, 0], sub: [2000, 0, 0], bed: [4000, 0, 0], mkt: [6000, 0, 0], kit: [8000, 0, 0], plane: [10000, 0, 0] };
+// beats that kept their v1 performance are played back with a time shift (v1 time = t − shift)
+const SHIFT = { car: 4.6, bus: 3.7, market: 7.9, bench: 6.0, rebuild: 5.7, dunk: 3.9 };   // city stays at the origin (sky domes)
 
 export const SHOTS = [
-  { t0: 0, t1: 10.0, cam: 'bed', set: 'bed' },
-  { t0: 10.0, t1: 17.0, cam: 'door', set: 'bed' },
-  { t0: 17.0, t1: 23.0, cam: 'leave', set: 'sub' },
-  { t0: 23.0, t1: 29.5, cam: 'car', set: 'sub' },
-  { t0: 29.5, t1: 36.5, cam: 'bus', set: 'city' },
-  { t0: 36.5, t1: 43.0, cam: 'market', set: 'mkt' },
-  { t0: 43.0, t1: 49.5, cam: 'bench', set: 'sub' },
-  { t0: 49.5, t1: 56.5, cam: 'rebuild', set: 'city' },
-  { t0: 56.5, t1: 69.5, cam: 'dunk', set: 'sub' },
+  { t0: 0, t1: 6.6, cam: 'bed', set: 'bed' },
+  { t0: 6.6, t1: 11.8, cam: 'door', set: 'bed' },
+  { t0: 11.8, t1: 17.2, cam: 'kitchen', set: 'kit' },
+  { t0: 17.2, t1: 22.4, cam: 'leave', set: 'sub' },
+  { t0: 22.4, t1: 27.6, cam: 'dog', set: 'sub' },
+  { t0: 27.6, t1: 33.2, cam: 'car', set: 'sub' },
+  { t0: 33.2, t1: 38.8, cam: 'bus', set: 'city' },
+  { t0: 38.8, t1: 44.4, cam: 'plane', set: 'plane' },
+  { t0: 44.4, t1: 49.8, cam: 'market', set: 'mkt' },
+  { t0: 49.8, t1: 55.2, cam: 'bench', set: 'sub' },
+  { t0: 55.2, t1: 60.4, cam: 'rebuild', set: 'city' },
+  { t0: 60.4, t1: 71.0, cam: 'dunk', set: 'sub' },
 ];
 // camera coords are LOCAL to the shot's set
 export const CAMS = {
+  kitchen: { p: [[1.0, 1.4, 2.35], [0.8, 1.38, 2.1]], a: [[-0.55, 1.25, -1.0], [-0.55, 1.3, -1.0]], fov: 56, amp: 0.004 },
+  dog:     { p: [[27.0, 1.5, 5.1], [32.9, 1.5, 5.0]], a: [[27.0, 1.6, -0.9], [32.9, 1.6, -0.9]], fov: 52, amp: 0.004 },   // centered between Gary and the dog
+  plane:   { p: [[0.05, 1.98, 1.5], [0.0, 1.95, 1.1]], a: [[0.0, 1.3, -7.0], [0.0, 1.3, -7.0]], fov: 56, amp: 0.004 },
   bed:     { p: [[0.25, 1.3, 1.05], [0.15, 1.24, 0.8]], a: [[-0.3, 0.55, -1.75], [-0.3, 0.55, -1.75]], fov: 58, amp: 0.004 },   // from the foot of the bed: the feet burst toward us
   door:    { p: [[1.75, 1.4, 2.3], [1.6, 1.38, 2.1]], a: [[-0.9, 1.35, -0.4], [-1.3, 1.3, -0.1]], fov: 70, amp: 0.004 },
   leave:   { p: [[0.6, 0.5, 4.6], [0.3, 0.48, 4.0]], a: [[-1.9, 2.7, -7.0], [-1.8, 2.9, -7.0]], fov: 58, amp: 0.005 },
@@ -53,11 +69,12 @@ export const CAMS = {
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
 // impacts: camera shake + a dust burst (local position in that set)
 const IMPACTS = [
-  { t: 8.8, set: 'bed', p: [-0.3, 0.35, -0.9], amp: 0.035, dust: 0.6 },
-  { t: 11.05, set: 'bed', p: [0.0, 2.6, -0.5], amp: 0.03, dust: 0.4 },
-  { t: 26.75, set: 'sub', p: [4.5, 0.4, -5.0], amp: 0.06, dust: 1.0 },
-  { t: 33.0, set: 'city', p: [2.6, 0.3, 3.0], amp: 0.06, dust: 1.2 },
-  { t: 46.9, set: 'sub', p: [58, 0.3, -6.1], amp: 0.06, dust: 0.9 },
+  { t: 5.6, set: 'bed', p: [-0.3, 0.35, -0.9], amp: 0.035, dust: 0.6 },
+  { t: 7.45, set: 'bed', p: [0.15, 2.4, -0.7], amp: 0.03, dust: 0.35 },
+  { t: 20.1, set: 'sub', p: [-2.2, 2.6, -7.9], amp: 0.04, dust: 1.0 },
+  { t: 31.35, set: 'sub', p: [4.5, 1.2, -5.2], amp: 0.06, dust: 0.9 },
+  { t: 36.7, set: 'city', p: [2.6, 0.3, 3.0], amp: 0.06, dust: 1.2 },
+  { t: 52.9, set: 'sub', p: [58, 0.3, -6.1], amp: 0.06, dust: 0.9 },
 ];
 
 // ---------------------------------------------------------------- arm library (tested in 002/007)
@@ -104,9 +121,25 @@ export async function build(studio, story) {
   city.setTime({ day: 1, golden: 0, power: 1, milky: 0, moon: 0 }); city.setSignal('green'); city.setGrowth(0); city.setSnow(0);
   const sub = buildSuburb(studio, {}); sub.root.position.set(...OFF.sub);
   const mkt = buildSupermarket(studio, {}); mkt.root.position.set(...OFF.mkt);
-  const ROOTS = { bed: bed.root, city: city.root, sub: sub.root, mkt: mkt.root };
-  const FOGS = { bed: null, city: cityFog, sub: sub.fog, mkt: null };
-  const FAR = { bed: 60, city: 1500, sub: 400, mkt: 80 };
+  const kit = buildKitchen(studio, {}); kit.root.position.set(...OFF.kit); kit.setClock(6, 10);
+  const plane = buildPlane(studio, {}); plane.root.position.set(...OFF.plane);
+  const ROOTS = { bed: bed.root, city: city.root, sub: sub.root, mkt: mkt.root, kit: kit.root, plane: plane.root };
+  const FOGS = { bed: null, city: cityFog, sub: sub.fog, mkt: null, kit: null, plane: null };
+  const FAR = { bed: 60, city: 1500, sub: 400, mkt: 80, kit: 40, plane: 60 };
+  // the chair he already tried: crushed flat on the floor (static gag in the kitchen)
+  { const c = kit.chairs[1]; c.rotation.set(0, -PI / 2 + 0.3, PI / 2 - 0.15); c.position.y = 0.22; c.scale.set(1, 0.55, 1); }
+  const fan = makeCeilingFan(); fan.g.position.set(0.15, 2.72, -0.7); bed.root.add(fan.g);
+  const mug = makeMug(0xf2b632); mug.scale.setScalar(1.25);
+  const steam = new THREE.Mesh(new THREE.ConeGeometry(0.03, 0.14, 8, 1, true), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, depthWrite: false })); steam.position.y = 0.17; mug.add(steam);
+  const dog = makeDog(); sub.root.add(dog.g);
+  const leash = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xd2483f })); leash.frustumCulled = false; scene.add(leash);
+  const cartP = new THREE.Group(); plane.root.add(cartP);
+  mk(new THREE.BoxGeometry(0.36, 0.95, 0.75), mat(0xc9ccd0, 0.3, { metalness: 0.5 }), cartP, 0, 0.5, 0); mk(new THREE.BoxGeometry(0.37, 0.04, 0.76), mat(0xd2483f, 0.5), cartP, 0, 0.98, 0);
+  for (let k = 0; k < 4; k++) mk(new THREE.CylinderGeometry(0.035, 0.035, 0.11, 10), mat([0xd2483f, 0x3d7bd9, 0xf2b632, 0x58b368][k], 0.5), cartP, -0.1 + (k % 2) * 0.2, 1.06, -0.2 + Math.floor(k / 2) * 0.3);
+  // glass shards for the car crush
+  const SHN = 40, shards = new THREE.InstancedMesh(new THREE.BoxGeometry(0.06, 0.01, 0.04), new THREE.MeshStandardMaterial({ color: 0xcfe6ff, roughness: 0.05, metalness: 0.4, transparent: true, opacity: 0.85 }), SHN);
+  shards.frustumCulled = false; scene.add(shards);
+  const SHR = rng(4), shSeeds = Array.from({ length: SHN }, () => [SHR(), SHR(), SHR(), SHR()]);
   const B = bed.D.bed;
 
   // ---------------------------------------------------------------- bed beat: sleeper + blanket + feet (all in a carrier that drops when the frame snaps)
@@ -173,24 +206,60 @@ export async function build(studio, story) {
   const seatRoot = (seatY) => seatY - GS * (HIP_H - 0.17);   // root height that puts the pelvis (bottom) on a seat at seatY
 
   // ---------------------------------------------------------------- performances
-  function garyDoor(t) { // bedroom, +3 hours: hunched under the ceiling → BONK → squeezes out the door
+  function garyDoor(t) { // bedroom, +3 hours: stands up into the ceiling fan (BONK) → ducks → squeezes into the doorway
     const p = basePose(); p.eyes = blink(t, 2); p.mouth = 'flat';
-    const w = walkLegs(t, [0.25, -0.75], [{ t0: 12.6, t1: 15.4, pts: [[-1.2, 0.05], [-2.2, 0.32], [-3.3, 0.4]] }]);
+    const w = walkLegs(t, [0.2, -0.7], [{ t0: 9.0, t1: 12.6, pts: [[-1.2, 0.05], [-2.2, 0.32], [-3.3, 0.4]] }]);
     p.x = w.x; p.z = w.z; p.dist = w.dist / GS; p.speed = w.speed / GS;
-    p.rotY = lerpAngle(-PI / 2 + 0.35, w.head ?? -PI / 2, K(t, [[12.5, 0], [12.8, 1]]));
-    const up = K(t, [[10.3, 0], [11.0, 1]]), bonk = K(t, [[11.05, 0], [11.25, 1], [12.4, 1], [12.6, 0]]);
-    const duck = K(t, [[12.4, 0], [13.2, 1]]);
-    p.crouch = lerp(0.3, 0.2, up) + 0.06 * bonk + 0.14 * duck; p.lean = lerp(0.55, 0.38, up) + 0.15 * bonk + 0.75 * duck;
-    p.headPitch = lerp(-0.25, -0.35, up) + 0.45 * bonk - 0.5 * duck;
-    p.armB = mixArm(REST, HEAD_B, K(t, [[11.1, 0], [11.35, 1], [12.2, 1], [12.5, 0]]));
+    p.rotY = lerpAngle(-PI / 2 + 0.35, w.head ?? -PI / 2, K(t, [[8.9, 0], [9.2, 1]]));
+    const up = K(t, [[6.7, 0], [7.4, 1]]), bonk = K(t, [[7.45, 0], [7.65, 1], [8.6, 1], [8.85, 0]]);
+    const duck = K(t, [[8.7, 0], [9.5, 1]]);
+    p.crouch = lerp(0.34, 0.16, up) + 0.08 * bonk + 0.18 * duck; p.lean = lerp(0.7, 0.32, up) + 0.15 * bonk + 0.8 * duck;
+    p.headPitch = lerp(-0.2, -0.4, up) + 0.45 * bonk - 0.5 * duck;
+    p.armB = mixArm(REST, HEAD_B, K(t, [[7.5, 0], [7.75, 1], [8.5, 1], [8.8, 0]]));
     if (duck > 0) { p.armA = mixArm(REST, FWD_A, duck); p.armB = mixArm(p.armB, FWD_B, duck); }
-    p.eyes = t > 11.05 && t < 11.6 ? 'closed' : p.eyes; p.mouth = t > 11.05 && t < 11.8 ? 'o' : 'flat';
+    p.eyes = t > 7.45 && t < 8.0 ? 'closed' : p.eyes; p.mouth = t > 7.45 && t < 8.2 ? 'o' : 'flat';
     return p;
+  }
+  function garyKitchen(t) { // kneeling at the table; the mug is a thimble; one pinched sip
+    const p = basePose(); p.eyes = blink(t, 2); p.mouth = 'flat';
+    Object.assign(p, { x: KD.table[0] - 0.95, z: KD.table[1] - 0.9, rotY: 0, crouch: 0.4, lean: 0.32, footFwd: -0.15 });   // behind the table, facing us
+    const lift = K(t, [[13.4, 0], [14.1, 1], [15.9, 1], [16.5, 0.2]]);
+    p.armB = mixArm(A(-0.75, 0.1, -0.7, -0.3), A(-1.3, 0.12, -2.3, -0.75), lift);       // hand: table → mouth
+    p.armA = A(-0.55, 0.15, -0.6, 0.3);                                                  // other hand on the table edge
+    p.headPitch = lerp(0.35, -0.05, lift); p.headYaw = K(t, [[16.0, 0], [16.4, 0.55]]);  // then a look at us
+    p.mouth = lift > 0.85 && t > 14.3 && t < 15.6 ? 'o' : 'flat'; p.eyes = t > 14.4 && t < 15.3 ? 'closed' : p.eyes;
+    return p;
+  }
+  function garyDog(t) { // walking the (normal-size) dog; stops; the dog barks up at him
+    const p = basePose(); p.eyes = blink(t, 2); p.mouth = 'flat';
+    const w = walkLegs(t, [25.8, -0.95], [{ t0: 22.4, t1: 25.2, pts: [[31.6, -0.95]] }]);
+    Object.assign(p, { x: w.x, z: w.z, dist: w.dist / GS, speed: w.speed / GS, rotY: PI / 2 });
+    p.armA = A(-0.35, 0.18, -0.25, 0); p.headPitch = K(t, [[25.0, 0.1], [25.5, 0.62]]); p.headYaw = K(t, [[25.0, 0], [25.5, -0.35], [26.8, -0.35], [27.1, -0.9]]);
+    p.mouth = t > 26.9 ? 'flat' : 'flat';
+    return { p, x: w.x, speed: w.speed };
+  }
+  function planePose(t, i) { // economy: folded giants + the flight attendant crawling the cart up the aisle
+    const seated = [[0, 2], [0, 3], [1, 1], [1, 4], [2, 2], [2, 3], [3, 0], [3, 5], [4, 2], [4, 4]];
+    const p = basePose(); p.eyes = blink(t, i + 3);
+    if (i < seated.length) {
+      const [r, c] = seated[i], sp = seatPos(r + 3, c);   // rows 1–2 stay empty so the seats themselves read at normal size
+      Object.assign(p, { x: sp.x, z: sp.z + 0.05, rotY: 0, footFwd: 0.12, lean: 0.42, headPitch: -0.35, headYaw: (c < 3 ? 0.25 : -0.25) * (i % 2) });
+      p.armA = HUG_A; p.armB = HUG_B; p.mouth = i % 3 ? 'flat' : 'o';
+      return { p, rootY: seatRoot(0.45) + 0.02 };
+    }
+    if (i === seated.length) { // attendant: on hands and knees, pushing the cart toward us
+      const z = lerp(-8.2, -3.4, K(t, [[38.9, 0], [44.3, 1]], (u) => u));
+      Object.assign(p, { x: 0, z, rotY: 0, crouch: 0.5, lean: 1.3, headPitch: -0.9, dist: (z + 8.2) / GS, speed: 0.2 });
+      p.armA = A(-1.35, 0.12, -0.15, 0.1); p.armB = A(-1.35, 0.12, -0.15, -0.1);
+      cartP.position.set(0, 0, z + 1.35);
+      return { p, rootY: 0 };
+    }
+    return null;
   }
   function leavePose(t, i) { // suburb, +4 hours: giants squeeze out of front doors, stand up over the houses, walk to the street
     const H = sub.houses;
     const plan = [
-      { h: 2, t0: 17.2 }, { h: 1, t0: 18.4 }, { h: 3, t0: 19.0 },
+      { h: 2, t0: 18.0 }, { h: 1, t0: 17.3 }, { h: 3, t0: 19.0 },   // house 2's giant stands up through the porch roof at ~20.1
     ];
     if (i < plan.length) {
       const { h, t0 } = plan[i], d = H[h].doorPos, lx = d.x, lz = d.z;   // doorPos is already set-local
@@ -217,7 +286,7 @@ export async function build(studio, story) {
     const turn = K(t, [[25.0, 0], [25.5, 1]]), sit = K(t, [[25.6, 0], [26.6, 1]]), crush = boing(t, 26.75) * (t > 26.75 ? 1 : 0);
     p.x = lerp(w.x, 5.0, sit); p.z = w.z; p.dist = w.dist / GS; p.speed = w.speed / GS;
     p.rotY = lerpAngle(w.head ?? -PI / 2, PI / 2, turn);
-    const roof = lerp(1.45, 0.82, clamp(crush));
+    const roof = lerp(1.45, 0.98, clamp(crush));
     const rootY = lerp(0, seatRoot(roof), sit);
     p.footFwd = 0.42 * sit; p.lean = 0.05 + 0.12 * sit; p.armA = mixArm(REST, SIT_A, sit); p.armB = mixArm(REST, SIT_B, sit);
     p.headPitch = 0.05; p.headYaw = K(t, [[27.6, 0], [28.0, -0.7]]);            // deadpan look at the camera
@@ -231,6 +300,7 @@ export async function build(studio, story) {
       const [x, z] = inside[i];
       Object.assign(p, { x, z, rotY: i % 2 ? -PI / 2 : PI / 2, crouch: 0.28, lean: 0.42, headPitch: -0.5, mouth: 'flat' });
       p.armA = HUG_A; p.armB = HUG_B;
+      if (i === 0) { Object.assign(p, { x: 2.3, z: 1.6, rotY: PI, crouch: 0.0, lean: 0.0, headPitch: 0.1, headYaw: -0.6 }); p.armA = REST; p.armB = REST; }   // head through the roof hatch
       return { p, ground: 0.45 - 0.42 * clamp(boing(t, 33.0)) * (t > 33.0 ? 1 : 0) };
     }
     if (i === inside.length) { // the 7th: walks up from the stop and squeezes in through the door
@@ -300,7 +370,7 @@ export async function build(studio, story) {
     useSet(S);
     scene.fog = FOGS[S]; studio.camera.far = FAR[S]; studio.fill.intensity = S === 'bed' ? 0.9 : 0.4;
     ALL.forEach((r) => (r.root.visible = false)); loads.forEach((l) => (l.visible = false));
-    ball.visible = false; dust.visible = false;
+    ball.visible = false; dust.visible = false; shards.visible = false; mug.visible = false; dog.g.visible = false; leash.visible = false;
     carSub.g.visible = shot.cam === 'car';
     bigCars.forEach((c) => (c.g.visible = false)); oldCar.g.visible = shot.cam === 'rebuild';
 
@@ -309,44 +379,62 @@ export async function build(studio, story) {
       if (shot.cam === 'bed') {
         bed.setLamp(0.0); bed.lights.moon.intensity = 1.5; bed.setDoor(0); clockFace.material.map = clockTexs.a;
         carrier.visible = true;
-        const g = clamp(boing(t, 7.0) * K(t, [[7.0, 0], [8.6, 1]]) + 0 * t);     // growth with a cartoon overshoot
-        const gg = K(t, [[7.0, 0], [8.6, 1]]) + (t > 8.6 ? 0.04 * Math.sin((t - 8.6) * 16) * Math.exp(-(t - 8.6) * 5) : 0);
+        const gg = K(t, [[4.2, 0], [5.4, 1]]) + (t > 5.4 ? 0.04 * Math.sin((t - 5.4) * 16) * Math.exp(-(t - 5.4) * 5) : 0);   // growth with a cartoon overshoot
+        const breath = t < 4.2 ? 0.012 * Math.sin(t * 2 * PI / 2.2) : 0;                                                    // snoring chest
         sleeper.g.position.set(B.cx, B.top + 0.12 + 0.066 + 0.07 * gg, -2.15 + 0.02 * gg); sleeper.g.scale.setScalar(1 + 1.0 * gg);
-        const body = { x: B.cx, zA: lerp(0.95, 0.45, gg), zB: 1.95, h: lerp(0.15, 0.26, gg), r: lerp(0.2, 0.3, gg) };
+        const body = { x: B.cx, zA: lerp(0.95, 0.45, gg), zB: 1.95, h: lerp(0.15, 0.26, gg) + breath, r: lerp(0.2, 0.3, gg) };
         blanket.update({ cx: B.cx, w: B.w, top: B.top, zFoot: -B.z1, zHead: 1.93, hang: 0.26, footHang: 0.22, r: 0.05, body });
         feet.visible = gg > 0.25; feet.position.set(B.cx, B.top + 0.08, lerp(-0.7, -0.05, gg)); feet.scale.setScalar(lerp(1, 1.6, gg));
-        const snap = K(t, [[8.8, 0], [8.95, 1]]) - (t > 8.95 ? 0.1 * Math.exp(-(t - 8.95) * 6) * Math.sin((t - 8.95) * 20) : 0);
+        const snap = K(t, [[5.6, 0], [5.75, 1]]) - (t > 5.75 ? 0.1 * Math.exp(-(t - 5.75) * 6) * Math.sin((t - 5.75) * 20) : 0);
         carrier.position.y = -0.16 * snap; bed.bed.position.y = -0.16 * snap; bed.bed.rotation.x = 0;
-        void g;
       } else {
         carrier.visible = false; bed.bed.position.y = -0.16; clockFace.material.map = clockTexs.b;   // the bed stays broken
         bed.setLamp(1); bed.lights.moon.intensity = 1.0; bed.setDoor(1.25); bed.lights.spill.intensity = 0.9;
         putG(gary, 'bed', garyDoor(t));
+        fan.update(t, clamp(1 - (t - 7.45) / 2.5) * (t > 7.45 ? 1 : 0));
       }
     } else if (S === 'sub') {
-      const center = { leave: [0, -4], car: [5, -5], bench: [58, -6], dunk: [-11.5, -3.5] }[shot.cam];
+      const center = { leave: [0, -4], dog: [29, -1], car: [5, -5], bench: [58, -6], dunk: [-11.5, -3.5] }[shot.cam];
       sub.aimSun(center[0], center[1], shot.cam === 'leave' ? 16 : 9);
       sub.houses.forEach((h) => (h.door.rotation.y = 0));
       if (shot.cam === 'leave') {
         [1, 2, 3].forEach((h) => (sub.houses[h].door.rotation.y = 1.45));
+        sub.houses[2].porchRoof.rotation.z = -0.42 * clamp(boing(t, 20.1)) * (t > 20.1 ? 1 : 0);   // he stands up through it
         giants.forEach((g, i) => { if (i > 7) return; const r = leavePose(t, i); if (r && r.visible) putG(g, 'sub', r.p, r.ground); });
       } else if (shot.cam === 'car') {
-        const r = garyCar(t);
+        const r = garyCar(t - SHIFT.car);
         putG(gary, 'sub', r.p, 0, r.rootY);
-        const k = clamp(r.crush); carSub.body.scale.set(1 + 0.06 * k, 1 - 0.44 * k, 1 + 0.03 * k); carSub.body.position.y = -0.05 * k;
+        const k = clamp(r.crush);
+        [1, 2].forEach((ci) => { const m = carSub.body.children[ci]; if (m) { m.scale.set(1 + 0.05 * k, 1 - 0.62 * k, 1 + 0.04 * k); m.position.y = (ci === 1 ? 1.15 : 1.18) - 0.32 * k; } });
+        carSub.g.position.y = -0.05 * k; carSub.g.rotation.z = -0.04 * k;
+        // glass spray
+        const age = t - 31.35; shards.visible = age > 0 && age < 1.4;
+        if (shards.visible) { const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e3 = new THREE.Euler(), sc = new THREE.Vector3(1, 1, 1), v = new THREE.Vector3();
+          shSeeds.forEach(([a, b, c, d], i) => { const ang = a * PI * 2, sp = 1.5 + b * 2.5; v.set(OFF.sub[0] + 4.5 + Math.cos(ang) * sp * age, Math.max(0.02, 1.2 + (1.5 + c * 2) * age - 4.9 * age * age), OFF.sub[2] - 5.2 + Math.sin(ang) * sp * age); q.setFromEuler(e3.set(age * 9 * c, age * 7 * d, age * 5)); m4.compose(v, q, sc); shards.setMatrixAt(i, m4); });
+          shards.instanceMatrix.needsUpdate = true; }
+      } else if (shot.cam === 'dog') {
+        const r = garyDog(t); putG(gary, 'sub', r.p);
+        dog.g.visible = leash.visible = true;
+        const lead = t < 25.2 ? 1.35 : lerp(1.35, 1.05, K(t, [[25.2, 0], [25.8, 1]]));
+        dog.g.position.set(r.x + lead, SW_H, -0.3); dog.g.rotation.y = lerpAngle(PI / 2, -PI / 2 - 0.4, K(t, [[25.3, 0], [25.7, 1]]));
+        dog.update(t, t < 25.2 ? 2.2 : 0); dog.bark(Math.max(0, Math.sin((t - 25.6) * 9)) * (t > 25.6 && t < 26.9 ? 1 : 0));
+        dog.head.rotation.x = t > 25.6 ? -0.5 : 0;
+        const hA = handWorld(gary, -1), col = dog.g.localToWorld(new THREE.Vector3(0, 0.36, 0.14));
+        leash.geometry.setFromPoints([hA, new THREE.Vector3().lerpVectors(hA, col, 0.5).add(new THREE.Vector3(0, -0.25, 0)), col]);
       } else if (shot.cam === 'bench') {
-        const r = garyBench(t);
+        const r = garyBench(t - SHIFT.bench);
         putG(gary, 'sub', r.p, 0, r.rootY);
         const [L, Rh] = sub.bench.userData.halves; L.rotation.z = -0.55 * r.fall; Rh.rotation.z = 0.55 * r.fall;
       } else if (shot.cam === 'dunk') {
-        putG(gary, 'sub', garyDunk(t));
+        const td = t - SHIFT.dunk;
+        putG(gary, 'sub', garyDunk(td));
         // the ball: in his hand → set into the rim → straight down through the net → bounce
         ball.visible = true;
         const hB = handWorld(gary, 1);
-        if (t < 58.45) ball.position.copy(hB).add(new THREE.Vector3(0, 0.12, 0.08));
-        else if (t < 58.6) ball.position.copy(hB).add(new THREE.Vector3(0, 0.12, 0.08)).lerp(rimW.clone().add(new THREE.Vector3(0, 0.15, 0)), K(t, [[58.45, 0], [58.6, 1]]));
+        if (td < 58.45) ball.position.copy(hB).add(new THREE.Vector3(0, 0.12, 0.08));
+        else if (td < 58.6) ball.position.copy(hB).add(new THREE.Vector3(0, 0.12, 0.08)).lerp(rimW.clone().add(new THREE.Vector3(0, 0.15, 0)), K(td, [[58.45, 0], [58.6, 1]]));
         else {
-          const ft = t - 58.6, y0 = rimW.y + 0.15, g = 9.8;
+          const ft = td - 58.6, y0 = rimW.y + 0.15, g = 9.8;
           let y = y0 - 0.5 * g * ft * ft; const tHit = Math.sqrt((2 * (y0 - 0.12)) / g);
           if (ft > tHit) { const bt = ft - tHit, v0 = g * tHit * 0.55; y = 0.12 + Math.max(0, v0 * bt - 0.5 * g * bt * bt); }
           ball.position.set(rimW.x, Math.max(0.12, y), rimW.z + Math.max(0, ft - tHit) * 0.6);
@@ -355,13 +443,13 @@ export async function build(studio, story) {
         const gb = giants[0], p = basePose(); Object.assign(p, { x: -6.5, z: -6.8, rotY: -1.2 }); p.eyes = blink(t, 5); p.headYaw = 0.5; putG(gb, 'sub', p);
       }
       if (shot.cam !== 'bench') { const [L, Rh] = sub.bench.userData.halves; L.rotation.z = 0; Rh.rotation.z = 0; }
-      if (shot.cam !== 'car') { carSub.body.scale.set(1, 1, 1); carSub.body.position.y = 0; }
+      if (shot.cam !== 'car') { [1, 2].forEach((ci) => { const m = carSub.body.children[ci]; if (m) { m.scale.set(1, 1, 1); m.position.y = ci === 1 ? 1.15 : 1.18; } }); carSub.g.position.y = 0; carSub.g.rotation.z = 0; }
     } else if (S === 'city') {
       if (shot.cam === 'bus') {
         city.setShadowFocus(3, 4, 22); city.setTime({}); bus.g.visible = true; shelter.visible = true;
-        const sag = t > 33.0 ? boing(t, 33.0) : 0; bus.setSag(sag * 1.3); bus.setSign(t > 33.0 ? 'FULL · 7 PEOPLE' : '42 DOWNTOWN');
+        const tb = t - SHIFT.bus, sag = tb > 33.0 ? boing(tb, 33.0) : 0; bus.setSag(sag * 1.3); bus.setSign(tb > 33.0 ? 'FULL · 7 PEOPLE' : '42 DOWNTOWN');
         giants.forEach((g, i) => {
-          const r = busPose(t, i); if (!r || r.hide) return;
+          const r = busPose(tb, i); if (!r || r.hide) return;
           putG(g, 'city', r.p, r.ground);
         });
       } else {
@@ -372,11 +460,23 @@ export async function build(studio, story) {
           const per = 3.4, s = ((((t - j * 1.7) % (6 * per)) + 6 * per) % (6 * per)) - 3 * per;
           c.g.visible = true; c.g.position.set(lane.x, 0, -6 + lane.d * 10 * s); c.g.rotation.y = lane.d > 0 ? 0 : PI;
         });
-        giants.forEach((g, i) => { const r = rebuildPose(t, i); if (r) putG(g, 'city', r.p, r.ground); });
+        giants.forEach((g, i) => { const r = rebuildPose(t - SHIFT.rebuild, i); if (r) putG(g, 'city', r.p, r.ground); });
       }
+    } else if (S === 'kit') {
+      putG(gary, 'kit', garyKitchen(t));
+      mug.visible = true;
+      const lift = K(t, [[13.4, 0], [14.1, 1], [15.9, 1], [16.5, 0.2]]);
+      if (!mug.parent || mug.parent === scene) { kit.root.add(mug); }
+      const hB = handWorld(gary, 1), onTable = new THREE.Vector3(KD.table[0] - 0.55 + OFF.kit[0], KD.tableTop + 0.005, KD.table[1] - 0.2 + OFF.kit[2]);
+      const wp = lift < 0.02 ? onTable : hB.clone().add(new THREE.Vector3(0, -0.04, 0));
+      mug.position.copy(kit.root.worldToLocal(wp.clone())); mug.rotation.set(-0.9 * K(t, [[14.2, 0], [14.6, 1], [15.4, 1], [15.8, 0]]), 0, 0);
+    } else if (S === 'plane') {
+      giants.forEach((g, i) => { const r = planePose(t, i); if (r) putG(g, 'plane', r.p, 0, r.rootY); });
+      plane.rows.slice(0, 6).forEach((r0) => (r0.visible = false));   // the front row would fill the lens
+      [gary].forEach((g) => { const p = basePose(); const sp = seatPos(2, 2); Object.assign(p, { x: sp.x - 0.05, z: sp.z + 0.05, rotY: 0, footFwd: 0.1, lean: 0.45, headPitch: -0.2, headYaw: 0.5 }); p.armA = HUG_A; p.armB = HUG_B; p.eyes = blink(t, 2); putG(g, 'plane', p, 0, seatRoot(0.45) + 0.02); });
     } else if (S === 'mkt') {
-      const k = K(t, [[37.0, 1], [42.2, 0.04]]); mkt.setStock(k); mkt.setSoldOut(t > 40.2);
-      giants.forEach((g, i) => { const r = marketPose(t, i); if (r) putG(g, 'mkt', r.p, r.ground); });
+      const tm = t - SHIFT.market, k = K(tm, [[37.0, 1], [42.2, 0.04]]); mkt.setStock(k); mkt.setSoldOut(tm > 40.2);
+      giants.forEach((g, i) => { const r = marketPose(tm, i); if (r) putG(g, 'mkt', r.p, r.ground); });
     }
 
     // dust bursts

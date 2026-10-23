@@ -292,3 +292,46 @@ export function makeBasketball(r = 0.12) {
   const tex = canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#e0722f'; c.fillRect(0, 0, w, h); c.strokeStyle = '#2a1a10'; c.lineWidth = 4; c.beginPath(); c.moveTo(0, h / 2); c.lineTo(w, h / 2); c.moveTo(w / 4, 0); c.lineTo(w / 4, h); c.moveTo((3 * w) / 4, 0); c.lineTo((3 * w) / 4, h); c.stroke(); });
   const g = new THREE.Group(); mk(new THREE.SphereGeometry(r, 24, 16), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }), g); return g;
 }
+
+// ---------------------------------------------------------------- dog, ceiling fan, mug (010 v2; reusable)
+/** Toy dog (faces +z, ~0.45 m tall at the head). update(t, speed) trots the legs + wags the tail; bark(k) opens the mouth. */
+export function makeDog({ color = 0xc98e4a, patch = 0xf2e6cf } = {}) {
+  const g = new THREE.Group(), m = mat(color, 0.85), p = mat(patch, 0.85), dark = mat(0x1b1310, 0.4);
+  const body = mk(new THREE.CapsuleGeometry(0.11, 0.26, 6, 12), m, g, 0, 0.27, 0); body.rotation.x = Math.PI / 2;
+  mk(new THREE.SphereGeometry(0.09, 12, 10), p, g, 0, 0.24, 0.12).scale.set(1, 0.9, 1.2);
+  const head = new THREE.Group(); head.position.set(0, 0.4, 0.2); g.add(head);
+  mk(new THREE.SphereGeometry(0.1, 14, 12), m, head);
+  const snout = mk(new THREE.SphereGeometry(0.06, 12, 10), p, head, 0, -0.03, 0.08); snout.scale.set(1, 0.8, 1.2);
+  mk(new THREE.SphereGeometry(0.02, 8, 6), dark, head, 0, 0.0, 0.15);
+  for (const s of [-1, 1]) { mk(new THREE.SphereGeometry(0.018, 8, 6), dark, head, s * 0.045, 0.035, 0.08); const ear = mk(new THREE.CapsuleGeometry(0.03, 0.08, 4, 8), mat(0x7a4f28, 0.85), head, s * 0.085, 0.03, -0.01); ear.rotation.z = s * 0.4; }
+  const jaw = mk(new THREE.BoxGeometry(0.06, 0.015, 0.06), mat(0x8a2f2b, 0.6), head, 0, -0.07, 0.09);
+  const legs = [];
+  for (const [x, z] of [[-0.06, 0.14], [0.06, 0.14], [-0.06, -0.14], [0.06, -0.14]]) { const L = new THREE.Group(); L.position.set(x, 0.22, z); g.add(L); mk(new THREE.CapsuleGeometry(0.028, 0.14, 4, 8), m, L, 0, -0.1, 0); legs.push(L); }
+  const tail = new THREE.Group(); tail.position.set(0, 0.33, -0.24); g.add(tail); const tm = mk(new THREE.CapsuleGeometry(0.02, 0.12, 4, 8), m, tail, 0, 0.07, -0.02); tm.rotation.x = -0.5;
+  const update = (t, speed = 0) => {
+    const ph = t * (8 + speed * 6);
+    legs.forEach((L, i) => (L.rotation.x = Math.sin(ph + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.7 * Math.min(1, speed)));
+    g.children[0].position.y = 0.27 + Math.abs(Math.sin(ph)) * 0.02 * Math.min(1, speed);
+    tail.rotation.z = Math.sin(t * 14) * 0.6;
+  };
+  const bark = (k) => { jaw.position.y = -0.07 - 0.03 * k; head.rotation.x = -0.3 * k; };
+  return { g, head, update, bark };
+}
+/** Ceiling fan (mount at the ceiling, hangs down 0.35 m). update(t, wobble) spins the blades; wobble 0..1 shakes it (after a bonk). */
+export function makeCeilingFan() {
+  const g = new THREE.Group(), wood = mat(0x7d5233, 0.6), metal = mat(0xc9c2b6, 0.3, { metalness: 0.5 });
+  mk(new THREE.CylinderGeometry(0.012, 0.012, 0.3, 6), metal, g, 0, -0.15, 0);
+  const hub = new THREE.Group(); hub.position.y = -0.32; g.add(hub);
+  mk(new THREE.CylinderGeometry(0.1, 0.12, 0.12, 16), metal, hub);
+  for (let i = 0; i < 4; i++) { const a = new THREE.Group(); a.rotation.y = (i * Math.PI) / 2; hub.add(a); mk(new THREE.BoxGeometry(0.62, 0.015, 0.14), wood, a, 0.4, 0, 0); }
+  mk(new THREE.SphereGeometry(0.07, 12, 8), new THREE.MeshStandardMaterial({ color: 0xfff3d6, emissive: 0xffd9a0, emissiveIntensity: 0.6 }), hub, 0, -0.09, 0);
+  const update = (t, wobble = 0) => { hub.rotation.y = t * 7; g.rotation.z = wobble * 0.25 * Math.sin(t * 19); g.rotation.x = wobble * 0.18 * Math.sin(t * 15 + 1); };
+  return { g, update };
+}
+export function makeMug(color = 0xd2483f) {
+  const g = new THREE.Group();
+  mk(new THREE.CylinderGeometry(0.04, 0.036, 0.09, 16, 1, true), mat(color, 0.4, { side: THREE.DoubleSide }), g, 0, 0.045, 0);
+  mk(new THREE.CircleGeometry(0.036, 16), mat(0x3a2414, 0.2), g, 0, 0.075, 0).rotation.x = -Math.PI / 2;
+  mk(new THREE.TorusGeometry(0.022, 0.007, 6, 12, Math.PI), mat(color, 0.4), g, 0.045, 0.045, 0).rotation.z = -Math.PI / 2;
+  return g;
+}

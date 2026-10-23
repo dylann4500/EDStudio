@@ -58,6 +58,10 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   pickup note. With a dense groove, pull `stem_gain_db.music` to ≈ −21 so beds/boops sit ~15 dB under it instead of ~30.
 - The onset checker flags overlapping/gradual sounds (car passes, stacked scribbles) as "--"; that's expected for beds of sound.
 
+## Open quiet, then the music enters (user steer, Oct 23)
+Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat
+(007 at 6.6 s, 010 at 4.2 s with a braam + boom). The "music never cuts out" rule applies from the moment it starts.
+
 ## Mock-epic (010, funny-dramatic) — a "kaiju march"
 - C minor, 90 bpm: `strings` stomp pattern `[0,0,0,1,0,0,2,0]` in 8ths (octave 1, sustain 0.3), soft `taiko` on the beats like
   footfalls, a braam (pad `notes` low, level 1.5) + `boom` the moment the premise hits, a `boom` on every collapse, a `tom` roll

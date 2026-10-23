@@ -92,6 +92,14 @@ videos/NNN-slug/
 - **Giants / scaled people (010):** `rig.root.scale.setScalar(2)` and pose them with a helper that passes the ground in LOCAL units:
   `p.y = 0; p.floor = (groundY − rootY) / s; applyPose(); root.position.y = rootY` (010 `putG`). Sitting on something at height h:
   `rootY = h − s·(HIP_H − 0.17)`. Walking: `dist/s`, `speed/s`. A doubled person under a 2.7 m ceiling needs `crouch ≈ 0.3, lean ≈ 0.5`.
+- `engine/sets/kitchen.js` (010): morning kitchen, fully dressed (counters, sink under a sunny window, stove + kettle, coffee maker, toaster,
+  fruit bowl, fridge with magnets + a kid's drawing, table + 4 `chairs`, pendant lamp, wall clock `setClock(h,m)`, calendar, plants, rug).
+- `engine/sets/plane.js` (010): economy cabin, 12 rows × 6 seats (`seatPos(row, col)`; passengers face +z), bins, oval windows with
+  clouds, light strip, galley curtain. Hide the front row (`rows.slice(0,6)`) when the camera sits at the front.
+- `engine/props.js` (010 v2): `makeDog()` (`update(t, speed)` trot + tail, `bark(k)`), `makeCeilingFan()` (`update(t, wobble)`),
+  `makeMug(color)`. suburb.js houses now expose `porchRoof` (hinge group: `rotation.z −0.42` = collapsed).
+- Crush a `makeCar` without squashing its wheels: scale `body.children[1]` (cab) + `[2]` (glass) in y, not `body`.
+- `audio/synth.py` (010 v2): `snore`, `dog_bark` (soft boof), `slurp`, `cabin_hum` ambience.
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
@@ -175,6 +183,11 @@ videos/NNN-slug/
 - **No bare scenes (user steer, 010):** dress every shot — posters, a glowing alarm clock, slippers, laundry, plants indoors;
   power poles + wires, picket fences, flower beds, a kid's bike, a gnome, parked cars, clouds outdoors; carts and produce bins in a store.
   If a still looks empty, add 4–6 props before re-rendering. Keep them out of the hero's sightline (`poleClear` in suburb.js).
+- **Open quiet (user steer after 010):** the first seconds are subtle sound only (room tone, crickets, a snore, a street) and the
+  music ENTERS on the premise moment (007: the brain glow; 010: the growth at 4.2 s, with a braam + boom). Don't start the score at 0.
+- **Keep beats short and busy (user, on 010 v1: "too bare… more different funny scenes"):** ~5 s per beat, 10–12 beats, something
+  moving in every frame — cut away before a shot goes static (v1 held a crushed car / an empty room / a standing hero for 3–8 s).
+  Scan the render at 1 fps (`ffmpeg -vf fps=1,scale=216:-1,tile=12x6`) and kill any run of near-identical frames.
 - **Sound-design-led mixes are allowed** (user noticed top what-if accounts often skip music): places carry the sound (crowd,
   traffic, room tone, a far horn), a pad bed ~9 dB under the ambience, piano only for the ending. Still soft. See audio/README.md.
 

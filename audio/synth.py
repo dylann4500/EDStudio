@@ -929,6 +929,42 @@ def sfx_car_horn(rng, dur=0.42, pitch=1.0, distance=1.0):
     return Sound(norm(x, 0.9), anchor=0.0, onsets=[0.0])
 
 
+def sfx_snore(rng, dur=2.2, size=1.0):
+    """One soft cartoon snore cycle (010): a low nasal buzz on the in-breath + an airy out-breath. Gentle, never rude."""
+    n = nsamp(dur)
+    t = tvec(n)
+    inb = np.clip(t / (0.45 * dur), 0, 1) * (t < 0.55 * dur)
+    f = 62 / size * (1 + 0.05 * np.sin(2 * np.pi * 3.0 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    buzz = np.sign(np.sin(ph)) * 0.5 + np.sin(2 * ph) * 0.3
+    buzz = bp(buzz * (0.6 + 0.4 * rng.random(n)), 90, 900) * np.sin(np.pi * np.clip(t / (0.55 * dur), 0, 1)) ** 2
+    out = bp(pink(n, rng), 300, 2200) * np.sin(np.pi * np.clip((t - 0.6 * dur) / (0.38 * dur), 0, 1)) ** 2
+    y = 0.9 * norm(buzz) + 0.35 * norm(out)
+    return Sound(norm(fades(lp(y, 2500), 0.02, 0.1)), onsets=[(0.0, "soft")])
+
+
+def sfx_dog_bark(rng, pitch=1.0):
+    """A small dog's soft "boof" (010) — rounded, low-passed, no yap."""
+    dur = 0.3
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 420 * pitch * (1 + 0.25 * np.exp(-t / 0.03)) * (1 - 0.15 * t / dur)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    v = np.sin(ph) + 0.6 * np.sin(2 * ph) + 0.3 * np.sin(3 * ph) + 0.4 * bp(white(n, rng), 600, 2400)
+    env = (1 - np.exp(-t / 0.006)) * np.exp(-t / 0.07)
+    return Sound(norm(fades(lp(v * env, 3000), 0.001, 0.04)), onsets=[(0.0, "transient")])
+
+
+def sfx_slurp(rng, dur=0.8):
+    """A polite coffee sip (010): a short airy slurp with a tiny liquid gurgle."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.5
+    air = bp(white(n, rng), 900, 3500) * env * (0.6 + 0.4 * np.sin(2 * np.pi * 9 * t))
+    gur = np.sin(2 * np.pi * (300 + 120 * np.sin(2 * np.pi * 6 * t)) * t) * env * 0.4
+    return Sound(norm(fades(lp(air + gur, 3800), 0.01, 0.05)), onsets=[(0.0, "soft")])
+
+
 def sfx_giant_step(rng, size=1.0, surface="ground"):
     """A 3-meter person's footfall (010): a deep sub thud + a low-passed body knock + a tiny settle of grit. No click.
     size scales the weight (pitch drops, tail lengthens). surface 'wood' adds a floorboard groan."""
@@ -1033,6 +1069,17 @@ def amb_city_day(dur, rng, murmur=0.5, traffic=0.6):
         rumble = unit_rms(hp(lp(brown(n, rng), 220), 35)) * (1 + 0.25 * smooth_rand(n, 0.07, rng))
         talk = unit_rms(bp(pink(n, rng), 320, 1400)) * (0.6 + 0.4 * np.abs(smooth_rand(n, 3.5, rng)))
         out.append(traffic * rumble + murmur * 0.55 * talk)
+    return norm(np.vstack(out))
+
+
+def amb_cabin_hum(dur, rng):
+    """Airliner cabin (010): broadband engine roar, low-passed, plus a faint 115 Hz drone."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        x = unit_rms(lp(pink(n, rng), 900)) + 0.35 * unit_rms(lp(brown(n, rng), 200)) + 0.12 * np.sin(2 * np.pi * 115 * t + ch)
+        out.append(x * (1 + 0.04 * smooth_rand(n, 0.3, rng)))
     return norm(np.vstack(out))
 
 
@@ -1259,6 +1306,7 @@ def amb_lamp_hum(dur, rng):
 AMBIENCE = {
     "room_tone": amb_room_tone,
     "applause": amb_applause,
+    "cabin_hum": amb_cabin_hum,
     "crowd_cheer": amb_crowd_cheer,
     "traffic_flow": amb_traffic_flow,
     "rocket_rumble": amb_rocket_rumble,
@@ -1904,6 +1952,9 @@ SFX = {
     "car_horn": (sfx_car_horn, "prop"),
     "car_crash": (sfx_car_crash, "prop"),
     "giant_step": (sfx_giant_step, "footstep"),
+    "snore": (sfx_snore, "cloth"),
+    "dog_bark": (sfx_dog_bark, "prop"),
+    "slurp": (sfx_slurp, "prop"),
     "wood_snap": (sfx_wood_snap, "prop"),
     "bonk": (sfx_bonk, "prop"),
     "metal_groan": (sfx_metal_groan, "prop"),

@@ -78,7 +78,8 @@ export function buildSuburb(studio, opts = {}) {
     // porch + door + windows
     const doorX = -2.2;
     box(3.0, DIMS.porchY, 2.0, mat(0xb0a698, 0.9), doorX, DIMS.porchY / 2, 1.0, g);
-    box(3.2, 0.12, 2.3, mat(0xece6da, 0.6), doorX, 2.9, 1.05, g);                                 // porch roof
+    const porchRoof = new THREE.Group(); porchRoof.position.set(doorX - 1.6, 2.9, 1.05); g.add(porchRoof);   // hinge at its left end (it can collapse)
+    box(3.2, 0.12, 2.3, mat(0xece6da, 0.6), 1.6, 0, 0, porchRoof);
     for (const px of [-1.4, 1.4]) mk(new THREE.CylinderGeometry(0.07, 0.07, 2.6, 10), mat(0xf2efe8, 0.6), g, doorX + px, 1.6, 1.9);
     box(1.1, 2.3, 0.08, mat(0xf2efe8, 0.6), doorX, 0.4 + 1.15, 0.02, g);                          // door frame
     const door = new THREE.Group(); door.position.set(doorX - 0.475, 0.4, 0.06); g.add(door);   // hinge at the left edge
@@ -102,7 +103,7 @@ export function buildSuburb(studio, opts = {}) {
       for (let k = 0; k < 4; k++) mk(new THREE.IcosahedronGeometry(1.1 - k * 0.12, 1), leaf, t, (R() - 0.5) * 1.0, 3.0 + k * 0.45, (R() - 0.5) * 0.8);
     }
     for (let k = 0; k < 4; k++) mk(new THREE.IcosahedronGeometry(0.45, 1), mat(0x4f7a3a, 0.9), g, -5.8 + k * 0.8, 0.45, 0.6);
-    houses.push({ g, door, doorPos: new THREE.Vector3(cx + doorX, 0.4, zf + 0.1), drive: new THREE.Vector3(cx + gx, 0, zf + 3.5), garage: new THREE.Vector3(cx + gx, 0, zf), side });
+    houses.push({ g, door, porchRoof, doorPos: new THREE.Vector3(cx + doorX, 0.4, zf + 0.1), drive: new THREE.Vector3(cx + gx, 0, zf + 3.5), garage: new THREE.Vector3(cx + gx, 0, zf), side });
   }
   DIMS.lots.forEach((x, i) => house(x, -1, i));
   [-48, 80, -64].forEach((x, i) => house(x, -1, i + 2));   // (the lots at 48 + 64 are the pocket park)
