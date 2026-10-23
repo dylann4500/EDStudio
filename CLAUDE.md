@@ -65,6 +65,8 @@ videos/NNN-slug/
   grab/release positions at build time (see 001 `handAt`).
 - `engine/props.js`: `Blanket` (drapes over a mattress + body bump; animate `zHead` to "tuck"), `makeBunny`, `makePhone`, toys, boxes, fabric textures,
   `makeBabyBundle`, `makePickleJar`, `makeIceCreamTub`, `makeHotDog`.
+  `makeSearchBubble({query, history, width, maxChars, offX})` (008): camera-facing search card (sprite) with optional history rows;
+  put `sprite.position` on top of a head each frame (008 `stick()`), `setRows(n)` reveals rows, `setPop(k)` scales it (boing pop).
 - `engine/sets/bedroom.js`: child bedroom + hallway. `setDoor(θ)` (1.25 = open), lamp, nightlight, christmas lights,
   `setSeason('summer'|'autumn'|'winter'|'rain'|'xmas', t)` for the window, dust motes in the door beam, era decor groups.
   **New sets:** copy bedroom.js's structure into `engine/sets/<name>.js` (kitchen, porch, car, living room…); export `DIMS` + handles.
@@ -173,6 +175,10 @@ videos/NNN-slug/
 - **Readable props (phone screens, posters, signs)** must sit in the clear band: ≈38–65 % of frame height and right of x≈40 %,
   so the HUD (top-left) and subtitles (≈70 %) never cover their text. Phones read best as a POV shot: camera 0.17 m in front of
   the face, aimed at the screen (006). Keep any line of card text above the subtitle band.
+- **Floating labels/cards above heads (008) must be sized for the lens:** frame width at distance d = 2·d·tan(fov/2)·9/16
+  (≈1.6 m at 3.5 m, fov 48). A hero card reads at ~50–70 % of that width; 008's first sheet had 0.8 m cards at 7 m = unreadable.
+  Move the camera in (≈3 m for heroes) instead of only scaling the card. In crowds, **stagger card heights** (3 lifts) or they
+  form one row that hides itself. `clamp(x)` is 0..1 — never use it for a row count (008's history rows never appeared).
 - GitHub rejects files > 100 MB: `final.mp4` is encoded at ~6 Mbps (≈45 MB / min). Don't commit `out/` or `stills/`.
 
 ## QC checklist (all must pass before committing final.mp4)

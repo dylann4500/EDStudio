@@ -191,3 +191,60 @@ export function makeFlashlight({ length = 34, radius = 2.4, color = 0xfff0d2 } =
   setOn(0);
   return { g, beam, spot, setOn, aim };
 }
+
+// ---------------------------------------------------------------- search bubble (008): a floating search bar above a head
+/**
+ * makeSearchBubble({ query, history: [..], width (m), maxChars, offX })
+ *   A camera-facing card: magnifier + query on top, optional history rows (clock icon) below, a small tail pointing down.
+ *   Bottom-anchored (sprite.center.y = 0): put `sprite.position` at the top of the head. offX shifts the card sideways
+ *   (-0.5…0.5 of its width) so two neighbours' cards don't overlap. setRows(n) reveals history rows one by one (textures are
+ *   prebuilt per row count — no per-frame canvas work). setPop(k) scales it (0 = hidden; use a boing for the pop).
+ *   Unlit SpriteMaterial (house rule for screens), slightly off-white so it never trips the bloom threshold.
+ */
+export function makeSearchBubble(o = {}) {
+  const W = 1024, PAD = 26, TAIL = 34, R = 44;
+  const width = o.width ?? 0.9, history = o.history || [], maxChars = o.maxChars ?? 24;
+  const wrap = (s) => { const out = []; let line = ''; for (const w of s.split(' ')) { if ((line + ' ' + w).trim().length > maxChars && line) { out.push(line); line = w; } else line = (line + ' ' + w).trim(); } if (line) out.push(line); return out; };
+  const qLines = wrap(o.query || ''), rows = history.map((h) => wrap(h));
+  const QH = 70, RH = 60, TOPH = 46 + qLines.length * QH;
+  const texFor = (n) => {
+    const rowLines = rows.slice(0, n).reduce((a, r) => a + r.length, 0);
+    const cardH = TOPH + (n ? 22 + rowLines * RH + n * 18 + 14 : 0);
+    const H = cardH + PAD * 2 + TAIL;
+    const tex = canvasTex(W, H, (g) => {
+      const x0 = PAD, y0 = PAD, w = W - PAD * 2;
+      g.save(); g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 18; g.shadowOffsetY = 6;
+      g.fillStyle = '#ffffff'; g.beginPath(); g.roundRect(x0, y0, w, cardH, R); g.fill();
+      const tx = Math.min(W - PAD - 90, Math.max(PAD + 90, (0.5 + (o.offX ?? 0)) * W)); // tail points at the anchor (the head)
+      g.beginPath(); g.moveTo(tx - 30, y0 + cardH - 2); g.lineTo(tx, y0 + cardH + TAIL - 4); g.lineTo(tx + 30, y0 + cardH - 2); g.fill();
+      g.restore();
+      // magnifier
+      const my = y0 + 23 + QH / 2 + 4;
+      g.strokeStyle = '#6b7078'; g.lineWidth = 9; g.beginPath(); g.arc(x0 + 62, my - 6, 20, 0, Math.PI * 2); g.stroke();
+      g.lineWidth = 11; g.lineCap = 'round'; g.beginPath(); g.moveTo(x0 + 77, my + 9); g.lineTo(x0 + 92, my + 24); g.stroke();
+      g.fillStyle = '#202124'; g.font = '600 56px Helvetica, Arial, sans-serif'; g.textBaseline = 'middle';
+      qLines.forEach((l, i) => g.fillText(l, x0 + 122, y0 + 23 + QH / 2 + 2 + i * QH));
+      if (!n) return;
+      let y = y0 + TOPH + 4;
+      g.fillStyle = '#e3e5e8'; g.fillRect(x0 + 30, y, w - 60, 4); y += 22;
+      rows.slice(0, n).forEach((r) => {
+        const cy = y + RH / 2;
+        g.strokeStyle = '#9aa0a6'; g.lineWidth = 6; g.beginPath(); g.arc(x0 + 62, cy, 19, 0, Math.PI * 2); g.stroke();
+        g.lineWidth = 6; g.beginPath(); g.moveTo(x0 + 62, cy - 11); g.lineTo(x0 + 62, cy); g.lineTo(x0 + 71, cy + 6); g.stroke();
+        g.fillStyle = '#5b2a9a'; g.font = '500 46px Helvetica, Arial, sans-serif';
+        r.forEach((l, i) => g.fillText(l, x0 + 122, cy + i * RH));
+        y += r.length * RH + 18;
+      });
+    });
+    return { tex, aspect: H / W };
+  };
+  const texs = Array.from({ length: history.length + 1 }, (_, n) => texFor(n));
+  const material = new THREE.SpriteMaterial({ map: texs[0].tex, color: o.color ?? 0xf2f2f2, transparent: true, depthWrite: false, toneMapped: false, fog: false });
+  const sprite = new THREE.Sprite(material); sprite.center.set(0.5 + (o.offX ?? 0), 0); sprite.renderOrder = 5;
+  let rowsShown = 0, pop = 1;
+  const resize = () => { const a = texs[rowsShown].aspect; sprite.scale.set(width * pop, width * a * pop, 1); sprite.visible = pop > 0.001; };
+  const setRows = (n) => { n = Math.max(0, Math.min(history.length, Math.floor(n))); if (n !== rowsShown) { rowsShown = n; material.map = texs[n].tex; } resize(); };
+  const setPop = (k) => { pop = Math.max(0, k); resize(); };
+  resize();
+  return { sprite, material, setRows, setPop, width };
+}

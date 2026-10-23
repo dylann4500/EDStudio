@@ -27,7 +27,8 @@ Follow `CLAUDE.md` exactly. Steps:
 4. Write story.json (all text + HUD + timing, `"tone"`; end card fully visible ≥ 3.5 s), then shots.js (shots, cameras, poses, props).
 5. Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
    build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup
-   for arm poses. Check that no text sits over a face or a sign. Do not full-render before the sheet looks good;
+   for arm poses. Check that no text sits over a face or a sign. If the premise is a readable prop (cards, signs, screens), check that
+   every one you mean to be read is actually legible in the still at half size — compute frame width from distance + fov (CLAUDE.md). Do not full-render before the sheet looks good;
    a `--preview` render is a cheap motion check.
 6. Pick this video's **sound identity** (audio/README.md → Sound identity: piano / bouncy piano / synth pluck / SFX-led — not a copy of
    the last video), write cues.json (a `make_cues.py` generator for long sheets) and run `python3 -I audio/synth.py NNN-slug`;

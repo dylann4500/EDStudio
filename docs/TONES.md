@@ -74,6 +74,11 @@ different places instead of hovering around one scene**: every beat = a new loca
   question card ("What would you invent first?").
 - Sound: its own identity — synth plucks + echo, a scene-specific bed per beat, synced foley (see audio/README.md → Sound identity).
 - Multi-set technique: CLAUDE.md → Hard-won rules → "Montage across many locations". Reuse every set in `engine/sets/`.
+- **Funny montage (008, search history over every head):** the premise is a visible prop (a search card per head), and each
+  place gets ONE card that is the punch line (Gary's pigeon searches, "what does GDP stand for" ×5, the surgeon's spleen
+  search). The subtitle sets it up, the card delivers. HUD number = the social cost (PEOPLE MAKING EYE CONTACT 8.2 B → 0 → 8.2 B),
+  the stat line is a new joke per place. Warm turn: grandma says thank you to the search bar → "everyone is weird, so nobody is."
+  Keep searches harmless + specific (no sexual/medical-gross stuff).
 
 ## What-if ripple ladder (`"tone": "whatif"`, `videos/006-memory-loss`)
 A sibling of **montage** (007): same many-places ladder, but each beat is a *consequence* with a real mechanism, the HUD number
