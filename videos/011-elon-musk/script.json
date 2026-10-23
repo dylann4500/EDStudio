@@ -1,0 +1,279 @@
+{
+ "tone": "biography",
+ "look": {
+  "exposure": 1.0,
+  "fill": 0.45,
+  "vignette": 0.32,
+  "bloom": 0.28,
+  "bloomThreshold": 0.9
+ },
+ "fps": 30,
+ "title": {
+  "html": "The story of <em>Elon Musk</em>",
+  "len": 3.8
+ },
+ "pace": 0.3,
+ "gap": 0.25,
+ "lead": 0.2,
+ "tail": 0.25,
+ "min_line": 1.8,
+ "min_shot": 3.5,
+ "hudLabel": "AGE",
+ "beats": [
+  {
+   "cam": "earthOpen",
+   "set": "space",
+   "age": 0,
+   "date": "JUNE 28, 1971",
+   "place": "PRETORIA, SOUTH AFRICA",
+   "lines": []
+  },
+  {
+   "cam": "birth",
+   "set": "suburb",
+   "age": 0,
+   "date": "JUNE 28, 1971",
+   "place": "PRETORIA, SOUTH AFRICA",
+   "lines": [
+    "June 28, 1971: in Pretoria, South Africa, Elon Musk is born."
+   ],
+   "extra": 0.3
+  },
+  {
+   "cam": "coding",
+   "set": "room80",
+   "age": 10,
+   "date": "1981",
+   "place": "PRETORIA, SOUTH AFRICA",
+   "lines": [
+    "At ten, he gets his first computer and teaches himself to code."
+   ],
+   "extra": 0.3
+  },
+  {
+   "cam": "blastar",
+   "set": "room80",
+   "age": 12,
+   "date": "1984",
+   "place": "PRETORIA, SOUTH AFRICA",
+   "lines": [
+    "At twelve, he sells his first video game, Blastar, to a magazine for $500."
+   ],
+   "extra": 0.4
+  },
+  {
+   "cam": "flight",
+   "set": "flight",
+   "age": 17,
+   "date": "JUNE 1989",
+   "place": "SOUTH AFRICA → CANADA",
+   "lines": [
+    "At seventeen, he moves to Canada on his own, with almost no money."
+   ],
+   "extra": 0.2
+  },
+  {
+   "cam": "campus",
+   "set": "campus",
+   "age": 24,
+   "date": "1995",
+   "place": "STANFORD, CALIFORNIA",
+   "lines": [
+    "He starts a PhD at Stanford, then quits after two days to build a company."
+   ],
+   "extra": 0.2
+  },
+  {
+   "cam": "zip2",
+   "set": "office",
+   "age": 24,
+   "date": "1995",
+   "place": "PALO ALTO, CALIFORNIA",
+   "lines": [
+    "He and his brother Kimbal sleep in the office and shower at the YMCA."
+   ],
+   "extra": 0.2
+  },
+  {
+   "cam": "zip2sale",
+   "set": "office",
+   "age": 27,
+   "date": "FEB 1999",
+   "place": "PALO ALTO, CALIFORNIA",
+   "lines": [
+    "In 1999, their startup sells for $307 million."
+   ],
+   "extra": 0.3
+  },
+  {
+   "cam": "paypal",
+   "set": "office",
+   "age": 31,
+   "date": "JULY 2002",
+   "place": "SILICON VALLEY",
+   "lines": [
+    "His next company becomes PayPal, and eBay buys it for $1.5 billion."
+   ],
+   "extra": 0.2
+  },
+  {
+   "cam": "spacex",
+   "set": "factory",
+   "age": 31,
+   "date": "2002",
+   "place": "EL SEGUNDO, CALIFORNIA",
+   "lines": [
+    "Instead of retiring, he bets his fortune on rockets and starts SpaceX."
+   ],
+   "extra": 0.4
+  },
+  {
+   "cam": "boom",
+   "set": "launch",
+   "age": 35,
+   "date": "2006 – 2008",
+   "place": "KWAJALEIN ATOLL",
+   "lines": [
+    "His first rocket explodes. So does the second, and the third."
+   ],
+   "extra": 0.8
+  },
+  {
+   "cam": "broke",
+   "set": "factory",
+   "age": 37,
+   "date": "2008",
+   "place": "LOS ANGELES",
+   "lines": [
+    "By 2008 he's almost broke, and Tesla, his car company, is close to going under."
+   ],
+   "extra": 0.3
+  },
+  {
+   "cam": "orbit",
+   "set": "launch",
+   "age": 37,
+   "date": "SEPT 28, 2008",
+   "place": "KWAJALEIN ATOLL",
+   "lines": [
+    "Then the fourth launch reaches orbit, and NASA signs a $1.6 billion deal."
+   ],
+   "extra": 0.8
+  },
+  {
+   "cam": "cars",
+   "set": "factory",
+   "age": 41,
+   "date": "2012",
+   "place": "TESLA",
+   "lines": [
+    "Tesla's Model S becomes a hit. Later comes the steel Cybertruck."
+   ],
+   "extra": 0.6
+  },
+  {
+   "cam": "landing",
+   "set": "launch",
+   "age": 44,
+   "date": "DEC 21, 2015",
+   "place": "CAPE CANAVERAL, FLORIDA",
+   "lines": [
+    "In 2015, a rocket booster flies back from space and lands itself."
+   ],
+   "extra": 1.0
+  },
+  {
+   "cam": "roadster",
+   "set": "space",
+   "age": 46,
+   "date": "FEB 6, 2018",
+   "place": "DEEP SPACE",
+   "lines": [
+    "In 2018, he launches his own red Tesla into space, with a dummy astronaut driving."
+   ],
+   "extra": 0.8
+  },
+  {
+   "cam": "crew",
+   "set": "space",
+   "age": 48,
+   "date": "MAY 31, 2020",
+   "place": "INTERNATIONAL SPACE STATION",
+   "lines": [
+    "In 2020, SpaceX becomes the first company to fly astronauts to the space station."
+   ],
+   "extra": 0.6
+  },
+  {
+   "cam": "twitter",
+   "set": "street",
+   "age": 51,
+   "date": "OCT 2022",
+   "place": "SAN FRANCISCO",
+   "lines": [
+    "In 2022, he buys Twitter for $44 billion and walks in carrying a sink."
+   ],
+   "extra": 0.4
+  },
+  {
+   "cam": "xsign",
+   "set": "street",
+   "age": 51,
+   "date": "2023",
+   "place": "SAN FRANCISCO",
+   "lines": [
+    "Then he renames it X."
+   ],
+   "extra": 0.6
+  },
+  {
+   "cam": "catch",
+   "set": "launch",
+   "age": 53,
+   "date": "OCT 13, 2024",
+   "place": "STARBASE, TEXAS",
+   "lines": [
+    "In 2024, a giant tower snatches a falling booster out of the sky with two metal arms."
+   ],
+   "extra": 1.2
+  },
+  {
+   "cam": "starlink",
+   "set": "space",
+   "age": 55,
+   "date": "OCT 2026",
+   "place": "LOW EARTH ORBIT",
+   "lines": [
+    "Today, more than 11,000 of his Starlink satellites circle the Earth."
+   ],
+   "extra": 0.8
+  },
+  {
+   "cam": "mars",
+   "set": "mars",
+   "age": 55,
+   "date": "TODAY",
+   "place": "NEXT STOP: MARS?",
+   "lines": [
+    "Now 55, he says the next stop is a city on Mars."
+   ],
+   "extra": 1.0,
+   "delay": 0.3
+  }
+ ],
+ "end": {
+  "html": "Whose story should we tell <em>next</em>?",
+  "small": "TELL US BELOW",
+  "after": 0.5,
+  "hold": 4.1
+ },
+ "goldLast": true,
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 30
+ }
+}

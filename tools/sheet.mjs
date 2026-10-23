@@ -13,7 +13,7 @@ const ci = args.indexOf('--cols');
 const dir = path.join(ROOT, 'videos', String(slug), 'stills');
 const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => /^t[\d.]+\.jpg$/.test(f)).sort() : [];
 if (!files.length) { console.error('no stills in ' + dir + ' — run: node tools/render.mjs ' + slug + ' --stills 1,4,8'); process.exit(1); }
-const cols = ci >= 0 ? Number(args[ci + 1]) : Math.min(6, files.length), rows = Math.ceil(files.length / cols);
+const cols = ci >= 0 ? Number(args[ci + 1]) : Math.max(2, Math.min(6, files.length)), rows = Math.ceil(files.length / cols);   // ≥ 2: xstack needs 2+ inputs (a single still used to crash)
 let ffmpeg = process.env.FFMPEG_PATH;
 if (!ffmpeg) { try { ffmpeg = (await import('@ffmpeg-installer/ffmpeg')).default.path; } catch { ffmpeg = 'ffmpeg'; } }
 const inputs = files.flatMap((f) => ['-i', path.join(dir, f)]);

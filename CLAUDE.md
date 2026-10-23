@@ -124,6 +124,13 @@ videos/NNN-slug/
   `buildTheatre` (stage + house + the flag-draped box, `DIMS.theatre.box`), `buildMemorial` (marble temple, pedestal + chair for a
   5.2× statue at z=-5.45 on top of `floorY + 3`). Props: `makeTopHat`, `makeDerby`, `makeBonnet`, `makeKepi`, `makeRifle`,
   `makeQuill`, `makeCannon`, `makeFlag(w,h,poleH)` (`update(t)` waves it), `usFlagTexture()`.
+- `engine/sets/tech.js` (011, spaceflight/tech): `buildSpace` (starfield + textured Earth R=400 at the origin, clouds,
+  atmosphere, `setSpin`, `focusShadow`, `makeStarlinkSwarm(n, alt)`), `buildLaunch` (`setMode('island'|'landing'|'starbase',
+  sky)`, `setExplosion(pos, age)`, `setPlume(pos, k, L, width, cloud)`, catch `tower.setArms(k)`), `buildFactory`
+  (`setMode('day'|'night'|'showroom')`, turntable), `buildSuburb` (1970s Pretoria, jacarandas), `buildCampus` (sandstone
+  arcade), `buildFlight` (above the clouds). Props: `makeFalcon('f1'|'f9')` (`setLegs`, `setFins`), `makeSuperHeavy`,
+  `makeTower`, `makeDragon`, `makeISS`, `makeRoadster`, `makeModelS`, `makeCybertruck`, `makeJet`, `makeCRT` (canvas screen),
+  `makeSink`, `makeSatellite`. Space scenes need `camera.far` ≈ 6000 and `near` ≈ 0.3.
 - `engine/rig.js` (009): `makePerson({beard: color})` chin-curtain beard (`head.beard`, grow with `.scale` 0.62 → 1 and
   `.visible`), `makePerson({dress: color})` long skirt cone (`rig.dress`; hide it when seated — trouser legs in the dress color
   read as a skirt, the cone reads as standing). Marble statue = any rig with every mesh's material swapped to one marble mat,
