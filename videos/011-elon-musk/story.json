@@ -1,0 +1,486 @@
+{
+ "tone": "biography",
+ "look": {
+  "exposure": 1.0,
+  "fill": 0.45,
+  "vignette": 0.32,
+  "bloom": 0.28,
+  "bloomThreshold": 0.9
+ },
+ "fps": 30,
+ "duration": 108.8,
+ "title": {
+  "html": "The story of <em>Elon Musk</em>",
+  "in": -0.4,
+  "out": 3.2
+ },
+ "shots": [
+  {
+   "cam": "earthOpen",
+   "set": "space",
+   "t0": 0.0,
+   "t1": 3.8
+  },
+  {
+   "cam": "birth",
+   "set": "suburb",
+   "t0": 3.8,
+   "t1": 7.85
+  },
+  {
+   "cam": "coding",
+   "set": "room80",
+   "t0": 7.85,
+   "t1": 12.2
+  },
+  {
+   "cam": "blastar",
+   "set": "room80",
+   "t0": 12.2,
+   "t1": 17.25
+  },
+  {
+   "cam": "flight",
+   "set": "flight",
+   "t0": 17.25,
+   "t1": 21.8
+  },
+  {
+   "cam": "campus",
+   "set": "campus",
+   "t0": 21.8,
+   "t1": 26.95
+  },
+  {
+   "cam": "zip2",
+   "set": "office",
+   "t0": 26.95,
+   "t1": 31.8
+  },
+  {
+   "cam": "zip2sale",
+   "set": "office",
+   "t0": 31.8,
+   "t1": 35.6
+  },
+  {
+   "cam": "paypal",
+   "set": "office",
+   "t0": 35.6,
+   "t1": 39.85
+  },
+  {
+   "cam": "spacex",
+   "set": "factory",
+   "t0": 39.85,
+   "t1": 44.3
+  },
+  {
+   "cam": "boom",
+   "set": "launch",
+   "t0": 44.3,
+   "t1": 48.85
+  },
+  {
+   "cam": "broke",
+   "set": "factory",
+   "t0": 48.85,
+   "t1": 54.1
+  },
+  {
+   "cam": "orbit",
+   "set": "launch",
+   "t0": 54.1,
+   "t1": 59.25
+  },
+  {
+   "cam": "cars",
+   "set": "factory",
+   "t0": 59.25,
+   "t1": 63.6
+  },
+  {
+   "cam": "landing",
+   "set": "launch",
+   "t0": 63.6,
+   "t1": 68.65
+  },
+  {
+   "cam": "roadster",
+   "set": "space",
+   "t0": 68.65,
+   "t1": 74.4
+  },
+  {
+   "cam": "crew",
+   "set": "space",
+   "t0": 74.4,
+   "t1": 79.65
+  },
+  {
+   "cam": "twitter",
+   "set": "street",
+   "t0": 79.65,
+   "t1": 84.7
+  },
+  {
+   "cam": "xsign",
+   "set": "street",
+   "t0": 84.7,
+   "t1": 88.8
+  },
+  {
+   "cam": "catch",
+   "set": "launch",
+   "t0": 88.8,
+   "t1": 95.55
+  },
+  {
+   "cam": "starlink",
+   "set": "space",
+   "t0": 95.55,
+   "t1": 100.1
+  },
+  {
+   "cam": "mars",
+   "set": "mars",
+   "t0": 100.1,
+   "t1": 108.8
+  }
+ ],
+ "subs": [
+  [
+   4.0,
+   7.3,
+   "June 28, 1971: in Pretoria, South Africa, Elon Musk is born."
+  ],
+  [
+   8.05,
+   11.65,
+   "At ten, he gets his first computer and teaches himself to code."
+  ],
+  [
+   12.4,
+   16.6,
+   "At twelve, he sells his first video game, Blastar, to a magazine for $500."
+  ],
+  [
+   17.45,
+   21.35,
+   "At seventeen, he moves to Canada on his own, with almost no money."
+  ],
+  [
+   22.0,
+   26.5,
+   "He starts a PhD at Stanford, then quits after two days to build a company."
+  ],
+  [
+   27.15,
+   31.35,
+   "He and his brother Kimbal sleep in the office and shower at the YMCA."
+  ],
+  [
+   32.0,
+   34.4,
+   "In 1999, their startup sells for $307 million."
+  ],
+  [
+   35.8,
+   39.4,
+   "His next company becomes PayPal, and eBay buys it for $1.5 billion."
+  ],
+  [
+   40.05,
+   43.65,
+   "Instead of retiring, he bets his fortune on rockets and starts SpaceX."
+  ],
+  [
+   44.5,
+   47.8,
+   "His first rocket explodes. So does the second, and the third."
+  ],
+  [
+   49.05,
+   53.55,
+   "By 2008 he's almost broke, and Tesla, his car company, is close to going under."
+  ],
+  [
+   54.3,
+   58.2,
+   "Then the fourth launch reaches orbit, and NASA signs a $1.6 billion deal."
+  ],
+  [
+   59.45,
+   62.75,
+   "Tesla's Model S becomes a hit. Later comes the steel Cybertruck."
+  ],
+  [
+   63.8,
+   67.4,
+   "In 2015, a rocket booster flies back from space and lands itself."
+  ],
+  [
+   68.85,
+   73.35,
+   "In 2018, he launches his own red Tesla into space, with a dummy astronaut driving."
+  ],
+  [
+   74.6,
+   78.8,
+   "In 2020, SpaceX becomes the first company to fly astronauts to the space station."
+  ],
+  [
+   79.85,
+   84.05,
+   "In 2022, he buys Twitter for $44 billion and walks in carrying a sink."
+  ],
+  [
+   84.9,
+   86.7,
+   "Then he renames it X."
+  ],
+  [
+   89.0,
+   94.1,
+   "In 2024, a giant tower snatches a falling booster out of the sky with two metal arms."
+  ],
+  [
+   95.75,
+   99.05,
+   "Today, more than 11,000 of his Starlink satellites circle the Earth."
+  ],
+  [
+   100.6,
+   104.2,
+   "Now 55, he says the next stop is a city on Mars."
+  ]
+ ],
+ "hudLabel": "AGE",
+ "hud": [
+  {
+   "t0": 0.0,
+   "t1": 3.8,
+   "from": 0,
+   "to": 0,
+   "time": "JUNE 28, 1971",
+   "age": "PRETORIA, SOUTH AFRICA"
+  },
+  {
+   "t0": 3.8,
+   "t1": 7.85,
+   "from": 0,
+   "to": 0,
+   "time": "JUNE 28, 1971",
+   "age": "PRETORIA, SOUTH AFRICA"
+  },
+  {
+   "t0": 7.85,
+   "t1": 12.2,
+   "from": 0,
+   "to": 10,
+   "time": "1981",
+   "age": "PRETORIA, SOUTH AFRICA",
+   "r0": 7.9,
+   "r1": 8.5
+  },
+  {
+   "t0": 12.2,
+   "t1": 17.25,
+   "from": 10,
+   "to": 12,
+   "time": "1984",
+   "age": "PRETORIA, SOUTH AFRICA",
+   "r0": 12.25,
+   "r1": 12.85
+  },
+  {
+   "t0": 17.25,
+   "t1": 21.8,
+   "from": 12,
+   "to": 17,
+   "time": "JUNE 1989",
+   "age": "SOUTH AFRICA → CANADA",
+   "r0": 17.3,
+   "r1": 17.9
+  },
+  {
+   "t0": 21.8,
+   "t1": 26.95,
+   "from": 17,
+   "to": 24,
+   "time": "1995",
+   "age": "STANFORD, CALIFORNIA",
+   "r0": 21.85,
+   "r1": 22.45
+  },
+  {
+   "t0": 26.95,
+   "t1": 31.8,
+   "from": 24,
+   "to": 24,
+   "time": "1995",
+   "age": "PALO ALTO, CALIFORNIA"
+  },
+  {
+   "t0": 31.8,
+   "t1": 35.6,
+   "from": 24,
+   "to": 27,
+   "time": "FEB 1999",
+   "age": "PALO ALTO, CALIFORNIA",
+   "r0": 31.85,
+   "r1": 32.45
+  },
+  {
+   "t0": 35.6,
+   "t1": 39.85,
+   "from": 27,
+   "to": 31,
+   "time": "JULY 2002",
+   "age": "SILICON VALLEY",
+   "r0": 35.65,
+   "r1": 36.25
+  },
+  {
+   "t0": 39.85,
+   "t1": 44.3,
+   "from": 31,
+   "to": 31,
+   "time": "2002",
+   "age": "EL SEGUNDO, CALIFORNIA"
+  },
+  {
+   "t0": 44.3,
+   "t1": 48.85,
+   "from": 31,
+   "to": 35,
+   "time": "2006 – 2008",
+   "age": "KWAJALEIN ATOLL",
+   "r0": 44.35,
+   "r1": 44.95
+  },
+  {
+   "t0": 48.85,
+   "t1": 54.1,
+   "from": 35,
+   "to": 37,
+   "time": "2008",
+   "age": "LOS ANGELES",
+   "r0": 48.9,
+   "r1": 49.5
+  },
+  {
+   "t0": 54.1,
+   "t1": 59.25,
+   "from": 37,
+   "to": 37,
+   "time": "SEPT 28, 2008",
+   "age": "KWAJALEIN ATOLL"
+  },
+  {
+   "t0": 59.25,
+   "t1": 63.6,
+   "from": 37,
+   "to": 41,
+   "time": "2012",
+   "age": "TESLA",
+   "r0": 59.3,
+   "r1": 59.9
+  },
+  {
+   "t0": 63.6,
+   "t1": 68.65,
+   "from": 41,
+   "to": 44,
+   "time": "DEC 21, 2015",
+   "age": "CAPE CANAVERAL, FLORIDA",
+   "r0": 63.65,
+   "r1": 64.25
+  },
+  {
+   "t0": 68.65,
+   "t1": 74.4,
+   "from": 44,
+   "to": 46,
+   "time": "FEB 6, 2018",
+   "age": "DEEP SPACE",
+   "r0": 68.7,
+   "r1": 69.3
+  },
+  {
+   "t0": 74.4,
+   "t1": 79.65,
+   "from": 46,
+   "to": 48,
+   "time": "MAY 31, 2020",
+   "age": "INTERNATIONAL SPACE STATION",
+   "r0": 74.45,
+   "r1": 75.05
+  },
+  {
+   "t0": 79.65,
+   "t1": 84.7,
+   "from": 48,
+   "to": 51,
+   "time": "OCT 2022",
+   "age": "SAN FRANCISCO",
+   "r0": 79.7,
+   "r1": 80.3
+  },
+  {
+   "t0": 84.7,
+   "t1": 88.8,
+   "from": 51,
+   "to": 51,
+   "time": "2023",
+   "age": "SAN FRANCISCO"
+  },
+  {
+   "t0": 88.8,
+   "t1": 95.55,
+   "from": 51,
+   "to": 53,
+   "time": "OCT 13, 2024",
+   "age": "STARBASE, TEXAS",
+   "r0": 88.85,
+   "r1": 89.45
+  },
+  {
+   "t0": 95.55,
+   "t1": 100.1,
+   "from": 53,
+   "to": 55,
+   "time": "OCT 2026",
+   "age": "LOW EARTH ORBIT",
+   "r0": 95.6,
+   "r1": 96.2
+  },
+  {
+   "t0": 100.1,
+   "t1": 108.8,
+   "from": 55,
+   "to": 55,
+   "time": "TODAY",
+   "age": "NEXT STOP: MARS?",
+   "ageGoldAt": 100.6
+  }
+ ],
+ "end": {
+  "in": 104.7,
+  "html": "Whose story should we tell <em>next</em>?",
+  "small": "TELL US BELOW"
+ },
+ "dips": [],
+ "finalFade": [
+  104.2,
+  104.7
+ ],
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 30
+ }
+}

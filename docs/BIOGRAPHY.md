@@ -89,3 +89,28 @@ returns across the life ties it together. Scene beds per place + a few synced fo
 Hook ("From a dirt-floor log cabin to the Lincoln Memorial 🎩🪓"), 2–3 sentences of the most surprising facts, "Whose story
 should we tell next? 👇", "Send this to your history buff friend", exactly 5 hashtags incl. #animation (+ the name and
 #biography).
+
+## 9. Living people and modern/tech lives (011 Elon Musk)
+- **Birth → today**: no death beat. End on the present + what they say is next ("Now 55, he says the next stop is a city on
+  Mars."). HUD last segment = TODAY. Check every "today" number on the day you render (Starlink count, net-worth rank) and keep
+  volatile figures out of the narration (no dollar net worth — say "the richest person on Earth" only if a current source agrees).
+- **Factual and neutral**: companies, launches, products. Skip politics and personal controversies; nothing speculative.
+- **Spectacle is the draw** (user: "show a lot of cool scenes and props"): give each big machine its own shot and show it
+  *doing* the thing — a launch, an explosion, a booster landing itself, a car in orbit, a capsule docking, a tower catching a
+  booster, a satellite swarm, a city building itself. `engine/sets/tech.js` has the space/launch/factory kit.
+- **Screens are great props for early tech beats**: a 320×240 CRT canvas (`makeCRT().setScreen(draw)`) shown as a POV shot —
+  BASIC code typing, a playable-looking game (Blastar) with "SOLD! $500", a money-by-email UI with a "SOLD TO eBay" stamp.
+- **A famous real moment as a prop** lands well (walking into Twitter HQ carrying a sink).
+- **Author new biographies in shot-local time** (`lt`, `L`, `u`) so shots stretch with the narration automatically; the
+  cue sheet resolves times the same way (`at(cam, lt)` / `at(cam, frac=…)` in 011's make_cues.py). No `src` clock needed.
+- **Recurring cameo**: Gary (002: bald, mustache, blue shirt) can turn up in any crowd — 011 put him front and center in the
+  beach crowd at the booster catch, jaw dropping, then turning to the camera. Keep it to one short beat.
+
+## 10. Staging lessons from 011
+- A long horizontal object (a 34 m rocket stage) against same-colored walls reads as a wall. Film it from one end at a
+  diagonal (engines toward camera) and keep the room darker than the object.
+- For vertical frames, a sitting-on-the-floor pose seen from the front reads as standing (legs foreshortened, bowed head hides
+  the face): seat them on a crate/step and film 3/4 from the side.
+- A capsule docking seen end-on looks like one more module — film docking from the side.
+- The last shot under the end card is only visible until `finalFade` — land everything (the build-up, the reveal) inside
+  that window, not across the whole shot length.
