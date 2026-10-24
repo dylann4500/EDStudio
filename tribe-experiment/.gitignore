@@ -1,0 +1,8 @@
+# Local experiment: never commit the env, model code, caches, raw arrays or video links
+.venv/
+tribev2/
+cache/
+videos/
+results/*.npy
+logs/
+atlas/

@@ -297,6 +297,16 @@ videos/NNN-slug/
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
+## Brain-response check (TRIBE v2 experiment, Oct 2026)
+`tribe-experiment/` runs Meta's TRIBE v2 (predicted fMRI response, CC BY-NC → personal use only) on our `final.mp4`s, locally
+on the Mac. Read `tribe-experiment/results/report.md` first. **It is not a publish gate:** the whole-brain mean ranked the 9
+posted videos like their views (rho 0.93), but account, length (biographies 109–119 s) and video type are confounded with
+views, the same-account link was n.s. (0.80, n=5), and the identical pee-pants video got 986/253/12 views. Useful as a
+dead-zone finder (stretches far below the pooled median). Mac gotchas, all handled in `run_tribe.py` + `mac_patches.py`:
+encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
+`num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
+our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
+
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
 - [ ] Every subtitle readable (≥ 0.3 s per word), never over a face, never overlapping the HUD.
