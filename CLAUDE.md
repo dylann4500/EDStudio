@@ -109,6 +109,15 @@ videos/NNN-slug/
   auto-fits custom text.
 - `addWetPatch(rig, {color})` (rig.js, 012) → `setWet(0..1)`: a darker glossy patch spreads over the crotch + thighs. Cartoon only —
   no liquid, ever. Give crowds LIGHT pants so it reads; a dressed figure gets a separate darker spot on `rig.dress`.
+- `engine/sets/playground.js` (014): sunny downtown playground (rubber floor, slide tower, 3 swings, merry-go-round, seesaw,
+  spring riders, climbing dome, sandbox, benches, towers + a banner `setBanner(text)`), laid out in DEPTH for a vertical frame
+  (camera at z ≈ +5…+6). `setBuild(0..1)` pops the pieces up in order (time-lapse), `update(t, s)` swings/spins/rocks them;
+  `swings[i]`, `carousel`, `seesaw`, `riders[i]` handles let riders follow the motion (014 `parkPose`).
+- **Toddlers / shrinking people (014):** the normal rig at `root.scale 0.5` + `rig.headG.scale 1.6` (a toddler's head is ~80 %
+  of an adult's — 1.35 read as small adults). One rig plays adult ↔ toddler by animating both (`sizeAt` boing). Pose with a
+  `put(rig, key, p, s, rootY, groundY)` helper (010's `putG` with a variable scale); sitting root = ground − s·(HIP_H − 0.17).
+  **Keep the camera at ADULT eye level after a shrink** — dropping it with them made the shrink invisible.
+- `supermarket.setStock(k, belowY)` (014): only shelves lower than `belowY` empty ("everything below 3 feet: gone").
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
@@ -306,6 +315,12 @@ rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as 
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
+**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
+`nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
+`.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead
+zones. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
+every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
+One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.

@@ -47,10 +47,10 @@ export function buildSupermarket(studio, opts = {}) {
   pm.castShadow = true; pm.receiveShadow = true; root.add(pm);
   prod.forEach((p, i) => pm.setColorAt(i, new THREE.Color(p.c)));
   const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _v = new THREE.Vector3(), _s = new THREE.Vector3();
-  let lastK = -1;
-  function setStock(k) {
-    if (k === lastK) return; lastK = k;
-    prod.forEach((p, i) => { const on = p.k < k; _v.set(p.x, p.y + p.h / 2, p.z); _s.set(on ? 0.4 : 0, on ? p.h : 0, on ? p.w : 0); _m.compose(_v, _q, _s); pm.setMatrixAt(i, _m); });
+  let lastK = -1, lastBelow = Infinity;
+  function setStock(k, belowY = Infinity) {   // belowY (014): only shelves lower than this height empty; higher ones stay full
+    if (k === lastK && belowY === lastBelow) return; lastK = k; lastBelow = belowY;
+    prod.forEach((p, i) => { const on = p.y >= belowY || p.k < k; _v.set(p.x, p.y + p.h / 2, p.z); _s.set(on ? 0.4 : 0, on ? p.h : 0, on ? p.w : 0); _m.compose(_v, _q, _s); pm.setMatrixAt(i, _m); });
     pm.instanceMatrix.needsUpdate = true; if (pm.instanceColor) pm.instanceColor.needsUpdate = true;
     fruitBins.forEach((b, i) => (b.visible = k > 0.25 + i * 0.12));
   }

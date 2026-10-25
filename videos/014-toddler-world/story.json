@@ -1,0 +1,244 @@
+{
+  "tone": "montage",
+  "look": {
+    "exposure": 1.02,
+    "fill": 0.45,
+    "vignette": 0.28,
+    "bloom": 0.22,
+    "bloomThreshold": 0.92
+  },
+  "fps": 30,
+  "duration": 69.5,
+  "title": {
+    "html": "What if every adult woke up as a <em>toddler</em>?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.8,
+      5.2,
+      "Monday. 7:00 AM."
+    ],
+    [
+      5.6,
+      8.8,
+      "Every adult on Earth turns two."
+    ],
+    [
+      9.5,
+      11.7,
+      "+1 minute. Gary needs coffee."
+    ],
+    [
+      12.0,
+      14.3,
+      "The counter is 3 feet tall."
+    ],
+    [
+      14.9,
+      17.2,
+      "+10 minutes. Nobody can reach the pedals."
+    ],
+    [
+      17.5,
+      19.8,
+      "So everyone walks to work. And falls."
+    ],
+    [
+      20.3,
+      22.5,
+      "+1 hour. The board meeting."
+    ],
+    [
+      22.8,
+      25.1,
+      "Nap time. All of it."
+    ],
+    [
+      25.7,
+      28.0,
+      "+2 hours. The President addresses the nation."
+    ],
+    [
+      28.4,
+      30.5,
+      "“No.”"
+    ],
+    [
+      31.1,
+      33.4,
+      "+5 hours. The supermarket."
+    ],
+    [
+      33.7,
+      35.9,
+      "Everything below 3 feet: gone."
+    ],
+    [
+      36.5,
+      38.7,
+      "+1 day. Flight 212 to Denver."
+    ],
+    [
+      39.0,
+      41.3,
+      "Every passenger turns around. And stares."
+    ],
+    [
+      41.9,
+      44.1,
+      "+2 days. A wedding."
+    ],
+    [
+      44.4,
+      46.7,
+      "One tantrum. Then cake."
+    ],
+    [
+      47.3,
+      49.6,
+      "+3 days. Every office becomes a playground."
+    ],
+    [
+      49.9,
+      52.8,
+      "Productivity: zero. Happiness: record high."
+    ],
+    [
+      53.5,
+      55.8,
+      "+1 week. Who's watching 8.2 billion toddlers?"
+    ],
+    [
+      56.1,
+      58.3,
+      "The dogs. The dogs are."
+    ],
+    [
+      58.9,
+      61.0,
+      "Day 8, 7:00 AM. Everyone grows back."
+    ],
+    [
+      61.3,
+      64.3,
+      "And 8 billion people call their parents to say sorry."
+    ]
+  ],
+  "hudLabel": "TODDLERS ON EARTH",
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 9.2,
+      "from": 265000000,
+      "to": 8200000000,
+      "r0": 5.2,
+      "r1": 6.6,
+      "time": "MONDAY · 7:00 AM",
+      "ageFrom": "BORN EACH YEAR ~132 MILLION",
+      "age": "AVERAGE ADULT · 34 IN TALL NOW"
+    },
+    {
+      "t0": 9.2,
+      "t1": 14.6,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+1 MINUTE",
+      "age": "KITCHEN COUNTER · 36 IN · 91 CM"
+    },
+    {
+      "t0": 14.6,
+      "t1": 20.0,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+10 MINUTES",
+      "age": "TODDLER FALLS · 17 PER HOUR"
+    },
+    {
+      "t0": 20.0,
+      "t1": 25.4,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+1 HOUR",
+      "age": "SLEEP NEEDED · 11–14 HOURS A DAY"
+    },
+    {
+      "t0": 25.4,
+      "t1": 30.8,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+2 HOURS",
+      "age": "VOCABULARY · ABOUT 50 WORDS"
+    },
+    {
+      "t0": 30.8,
+      "t1": 36.2,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+5 HOURS",
+      "age": "TOP SHELF ITEMS TAKEN · 0"
+    },
+    {
+      "t0": 36.2,
+      "t1": 41.6,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+1 DAY",
+      "age": "FLIGHTS TODAY ~100,000"
+    },
+    {
+      "t0": 41.6,
+      "t1": 47.0,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+2 DAYS",
+      "age": "TANTRUMS · 75% END IN UNDER 5 MIN"
+    },
+    {
+      "t0": 47.0,
+      "t1": 53.2,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+3 DAYS",
+      "age": "TODDLER STEPS · 2,368 PER HOUR"
+    },
+    {
+      "t0": 53.2,
+      "t1": 58.6,
+      "from": 8200000000,
+      "to": 8200000000,
+      "time": "+1 WEEK",
+      "age": "DOGS ON EARTH ~1 BILLION · NOW IN CHARGE"
+    },
+    {
+      "t0": 58.6,
+      "t1": 69.5,
+      "from": 8200000000,
+      "to": 265000000,
+      "r0": 59.0,
+      "r1": 60.4,
+      "time": "DAY 8 · 7:00 AM",
+      "age": "CALLS TO PARENTS · 8 BILLION",
+      "ageGoldAt": 61.3
+    }
+  ],
+  "end": {
+    "in": 65.0,
+    "html": "What would toddler-you do <em>first</em>?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [
+    64.4,
+    65.0
+  ],
+  "debugView": {
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "height": 14
+  }
+}
