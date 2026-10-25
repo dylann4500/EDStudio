@@ -90,13 +90,15 @@ def main():
         rows.append(r)
     df = pd.DataFrame(rows)
 
+    # one row per video: its ORIGINAL upload. Later copies of the same file on other accounts always ranked in upload
+    # order (TikTok holds back re-uploads), so they measure the duplicate penalty, not the video.
     perf = pd.read_csv(HERE / "perf.csv")
-    main_acct = perf[perf.account == "@ed._.studios"].set_index("slug").views
-    best = perf.groupby("slug").views.max()
-    df["views_best"] = df.slug.map(best)
-    df["views_main_acct"] = df.slug.map(main_acct)
-    df["account_of_best"] = df.slug.map(perf.sort_values("views").groupby("slug").account.last())
-    df = df.sort_values("views_best", ascending=False)
+    orig = perf[perf.first_upload == 1].set_index("slug")
+    df["views"] = df.slug.map(orig.views)
+    df["account"] = df.slug.map(orig.account)
+    df["posted_utc"] = df.slug.map(orig.posted_utc)
+    df["views_main_acct"] = df.views.where(df.account == "@ed._.studios")
+    df = df.sort_values("views", ascending=False)
     df.to_csv(RES / "summary.csv", index=False, float_format="%.5g")
 
     metrics = ["wc_mean", "wc_mean_first60", "wc_auc", "wc_abs_mean", "pct_above_thresh", "hook_minus_rest", "sustain_pooled_median",
@@ -106,7 +108,7 @@ def main():
     main = df.dropna(subset=["views_main_acct"])
     top, bot = df.head(3), df.tail(3)
     for m in metrics:
-        rho, pv = stats.spearmanr(np.log10(df.views_best), df[m])
+        rho, pv = stats.spearmanr(np.log10(df.views), df[m])
         out["spearman_all"][m] = {"rho": round(float(rho), 3), "p": round(float(pv), 3)}
         rho, pv = stats.spearmanr(np.log10(main.views_main_acct), main[m])
         out["spearman_main_acct"][m] = {"rho": round(float(rho), 3), "p": round(float(pv), 3), "n": len(main)}
@@ -118,6 +120,21 @@ def main():
         out["top3_vs_bottom3"][m] = {"top3": float(six[:3].mean()), "bottom3": float(six[3:].mean()),
                                      "p_perm": round(p_perm, 3)}
     out["top3"], out["bottom3"] = list(top.slug), list(bot.slug)
+    # posting order: earlier posts had more hours to collect views, and on the main account they came first
+    order = df.posted_utc.rank()
+    out["posting_order"] = {
+        "views_vs_order_all": round(float(stats.spearmanr(order, df.views)[0]), 3),
+        "wc_mean_vs_order_all": round(float(stats.spearmanr(order, df.wc_mean)[0]), 3),
+        "views_vs_order_main": round(float(stats.spearmanr(main.posted_utc.rank(), main.views)[0]), 3),
+        "wc_mean_vs_order_main": round(float(stats.spearmanr(main.posted_utc.rank(), main.wc_mean)[0]), 3),
+    }
+    # brain score vs views with posting order partialled out (rank-based partial correlation)
+    r = lambda a, b: stats.spearmanr(a, b)[0]  # noqa: E731
+    for name, d in (("all", df), ("main", main)):
+        o, v, w = d.posted_utc.rank(), np.log10(d.views), d.wc_mean
+        rvw, rvo, rwo = r(v, w), r(v, o), r(w, o)
+        out["posting_order"][f"wc_mean_vs_views_partial_{name}"] = round(
+            float((rvw - rvo * rwo) / np.sqrt((1 - rvo ** 2) * (1 - rwo ** 2))), 3)
     # confound check: does the predicted response just track low-level motion / brightness / loudness?
     ll_path = RES / "lowlevel.csv"
     if ll_path.exists():
@@ -126,7 +143,7 @@ def main():
         out["confounds"] = {
             m: {lo: round(float(stats.spearmanr(ll[m], ll[lo])[0]), 3) for lo in lows}
             for m in ["wc_mean", "visual_mean", "motion_mean", "auditory_mean", "hook_minus_rest"]}
-        out["lowlevel_vs_views"] = {lo: round(float(stats.spearmanr(np.log10(ll.views_best), ll[lo])[0]), 3)
+        out["lowlevel_vs_views"] = {lo: round(float(stats.spearmanr(np.log10(ll.views), ll[lo])[0]), 3)
                                     for lo in lows}
     ts_path = RES / "lowlevel_ts.npz"
     if ts_path.exists():
@@ -147,11 +164,11 @@ def main():
     out["split_half_rho_wc_mean"] = round(float(stats.spearmanr(h1, h2)[0]), 3)
     # how much of the views link survives without the two outliers (lowest whole-cortex means)?
     rest = df.nsmallest(len(df), "wc_mean").iloc[2:]
-    out["spearman_wc_mean_without_2_lowest"] = round(float(stats.spearmanr(np.log10(rest.views_best), rest.wc_mean)[0]), 3)
+    out["spearman_wc_mean_without_2_lowest"] = round(float(stats.spearmanr(np.log10(rest.views), rest.wc_mean)[0]), 3)
     (RES / "stats.json").write_text(json.dumps(out, indent=1))
     plots(preds, df, masks)
     brain_maps(preds, list(top.slug), list(bot.slug))
-    print(df[["slug", "views_best", "wc_mean", "pct_above_thresh", "hook_minus_rest", "sustain_pooled_median"]]
+    print(df[["slug", "views", "wc_mean", "pct_above_thresh", "hook_minus_rest", "sustain_pooled_median"]]
           .to_string(index=False))
     print(f"threshold(p90)={THRESH:.4f}")
 
@@ -167,7 +184,7 @@ def plots(preds, df, masks):
     for i, slug in enumerate(order):
         p = preds[slug]
         c = cmap(i / max(1, len(order) - 1))
-        lab = f"{slug} ({int(df.set_index('slug').views_best[slug]):,} views)"
+        lab = f"{slug} ({int(df.set_index('slug').views[slug]):,} views)"
         axes[0].plot(p.mean(1), color=c, lw=1.6, label=lab)
         axes[1].plot(p[:, masks["visual"]].mean(1), color=c, lw=1.2)
         axes[2].plot(p[:, masks["auditory"]].mean(1), color=c, lw=1.2)
@@ -182,12 +199,12 @@ def plots(preds, df, masks):
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4))
     for ax, m in zip(axes, ["wc_mean", "hook_minus_rest", "sustain_pooled_median"]):
-        ax.scatter(df.views_best, df[m], color="#3b6ea5")
+        ax.scatter(df.views, df[m], color="#3b6ea5")
         for _, r in df.iterrows():
-            ax.annotate(r.slug.split("-", 1)[0], (r.views_best, r[m]), fontsize=8, xytext=(3, 3),
+            ax.annotate(r.slug.split("-", 1)[0], (r.views, r[m]), fontsize=8, xytext=(3, 3),
                         textcoords="offset points")
         ax.set_xscale("log")
-        ax.set_xlabel("views (best account)")
+        ax.set_xlabel("views (original upload)")
         ax.set_title(m, fontsize=10)
         ax.grid(alpha=0.25)
     fig.tight_layout()

@@ -299,10 +299,10 @@ videos/NNN-slug/
 
 ## Brain-response check (TRIBE v2 experiment, Oct 2026)
 `tribe-experiment/` runs Meta's TRIBE v2 (predicted fMRI response, CC BY-NC → personal use only) on our `final.mp4`s, locally
-on the Mac. Read `tribe-experiment/results/report.md` first. **It is not a publish gate:** the whole-brain mean ranked the 9
-posted videos like their views (rho 0.93), but account, length (biographies 109–119 s) and video type are confounded with
-views, the same-account link was n.s. (0.80, n=5), and the identical pee-pants video got 986/253/12 views. Useful as a
-dead-zone finder (stretches far below the pooled median). Mac gotchas, all handled in `run_tribe.py` + `mac_patches.py`:
+on the Mac. Read `tribe-experiment/results/report.md` first. **It is not a publish gate:** the whole-brain mean ranked the 10
+original uploads like their views (rho 0.84), but on @ed._.studios views follow posting order (−0.94) and the brain score
+doesn't (same-account rho 0.37, n=6; 013 scored highest yet was 5th of 6). Re-uploads of one file to other accounts always
+rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as a dead-zone finder. Mac gotchas, all handled in `run_tribe.py` + `mac_patches.py`:
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
