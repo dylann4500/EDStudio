@@ -8,7 +8,12 @@ Import this before building the model. It changes HOW features are computed, nev
   each layer before stacking instead of stacking 41 x 8192 x 1408 floats (3.8 GB) and averaging after.
 - fp16 V-JEPA 2: on one test clip, fp16 token-mean features matched fp32 with correlation 0.999997 on every layer
   (max relative error 0.09%), at half the memory (4.8 vs 9.7 GB) and ~1.5-2x the speed.
+- per-clip cache (cache/clipcache/): identical 64-frame clips across versions of a video are encoded once.
 """
+import hashlib
+from pathlib import Path
+
+import numpy as np
 import torch
 import torch.nn.functional as F
 from transformers import AttentionInterface
@@ -44,11 +49,23 @@ def _init(self, *a, **kw):
                                     for k, v in kw.items()}), with_kwargs=True)
 
 
+CLIP_CACHE = Path(__file__).resolve().parent / "cache" / "clipcache"
+
+
 def _predict_hidden_states(self, images, audio=None):
     if "vjepa2" not in self.model_name:
         return _orig_phs(self, images, audio)
+    # per-clip cache keyed by the frames themselves: when a new version of a video changes only a few beats, every 64-frame
+    # clip that is byte-identical to an earlier version (sampled every 4th pixel) is reused instead of re-encoded
+    key = hashlib.sha1(np.ascontiguousarray(np.asarray(images)[:, ::4, ::4]).tobytes()).hexdigest()
+    f = CLIP_CACHE / f"{key}.npy"
+    if f.exists():
+        return torch.from_numpy(np.load(f))
     states = self.predict(images, audio).hidden_states  # each (B, tokens, D)
-    return torch.cat([x.mean(1, keepdim=True, dtype=torch.float32).unsqueeze(1) for x in states], 1)  # (B, L, 1, D)
+    out = torch.cat([x.mean(1, keepdim=True, dtype=torch.float32).unsqueeze(1) for x in states], 1)  # (B, L, 1, D)
+    CLIP_CACHE.mkdir(parents=True, exist_ok=True)
+    np.save(f, out.cpu().numpy())
+    return out
 
 
 _orig_phs = ns_video._HFVideoModel.predict_hidden_states

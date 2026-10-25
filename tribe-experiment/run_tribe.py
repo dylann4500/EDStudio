@@ -22,9 +22,9 @@ import time
 from pathlib import Path
 
 os.environ.setdefault("PYTORCH_ENABLE_MPS_FALLBACK", "1")
-# hard cap on GPU memory (~14 GB of 24): fail with an error instead of pushing the Mac into swap
-os.environ.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", "0.75")
-os.environ.setdefault("PYTORCH_MPS_LOW_WATERMARK_RATIO", "0.6")
+# hard cap on GPU memory (~9.5 GB of 24; 0.75 let the cache grow to 11 GB and swap): fail with an error instead of pushing the Mac into swap
+os.environ.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", "0.5")
+os.environ.setdefault("PYTORCH_MPS_LOW_WATERMARK_RATIO", "0.4")
 
 import numpy as np
 import pandas as pd
