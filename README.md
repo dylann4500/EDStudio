@@ -4,6 +4,10 @@ Procedural 3D story Reels — toy-like characters, warm night light, a counter o
 Each video is code (Three.js) rendered frame-by-frame in headless Chrome and encoded with ffmpeg. Music + sound effects are
 synthesized in Python (royalty-free). Built to be driven by Claude Code: `/new-video 2` makes the next video end to end.
 
+**New here? Read [GET-STARTED.md](GET-STARTED.md)** — what you need, and one prompt to paste into Claude Code that sets up your
+own channel and daily posting operation (manager Claude + producer sessions + brain-score gate + approval on your phone:
+[docs/OPERATION.md](docs/OPERATION.md)).
+
 **Video 001:** `videos/001-bedroom-door/final.mp4` — *"What your mom did every night after you fell asleep."*
 
 ## Quick start (any Mac / Windows / Linux with a GPU)
