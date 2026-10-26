@@ -1,0 +1,66 @@
+{
+  "tone": "whatif",
+  "look": {
+    "exposure": 1.02,
+    "fill": 0.45,
+    "vignette": 0.28,
+    "bloom": 0.22,
+    "bloomThreshold": 0.92
+  },
+  "fps": 30,
+  "duration": 73.8,
+  "title": {
+    "html": "What if <em>gravity</em> turned off for 5 seconds?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [3.8, 6.3, "London. The last minute of a cup final."],
+    [8.3, 10.4, "Second 0: gravity switches off."],
+    [10.8, 13.9, "Everyone mid-jump just… keeps going up."],
+    [14.5, 16.7, "Ohio. A dad lifts his coffee."],
+    [16.9, 18.8, "He stops. The coffee doesn’t."],
+    [19.3, 21.7, "A diver leaves the 3-meter board."],
+    [21.9, 23.6, "He isn’t coming down."],
+    [24.1, 26.6, "Every car’s springs push it off the road."],
+    [26.75, 28.55, "The road curves. The cars don’t."],
+    [28.9, 31.6, "The ocean was squeezed by its own weight."],
+    [31.8, 33.35, "Now it springs back up."],
+    [33.7, 35.9, "A bungee cord, stretched 50 meters."],
+    [36.0, 38.1, "It fires him back over the bridge."],
+    [38.5, 40.9, "Quito. The ground spins at 1,670 km/h."],
+    [41.05, 42.95, "You go straight. It curves away."],
+    [43.3, 45.5, "400 km up, the crew notices nothing."],
+    [45.7, 47.6, "They’ve been falling all along."],
+    [48.1, 50.8, "The fans who jumped are 12 meters up."],
+    [51.0, 52.9, "Gravity comes back in one second."],
+    [53.2, 55.4, "+5 s. Gravity is back."],
+    [55.8, 58.0, "Everything falls at once."],
+    [58.3, 60.4, "The ocean drops 35 meters."],
+    [62.4, 65.4, "And the diver just did a 27-meter cliff dive."],
+    [66.0, 68.8, "Five seconds. Every jump became a cliff dive."]
+  ],
+  "hudLabel": "TIME WITHOUT GRAVITY",
+  "hud": [
+    { "t0": 0.0, "t1": 8.2, "from": 0, "to": 0, "dec": 1, "unit": " s", "time": "LONDON · 3:00 PM", "age": "GRAVITY · 9.81 m/s²" },
+    { "t0": 8.2, "t1": 14.2, "from": 0, "to": 0.5, "r0": 8.2, "r1": 14.2, "ease": "linear", "dec": 1, "unit": " s", "time": "LONDON · 3:00 PM", "age": "FANS RISING · 2.8 m/s" },
+    { "t0": 14.2, "t1": 19.0, "from": 0.5, "to": 1.0, "r0": 14.2, "r1": 19.0, "ease": "linear", "dec": 1, "unit": " s", "time": "OHIO · 10:00 AM", "age": "YOUR COFFEE WEIGHS · 0 g" },
+    { "t0": 19.0, "t1": 23.8, "from": 1.0, "to": 1.5, "r0": 19.0, "r1": 23.8, "ease": "linear", "dec": 1, "unit": " s", "time": "BUDAPEST · 4:00 PM", "age": "DIVER · 4.6 m/s UP · 10 m HIGH" },
+    { "t0": 23.8, "t1": 28.6, "from": 1.5, "to": 2.0, "r0": 23.8, "r1": 28.6, "ease": "linear", "dec": 1, "unit": " s", "time": "TEXAS · 9:00 AM", "age": "CARS RISING · 1.3 m/s" },
+    { "t0": 28.6, "t1": 33.4, "from": 2.0, "to": 2.5, "r0": 28.6, "r1": 33.4, "ease": "linear", "dec": 1, "unit": " s", "time": "MAINE · 10:00 AM", "age": "SEA LEVEL · +30 m · RISING" },
+    { "t0": 33.4, "t1": 38.2, "from": 2.5, "to": 3.0, "r0": 33.4, "r1": 38.2, "ease": "linear", "dec": 1, "unit": " s", "time": "VICTORIA FALLS · 4:00 PM", "age": "JUMPER · 160 km/h · UPWARD" },
+    { "t0": 38.2, "t1": 43.0, "from": 3.0, "to": 3.5, "r0": 38.2, "r1": 43.0, "ease": "linear", "dec": 1, "unit": " s", "time": "QUITO · 9:00 AM · THE EQUATOR", "age": "YOUR FEET · 21 cm OFF THE GROUND" },
+    { "t0": 43.0, "t1": 47.8, "from": 3.5, "to": 4.0, "r0": 43.0, "r1": 47.8, "ease": "linear", "dec": 1, "unit": " s", "time": "400 km UP", "age": "ISS · 27,600 km/h · ALWAYS WEIGHTLESS" },
+    { "t0": 47.8, "t1": 53.0, "from": 4.0, "to": 5.0, "r0": 47.8, "r1": 53.0, "ease": "linear", "dec": 1, "unit": " s", "time": "LONDON · 3:00 PM", "age": "HIGHEST FAN · 14 m UP" },
+    { "t0": 53.0, "t1": 62.2, "from": 5.0, "to": 5.0, "dec": 1, "unit": " s", "time": "EVERYWHERE · AT ONCE", "age": "GRAVITY · 9.81 m/s² · BACK", "ageGoldAt": 53.0 },
+    { "t0": 62.2, "t1": 73.8, "from": 5.0, "to": 5.0, "dec": 1, "unit": " s", "time": "BUDAPEST · 4:00 PM", "age": "DIVER · 27 m FALL · 83 km/h" }
+  ],
+  "end": {
+    "in": 69.6,
+    "html": "Would you survive the <em>landing</em>?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [69.0, 69.6],
+  "debugView": { "center": [0, 0, 0], "height": 60 }
+}

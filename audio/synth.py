@@ -1076,6 +1076,73 @@ def sfx_distant_boom(rng, dur=3.5, size=1.0):
     return Sound(norm(fades(x, 0.002, 0.5), 0.9), anchor=0.0, onsets=[0.0])
 
 
+# ---- 017 (gravity off): water, a kick, the moment the weight goes away -----------------------------------------------
+def sfx_water_splash(rng, dur=1.6, size=1.0):
+    """Something big lands in water (017): a low hollow 'whump' + a soft hiss of spray + a few droplets falling back.
+    size 0.2 = a coffee splat, 1 = a diver, 3 = the ocean slamming down. Low-passed and round, never a sharp slap."""
+    dur = dur * (0.6 + 0.4 * size)
+    n = nsamp(dur)
+    t = tvec(n)
+    whump = np.sin(2 * np.pi * (70 / (0.7 + 0.3 * size) + 60 * np.exp(-t / 0.04)) * t) * np.exp(-t / (0.09 * (0.6 + 0.4 * size)))
+    spray = bp(white(n, rng), 600, 4200) * (1 - np.exp(-t / 0.01)) * np.exp(-t / (0.22 * size ** 0.5))
+    body = lp(pink(n, rng), 900) * np.exp(-t / (0.35 * size ** 0.6))
+    drops = np.zeros(n)
+    for k in range(int(10 * min(size, 2) + 4)):
+        t0 = 0.15 + rng.uniform(0, dur * 0.6)
+        i0 = nsamp(t0); m = nsamp(0.035)
+        d = np.sin(2 * np.pi * rng.uniform(700, 1500) * tvec(m) * (1 + 2 * tvec(m))) * np.exp(-tvec(m) / 0.008) * rng.uniform(0.05, 0.15)
+        drops[i0:i0 + m] += d[: max(0, n - i0)]
+    x = 1.1 * whump + 0.55 * unit_rms(spray) * 0.4 + 0.6 * unit_rms(body) * 0.5 + drops
+    x = lp(x, 3600 if size < 2 else 2400, 2)
+    x = x + (0.6 + 0.6 * min(size, 2)) * convolve(x, outdoor_ir())
+    return Sound(norm(fades(x, 0.001, 0.3), 0.9), anchor=0.0, onsets=[0.0])
+
+
+def sfx_kick(rng, dur=0.35):
+    """A football struck cleanly (017): a short low leather thump with a soft click on top, low-passed."""
+    n = nsamp(dur)
+    t = tvec(n)
+    thump = np.sin(2 * np.pi * (95 + 80 * np.exp(-t / 0.012)) * t) * np.exp(-t / 0.045)
+    click = lp(bp(white(n, rng), 1200, 3200) * np.exp(-t / 0.006), 3000) * 0.35
+    x = thump + click
+    x = x + 0.8 * convolve(x, outdoor_ir())
+    return Sound(norm(fades(x, 0.0005, 0.05), 0.85), onsets=[(0.0, "transient")])
+
+
+def sfx_pressure_drop(rng, dur=2.2):
+    """The moment the weight goes away (017): a sub that sinks in pitch + a soft inward rush of filtered air that thins out.
+    Peaks at the start (anchor 0) and fades; deep and smooth, no whoosh."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 62 * 2 ** (-1.2 * t / dur)
+    sub = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / (0.45 * dur))
+    fc = 900 * 2 ** (-2.5 * t / dur)
+    air = sweep_filter(pink(n, rng), fc, q=0.7, kind="bp") * (1 - np.exp(-t / 0.05)) * np.exp(-t / (0.3 * dur))
+    x = sub + 0.5 * unit_rms(air) * 0.5
+    return Sound(norm(fades(x, 0.01, 0.2), 0.9), anchor=0.0, onsets=[(0.0, "soft")])
+
+
+def amb_surf(dur, rng, size=1.0):
+    """Ocean / water bed (017): slow swelling waves of filtered noise every ~5–8 s (size 1 = sea against rocks,
+    0.3 = a pool or a fountain's gentle wash). Dark and soft."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        base = 0.55 * brown(n, rng) + 0.45 * pink(n, rng)
+        sw = np.zeros(n)
+        tt = rng.uniform(0, 2)
+        while tt < dur + 6:
+            per = rng.uniform(5, 8) / max(0.5, size)
+            env = np.exp(-((t - tt) / (0.9 * per * 0.35)) ** 2)
+            sw += env * rng.uniform(0.6, 1.0)
+            tt += per
+        fc = 500 + 1400 * size * np.clip(sw, 0, 1.2)
+        y = unit_rms(sweep_filter(base, fc, 0.6, kind="lp")) * (0.35 + 0.65 * np.clip(sw, 0, 1))
+        out.append(lp(y, 2600 if size >= 0.6 else 4200))
+    return norm(np.vstack(out))
+
+
 def amb_room_tone(dur, rng):
     n = nsamp(dur)
     out = []
@@ -1346,6 +1413,7 @@ AMBIENCE = {
     "dry_leaves": amb_dry_leaves,
     "sleigh_bells": amb_sleigh_bells,
     "lamp_hum": amb_lamp_hum,
+    "surf": amb_surf,
 }
 
 # =============================================================================
@@ -1556,105 +1624,104 @@ def compose(M, mallet=None, strings=None):
     for i, (t0, sym) in enumerate(chords):
         t1 = ctimes[i + 1]
         span = t1 - t0
-        S = section_at(t0)
-        if S is None:
-            continue
-        V = voicing(sym)
-        v = interp_bp(S.get("vel", 0.25), t0)
-        st = S["style"]
-        roll = S.get("roll", 0.06)
-        if st == "held":
-            for k, m in enumerate(V["lh"][:3]):
-                add(t0 + k * roll, m, v * (1.0 - 0.12 * k))
-        elif st == "thin":
-            add(t0, V["bass"], v)
-            add(t0 + roll, V["lh"][1], v * 0.8)
-        elif st == "sparse":
-            add(t0, V["bass"] + 12, v * 0.9)
-        elif st in ("arp", "swell"):
-            step = S.get("step", 0.444)
-            pat = S.get("pattern", [0, 1, 2, 3, 2, 1])
-            nst = max(1, int(round(span / step)))
-            stp = span / nst
-            for k in range(nst):
-                tk = t0 + k * stp
-                vk = interp_bp(S.get("vel", 0.25), tk) * (1.0 if k == 0 else 0.78 - 0.04 * (k % 2))
-                add(tk, V["lh"][pat[k % len(pat)]], vk)
-            if st == "swell":
-                if V["bass"] - 12 >= 33:  # sub-octave only where it stays out of the mud
-                    add(t0, V["bass"] - 12, v * 0.65)
+        # M["layers"] (017): extra sections drawn on top of the main one (e.g. a low string drive under a pluck arp)
+        for S in [s for s in [section_at(t0)] + [x for x in M.get("layers", []) if x["t0"] - 1e-6 <= t0 < x["t1"] - 1e-6] if s is not None]:
+            V = voicing(sym)
+            v = interp_bp(S.get("vel", 0.25), t0)
+            st = S["style"]
+            roll = S.get("roll", 0.06)
+            if st == "held":
+                for k, m in enumerate(V["lh"][:3]):
+                    add(t0 + k * roll, m, v * (1.0 - 0.12 * k))
+            elif st == "thin":
+                add(t0, V["bass"], v)
+                add(t0 + roll, V["lh"][1], v * 0.8)
+            elif st == "sparse":
+                add(t0, V["bass"] + 12, v * 0.9)
+            elif st in ("arp", "swell"):
+                step = S.get("step", 0.444)
+                pat = S.get("pattern", [0, 1, 2, 3, 2, 1])
+                nst = max(1, int(round(span / step)))
+                stp = span / nst
+                for k in range(nst):
+                    tk = t0 + k * stp
+                    vk = interp_bp(S.get("vel", 0.25), tk) * (1.0 if k == 0 else 0.78 - 0.04 * (k % 2))
+                    add(tk, V["lh"][pat[k % len(pat)]], vk)
+                if st == "swell":
+                    if V["bass"] - 12 >= 33:  # sub-octave only where it stays out of the mud
+                        add(t0, V["bass"] - 12, v * 0.65)
+                    for k, m in enumerate(V["rh"]):
+                        add(t0 + 0.03 + 0.025 * k, m, v * 0.5)
+            elif st == "pulse":
+                step = S.get("step", 0.5)
+                if S.get("step_last") and abs(t1 - S["t1"]) < 1e-6:
+                    step = S["step_last"]
+                nst = max(1, int(round(span / step)))
+                stp = span / nst
+                add(t0, V["bass"], v * 0.9)
+                if i > 0 and chords[i - 1][0] >= S["t0"]:
+                    add(t0 + 0.02, V["bass"] + 12, v * 0.6)
+                top = V["rh"]
+                pair = [top[0], top[1]] if len(top) >= 2 else top
+                for k in range(nst):
+                    tk = t0 + k * stp
+                    vk = interp_bp(S.get("vel", 0.25), tk) * (0.95 if k % 2 == 0 else 0.78)
+                    for m in pair:
+                        add(tk, m, vk * 0.75, hold=min(stp * 1.6, pedal_up(tk) - tk))
+            elif st == "bounce":
+                # comedy "oom-pah": short bass on beats 1+3, short soft chord stabs on 2+4 (staccato, no pedal smear)
+                step = S.get("step", 0.5)
+                nst = max(1, int(round(span / step)))
+                stp = span / nst
+                for k in range(nst):
+                    tk = t0 + k * stp
+                    vk = interp_bp(S.get("vel", 0.25), tk)
+                    # note lengths as a fraction of the beat; long enough that the groove never sounds like it cuts out
+                    if k % 2 == 0:
+                        add(tk, V["bass"] if k % 4 == 0 else V["bass"] + 7 if V["bass"] + 7 < 60 else V["bass"], vk * 0.85, hold=stp * S.get("bass_hold", 1.6))
+                    else:
+                        for j, m in enumerate(V["rh"][:3]):
+                            add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+            elif st == "strings":
+                # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
+                # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
+                step = S.get("step", 0.125)
+                nst = max(1, int(round(span / step)))
+                stp = span / nst
+                tones = [m + 12 * S.get("octave", 0) for m in V["lh"]]
+                pat = S.get("pattern", [0, 0, 1, 0, 2, 0, 1, 0])
+                acc = S.get("accent", [1.0, 0.7, 0.8, 0.7])
+                for k in range(nst):
+                    tk = t0 + k * stp
+                    vk = interp_bp(S.get("vel", 0.3), tk) * acc[k % len(acc)]
+                    adds(tk, tones[pat[k % len(pat)] % len(tones)], vk, stp * S.get("len", 0.6))
+                if S.get("sustain"):
+                    for j, m in enumerate(V["rh"]):
+                        adds(t0 + 0.01 * j, m - 12 + 12 * S.get("sustain_octave", 0), interp_bp(S.get("vel", 0.3), t0) * S["sustain"], span)
+            elif st == "ostinato":
+                # world/explainer tone: a steady, curious repeating figure (default on the soft mallet) over chord tones,
+                # + a short piano bass note every `bass_every` steps. pattern indexes [rh triad, rh triad + 12].
+                step = S.get("step", 0.27)
+                nst = max(1, int(round(span / step)))
+                stp = span / nst
+                tones = V["rh"] + [m + 12 for m in V["rh"]]
+                pat = S.get("pattern", [0, 1, 2, 4, 2, 1])
+                be = S.get("bass_every", 4)
+                for k in range(nst):
+                    tk = t0 + k * stp
+                    vk = interp_bp(S.get("vel", 0.25), tk) * (1.0 if k % 2 == 0 else 0.82)
+                    m = tones[pat[(k + int(round((t0 - S["t0"]) / stp))) % len(pat)] % len(tones)] + S.get("transpose", 0)
+                    if S.get("inst", "mallet") == "mallet":
+                        addm(tk, m, vk, stp * S.get("len", 0.9))
+                    else:
+                        add(tk, m, vk * 0.8, hold=stp * S.get("len", 0.9))
+                    if be and k % be == 0:
+                        add(tk, V["bass"], interp_bp(S.get("vel", 0.25), tk) * S.get("bass_vel", 0.8), hold=stp * be * 0.9)
+            elif st == "cadence":
+                for k, m in enumerate(V["lh"][:3]):
+                    add(t0 + k * roll, m, v * (1.0 - 0.1 * k))
                 for k, m in enumerate(V["rh"]):
-                    add(t0 + 0.03 + 0.025 * k, m, v * 0.5)
-        elif st == "pulse":
-            step = S.get("step", 0.5)
-            if S.get("step_last") and abs(t1 - S["t1"]) < 1e-6:
-                step = S["step_last"]
-            nst = max(1, int(round(span / step)))
-            stp = span / nst
-            add(t0, V["bass"], v * 0.9)
-            if i > 0 and chords[i - 1][0] >= S["t0"]:
-                add(t0 + 0.02, V["bass"] + 12, v * 0.6)
-            top = V["rh"]
-            pair = [top[0], top[1]] if len(top) >= 2 else top
-            for k in range(nst):
-                tk = t0 + k * stp
-                vk = interp_bp(S.get("vel", 0.25), tk) * (0.95 if k % 2 == 0 else 0.78)
-                for m in pair:
-                    add(tk, m, vk * 0.75, hold=min(stp * 1.6, pedal_up(tk) - tk))
-        elif st == "bounce":
-            # comedy "oom-pah": short bass on beats 1+3, short soft chord stabs on 2+4 (staccato, no pedal smear)
-            step = S.get("step", 0.5)
-            nst = max(1, int(round(span / step)))
-            stp = span / nst
-            for k in range(nst):
-                tk = t0 + k * stp
-                vk = interp_bp(S.get("vel", 0.25), tk)
-                # note lengths as a fraction of the beat; long enough that the groove never sounds like it cuts out
-                if k % 2 == 0:
-                    add(tk, V["bass"] if k % 4 == 0 else V["bass"] + 7 if V["bass"] + 7 < 60 else V["bass"], vk * 0.85, hold=stp * S.get("bass_hold", 1.6))
-                else:
-                    for j, m in enumerate(V["rh"][:3]):
-                        add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
-        elif st == "strings":
-            # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
-            # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
-            step = S.get("step", 0.125)
-            nst = max(1, int(round(span / step)))
-            stp = span / nst
-            tones = [m + 12 * S.get("octave", 0) for m in V["lh"]]
-            pat = S.get("pattern", [0, 0, 1, 0, 2, 0, 1, 0])
-            acc = S.get("accent", [1.0, 0.7, 0.8, 0.7])
-            for k in range(nst):
-                tk = t0 + k * stp
-                vk = interp_bp(S.get("vel", 0.3), tk) * acc[k % len(acc)]
-                adds(tk, tones[pat[k % len(pat)] % len(tones)], vk, stp * S.get("len", 0.6))
-            if S.get("sustain"):
-                for j, m in enumerate(V["rh"]):
-                    adds(t0 + 0.01 * j, m - 12 + 12 * S.get("sustain_octave", 0), interp_bp(S.get("vel", 0.3), t0) * S["sustain"], span)
-        elif st == "ostinato":
-            # world/explainer tone: a steady, curious repeating figure (default on the soft mallet) over chord tones,
-            # + a short piano bass note every `bass_every` steps. pattern indexes [rh triad, rh triad + 12].
-            step = S.get("step", 0.27)
-            nst = max(1, int(round(span / step)))
-            stp = span / nst
-            tones = V["rh"] + [m + 12 for m in V["rh"]]
-            pat = S.get("pattern", [0, 1, 2, 4, 2, 1])
-            be = S.get("bass_every", 4)
-            for k in range(nst):
-                tk = t0 + k * stp
-                vk = interp_bp(S.get("vel", 0.25), tk) * (1.0 if k % 2 == 0 else 0.82)
-                m = tones[pat[(k + int(round((t0 - S["t0"]) / stp))) % len(pat)] % len(tones)] + S.get("transpose", 0)
-                if S.get("inst", "mallet") == "mallet":
-                    addm(tk, m, vk, stp * S.get("len", 0.9))
-                else:
-                    add(tk, m, vk * 0.8, hold=stp * S.get("len", 0.9))
-                if be and k % be == 0:
-                    add(tk, V["bass"], interp_bp(S.get("vel", 0.25), tk) * S.get("bass_vel", 0.8), hold=stp * be * 0.9)
-        elif st == "cadence":
-            for k, m in enumerate(V["lh"][:3]):
-                add(t0 + k * roll, m, v * (1.0 - 0.1 * k))
-            for k, m in enumerate(V["rh"]):
-                add(t0 + 3 * roll + k * roll * 0.7, m, v * 0.7)
+                    add(t0 + 3 * roll + k * roll * 0.7, m, v * 0.7)
     for mel in M.get("melody", []):
         t, m, v = mel[0], mel[1], mel[2]
         octv = len(mel) > 3 and mel[3]
@@ -1719,6 +1786,8 @@ def render_music(M, n_total, log=print):
         y = piano_note(m, v, h) if inst == "piano" else pluck_note(m, v, h, inst)
         place(dry, pan2(y, float(np.clip((m - 62) / 34.0, -0.4, 0.4))), nsamp(t))
     log(f"  piano: {len(notes)} notes ({len(_PIANO_CACHE)} unique) in {time.time() - t0:.1f}s")
+    if M.get("echo") and M.get("echo_notes_only"):     # 017: echo the plucks only, not the strings/drums added below
+        dry = echo(dry, **M["echo"])
     if mallet:
         md = np.zeros((2, n_total))
         for k, (t, m, v, h) in enumerate(mallet):
@@ -1746,7 +1815,7 @@ def render_music(M, n_total, log=print):
         dd = dd + db2lin(-8.0) * convolve(dd, hall_ir())
         dry += db2lin(M.get("drums_db", -2.0)) * dd
         log(f"  drums: {len(hits)} hits")
-    if M.get("echo"):
+    if M.get("echo") and not M.get("echo_notes_only"):
         dry = echo(dry, **M["echo"])
     piano = dry + db2lin(M.get("reverb_db", -9)) * convolve(dry, hall_ir())
     pad = render_pad(M.get("pad", []), n_total)
@@ -1988,6 +2057,9 @@ SFX = {
     "keyboard_type": (sfx_keyboard_type, "prop"),
     "crow_caw": (sfx_crow_caw, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),
+    "water_splash": (sfx_water_splash, "prop"),
+    "kick": (sfx_kick, "prop"),
+    "pressure_drop": (sfx_pressure_drop, "ui"),
 }
 
 # =============================================================================

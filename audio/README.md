@@ -121,3 +121,16 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
 - Hums (`lamp_hum`) get loud fast — keep them ≤ −50 dB or they become the loudest thing in the shot (006 capsule hit −12.7 LUFS).
 - Don't put an event at t < 0.03 s (verify() slices a window before the cue and crashes on an empty array).
 - Generate the sheet with a script (`videos/006-memory-loss/make_cues.py`).
+
+## Science / cinematic (017 gravity off) — curious plucks that turn epic
+- **Layered sections:** `music.layers` = extra sections drawn ON TOP of the main `sections` (the synth used to take only the first
+  section that covers a chord). 017 runs a pluck `arp` with a low `strings` drive layered under it from the bungee beat on.
+- `music.echo_notes_only: true` echoes the pluck/piano notes only — strings and taiko stay dry (echoed taiko = mud).
+- A slow-motion stretch with a pluck arp needs BOTH a drone pad and a soft chord pad that follows the progression (level ~0.5,
+  overlapping 0.35 s) — 8ths at 96 bpm + drone alone still dropped out 62 times; with the chord pad: none.
+- New sounds: `water_splash` (size 0.2 coffee splat → 1 diver → 3 the ocean slamming down), `kick` (football strike),
+  `pressure_drop` (the moment the weight goes away: a sinking sub + inward air, anchor at the start), ambience `surf`
+  (size 1 sea on rocks, 0.3 pool/fountain wash).
+- Arc that worked: quiet stadium open (−34 LUFS) → kick + roar → SECOND 0 pressure drop + braam, the roar falls away → plucks build
+  place by place (−18 → −14) → tom roll into the countdown (−12) → boom + strings stomp under the landings (−13) → warm F major
+  for the button (−17). LRA 7. Beds at −35…−45 with amb stem +9 so each place is audible under the score.

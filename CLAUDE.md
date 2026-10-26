@@ -172,6 +172,19 @@ videos/NNN-slug/
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
   Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
+- **Science-lane sets (017, gravity off):** `engine/sets/stadium.js` (football stadium: striped pitch + markings, goals with a
+  deformable back net `setBulge(k, y, z)`, LED ad boards, 4 stands of ~22k instanced fans — `stands.east.fans[i]` world coords,
+  `setFan(i, dy, tilt, rotY)` + `commit()`, `hide(pred)` where rigs stand in — roof + floodlights, `setScore(text)` (call only on
+  change: it builds a canvas), `aimSun`), `highway.js` (Texas interstate: straight then a R=160 m right curve; `DIMS.frame(s, off)`
+  → {x, z, head} for any lane, billboards, sign gantry, turbines `update(t)`; set far ≥ 1550), `coast.js` (Maine headland + islet
+  lighthouse; `setSea(level, t)` raises the whole ocean, `rideBoats(t, level)`, `waveAt`), `gorge.js` (basalt gorge + steel-arch
+  bridge with a bungee platform, rapids `update(t)`, falls + mist + rainbow), `plaza.js` (Quito equator plaza: yellow line,
+  monument + globe, arcades, bunting, fountain `jets[]`, Andes + volcano).
+- **HUD clock with decimals (017):** a hud segment can carry `dec` (decimals), `unit` (" s") and `ease: 'linear'` (no ease
+  per segment, so consecutive segments read as one steady clock). 017 runs TIME WITHOUT GRAVITY 0.0 → 5.0 s across 10 places.
+- **Slow-motion ladder (017):** one physical moment shown in many places = a physics clock τ that the HUD displays; shots.js
+  derives τ(t) from story.hud (`tauAt`) and computes every position from τ with the real formulas (heights, speeds, sea level),
+  so HUD numbers and pictures can't disagree. Return shots restart τ at the shared instant (5 s) per place, at ~1× speed.
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -289,6 +302,12 @@ videos/NNN-slug/
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
   offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.
+- **State the physics model in the shots.js header (017).** "Gravity off" has two honest answers: with a rigid planet (the usual
+  thought experiment) moving things keep going and squeezed things spring back; with an elastic Earth the ground rebounds at g and
+  carries everything (equivalence principle) so nothing visibly floats. We use the rigid model and say so — physics commenters
+  will ask. Time stamps in subtitles ("+1.5 s.") eat the 0.3 s/word budget; put the clock in the HUD number instead.
+- **A diver/jumper launched straight up comes straight back down on the board (017)** — give anything that "falls back" the
+  small horizontal speed it really had, and check where it lands before staging the splash.
 - **Black patches in an outdoor sky = the sky dome is beyond `camera.far`** (011's Pretoria: dome r=400, far=400, camera 13 m
   off-center → a clipped wedge of black). Keep `far` ≥ dome radius + camera offset (or shrink the dome). Raycast to confirm.
 - **Screen glow lights (CRTs, phones) stay soft and ≥ 0.7 m out** — 1.6 at 0.45 m blew the beige bezel to white and lit a shirt
