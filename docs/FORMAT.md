@@ -36,8 +36,8 @@ Comments = people crying + tagging family. **Shareability ("send this to your mo
 7. **Sound:** soft solo piano + a *few* quiet foley sounds on story beats (door latch, soft steps, blanket tuck). Minimal — the
    user found dense/bright SFX harsh. No ticks, whooshes or chimes. Music swells at the reveal. No voiceover.
 8. **End card:** fully readable for ≥ 3.5 s before the video ends (user feedback — 001's was too short).
-9. **Caption:** hook + emoji / 2–3 sentence summary / question CTA + 👇 / "Send this to your ___" / the course line
-   `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q` / exactly 5 hashtags incl. #animation. (Course line = user rule, every caption; see CLAUDE.md.)
+9. **Caption:** hook + emoji / 2–3 sentence summary / question CTA + 👇 / "Send this to your ___" / blank line / the course line on its own
+   `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q` / blank line / exactly 5 hashtags incl. #animation. (Course line = user rule, every caption; see CLAUDE.md.)
 10. **Cadence:** 1–2 posts per day. Post a "part 2" only for concepts that clearly overperform.
 
 ## Originality rule

@@ -87,7 +87,7 @@ returns across the life ties it together. Scene beds per place + a few synced fo
 
 ## 8. Caption (always shipped + pasted in the report — user rule)
 Hook ("From a dirt-floor log cabin to the Lincoln Memorial 🎩🪓"), 2–3 sentences of the most surprising facts, "Whose story
-should we tell next? 👇", "Send this to your history buff friend", the course line `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q`, exactly 5 hashtags incl. #animation (+ the name and
+should we tell next? 👇", "Send this to your history buff friend", then (after a blank line, as its own block) the course line `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q`, exactly 5 hashtags incl. #animation (+ the name and
 #biography).
 
 ## 9. Living people and modern/tech lives (011 Elon Musk)

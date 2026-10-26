@@ -22,7 +22,7 @@ fs.mkdirSync(dst, { recursive: true });
 for (const f of ['story.json', 'shots.js', 'cues.json', 'caption.md']) {
   if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dst, f));
 }
-if (!fs.existsSync(path.join(dst, 'caption.md'))) fs.writeFileSync(path.join(dst, 'caption.md'), '# Caption\n\n<hook line + emoji>\n\n<2–3 sentence summary>\n\n<question CTA> 👇\nSend this to your ___\n🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q\n\n#tag1 #tag2 #tag3 #tag4 #animation\n');
+if (!fs.existsSync(path.join(dst, 'caption.md'))) fs.writeFileSync(path.join(dst, 'caption.md'), '# Caption\n\n<hook line + emoji>\n\n<2–3 sentence summary>\n\n<question CTA> 👇\nSend this to your ___\n\n🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q\n\n#tag1 #tag2 #tag3 #tag4 #animation\n');
 console.log(`created videos/${slug}/ from videos/${from}/
 next:
   1. edit videos/${slug}/story.json   (opening question, HUD, subtitles, timing)
