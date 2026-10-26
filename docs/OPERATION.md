@@ -173,3 +173,7 @@ go out on their own; the new manager re-reads `ops/`, re-arms the tick, and chec
 - Oct 26: Gmail's connector can't attach videos (base64 inside the tool call) → review emails go through Gmail web in Chrome.
 - Oct 26: two TRIBE runs at once swap the 24 GB Mac (100 s/clip) → `tools/tribe-score.sh` lock, one run at a time, everywhere.
 - Oct 26: pooling accounts in the brain-score study inflated rho to 0.93 (account size swamped it) → `study.py` tests per account.
+- Oct 26 (first review email, 018): in Gmail's compose window, clicking the body by its `find` ref after filling To does NOT
+  focus it — the typed body vanished. Click the body by coordinates (just above the signature), type, and verify with a
+  screenshot (`innerText` on `[aria-label="Message Body"]` reads empty even when it isn't). Attach with `file_upload` on the
+  compose's file input; wait ~6 s for the upload chip before Send.

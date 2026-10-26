@@ -26,10 +26,10 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 015 | How a Hole Becomes a Subway (narrated "build" explainer, branch `video/015-hole-subway`) | build genre / — | the separate "New Style" chat, not run by the operation; same number by accident |
 | 016 | What if every pet on Earth could suddenly talk? | unhinged / @ed._.studios | assigned Oct 26 |
 | 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | assigned Oct 26 |
-| 018 | What if every human became magnetic? | unhinged / @ed._.studios | assigned Oct 26 |
+| 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
+| 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
-- What if everyone on Earth couldn't stop dancing? (real: the 1518 Strasbourg dancing plague; motion in every frame)
 - What if everyone woke up glued to the last thing they touched?
 - What if every human got the hiccups forever?
 - What if every human turned into a pigeon at 3 PM every day?
