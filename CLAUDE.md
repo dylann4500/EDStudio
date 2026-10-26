@@ -334,6 +334,15 @@ rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as 
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
+**Slow motion scores low unless the camera moves (017):** v1's slow-mo ladder (a 0.5 s slice of physics stretched over 4.8 s)
+gave a 22 s dead zone (wc 0.032). Bullet-time camera ORBITS around the frozen-ish subjects, a tracking shot behind a runner and a
+crane up through the floating crowd lifted those beats 2–6× (v2 wc 0.045). Faces still matter most: a dad alone in a kitchen and a
+tiny diver against the sky stayed low until v3 turned them into a family table (pan across three faces) and a shot from the
+water past swimmers' upturned faces. A title over people's BACKS scored worse (−0.05) than over a wide bright crowd (−0.02).
+**Cuts longer than ~70 s OOM in the audio encoder (017):** w2v-BERT's relative-position attention grows with clip length²;
+69–70 s fit under the default MPS cap (`PYTORCH_MPS_HIGH_WATERMARK_RATIO` 0.5 = 8.88 GB), 73.8 s needed ~9.5 GB and crashed in
+"Preparing extractor: audio" within a minute. Fix: `PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.6 sh tools/tribe-score.sh videos/NNN-slug vK`
+(run_tribe.py only sets the ratio if unset; the peak lasts ~10 s, the video step stays ~5 GB). Or keep reels ≤ 70 s.
 **Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
 `nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
 `.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead

@@ -27,11 +27,11 @@ run(65.6, D - 0.3, ["F", "C", "Dm", "Bb", "F", "C", "F"], step=1.2)     # warm t
 
 S8, S16 = BEAT / 2, BEAT / 4
 sections = [
-    {"t0": SW, "t1": 28.6, "style": "arp", "vel": [[SW, 0.22], [19.0, 0.25], [28.6, 0.27]], "step": S8, "pattern": [0, 2, 1, 3, 2, 1]},
+    {"t0": SW, "t1": 28.6, "style": "arp", "vel": [[SW, 0.28], [19.0, 0.29], [28.6, 0.29]], "step": S8, "pattern": [0, 2, 1, 3, 2, 1]},
     {"t0": 28.6, "t1": 47.8, "style": "arp", "vel": [[28.6, 0.27], [38.2, 0.3], [47.8, 0.32]], "step": S8, "pattern": [0, 1, 2, 3, 2, 1, 2, 3]},
     {"t0": 47.8, "t1": BACK, "style": "arp", "vel": [[47.8, 0.3], [BACK, 0.36]], "step": S16, "pattern": [0, 1, 2, 3, 2, 1]},
     {"t0": BACK, "t1": 65.6, "style": "arp", "vel": 0.3, "step": S8, "pattern": [0, 2, 1, 3]},
-    {"t0": 65.6, "t1": D, "style": "arp", "vel": [[65.6, 0.26], [D, 0.22]], "step": 0.4, "pattern": [0, 1, 2, 3, 2, 1]},
+    {"t0": 65.6, "t1": D, "style": "arp", "vel": [[65.6, 0.27], [D, 0.25]], "step": 0.4, "pattern": [0, 1, 2, 3, 2, 1]},
 ]
 # low string drive under the plucks: drawn as M["layers"] (synth.py draws layer sections on top of the main section)
 strings = [
@@ -65,7 +65,7 @@ pad = [
 for i, (ct, sym) in enumerate(chords):          # a soft chord pad that follows the ladder (plucks decay: the pad keeps the floor)
     if SW <= ct < 47.8 or ct >= 65.6:
         c1 = chords[i + 1][0] if i + 1 < len(chords) else D - 0.3
-        pad.append({"t0": ct, "t1": (min(c1, 47.8) if ct < 47.8 else c1) + 0.35, "notes": CHORD_PAD[sym], "level": 0.5, "attack": 0.25, "release": 0.6, "cutoff": 1400, "hp": 110})
+        pad.append({"t0": ct, "t1": (min(c1, 47.8) if ct < 47.8 else c1) + 0.35, "notes": CHORD_PAD[sym], "level": 0.62 if (ct < 28.6 or ct >= 65.6) else 0.5, "attack": 0.25, "release": 0.6, "cutoff": 1400, "hp": 110})
 
 amb = [
     # stadium, before: a big murmur that leans in; the roar at the goal; at SECOND 0 it falls away to a muffled hush
@@ -148,9 +148,10 @@ for tt in (57.75, 58.0):
     pass
 # the ocean lands (screen ≈ 59.78)
 e(59.78, "water_splash", -8, 0.0, {"size": 3.0})
-# kitchen: coffee on dad (60.83), toast on the counter (61.02), the dog
-e(60.83, "water_splash", -22, 0.1, {"size": 0.2})
-e(61.02, "plush_place", -26, 0.3)
+# kitchen: the coffee puddle drops off the ceiling onto the table (61.06), the toast lands next to it, the dog boofs
+e(61.06, "water_splash", -20, 0.0, {"size": 0.25})
+e(61.12, "plush_place", -26, 0.25)
+e(61.75, "dog_bark", -28, -0.2, {"pitch": 1.0})
 # pool: the kid's cannonball lands (63.98), the 27 m dive (65.03)
 e(63.98, "water_splash", -16, -0.25, {"size": 0.6})
 e(65.03, "water_splash", -6, 0.0, {"size": 1.6})
