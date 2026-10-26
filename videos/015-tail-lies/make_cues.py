@@ -121,6 +121,7 @@ ev += wag(LIES[1], 6, -27, -0.3)
 ev += [{"t": 12.06, "sound": "bonk", "args": {"dur": 0.3}, "gain_db": -30, "pan": -0.2, "room": -16},
        {"t": 12.5, "sound": "car_crash", "args": {"dur": 0.6, "weight": 0.12}, "gain_db": -27, "pan": -0.1, "room": -14}]
 ev += boops(12.55, 1, 0.55, gain=-26)
+ev += [{"t": 12.72, "sound": "dog_bark", "args": {"pitch": 1.15}, "gain_db": -29, "pan": -0.1, "room": -16}]   # the family dog jumps at the crash
 ev += wag(LIES[2], 6, -26, 0.3)
 ev += [{"t": 14.47, "sound": "wood_snap", "args": {"dur": 0.4, "size": 0.35}, "gain_db": -27, "pan": 0.4, "room": -14},
        {"t": 14.95, "sound": "giant_step", "args": {"size": 0.45, "surface": "wood"}, "gain_db": -22, "pan": 0.5, "room": -14}]

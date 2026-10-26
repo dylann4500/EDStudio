@@ -346,6 +346,10 @@ per-beat table and dead zones. **In the operation (docs/OPERATION.md) the user m
 `study.py` keeps testing it per account from `ops/ledger.csv`. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
 every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
 One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
+**015 (tail-lies) confirmed it: faces + motion lift the weak beats.** v1 met the target (0.056) but a kitchen two-shot and a court
+seen from behind the defendant sat at 0.015 (busy face-filled beats: 0.08–0.10). v2 moved the kitchen camera closer, added the family
+dog and fidgets (0.031), and cut the court to a reverse angle on the defendant's face + a gallery of reacting onlookers + the gavel
+slamming in the foreground (0.040/0.043). Net: whole-brain +1 %, first 60 s +7 %; the untouched ending dipped (0.050 → 0.035).
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.

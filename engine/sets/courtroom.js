@@ -32,6 +32,15 @@ export function buildCourtroom(studio, opts = {}) {
   for (const s of [-1, 1]) { box(0.12, 1.3, 9.6, darkW, s * 5.05, 0.65, 0.2); box(0.12, 2.9, 9.6, cream, s * 5.05, 2.75, 0.2); }
   for (let x = -4.5; x <= 4.5; x += 1.0) box(0.06, 1.2, 0.04, mat(0x4a2a18, 0.5), x, 0.62, -4.53);
   box(10.2, 0.1, 9.8, mat(0xf4efe4, 0.95), 0, 4.2, 0.2); for (let x = -4; x <= 4; x += 2) box(0.18, 0.2, 9.6, mat(0xe6dcc8, 0.9), x, 4.1, 0.2);
+  // back wall (z = 5): wainscot + cream, double doors with round windows, a clock above them, a bulletin board
+  box(10.2, 1.3, 0.12, darkW, 0, 0.65, 5.05); box(10.2, 2.9, 0.12, cream, 0, 2.75, 5.05);
+  for (const s of [-1, 1]) { const d = rbox(0.85, 2.3, 0.08, 0.02, midW, s * 0.45, 1.15, 4.97); void d; const w = new THREE.Mesh(new THREE.CircleGeometry(0.14, 20), new THREE.MeshBasicMaterial({ color: 0xdcecf8, toneMapped: false })); w.position.set(s * 0.45, 1.65, 4.92); w.rotation.y = Math.PI; root.add(w); mk(new THREE.BoxGeometry(0.04, 0.3, 0.06), goldM, root, s * 0.1, 1.1, 4.92); }
+  box(2.1, 0.12, 0.1, darkW, 0, 2.36, 4.96);
+  const bclk = new THREE.Mesh(new THREE.CircleGeometry(0.22, 32), new THREE.MeshStandardMaterial({ roughness: 0.5, map: canvasTex(128, 128, (g) => { g.fillStyle = '#fff'; g.beginPath(); g.arc(64, 64, 60, 0, 7); g.fill(); g.strokeStyle = '#2a1a14'; g.lineWidth = 7; g.stroke(); g.lineCap = 'round'; g.beginPath(); g.moveTo(64, 64); g.lineTo(64, 28); g.stroke(); g.beginPath(); g.moveTo(64, 64); g.lineTo(40, 70); g.stroke(); }) }));
+  bclk.position.set(0, 3.0, 4.98); bclk.rotation.y = Math.PI; root.add(bclk);
+  const bb = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.8), new THREE.MeshStandardMaterial({ roughness: 0.9, map: canvasTex(240, 160, (g, w, h) => { g.fillStyle = '#b8895a'; g.fillRect(0, 0, w, h); const r = rng(5); for (let k = 0; k < 7; k++) { g.fillStyle = ['#fffdf2', '#f6e88a', '#cfe6f5', '#f4c6d6'][k % 4]; g.fillRect(10 + r() * (w - 60), 10 + r() * (h - 60), 44, 50); } }) }));
+  bb.position.set(-2.6, 1.7, 4.98); bb.rotation.y = Math.PI; root.add(bb);
+  for (const x of [2.4, 3.6]) { const fr = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.9), new THREE.MeshStandardMaterial({ roughness: 0.7, color: 0x6a8aa8 })); fr.position.set(x, 1.9, 4.98); fr.rotation.y = Math.PI; root.add(fr); }
   // windows on the right wall (daylight), each with a bright sky pane
   const skyM = new THREE.MeshBasicMaterial({ toneMapped: false, map: canvasTex(64, 128, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#8fc4f2'); gr.addColorStop(1, '#e6f2fa'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(255,255,255,.8)'; g.beginPath(); g.arc(20, 40, 14, 0, 7); g.arc(36, 36, 16, 0, 7); g.fill(); }) });
   for (const z of [-2.8, -0.6, 1.6, 3.8]) { const pane = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 2.0), skyM); pane.position.set(4.98, 2.4, z); pane.rotation.y = -Math.PI / 2; root.add(pane); box(0.12, 0.1, 1.3, midW, 4.95, 3.43, z); box(0.18, 0.1, 1.3, midW, 4.93, 1.37, z); for (const e of [-1, 1]) box(0.12, 2.1, 0.08, midW, 4.95, 2.4, z + e * 0.6); box(0.1, 2.0, 0.06, darkW, 4.94, 2.4, z); box(0.1, 0.06, 1.1, darkW, 4.94, 2.4, z); }

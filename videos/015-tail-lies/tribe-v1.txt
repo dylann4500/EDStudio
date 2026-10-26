@@ -1,0 +1,19 @@
+015-v1: 70 s
+  wc_mean                  +0.0560   best existing +0.0447  BEATS
+  wc_mean_first60          +0.0558   best existing +0.0421  BEATS
+  pct_above_thresh         +19.0673   best existing +15.7313  BEATS
+  hook_0_3                 -0.0005
+  sustain_pooled_median    +82.8571
+  dead zones (≥8 s below 0.0185, after 4 s): none
+  per beat (mean whole-cortex, min second):
+      0.0– 10.6 open      +0.0337  min -0.0082  ################
+     10.6– 16.2 cookie    +0.0146  min +0.0045  ############
+     16.2– 21.8 hire      +0.0484  min +0.0218  ###################
+     21.8– 27.4 date      +0.0772  min +0.0741  #########################
+     27.4– 33.0 bday      +0.0817  min +0.0759  ##########################
+     33.0– 38.6 lot       +0.0966  min +0.0852  #############################
+     38.6– 44.2 poker     +0.0815  min +0.0761  ##########################
+     44.2– 49.8 press     +0.0883  min +0.0538  ###########################
+     49.8– 55.8 court     +0.0154  min +0.0023  #############
+     55.8– 70.0 end       +0.0499  min -0.0212  ###################
+  TARGET MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

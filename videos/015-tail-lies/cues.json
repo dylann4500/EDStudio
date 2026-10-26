@@ -673,6 +673,16 @@
    "room": -18
   },
   {
+   "t": 12.72,
+   "sound": "dog_bark",
+   "args": {
+    "pitch": 1.15
+   },
+   "gain_db": -29,
+   "pan": -0.1,
+   "room": -16
+  },
+  {
    "t": 14.05,
    "sound": "blanket_rustle",
    "args": {

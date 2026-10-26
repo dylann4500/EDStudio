@@ -62,13 +62,14 @@ export const SHOTS = [
   { t0: 33.0, t1: 38.6, cam: 'lot', set: 'lot' },
   { t0: 38.6, t1: 44.2, cam: 'poker', set: 'casino' },
   { t0: 44.2, t1: 49.8, cam: 'press', set: 'press' },
-  { t0: 49.8, t1: 55.8, cam: 'court', set: 'court' },
+  { t0: 49.8, t1: 52.3, cam: 'court', set: 'court' },
+  { t0: 52.3, t1: 55.8, cam: 'court2', set: 'court' },
   { t0: 55.8, t1: 70.0, cam: 'end', set: 'sub' },
 ];
 // camera coords are LOCAL to the shot's set (two keys, eased); `y`/`ay` = height keyframes; `pk`/`ak` = full keyframed paths
 export const CAMS = {
   open:   { p: [[0, 1.32, 4.4], [0, 1.3, 4.4]], a: [[0, 1.0, -1.1], [0, 1.0, -1.1]], fov: 48, amp: 0.004 },   // tracks Gary along x (see update)
-  cookie: { p: [[-0.45, 1.25, 2.35], [-0.42, 1.2, 1.95]], a: [[-0.35, 0.82, -1.6], [-0.38, 0.82, -1.6]], fov: 58, amp: 0.004 },
+  cookie: { p: [[-0.78, 1.25, 1.3], [-0.72, 1.17, 0.9]], a: [[-0.72, 0.9, -1.6], [-0.7, 0.88, -1.6]], fov: 58, amp: 0.004 },
   hire:   { p: [[1.55, 1.35, -2.3], [1.35, 1.3, -2.25]], a: [[0.0, 0.92, -0.2], [0.0, 0.92, -0.2]], fov: 54, amp: 0.004 },   // from behind HR's shoulder: the candidate faces us
   date:   { pk: [[21.8, [0.35, 2.05, 3.45]], [25.4, [0.25, 1.85, 3.0]], [26.9, [0.0, 2.8, 3.45]]], ak: [[21.8, [-0.05, 0.95, -1.0]], [25.4, [0.0, 0.92, -0.6]], [26.9, [0.0, 0.55, -1.3]]], fov: 60, amp: 0.004 },
   bday:   { p: [[1.3, 1.47, -1.2], [1.25, 1.42, -1.65]], a: [[1.0, 1.18, -5.6], [1.0, 1.18, -5.6]], fov: 58, amp: 0.004 },
@@ -76,6 +77,7 @@ export const CAMS = {
   poker:  { p: [[4.45, 3.2, 0.0], [4.15, 3.0, 0.0]], a: [[-0.55, 0.55, 0.0], [-0.55, 0.6, 0.0]], fov: 60, amp: 0.004 },   // down the long axis of the table
   press:  { p: [[2.65, 1.82, -1.95], [2.45, 1.8, -2.05]], a: [[0.4, 1.8, -3.1], [0.4, 1.8, -3.1]], fov: 50, amp: 0.004 },   // 3/4 side: his face, his tail, the flags
   court:  { p: [[-2.2, 2.45, 2.4], [-2.0, 2.35, 2.1]], a: [[-0.62, 1.3, -2.0], [-0.62, 1.3, -2.0]], fov: 56, amp: 0.004 },
+  court2: { p: [[0.95, 2.78, -4.3], [0.85, 2.68, -4.15]], a: [[-1.2, 1.3, 0.4], [-1.25, 1.32, 0.4]], fov: 50, amp: 0.004 },   // reverse: over the bench onto Gary + the gallery
   end:    { p: [[15.9, 1.15, -3.6], [15.6, 1.08, -4.0]], a: [[13.95, 0.85, -6.6], [13.95, 0.82, -6.6]], fov: 50, amp: 0.004 },
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -180,7 +182,7 @@ export async function build(studio, story) {
   const jarLabel = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.07), new THREE.MeshStandardMaterial({ roughness: 0.6, map: canvasTex(128, 56, (g, w, h) => { g.fillStyle = '#fff6e0'; g.fillRect(0, 0, w, h); g.fillStyle = '#7a3a1a'; g.font = 'bold 26px Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('COOKIES', w / 2, h / 2 + 2); }) })); jarLabel.position.set(0, 0.12, 0.103); jar.add(jarLabel);
   for (let k = 0; k < 4; k++) mk(new THREE.SphereGeometry(0.012, 6, 5), mat(0x7a4a24, 0.8), jar, (k - 1.5) * 0.03, 0.01, 0.02);   // crumbs only
   const shards = Array.from({ length: 6 }, (_, k) => { const m = mk(new THREE.BoxGeometry(0.07, 0.09, 0.012), new THREE.MeshStandardMaterial({ color: 0xdfeef6, roughness: 0.1, transparent: true, opacity: 0.6 }), kit.root, 0, 0, 0); m.visible = false; return m; });
-  const JAR0 = [-0.85, 0.87, -2.2];
+  const JAR0 = [-0.8, 0.87, -2.2];
   const mChair = kit.chairs[2]; mChair.rotation.order = 'YXZ';
   kit.table.position.x += 1.5; kit.table.position.z += 0.5; [0, 1, 3].forEach((k) => { kit.chairs[k].position.x += 1.5; kit.chairs[k].position.z += 0.5; });   // the table out of the lens
   // office: the wall behind the candidate (the set is open at +z): door, a framed poster, a plant, a coat rack, a clock
@@ -246,6 +248,10 @@ export async function build(studio, story) {
     const fp = fl.geometry.attributes.position; for (let i = 0; i < fp.count; i++) fp.setZ(i, 0.05 * Math.sin(fp.getY(i) * 5 + fp.getX(i) * 6)); fl.geometry.computeVertexNormals();
     return g;
   });
+  // court: the gavel moves to the judge's right hand (its sound block too) so the reverse angle sees it slam in the foreground
+  court.root.children.forEach((o) => { if (o.isMesh && Math.abs(o.position.x - (JD.judge[0] - 0.55)) < 0.01 && Math.abs(o.position.z - (JD.judge[1] + 0.75)) < 0.01) o.visible = false; });
+  court.gavel.position.x = JD.judge[0] + 0.55;
+  mk(new THREE.CylinderGeometry(0.09, 0.1, 0.05, 20), mat(0x7a4a2a, 0.5), court.root, JD.judge[0] + 0.55, JD.benchTop + 0.105, JD.judge[1] + 0.75);
   // court: the evidence — a paper lunch bag marked DAVE on a stand
   const ev = new THREE.Group(); ev.position.set(0.05, 0, -1.4); court.root.add(ev);
   mk(new THREE.CylinderGeometry(0.03, 0.03, 0.85, 8), mat(0x5a3420, 0.5), ev, 0, 0.425, 0); mk(new THREE.BoxGeometry(0.42, 0.04, 0.32), mat(0x5a3420, 0.5), ev, 0, 0.86, 0);
@@ -321,10 +327,11 @@ export async function build(studio, story) {
   }
 
   // ---------------------------------------------------------------- 2. cookie — the kid, the jar, Mom
-  const KID = [-1.3, -1.75], MOM = [-0.15, -1.3], LIE2 = 11.25, KNOCK = 12.05, HIT = 12.5, LIE3 = 13.85, LAUNCH = 14.45;
+  const KID = [-1.25, -1.75], MOM = [-0.45, -1.35], LIE2 = 11.25, KNOCK = 12.05, HIT = 12.5, LIE3 = 13.85, LAUNCH = 14.45;
   function kidPose(t) {
     const p = basePose(); p.eyes = blink(t, 5);
-    Object.assign(p, { x: KID[0], z: KID[1], rotY: 0.3 }); p.headYaw = 0.45;   // back to the counter, eyeing Mom
+    Object.assign(p, { x: KID[0], z: KID[1], rotY: 0.3 + 0.12 * Math.sin(t * 3.1) }); p.headYaw = 0.45;   // back to the counter, eyeing Mom, fidgeting
+    if (t < LIE2) { const hop = Math.max(0, Math.sin((t - 10.6) * 7.5)); p.lean = 0.05 * hop; }
     p.armA = A(0.25, 0.1, -0.5, 0.2); p.armB = A(0.25, 0.1, -0.5, -0.2);   // hands behind his back (the evidence)
     p.mouth = t > LIE2 && t < 12.6 ? (Math.sin(t * 20) > 0 ? 'o' : 'smile') : 'smile';
     const oops = K(t, [[HIT, 0], [HIT + 0.2, 1]]);
@@ -337,6 +344,8 @@ export async function build(studio, story) {
     Object.assign(p, { x: MOM[0], z: MOM[1], rotY: faceToward(MOM[0], MOM[1], KID[0], KID[1]) + 1.0 }); p.headYaw = 0.3;
     p.armA = CROSS_A; p.armB = CROSS_B; p.mouth = 'flat'; p.headPitch = 0.15;
     if (t > LIE3 && t < LIE3 + 1.0) p.mouth = Math.sin(t * 18) > 0 ? 'smile' : 'flat';
+    p.footFwd = 0.06 * Math.max(0, Math.sin(t * 9));                                  // tap, tap, tap
+    p.headRoll = 0.12 * Math.sin(t * 2.3) * K(t, [[LIE3, 0], [LIE3 + 0.3, 1]]);
     const snap = K(t, [[LAUNCH, 0], [LAUNCH + 0.25, 1]]); if (snap > 0) { p.headYaw = -0.8 * snap * K(t, [[LAUNCH, 0], [LAUNCH + 0.25, 1], [15.4, 1], [15.7, 0]]); }
     return p;
   }
@@ -509,7 +518,7 @@ export async function build(studio, story) {
     Object.assign(p, { x: JD.judge[0], z: JD.judge[1] - 0.1, rotY: 0, footFwd: 0.4 });
     let sw = 0; BANGS.forEach((b) => { sw = Math.max(sw, K(t, [[b - 0.22, 0], [b - 0.08, 1], [b, 0]])); });   // raise → slam
     const ready = K(t, [[BANGS[0] - 0.5, 0], [BANGS[0] - 0.3, 1]]);
-    p.armA = mixArm(LAP_A, mixArm(A(-1.25, 0.28, -0.75, 0.3), A(-2.1, 0.28, -0.9, 0.3), sw), ready); p.armB = LAP_B; p.headPitch = 0.1; p.mouth = t > BANGS[0] ? 'o' : 'flat';
+    p.armB = mixArm(LAP_B, mixArm(A(-1.25, 0.28, -0.75, -0.3), A(-2.1, 0.28, -0.9, -0.3), sw), ready); p.armA = LAP_A; p.headPitch = 0.1; p.mouth = t > BANGS[0] ? 'o' : 'flat';
     return { p, sw, ready };
   }
   function lawyerPose(t) {
@@ -590,8 +599,13 @@ export async function build(studio, story) {
       if (age > 0) shards.forEach((m, k) => { const a = k * 1.05, sp = 0.7 + (k % 3) * 0.25, tt = Math.min(age, 0.45); m.visible = true; m.position.set(JAR0[0] + 0.55 + Math.cos(a) * sp * tt, Math.max(0.01, 0.05 + 1.6 * tt - 4.9 * tt * tt), JAR0[2] + 0.75 + Math.sin(a) * sp * tt * 0.7); m.rotation.set(tt * 9 + k, k, tt * 7); });
       poof(0, 'kit', JAR0[0] + 0.55, 0.05, JAR0[2] + 0.75, t, HIT, 5, 0.35, CRUMB);
       const fly = K(t, [[LAUNCH, 0], [LAUNCH + 0.55, 1]], (u) => 1 - (1 - u) * (1 - u));   // the chair behind Mom gets launched
-      mChair.position.set(0.5 + 1.1 * fly, 0.45 * Math.sin(fly * PI), -1.2 - 0.2 * fly); mChair.rotation.set(0, 0.3 + 2.2 * fly, -1.45 * fly);
-      poof(10, 'kit', 1.3, 0.1, -1.35, t, LAUNCH + 0.45, 4, 0.35, DUST);
+      mChair.position.set(0.1 + 1.1 * fly, 0.45 * Math.sin(fly * PI), -1.65 - 0.2 * fly); mChair.rotation.set(0, 0.3 + 2.2 * fly, -1.45 * fly);
+      poof(10, 'kit', 0.9, 0.1, -1.8, t, LAUNCH + 0.45, 4, 0.35, DUST);
+      { // the family dog between them: happy tail, jumps at the crash, looks at the jar, then at Mom
+        dog.g.visible = true; kit.root.add(dog.g); const jump = K(t, [[HIT, 0], [HIT + 0.12, 1], [HIT + 0.35, 0]]);
+        dog.g.position.set(-0.85, 0.12 * jump, -1.45); dog.g.rotation.y = lerpAngle(lerpAngle(0.3, 1.9, K(t, [[HIT, 0], [HIT + 0.25, 1]])), -0.6, K(t, [[LAUNCH, 0], [LAUNCH + 0.3, 1]]));
+        dog.update(t * 1.4, 0); dog.bark(K(t, [[HIT + 0.15, 0], [HIT + 0.25, 1], [HIT + 0.4, 0]]));
+      }
     } else if (cam === 'hire') {
       const cp = candPose(t); put(cand, 'office', cp, 1, sitRoot(OD.seat) + 0.02, 0, wagAt(t, LIE4, SPIN1 + 0.2), { rate: 5.5, lift: 0.35, side: -1.25 }, t);
       const hp = hrPose(t); put(hr, 'office', hp, 1, sitRoot(OD.seat) + 0.02, 0, 0, {}, t);
@@ -664,7 +678,7 @@ export async function build(studio, story) {
       put(prez, 'press', prezPose(t), 1, 0.25, 0.25, pressWag(t), { rate: 5.2, lift: 0.15 }, t);
       pFlags.forEach((g, k) => { const tf = k ? FL1 : FL0, f = K(t, [[tf, 0], [tf + 0.5, 1]], (u) => u * u); g.rotation.set(-0.15 * f, 0, (k ? -1 : 1) * 1.3 * f); });
       poof(0, 'press', -2.0, 0.3, -3.7, t, FL0 + 0.5, 4, 0.35, DUST); poof(5, 'press', 2.0, 0.3, -3.7, t, FL1 + 0.5, 4, 0.35, DUST);
-    } else if (cam === 'court') {
+    } else if (cam === 'court' || cam === 'court2') {
       const g = garyCourt(t); put(gary, 'court', g.p, 1, g.rootY, g.ground, wagAt(t, LIE10 + 0.1, 55.8), { rate: 5.5, lift: 0.2 }, t);
       put(pros, 'court', prosPose(t), 1, 0, 0, 0, { still: true }, t);
       put(lawyer, 'court', lawyerPose(t), 1, sitRoot(JD.seat), 0, 0, { side: 0.9 }, t);
@@ -672,7 +686,18 @@ export async function build(studio, story) {
       court.gavel.rotation.x = j.ready * (0.27 - 1.35 * j.sw);   // raised → slammed onto the sound block
       court.gavel.position.y = JD.benchTop + 0.14 + 0.12 * j.ready;
       // the gallery: two rows of onlookers who jump at the bang
-      for (let i = 0; i < 2; i++) { const p = basePose(); p.eyes = blink(t, i); const x = [1.9, 2.7][i], z = JD.gallery[0] + 0.05; Object.assign(p, { x, z, rotY: PI, footFwd: 0.4 }); p.armA = LAP_A; p.armB = LAP_B; const jmp = K(t, [[BANGS[0], 0], [BANGS[0] + 0.1, 1], [BANGS[0] + 0.4, 0]]); p.mouth = t > BANGS[0] ? 'o' : 'flat'; put(crowd[i], 'court', p, 1, sitRoot(JD.seat) + 0.06 * jmp, 0, 0, {}, t); }
+      // the gallery behind Gary: onlookers who lean in at the question, gasp at the wag, jump at every bang
+      const GAL = [[-1.15, 0], [-1.8, 0], [-2.45, 0], [-3.1, 0], [-0.95, 1], [-1.6, 1], [-2.25, 1], [-2.9, 1], [1.9, 0], [2.7, 0]];
+      GAL.forEach(([x, row], i) => {
+        const p = basePose(); p.eyes = blink(t, i); const z = JD.gallery[row] + 0.05;
+        Object.assign(p, { x, z, rotY: PI, footFwd: 0.4 }); p.armA = LAP_A; p.armB = LAP_B;
+        const lean = K(t, [[52.4 + i * 0.05, 0], [52.9, 1]]), look = K(t, [[LIE10 + 0.15 + i * 0.03, 0], [LIE10 + 0.4, 1]]);
+        let jmp = 0; BANGS.forEach((b) => { jmp = Math.max(jmp, K(t, [[b, 0], [b + 0.08, 1], [b + 0.35, 0]])); });
+        p.lean = 0.2 * lean - 0.1 * jmp; p.headYaw = look * (x < -1.57 ? 0.5 : -0.5) * (1 - K(t, [[BANGS[0], 0], [BANGS[0] + 0.2, 1]])); p.headPitch = 0.25 * look;
+        p.mouth = look > 0.5 || t > BANGS[0] ? 'o' : 'flat';
+        if (t > BANGS[0]) { p.armA = mixArm(LAP_A, SHOCK_A, 0.8); p.armB = mixArm(LAP_B, SHOCK_B, 0.8); }
+        put(crowd[i], 'court', p, 1, sitRoot(JD.seat) + 0.07 * jmp, 0, 0, { side: i % 2 ? 0.9 : -0.9 }, t);
+      });
     } else if (cam === 'end') {
       sub.aimSun(14, -6.5, 7); sub.lights.sun.color.setHex(0xffc890); sub.lights.hemi.color.setHex(0xffe6cc);
       const g = garyEnd(t); put(gary, 'sub', g.p, 1, g.rootY, 0, 0, { still: true }, t);
