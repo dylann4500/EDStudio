@@ -101,7 +101,10 @@ their answer. So approval is an email loop:
      `python3 -c "import secrets;print(''.join(secrets.choice('ABCDEFGHJKMNPQRSTUVWXYZ23456789') for _ in range(4)))"`),
      the caption, and "To post it, reply YES with the code. To hold it, reply NO with the code and any notes."
      The body must never contain the word YES or NO directly before the code, so the review email can't approve itself.
-2. **Reading the answer** (every manager tick): Gmail connector, `from:me "XXXX" newer_than:7d`. A message is the user's answer
+2. **Reading the answer** (every manager tick): Gmail connector **`get_thread` on the review email's thread** (store
+   `thread:<id> msg:<id>` in `review_msg_id`) and read every message after the review. **Don't rely on `search_threads`**:
+   it doesn't index replies promptly (018's `YES QB2Y` sat in the thread for 1.5 h while code searches returned only the
+   review email). Also run `from:me "XXXX" newer_than:7d` for answers sent as a new email. A message is the user's answer
    only if **all** hold: it isn't the review email (`review_msg_id`), it's sent by the account itself (`from:me` and the `SENT`
    label — a spoofed outside email lacks it), it's newer than the review email, and its own text (quoted reply stripped) contains
    the code.
@@ -173,6 +176,7 @@ go out on their own; the new manager re-reads `ops/`, re-arms the tick, and chec
 - Oct 26: Gmail's connector can't attach videos (base64 inside the tool call) → review emails go through Gmail web in Chrome.
 - Oct 26: two TRIBE runs at once swap the 24 GB Mac (100 s/clip) → `tools/tribe-score.sh` lock, one run at a time, everywhere.
 - Oct 26: pooling accounts in the brain-score study inflated rho to 0.93 (account size swamped it) → `study.py` tests per account.
+- Oct 26: Gmail search missed the first approval (a reply in the review thread) for 1.5 h → read the thread with `get_thread`.
 - Oct 26 (first review email, 018): in Gmail's compose window, clicking the body by its `find` ref after filling To does NOT
   focus it — the typed body vanished. Click the body by coordinates (just above the signature), type, and verify with a
   screenshot (`innerText` on `[aria-label="Message Body"]` reads empty even when it isn't). Attach with `file_upload` on the
