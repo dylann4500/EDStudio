@@ -83,7 +83,7 @@ export const CAMS = {
   iss:     { keys: [[36.4, [0, 0, 0], [0, 0, 0]]], fov: 50 },   // placed in code (Earth-relative)
   crowdA:  { keys: [[41.0, [8.5, 1.4, 3.4], [-1.0, 1.95, 3.5]], [43.4, [7.8, 1.4, 3.5], [-1.0, 1.95, 3.5]]], fov: 52 },
   crowdB:  { keys: [[43.4, [-5.0, 1.7, 3.6], [40.0, 10.5, 3.6]], [45.2, [-4.6, 1.7, 3.6], [40.0, 12.0, 3.6]]], fov: 58 },
-  moon:    { keys: [[45.2, [200, 480, 1780], [110, 470, 0]], [50.2, [180, 490, 1640], [110, 480, 0]]], fov: 46 },
+  moon:    { keys: [[45.2, [230, 500, 1950], [110, 470, 0]], [47.3, [175, 480, 1640], [110, 480, 0]], [50.2, [150, 500, 1520], [110, 500, 0]]], fov: 46 },
   wake:    { keys: [[50.2, [0.85, 1.95, 0.45], [-0.35, 0.78, -1.5]], [54.4, [0.78, 1.85, 0.2], [-0.35, 0.78, -1.5]], [60.0, [0.85, 1.95, 0.4], [-0.35, 1.0, -1.5]]], fov: 46 },
 };
 const DBG = { sleep: [-0.3, -1.3, 5], stand: [0, 0, 6], wake: [-0.3, -1.3, 5], kitchen: [1, 0, 7], door: [-1.5, -4, 24], bus: [16, 4, 36], traffic: [0, 2, 60], pool: [0, 2, 70], crowdA: [1, 3, 16], crowdB: [1, 3, 16] };
@@ -103,6 +103,8 @@ function grow(t, tb, n) {
 }
 /** squash for the same boing (+ = flattened): bounces after the swell */
 const squash = (t, tb) => { const a = t - tb; return a <= 0 ? 0 : 0.55 * Math.exp(-a * 4.5) * Math.sin(a * 20); };
+/** the wind-up before a doubling: a pulsing wobble that speeds up over the last 1.2 s ("it's about to pop") */
+const preBoom = (t, T) => { const u = clamp((t - (T - 1.2)) / 1.2); return t >= T ? 0 : -0.1 * u * Math.sin((t - T) * PI * 2 * (3 + 4 * u)); };
 /** a ballistic hop: offset (m) of something thrown up with v0 at t0, landing back at 0 (bounces once) */
 function hop(t, t0, v0) { const a = t - t0; if (a <= 0) return 0; const T = 2 * v0 / 9.8; if (a < T) return v0 * a - 4.9 * a * a; const b = a - T, v1 = v0 * 0.35, T2 = 2 * v1 / 9.8; return b < T2 ? v1 * b - 4.9 * b * b : 0; }
 
@@ -588,7 +590,7 @@ export async function build(studio, story) {
       const w = t < BOOM.fly1 ? 1 : t < BOOM.fly2 ? 2 * (grow(t, BOOM.fly1, 0) / WM(0)) / 2 : 2 * grow(t, BOOM.fly2, 0) / WM(0);
       const Wd = 260 * w;   // displayed size (a cheat: ~1/45 scale so it sits inside the fog)
       flyButt.setWidth(Wd); flyButt.g.position.set(0, -75 + 0.565 * Wd - 0.18 * Wd, -1050); flyButt.g.rotation.set(0, PI, 0); flyButt.g.visible = true;
-      flyButt.setSquash(t > BOOM.fly2 ? squash(t, BOOM.fly2) : squash(t, BOOM.fly1));
+      flyButt.setSquash(t > BOOM.fly2 ? squash(t, BOOM.fly2) : squash(t, BOOM.fly1) + preBoom(t, BOOM.fly1) + preBoom(t, BOOM.fly2));
       const J = jetAt(t); jet.g.position.copy(J.p); jet.g.rotation.set(0, J.yaw, -J.bank, 'YXZ');
       jet.g.updateMatrixWorld(true);
       for (let k = 1; k <= 26 && puffN < puffs.items.length - 1; k++) { const uu = J.u - k * 0.012; if (uu < 0) break; const c = bez(uu).add(V3(...OFF.flight)); for (const sd of [-1, 1]) puffs.set(puffN++, c.clone().add(V3(sd * 7 * Math.cos(J.yaw), -2, -sd * 7 * Math.sin(J.yaw))), 3 + k * 1.4, 0.7 * (1 - k / 27), new THREE.Color(0xffffff)); }
@@ -601,7 +603,7 @@ export async function build(studio, story) {
         const T = BOOM.iss, wk = t < T ? 1 : grow(t, T, 0) / WM(0);
         const Wp = 23.7 * wk;   // 377 km → 755 km in planet units (6371 km = 400)
         spaceButt.setWidth(Wp); spaceButt.g.position.copy(NB).multiplyScalar(RE + 0.565 * Wp - 0.2 * Wp); spaceButt.g.quaternion.copy(basisQ(NB, FB));
-        spaceButt.g.visible = true; moon.visible = false; spaceButt.setSquash(squash(t, T));
+        spaceButt.g.visible = true; moon.visible = false; spaceButt.setSquash(squash(t, T) + preBoom(t, T));
         const P = spaceW(SUNN, 27, s), fwd = FC.clone().multiplyScalar(Math.cos(-0.27)).addScaledVector(SUNN, Math.sin(-0.27)).normalize();
         const right = new THREE.Vector3().crossVectors(fwd, SUNN).normalize();
         const aim = P.clone().addScaledVector(fwd, 100);
@@ -626,7 +628,7 @@ export async function build(studio, story) {
         const T = BOOM.moon, wk = t < T ? 1 : grow(t, T, 0) / WM(0);
         const Wp = 189.6 * wk;   // 3,020 km → 6,040 km in planet units
         spaceButt.setWidth(Wp); spaceButt.g.position.set(0, RE + 0.565 * Wp - 0.06 * Wp, 0); spaceButt.g.rotation.set(0, PI, 0); spaceButt.g.visible = true;
-        spaceButt.setSquash(squash(t, T) * 0.8);
+        spaceButt.setSquash(squash(t, T) * 0.8 + preBoom(t, T) * 1.3); space.setSpin(0.6 + t * 0.03);
         moon.visible = true; moon.position.set(320, 790, 40); moon.rotation.y = t * 0.02;
         jolts.push([T, 0.012]);
       }
@@ -649,7 +651,7 @@ export async function build(studio, story) {
         const Wd = 800 * wk;
         skyButt.setWidth(Wd); skyButt.g.position.set(1700, 0.745 * Wd, 3.5); skyButt.g.rotation.set(0, PI / 2, 0); skyButt.g.visible = true;
         scene.fog = crowdFog;
-        skyButt.setSquash(squash(t, BOOM.crowd));
+        skyButt.setSquash(squash(t, BOOM.crowd) + preBoom(t, BOOM.crowd));
         studio.camera.far = 3200; studio.camera.updateProjectionMatrix();
         jolts.push([BOOM.crowd, 0.02]);
       } else { skyButt.g.visible = false; scene.fog = streetFog; studio.camera.far = FAR.street; studio.camera.updateProjectionMatrix(); }
