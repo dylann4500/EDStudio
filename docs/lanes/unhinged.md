@@ -16,6 +16,9 @@
 ## Reference videos in this repo
 `012-pee-pants` (wacky ripple, 5 new sets), `008-search-history` (user: "more unhinged" → weirder, more sus),
 `013-twice-as-dumb` (real stat per beat), `014-toddler-world` (TRIBE-optimized: 0.078), `002-everyone-pregnant` (the original hit).
+`016-talking-pets` (dialogue premise: the pets' lines are camera-facing speech bubbles + a pet voice each, the HUD number rolls up
+every beat — SECRETS SPILLED BY PETS — while the stat line carries the real fact; the setup/payoff is a dog that says nothing
+all video and gets the only quiet line at the end).
 
 ## What scores (TRIBE + views)
 Bright places, crowds of big-headed faces, motion in every frame, a big physical effect ending every beat (collapse, crush,

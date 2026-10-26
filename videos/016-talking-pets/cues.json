@@ -1,0 +1,2839 @@
+{
+ "title": "016 - What if every pet on Earth could suddenly talk? (unhinged: gossip-jazz walk, pet-voice foley)",
+ "duration": 71.4,
+ "target_lufs": -15.0,
+ "limiter_ceiling_dbtp": -1.5,
+ "end_fade": [
+  70.2,
+  71.4
+ ],
+ "stem_gain_db": {
+  "music": -6.0,
+  "sfx": 12.0,
+  "amb": 9.0
+ },
+ "stem_dynamics": {
+  "music": {
+   "limit_dbfs": -3.0,
+   "lim_win": 0.015
+  },
+  "sfx": {
+   "comp_thr_dbfs": -15.0,
+   "ratio": 2.5,
+   "win": 0.004,
+   "limit_dbfs": -5.0
+  }
+ },
+ "sfx_lowpass_hz": 5000,
+ "shots": [
+  0,
+  9.6,
+  15.0,
+  20.4,
+  25.8,
+  31.2,
+  36.6,
+  42.0,
+  47.4,
+  52.8,
+  58.2,
+  71.4
+ ],
+ "ambience": [
+  {
+   "sound": "room_tone",
+   "t0": 0.0,
+   "t1": 9.65,
+   "fade_in": 0.4,
+   "fade_out": 0.06,
+   "gain_db": -39,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 9.6,
+   "t1": 15.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 2,
+   "args": {
+    "murmur": 0.15,
+    "traffic": 0.4
+   }
+  },
+  {
+   "sound": "wind",
+   "t0": 9.6,
+   "t1": 15.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -50,
+   "seed": 3,
+   "args": {
+    "darkness": 0.6,
+    "gust": 0.2,
+    "whistle": 0.0
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 15.0,
+   "t1": 20.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 1
+  },
+  {
+   "sound": "lamp_hum",
+   "t0": 15.0,
+   "t1": 20.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -55,
+   "seed": 1
+  },
+  {
+   "sound": "room_tone",
+   "t0": 20.4,
+   "t1": 25.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 20.4,
+   "t1": 22.8,
+   "fade_in": 0.05,
+   "fade_out": 0.12,
+   "gain_db": -40,
+   "seed": 4,
+   "args": {
+    "murmur": 1.0,
+    "traffic": 0.0
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 25.8,
+   "t1": 31.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -39,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 25.8,
+   "t1": 31.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -48,
+   "seed": 5,
+   "args": {
+    "murmur": 0.5,
+    "traffic": 0.3
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 31.2,
+   "t1": 36.65,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 31.2,
+   "t1": 36.65,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -47,
+   "seed": 6,
+   "args": {
+    "murmur": 0.6,
+    "traffic": 0.0
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 36.6,
+   "t1": 42.05,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 1
+  },
+  {
+   "sound": "city_day",
+   "t0": 36.6,
+   "t1": 40.4,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -46,
+   "seed": 7,
+   "args": {
+    "murmur": 0.7,
+    "traffic": 0.0
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 42.0,
+   "t1": 47.45,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -40,
+   "seed": 1
+  },
+  {
+   "sound": "applause",
+   "t0": 42.0,
+   "t1": 42.9,
+   "fade_in": 0.05,
+   "fade_out": 0.4,
+   "gain_db": -44,
+   "seed": 8,
+   "args": {
+    "density": 14.0
+   }
+  },
+  {
+   "sound": "cabin_hum",
+   "t0": 47.4,
+   "t1": 52.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -50,
+   "seed": 1
+  },
+  {
+   "sound": "room_tone",
+   "t0": 47.4,
+   "t1": 52.85,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -41,
+   "seed": 1
+  },
+  {
+   "sound": "crowd_cheer",
+   "t0": 50.85,
+   "t1": 52.85,
+   "fade_in": 0.15,
+   "fade_out": 0.06,
+   "gain_db": -36,
+   "seed": 9,
+   "args": {
+    "excite": 0.8
+   }
+  },
+  {
+   "sound": "city_day",
+   "t0": 52.8,
+   "t1": 58.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -42,
+   "seed": 10,
+   "args": {
+    "murmur": 0.3,
+    "traffic": 0.3
+   }
+  },
+  {
+   "sound": "wind",
+   "t0": 52.8,
+   "t1": 58.25,
+   "fade_in": 0.05,
+   "fade_out": 0.06,
+   "gain_db": -50,
+   "seed": 11,
+   "args": {
+    "darkness": 0.5,
+    "gust": 0.2,
+    "whistle": 0.0
+   }
+  },
+  {
+   "sound": "room_tone",
+   "t0": 58.2,
+   "t1": 71.4,
+   "fade_in": 0.05,
+   "fade_out": 1.2,
+   "gain_db": -42,
+   "seed": 1
+  }
+ ],
+ "events": [
+  {
+   "t": 0.5,
+   "sound": "snore",
+   "gain_db": -30,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.8
+   }
+  },
+  {
+   "t": 2.8,
+   "sound": "snore",
+   "gain_db": -30,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.8
+   }
+  },
+  {
+   "t": 5.0,
+   "sound": "snore",
+   "gain_db": -30,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.8
+   }
+  },
+  {
+   "t": 8.4,
+   "sound": "snore",
+   "gain_db": -30,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.8
+   }
+  },
+  {
+   "t": 1.35,
+   "sound": "slurp",
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.7
+   }
+  },
+  {
+   "t": 4.3,
+   "sound": "slurp",
+   "gain_db": -31,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
+   "t": 2.2,
+   "sound": "fish_blub",
+   "gain_db": -34,
+   "pan": -0.4,
+   "room": -16,
+   "args": {
+    "n_bub": 3
+   }
+  },
+  {
+   "t": 5.6,
+   "sound": "low_swell",
+   "gain_db": -24,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 1.0,
+    "pitch": 0.7
+   }
+  },
+  {
+   "t": 5.65,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.75
+   }
+  },
+  {
+   "t": 5.71,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.79
+   }
+  },
+  {
+   "t": 5.77,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -18,
+   "args": {
+    "pitch": 0.83
+   }
+  },
+  {
+   "t": 5.83,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.87
+   }
+  },
+  {
+   "t": 5.89,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.75
+   }
+  },
+  {
+   "t": 6.2,
+   "sound": "parrot_chirp",
+   "gain_db": -27,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 6.55,
+   "sound": "parrot_chirp",
+   "gain_db": -28,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.08
+   }
+  },
+  {
+   "t": 6.95,
+   "sound": "cat_meow",
+   "gain_db": -26,
+   "pan": 0.05,
+   "room": -16,
+   "args": {
+    "pitch": 0.95
+   }
+  },
+  {
+   "t": 6.45,
+   "sound": "fish_blub",
+   "gain_db": -32,
+   "pan": -0.4,
+   "room": -16,
+   "args": {
+    "n_bub": 2
+   }
+  },
+  {
+   "t": 7.2,
+   "sound": "blanket_rustle",
+   "gain_db": -28,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.4,
+    "softness": 0.4,
+    "intensity": 0.7
+   }
+  },
+  {
+   "t": 7.45,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 7.8,
+   "sound": "giant_step",
+   "gain_db": -19,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.6,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 7.82,
+   "sound": "wood_snap",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "dur": 0.4,
+    "size": 0.3
+   }
+  },
+  {
+   "t": 7.92,
+   "sound": "plush_place",
+   "gain_db": -28,
+   "pan": 0.15,
+   "room": -16
+  },
+  {
+   "t": 8.1,
+   "sound": "parrot_chirp",
+   "gain_db": -29,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 8.35,
+   "sound": "parrot_chirp",
+   "gain_db": -30,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 10.2,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 10.45,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 11.05,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 11.3,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 11.85,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 12.1,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 12.1,
+   "sound": "door_open",
+   "gain_db": -28,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "creak": 0.6
+   }
+  },
+  {
+   "sound": "footsteps",
+   "t0": 12.4,
+   "t1": 13.7,
+   "pan0": -0.3,
+   "pan1": -0.1,
+   "gain_db": -27,
+   "rate": 6.0
+  },
+  {
+   "t": 14.1,
+   "sound": "giant_step",
+   "gain_db": -19,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.6,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 14.19,
+   "sound": "giant_step",
+   "gain_db": -19,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "size": 0.6,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 14.2,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 14.45,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": 0.1,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 15.55,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 16.45,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 17.3,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 0.85
+   }
+  },
+  {
+   "t": 18.4,
+   "sound": "pen_scribble",
+   "gain_db": -32,
+   "pan": 0.1,
+   "room": -16,
+   "args": {
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 19.27,
+   "sound": "wood_snap",
+   "gain_db": -24,
+   "pan": 0.1,
+   "room": -16,
+   "args": {
+    "dur": 0.5,
+    "size": 0.25
+   }
+  },
+  {
+   "t": 19.28,
+   "sound": "car_crash",
+   "gain_db": -30,
+   "pan": 0.1,
+   "room": -16,
+   "args": {
+    "weight": 0.15
+   }
+  },
+  {
+   "t": 19.52,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 21.0,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 21.25,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 21.9,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 0.95
+   }
+  },
+  {
+   "t": 22.15,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 22.75,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 23.0,
+   "sound": "parrot_chirp",
+   "gain_db": -26,
+   "pan": 0.35,
+   "room": -16,
+   "args": {
+    "pitch": 1.05
+   }
+  },
+  {
+   "t": 24.2,
+   "sound": "blanket_rustle",
+   "gain_db": -27,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "dur": 0.7,
+    "softness": 0.3,
+    "intensity": 0.8
+   }
+  },
+  {
+   "t": 24.95,
+   "sound": "car_crash",
+   "gain_db": -24,
+   "pan": -0.35,
+   "room": -16,
+   "args": {
+    "weight": 0.35
+   }
+  },
+  {
+   "t": 25.0,
+   "sound": "giant_step",
+   "gain_db": -22,
+   "pan": -0.35,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 25.25,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 25.31,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.64
+   }
+  },
+  {
+   "t": 25.9,
+   "sound": "keyboard_type",
+   "gain_db": -34,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "dur": 1.2,
+    "rate": 9
+   }
+  },
+  {
+   "t": 26.2,
+   "sound": "fish_blub",
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "n_bub": 4
+   }
+  },
+  {
+   "t": 27.35,
+   "sound": "fish_blub",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "n_bub": 2
+   }
+  },
+  {
+   "t": 28.35,
+   "sound": "blanket_rustle",
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.5,
+    "softness": 0.5,
+    "intensity": 0.6
+   }
+  },
+  {
+   "t": 29.45,
+   "sound": "fish_blub",
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "n_bub": 5
+   }
+  },
+  {
+   "t": 30.5,
+   "sound": "giant_step",
+   "gain_db": -21,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 30.55,
+   "sound": "giant_step",
+   "gain_db": -21,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 30.6,
+   "sound": "giant_step",
+   "gain_db": -21,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 30.65,
+   "sound": "giant_step",
+   "gain_db": -21,
+   "pan": 0.15,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 30.7,
+   "sound": "giant_step",
+   "gain_db": -21,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 30.8,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.62
+   }
+  },
+  {
+   "t": 30.86,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.66
+   }
+  },
+  {
+   "t": 30.92,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": -18,
+   "args": {
+    "pitch": 0.7
+   }
+  },
+  {
+   "t": 31.25,
+   "sound": "keyboard_type",
+   "gain_db": -33,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "dur": 2.7,
+    "rate": 22
+   }
+  },
+  {
+   "t": 31.85,
+   "sound": "hamster_squeak",
+   "gain_db": -27,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 32.1,
+   "sound": "hamster_squeak",
+   "gain_db": -28,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 32.85,
+   "sound": "hamster_squeak",
+   "gain_db": -27,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "pitch": 0.95
+   }
+  },
+  {
+   "t": 33.4,
+   "sound": "fish_blub",
+   "gain_db": -36,
+   "pan": -0.4,
+   "room": -16,
+   "args": {
+    "n_bub": 3
+   }
+  },
+  {
+   "t": 34.3,
+   "sound": "hamster_squeak",
+   "gain_db": -30,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 34.37,
+   "sound": "hamster_squeak",
+   "gain_db": -30,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "pitch": 0.9500000000000001
+   }
+  },
+  {
+   "t": 34.44,
+   "sound": "hamster_squeak",
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 34.51,
+   "sound": "hamster_squeak",
+   "gain_db": -30,
+   "pan": 0.15,
+   "room": -16,
+   "args": {
+    "pitch": 1.05
+   }
+  },
+  {
+   "t": 34.58,
+   "sound": "hamster_squeak",
+   "gain_db": -30,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 35.3,
+   "sound": "keyboard_type",
+   "gain_db": -32,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "dur": 0.9,
+    "rate": 14
+   }
+  },
+  {
+   "t": 35.75,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 35.81,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 35.87,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 35.93,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": 0.15,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 35.99,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 36.05,
+   "sound": "giant_step",
+   "gain_db": -23,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.35,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 36.1,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 36.95,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "pitch": 1.05
+   }
+  },
+  {
+   "t": 37.2,
+   "sound": "dog_bark",
+   "gain_db": -27,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 37.95,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.05
+   }
+  },
+  {
+   "t": 38.95,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "pitch": 0.75
+   }
+  },
+  {
+   "t": 39.25,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "pitch": 0.8
+   }
+  },
+  {
+   "t": 39.0,
+   "sound": "door_open",
+   "gain_db": -30,
+   "pan": -0.5,
+   "room": -16,
+   "args": {
+    "creak": 0.4
+   }
+  },
+  {
+   "sound": "footsteps",
+   "t0": 40.45,
+   "t1": 41.9,
+   "pan0": -0.2,
+   "pan1": 0.5,
+   "gain_db": -25,
+   "rate": 7.0
+  },
+  {
+   "t": 40.5,
+   "sound": "dog_bark",
+   "gain_db": -24,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 40.65,
+   "sound": "cat_meow",
+   "gain_db": -26,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 40.8,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "pitch": 0.8
+   }
+  },
+  {
+   "t": 40.75,
+   "sound": "giant_step",
+   "gain_db": -22,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 40.87,
+   "sound": "giant_step",
+   "gain_db": -22,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 40.99,
+   "sound": "giant_step",
+   "gain_db": -22,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "size": 0.45,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 40.95,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 41.01,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.64
+   }
+  },
+  {
+   "t": 42.1,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.4,
+   "room": -16
+  },
+  {
+   "t": 42.869,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": -0.4,
+   "room": -16
+  },
+  {
+   "t": 43.203,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "t": 43.536,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.4,
+   "room": -16
+  },
+  {
+   "t": 43.869,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "t": 44.203,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.4,
+   "room": -16
+  },
+  {
+   "t": 44.536,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": -0.2,
+   "room": -16
+  },
+  {
+   "t": 44.869,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.4,
+   "room": -16
+  },
+  {
+   "t": 45.203,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": -0.2,
+   "room": -16
+  },
+  {
+   "t": 45.536,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.2,
+   "room": -16
+  },
+  {
+   "t": 45.869,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": -0.2,
+   "room": -16
+  },
+  {
+   "t": 46.203,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.2,
+   "room": -16
+  },
+  {
+   "t": 46.536,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": -0.4,
+   "room": -16
+  },
+  {
+   "t": 46.736,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.0,
+   "room": -16
+  },
+  {
+   "t": 46.936,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.2,
+   "room": -16
+  },
+  {
+   "t": 47.136,
+   "sound": "lamp_switch_click",
+   "gain_db": -33,
+   "pan": 0.4,
+   "room": -16
+  },
+  {
+   "t": 42.55,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.05,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 42.8,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.05,
+   "room": -16,
+   "args": {
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 43.55,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.05,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 44.4,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.05,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 44.65,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.05,
+   "room": -16,
+   "args": {
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 46.3,
+   "sound": "giant_step",
+   "gain_db": -18,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "size": 0.75,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 46.33,
+   "sound": "wood_snap",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.5,
+    "size": 0.4
+   }
+  },
+  {
+   "t": 46.6,
+   "sound": "plush_squeak",
+   "gain_db": -24,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.55
+   }
+  },
+  {
+   "t": 47.9,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 48.75,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 49.55,
+   "sound": "cat_meow",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 0.85
+   }
+  },
+  {
+   "t": 50.05,
+   "sound": "pen_scribble",
+   "gain_db": -27,
+   "pan": 0.2,
+   "room": -16,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
+   "t": 50.8,
+   "sound": "low_swell",
+   "gain_db": -24,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.9,
+    "pitch": 0.8
+   }
+  },
+  {
+   "t": 51.0,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 51.25,
+   "sound": "parrot_chirp",
+   "gain_db": -27,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 51.4,
+   "sound": "hamster_squeak",
+   "gain_db": -28,
+   "pan": 0.1,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 51.55,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "pitch": 1.15
+   }
+  },
+  {
+   "t": 50.9,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.7
+   }
+  },
+  {
+   "t": 50.98,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.74
+   }
+  },
+  {
+   "t": 51.06,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -18,
+   "args": {
+    "pitch": 0.7799999999999999
+   }
+  },
+  {
+   "t": 51.14,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.82
+   }
+  },
+  {
+   "t": 51.22,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.7
+   }
+  },
+  {
+   "t": 51.3,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.74
+   }
+  },
+  {
+   "t": 53.55,
+   "sound": "dog_bark",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.0
+   }
+  },
+  {
+   "t": 53.8,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.05
+   }
+  },
+  {
+   "t": 54.3,
+   "sound": "dog_bark",
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.1
+   }
+  },
+  {
+   "t": 55.0,
+   "sound": "plush_squeak",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 0.55
+   }
+  },
+  {
+   "t": 55.85,
+   "sound": "plush_place",
+   "gain_db": -28,
+   "pan": 0.05,
+   "room": -16
+  },
+  {
+   "sound": "footsteps",
+   "t0": 55.15,
+   "t1": 56.9,
+   "pan0": -0.4,
+   "pan1": 0.0,
+   "gain_db": -26,
+   "rate": 6.5
+  },
+  {
+   "sound": "footsteps",
+   "t0": 55.2,
+   "t1": 57.0,
+   "pan0": 0.4,
+   "pan1": 0.0,
+   "gain_db": -27,
+   "rate": 6.0
+  },
+  {
+   "t": 56.75,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 56.81,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": -0.15,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 56.87,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 56.93,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": 0.15,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 56.99,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": 0.3,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 57.05,
+   "sound": "giant_step",
+   "gain_db": -20,
+   "pan": -0.3,
+   "room": -16,
+   "args": {
+    "size": 0.55,
+    "surface": "ground"
+   }
+  },
+  {
+   "t": 57.1,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": -0.3,
+   "room": -18,
+   "args": {
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 57.16,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": -0.15,
+   "room": -18,
+   "args": {
+    "pitch": 0.64
+   }
+  },
+  {
+   "t": 57.22,
+   "sound": "plush_squeak",
+   "gain_db": -25,
+   "pan": 0.0,
+   "room": -18,
+   "args": {
+    "pitch": 0.6799999999999999
+   }
+  },
+  {
+   "t": 57.6,
+   "sound": "dog_bark",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 58.6,
+   "sound": "snore",
+   "gain_db": -34,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.7
+   }
+  },
+  {
+   "t": 61.0,
+   "sound": "snore",
+   "gain_db": -35,
+   "pan": -0.2,
+   "room": -16,
+   "args": {
+    "dur": 2.0,
+    "size": 0.7
+   }
+  },
+  {
+   "t": 63.9,
+   "sound": "dog_bark",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "pitch": 0.8
+   }
+  },
+  {
+   "t": 63.75,
+   "sound": "low_swell",
+   "gain_db": -27,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 1.2,
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 64.55,
+   "sound": "blanket_rustle",
+   "gain_db": -30,
+   "pan": 0.0,
+   "room": -16,
+   "args": {
+    "dur": 0.6,
+    "softness": 0.6,
+    "intensity": 0.5
+   }
+  },
+  {
+   "t": 64.85,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 65.07,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 65.29,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 65.51,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 65.73,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  },
+  {
+   "t": 65.95,
+   "sound": "giant_step",
+   "gain_db": -31,
+   "pan": -0.1,
+   "room": -16,
+   "args": {
+    "size": 0.15,
+    "surface": "wood"
+   }
+  }
+ ],
+ "music": {
+  "instrument": "piano",
+  "gain_db": 0.0,
+  "reverb_db": -10.0,
+  "pad_db": 2.0,
+  "pad_reverb_db": -5.0,
+  "mallet_db": -2.0,
+  "leveler": {
+   "thr_rel_db": 3.0,
+   "ratio": 2.5,
+   "tau": 0.25
+  },
+  "end": 71.4,
+  "chords": [
+   [
+    0.2,
+    "Fmaj7"
+   ],
+   [
+    5.6,
+    "Fmaj7"
+   ],
+   [
+    7.4,
+    "Dm7"
+   ],
+   [
+    9.2,
+    "Gm7"
+   ],
+   [
+    11.0,
+    "C7"
+   ],
+   [
+    12.8,
+    "Fmaj7"
+   ],
+   [
+    14.6,
+    "Dm7"
+   ],
+   [
+    16.4,
+    "Gm7"
+   ],
+   [
+    18.2,
+    "C7"
+   ],
+   [
+    20.0,
+    "Fmaj7"
+   ],
+   [
+    21.8,
+    "Dm7"
+   ],
+   [
+    23.6,
+    "Gm7"
+   ],
+   [
+    25.4,
+    "C7"
+   ],
+   [
+    27.2,
+    "Fmaj7"
+   ],
+   [
+    29.0,
+    "Dm7"
+   ],
+   [
+    30.8,
+    "Gm7"
+   ],
+   [
+    32.6,
+    "C7"
+   ],
+   [
+    34.4,
+    "Fmaj7"
+   ],
+   [
+    36.2,
+    "Dm7"
+   ],
+   [
+    38.0,
+    "Gm7"
+   ],
+   [
+    39.8,
+    "C7"
+   ],
+   [
+    41.6,
+    "Fmaj7"
+   ],
+   [
+    43.4,
+    "Dm7"
+   ],
+   [
+    45.2,
+    "Gm7"
+   ],
+   [
+    47.0,
+    "C7"
+   ],
+   [
+    48.8,
+    "Fmaj7"
+   ],
+   [
+    50.6,
+    "Dm7"
+   ],
+   [
+    52.4,
+    "Gm7"
+   ],
+   [
+    54.2,
+    "C7"
+   ],
+   [
+    56.0,
+    "Fmaj7"
+   ],
+   [
+    57.8,
+    "Dm7"
+   ],
+   [
+    58.2,
+    "Bbmaj7"
+   ],
+   [
+    60.0,
+    "Am7"
+   ],
+   [
+    61.8,
+    "Dm7"
+   ],
+   [
+    63.6,
+    "Gm7"
+   ],
+   [
+    64.5,
+    "C7"
+   ],
+   [
+    65.4,
+    "Fmaj7"
+   ],
+   [
+    67.4,
+    "Bbmaj7"
+   ],
+   [
+    69.0,
+    "Fmaj7"
+   ]
+  ],
+  "sections": [
+   {
+    "t0": 5.6,
+    "t1": 58.2,
+    "style": "walk",
+    "vel": [
+     [
+      5.6,
+      0.25
+     ],
+     [
+      20.4,
+      0.27
+     ],
+     [
+      42.0,
+      0.29
+     ],
+     [
+      58.2,
+      0.3
+     ]
+    ],
+    "step": 0.45,
+    "bass_hold": 0.95,
+    "bass_vel": 0.95,
+    "comp_vel": 0.42,
+    "stab_hold": 0.8,
+    "swing": 0.14
+   },
+   {
+    "t0": 58.2,
+    "t1": 67.4,
+    "style": "arp",
+    "vel": 0.24,
+    "step": 0.3,
+    "pattern": [
+     0,
+     1,
+     2,
+     3,
+     2,
+     1
+    ]
+   },
+   {
+    "t0": 67.4,
+    "t1": 71.4,
+    "style": "arp",
+    "vel": 0.22,
+    "step": 0.45,
+    "pattern": [
+     0,
+     2,
+     1,
+     3,
+     2,
+     1
+    ]
+   }
+  ],
+  "melody": [
+   [
+    63.949999999999996,
+    81,
+    0.22,
+    false,
+    0.6
+   ],
+   [
+    64.55,
+    79,
+    0.21,
+    false,
+    0.6
+   ],
+   [
+    65.15,
+    77,
+    0.24,
+    false,
+    1.4
+   ],
+   [
+    67.5,
+    77,
+    0.2,
+    false,
+    1.0
+   ],
+   [
+    68.4,
+    81,
+    0.2,
+    false,
+    1.0
+   ],
+   [
+    69.30000000000001,
+    84,
+    0.21,
+    false,
+    2.2
+   ]
+  ],
+  "mallet_melody": [
+   [
+    5.68,
+    77,
+    0.34,
+    0.22
+   ],
+   [
+    5.909999999999999,
+    78,
+    0.3,
+    0.18
+   ],
+   [
+    6.13,
+    77,
+    0.32,
+    0.22
+   ],
+   [
+    6.58,
+    73,
+    0.34,
+    0.5
+   ],
+   [
+    9.68,
+    79,
+    0.34,
+    0.22
+   ],
+   [
+    9.91,
+    80,
+    0.3,
+    0.18
+   ],
+   [
+    10.129999999999999,
+    79,
+    0.32,
+    0.22
+   ],
+   [
+    10.58,
+    75,
+    0.34,
+    0.5
+   ],
+   [
+    15.08,
+    81,
+    0.34,
+    0.22
+   ],
+   [
+    15.31,
+    82,
+    0.3,
+    0.18
+   ],
+   [
+    15.53,
+    81,
+    0.32,
+    0.22
+   ],
+   [
+    15.98,
+    77,
+    0.34,
+    0.5
+   ],
+   [
+    20.479999999999997,
+    77,
+    0.34,
+    0.22
+   ],
+   [
+    20.709999999999997,
+    78,
+    0.3,
+    0.18
+   ],
+   [
+    20.93,
+    77,
+    0.32,
+    0.22
+   ],
+   [
+    21.38,
+    73,
+    0.34,
+    0.5
+   ],
+   [
+    25.88,
+    82,
+    0.34,
+    0.22
+   ],
+   [
+    26.11,
+    83,
+    0.3,
+    0.18
+   ],
+   [
+    26.330000000000002,
+    82,
+    0.32,
+    0.22
+   ],
+   [
+    26.78,
+    78,
+    0.34,
+    0.5
+   ],
+   [
+    31.279999999999998,
+    81,
+    0.34,
+    0.22
+   ],
+   [
+    31.509999999999998,
+    82,
+    0.3,
+    0.18
+   ],
+   [
+    31.73,
+    81,
+    0.32,
+    0.22
+   ],
+   [
+    32.18,
+    77,
+    0.34,
+    0.5
+   ],
+   [
+    36.68,
+    79,
+    0.34,
+    0.22
+   ],
+   [
+    36.910000000000004,
+    80,
+    0.3,
+    0.18
+   ],
+   [
+    37.13,
+    79,
+    0.32,
+    0.22
+   ],
+   [
+    37.58,
+    75,
+    0.34,
+    0.5
+   ],
+   [
+    42.08,
+    84,
+    0.34,
+    0.22
+   ],
+   [
+    42.31,
+    85,
+    0.3,
+    0.18
+   ],
+   [
+    42.53,
+    84,
+    0.32,
+    0.22
+   ],
+   [
+    42.98,
+    80,
+    0.34,
+    0.5
+   ],
+   [
+    47.48,
+    82,
+    0.34,
+    0.22
+   ],
+   [
+    47.71,
+    83,
+    0.3,
+    0.18
+   ],
+   [
+    47.93,
+    82,
+    0.32,
+    0.22
+   ],
+   [
+    48.379999999999995,
+    78,
+    0.34,
+    0.5
+   ],
+   [
+    52.879999999999995,
+    86,
+    0.34,
+    0.22
+   ],
+   [
+    53.11,
+    87,
+    0.3,
+    0.18
+   ],
+   [
+    53.33,
+    86,
+    0.32,
+    0.22
+   ],
+   [
+    53.779999999999994,
+    82,
+    0.34,
+    0.5
+   ]
+  ],
+  "pad": [
+   {
+    "t0": 5.3,
+    "t1": 58.6,
+    "notes": [
+     41,
+     53,
+     60
+    ],
+    "level": 0.85,
+    "attack": 0.8,
+    "release": 0.8
+   },
+   {
+    "t0": 5.6,
+    "t1": 7.75,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 7.4,
+    "t1": 9.549999999999999,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 9.2,
+    "t1": 11.35,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 11.0,
+    "t1": 13.15,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 12.8,
+    "t1": 14.95,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 14.6,
+    "t1": 16.75,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 16.4,
+    "t1": 18.55,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 18.2,
+    "t1": 20.35,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 20.0,
+    "t1": 22.150000000000002,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 21.8,
+    "t1": 23.950000000000003,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 23.6,
+    "t1": 25.75,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 25.4,
+    "t1": 27.55,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 27.2,
+    "t1": 29.35,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 29.0,
+    "t1": 31.150000000000002,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 30.8,
+    "t1": 32.95,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 32.6,
+    "t1": 34.75,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 34.4,
+    "t1": 36.550000000000004,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 36.2,
+    "t1": 38.35,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 38.0,
+    "t1": 40.15,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 39.8,
+    "t1": 41.95,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 41.6,
+    "t1": 43.75,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 43.4,
+    "t1": 45.550000000000004,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 45.2,
+    "t1": 47.35,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 47.0,
+    "t1": 49.15,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 48.8,
+    "t1": 50.95,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 50.6,
+    "t1": 52.75,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 52.4,
+    "t1": 54.550000000000004,
+    "chord": "Gm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 54.2,
+    "t1": 56.35,
+    "chord": "C7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 56.0,
+    "t1": 58.15,
+    "chord": "Fmaj7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 57.8,
+    "t1": 58.550000000000004,
+    "chord": "Dm7",
+    "level": 0.55,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 58.2,
+    "t1": 60.35,
+    "chord": "Bbmaj7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 60.0,
+    "t1": 62.15,
+    "chord": "Am7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 61.8,
+    "t1": 63.95,
+    "chord": "Dm7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 63.6,
+    "t1": 64.85,
+    "chord": "Gm7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 64.5,
+    "t1": 65.75,
+    "chord": "C7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 65.4,
+    "t1": 67.75,
+    "chord": "Fmaj7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 67.4,
+    "t1": 69.35,
+    "chord": "Bbmaj7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   },
+   {
+    "t0": 69.0,
+    "t1": 71.45,
+    "chord": "Fmaj7",
+    "level": 0.9,
+    "attack": 0.15,
+    "release": 0.6
+   }
+  ],
+  "stings": [
+   {
+    "t": 5.6499999999999995,
+    "midi": 29,
+    "vel": 0.3,
+    "hold": 1.3
+   },
+   {
+    "t": 7.8,
+    "midi": 29,
+    "vel": 0.26,
+    "hold": 0.9
+   },
+   {
+    "t": 24.95,
+    "midi": 31,
+    "vel": 0.26,
+    "hold": 0.9
+   },
+   {
+    "t": 46.3,
+    "midi": 29,
+    "vel": 0.27,
+    "hold": 0.9
+   },
+   {
+    "t": 50.9,
+    "midi": 29,
+    "vel": 0.26,
+    "hold": 1.2
+   },
+   {
+    "t": 56.8,
+    "midi": 31,
+    "vel": 0.26,
+    "hold": 0.9
+   }
+  ],
+  "ducks": [],
+  "auto_duck": {
+   "db": -3.0,
+   "categories": [
+    "prop"
+   ],
+   "lookahead": 0.04,
+   "hold": 0.4,
+   "smooth": 0.2,
+   "max_len": 1.0
+  },
+  "eq": [
+   {
+    "f": 2800,
+    "q": 0.8,
+    "db": -2.0
+   },
+   {
+    "f": 6500,
+    "q": 0.6,
+    "db": -4.0
+   }
+  ]
+ }
+}

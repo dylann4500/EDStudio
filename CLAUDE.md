@@ -138,6 +138,18 @@ videos/NNN-slug/
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
 - `audio/synth.py` voices: piano (default), `mallet` (`ostinato` style), cinematic `strings` style, `drums`/`drum_patterns`
   (taiko, tom, boom), pad `notes` + `hp` for sub drones/braams. 005's `make_cues.py` uses all of the dramatic ones.
+- **Talking pets (016):** `engine/props.js` `makeSpeechBubble({lines, accent, width, maxChars, offX, soft, tail, name})` = a
+  camera-facing speech bubble (`setRows(n)` reveals lines chat-style, `setPop(k)` boing; `tail` px lengthens the pointer so a
+  card can float above a crowd and still point at a goldfish). Size it from the camera distance EVERY frame (016 `say()`:
+  `pop = k · frac · frameW(d)`, frac ≈ 0.45–0.6) so every bubble reads the same on screen whatever the lens. Pets:
+  `makeCat()` (sitting; `talk/paw/squint`, tail swish), `makeParrot()` + `makePerch(h)`, `makeFishBowl({r})` (`update(t, face)`
+  swims the fish / brings it to the glass, `talk`), `makeHamster()` (`stand(k)` rears up, `paws[]` attach points) +
+  `makeHamsterWheel()` (`spin(a)`), `makeDog` gained `setLie(k)` (lying in a bed) + `setWag(rate)`. Scale hamsters ×1.5 to read.
+  New sets: `engine/sets/livingroom.js` (apartment + dining area; armchair group pivots at its back edge so it tips over
+  backward; `setMode('evening'|'dinner'|'night')`), `engine/sets/petshop.js` (`buildPetShop`: fish-tank wall, hamster table,
+  food-bag shelves, bird cages; `buildVet`: waiting chairs, EXAM 1 `examDoor` hinge, EXIT, posters). Synth: `walk` section
+  style (walking bass + off-beat comps = "gossip jazz") and soft pet voices `cat_meow`, `parrot_chirp`, `fish_blub`,
+  `hamster_squeak` (audio/README.md).
 - 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
   (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
   jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
@@ -301,6 +313,12 @@ videos/NNN-slug/
   off-frame; and park the destination prop (hydrant) where the leader actually stops (compute it from the walk), not a guess.
 - **Check every still for the HUD (top-left, y≈470–640 at full size) covering a face** — 009's theatre box and riverA put a
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
+- **Speech bubbles / cards in a vertical frame (016): aim the camera AT the bubble height, not at the speaker.** Put the
+  speaker's head at ≈ 60–65 % of the frame so its bubble lands in the 38–60 % band; first sheet aimed at the pets and 5 of 11
+  bubbles sat at 25–35 % on top of the HUD. A bubble that rises above ~37 % must stay right of x ≈ 55 %. In a crowd, pop the
+  bubbles one after another (each ~1.1 s) instead of three at once, keep floor pets' bubbles under the owners' faces, and never
+  anchor one on a lap pet (it lands on the owner's face). A topple that drops out of frame: keyframe the camera's aim down with
+  it (CAMS `ay`/`y`, 016 press beat) — v1 left an empty backdrop.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
   the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
