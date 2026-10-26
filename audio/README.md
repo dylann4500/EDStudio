@@ -44,10 +44,13 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
 | funny montage / "sus" (008) | **sneaky pizzicato**: `instrument: "pluck"` + `style: "bounce"` in D minor + a creeping chromatic `mallet_melody` motif per place, warm major arp for the ending | scene beds + soft low `plush_squeak` boops synced to each card/row appearing |
+| talking pets / gossip (016) | **gossip jazz**: piano `style: "walk"` (walking bass in quarter notes at ~133 bpm + soft off-beat comps pushed late by `swing`), F major ii–V loop (Fmaj7 Dm7 Gm7 C7), a 4-note vibes `mallet_melody` "psst" motif opening every beat, one long drone pad under it; warm slow arp for the ending | a pet voice on every speech bubble (`dog_bark`, `cat_meow`, `parrot_chirp`, `fish_blub`, `hamster_squeak`), a party's chatter that stops dead at the reveal, a big soft impact ending each beat |
 - Successful sim accounts are often **SFX-led** (little/no music, realistic immersive sound). 007 runs 6.6 s with no music at all —
   just a street — and the synth enters on the premise. You may go music-free for a whole video if the sound design carries it.
 - Plucks decay fast: **never use `held`/`cadence` sections with `pluck`** (they leave gaps) — use slow `arp` (step 0.375–0.75)
   and a louder pad bed (`pad_db` ≈ +1, `level` 0.55–0.8).
+- New in 016: section style `walk` (`step`, `bass_hold`, `bass_vel`, `comp_vel`, `stab_hold`, `swing` in steps) and pet voices
+  `cat_meow` (pitch, dur), `parrot_chirp` (pitch), `fish_blub` (n_bub), `hamster_squeak` (pitch) — all round + low-passed (≈ −25…−28 dB).
 - New beds: `applause` (density), `crowd_cheer`, `traffic_flow`, `rocket_rumble`, `turbines`. New events: `car_pass` (t = closest
   point, Doppler), `chalk_write`, `pen_scribble`, `low_swell` (anchor = peak). Sync event times to the picture (007 computes car
   crossings from the same formula as shots.js).

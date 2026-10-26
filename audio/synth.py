@@ -1032,6 +1032,64 @@ def sfx_crow_caw(rng, pitch=1.0):
     return Sound(norm(fades(lp(v * env, 2800), 0.002, 0.05)), onsets=[(0.0, "soft")])
 
 
+def sfx_cat_meow(rng, pitch=1.0, dur=0.55):
+    """A soft cat "mrrow" (016): a harmonic voice whose pitch rises then falls while the mouth opens (a formant sweeping
+    up from 'ee' to 'ow'), purry onset, low-passed. Never a shrill yowl."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = 430 * pitch * (1 + 0.35 * np.sin(np.pi * np.clip(u * 1.1, 0, 1)) - 0.12 * u)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    saw = sum(np.sin(k * ph) / k for k in range(1, 10))
+    fc = 650 + 700 * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.7
+    v = sweep_filter(saw, fc, q=1.4, kind="bp") + 0.25 * bp(saw, 1800, 2600)
+    purr = 1 + 0.35 * np.sin(2 * np.pi * 26 * t) * np.exp(-t / 0.08)
+    env = (1 - np.exp(-t / 0.03)) * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.5
+    return Sound(norm(fades(lp(v * env * purr, 2600), 0.003, 0.06)), onsets=[(0.0, "soft")])
+
+
+def sfx_parrot_chirp(rng, pitch=1.0, dur=0.32):
+    """A parrot's "rrawk" (016), kept round: a buzzy tone with a fast warble and a quick pitch flip, two soft formants,
+    low-passed hard so it reads as a bird without any squawk-shriek."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = 780 * pitch * (1.0 + 0.18 * np.sin(np.pi * u) - 0.1 * u) * (1 + 0.04 * np.sin(2 * np.pi * 32 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    saw = sum(np.sin(k * ph) / k for k in range(1, 7))
+    v = 0.7 * bp(saw, 800, 1700) + 0.35 * bp(saw, 2000, 2700)
+    env = (1 - np.exp(-t / 0.01)) * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.7 * (0.75 + 0.25 * np.sin(2 * np.pi * 30 * t))
+    return Sound(norm(fades(lp(v * env, 2900), 0.002, 0.04)), onsets=[(0.0, "soft")])
+
+
+def sfx_fish_blub(rng, n_bub=3, dur=0.5):
+    """A goldfish "talking" (016): a few soft underwater bubble plops (sine chirps that rise as they pop), low-passed."""
+    n = nsamp(dur)
+    y = np.zeros(n)
+    tk = 0.0
+    for _ in range(int(n_bub)):
+        m = nsamp(0.09)
+        tt = tvec(m)
+        f0 = rng.uniform(260, 420)
+        b = np.sin(2 * np.pi * np.cumsum(f0 * (1 + 2.2 * tt / 0.09)) / SR) * np.exp(-tt / 0.03) * (1 - np.exp(-tt / 0.003))
+        i0 = nsamp(tk)
+        k = min(m, n - i0)
+        if k > 0:
+            y[i0:i0 + k] += rng.uniform(0.6, 1.0) * b[:k]
+        tk += rng.uniform(0.08, 0.14)
+    return Sound(norm(fades(lp(y, 2200), 0.001, 0.03)), onsets=[(0.0, "soft")])
+
+
+def sfx_hamster_squeak(rng, pitch=1.0, dur=0.13):
+    """A tiny hamster squeak (016): a short sine chirp with a little bend, round and low-passed (no whistle)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 1050 * pitch * (1 + 0.25 * np.sin(np.pi * np.clip(t / dur, 0, 1)))
+    v = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.25 * np.sin(4 * np.pi * np.cumsum(f) / SR)
+    env = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.2
+    return Sound(norm(fades(lp(v * env, 3000), 0.002, 0.02)), onsets=[(0.0, "soft")])
+
+
 def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
     """A vehicle's suspension bottoming out (010 bus): a low metallic groan + a clunk at the start."""
     n = nsamp(dur)
@@ -1629,6 +1687,22 @@ def compose(M, mallet=None, strings=None):
                 else:
                     for j, m in enumerate(V["rh"][:3]):
                         add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+        elif st == "walk":
+            # 016 "gossip jazz": a walking bass in quarter notes (root, two chord tones, a chromatic step into the next
+            # chord's root) + soft piano comps on beats 2 and 4, pushed a little late (`swing`, in steps) for a lazy shuffle.
+            step = S.get("step", 0.5)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            nb = voicing(chords[i + 1][1])["bass"] if i + 1 < len(chords) else V["bass"]
+            line = [V["bass"], V["lh"][1], V["lh"][2] if V["lh"][2] < 58 else V["lh"][2] - 12, nb - 1 if nb > V["bass"] else nb + 1]
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.25), tk)
+                bm = line[k % 4] if k < nst - 1 or nst < 4 else line[3]
+                add(tk, bm, vk * S.get("bass_vel", 0.9), hold=stp * S.get("bass_hold", 0.95))
+                if k % 2 == 1:
+                    for j, m in enumerate(V["rh"][:3]):
+                        add(tk + stp * S.get("swing", 0.12) + 0.01 * j, m, vk * S.get("comp_vel", 0.42), hold=stp * S.get("stab_hold", 0.75))
         elif st == "strings":
             # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
             # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
@@ -2002,6 +2076,10 @@ SFX = {
     "metal_clang": (sfx_metal_clang, "prop"),
     "keyboard_type": (sfx_keyboard_type, "prop"),
     "crow_caw": (sfx_crow_caw, "prop"),
+    "cat_meow": (sfx_cat_meow, "prop"),
+    "parrot_chirp": (sfx_parrot_chirp, "prop"),
+    "fish_blub": (sfx_fish_blub, "prop"),
+    "hamster_squeak": (sfx_hamster_squeak, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),
 }
 
