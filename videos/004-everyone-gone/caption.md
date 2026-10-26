@@ -5,4 +5,6 @@ Tuesday, 8:14 PM, you blink and eight billion people are gone. The lights go out
 Who would you look for first? 👇
 Send this to your person
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #simulation #apocalypse #lastmanonearth #animation

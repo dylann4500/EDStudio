@@ -7,6 +7,8 @@ What if every nuclear weapon vanished at midnight? 🌍☢️
 Safer, or just different? Tell me below 👇
 Send this to the friend who always wins the argument.
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #nuclear #history #geopolitics #animation
 
 <!-- Sources: SIPRI Yearbook 2026 (global inventory Jan 2026: 12,187; Russia 5,420 + USA 5,042 ≈ 86%),

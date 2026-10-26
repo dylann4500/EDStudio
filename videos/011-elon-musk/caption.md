@@ -7,6 +7,8 @@ He sold his first video game for $500, quit Stanford after two days, and slept i
 Whose story should we tell next? 👇
 Send this to your friend who's obsessed with rockets
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #elonmusk #spacex #biography #tech #animation
 
 <!-- Sources (checked Oct 23 2026): Biography.com (born June 28 1971 Pretoria; Blastar sold at 12 for ~$500; Canada 1989 at 17;

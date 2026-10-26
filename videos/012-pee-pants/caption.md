@@ -5,5 +5,7 @@ At 10:14 AM, 8.2 billion people have the exact same accident. The President is l
 Who would you blame? 👇
 Send this to the friend who'd blame the dog
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #funny #relatable #simulation #animation
 <!-- fact: ~400 mL average bladder × 8.2 billion ≈ 3.3 billion liters ≈ 1,312 Olympic pools (2.5 million L each) -->

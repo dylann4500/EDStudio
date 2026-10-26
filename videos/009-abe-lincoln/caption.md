@@ -7,6 +7,8 @@ Less than one year of school. An axe in his hands from age 7. He read by firelig
 Whose story should we tell next? 👇
 Send this to your history buff friend
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #abrahamlincoln #history #biography #ushistory #animation
 
 <!-- Sources (checked Oct 2026): NPS Lincoln Boyhood / Lincoln Home (birth 1809, Indiana 1816, Nancy Hanks d. 1818,

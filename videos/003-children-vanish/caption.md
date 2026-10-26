@@ -5,4 +5,6 @@ At midnight, all 2.4 billion of them vanish, and for one second Earth has none. 
 Which teacher would still be waiting for you? 👇
 Send this to your favorite teacher
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #animation #kindergarten #teacher #simulation

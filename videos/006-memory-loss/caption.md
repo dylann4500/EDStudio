@@ -5,4 +5,6 @@ At 9:00 AM, 8.2 billion people forget everything. Drivers keep driving, 10,000 p
 Would humanity survive the first year? 👇
 Send this to someone who'd make it
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #animation #memory #doomsday #simulation

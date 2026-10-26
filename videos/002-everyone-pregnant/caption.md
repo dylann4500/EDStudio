@@ -5,4 +5,6 @@ One Monday at 7:02 AM, 8.2 billion people look down at the same time. Nine month
 Which week would you have given up at? 👇
 Send this to your Gary 🫃 (then call your mom)
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #pregnancy #funny #simulation #animation

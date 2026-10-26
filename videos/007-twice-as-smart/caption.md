@@ -5,4 +5,6 @@ At 9:41 AM every brain on Earth doubles. Within a minute a first grader is doing
 What would you invent first? 👇
 Send this to your smartest friend
 
+🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
+
 #whatif #science #future #simulation #animation
