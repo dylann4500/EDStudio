@@ -172,6 +172,19 @@ videos/NNN-slug/
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
   Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
+- **New sets (018):** `engine/sets/subway.js` (elevated subway car: steel poles `DIMS.poles`, overhead grab bars, orange bench
+  seats `DIMS.seatY/seatX`, doors, silly ad cards, `update(t, speed)` scrolls a sunny skyline past the windows), `mri.js` (MRI
+  suite: scanner with a glowing bore `DIMS.bore/boreFront/boreR`, sliding `table`, control window, MAGNET warnings, `iv`, `cart`,
+  `chair` groups that can fly, `setGlow(k)`), `paris.js` (72 m toy Eiffel Tower of instanced iron beams + Champ de Mars lawn,
+  kiosks, Haussmann ring, `legPoint(leg, y, u)` / `shaftPoint` = spots on the tower to stick things to, `aimSun`, own `fog`;
+  `camera.far` ≈ 700). `audio/synth.py` `metal_clang` (size, pitch): a soft low-passed "CLONG" for anything hitting steel.
+- **018 `shots.js` helpers worth copying:** `showC(rig, key, pose, center, yaw, tilt, roll)` poses a rig by its BODY CENTER with a
+  whole-body orientation (flying, stuck to a wall, a pile of people; legs dangle) — needs `rig.root.rotation.order = 'YXZ'`;
+  `showQ` + `basisQ(up, front)` for any orientation (heads radiating from a point); `flight()` = magnetic pull (u³: slow start,
+  slam); `impact(t, m, key, pos, size)` = cartoon starburst sprite + dust puffs (pair it with a camera jolt); `flyProp()` = a prop
+  flying onto a moving rig part (spine/head) and staying there (no reparenting); props `makeCart` (wire basket), `makeCompass`
+  (`needle.rotation.y`), `makeFork(spoon)`, `makeToaster` (toast pops), `makePan`, `makeMic`, `makeBackpack`; an instanced
+  crowd of 1,800 capsule "tourists" that fly in and stick (cheap swarm).
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -303,6 +316,15 @@ videos/NNN-slug/
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
   the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
+- **Things that stick to a surface must face the lens: put the surface BEHIND them relative to the camera** (018 v1 stuck people
+  to parked-car doors seen edge-on from the sidewalk = unreadable profiles; v2 put the camera in the street looking at a bus
+  shelter + a steel shutter, so everyone is yanked backward and lands back-first, facing us).
+- **Bodies radiating from a point (heads in an MRI bore) don't fit under a 2.8 m ceiling:** tilt them ~50° toward the camera —
+  foreshortening keeps the flower shape (018). Same for any "human sunflower".
+- **A pointing prop must not be ambiguous:** a compass whose N already points at the target can't show "it points at him" —
+  rotate the dial so N points elsewhere, then swing the needle (018). Keep such props above the subtitle band and off the HUD.
+- **Sync foley to physics computed in shots.js by mirroring the formula in make_cues.py** (018's cart pile-up times `TK` are
+  solved the same way in both) — and keep collisions inside the beat (v1's carts arrived 2 s after the cut).
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
