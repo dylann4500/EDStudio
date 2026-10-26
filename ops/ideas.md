@@ -28,12 +28,12 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | assigned Oct 26 |
 | 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
 | 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | assigned Oct 26 |
+| 020 | What if your butt doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
+| 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
-- What if your butt doubled in size every minute? (NEXT: clothed; crushes the chair, stuck in the door, the bus tips,
-  becomes a landmark, then a moon; HUD = BUTT WIDTH + minute)
-- What if your ballsack doubled in size every minute? (the user's own example; anatomy implied only: pants, a wheelbarrow,
+- What if your ballsack doubled in size every minute? (NEXT; the user's own example; anatomy implied only: pants, a wheelbarrow,
   a censor bar, faces; may get age-restricted on TikTok)
 - What if your farts got 2× louder every time? (SFX-led: car alarms, a seismograph, a shockwave visible from space)
 - What if you sneezed 2× harder every time?
@@ -65,7 +65,6 @@ Classic tier ("everyone on Earth…"):
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
-- What if your new puppy cried all night on his first night home? (ep. 1: meet Pip, Mia and the home base. HOURS UNTIL MORNING; Mia sneaks down to sleep by his crate. Source: "first day home" 451K, @whatif.goodending)
 - What if Pip went trick-or-treating? (post by Oct 31: suburb porches at dusk, CANDY 0 → 41, and the grumpy last house gives him a bone. Source: costume-contest episode 507K)
 - What if the whole town lost power… and Pip was the only one not scared? (city.js `setPower` + `makeFlashlight`, HOMES WITH POWER; disaster-goes-right got 1.2–1.3M on @whatif.goodending)
 - What if nobody at the dog park wanted to play with Pip? (loneliness, then a surprise: DOGS PLAYING 0 → 14 and whole-park zoomies. Source: "nobody came" 1st birthday 1M)
