@@ -9,3 +9,4 @@ videos/*/audio.wav
 .env
 package-lock.json
 videos/*/voice/scratch-*
+videos/*/voice.wav

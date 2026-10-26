@@ -1991,6 +1991,196 @@ SFX = {
 }
 
 # =============================================================================
+# 6b. build genre (015, docs/BUILD.md): construction foley + beds. Soft, low-passed, cartoon — never harsh.
+# =============================================================================
+
+
+def _grains(n, rng, rate, tau, lo, hi, t=None, decay=None):
+    """Random tiny impacts (grit, crackle, clods): Poisson clicks through a short decay, band-passed."""
+    p = rate / SR * (np.exp(-t / decay) if decay is not None else 1.0)
+    imp = (rng.random(n) < p) * rng.exponential(1.0, n)
+    y = bp(np.convolve(imp, np.exp(-np.arange(nsamp(tau * 4)) / nsamp(tau)))[:n], lo, hi)
+    return norm(y) if np.any(y) else y
+
+
+def sfx_dig(rng, size=1.0):
+    """A shovel biting into dirt + the clod landing: gritty crunch, low thump, a soft patter ~0.25 s later."""
+    n = nsamp(0.5)
+    t = tvec(n)
+    grit = _grains(n, rng, 900, 0.001, 400, 2600, t, 0.07)
+    body = bp(white(n, rng), 200, 1200) * np.exp(-t / 0.05) * (1 - np.exp(-t / 0.003))
+    thump = np.sin(2 * np.pi * 90 * size ** -0.3 * t) * np.exp(-t / 0.06) * (1 - np.exp(-t / 0.003))
+    toss = bp(white(n, rng), 500, 2000) * np.exp(-((t - 0.27) / 0.05) ** 2) * 0.3
+    y = 0.7 * grit + 0.6 * norm(body) + 0.6 * thump + toss
+    return Sound(norm(fades(lp(y, 3200), 0.0005, 0.05)), onsets=[(0.0, "transient")])
+
+
+def sfx_crumble(rng, dur=1.4, size=1.0):
+    """Earth caving in: a low rumble that swells fast and settles + a patter of falling clods."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = (1 - np.exp(-t / 0.04)) * np.exp(-t / (0.45 * size))
+    rumble = unit_rms(lp(brown(n, rng), 260)) * env
+    clods = _grains(n, rng, 160 * size, 0.004, 120, 1500, t, 0.5)
+    hiss = unit_rms(bp(pink(n, rng), 300, 1500)) * env * 0.25
+    y = rumble + 0.7 * clods + hiss
+    return Sound(norm(fades(lp(y, 2400), 0.002, 0.15)), onsets=[(0.0, "soft")])
+
+
+def sfx_splash(rng, size=1.0):
+    """Something landing in water: a soft wash + bubbles + a low plop (all under 3.5 kHz)."""
+    n = nsamp(0.9)
+    t = tvec(n)
+    burst = bp(white(n, rng), 300, 3000) * np.exp(-t / (0.09 * size)) * (1 - np.exp(-t / 0.004))
+    bub = np.zeros(n)
+    for _ in range(int(10 * size)):
+        i0, m = nsamp(rng.uniform(0.03, 0.5)), nsamp(0.05)
+        if i0 + m >= n:
+            continue
+        tt = tvec(m)
+        bub[i0:i0 + m] += np.sin(2 * np.pi * rng.uniform(350, 900) * (1 + 2.5 * tt) * tt) * np.exp(-tt / 0.015) * rng.uniform(0.3, 1)
+    plop = np.sin(2 * np.pi * 70 * t) * np.exp(-t / 0.05) * (1 - np.exp(-t / 0.003))
+    y = norm(burst) + 0.35 * (norm(bub) if np.any(bub) else bub) + 0.5 * plop
+    return Sound(norm(fades(lp(y, 3500), 0.0005, 0.08)), onsets=[(0.0, "transient")])
+
+
+def sfx_clunk(rng, size=1.0, metal=0.5):
+    """A heavy part set in place (a lining ring, a pump, a machine landing): deep thud + a short dull ring. No clang."""
+    n = nsamp(0.8)
+    t = tvec(n)
+    f0 = 62 * size ** -0.35 * rng.uniform(0.95, 1.05)
+    sub = np.sin(2 * np.pi * f0 * t * (1 - 0.2 * np.clip(t / 0.2, 0, 1))) * np.exp(-t / (0.1 * size)) * (1 - np.exp(-t / 0.003))
+    ring = norm(modal([rng.uniform(180, 220), rng.uniform(410, 470), rng.uniform(690, 760)], [0.12, 0.07, 0.04], [1, 0.5, 0.3], 0.8, contact=0.004))
+    y = sub + 0.35 * metal * ring + 0.15 * lp(white(n, rng), 1500) * np.exp(-t / 0.02)
+    return Sound(norm(fades(lp(y, 2600), 0.0005, 0.08)), onsets=[(0.0, "soft")])
+
+
+def sfx_knock(rng, pitch=1.0):
+    """A plank or beam popping into place: a short hollow wood knock."""
+    y = modal([rng.uniform(380, 440) * pitch, rng.uniform(850, 950) * pitch, rng.uniform(1500, 1700) * pitch], [0.03, 0.015, 0.008], [1, 0.45, 0.2], 0.25, contact=0.002)
+    return Sound(norm(fades(lp(y, 3500), 0.0003, 0.03)), onsets=[(0.0, "transient")])
+
+
+def sfx_pop(rng, pitch=1.0):
+    """Something popping into existence / a party popper: a round falling 'bloop' + a soft puff. No snap."""
+    n = nsamp(0.35)
+    t = tvec(n)
+    f = 190 * pitch * (1 + 1.2 * np.exp(-t / 0.02))
+    pop = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.05) * (1 - np.exp(-t / 0.002))
+    puff = bp(white(n, rng), 400, 2400) * np.exp(-t / 0.03) * 0.35
+    return Sound(norm(fades(lp(pop + puff, 3000), 0.0005, 0.04)), onsets=[(0.0, "transient")])
+
+
+def sfx_zap(rng, dur=0.7):
+    """Cartoon electric zap, kept soft: a fluttering 110 Hz buzz + crackle, low-passed at 2.4 kHz."""
+    n = nsamp(dur)
+    t = tvec(n)
+    ph = 2 * np.pi * 110 * t
+    saw = sum(np.sin(k * ph) / k for k in range(1, 14))
+    flutter = 0.6 + 0.4 * np.sin(2 * np.pi * 13 * t)
+    crack = _grains(n, rng, 600, 0.0007, 600, 2400)
+    env = (1 - np.exp(-t / 0.01)) * np.exp(-t / (dur * 0.5))
+    y = (0.7 * norm(saw) * flutter + 0.4 * crack) * env
+    return Sound(norm(fades(lp(y, 2400), 0.001, 0.08)), onsets=[(0.0, "soft")])
+
+
+def sfx_plip(rng, pitch=1.0):
+    """A drip into a puddle: a tiny rising blip."""
+    n = nsamp(0.18)
+    t = tvec(n)
+    f = 700 * pitch * (1 + 0.8 * t / 0.18)
+    y = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.03) * (1 - np.exp(-t / 0.002))
+    return Sound(norm(fades(y, 0.0005, 0.02)), onsets=[(0.0, "transient")])
+
+
+def sfx_grate(rng, dur=1.0):
+    """Cheese on a giant grater: soft rhythmic rasps (~9 per second)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    y = bp(pink(n, rng), 500, 2800) * np.clip(np.sin(2 * np.pi * 9 * t), 0, 1) ** 2 * np.exp(-t / (dur * 0.8))
+    return Sound(norm(fades(lp(y, 3000), 0.005, 0.05)), onsets=[(0.0, "soft")])
+
+
+def amb_water_rush(dur, rng, intensity=1.0):
+    """Water pouring in / a hose blasting: band-limited noise with slow surges + a low body."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        x = unit_rms(bp(pink(n, rng), 250, 2600)) * (0.75 + 0.25 * smooth_rand(n, 1.5, rng))
+        out.append(x + 0.5 * unit_rms(lp(brown(n, rng), 300)))
+    return norm(np.vstack(out))
+
+
+def amb_drill(dur, rng, rate=7.0):
+    """A tunnel boring machine chewing dirt: deep grinding rumble with the cutter's rhythm + a motor hum."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        grind = unit_rms(bp(brown(n, rng), 60, 700)) * (0.65 + 0.35 * np.sin(2 * np.pi * rate * t + ch))
+        hum = unit_rms(sum(np.sin(2 * np.pi * 55 * k * t + ch * k) / k for k in (1, 2, 3, 4)))
+        grit = unit_rms(bp(pink(n, rng), 500, 2000)) * 0.25 * (0.6 + 0.4 * smooth_rand(n, 3, rng))
+        out.append(grind + 0.35 * hum + grit)
+    return norm(np.vstack(out))
+
+
+def amb_fan(dur, rng, rate=11.0):
+    """Big ventilation fans: a broadband air rush with the blade beat, low-passed."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        air = unit_rms(lp(pink(n, rng), 1300)) * (0.75 + 0.25 * np.sin(2 * np.pi * rate * t + ch * 0.7))
+        out.append(air + 0.3 * unit_rms(np.sin(2 * np.pi * 48 * t) + 0.4 * np.sin(2 * np.pi * 96 * t)))
+    return norm(np.vstack(out))
+
+
+def amb_train(dur, rng, clack=2.2):
+    """A subway train rolling in/out: low rumble + soft double wheel-clacks."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        rum = unit_rms(lp(brown(n, rng), 220))
+        cl = np.zeros(n)
+        per, m = nsamp(1 / clack), nsamp(0.12)
+        tt = tvec(m)
+        hit = np.sin(2 * np.pi * 95 * tt) * np.exp(-tt / 0.03)
+        for i0 in range(nsamp(0.1) + ch * nsamp(0.01), n - m - nsamp(0.1), per):
+            cl[i0:i0 + m] += hit
+            cl[i0 + nsamp(0.09):i0 + nsamp(0.09) + m] += 0.7 * hit
+        out.append(rum + 0.6 * (unit_rms(cl) if np.any(cl) else cl))
+    return norm(np.vstack(out))
+
+
+SFX.update({
+    "dig": (sfx_dig, "prop"), "crumble": (sfx_crumble, "prop"), "splash": (sfx_splash, "prop"), "clunk": (sfx_clunk, "prop"),
+    "knock": (sfx_knock, "prop"), "pop": (sfx_pop, "prop"), "zap": (sfx_zap, "prop"), "plip": (sfx_plip, "prop"), "grate": (sfx_grate, "prop"),
+})
+AMBIENCE.update({"water_rush": amb_water_rush, "drill": amb_drill, "fan": amb_fan, "train": amb_train})
+
+
+def load_voice(V, N, log=print):
+    """Narration stem (build genre): videos/<v>/<V['file']> (any rate, mono/stereo) -> centered stereo at SR, length N.
+    Returns (voice, activity 0..1) — activity drives the music/ambience ducking."""
+    sr, _, v = read_wav(os.path.join(OUT_DIR, V.get("file", "voice.wav")))
+    v = v.mean(axis=0)
+    if sr != SR:
+        g = np.gcd(int(SR), int(sr))
+        v = signal.resample_poly(v, SR // g, sr // g)
+    v = np.pad(v, (0, max(0, N - len(v))))[:N]
+    v = hp(v, V.get("hp", 70)) * db2lin(V.get("gain_db", 0.0))
+    if V.get("presence_db"):
+        v = peak_eq(v, 3000, 0.9, V["presence_db"])
+    env = ndimage.uniform_filter1d(np.abs(v), size=nsamp(0.03))
+    act = (env > np.percentile(env[env > 1e-6], 50) * 0.3).astype(float)
+    act = ndimage.maximum_filter1d(act, size=nsamp(V.get("hold", 0.25)), mode="constant")
+    a = np.exp(-1.0 / (V.get("smooth", 0.08) * SR))
+    act = np.clip(signal.filtfilt([1 - a], [1, -a], act), 0, 1)
+    log(f"  voice: {V.get('file', 'voice.wav')} ({sr} Hz), speaking {np.mean(act > 0.5) * 100:.0f}% of the time")
+    return np.vstack([v, v]) * 0.7071, act
+
+
+# =============================================================================
 # 7. mixer / master / pack / verification
 # =============================================================================
 
@@ -2083,6 +2273,11 @@ def render_mix(cues, log=print):
         a = np.exp(-1.0 / (AD.get("smooth", 0.12) * SR))
         act = np.clip(signal.filtfilt([1 - a], [1, -a], act), 0, 1)
         duck = np.minimum(duck, 1 - (1 - db2lin(AD["db"])) * act)
+    voice = None
+    if cues.get("voice"):  # build genre: the narrator sits on top; music + ambience duck under every phrase
+        voice, vact = load_voice(cues["voice"], N, log)
+        duck = np.minimum(duck, 1 - (1 - db2lin(cues["voice"].get("duck_db", -8.0))) * vact)
+        amb = amb * (1 - (1 - db2lin(cues["voice"].get("amb_duck_db", -4.0))) * vact)
     for eq in cues["music"].get("eq", []):  # presence dip so the foley reads on phone speakers
         music = peak_eq(music, eq["f"], eq.get("q", 0.8), eq["db"])
     music = music * duck
@@ -2096,6 +2291,8 @@ def render_mix(cues, log=print):
     music, sfx, amb = (x * db2lin(sg.get(k, 0.0)) for k, x in (("music", music), ("sfx", sfx), ("amb", amb)))
     log("  sfx done")
     stems = {"music": music, "sfx": sfx, "amb": amb}
+    if voice is not None:
+        stems["voice"] = voice * db2lin(sg.get("voice", 0.0))
     endf = end_fade_env(cues, N)
     for k in stems:
         stems[k] = hp(stems[k], 18) * endf
@@ -2213,11 +2410,11 @@ def master(stems, cues, log=print):
     endf = end_fade_env(cues, stems["music"].shape[1])
     ceiling = cues.get("limiter_ceiling_dbtp", -1.5)
     cfg = cues.get("stem_dynamics", {})
-    G = db2lin(target - integrated_lufs(stems["music"] + stems["sfx"] + stems["amb"]))
+    G = db2lin(target - integrated_lufs(sum(stems.values())))
     for it in range(8):
         proc, info = stem_dynamics(stems, G, cfg)
         proc = {k: v * endf for k, v in proc.items()}
-        pre = proc["music"] + proc["sfx"] + proc["amb"]
+        pre = sum(proc.values())
         y, gr = limiter(pre, ceiling)
         L = integrated_lufs(y)
         if abs(L - target) < 0.03:
@@ -2379,7 +2576,7 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
     N = nsamp(cues["duration"])
     log("\n================ SELF-VERIFICATION ================")
     files = {"master": os.path.join(OUT_DIR, "audio.wav")}
-    files.update({k: os.path.join(STEM_DIR, k + ".wav") for k in ("music", "sfx", "amb")})
+    files.update({k: os.path.join(STEM_DIR, k + ".wav") for k in proc})
     data = {}
     for k, p in files.items():
         sr, bits, y = read_wav(p)
@@ -2396,8 +2593,8 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
     if eb:
         log(f"ffmpeg ebur128 : I = {eb['I']} LUFS, LRA = {eb['LRA']} LU, True peak = {eb['TP']} dBFS")
     # stems vs master
-    ssum = data["music"] + data["sfx"] + data["amb"]
-    pre = proc["music"] + proc["sfx"] + proc["amb"]
+    ssum = sum(data[k] for k in proc)
+    pre = sum(proc.values())
     log(f"stems sum vs pre-limiter master: residual {lin2db(rms(ssum - pre) / rms(pre)):.1f} dB rel "
         f"(max abs diff {np.max(np.abs(ssum - pre)):.2e})")
     log(f"stems sum vs final master      : residual {lin2db(rms(ssum - m) / rms(m)):.1f} dB rel "

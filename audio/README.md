@@ -121,3 +121,12 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
 - Hums (`lamp_hum`) get loud fast — keep them ≤ −50 dB or they become the loudest thing in the shot (006 capsule hit −12.7 LUFS).
 - Don't put an event at t < 0.03 s (verify() slices a window before the cue and crashes on an empty array).
 - Generate the sheet with a script (`videos/006-memory-loss/make_cues.py`).
+
+## Build genre (015): narrator on top (docs/BUILD.md → Audio)
+- cues.json `"voice": {"file": "voice.wav", "duck_db": -9, "amb_duck_db": -5, "presence_db": 2, "hp": 75}` adds the narration
+  as a stem (resampled to 48 kHz) and ducks music + ambience under every phrase; `stem_gain_db.voice` / `stem_dynamics.voice`
+  work like the other stems. Target −14 LUFS with the voice ≈ 4–5 dB over sfx and ≈ 8 dB over music (measure the stems).
+- Sound identity "WORKSHOP": marimba `ostinato` in F major 118 bpm + piano bass + soft F pad + a whisper of taiko, and a rising
+  marimba "ta-da" (F5–A5–C6) on every TERM callout. Music enters on "Congratulations" after a foley-only hook.
+- Construction foley in synth.py §6b: `dig`, `crumble`, `splash`, `clunk`, `knock`, `pop`, `zap`, `plip`, `grate`; beds
+  `water_rush`, `drill`, `fan`, `train`. Generate cue times from story.json in make_cues.py (`videos/015-hole-subway`).

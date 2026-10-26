@@ -2,6 +2,7 @@
 // The video folder supplies story.json (text + HUD timeline) and shots.js (3D scene + animation).
 // Exposes window.renderAt(t) and window.EDSTUDIO_READY for tools/render.mjs.
 import { createStudio, createOverlay } from '@engine/core.js';
+import { createBuildOverlay, BUILD_FONTS } from '@engine/build/captions.js';
 
 const slug = new URLSearchParams(location.search).get('video');
 const base = `/videos/${slug}/`;
@@ -9,13 +10,15 @@ const base = `/videos/${slug}/`;
 try {
   const story = await (await fetch(base + 'story.json')).json();
   const studio = createStudio(document.getElementById('gl'), story.look || {});
-  const overlay = createOverlay(story);
+  // build genre (docs/BUILD.md): word-by-word center captions + callouts instead of title/HUD/subtitles
+  const overlay = story.mode === 'build' ? createBuildOverlay(story) : createOverlay(story);
   const mod = await import(base + 'shots.js');
   const video = await mod.build(studio, story);
 
   await Promise.all([
     document.fonts.load('300 74px Newsreader'), document.fonts.load('italic 400 44px Newsreader'),
     document.fonts.load('600 20px Inter'), document.fonts.load('500 18px Inter'),
+    ...(story.mode === 'build' ? BUILD_FONTS.map((f) => document.fonts.load(f)) : []),
   ]);
   await document.fonts.ready;
 

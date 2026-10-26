@@ -9,9 +9,16 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
 - **biography** ("The story of [Name]", `videos/009-abe-lincoln`) — **its own category: follow `docs/BIOGRAPHY.md` and
   `/new-biography`**. A narrator tells one real life birth → death in full connected sentences; `tools/biography.py` turns a
   beat table (`script.json`) into story.json with shot lengths set by the narration. HUD = AGE + date + place.
+- **build** ("How a ___ Becomes a ___", `videos/015-hole-subway`) — **its own category: follow `docs/BUILD.md` and `/new-build`**
+  (user, Oct 26: "an entirely new harness"; reference account analyzed in `docs/reference/wemakebuild.md`). An ElevenLabs
+  narrator (scratch macOS voice until `ELEVENLABS_API_KEY` is set) roasts a humble object upgrading into a giant machine,
+  fix by fix, each with its real engineering name; Gary the toon gets hurt by every failure; ONE word at a time dead
+  center + yellow TERM callouts; one cutaway diorama. Exempt from the opening question card, HUD, lower-third subtitles,
+  "no popping text" and the end card (see BUILD.md for what still holds).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
-Every video OPENS with only the main question, centered on screen, nothing else — then the story starts.
+Every video OPENS with only the main question, centered on screen, nothing else — then the story starts (build reels excepted:
+their hook is spoken on frame 1, docs/BUILD.md).
 Everything is procedural code: **Three.js scene → headless Chrome → ffmpeg**. No paid tools, no downloads at render time.
 
 Read `docs/FORMAT.md` (the style bible) and `docs/TONES.md` before writing any story. `schedule/` has the 30-day plan of concepts.
@@ -174,6 +181,17 @@ videos/NNN-slug/
   Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
+
+- **Build genre kit (015, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
+  `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeRaccoon`, `makePigeon`),
+  `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
+  (`beatClock` → `B.W(beat, word)`, `pop/drop/squash/wobble/shake`, `camAt`), `fx.js` (analytic particles: dirt, drops,
+  confetti, dust, smoke, stink, mist, spark, glow; `makeArrows`, `makeDizzy`), `subway.js` (the 015 set + `makeTBM`,
+  `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`). Narration:
+  `tools/narrate.py` (script.json → voice.wav + words.json + story.json). synth.py: a `"voice"` cue = narrator stem with the
+  music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
+  beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
+  tunnel/track as they're built).
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
