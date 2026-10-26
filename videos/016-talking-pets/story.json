@@ -2,7 +2,7 @@
   "tone": "montage",
   "look": { "exposure": 1.04, "fill": 0.45, "vignette": 0.26, "bloom": 0.2, "bloomThreshold": 0.92 },
   "fps": 30,
-  "duration": 71.4,
+  "duration": 70.0,
   "title": { "html": "What if every pet on Earth could suddenly <em>talk</em>?", "in": -0.4, "out": 3.4 },
   "subs": [
     [3.7, 5.3, "Tuesday. 7:00 PM."],
@@ -25,8 +25,8 @@
     [50.1, 52.5, "Humanity agrees to everything."],
     [53.1, 55.5, "+6 months. New rules at the dog park."],
     [55.65, 57.9, "The dogs throw. The humans fetch."],
-    [58.5, 60.9, "+1 year. Every pet has said everything."],
-    [61.2, 63.6, "Except Biscuit. 14 years old. Not one word."]
+    [58.4, 60.5, "+1 year. Every pet has said everything."],
+    [60.7, 63.1, "Except Biscuit. 14 years old. Not one word."]
   ],
   "hudLabel": "SECRETS SPILLED BY PETS",
   "hud": [
@@ -40,10 +40,10 @@
     { "t0": 42.0, "t1": 47.4, "from": 88000000000, "to": 130000000000, "r0": 42.4, "r1": 44.0, "time": "+3 DAYS", "age": "PRESIDENTS WHO HAD A DOG · 31 OF 46" },
     { "t0": 47.4, "t1": 52.8, "from": 130000000000, "to": 640000000000, "r0": 47.8, "r1": 49.4, "time": "+1 MONTH", "age": "US PET FOOD + TREATS · $65.8 BILLION A YEAR" },
     { "t0": 52.8, "t1": 58.2, "from": 640000000000, "to": 990000000000, "r0": 53.2, "r1": 54.8, "time": "+6 MONTHS", "age": "WORDS A DOG UNDERSTANDS · ABOUT 89" },
-    { "t0": 58.2, "t1": 71.4, "from": 990000000000, "to": 990000000000, "time": "+1 YEAR · 11:00 PM", "ageFrom": "BISCUIT'S SECRETS SPILLED · 0", "age": "WORDS BISCUIT NEEDED · 3", "r0": 63.6, "r1": 63.9, "ageGoldAt": 63.9 }
+    { "t0": 58.2, "t1": 70.0, "from": 990000000000, "to": 990000000000, "time": "+1 YEAR · 11:00 PM", "ageFrom": "BISCUIT'S SECRETS SPILLED · 0", "age": "WORDS BISCUIT NEEDED · 3", "r0": 63.0, "r1": 63.3, "ageGoldAt": 63.3 }
   ],
-  "end": { "in": 67.4, "html": "What would your pet say about <em>you</em>?", "small": "TELL US BELOW" },
+  "end": { "in": 66.0, "html": "What would your pet say about <em>you</em>?", "small": "TELL US BELOW" },
   "dips": [],
-  "finalFade": [66.8, 67.4],
+  "finalFade": [65.4, 66.0],
   "debugView": { "center": [0, 0, -1], "height": 9 }
 }

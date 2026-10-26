@@ -11,11 +11,11 @@
 #   - +1 year: the trio drops to a slow, warm piano arp; Biscuit's line gets a gentle swell; resolves on F under the end card.
 import json, sys
 
-D = 71.4
+D = 70.0
 SCENES = [0, 9.6, 15.0, 20.4, 25.8, 31.2, 36.6, 42.0, 47.4, 52.8, 58.2]
 M = 5.6
 TIP, LAND, SMASH, CRASH, TOPPLE, STOP, ROLL0, ROLL1 = 7.8, 14.1, 19.27, 24.95, 30.5, 34.0, 34.7, 35.75
-NEXT, BOLT, TOPPLE_L, SIGN, RAIN, THROW, PILE, SPEAK, HUG, END = 40.0, 40.45, 46.3, 50.3, 50.9, 55.0, 57.05, 63.9, 64.55, 67.4
+NEXT, BOLT, TOPPLE_L, SIGN, RAIN, THROW, PILE, SPEAK, HUG, END = 40.0, 40.45, 46.3, 50.3, 50.9, 55.0, 57.05, 63.3, 63.95, 66.0
 
 STEP = 0.45                                   # quarter notes, ~133 bpm
 BAR = STEP * 4
@@ -24,14 +24,14 @@ chords = [[0.2, "Fmaj7"]]
 t, k = M, 0
 while t < 58.2 - 0.01:
     chords.append([round(t, 3), prog[k % 4]]); t += BAR; k += 1
-WARM = [[58.2, "Bbmaj7"], [60.0, "Am7"], [61.8, "Dm7"], [63.6, "Gm7"], [64.5, "C7"], [65.4, "Fmaj7"], [67.4, "Bbmaj7"], [69.0, "Fmaj7"]]
+WARM = [[58.2, "Bbmaj7"], [59.6, "Am7"], [61.0, "Dm7"], [62.2, "Gm7"], [62.9, "C7"], [63.3, "Fmaj7"], [66.0, "Bbmaj7"], [67.6, "Fmaj7"]]
 chords += WARM
 
 sections = [
     {"t0": M, "t1": 58.2, "style": "walk", "vel": [[M, 0.25], [20.4, 0.27], [42.0, 0.29], [58.2, 0.3]], "step": STEP,
      "bass_hold": 0.95, "bass_vel": 0.95, "comp_vel": 0.42, "stab_hold": 0.8, "swing": 0.14},
-    {"t0": 58.2, "t1": 67.4, "style": "arp", "vel": 0.24, "step": 0.3, "pattern": [0, 1, 2, 3, 2, 1]},
-    {"t0": 67.4, "t1": D, "style": "arp", "vel": 0.22, "step": 0.45, "pattern": [0, 2, 1, 3, 2, 1]},
+    {"t0": 58.2, "t1": END, "style": "arp", "vel": 0.24, "step": 0.3, "pattern": [0, 1, 2, 3, 2, 1]},
+    {"t0": END, "t1": D, "style": "arp", "vel": 0.22, "step": 0.45, "pattern": [0, 2, 1, 3, 2, 1]},
 ]
 # the "psst" vibes motif: opens every beat (and the premise), climbing a little each time
 mallet = []
@@ -144,14 +144,14 @@ ev += [{"sound": "footsteps", "t0": 55.15, "t1": 56.9, "pan0": -0.4, "pan1": 0.0
        {"sound": "footsteps", "t0": 55.2, "t1": 57.0, "pan0": 0.4, "pan1": 0.0, "gain_db": -27, "rate": 6.0}]
 ev += thuds(56.75, 6, 0.55, 0.06, "ground", -20) + boops(57.1, 3, 0.6, gain=-25) + [ev_(57.6, "dog_bark", -27, 0.0, {"pitch": 1.2})]
 # 11. +1 year: night; Biscuit breathes; he speaks; a happy thump-thump-thump of his tail
-ev += [ev_(58.6, "snore", -34, -0.2, {"dur": 2.0, "size": 0.7}), ev_(61.0, "snore", -35, -0.2, {"dur": 2.0, "size": 0.7})]
+ev += [ev_(58.6, "snore", -34, -0.2, {"dur": 2.0, "size": 0.7}), ev_(60.4, "snore", -36, -0.2, {"dur": 1.6, "size": 0.7})]
 ev += [ev_(SPEAK, "dog_bark", -31, -0.1, {"pitch": 0.8}), ev_(SPEAK - 0.15, "low_swell", -27, 0.0, {"dur": 1.2, "pitch": 0.9}), ev_(HUG, "blanket_rustle", -30, 0.0, {"dur": 0.6, "softness": 0.6, "intensity": 0.5})]
 for j in range(6):
     ev.append(ev_(HUG + 0.3 + j * 0.22, "giant_step", -31, -0.1, {"size": 0.15, "surface": "wood"}))
 
 cues = {
     "title": "016 - What if every pet on Earth could suddenly talk? (unhinged: gossip-jazz walk, pet-voice foley)",
-    "duration": D, "target_lufs": -15.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [70.2, D],
+    "duration": D, "target_lufs": -15.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [68.8, D],
     "stem_gain_db": {"music": -6.0, "sfx": 12.0, "amb": 9.0},
     "stem_dynamics": {"music": {"limit_dbfs": -3.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -15.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0}},
     "sfx_lowpass_hz": 5000,

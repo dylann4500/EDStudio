@@ -1,5 +1,5 @@
 // VIDEO 016 — "What if every pet on Earth could suddenly talk?"  (lane: unhinged, @ed._.studios; tone: montage, funny)
-// 71.4 s, 11 beats. At 7:00 PM every pet on Earth gets a voice — and the first thing they all do is spill their owners' secrets.
+// 70.0 s, 11 beats. At 7:00 PM every pet on Earth gets a voice — and the first thing they all do is spill their owners' secrets.
 // Speech = camera-facing speech bubbles (makeSpeechBubble, engine/props.js) over the pet that talks; pet-noise SFX in cues.json.
 // NEW: engine/sets/livingroom.js (apartment + dining area), engine/sets/petshop.js (pet shop + vet clinic), and reusable pets in
 // engine/props.js (makeCat, makeParrot + makePerch, makeFishBowl, makeHamster + makeHamsterWheel; makeDog gained setLie/setWag).
@@ -28,7 +28,7 @@
 // 42.0–47.4 press   +3 DAYS               | press room  | the President's dog takes the lectern; the President lunges; the lectern topples; flash storm
 // 47.4–52.8 summit  +1 MONTH              | war room    | the pets negotiate around the globe; humanity signs; treats rain from the ceiling and the globe lights up
 // 52.8–58.2 park    +6 MONTHS             | suburb park | the dog throws, the humans fetch: six people dive for one ball and pile up
-// 58.2–71.4 fav     +1 YEAR               | living room | night. Biscuit finally speaks: "You're my favorite." Gary hugs him. End card at 67.4
+// 58.2–70.0 fav     +1 YEAR               | living room | night. Biscuit finally speaks: "You're my favorite." Gary hugs him. End card at 66.0
 import * as THREE from 'three';
 import { K, clamp, lerp, lerpAngle, faceToward, rng, mat, mk, canvasTex } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink } from '@engine/rig.js';
@@ -58,7 +58,7 @@ export const SHOTS = [
   { t0: 42.0, t1: 47.4, cam: 'press', set: 'press' },
   { t0: 47.4, t1: 52.8, cam: 'summit', set: 'war' },
   { t0: 52.8, t1: 58.2, cam: 'park', set: 'sub' },
-  { t0: 58.2, t1: 71.4, cam: 'fav', set: 'liv' },
+  { t0: 58.2, t1: 70.0, cam: 'fav', set: 'liv' },
 ];
 // camera coords are LOCAL to the shot's set (two keys, eased)
 export const CAMS = {
@@ -66,13 +66,13 @@ export const CAMS = {
   lawn:    { p: [[0.05, 0.7, -1.7], [-0.15, 0.68, -2.1]], a: [[-1.6, 1.15, -8.5], [-1.6, 1.15, -8.5]], fov: 56, amp: 0.004 },
   counter: { p: [[0.42, 1.62, 1.55], [0.45, 1.58, 1.15]], a: [[0.45, 1.5, -2.2], [0.45, 1.48, -2.2]], fov: 56, amp: 0.004 },
   dinner:  { p: [[-3.4, 1.68, 3.9], [-3.4, 1.62, 3.45]], a: [[-3.4, 1.6, -1.3], [-3.4, 1.58, -1.3]], fov: 52, amp: 0.004 },
-  fish:    { p: [[0.12, 1.66, 1.8], [0.08, 1.62, 1.45]], a: [[0.0, 1.56, -1.2], [0.0, 1.54, -1.2]], fov: 58, amp: 0.004 },
+  fish:    { p: [[0.12, 1.32, 1.6], [0.08, 1.28, 1.3]], a: [[0.0, 1.45, -1.2], [0.0, 1.43, -1.2]], fov: 58, amp: 0.004 },
   wheels:  { p: [[0.5, 1.35, 0.75], [0.4, 1.3, 0.45]], a: [[-0.35, 1.02, -1.5], [-0.35, 1.0, -1.5]], fov: 52, amp: 0.003 },
-  vet:     { p: [[0.05, 1.5, 2.75], [0.05, 1.46, 2.4]], a: [[0.05, 1.02, -2.0], [0.05, 1.0, -2.0]], fov: 56, amp: 0.004 },
+  vet:     { p: [[0.05, 1.5, 2.75], [0.05, 1.46, 2.4]], a: [[0.05, 0.92, -2.0], [0.05, 0.9, -2.0]], fov: 56, amp: 0.004 },
   press:   { p: [[0.4, 2.0, 1.2], [0.35, 2.0, 0.75]], a: [[0.15, 2.25, -3.0], [0.15, 2.25, -3.0]], fov: 44, amp: 0.004, ay: [[42.0, 2.25], [45.75, 2.25], [46.2, 1.3]], y: [[42.0, 2.0], [45.75, 2.0], [46.2, 1.7]] },
   summit:  { p: [[0.15, 1.5, 3.3], [0.1, 1.45, 2.85]], a: [[0.0, 1.42, -0.8], [0.0, 1.42, -0.8]], fov: 52, amp: 0.004 },
   park:    { p: [[60.3, 1.3, -1.0], [60.2, 1.25, -1.5]], a: [[59.95, 1.0, -8.5], [59.95, 1.0, -8.5]], fov: 54, amp: 0.004 },
-  fav:     { p: [[0.2, 1.1, 1.2], [-0.42, 0.9, 1.0]], a: [[-0.42, 0.6, -0.75], [-0.52, 0.54, -0.7]], fov: 50, amp: 0.003 },   // a slow arc right → left (his face turns toward us)
+  fav:     { p: [[0.2, 1.1, 1.2], [-0.42, 0.9, 1.0]], a: [[-0.42, 0.7, -0.75], [-0.52, 0.64, -0.7]], fov: 50, amp: 0.003 },   // a slow arc right → left (his face turns toward us)
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
 
@@ -115,6 +115,7 @@ export async function build(studio, story) {
   const kit = buildKitchen(studio, {}); kit.root.position.set(...OFF.kit); kit.setClock(7, 5);
   kit.table.visible = false; kit.chairs.forEach((c) => (c.visible = false));
   const office = buildOffice(studio, {}); office.root.position.set(...OFF.off);
+  [[0x8a2e2e, 0.0], [0x2f4f73, 0.05], [0x3f6a3a, 0.1]].forEach(([c, y], k) => mk(new THREE.BoxGeometry(0.34 - k * 0.02, 0.05, 0.26), mat(c, 0.7), office.root, 0.01 * k, OD.deskTop + 0.025 + y, -0.62).rotation.y = k * 0.12);   // books under the goldfish bowl
   const guestChair = office.root.children.find((c) => c.isGroup && Math.abs(c.position.z - OD.guest[1]) < 0.01 && Math.abs(c.position.x - OD.guest[0]) < 0.01);
   if (guestChair) guestChair.visible = false;
   const shop = buildPetShop(studio, {}); shop.root.position.set(...OFF.shop);
@@ -247,7 +248,7 @@ export async function build(studio, story) {
   const S = {
     kiwi: B({ lines: ['GOOD EVENING, GARY!'], accent: '#d8352a', maxChars: 13, offX: 0.24 }),
     mochi: B({ lines: ['We need to talk.'], accent: '#e08a3a', maxChars: 12, offX: 0.2 }),
-    max: B({ lines: ['HE EATS CHEESE AT 3 AM.', 'IN THE DARK.', 'STANDING UP.'], accent: '#3d7bd9', maxChars: 15 }),
+    max: B({ lines: ['HE EATS CHEESE AT 3 AM.', 'IN THE DARK.', 'STANDING UP.'], accent: '#3d7bd9', maxChars: 15, offX: -0.28 }),
     critic: B({ lines: ['Your apartment: 2 stars.', 'The couch: mine.', 'Your boyfriend: no.'], accent: '#7a7f8a', maxChars: 16 }),
     blu: B({ lines: ['“I’M NOT MAD, KEVIN.”', '“FINE.” “FINE!!”', '“THE COUCH. TONIGHT.”'], accent: '#2f7fd0', maxChars: 16, offX: 0.3 }),
     goldie: B({ lines: ['I saw who took the yogurt.', 'It was…', '…who are you people?'], accent: '#f28a2a', maxChars: 16, tail: 120 }),
@@ -337,7 +338,7 @@ export async function build(studio, story) {
   }
 
   // ---------------------------------------------------------------- 2. lawn (suburb, +1 minute)
-  const DOOR = [-2.2, -8.75], TRIP = 13.75, LAND = 14.1, MAXDOG = [-1.05, -4.3];
+  const DOOR = [-2.2, -8.75], TRIP = 13.75, LAND = 14.1, MAXDOG = [-1.18, -4.3];
   function lawnBeat(t) {
     sub.aimSun(-1.5, -5, 9);
     const house = sub.houses.find((h) => Math.abs(h.doorPos.x - DOOR[0]) < 0.5 && h.doorPos.z < -5);
@@ -350,7 +351,7 @@ export async function build(studio, story) {
     max.g.scale.setScalar(1);
     const rows = rowsAt(t, [10.2, 11.05, 11.85]);
     max.update(t, dodge > 0 && dodge < 1 ? 1.6 : 0); max.bark(Math.max(talkK(t, 10.2, 0.75, 16), talkK(t, 11.05, 0.6, 16), talkK(t, 11.85, 0.6, 16)));
-    say(S.max, max.head, pop(t, 10.2) * (1 - K(t, [[12.35, 0], [12.5, 1]])), 0.62, 0.14, rows, 0.15);
+    say(S.max, max.head, pop(t, 10.2) * (1 - K(t, [[12.35, 0], [12.5, 1]])), 0.62, 0.14, rows);
     // Dave (Max's owner, bathrobe): bursts out, sprints, trips, face-plants
     const run = K(t, [[12.35, 0], [TRIP, 1]], (u) => u);
     if (t > 12.2) {
@@ -452,7 +453,7 @@ export async function build(studio, story) {
 
   // ---------------------------------------------------------------- 5. fish (office, +14 hours)
   const LEANIN = 28.35, FORGET = 29.45, TOPPLE = 30.1;
-  const BOWL_O = [0.0, OD.deskTop, -0.62];
+  const BOWL_O = [0.0, OD.deskTop + 0.15, -0.62];
   function fishBeat(t) {
     putPet(bowlO, 'off', BOWL_O[0], BOWL_O[1], BOWL_O[2], 0);
     const face = K(t, [[26.0, 0], [26.25, 1], [FORGET + 0.4, 1], [FORGET + 0.9, 0]]);
@@ -462,12 +463,13 @@ export async function build(studio, story) {
     if (t > FORGET - 0.1 && t < FORGET + 0.5) bowlO.fish.rotation.y += 0.5 * Math.sin((t - FORGET) * 14);
     say(S.goldie, bowlO.fish, pop(t, 26.2), 0.5, 0.2, rows);
     // coworkers: lean in as one, then all fall over backward
-    const CW = [[-0.72, -1.3], [-0.42, -1.85], [0.72, -1.3], [-1.02, -0.72], [1.02, -0.72]];
+    const CW = [[-0.72, -1.3], [-0.5, -1.98], [0.72, -1.3], [-1.02, -0.72], [1.02, -0.72]];
     const lean = K(t, [[LEANIN, 0], [LEANIN + 0.45, 1], [FORGET + 0.15, 1], [FORGET + 0.4, 0.7]]);
     CW.forEach(([x, z], i) => {
       const p = basePose(); p.eyes = blink(t, i);
       Object.assign(p, { x, z, rotY: faceToward(x, z, BOWL_O[0], BOWL_O[2]) });
-      p.lean = 0.05 + 0.5 * lean; p.headPitch = 0.15 + 0.25 * lean; p.armA = mixArm(REST, A(-0.5, 0.15, -0.6, 0.3), lean); p.armB = mixArm(REST, A(-0.5, 0.15, -0.6, -0.3), lean);
+      const ln = i === 1 ? 0.3 * lean : lean;   // the one at the back stays clear of the bubble
+      p.lean = 0.05 + 0.5 * ln; p.headPitch = 0.15 + 0.25 * ln; p.armA = mixArm(REST, A(-0.5, 0.15, -0.6, 0.3), lean); p.armB = mixArm(REST, A(-0.5, 0.15, -0.6, -0.3), lean);
       p.mouth = t > 27.4 ? 'o' : 'smile';
       if (i === 2) p.armB = mixArm(A(-0.9, 0.15, -1.5, -0.4), p.armB, lean);   // holding a mug before
       const tp = K(t, [[TOPPLE + i * 0.05, 0], [TOPPLE + 0.4 + i * 0.05, 1]], fall);
@@ -681,7 +683,7 @@ export async function build(studio, story) {
   }
 
   // ---------------------------------------------------------------- 11. fav (living room, night, +1 year)
-  const SPEAK = 63.9, HUG = 64.55;
+  const SPEAK = 63.3, HUG = 63.95;
   function favBeat(t) {
     liv.setMode('night');
     scene.add(gary.root);
@@ -689,7 +691,7 @@ export async function build(studio, story) {
     putPet(biscuit, 'liv', bx, 0.03, bz, 1.15); biscuit.setLie(1); biscuit.update(t, 0);
     const up = K(t, [[SPEAK - 0.5, 0], [SPEAK - 0.1, 1]]);
     biscuit.setWag(t > HUG ? 16 : 4);
-    const yawn = K(t, [[61.5, 0], [61.9, 1], [62.4, 1], [62.8, 0]]), shift = K(t, [[59.9, 0], [60.3, 1], [60.9, 1], [61.3, 0]]);
+    const yawn = K(t, [[61.0, 0], [61.4, 1], [61.8, 1], [62.2, 0]]), shift = K(t, [[59.6, 0], [60.0, 1], [60.5, 1], [60.9, 0]]);
     biscuit.head.rotation.set(lerp(0.42, -0.05, up) - 0.25 * yawn, lerp(0, 0.55, up) + 0.25 * shift, 0.1 * shift); biscuit.g.children[0].scale.set(1, 1 + 0.03 * Math.sin(t * 2.0), 1);
     biscuit.bark(Math.max(0.5 * talkK(t, SPEAK, 0.8, 7), 0.9 * yawn));
     say(S.fav, biscuit.head, pop(t, SPEAK), 0.5, 0.3);
@@ -698,8 +700,8 @@ export async function build(studio, story) {
     const gx = bx + 0.52, gz = bz - 0.4; Object.assign(p, { x: gx, z: gz, rotY: faceToward(gx, gz, bx, bz) + 0.35, y: -0.69, footFwd: 0.7 });
     const scr = Math.sin(t * 2.4);
     p.armB = A(-0.3, 0.1, -0.4, -0.2); p.armA = mixArm(PET_A, A(-0.85, 0.3, -0.45, 0.2), 0.5 + 0.5 * scr);
-    p.headPitch = 0.3; p.headYaw = -0.2 + 0.75 * K(t, [[59.3, 0], [59.8, 1], [60.9, 1], [61.4, 0]]); p.mouth = 'smile'; p.lean = 0.12 + 0.03 * Math.sin(t * 1.6);
-    if (t > 61.5 && t < 62.9) { p.mouth = 'o'; p.headPitch = 0.35; }   // he yawns back
+    p.headPitch = 0.3; p.headYaw = -0.2 + 0.75 * K(t, [[59.0, 0], [59.5, 1], [60.3, 1], [60.8, 0]]); p.mouth = 'smile'; p.lean = 0.12 + 0.03 * Math.sin(t * 1.6);
+    if (t > 61.0 && t < 62.3) { p.mouth = 'o'; p.headPitch = 0.35; }   // he yawns back
     const look = K(t, [[SPEAK + 0.1, 0], [SPEAK + 0.4, 1]]), hug = K(t, [[HUG, 0], [HUG + 0.5, 1]]);
     if (look > 0) { p.headPitch = lerp(0.3, 0.1, look); p.mouth = 'o'; p.armA = mixArm(p.armA, PET_A, look); }
     if (t > SPEAK + 0.5) { p.mouth = 'smile'; p.tear = true; }
@@ -707,7 +709,7 @@ export async function build(studio, story) {
     put(gary, 'liv', p);
     // the rest of the house, asleep: the cat on the sofa, the parrot on the perch, the fish
     // the cat grooms on the armchair, then turns to look when Biscuit speaks; the parrot stretches its wings; snow outside
-    const groom = t < 62.6 ? Math.max(0, Math.sin(t * 2.6)) : 0, catLook = K(t, [[SPEAK + 0.2, 0], [SPEAK + 0.6, 1]]);
+    const groom = t < 62.0 ? Math.max(0, Math.sin(t * 2.6)) : 0, catLook = K(t, [[SPEAK + 0.2, 0], [SPEAK + 0.6, 1]]);
     putPet(mochi, 'liv', LV.armchair[0] + 0.1, 0.47, LV.armchair[1] + 0.05, 0.5); mochi.update(t, 1.0); mochi.squint(0.6 - 0.4 * catLook); mochi.talk(0); mochi.paw(0.55 * groom);
     mochi.head.rotation.set(0.45 * groom, lerp(0, -0.7, catLook), 0.15 * groom);
     putPet(kiwi, 'liv', LV.perch[0], 1.016, LV.perch[1], -0.4); kiwi.update(t, K(t, [[60.2, 0], [60.4, 1], [60.9, 1], [61.2, 0]]) * 0.7); kiwi.talk(0); kiwi.head.rotation.set(0.3, 0.6 * Math.sin(t * 0.8), 0.2);

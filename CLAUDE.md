@@ -319,6 +319,9 @@ videos/NNN-slug/
   bubbles one after another (each ~1.1 s) instead of three at once, keep floor pets' bubbles under the owners' faces, and never
   anchor one on a lap pet (it lands on the owner's face). A topple that drops out of frame: keyframe the camera's aim down with
   it (CAMS `ay`/`y`, 016 press beat) — v1 left an empty backdrop.
+  **Pets have faces too:** small animals live at 60–80 % of the frame — exactly the subtitle band (≈ 70 %). 016 v1 had the
+  subtitle across the goldfish, the vet's dogs and Biscuit; scan every subtitle moment for a pet face and move the pet (raise the
+  bowl on books, re-aim) so it sits above ≈ 64 % or below ≈ 76 %.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
   the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
@@ -347,6 +350,10 @@ per-beat table and dead zones. **In the operation (docs/OPERATION.md) the user m
 `study.py` keeps testing it per account from `ops/ledger.csv`. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
 every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
 One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
+**Keep TRIBE videos ≤ 70 s (016):** with the lowered MPS cap the audio encoder (w2v-BERT relative-position attention, whole
+soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out of memory … max allowed 8.88 GB`) while 70.0 s
+(015) passed. Trim the video rather than raising the shared watermark. `tribe-score.sh` copies `final.mp4` BEFORE it waits for
+the lock — if you re-render while queued, stop the job and re-queue it (check with `md5`) or it scores the old file.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
