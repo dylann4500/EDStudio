@@ -6,8 +6,17 @@
 ## What a video is
 - An absurd "What if everyone on Earth…" premise that gets **weirder every beat**: sus reveals, social chaos, the President
   in the middle of it, a couple mid-vows, a dog judging you. Deadpan text over epic music = the joke.
-- **Kind, cartoon-only humor**: embarrassing, never cruel; no gore, nothing sexual, nothing cruder than 012 (a dark wet
-  patch, never liquid). Real people only as anonymous roles ("the President"), never named.
+- **Weirder (user steer, Oct 26):** "some weirder ones … like 'what if your ballsack doubled in size every minute' — that
+  level of weird and unhinged". So this lane also runs **body-absurd / gross-out POV escalations**: "What if your [body part
+  or bodily function] doubled every minute?", in the "you" POV with a doubling HUD and the world reacting at every doubling,
+  ending planet-scale. That's the format behind @whatifpov's best posts (`docs/reference/whatifpov.md`: "your speed doubled
+  every 3 s" 264K likes, "you doubled in size" 94K). These can run shorter (35–50 s); the doubling is the hook.
+- **How far:**
+  - Crude is in; explicit is out. Anatomy is always **implied, never shown**: clothes, a straining zipper, a censor bar,
+    a wheelbarrow, everyone's faces. TikTok removes nudity and limits sexual content; a clothed cartoon joke stays up.
+  - Gross-out stays cartoon: cartoon clouds, glitter, a dark patch. Never realistic fluids, gore, or anything sexual.
+  - The joke is on "you" or everyone, never a real, named person or a group.
+    Anonymous roles like "the President" are fine.
 - 60–75 s · question title alone 3 s · premise moment ~4 s (music enters with a braam) · **10–12 beats of ~5 s**, each a new
   place with one escalating gag + one **real sourced number** (013 steer: funny still informs) · last beat warm or absurd ·
   end card = a question people argue about in the comments.

@@ -30,6 +30,22 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
+Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
+- What if your butt doubled in size every minute? (NEXT: clothed; crushes the chair, stuck in the door, the bus tips,
+  becomes a landmark, then a moon; HUD = BUTT WIDTH + minute)
+- What if your ballsack doubled in size every minute? (the user's own example; anatomy implied only: pants, a wheelbarrow,
+  a censor bar, faces; may get age-restricted on TikTok)
+- What if your farts got 2× louder every time? (SFX-led: car alarms, a seismograph, a shockwave visible from space)
+- What if you sneezed 2× harder every time?
+- What if your nose hair grew a meter every minute?
+- What if your tongue doubled in length every 10 seconds?
+- What if your sweat doubled every minute? (cartoon flood)
+- What if your belly button turned into a portal?
+- What if you burped out one random object every hour?
+- What if your skin went see-through for a day? (cartoon organs, everyone can see your lunch)
+- What if your toenails grew a meter a day?
+
+Classic tier ("everyone on Earth…"):
 - What if everyone woke up glued to the last thing they touched?
 - What if every human got the hiccups forever?
 - What if every human turned into a pigeon at 3 PM every day?
