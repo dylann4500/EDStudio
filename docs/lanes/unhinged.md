@@ -18,7 +18,8 @@
 `013-twice-as-dumb` (real stat per beat), `014-toddler-world` (TRIBE-optimized: 0.078), `002-everyone-pregnant` (the original hit).
 `016-talking-pets` (dialogue premise: the pets' lines are camera-facing speech bubbles + a pet voice each, the HUD number rolls up
 every beat — SECRETS SPILLED BY PETS — while the stat line carries the real fact; the setup/payoff is a dog that says nothing
-all video and gets the only quiet line at the end).
+all video and gets the only quiet line at the end). TRIBE v1: whole-brain 0.078, first 60 s 0.089 (best first-60 so far); the
+bubble beats (lawn, counter, wheels) scored 0.12–0.14, the quiet finale + end card 0.014.
 
 ## What scores (TRIBE + views)
 Bright places, crowds of big-headed faces, motion in every frame, a big physical effect ending every beat (collapse, crush,
