@@ -6,3 +6,6 @@ __pycache__/
 videos/*/out/
 videos/*/stills/
 videos/*/audio.wav
+.env
+package-lock.json
+videos/*/voice/scratch-*
