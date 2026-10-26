@@ -17,7 +17,7 @@
   - Gross-out stays cartoon: cartoon clouds, glitter, a dark patch. Never realistic fluids, gore, or anything sexual.
   - The joke is on "you" or everyone, never a real, named person or a group.
     Anonymous roles like "the President" are fine.
-- 60–75 s · question title alone 3 s · premise moment ~4 s (music enters with a braam) · **10–12 beats of ~5 s**, each a new
+- 60–70 s (TRIBE's audio encoder runs out of memory past ~70 s — CLAUDE.md) · question title alone 3 s · premise moment ~4 s (music enters with a braam) · **10–12 beats of ~5 s**, each a new
   place with one escalating gag + one **real sourced number** (013 steer: funny still informs) · last beat warm or absurd ·
   end card = a question people argue about in the comments.
 - HUD: time-stamped ladder (SECOND 0 → +1 YEAR) or one counter that rolls. Small, top-left, steady.
@@ -33,6 +33,7 @@ bubble beats (lawn, counter, wheels) scored 0.12–0.14, the quiet finale + end 
 ## What scores (TRIBE + views)
 Bright places, crowds of big-headed faces, motion in every frame, a big physical effect ending every beat (collapse, crush,
 time-lapse + camera shake + boom), new sets instead of the old street, a steady mix (LRA ≈ 4). Anything static sags.
+019 (everyone dances, 0.081): synchronized crowds of CLOSE faces scored ~2× a huge far crowd of tiny instanced fans.
 
 ## Caption
 Hook + emoji · 2–3 sentence summary · question CTA 👇 · "Send this to your ___" · blank · the course line · blank · 5 hashtags incl. #animation.

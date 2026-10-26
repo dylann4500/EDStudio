@@ -208,6 +208,27 @@ videos/NNN-slug/
   flying onto a moving rig part (spine/head) and staying there (no reparenting); props `makeCart` (wire basket), `makeCompass`
   (`needle.rotation.y`), `makeFork(spoon)`, `makeToaster` (toast pops), `makePan`, `makeMic`, `makeBackpack`; an instanced
   crowd of 1,800 capsule "tourists" that fly in and stick (cheap swarm).
+- **New sets (019):** `library.js` (sunny reading room: 3 tall windows, ~1,500 instanced books, two reading tables with green
+  banker's lamps `lampShades[]`, 16 `chairs` (index = table·8 + seat·2 + side>0), librarian's desk at the far end, a tipping
+  QUIET PLEASE `sign` (pivot at its foot), a book `cart` + `cartBooks[]`, globe, ladder, card catalog), `surgery.js` (operating
+  room: OR table along x with a draped patient whose `feet`/`footL`/`footR` kick, a ceiling `lamp` pivot + `lampLight`, an ECG
+  `monitor` you redraw per frame `setECG(t, bpm, wild)`, instrument `tray`/`trayTop`, X-ray box, OR 3 sign), `cemetery.js`
+  (sunny funeral: lawn + hills, instanced headstones, oaks, chapel, iron fence, white canopy over the grave, folding chairs
+  `DIMS.rows × seats`, `wreaths[]`, a black `hearse`; own fog), `stadium.js` (dusk concert bowl: one LatheGeometry two-deck
+  bowl, ~16k instanced fans `updateFans(t, f)` where `f(info) → {y, arms, sway}` per fan (jumps, the wave, arms up), stage +
+  LED wall `setScreen(t, beat)`, `beams[]`, floodlight towers, jumbotrons; camera on the stage looking +x sees every face;
+  `camera.far` ≈ 600).
+- **019 `shots.js` = the dance kit:** one beat clock (`M1`, `BEAT` = 0.5 s at 120 bpm; make_cues.py uses the same grid) and
+  `MOVES` — groove, disco point, robot, jump (arms up), YMCA, twist, shimmy, sprinkler, body roll — each mutates a pose and
+  returns `{sz, sy, legs}` (side bend, shoulder twist, PER-LEG IK `{fz, lift, splay}` via a local `legIK` copy: step-touch,
+  knee pops, conga side kicks, a moonwalk). `dancer(rig, key, t, o)` = pose + move + `then(p, q, b)` override + per-leg legs.
+  Tested arm presets at the top: `GOAL` A(−1.57, 1.57, −1.57) = upper arm out, forearm UP; `FWD`, `PT_UP/PT_DN` (disco),
+  `HIP_A/B`, `HEAD_A/B`, `C_A/C_B`, `TOP_A/B` (YMCA letters), `SPR_A/B` (sprinkler), `CONGA_A/B`, `SLOW_A/B`, `FLEX_A/B`,
+  `PUSH_A/B` (the worm: showC-style body tilt). Also `makeMini(parent, n)` = a cheap instanced crowd (body + head + raised-arm V,
+  seated or standing), `burst(t, t0, center, …)` = one instanced confetti/petal/cereal burst per shot, `note()` = a gold ♪ that
+  pops over a head, accessories built once per crowd rig and toggled per beat (`wear(rig, {cap, mask, gloves, shades})`,
+  `outfit(rig, top, pants)` recolors; `hideAll` restores), props `makeCoffin`, `makeBowl`, `makeSpoon`, `makeCerealBox`,
+  `makeSheet(text)` (a stamped paper: HIRED).
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -363,6 +384,19 @@ videos/NNN-slug/
   rotate the dial so N points elsewhere, then swing the needle (018). Keep such props above the subtitle band and off the HUD.
 - **Sync foley to physics computed in shots.js by mirroring the formula in make_cues.py** (018's cart pile-up times `TK` are
   solved the same way in both) — and keep collisions inside the beat (v1's carts arrived 2 s after the cut).
+- **Beat-timed events: compute them from the beat index, `t = M1 + n·BEAT`, the same way in shots.js and make_cues.py** (019's
+  can pyramid was keyed to "bar 38" instead of beat 39 → scheduled at 83 s, the cans never fell in the first stills).
+- **Arm presets: check the math before "fixing" one** — a cropped still made 019's robot goal post look wrong; a 10-line node
+  script of the shoulder → elbow → hand chain (`rotation.set(sx, twist, s·sz)`, `elbow.rotation.x = el`) proved it right.
+  The t ≥ 200 pose lineup must hide `#ui` (019: the end card + finalFade covered it); show ≤ 5 figures per lineup frame.
+- **Additive light cones (stage beams) that pass near the camera wash out the whole frame** (019 stadium): hide the beams
+  over the camera path, keep the rest at opacity ≈ 0.09.
+- **city.js rooftop props** — stairwell box at (−14.6, 15.6) 2.6 × 2.4, water tower at (−11.2, 16) with legs ±1 m, AC units at
+  x ≈ −15.5, a vent at (−12.8, 12.8). Keep dancers + camera cranes clear of them (019's first crane flew through the tower).
+  A crane that stays above the roof footprint is safe; the neighbors are taller.
+- **street.js generic storefronts have an awning at y 2.75** that hides any sign you hang above the window — hide it
+  (019 IRON GYM). Canvas text wider than its canvas is silently clipped ("LOSED FOREVE") — shrink the font or measure it.
+- **LatheGeometry profiles: no two consecutive equal points** (zero-length segment → NaN normals → black blocks).
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
@@ -382,6 +416,11 @@ rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as 
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
+**Keep TRIBE-gated reels ≤ 70 s** (019): the w2v-BERT audio encoder attends over the WHOLE clip (memory ∝ length²); at
+the 0.5 MPS watermark a 71.5 s reel ran out of GPU memory in the audio step (`MPS backend out of memory … Tried to allocate
+780 MB`), while 70.0 s (015-v2) and 69 s (018) passed. Trim the ending rather than touch the TRIBE setup.
+Re-scoring under the same tag used to reuse the old extracted `$NAME.wav` (the extractor skips an existing WAV), so 019's
+trimmed cut failed again with the identical 780 MB request; `tools/tribe-score.sh` now deletes `$NAME.wav/.tsv` first.
 **Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `sh tools/tribe-score.sh videos/NNN-slug cutN` (in the
 background; it holds a global lock so only ONE TRIBE run happens at a time across all sessions — two at once swap the Mac;
 ~20 min idle, ~60 min when the Mac swaps) → `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut, not a TRIBE version): headline metrics vs the best posted video, a
@@ -399,6 +438,9 @@ soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out o
 for the lock, so a re-render while queued scored the old file; it now copies after it takes the lock.)
 It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
 `tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
+**019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
+robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
+0.002. Close faces in motion beat spectacle at a distance.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
