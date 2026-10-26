@@ -208,6 +208,25 @@ videos/NNN-slug/
   flying onto a moving rig part (spine/head) and staying there (no reparenting); props `makeCart` (wire basket), `makeCompass`
   (`needle.rotation.y`), `makeFork(spoon)`, `makeToaster` (toast pops), `makePan`, `makeMic`, `makeBackpack`; an instanced
   crowd of 1,800 capsule "tourists" that fly in and stick (cheap swarm).
+- **Doubling-POV kit (020, butt doubling):** `engine/props.js` `makeButt({denim, stitch, belt})` = a cartoon butt in jeans (two cheeks with
+  back pockets + yoke seam, a hip block, waistband + brown belt) that scales from 0.36 m to a planet: `setWidth(W m)`, `setBelt(on)`
+  (off = it snapped), `setSquash(k)` (+ flat / − stretched, bottom stays put), `button` (fly it off). Origin = top-center-front of the
+  waistband: parent it to `rig.pelvis` at (0, 0.06, 0) for small sizes; for big ones place it in the set (anchor y = ground + 0.565·W)
+  and pose the rig's pelvis at the anchor (020 `landmark()`, legs tucked into the denim). Pockets face the rig's −z: **turn the butt
+  so its back faces the lens** in every big shot (a front view of two giant spheres reads wrong). HUD: story.json segments take
+  `fmt: "len"` (value in cm, printed 36 cm / 1.44 m / 11.8 km / 6,040 km) + `geo: true` (rolls geometrically — a doubling, not a ramp).
+  `grow(t, tb, n)` / `squash()` in 020 shots.js = the boing every doubling uses. Copy 020's `impact()` + angular `jolts` (shake scales
+  with the shot's distance, so a 40 m wide shot shakes as much as a 2 m one).
+- **Per-shot `--cam top` (020):** in `update(t)` set `story.debugView = {center: OFF[set] + local, height}` per shot (020 `DBG`) — the
+  bird's-eye view then follows every set parked at an offset. It found a bus parked inside the door shot (a green slab over the lens).
+- **Space at human scale (020 ISS):** scale `tech.js` `buildSpace` root ×10 (Earth R = 4000 m) and put the ISS + an astronaut rig in
+  meters next to the camera; set `camera.far ≈ 30000`. Put the camera over the **sub-solar point** (`(1000,250,300).normalize()`) or the
+  ground is a dark night side, and set `studio.camera.up` to the local vertical there (else the whole frame is rolled / upside down);
+  reset `camera.up` to (0,1,0) in every other shot. Pose rigs with `basisQ(up, front)` (018) there.
+- **A giant thing in a street's sky (020 crowd):** street.js's sky dome (r 150) hides anything beyond it — set its `depthWrite = false`
+  + `renderOrder = −1`, raise `camera.far` for that shot, swap in a thin fog (80 → 9000), give the far object an emissive map (it sits
+  in the set's shadow side) and lift it so its readable part clears the skyline. A cartoon water splash = an open cylinder ring with a
+  jagged-top alpha texture (020 `crown`) — soft puffs alone read as cotton balls.
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 

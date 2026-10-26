@@ -143,3 +143,13 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
   chord pads `level` ≈ 1.9 with `attack` 0.12, melody doubled at the octave, one soft pickup note over the stray dip → LRA 4.5, none.
 - Reference script: `videos/018-magnetic/make_cues.py`.
 
+
+## Escalation polka (020 doubling POV)
+- Piano `bounce` oom-pah + soft spiccato `strings` (pattern [0,1,2,1], octave 1) that **steps up a key on every doubling** (C → Db → D …,
+  a new chord list + pad per key) and speeds up with the scale (120 → 133 → 150 bpm via `step`). A mallet octave-leap "boing" on each
+  doubling climbs with the key. Dream ending = a music-box `arp` lullaby in C; the 7:01 boom restarts the polka (the loop).
+- **Gotcha: booms inflate the music median → every bar end before a boom flags as a dropout.** Fix: a rising 4-note mallet "wind-up"
+  (t−0.48 … t−0.12, crescendo) into each doubling, pads overlapping 0.5 s at key changes (`level` 1.15), booms at vel ≤ 0.6.
+  Result: −15 LUFS, LRA 3.5, `music dropouts: none`.
+- New SFX: `alarm_beep` (n, pitch — soft round double-beeps, low-passed) and `water_splash` (size — a whump + a burst + falling rain,
+  low-passed). Reference script: `videos/020-butt-doubling/make_cues.py`.

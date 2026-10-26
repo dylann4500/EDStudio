@@ -1,0 +1,409 @@
+{
+  "tone": "funny",
+  "look": {
+    "exposure": 1.05,
+    "fill": 0.45,
+    "vignette": 0.26,
+    "bloom": 0.2,
+    "bloomThreshold": 0.92
+  },
+  "fps": 30,
+  "duration": 60.0,
+  "title": {
+    "html": "What if your butt <em>doubled</em> in size every minute?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.6,
+      5.4,
+      "7:00 AM. A perfectly normal butt."
+    ],
+    [
+      5.7,
+      7.9,
+      "Then it doubles. Every minute."
+    ],
+    [
+      8.2,
+      9.9,
+      "Your jeans are 2% spandex."
+    ],
+    [
+      10.15,
+      12.55,
+      "Minute 2. The chair quits. The jeans hold."
+    ],
+    [
+      12.8,
+      15.2,
+      "Minute 3. Front doors are 91 cm wide."
+    ],
+    [
+      15.5,
+      17.6,
+      "Minute 4. Not anymore."
+    ],
+    [
+      18.1,
+      20.3,
+      "A city bus is 12 m long."
+    ],
+    [
+      20.6,
+      22.4,
+      "Minute 5. So is your butt."
+    ],
+    [
+      22.6,
+      24.8,
+      "A traffic lane is 3.7 m wide."
+    ],
+    [
+      25.15,
+      27.0,
+      "Minute 6. You take up six."
+    ],
+    [
+      27.3,
+      29.1,
+      "You try to cool off."
+    ],
+    [
+      29.45,
+      31.55,
+      "Minute 7. The pool is everywhere now."
+    ],
+    [
+      31.8,
+      33.6,
+      "Planes cruise at 11 km."
+    ],
+    [
+      34.3,
+      36.2,
+      "Minute 15. Planes go around."
+    ],
+    [
+      36.5,
+      38.6,
+      "The space station orbits at 400 km."
+    ],
+    [
+      38.9,
+      40.8,
+      "Minute 21. Say cheese."
+    ],
+    [
+      41.2,
+      43.2,
+      "Every phone on Earth points up."
+    ],
+    [
+      43.5,
+      45.3,
+      "Minute 23. Nobody posts anything else."
+    ],
+    [
+      45.4,
+      47.2,
+      "The Moon is 3,474 km wide."
+    ],
+    [
+      47.5,
+      50.0,
+      "Minute 24. Earth has three moons now."
+    ],
+    [
+      50.4,
+      52.3,
+      "7:00 AM. It was a dream."
+    ],
+    [
+      52.5,
+      54.3,
+      "The dog naps on it anyway."
+    ]
+  ],
+  "hudLabel": "YOUR BUTT · WIDTH",
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 5.5,
+      "from": 36,
+      "to": 36,
+      "fmt": "len",
+      "time": "MINUTE 0 · 7:00 AM",
+      "age": "AVERAGE ADULT HIPS · 36 CM"
+    },
+    {
+      "t0": 5.5,
+      "t1": 8.0,
+      "from": 36,
+      "to": 72,
+      "r0": 5.5,
+      "r1": 6.1,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 1 · 7:01 AM",
+      "age": "AVERAGE ADULT HIPS · 36 CM"
+    },
+    {
+      "t0": 8.0,
+      "t1": 10.0,
+      "from": 72,
+      "to": 72,
+      "fmt": "len",
+      "time": "MINUTE 1 · 7:01 AM",
+      "age": "STRETCH DENIM · 1–2% SPANDEX"
+    },
+    {
+      "t0": 10.0,
+      "t1": 12.6,
+      "from": 72,
+      "to": 144,
+      "r0": 10.0,
+      "r1": 10.6,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 2 · 7:02 AM",
+      "age": "STRETCH DENIM · 1–2% SPANDEX"
+    },
+    {
+      "t0": 12.6,
+      "t1": 15.3,
+      "from": 144,
+      "to": 288,
+      "r0": 12.6,
+      "r1": 13.1,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 3 · 7:03 AM",
+      "age": "FRONT DOOR · 91 CM (36 IN)"
+    },
+    {
+      "t0": 15.3,
+      "t1": 17.8,
+      "from": 288,
+      "to": 576,
+      "r0": 15.3,
+      "r1": 15.9,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 4 · 7:04 AM",
+      "age": "FRONT DOOR · 91 CM (36 IN)"
+    },
+    {
+      "t0": 17.8,
+      "t1": 20.5,
+      "from": 576,
+      "to": 576,
+      "fmt": "len",
+      "time": "MINUTE 4 · 7:04 AM",
+      "age": "CITY BUS · 12 M · ~13 TONNES"
+    },
+    {
+      "t0": 20.5,
+      "t1": 22.4,
+      "from": 576,
+      "to": 1152,
+      "r0": 20.5,
+      "r1": 21.1,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 5 · 7:05 AM",
+      "age": "CITY BUS · 12 M · ~13 TONNES"
+    },
+    {
+      "t0": 22.4,
+      "t1": 25.0,
+      "from": 1152,
+      "to": 1152,
+      "fmt": "len",
+      "time": "MINUTE 5 · 7:05 AM",
+      "age": "TRAFFIC LANE · 3.7 M (12 FT)"
+    },
+    {
+      "t0": 25.0,
+      "t1": 27.0,
+      "from": 1152,
+      "to": 2304,
+      "r0": 25.0,
+      "r1": 25.6,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 6 · 7:06 AM",
+      "age": "TRAFFIC LANE · 3.7 M (12 FT)"
+    },
+    {
+      "t0": 27.0,
+      "t1": 29.3,
+      "from": 2304,
+      "to": 2304,
+      "fmt": "len",
+      "time": "MINUTE 6 · 7:06 AM",
+      "age": "OLYMPIC POOL · 2.5 MILLION LITERS"
+    },
+    {
+      "t0": 29.3,
+      "t1": 31.6,
+      "from": 2304,
+      "to": 4608,
+      "r0": 29.3,
+      "r1": 29.9,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 7 · 7:07 AM",
+      "age": "OLYMPIC POOL · 2.5 MILLION LITERS"
+    },
+    {
+      "t0": 31.6,
+      "t1": 32.9,
+      "from": 4608,
+      "to": 294912,
+      "r0": 31.6,
+      "r1": 32.4,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 13 · 7:13 AM",
+      "age": "AIRLINERS CRUISE · ~11 KM UP"
+    },
+    {
+      "t0": 32.9,
+      "t1": 34.2,
+      "from": 294912,
+      "to": 589824,
+      "r0": 32.9,
+      "r1": 33.4,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 14 · 7:14 AM",
+      "age": "AIRLINERS CRUISE · ~11 KM UP"
+    },
+    {
+      "t0": 34.2,
+      "t1": 36.4,
+      "from": 589824,
+      "to": 1179648,
+      "r0": 34.2,
+      "r1": 34.7,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 15 · 7:15 AM",
+      "age": "AIRLINERS CRUISE · ~11 KM UP"
+    },
+    {
+      "t0": 36.4,
+      "t1": 38.7,
+      "from": 1179648,
+      "to": 37748736,
+      "r0": 36.4,
+      "r1": 37.2,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 20 · 7:20 AM",
+      "age": "SPACE STATION · ~400 KM UP"
+    },
+    {
+      "t0": 38.7,
+      "t1": 41.0,
+      "from": 37748736,
+      "to": 75497472,
+      "r0": 38.7,
+      "r1": 39.3,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 21 · 7:21 AM",
+      "age": "SPACE STATION · ~400 KM UP"
+    },
+    {
+      "t0": 41.0,
+      "t1": 43.4,
+      "from": 75497472,
+      "to": 150994944,
+      "r0": 41.0,
+      "r1": 41.5,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 22 · 7:22 AM",
+      "age": "SMARTPHONES · ~7.3 BILLION"
+    },
+    {
+      "t0": 43.4,
+      "t1": 45.2,
+      "from": 150994944,
+      "to": 301989888,
+      "r0": 43.4,
+      "r1": 44.0,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 23 · 7:23 AM",
+      "age": "SMARTPHONES · ~7.3 BILLION"
+    },
+    {
+      "t0": 45.2,
+      "t1": 47.3,
+      "from": 301989888,
+      "to": 301989888,
+      "fmt": "len",
+      "time": "MINUTE 23 · 7:23 AM",
+      "age": "THE MOON · 3,474 KM WIDE"
+    },
+    {
+      "t0": 47.3,
+      "t1": 50.2,
+      "from": 301989888,
+      "to": 603979776,
+      "r0": 47.3,
+      "r1": 47.9,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 24 · 7:24 AM",
+      "age": "THE MOON · 3,474 KM WIDE",
+      "ageGoldAt": 47.5
+    },
+    {
+      "t0": 50.2,
+      "t1": 54.4,
+      "from": 603979776,
+      "to": 36,
+      "r0": 50.2,
+      "r1": 50.9,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 0 · 7:00 AM",
+      "age": "AVERAGE ADULT HIPS · 36 CM"
+    },
+    {
+      "t0": 54.4,
+      "t1": 60.0,
+      "from": 36,
+      "to": 72,
+      "r0": 54.4,
+      "r1": 55.0,
+      "geo": true,
+      "fmt": "len",
+      "time": "MINUTE 1 · 7:01 AM",
+      "age": "AVERAGE ADULT HIPS · 36 CM"
+    }
+  ],
+  "end": {
+    "in": 56.0,
+    "html": "Which minute would you <em>call in sick</em>?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [
+    55.4,
+    56.0
+  ],
+  "debugView": {
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "height": 14
+  }
+}

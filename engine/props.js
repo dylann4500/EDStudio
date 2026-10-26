@@ -528,3 +528,63 @@ export function makeHamsterWheel({ r = 0.1, color = 0x3d9be0 } = {}) {
   mk(new THREE.BoxGeometry(0.14, 0.012, 0.06), pm, g, 0, 0.006, -0.05);
   return { g, wheel, r, axleY, spin: (a) => (wheel.rotation.z = a) };
 }
+
+// ---------------------------------------------------------------- 020: a cartoon butt in jeans that scales to planet size
+/**
+ * makeButt({ denim, stitch, belt }) → { g, setWidth(W), setBelt(on), setSquash(k), button, W }.
+ * Two denim cheeks (back pockets + yoke seam) under a hip block + waistband + brown belt. Origin = the top-center-front of the
+ * waistband (a rig's waist: pelvis-local (0, 0.06, 0) — or anywhere in a set for a giant one). Faces +z like a rig: the pockets
+ * are on −z. Everything scales with W = total width in meters (0.36 = a normal adult butt; 6,000,000 = a moon).
+ * Bottom of the cheeks = −0.565·W below the origin, back = −0.41·W, top of the waistband = 0. Clothed cartoon only (house rule).
+ * setSquash(k): −1..1, + = flattened (sitting, landing), − = stretched (a boing). `button` = the waistband's front button (fly it off).
+ */
+export function makeButt({ denim = '#41639a', stitch = '#e0a347', belt = 0x6a4128 } = {}) {
+  const g = new THREE.Group(), inner = new THREE.Group(); g.add(inner);
+  const twill = (c, w, h, R) => {
+    c.fillStyle = denim; c.fillRect(0, 0, w, h);
+    c.lineWidth = 1.2;
+    for (let i = -h; i < w; i += 5) { c.strokeStyle = `rgba(255,255,255,${0.05 + R() * 0.05})`; c.beginPath(); c.moveTo(i, 0); c.lineTo(i + h, h); c.stroke(); }
+    for (let i = 0; i < 900; i++) { c.fillStyle = R() < 0.5 ? 'rgba(255,255,255,.06)' : 'rgba(0,0,30,.07)'; c.fillRect(R() * w, R() * h, 2 + R() * 6, 1); }
+    const fade = c.createLinearGradient(0, 0, 0, h); fade.addColorStop(0, 'rgba(0,0,30,.12)'); fade.addColorStop(0.5, 'rgba(255,255,255,.06)'); fade.addColorStop(1, 'rgba(0,0,30,.18)');
+    c.fillStyle = fade; c.fillRect(0, 0, w, h);
+  };
+  const seam = (c, pts, dash = true) => {
+    for (const off of [-3, 3]) { c.strokeStyle = stitch; c.lineWidth = 2.4; c.setLineDash(dash ? [7, 5] : []); c.beginPath(); pts.forEach(([x, y], i) => (i ? c.lineTo(x, y + off) : c.moveTo(x, y + off))); c.stroke(); }
+    c.setLineDash([]);
+  };
+  // cheek map: equirect (u = around, v = from the top). Back = u 0.75, outer side (−x for the left cheek) = u 0 / 1.
+  const cheekTex = canvasTex(1024, 512, (c, w, h) => {
+    const R = rng(31); twill(c, w, h, R);
+    seam(c, [[w * 0.52, h * 0.31], [w * 0.7, h * 0.27], [w * 0.86, h * 0.23], [w * 1.0, h * 0.2]]);   // yoke: lower at the crease
+    for (const x of [6, w - 6]) seam(c, [[x, 0], [x, h]]);                                          // outer side seam
+    const cx = w * 0.805, pw = w * 0.17, y0 = h * 0.34, y1 = h * 0.6, tip = h * 0.66;               // back pocket
+    const pocket = [[cx - pw / 2, y0], [cx + pw / 2, y0], [cx + pw / 2 - 6, y1], [cx, tip], [cx - pw / 2 + 6, y1], [cx - pw / 2, y0]];
+    c.fillStyle = 'rgba(10,20,50,.16)'; c.beginPath(); pocket.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y))); c.fill();
+    c.strokeStyle = 'rgba(10,20,50,.45)'; c.lineWidth = 3; c.stroke();
+    for (const k of [7, 15]) { c.strokeStyle = stitch; c.lineWidth = 2.2; c.setLineDash([7, 5]); c.beginPath(); pocket.forEach(([x, y], i) => { const xx = x + (x < cx ? k : x > cx ? -k : 0), yy = y + (y === y0 ? k : -k * 0.8); i ? c.lineTo(xx, yy) : c.moveTo(xx, yy); }); c.stroke(); }
+    c.setLineDash([]);
+    seam(c, [[cx - pw / 2 + 4, y0 + 30], [cx + pw / 2 - 4, y0 + 30]], false);                     // pocket hem
+    c.fillStyle = '#c98a3c'; for (const x of [cx - pw / 2 + 10, cx + pw / 2 - 10]) { c.beginPath(); c.arc(x, y0 + 10, 6, 0, 7); c.fill(); } // rivets
+    seam(c, [[w * 0.5, 0], [w * 0.5, h]]);                                                          // crease seam
+  });
+  const plainTex = canvasTex(512, 256, (c, w, h) => { const R = rng(32); twill(c, w, h, R); });
+  const mDenim = new THREE.MeshStandardMaterial({ map: cheekTex, roughness: 0.9 });
+  const mPlain = new THREE.MeshStandardMaterial({ map: plainTex, roughness: 0.9 });
+  const mBand = new THREE.MeshStandardMaterial({ color: new THREE.Color(denim).multiplyScalar(0.82), roughness: 0.85 });
+  const cheekGeo = new THREE.SphereGeometry(0.27, 56, 36);
+  const cheeks = [-1, 1].map((s) => { const ch = mk(cheekGeo, mDenim, inner, s * 0.22, -0.3, -0.17); ch.scale.set(s < 0 ? 1 : -1, 0.96, 0.9); return ch; });
+  const hips = mk(new THREE.SphereGeometry(1, 40, 24), mPlain, inner, 0, -0.16, -0.1); hips.scale.set(0.4, 0.13, 0.24);
+  const band = mk(new THREE.CylinderGeometry(1, 1, 1, 48), mBand, inner, 0, -0.035, -0.1); band.scale.set(0.3, 0.07, 0.19);
+  const beltG = new THREE.Group(); inner.add(beltG);
+  const strap = mk(new THREE.CylinderGeometry(1, 1, 1, 48, 1, true), mat(belt, 0.55, { side: THREE.DoubleSide }), beltG, 0, -0.035, -0.1); strap.scale.set(0.306, 0.04, 0.196);
+  const buckle = mk(new THREE.BoxGeometry(0.05, 0.04, 0.012), mat(0xd8b25a, 0.3, { metalness: 0.7 }), beltG, 0, -0.035, 0.093);
+  for (const a of [0.9, 1.9, 4.4, 5.4]) { const lp = mk(new THREE.BoxGeometry(0.014, 0.075, 0.012), mBand, inner, Math.sin(a) * 0.307, -0.035, -0.1 + Math.cos(a) * 0.197); lp.rotation.y = a; }
+  const button = mk(new THREE.CylinderGeometry(0.012, 0.012, 0.006, 14), mat(0xc98a3c, 0.3, { metalness: 0.7 }), inner, 0.045, -0.035, 0.092); button.rotation.x = Math.PI / 2;
+  void buckle; void cheeks;
+  let W = 0.36;
+  const setWidth = (w) => { W = Math.max(1e-4, w); g.scale.setScalar(W); };
+  const setBelt = (on) => { beltG.visible = !!on; };
+  const setSquash = (k) => { inner.scale.set(1 + 0.12 * k, 1 - 0.16 * k, 1 + 0.12 * k); inner.position.y = -0.565 * 0.16 * k; };
+  setWidth(W);
+  return { g, inner, setWidth, setBelt, setSquash, button, get W() { return W; } };
+}
