@@ -6,3 +6,4 @@ videos/
 results/*.npy
 logs/
 atlas/
+.tribe.lock/
