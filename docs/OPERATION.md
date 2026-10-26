@@ -47,8 +47,8 @@ Never post one video on two accounts: TikTok holds back copies (twice as smart: 
   a premise that matches anything in "Made / assigned" is a repeat, even with new wording.
 - **`ops/research/YYYY-MM-DD.md`** — the daily research digest.
 - **`docs/lanes/*.md`** — the brief for each lane (what a video is, structure, references, sound, caption).
-- **`tools/tribe-score.sh videos/NNN-slug vK`** — the only way to run TRIBE: waits for a global lock (`tribe-experiment/.tribe.lock`,
-  stale locks are taken over), runs `run_tribe.py` in the main checkout, writes `videos/NNN-slug/tribe-vK.txt`
+- **`tools/tribe-score.sh videos/NNN-slug cutN`** — the only way to run TRIBE: waits for a global lock (`tribe-experiment/.tribe.lock`,
+  stale locks are taken over), runs `run_tribe.py` in the main checkout, writes `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut; the model is always TRIBE v2)
   (last line `TARGET MET` / `NOT MET`). `--status` shows who holds it.
 - **`tools/upload-copy.sh`** → `out/upload.mp4` (HEVC < 10 MB, the Claude-in-Chrome upload limit; looks identical at phone size).
 - **`tools/preview-copy.sh`** → `out/preview.mp4` (H.264 720p ≤ 4.5 MB, plays on any phone, small enough to text).
@@ -67,9 +67,9 @@ brief, filled in. The number and premise are reserved in `ops/ideas.md` before t
 > writes need the sandbox disabled; `npm run new -- NNN-slug`.
 > **Angle:** 4–8 lines: the moment it happens, 6–10 example places/gags, the escalation, the ending, 2–3 real numbers to verify.
 > **Build:** story → shots → still sheets (look at them) → audio → render → QC checklist. 10–12 beats of ~5 s, motion in every frame.
-> **TRIBE gate:** `sh tools/tribe-score.sh videos/NNN-slug v1` in the background → `TARGET MET` (beat 013: whole-brain ≥ 0.0448,
-> first 60 s ≥ 0.0421, no dead zone). Not met → one fix pass on the weakest beats → `v2`; a `v3` pass only if still not met; then report.
-> **Deliverables:** final.mp4, caption.md (course line as its own block), tribe-vK.txt, out/upload.mp4, out/preview.mp4. Commit the
+> **TRIBE gate:** `sh tools/tribe-score.sh videos/NNN-slug cut1` in the background → `TARGET MET` (beat 013: whole-brain ≥ 0.0448,
+> first 60 s ≥ 0.0421, no dead zone). Not met → one fix pass on the weakest beats → `cut2`; a `cut3` pass only if still not met; then report.
+> **Deliverables:** final.mp4, caption.md (course line as its own block), tribe-cutN.txt, out/upload.mp4, out/preview.mp4. Commit the
 > video folder + additive engine changes on your branch. **Don't merge to main, don't push.**
 > **Hands off:** never post, never use the user's Chrome, never email. If blocked, SendMessage the manager (`local_…`).
 > **Final message (≤ 25 lines):** branch; paths; duration; TRIBE headline; caption in full; one line per beat; anything to check.
@@ -80,7 +80,7 @@ rules in CLAUDE.md are non-negotiable".
 ## 5. When a producer finishes (manager)
 
 1. Read its report. Check the files exist: `ffprobe` (1080×1920, 30 fps, duration = story.json), `tools/caption.py` passes,
-   `tribe-vK.txt` says `TARGET MET` (if not after v3: the manager decides — ship if it still beats the account's median, else drop).
+   `tribe-cutN.txt` says `TARGET MET` (if not after cut3: the manager decides — ship if it still beats the account's median, else drop).
 2. **Look at it**: build a frame sheet (`ffmpeg -i final.mp4 -vf fps=1,scale=216:-1,tile=12x6 sheet.jpg`) and open it. Kill
    static runs, cropped faces under the HUD, unreadable text. Send fixes back to the producer (SendMessage) if needed.
 3. Merge its branch into `main` (`git merge --no-ff <branch>`); on conflicts in shared files (CLAUDE.md, engine/*.js) keep both

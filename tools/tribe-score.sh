@@ -3,13 +3,14 @@
 # (a run degraded to 100 s/clip). Waits for the lock, runs run_tribe.py in the main checkout (where .venv + caches live),
 # then score.py with the video's shots.js, and writes the report next to the video.
 # Usage (from the repo root or any worktree; run it in the background, it can wait an hour+ for the lock):
-#   sh tools/tribe-score.sh videos/NNN-slug v1      ->  videos/NNN-slug/tribe-v1.txt  (last line: TARGET MET / NOT MET)
+#   sh tools/tribe-score.sh videos/NNN-slug cut1    ->  videos/NNN-slug/tribe-cut1.txt  (last line: TARGET MET / NOT MET)
+# cutN = the Nth cut of the VIDEO (cut2 after a fix pass); the model is always TRIBE v2.
 # A stale lock (its PID is gone) is taken over. `--status` prints who holds the lock.
 set -e
 MAIN=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
 TE="$MAIN/tribe-experiment"; LOCK="$TE/.tribe.lock"
 if [ "$1" = "--status" ]; then cat "$LOCK/owner" 2>/dev/null || echo "free"; exit 0; fi
-V=$(cd "$1" && pwd); TAG="${2:?usage: tribe-score.sh videos/NNN-slug vK}"
+V=$(cd "$1" && pwd); TAG="${2:?usage: tribe-score.sh videos/NNN-slug cutN}"
 NAME="$(basename "$V")-$TAG"   # full slug, not just NNN: two chats can use the same number (015 happened twice)
 [ -f "$V/final.mp4" ] || { echo "no $V/final.mp4 — render first"; exit 1; }
 mkdir -p "$TE/videos" "$TE/logs"; cp "$V/final.mp4" "$TE/videos/$NAME.mp4"

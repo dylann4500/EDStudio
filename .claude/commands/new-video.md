@@ -41,9 +41,9 @@ Follow `CLAUDE.md` exactly. Steps:
    it must report `music dropouts: none`.
 7. Full render: `node tools/render.mjs NNN-slug`. Spot-check 6 frames of `final.mp4` (ffmpeg -ss) for black blocks/flicker.
 8. Run the QC checklist in CLAUDE.md; fix anything failing.
-   **TRIBE pass** (CLAUDE.md → Brain-response check; required in the operation): `sh tools/tribe-score.sh videos/NNN-slug v1` in the
+   **TRIBE pass** (CLAUDE.md → Brain-response check; required in the operation): `sh tools/tribe-score.sh videos/NNN-slug cut1` in the
    background (one run at a time across all sessions — never call run_tribe.py directly), fix the beats it flags as sagging
-   (usually: add motion), re-render, re-score as `v2`. It's a quality signal, not a reach predictor.
+   (usually: add motion), re-render, re-score as `cut2` (cutN = the video's Nth cut; the model is always TRIBE v2). It's a quality signal, not a reach predictor.
 9. Write `caption.md` (format: docs/FORMAT.md §9 — incl. the course line `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q` before the hashtags; `python3 -I tools/caption.py videos/NNN-slug` must pass). Commit the video folder (not out/ or stills/) with a message like `video NNN: <title>` and push.
    **Producer in the operation (docs/OPERATION.md):** commit on your branch only — the manager merges, pushes and posts.
 10. **Update the harness:** anything you learned, any new engine feature, any user steering → CLAUDE.md / docs / this command.
