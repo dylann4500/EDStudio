@@ -8,6 +8,6 @@ its lane; read that lane's file before writing the story.
 |---|---|---|---|
 | @ed._.studios (main) | unhinged funny what-ifs | `unhinged.md` | 1 PM + 6 PM daily |
 | @ed_.studios | science what-ifs | `science.md` | 1 PM + 6 PM daily |
-| @ed._.sims | lane 3: chosen by the lane scout (not biographies; they flopped) | `lane3.md` (pending) | 1 PM + 6 PM daily |
+| @ed._.sims | good-ending pet sims: recurring hero Pip the corgi puppy, a series (not biographies; they flopped) | `lane3.md` | 1 PM + 6 PM daily |
 
 Biographies (`docs/BIOGRAPHY.md`) stay in the harness, but no account runs them.

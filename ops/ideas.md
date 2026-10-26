@@ -47,4 +47,14 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 - What if you fell into a black hole?
 
 ## Backlog: lane 3 (@ed._.sims)
-(pending the lane scout: `docs/lanes/lane3.md`)
+Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
+- What if your new puppy cried all night on his first night home? (ep. 1: meet Pip, Mia and the home base. HOURS UNTIL MORNING; Mia sneaks down to sleep by his crate. Source: "first day home" 451K, @whatif.goodending)
+- What if Pip went trick-or-treating? (post by Oct 31: suburb porches at dusk, CANDY 0 → 41, and the grumpy last house gives him a bone. Source: costume-contest episode 507K)
+- What if the whole town lost power… and Pip was the only one not scared? (city.js `setPower` + `makeFlashlight`, HOMES WITH POWER; disaster-goes-right got 1.2–1.3M on @whatif.goodending)
+- What if nobody at the dog park wanted to play with Pip? (loneliness, then a surprise: DOGS PLAYING 0 → 14 and whole-park zoomies. Source: "nobody came" 1st birthday 1M)
+- What if a tornado hit while Pip was home alone? (suburb porch-roof collapse, Pip and the bunny ride it out in the bathtub, family comes home. Disaster that goes right)
+- What if Pip worked at the supermarket for one day? (supermarket.js `setStock`/`setSoldOut` on the sausage aisle, ends as employee of the month. Source: Hugo's first job 932K, @okwhatifcrazy)
+- What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
+- What if Pip saw snow for the first time? (first snow, SNOWFLAKES CAUGHT, a snowman that becomes his friend. Firsts are their best tier; seasonal for November)
+- What if the street flooded and Pip went back for the ducklings? (flood plane from pool.js water, WATER LEVEL, the duck family follows him home. Source: tsunami episodes 0.9–1.3M)
+- What if Pip's kid left for college and he waited by the door every day? (DAYS WAITED 0 → 98, Thanksgiving reunion. 001's emotional format with a pet + "waited by the door" from the 1M birthday)
