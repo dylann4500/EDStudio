@@ -183,10 +183,12 @@ videos/NNN-slug/
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
 - **Build genre kit (015, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
-  `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeRaccoon`, `makePigeon`),
+  `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeShades`, `makeRaccoon`, `makePigeon` with `flap`),
   `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
-  (`beatClock` → `B.W(beat, word)`, `pop/drop/squash/wobble/shake`, `camAt`), `fx.js` (analytic particles: dirt, drops,
-  confetti, dust, smoke, stink, mist, spark, glow; `makeArrows`, `makeDizzy`), `subway.js` (the 015 set + `makeTBM`,
+  (`beatClock` → `B.W(beat, word)`, `pop/drop/squash/wobble/shake`, `camAt`), `rail.js` (one continuous camera:
+  `makeRail(planRail(frames))` — framings on words, moves ≥ 0.6 + d/8 s, `keep`/`until` holds, `[rail]` warnings; `render.mjs --qc` runs
+  the video's `window.EDSTUDIO_QC` = faces under caption/callouts), `fx.js` (analytic particles: dirt, drops,
+  confetti, dust, smoke, stink, mist, spark, glow, bill (banknotes); `makeArrows`, `makeDizzy`), `subway.js` (the 015 set + `makeTBM`,
   `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`). Narration:
   `tools/narrate.py` (script.json → voice.wav + words.json + story.json). synth.py: a `"voice"` cue = narrator stem with the
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
@@ -249,6 +251,8 @@ videos/NNN-slug/
 
 ## Hard-won rules (each one cost a debugging round)
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
+- **The render log now shows page `console.warn`** (`[page] …`): Puppeteer reports it as type `'warn'`, and tools/render.mjs only
+  printed `'warning'`/`'error'`, so every lint warning from page code (e.g. engine/build/rail.js speed checks) was silently lost.
 - **Real-world facts must be current and sourced** (web-search the latest edition: SIPRI/IISS/IAEA/UN…); cite in the shots.js header +
   a comment in caption.md. 005's first draft used last year's warhead total.
 - **Emissive "screens/holograms" use Lambert or Basic materials**, not Standard: a warm key light gives a Standard material's dark

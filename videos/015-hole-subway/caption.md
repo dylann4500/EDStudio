@@ -1,8 +1,8 @@
-How a Hole Becomes a Subway 🤔🚇
+How a Hole Becomes a Subway 🕳️🚇
 
-It starts with one guy, one shovel and a traffic jam. Then the walls cave in, the groundwater floods it, a tunnel boring machine eats a block of cheese, and the bakery upstairs sinks into the tunnel. Every fix has a real name (shoring, segment rings, the third rail), and every one of them happens to Gary first.
+It starts with one guy, one shovel and a traffic jam. Then the walls cave in, the water table floods it, a snail laps the tunnel boring machine, and the bakery upstairs sinks into the tunnel, croissants first. Every fix has a real name (shoring, segment rings, the third rail), and every one of them happens to Gary first.
 
-Which part would you have quit at? 👇
+Which fix would you have quit at? 👇
 
 Send this to the friend who'd absolutely touch the third rail.
 

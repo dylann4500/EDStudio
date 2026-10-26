@@ -27,12 +27,20 @@ or effect on almost every phrase.
 6. **Set**: a cutaway diorama built on `engine/build/cutaway.js` (strata canvas + runtime hole mask) + the props the story
    needs. Reuse `engine/build/*` (toon, fx, anim) and `subway.js` props; new sets go in `engine/build/<name>.js`.
    Test the set alone first with a throwaway video folder and 4–6 camera views (fix seams, voids, blocking props).
-7. **shots.js**: every gag keyed to `B.W(beat, word)`; holes as shapes per frame; one camera entry per shot (keys at time 0
-   = the shot's start); a hit list for camera shake; effects scheduled at build time from the same word times.
+7. **shots.js**: every gag keyed to `B.W(beat, word)`; holes as shapes per frame; ONE continuous camera:
+   `makeRail(planRail(frames))` with one framing per 2–4 s, each placed on the word it must show (planRail leaves early so
+   no move is faster than 0.6 + d/8 s — fix every `[rail]` warning in the render log); a hit list for camera shake; effects
+   scheduled at build time from the same word times. Every character/prop enters and leaves ON screen (docs/BUILD.md →
+   Continuity).
 8. **Stills loop**: `node tools/render.mjs NNN-slug --stills …` at the middle of every shot (they render in ~0.15 s each),
    `node tools/sheet.mjs NNN-slug`, look, fix, repeat. Typical fixes: a tree/lamp/car between camera and subject, sprites
    (dust/stink/drops) spawned right in front of the lens, the hero hidden behind trailing machinery, a ring/donut too
    close to fit the 9:16 frame. Then `--preview` and scan it at 1 fps (`fps=1,scale=150:-1,tile=12x5`).
+   After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 015's `window.EDSTUDIO_QC` into build()) — no face
+   under the caption/callouts for ≥ 0.5 s — and no `[rail] … m in … s` line in the log.
+8b. **Review loop** (docs/BUILD.md → The review loop): render a 30 fps cut, `python3 -I tools/review_kit.py NNN-slug <dir>
+   --ref <reference.mp4>`, send 5 read-only reviewer agents (logic, look, pacing, camera, comedy) scoring /10, look at the
+   frames yourself meanwhile, merge their fixes, repeat until all ≥ 8.
 9. **Audio**: `make_cues.py` computes every cue from story.json (copy 015's) → `python3 -I audio/synth.py NNN-slug`.
    Check: −14 LUFS, `music dropouts: none`, voice on top (measure stems: voice ≈ −15, sfx ≈ −20, music ≈ −24 LUFS).
 10. **Render** `node tools/render.mjs NNN-slug`, QC (docs/BUILD.md checklist), write caption.md (house format + course

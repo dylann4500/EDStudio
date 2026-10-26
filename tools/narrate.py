@@ -9,7 +9,7 @@
 
 Why: build reels (docs/BUILD.md) are carried by a fast narrator, and the captions show ONE word at a time, so every word needs
 a time. ElevenLabs' /with-timestamps endpoint returns per-character times with the audio; the scratch voice (until the user
-sets ELEVENLABS_API_KEY in the env or a git-ignored .env at the repo root) estimates them per syllable inside the pauses it finds.
+sets ELEVENLABS_API_KEY in the env, ~/.config/edstudio/.env, or a git-ignored .env at the repo root) estimates them per syllable.
 Clips are cached by a hash of (voice settings, text): re-running only voices beats whose text changed (ElevenLabs bills per char).
 shots.js animates in beat-local time (story.beats[id]), so re-voicing stretches the animation automatically.
 """
@@ -25,12 +25,20 @@ def api_key():
     k = os.environ.get('ELEVENLABS_API_KEY')
     if k:
         return k.strip()
-    env = os.path.join(ROOT, '.env')
-    if os.path.exists(env):
-        for line in open(env):
-            m = re.match(r'\s*ELEVENLABS_API_KEY\s*=\s*["\']?([^"\'\s]+)', line)
-            if m:
-                return m.group(1)
+    roots = [os.path.expanduser('~/.config/edstudio'), ROOT]  # outside any repo first: a key there can never be committed
+    try:  # a worktree also reads the main checkout's .env, so one key file serves every worktree
+        common = subprocess.run(['git', '-C', ROOT, 'rev-parse', '--git-common-dir'], capture_output=True, text=True).stdout.strip()
+        if common:
+            roots.append(os.path.dirname(os.path.abspath(os.path.join(ROOT, common))))
+    except OSError:
+        pass
+    for r in roots:
+        env = os.path.join(r, '.env')
+        if os.path.exists(env):
+            for line in open(env):
+                m = re.match(r'\s*ELEVENLABS_API_KEY\s*=\s*["\']?([^"\'\s]+)', line)
+                if m:
+                    return m.group(1)
     return None
 
 
@@ -45,9 +53,10 @@ def http_json(url, key, body=None):
         sys.exit(f'ElevenLabs {e.code}: {e.read().decode(errors="replace")[:400]}')
 
 
-def decode(path):
-    """Any audio file -> mono float32 at SR (via ffmpeg)."""
-    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'],
+def decode(path, tempo=1.0):
+    """Any audio file -> mono float32 at SR (via ffmpeg). tempo > 1 speeds speech up without changing pitch (atempo)."""
+    af = ['-af', f'atempo={tempo:.4f}'] if abs(tempo - 1) > 1e-3 else []
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, *af, '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'],
                          capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.int16).astype(np.float32) / 32768.0
 
@@ -219,7 +228,10 @@ def narrate(slug, provider, key):
         next_t = beats[i + 1]['say'] if i + 1 < len(beats) else None
         path, words, new = voice_beat(vdir, provider, cfg, b, prev_t, next_t, key)
         fresh += new
-        x, words = trim(decode(path), words)
+        # script.json "tempo": speed the delivery up at assembly (pitch kept; free — no re-voicing); word times scale with it
+        tempo = cfg.get('tempo', 1.0) if provider == 'eleven' else 1.0
+        words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
+        x, words = trim(decode(path, tempo), words)
         clips.append((b, x, words, os.path.relpath(path, vd)))
     # assemble: lead + clip + gap + clip … + tail
     t = cfg.get('lead', 0.15)
@@ -255,8 +267,8 @@ def layout(slug, cfg, wj):
         order.append(wb['id'])
         for w in wb['words']:
             d = display(w['w'])
-            if d:
-                words.append({'w': d, 't0': w['t0'], 't1': w['t1']})
+            if d:  # 'p': the word ends a clause ("it," "Gary.") — captions never join across it ("It Gary" in v2)
+                words.append({'w': d, 't0': w['t0'], 't1': w['t1'], 'p': bool(re.search(r'[.,!?:;]["\')]*$', w['w'].strip()))})
         sb = next(b for b in cfg['beats'] if b['id'] == wb['id'])
         for c in sb.get('callouts', []):
             hits = [k for k, w in enumerate(wb['words']) if norm(w['w']) == norm(c['at'])]
@@ -278,17 +290,28 @@ def layout(slug, cfg, wj):
                 e = wb['t1'] + 0.25
             e = min(e, t1 + 0.1, dur)
             co = {'text': c['text'], 'style': c.get('style', 'term'), 't0': round(a, 3), 't1': round(e, 3)}
-            if 'pos' in c:
-                co['pos'] = c['pos']
+            for k2 in ('pos', 'x', 'y'):  # sfx position / a callout's own height (frame fraction) when the default band hides the subject
+                if k2 in c:
+                    co[k2] = c[k2]
             callouts.append(co)
     if errors:
         sys.exit('\n'.join(errors))
+    # a word shown for < 0.12 s (ElevenLabs' "a", "to") joins the next word in one caption ("A Raccoon") instead of flashing
+    merged = []
+    for k, w in enumerate(words):
+        if merged and merged[-1].get('_join') and w['t0'] - merged[-1]['t1'] < 0.25:
+            m = merged[-1]; m['w'] = m['w'] + ' ' + w['w']; m['t1'] = w['t1']; m.pop('_join'); continue
+        merged.append(dict(w))
+        nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
+        if nxt - w['t0'] < 0.12 and len(w['w']) <= 3 and k + 1 < len(words) and not w['p']: merged[-1]['_join'] = True
+    for m in merged: m.pop('_join', None); m.pop('p', None)
+    words = merged
     # a caption word stays up until the next one starts (no blank flicker inside a sentence), max 0.35 s past its end
     for k, w in enumerate(words):
         nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
         w['t1'] = round(min(nxt, w['t1'] + 0.35) if nxt - w['t1'] > 0.12 else nxt, 3)
     short = [w['w'] for w in words if w['t1'] - w['t0'] < 0.1]
-    story = {'tone': 'build', 'mode': 'build', 'title': cfg.get('title', ''), 'fps': 30, 'duration': round(dur, 2),
+    story = {'tone': 'build', 'mode': 'build', 'title': cfg.get('title', ''), 'fps': cfg.get('fps', 60), 'motionBlur': cfg.get('motionBlur', 2), 'duration': round(dur, 2),
              'look': cfg.get('look', {}), 'voice': {'provider': wj['provider'], 'file': 'voice.wav'},
              'beats': beats, 'order': order, 'words': words, 'callouts': callouts}
     if cfg.get('debugView'):

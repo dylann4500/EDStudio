@@ -7,7 +7,8 @@
 // z: out(+), el: elbow bend(+)}, legL/legR {x, kn}, head {x: nod, y: turn, z: tilt}, eyes 'open'|'wide'|'half'|'closed'|
 // 'spiral'|'x', look [dx, dy] (-1..1), brows -1 angry … +1 worried, mouth 'smile'|'grin'|'o'|'scream'|'flat'|'frown'|'wavy'|
 // 'teeth', beard 0..1 (1 = to the floor), gray 0..1 (hair goes white), hairUp 0..1, xray (bool, skeleton flash), char 0..1,
-// tint [color, 0..1] (e.g. fossil stone).
+// tint [color, 0..1] (whole body, e.g. fossil stone), faceTint [color, k] (skin only: strain red, nausea green), hatLift 0..1
+// (the hard hat pops off; spikes show), noHat.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { clamp, lerp, mk } from '../core.js';
@@ -132,7 +133,8 @@ export function makeToon(o = {}) {
   // beard: a chin puff + a long cone that grows to the floor
   const beard = new THREE.Group(); head.add(beard); beard.position.set(0, -0.17, 0.13);
   const chin = mk(new THREE.SphereGeometry(0.15, 16, 12), M.beard, beard, 0, 0, 0); chin.scale.set(1.25, 0.9, 0.75);
-  const long = mk(new THREE.ConeGeometry(0.16, 1, 16), M.beard, beard, 0, -0.5, 0.02); long.rotation.x = Math.PI;
+  const long = new THREE.Group(); beard.add(long);
+  for (let i = 0; i < 16; i++) { const r = 0.16 * (1 - i / 22); const b = mk(new THREE.SphereGeometry(r, 14, 10), M.beard, long, Math.sin(i * 1.7) * 0.03, -(i + 0.5) / 16, 0.02 + Math.cos(i * 1.3) * 0.015); b.scale.set(1.15, 1.5, 0.8); }
 
   // arms + legs
   const limb = (side, isArm) => {
@@ -182,7 +184,7 @@ export function makeToon(o = {}) {
     for (const e of eyes) {
       const wide = ek === 'wide' ? 1.22 : 1;
       e.white.scale.set(0.9 * wide, 1.12 * wide, 0.55); e.lid.scale.set(0.95 * wide, 1.16 * wide, 0.62);
-      e.pg.position.set(clamp(lx, -1, 1) * 0.03, clamp(ly, -1, 1) * 0.035, 0); e.pg.scale.setScalar(ek === 'wide' ? 0.72 : 1);
+      e.pg.position.set(clamp(lx, -1, 1) * 0.03, clamp(ly, -1, 1) * 0.035, 0); e.pg.scale.setScalar(ek === 'wide' ? 0.88 : 1); // wide = big whites + a still-readable pupil (0.72 read as blank discs)
       e.lid.rotation.x = ek === 'closed' ? 1.62 : ek === 'half' ? 0.55 : -0.95;
       const fx = ek === 'spiral' || ek === 'x'; e.fx.visible = fx; e.pg.visible = !fx;
       if (fx) { e.fx.material.map = EYEFX[ek]; e.fx.rotation.z = ek === 'spiral' ? (p.t ?? 0) * -9 * e.s : 0; }
@@ -191,19 +193,24 @@ export function makeToon(o = {}) {
     const mk2 = p.mouth || 'smile'; if (mk2 !== mouthKey) { mouth.material.map = MT[mk2] || MT.smile; mouth.material.needsUpdate = true; mouthKey = mk2; }
     // beard / gray / hair up
     const bd = p.beard ?? 0; beard.visible = bd > 0.001; chin.scale.set(1.25 * Math.min(1, bd * 4), 0.9 * Math.min(1, bd * 4), 0.75);
-    const L = Math.max(0.001, bd * 1.25); long.scale.set(1, L, 1); long.position.y = -L / 2; long.visible = bd > 0.12;
+    const L = Math.max(0.001, bd * 1.25); long.scale.set(1, L, 1); long.position.y = 0; long.visible = bd > 0.12;
     const gray = p.gray ?? 0; M.hair.color.copy(base.hair).lerp(new THREE.Color(0xe8e8e8), gray);
-    const up = p.hairUp ?? 0; // zap / wind: the spikes stand up and stretch, the cap stays on the head
-    for (const sp of spikes) { sp.scale.set(1, 1 + up * 1.6, 1); sp.position.y = 0.26 + up * 0.08; }
+    const up = p.hairUp ?? 0, lift = p.hatLift ?? 0; // zap / wind: spikes stand up; a hat hides them unless it's knocked off
+    const hatOn = !!C.hat && lift < 0.25;
+    for (const sp of spikes) { sp.visible = !hatOn; sp.scale.set(1, 1 + up * 1.6, 1); sp.position.y = 0.26 + up * 0.08; }
+    // a hard hat sits high + tipped back so the brim never hides the eyes (v2 review: the face stopped acting under it)
+    const hb = C.hat === 'hardhat' ? [0.075, -0.035, -0.3] : [0, 0, 0];
+    hat.position.set(0, hb[0] + lift * 0.55, hb[1] - lift * 0.15); hat.rotation.set(hb[2] - lift * 0.9, 0, lift * 0.5); hat.visible = !p.noHat;
     // x-ray zap + char
-    const xr = !!p.xray, ch = p.char ?? 0, [tc, ta] = p.tint || [0, 0];
+    const xr = !!p.xray, ch = p.char ?? 0, [tc, ta] = p.tint || [0, 0], [fc, fa] = p.faceTint || [0, 0], [gc, ga] = p.glow || [0, 0]; // glow: emissive [color, intensity] (a character that IS the light)
     for (const b of bones) b.visible = xr;
     for (const k of ['skin', 'shirt', 'pants', 'shoes', 'hair', 'hat']) {
       const m = M[k];
       if (k !== 'hair' || gray === 0) m.color.copy(base[k]);
       if (ch > 0) m.color.lerp(new THREE.Color(0x2a2522), ch * 0.9);
       if (ta > 0) m.color.lerp(new THREE.Color(tc), ta);
-      m.transparent = xr; m.opacity = xr ? 0.3 : 1; m.depthWrite = !xr;
+      if (fa > 0 && k === 'skin') m.color.lerp(new THREE.Color(fc), fa);
+      m.transparent = xr; m.opacity = xr ? 0.3 : 1; m.depthWrite = !xr; m.emissive.setHex(ga > 0 ? gc : 0); m.emissiveIntensity = ga;
       if (xr) m.color.set(0x7fb4ff);
     }
     for (const e of eyes) { e.white.visible = !xr; e.pg.visible = e.pg.visible && !xr; }
@@ -214,6 +221,13 @@ export function makeToon(o = {}) {
 }
 
 // ---------------------------------------------------------------- critters
+/** Cool-guy sunglasses (two dark lenses + a bridge), facing +z. r = lens radius, dx = half the lens spacing. */
+export function makeShades(r = 0.035, dx = 0.045) {
+  const g = new THREE.Group(), m = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.15, metalness: 0.4 });
+  for (const s of [-1, 1]) mk(new THREE.CircleGeometry(r, 16), m, g, s * dx, 0, 0).scale.set(1.15, 0.85, 1);
+  mk(new THREE.BoxGeometry(dx * 0.9, r * 0.25, r * 0.25), m, g, 0, r * 0.2, -0.002);
+  g.visible = false; return g;
+}
 /** Toon raccoon (~0.55 m on all fours). set({x,y,z,rotY, stand 0..1, wave 0..1, t, eyes, look}) */
 export function makeRaccoon() {
   const fur = new THREE.MeshStandardMaterial({ color: 0x8b8f96, roughness: 0.9 }), light = new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: 0.9 });
@@ -236,9 +250,10 @@ export function makeRaccoon() {
   for (let i = 0; i < 6; i++) { const r = 0.07 - i * 0.004; mk(new THREE.SphereGeometry(r, 12, 10), i % 2 ? dark : fur, tail, 0, i * 0.03, -i * 0.07); }
   const legs = [];
   for (const [x, z] of [[-0.09, 0.14], [0.09, 0.14], [-0.09, -0.12], [0.09, -0.12]]) { const l = mk(new THREE.CapsuleGeometry(0.035, 0.1, 4, 8), dark, body, x, 0.08, z); legs.push(l); }
+  const shades = makeShades(0.042, 0.06); head.add(shades); shades.position.set(0, 0.025, 0.158);
   function set(p = {}) {
     root.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0); root.rotation.y = p.rotY ?? 0; root.scale.setScalar(p.scale ?? 1);
-    const st = p.stand ?? 0, t = p.t ?? 0;
+    const st = p.stand ?? 0, t = p.t ?? 0; shades.visible = !!p.shades;
     body.rotation.x = -st * 1.15; body.position.set(0, st * 0.12, -st * 0.12);
     head.rotation.set(st * 1.0 + (p.nod ?? 0), p.headY ?? 0, Math.sin(t * 2) * 0.05);
     legs[0].rotation.x = legs[1].rotation.x = st * 0.4;
@@ -271,9 +286,12 @@ export function makePigeon() {
   }
   mk(new THREE.ConeGeometry(0.06, 0.16, 10), dark, body, 0, 0.16, -0.18).rotation.x = -Math.PI / 2 - 0.3;
   const legs = [-1, 1].map((s) => mk(new THREE.CylinderGeometry(0.008, 0.008, 0.1, 6), orange, body, s * 0.04, 0.05, 0.02));
+  const wings = [-1, 1].map((s) => { const w = new THREE.Group(); body.add(w); w.position.set(s * 0.085, 0.2, 0); const f = mk(new THREE.SphereGeometry(0.1, 14, 8), gray, w, s * 0.07, 0, -0.02); f.scale.set(0.9, 0.18, 1.2); return w; });
+  const shades = makeShades(0.02, 0.045); head.add(shades); shades.position.set(0, 0.04, 0.072);
   function set(p = {}) {
     root.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0); root.rotation.y = p.rotY ?? 0; root.scale.setScalar(p.scale ?? 1);
-    const out = p.out ?? 0, t = p.t ?? 0;
+    const out = p.out ?? 0, t = p.t ?? 0, fl = p.flap ?? 0; shades.visible = !!p.shades;
+    wings.forEach((w, i) => (w.rotation.z = (i ? -1 : 1) * (fl * (0.3 + 1.1 * Math.abs(Math.sin(t * 26)))))); // flap 0..1
     body.rotation.z = out * Math.PI * 0.95; body.position.y = out * 0.3;
     head.rotation.x = (p.peck ?? 0) * 0.9 * Math.max(0, Math.sin(t * 9)) + Math.sin(t * 4) * 0.08 * (1 - out);
     head.position.z = 0.1 + Math.sin(t * 6) * 0.02 * (1 - out);

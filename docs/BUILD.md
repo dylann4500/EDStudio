@@ -55,11 +55,16 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - `captions.js` — the build overlay (main.js picks it when `story.mode === 'build'`). Fonts: Fredoka 700 (words),
   Luckiest Guy (callouts), from `@fontsource/*` in node_modules (run `npm install` after pulling). Styles: `term` (yellow,
   y≈600), `label` (orange, y≈470, stacks above a term), `money` (green), `stamp` (red, tilted, slams in), `sfx` (small yellow
-  comic word at `pos` [x, y] frame fractions). Long callouts auto-shrink to 960 px.
+  comic word at `pos` [x, y] frame fractions); any callout can take `y` (frame fraction) when its band would cover the subject
+  (015's RIDES FREE stamp sat on the raccoon until `y: 0.63`). Long callouts auto-shrink to 960 px. Label/money are big with a
+  wide dark halo (an orange label vanished on the orange TBM).
 - `toon.js` — `makeToon({skin, shirt, pants, hair, hairStyle 'tuft'|'messy'|'side'|'none', hat 'hardhat'|'chef'|'cap', mustache})`
+  (`glow: [color, k]` in `set()` = emissive glow; `beard`, `gray` age him)
   → `set({x,y,z,rotY, rx,rz (tilt about the belly), walk (phase), armL/armR {x,z,el}, legL/legR {x,kn}, head {x,y,z},
   eyes 'open'|'wide'|'half'|'closed'|'spiral'|'x', look [dx,dy], brows -1..1, mouth 'smile'|'grin'|'o'|'scream'|'flat'|'frown'|
-  'wavy'|'teeth', beard 0..1, gray, hairUp, xray, char, tint [color, k], squash [sx, sy], t})`. Also `makeRaccoon()`, `makePigeon()`.
+  'wavy'|'teeth', beard 0..1, gray, hairUp, xray, char, tint [color, k], faceTint, squash [sx, sy], hatLift, noHat, t})`. The hard hat
+  sits high and tipped back so the brim never hides the eyes (v2: the face stopped acting under it). `makeShades()` (cool-guy
+  glasses: parent to `toon.head`), `makeRaccoon()` (`shades`), `makePigeon()` (`flap` 0..1, `shades`).
   ~1.42 m tall, head ≈ 40 % of height. Faces carry the comedy: wide eyes + scream on every failure, spiral/X when hurt.
 - `cutaway.js` — `makeCutFace({x0,x1,y0,y1, paint})` = the ground sliced at z = 0 with a canvas strata texture and a runtime
   **alpha mask for holes** (`setHoles([{rect}, {poly}, {circle}], rough)`), a darker back wall `depth` m behind, `makeRim()`
@@ -71,6 +76,119 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - `subway.js` — the 015 set (see its header): strata, street + traffic jam, bakery block that settles, TBM, lining rings,
   track + third rail, vent fans + grates, station, escalator, train, pumps + hose, shoring, water. Reusable props:
   `makeTBM`, `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`.
+
+## Camera: ONE continuous take, no cuts (user steer, Oct 26; the 1.85M-like bridge reel has zero cuts)
+- `engine/build/rail.js` `makeRail(keys)`: keys `{t, pos, look, fov, pass?}` set with `W(beat, word)`. A normal key is a STOP
+  (eases in, settles); `pass: true` flows through (long travels go wide → across → in). Slow breathing drift is built in.
+- **Author FRAMINGS, not keys: `makeRail(planRail(frames))`.** Each framing `{t, pos, look, fov}` is the frame you want ON its
+  word; planRail holds it with a slow push-in and LEAVES EARLY so every move takes ≥ `0.6 + d/8` s (d = metres). v2 keyed
+  arrivals AND departures to words → 11 moves of 9–26 m in < 1.3 s that read as cuts (camera review 6/10). The render log prints
+  `[rail]` warnings for any move faster than that — fix them by dropping a framing or moving it to a later word.
+- ~1 framing per 2–4 s; a framing that can't be reached in time is a sign two gags need ONE wider frame.
+- **No stop-and-go** (v3/v4 camera reviews: dead stops + in/out "pumping"): planRail turns any framing it could hold
+  < 1.3 s into a pass-through point (`keep: true` holds it anyway — use it on gag frames), and every hold is SOFT: the camera
+  already drifts a few % toward the NEXT framing (aim half as much) and the arrive/depart keys carry that velocity, so it never
+  comes to a dead stop and never pushes in just to pull back out. `stop: true` only on the last frame. With
+  `planRail.verbose = true` the render log lists each framing that became a pass — read it, and `keep` the ones that carry a gag.
+- **Glide out early** (v5 camera review: near-still time 36 → 14 s): a framing departs `max(need, min(1.6·need, 0.55·gap))`
+  before the next word, not at the last legal moment, and drifts `lead 0.06/s` (max 15 %) toward the next frame while held.
+  When a gag must FINISH in frame (Gary flattened → springs back), pass `until: t` (`Fk(t, pos, look, fov, until)`): the hold
+  lasts to t as long as the next move stays legal. 015's carry gag left frame mid-pancake before `until`.
+- The render log must show NO `[rail] … m in … s` warnings. (Until Oct 26 tools/render.mjs dropped them: Puppeteer reports
+  `console.warn` as type `'warn'`, not `'warning'` — every lint warning from page code was silently lost.)
+- **Vary the angle**: a three-quarter view down the bore that follows a jogging character (camera ~3 m in front of the cut, x
+  behind him, look ~5 m ahead) sold "miles of tunnel"; a side three-quarter (≈27° yaw) made a finger-on-the-rail poke read.
+- **Run `node tools/render.mjs NNN --qc`** after every camera change: it runs the video's `window.EDSTUDIO_QC` (015's shots.js
+  end), which steps the take every 0.25 s and lists each moment a tracked face (Gary, plus any other face the ending leans on —
+  015's old driver) sits under the one-word caption (±0.045) or a callout (±0.065, only near its x for placed/sfx callouts).
+  Fix runs ≥ 0.5 s; single 0.25 s hits during a move are fine. Callouts take `pos` (sfx), `x`/`y` (frame fractions) to dodge.
+- **Framing math for toons:** the toon's head centre is root + 1.12 m (≈1.45 m tall with a hat). Aim the look point ≥ ~1 m
+  below head height so faces sit at ≤ 42 % of frame height — the one-word caption is at 52 % (v3 still had captions across
+  rows of commuters' faces).
+- **Home frame:** centred, frontal on the cut face, near ground height, tilted down ≤ 8°; soil fills the bottom 35–45 %, sky/
+  street the top 25–35 %. Push in for each gag/term, pull back out for reveals. Closest framing = full body (≤ 60 % of frame
+  height); faces sit at 38–45 % height (above the one-word caption at 52 %, below the TERM callout at 31 %).
+- **Arrive early:** the move is mostly done before its word; the named subject is in the central 70 % on its word. Gags play in
+  a HELD frame (the camera arrives, then the thing breaks).
+- **Speed limits:** ≤ ~30°/s rotation, ≤ 0.7 frame widths/s lateral (frame width = 0.41·d at fov 40, 0.45·d at 44); travel in
+  +x along the build; |yaw| ≤ 25–30° so the cut still reads as a cutaway; camera always at z > 0 (in front of the cut).
+- Follow-cams (the TBM chewing) = pass keys every 0.5 s computed from the subject's path.
+- A thing seen edge-on (the lining rings from the front) can't carry a gag — 015's donut gag became one giant donut popping
+  face-on around the tunnel mouth.
+
+## Smoothness: 60 fps + motion blur (user steer: "theirs feel like 60 fps, ours felt choppier")
+- The reel Instagram serves is 30 fps; theirs feels smooth because Blender renders motion blur + every move is eased. We render
+  **60 fps with 2-sample motion blur** (script.json `fps: 60`, `motionBlur: 2` → story.json; `render.mjs --fps --blur --shutter`).
+  `window.renderAtBlur` averages sub-frames across a 180° shutter on a 2-D canvas; the text overlay is drawn once (crisp).
+  Cost: ~4× a 30 fps render (~20–25 min for 95 s). Review cuts: `--fps 30` (no blur); stills/previews never blur.
+
+## Continuity rules (v1 review: logic 4/10 — each line here was a reviewer finding)
+- **One hole that only gets deeper**; it stays visible in every wide. The ladder that Gary climbs down is the same ladder he
+  climbs out on later.
+- **Nobody teleports on screen**: walk, climb, hop, get launched; reposition only while the camera is elsewhere.
+- **Physical truth in the cartoon:** groundwater rises only to the water-table line; debris lands on floors (fx `floor`) and
+  dies fast after cave-ins (`life` 0.5–0.9 s) so chunks never float in solid soil; a sunk building stays sunk.
+- **Clipped geometry needs `clipShadows: true`** (a hidden third rail kept casting a "black rail on posts" shadow in solid soil).
+- Big parts that enter from inside the ground (the TBM, trains) are clipped at the shaft wall so they slide out of the soil.
+- Keep side characters threaded through (the raccoon: tenant → floatie → rides free; the pigeon is "fine") — and give them
+  **visible entrances and exits** (v2 round-2 logic review flagged every pop): the raccoon walks back into its burrow, cannonballs
+  into the flooded hole, rides the water down; the pigeon flies off the car roof, flies in to land by Gary, is blown away.
+- **Every new thing has a cause on screen:** the ladder slides in when Gary arrives and is eaten by the cutterhead; Gary's hand-dug
+  tunnel is where the TBM later bores; the TBM passing UNDER the bakery is what sinks it, and the rings shove the block back up
+  ("they hold the street up"); Gary gets into the tunnel by falling through the crack; a vehicle never moves through a person
+  (the powered train scoops Gary off the track on its nose and flings him onto the new platform).
+- **Counters land on the right value on the word** (the 100-year calendar must read 2126 on "years", not flip back to 2026).
+- **Order follows the words**: "sinking into your tunnel, croissants FIRST" → the croissants fall, THEN Gary slips in after them
+  (v3 had Gary first). The crack must run UNDER the thing that sinks (the bakery block's edge sits under the shop wall).
+- **Explainer props live in the world**: the face-on "segment ring" first floated in front of the diorama and clipped below the
+  tunnel floor; standing it ON the tunnel floor in the tunnel mouth (it rolls aside, rolls back, rolls off) fixed logic AND
+  gave the beat motion. Nothing vanishes by shrinking to a dot — it rolls/walks/flies off.
+- **Vehicles and rails enter in view**: lay the track while the camera can see it (the character hops as it zips under him),
+  then the train rolls in on it. A side character crossing a gate (exit lane → pay lane) must do it while the camera can see.
+- **Explainer props come FROM the machine and stay IN the world**: the face-on segment ring assembles right behind the boring
+  machine's tail ("as it digs, it bolts in"), rolls under the sinking bakery and holds it up ("they hold the street up"), gets
+  frosted there ("load-bearing donuts"), then rolls off down the tunnel. One prop, four lines shown, a visible exit.
+- **Hide the payoff until its word**: v4's hose visibly entered the car 4 s before "Yours drain into that guy's car" — v5 runs
+  it into a storm drain first and whips it into the window ON "drain" (then three glugs, a snorkel, a goldfish, it floats).
+- **A character that IS the light**: dim the scene ~85 % and give the toon `glow: [color, k]` (emissive on every material) +
+  a short-range point light — a tint alone read as "pale statue in daylight".
+- **A touch must touch**: crouch, fingertip ON the rail cover, sparks at the fingertip, then the ZAP callout (anchor it on the
+  word after the verb — "touched IT").
+- Put gags on surfaces that face the camera: the snail crawls ON the cut face (rotation.x = +π/2 — −π/2 put its foot toward the
+  camera and only the belly showed); a glass-roofed car shows its driver only if his head sits in the window band.
+- Gary transforms on a running gag (fossil → pancake → nightlight) — say it, then SHOW it the same second.
+
+## The review loop (how 015 went from ~4/10 to …)
+1. Render a 30 fps review cut; build a kit: 2 fps contact sheets per 10 s (`fps=2,scale=200:-1,tile=10x2`), single frames at
+   0.5 s, the word timeline (story.json → text), the reference sheets (incl. 6 fps strips of the camera).
+2. Dispatch 5 reviewer agents in parallel, one dimension each, each scoring /10 with ranked, timestamped fixes: logic &
+   continuity · rendering & look · pacing & density (events per 10 s vs the reference) · camera & transitions (designs the rail) ·
+   comedy & show-what's-said (rewrites the script). Tell them they're read-only.
+3. Merge: script first (narrate), then the camera rail, then logic, then look; stills sheet per camera key; repeat until every
+   dimension scores ≥ 8.
+4. Look at the frames yourself while the reviewers run — you're the one fixing it, and their claims need checking.
+
+015's scores (logic · look · pacing · camera · comedy): v1 4 · 4 · 6 · 3 · 5 → v2 (one take, ElevenLabs, continuity) 6 · 5 · 7.5 · 6 · 6.5 →
+v3 (planRail, visible exits, re-voiced punch-ups) 7 · 6 · 8 · 6.5 · 7.5 → v4 (croissants-first, ring in the world, bearded stuck
+driver, turnstile swipes) 8 · 6.5 · 8.5 · 6.5 · 8 → v5 (QC hook for faces under text, soft holds, money bills, nightlight
+dark + glowing Gary) 8 · 6.5 · 8.5 · 7 · 8.5; v6 = the round-5 fixes below, shipped without a 6th review round. The camera stayed at 6.5 until the soft holds; the look reviewers keep asking for
+AO/DoF/sky — the biggest remaining gap to the Blender reference.
+Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
+lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
+picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out
+to a white void), hard hat off the eyes.
+Round-3's: callbacks beat new jokes (the ending's "you just wanted to skip traffic" → a car above the station is STILL stuck, its
+driver now has a 100-year beard and a cobweb on the window); a line should name what's on screen ("drain into that guy's car"
+beat "into traffic"); never reuse a punch word ("load-bearing" twice → the beard became "longer than the tunnel", shown by the
+beard trailing out of the tunnel and up the wall); end on a held tableau with every character in frame (raccoon surfing the
+roof, Gary still stuck at the turnstile).
+Round-5's: words that sit next to each other are < 0.5 s apart — three swipes on "pays / 3 / dollars" read as ONE; space
+repeated actions ≥ 0.35 s apart and ARRIVE in the close-up before the first one. A screen/sign on a prop must sit clear of the
+head in the close-up (the turnstile's SWIPE AGAIN hid behind Gary's head). A callback character must LOOK like the original
+(the stuck driver in a white car with a white beard read as Gary; v6 = the hook's blue car, red shirt, yellow cap, grey beard).
+End on the protagonist's predicament: the last train now whooshes out on "free" with the raccoon, leaving Gary wedged. It
+has to be FAST (x += 11·t²): the platform sits below the train roof, so a train passing in front hides everyone on it — the
+first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of the actual render, not just a still at the end.
 
 ## Audio (make_cues.py → audio/synth.py)
 - **The narrator sits on top.** cues.json `"voice": {file, duck_db ≈ −9, amb_duck_db ≈ −5, presence_db 2, hp 75}` loads
@@ -88,8 +206,18 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
   bonk, metal_groan, slurp, plush_squeak, blanket_rustle, low_swell) and beds (traffic_flow, city_day, wind, lamp_hum,
   crowd_cheer). The onset checker reports many "--" in this genre — expected, it was built for foley over music.
 
+## The narrator: ElevenLabs "Adam" (user's pick for meme / exaggerated videos)
+- Voice `pNInz6obpgDQGcFmaJgB` ("Adam – Dominant, Firm"), model `eleven_multilingual_v2`, settings stability 0.35,
+  similarity 0.8, style 0.45, speaker boost, speed 1.12 — plus script.json **`"tempo": 1.15`**: Adam reads ~2.9 words/s
+  even at speed 1.12, so narrate.py time-stretches each clip at assembly (ffmpeg `atempo`, pitch kept, cached clips reused —
+  no extra credits) → ~3.3 words/s. Change the tempo freely; only changed TEXT costs credits.
+- The key lives in `~/.config/edstudio/.env` (outside every repo). A full voicing of a ~1,800-character script ≈ 1,800 credits
+  (Starter = 30k/month). Commit `voice/eleven-*.mp3|json` so nobody pays for the same lines twice.
+- Captions: ElevenLabs gives "a"/"to" ~0.05 s, so narrate.py joins any word shown < 0.12 s to the next one ("A Raccoon") —
+  never across a comma or period (v2 showed "It Gary" and "It Bad").
+
 ## Upgrading the scratch voice to ElevenLabs (one pass)
-1. Put `ELEVENLABS_API_KEY=…` in `.env` at the repo root (git-ignored). `python3 -I tools/narrate.py --voices` → pick a
+1. Put `ELEVENLABS_API_KEY=…` in `~/.config/edstudio/.env` (outside the repo, so it can never be committed; a git-ignored `.env` at the repo root also works). `python3 -I tools/narrate.py --voices` → pick a
    funny, energetic male narrator; optionally A/B with `--sample "Congratulations, you've built a subway." <id1> <id2>`.
 2. Set `voice.voice_id` in script.json (`speed` ≈ 1.05–1.1 for ~3.1 words/s), run `python3 -I tools/narrate.py NNN-slug`.
 3. `python3 -I videos/NNN-slug/make_cues.py && python3 -I audio/synth.py NNN-slug`, re-render stills at a few word-synced gags
@@ -103,7 +231,8 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - [ ] No sprite (dust, stink, drops, glow) fills the lens; no void under the ground block; no prop between camera and subject.
 - [ ] Numbers are sourced (shots.js header + caption.md comment) and match the narration.
 - [ ] Audio: −14 LUFS, voice clearly on top, `music dropouts: none`, nothing harsh (zap/crack soft, all foley low-passed).
-- [ ] 1080×1920, 30 fps, H.264 + AAC, < 100 MB; caption.md in house format with the course line, pasted in the report.
+- [ ] `--qc` lists no face-under-text run ≥ 0.5 s; the render log has no `[rail] … m in … s` warning.
+- [ ] 1080×1920, 60 fps (motion blur 2), H.264 + AAC, < 100 MB; caption.md in house format with the course line, pasted in the report.
 
 ## Lessons from 015 (each cost a stills round)
 - A cutaway needs the cut **off-center** through round things so the visible part is big enough (tunnel axis at z = −0.6:
@@ -129,3 +258,14 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
   t = 0 and arrives nearly finished.
 - Stills render in ~0.15 s and a 15 fps preview in ~100 s: iterate on whole-video still sheets (one still per shot), not
   single frames.
+- **Tunnel interiors wash out under a front key light**: light-grey concrete (0xbdbab2) read as a white void / bathroom tiles.
+  Mid-grey (≈0x9d9a93) + a speckle map + cables and a lamp every third ring (`makeHalfRing(…, {dress, lamp, shades})`) reads as
+  a real tunnel and sells "miles" in a three-quarter view down the bore.
+- Hide trailing machinery that covers the gag (`S.tbm.gear.visible = false` once the rings must be seen being built).
+- **Ambient occlusion (`look.ao`, GTAOPass in engine/core.js) was tried on 015 and left OFF**: on a flat cut face it barely shows,
+  and at a usable radius it paints blocky squares on the tunnel lining. Opt-in for future sets with real corners (rooms, streets).
+- **Scripted edits that append `// why` comments mid-line bit twice more in 015** (a money-rain stream lost its closing `});`
+  = syntax error; a planner line lost `vel = …` = runtime ReferenceError that `node --check` can't see). Append comments only at
+  the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
+  mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends
+  its line.)

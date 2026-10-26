@@ -36,7 +36,24 @@ try {
     if (dbg === 'top') { c.position.set(view.center[0], view.height, view.center[2] + 0.001); c.fov = 60; c.updateProjectionMatrix(); c.lookAt(view.center[0], 0, view.center[2]); }
     if (dbg === 'front') { c.position.set(view.center[0], 1.6, view.center[2] + view.height); c.fov = 60; c.updateProjectionMatrix(); c.lookAt(view.center[0], 1.0, view.center[2]); }
   };
-  window.renderAt = (t) => { video.update(t); if (dbg) debugCam(); overlay.update(t); studio.render(t); };
+  window.renderAt = (t) => { accum.style.display = 'none'; video.update(t); if (dbg) debugCam(); overlay.update(t); studio.render(t); };
+  // Motion blur (build genre: the reference's Blender renders are motion-blurred, so moves read smooth): render `n` sub-frames
+  // spread over the shutter (fraction of the frame interval, 0.5 = 180°) and average them on a 2-D canvas laid over the WebGL
+  // one. The text overlay is drawn once at the frame's own time, so captions stay crisp.
+  const gl = document.getElementById('gl');
+  const accum = document.createElement('canvas'); accum.width = gl.width; accum.height = gl.height;
+  Object.assign(accum.style, { position: 'absolute', left: '0', top: '0', width: '1080px', height: '1920px', display: 'none' });
+  gl.after(accum); const actx = accum.getContext('2d');
+  window.renderAtBlur = (t, n = 2, shutter = 0.5, fps = 30) => {
+    if (n <= 1) return window.renderAt(t);
+    for (let k = 0; k < n; k++) {
+      const tk = Math.max(0, t + ((k + 0.5) / n - 0.5) * shutter / fps);
+      video.update(tk); studio.render(tk);
+      actx.globalAlpha = 1 / (k + 1); actx.drawImage(gl, 0, 0);   // running mean of the sub-frames
+    }
+    actx.globalAlpha = 1; accum.style.display = 'block';
+    video.update(t); overlay.update(t);
+  };
   window.renderAt(0);
   window.EDSTUDIO_READY = true;
 } catch (err) {

@@ -6,7 +6,10 @@
 //   node tools/render.mjs <video> --stills 0.5,7,15    still frames -> videos/<video>/stills/ (half size; --full for 1080x1920)
 //   node tools/render.mjs <video> --preview            fast draft: 15 fps, half size
 //   node tools/render.mjs <video> --from 20 --to 28    render a time range only
+//   node tools/render.mjs <video> --fps 60 --blur 2    60 fps + motion blur (2 sub-frames per frame, 180° shutter); story.json
+//                                                      "fps" / "motionBlur" set the defaults (build genre: 60 + 2)
 //   node tools/render.mjs <video> --stills 5 --cam top  bird's-eye debug view (check blocking, light, collisions)
+//   node tools/render.mjs <video> --qc                  run the video's EDSTUDIO_QC hook (015: faces under caption/callout bands)
 //   (--stills clears previous stills first; add --keep to append)
 //
 // Env overrides: CHROME_PATH, FFMPEG_PATH.
@@ -52,6 +55,7 @@ const preview = !!flag('preview', false);
 const fps = Number(flag('fps', preview ? 15 : story.fps || 30));
 const t0 = Number(flag('from', 0)), t1 = Number(flag('to', story.duration));
 const stills = flag('stills', null);
+const blur = stills || preview ? 1 : Number(flag('blur', story.motionBlur || 1)), shutter = Number(flag('shutter', 0.5));
 const scale = flag('full', false) ? 1 : (stills || preview) ? 0.5 : 1;
 
 const chrome = findChrome();
@@ -65,7 +69,7 @@ const browser = await puppeteer.launch({
 });
 const page = await browser.newPage();
 await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
-page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.log('[page]', m.text()); });
+page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning' || m.type() === 'warn') console.log('[page]', m.text()); });
 page.on('pageerror', (e) => console.log('[page error]', e.message));
 await page.goto(url, { waitUntil: 'load' });
 await page.waitForFunction('window.EDSTUDIO_READY || window.EDSTUDIO_ERROR', { timeout: 120000 });
@@ -73,10 +77,14 @@ const err = await page.evaluate('window.EDSTUDIO_ERROR');
 if (err) { console.error(err); await browser.close(); srv.close(); process.exit(1); }
 
 async function frameAt(t) {
-  await page.evaluate((tt) => new Promise((r) => { window.renderAt(tt); requestAnimationFrame(() => r()); }), t);
+  await page.evaluate(([tt, n, sh, f]) => new Promise((r) => { if (n > 1) window.renderAtBlur(tt, n, sh, f); else window.renderAt(tt); requestAnimationFrame(() => r()); }), [t, blur, shutter, fps]);
   return page.screenshot({ type: 'jpeg', quality: stills ? 90 : 95, optimizeForSpeed: true, clip: { x: 0, y: 0, width: 1080, height: 1920, scale } });
 }
 
+if (flag('qc', false)) {   // --qc: the video's own checks (e.g. faces under text), no frames written
+  const r = await page.evaluate('window.EDSTUDIO_QC ? window.EDSTUDIO_QC() : ["(this video has no EDSTUDIO_QC hook)"]');
+  console.log(r.length ? r.join('\n') : 'qc: clean'); await browser.close(); srv.close(); process.exit(0);
+}
 if (stills) {
   const outDir = path.join(videoDir, 'stills'); fs.mkdirSync(outDir, { recursive: true });
   // start each batch clean so _sheet.jpg only shows this batch (old stills confuse reviews); --keep to add to the existing set

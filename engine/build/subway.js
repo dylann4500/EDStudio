@@ -5,6 +5,7 @@
 // makeCroissant, makeBuilding, makeTree, ring/track builders.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { mat, mk, rng } from '../core.js';
 import { makeCutFace, makeRim, lawnTexture, makeSky, maskedPlane, grainTexture } from './cutaway.js';
 import { makeCar } from '../sets/city.js';
@@ -13,8 +14,8 @@ export const D = {
   face: { x0: -16, x1: 34, y0: -24, y1: 0 }, depth: 3.6,
   layer: { grass: -0.12, topsoil: -1.3, clay: -3.6, wet: -8.8 },
   T: { y: -6.1, z: -0.6, R: 1.8, x0: -4.2, floor: -7.35, ring: 0.9 },     // tunnel
-  hole: [-7.6, -5.8], launch: [-9.4, -4.2],                               // Gary's hole → the TBM launch shaft
-  plug: [0.6, 5.4],                                                       // the block under the bakery that settles
+  hole: [-7.6, -5.8], launch: [-10.0, -4.2],                              // Gary's hole → the TBM launch shaft
+  plug: [1.0, 5.0],                                                         // the block under the bakery that settles
   vents: [[8.0, 9.2], [13.0, 14.2]],
   station: { x0: 17, x1: 26, y0: -8.1, y1: -3.3, platY: -7.0 },
   esc: { bot: [24.0, 25.7], top: [30.6, 32.3] },
@@ -29,7 +30,7 @@ const ARC = Math.acos(T.z / T.R); // the tunnel is cut off-center: angles within
 const h2 = (a, b) => { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return s - Math.floor(s); };
 function paintStrata(g, P) {
   const wave = (x, k) => 0.09 * Math.sin(x * 1.1 + k) + 0.05 * Math.sin(x * 3.3 + 2 * k);
-  const layers = [[0.2, '#5aa848'], [D.layer.grass, '#5e3d26'], [D.layer.topsoil, '#a86a3d'], [D.layer.clay, '#8f8068'], [D.layer.wet, '#7c8088']];
+  const layers = [[0.2, '#5aa848'], [D.layer.grass, '#6a4329'], [D.layer.topsoil, '#ab6e40'], [D.layer.clay, '#a3825c'], [D.layer.wet, '#8a6d55']];
   const x0 = -16, x1 = 34;
   layers.forEach(([top, col], i) => {
     g.fillStyle = col; g.beginPath(); g.moveTo(P.x(x0), P.y(top + (i ? wave(x0, i) : 0)));
@@ -39,21 +40,28 @@ function paintStrata(g, P) {
   const R = rng(15);
   // soft color blotches per layer
   const blot = (yTop, yBot, cols, n, rx, ry) => { for (let i = 0; i < n; i++) { const x = x0 + R() * (x1 - x0), y = yBot + R() * (yTop - yBot); g.fillStyle = cols[i % cols.length]; g.beginPath(); g.ellipse(P.x(x), P.y(y), P.s(rx * (0.5 + R())), P.s(ry * (0.5 + R())), 0, 0, 7); g.fill(); } };
-  blot(-0.2, -1.25, ['rgba(40,24,12,.35)', 'rgba(110,72,44,.3)'], 260, 0.35, 0.12);
-  blot(-1.4, -3.5, ['rgba(140,80,40,.35)', 'rgba(200,130,80,.25)', 'rgba(120,70,35,.3)'], 420, 0.5, 0.16);
-  blot(-3.7, -8.7, ['rgba(110,104,90,.35)', 'rgba(170,160,135,.28)', 'rgba(90,110,130,.22)'], 520, 0.55, 0.16);
-  blot(-8.9, -24, ['rgba(90,92,100,.4)', 'rgba(140,142,150,.3)'], 560, 0.7, 0.3);
+  // long flat lenses (sediment layering) — round blotches read as leopard print (v2/v3 look review)
+  blot(-0.2, -1.25, ['rgba(40,24,12,.22)', 'rgba(110,72,44,.2)'], 260, 0.7, 0.06);
+  blot(-1.4, -3.5, ['rgba(120,70,38,.2)', 'rgba(200,140,95,.16)', 'rgba(110,64,32,.18)'], 420, 1.0, 0.07);
+  blot(-3.7, -8.7, ['rgba(130,104,72,.2)', 'rgba(200,172,130,.16)', 'rgba(112,90,66,.18)'], 520, 1.1, 0.07);
+  blot(-8.9, -24, ['rgba(105,80,60,.26)', 'rgba(160,128,100,.2)'], 560, 1.3, 0.14);
+  // fibrous vertical streaks (the reference's soil reads as combed earth, not blotches)
+  for (let i = 0; i < 26000; i++) {
+    const x = x0 + R() * 50, y = -0.15 - R() * 23.5, L = 0.025 + R() * 0.07, dark = R() < 0.55;
+    g.strokeStyle = dark ? `rgba(55,32,18,${0.12 + R() * 0.18})` : `rgba(255,220,170,${0.06 + R() * 0.12})`;
+    g.lineWidth = P.s(0.008 + R() * 0.012); g.beginPath(); g.moveTo(P.x(x), P.y(y)); g.lineTo(P.x(x + (R() - 0.5) * 0.03), P.y(y - L)); g.stroke();
+  }
   // wet sand: blue tint + droplets + the water-table line
-  const gr = g.createLinearGradient(0, P.y(D.layer.clay), 0, P.y(D.layer.wet)); gr.addColorStop(0, 'rgba(70,150,215,.32)'); gr.addColorStop(1, 'rgba(70,150,215,.12)');
+  const gr = g.createLinearGradient(0, P.y(D.layer.clay), 0, P.y(D.layer.wet)); gr.addColorStop(0, 'rgba(70,150,215,.22)'); gr.addColorStop(1, 'rgba(70,150,215,.04)');
   g.fillStyle = gr; g.fillRect(0, P.y(D.layer.clay - 0.1), P.W, P.y(D.layer.wet) - P.y(D.layer.clay - 0.1));
-  for (let i = 0; i < 700; i++) { const x = x0 + R() * 50, y = D.layer.wet + R() * (D.layer.clay - D.layer.wet); g.fillStyle = 'rgba(120,200,255,.55)'; g.beginPath(); g.ellipse(P.x(x), P.y(y), P.s(0.025), P.s(0.035), 0, 0, 7); g.fill(); }
+  for (let i = 0; i < 260; i++) { const x = x0 + R() * 50, y = D.layer.clay - 0.1 - R() * R() * 2.2; g.fillStyle = 'rgba(120,200,255,.4)'; g.beginPath(); g.ellipse(P.x(x), P.y(y), P.s(0.025), P.s(0.035), 0, 0, 7); g.fill(); }
   g.strokeStyle = 'rgba(95,185,240,.9)'; g.lineWidth = P.s(0.05); g.beginPath();
   for (let x = x0; x <= x1; x += 0.2) { const y = D.layer.clay + wave(x, 3) + 0.03 * Math.sin(x * 8); x === x0 ? g.moveTo(P.x(x), P.y(y)) : g.lineTo(P.x(x), P.y(y)); }
   g.stroke();
   // pebbles + rocks
   const pebble = (x, y, r, c) => { g.fillStyle = c; g.beginPath(); g.ellipse(P.x(x), P.y(y), P.s(r), P.s(r * 0.7), R() * 3, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.25)'; g.beginPath(); g.ellipse(P.x(x - r * 0.25), P.y(y + r * 0.2), P.s(r * 0.35), P.s(r * 0.2), 0, 0, 7); g.fill(); };
-  for (let i = 0; i < 420; i++) { const y = -1.4 - R() * 9.4; pebble(x0 + R() * 50, y, 0.03 + R() * 0.07, y < D.layer.wet ? '#9a9da6' : ['#8c7a68', '#b2a184', '#6f665c'][i % 3]); }
-  for (let i = 0; i < 120; i++) pebble(x0 + R() * 50, -9.0 - R() * 14.6, 0.2 + R() * 0.35, ['#8b8f98', '#6e727b'][i % 2]);
+  for (let i = 0; i < 420; i++) { const y = -1.4 - R() * 9.4; pebble(x0 + R() * 50, y, 0.03 + R() * 0.07, y < D.layer.wet ? '#a59a8c' : ['#8c7a68', '#b2a184', '#6f665c'][i % 3]); }
+  for (let i = 0; i < 120; i++) pebble(x0 + R() * 50, -9.0 - R() * 14.6, 0.2 + R() * 0.35, ['#a08c78', '#7d6a58'][i % 2]);
   g.strokeStyle = 'rgba(40,40,48,.5)'; g.lineWidth = P.s(0.025);
   for (let i = 0; i < 70; i++) { let x = x0 + R() * 50, y = -9 - R() * 14.5; g.beginPath(); g.moveTo(P.x(x), P.y(y)); for (let k = 0; k < 5; k++) { x += (R() - 0.5) * 0.6; y -= R() * 0.35; g.lineTo(P.x(x), P.y(y)); } g.stroke(); }
   // roots in the topsoil, worms
@@ -63,10 +71,10 @@ function paintStrata(g, P) {
   for (let i = 0; i < 14; i++) { const x = x0 + R() * 50, y = -0.4 - R() * 2.6; g.beginPath(); for (let k = 0; k <= 10; k++) { const xx = x + k * 0.025, yy = y + Math.sin(k * 0.9) * 0.03; k ? g.lineTo(P.x(xx), P.y(yy)) : g.moveTo(P.x(xx), P.y(yy)); } g.stroke(); }
   // pipes (seen in section): a sewer, a water main, a cable bundle
   const pipe = (x, y, r, ring, inner) => { g.fillStyle = ring; g.beginPath(); g.arc(P.x(x), P.y(y), P.s(r), 0, 7); g.fill(); g.fillStyle = inner; g.beginPath(); g.arc(P.x(x), P.y(y), P.s(r * 0.78), 0, 7); g.fill(); };
-  pipe(10.6, -1.9, 0.45, '#9b9a94', '#3b3227'); pipe(-12.5, -1.2, 0.22, '#3d7fc2', '#1c3550'); pipe(15.8, -0.9, 0.16, '#5b5b5b', '#e0b13a');
+  pipe(-12.5, -1.2, 0.22, '#3d7fc2', '#1c3550'); pipe(15.8, -0.9, 0.16, '#5b5b5b', '#e0b13a');
   pipe(-1.0, -1.0, 0.12, '#d9822b', '#4a2a10'); pipe(-0.75, -1.0, 0.12, '#d9822b', '#4a2a10');
   // a dinosaur fossil (the "Gary is now a fossil" neighbor) + a few bones, a boot, a coin
-  g.save(); g.translate(P.x(-3.1), P.y(-2.45)); g.scale(P.ppm / 100, P.ppm / 100); g.fillStyle = '#efe4c8'; g.strokeStyle = '#c9b88f'; g.lineWidth = 3;
+  g.save(); g.translate(P.x(-4.75), P.y(-2.5)); g.scale(-P.ppm / 100, P.ppm / 100); g.fillStyle = '#efe4c8'; g.strokeStyle = '#c9b88f'; g.lineWidth = 3;
   g.beginPath(); g.moveTo(-60, -10); g.quadraticCurveTo(-40, -45, 10, -40); g.quadraticCurveTo(60, -36, 70, -8); g.lineTo(52, 2); g.lineTo(40, -6); g.lineTo(30, 4); g.lineTo(18, -4); g.lineTo(6, 6); g.lineTo(-8, -2); g.lineTo(-20, 10); g.quadraticCurveTo(-50, 16, -60, -10); g.fill(); g.stroke();
   g.fillStyle = '#5e3d26'; g.beginPath(); g.ellipse(-28, -22, 10, 8, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(22, -24, 6, 5, 0, 0, 7); g.fill();
   g.fillStyle = '#efe4c8'; for (let i = 0; i < 6; i++) { g.beginPath(); g.ellipse(-80 - i * 22, 6 + i * 5, 10, 6, 0.3, 0, 7); g.fill(); g.stroke(); }
@@ -158,7 +166,7 @@ export async function makeBakery() {
 }
 
 /** Tunnel boring machine, axis +x (cutterhead at +x), ~4.4 m shield + a 3 m trailing gantry. spin(t), conveyor(t). */
-export function makeTBM(R = 1.78) {
+export function makeTBM(R = 1.78, gantries = 1) {
   const g = new THREE.Group();
   const yel = new THREE.MeshStandardMaterial({ color: 0xf0a53a, roughness: 0.45, metalness: 0.25 });
   const steel = new THREE.MeshStandardMaterial({ color: 0x5c636c, roughness: 0.4, metalness: 0.7 });
@@ -179,7 +187,7 @@ export function makeTBM(R = 1.78) {
   }
   // trailing gear: two gantries + conveyor + Gary's seat
   const gear = new THREE.Group(); g.add(gear); gear.position.x = -L;
-  for (let k = 0; k < 1; k++) {
+  for (let k = 0; k < gantries; k++) {
     const x = -1.6 - k * 3.0;
     for (const z of [-0.9, 0.9]) for (const dx of [-1.2, 1.2]) mk(new THREE.BoxGeometry(0.12, 1.9, 0.12), yel, gear, x + dx, -0.25, z);
     mk(new THREE.BoxGeometry(2.7, 0.12, 2.0), yel, gear, x, 0.72, 0);
@@ -189,7 +197,7 @@ export function makeTBM(R = 1.78) {
   }
   const beltTex = tex(256, 32, (c, w, h) => { c.fillStyle = '#1f1f1f'; c.fillRect(0, 0, w, h); for (let i = 0; i < 24; i++) { c.fillStyle = ['#6b4426', '#8f6a45', '#5a3a20'][i % 3]; c.beginPath(); c.ellipse((i * w) / 24 + 5, h / 2, 6, 9, 0, 0, 7); c.fill(); } });
   beltTex.wrapS = THREE.RepeatWrapping; beltTex.repeat.set(6, 1);
-  const belt = mk(new THREE.BoxGeometry(4.0, 0.08, 0.5), [dark, dark, new THREE.MeshStandardMaterial({ map: beltTex, roughness: 0.9 }), dark, dark, dark], gear, -1.4, 0.82, 0.55);
+  const belt = mk(new THREE.BoxGeometry(3.0 * gantries + 1.0, 0.08, 0.5), [dark, dark, new THREE.MeshStandardMaterial({ map: beltTex, roughness: 0.9 }), dark, dark, dark], gear, -1.4 - 1.5 * (gantries - 1), 0.82, 0.55);
   const seat = new THREE.Group(); gear.add(seat); seat.position.set(-1.2, 0.78, 0.45);
   mk(new RoundedBoxGeometry(0.5, 0.12, 0.5, 2, 0.04), mat(0x222222, 0.6), seat, 0, 0.06, 0);
   mk(new RoundedBoxGeometry(0.5, 0.5, 0.1, 2, 0.04), mat(0x222222, 0.6), seat, 0, 0.3, -0.25);
@@ -199,20 +207,36 @@ export function makeTBM(R = 1.78) {
   mk(new THREE.BoxGeometry(0.3, 1.3, 0.3), mat(0xd23c32, 0.5), arm, 0, 0.55, 0);
   mk(new THREE.BoxGeometry(0.5, 0.2, 0.6), dark, arm, 0, 1.2, 0);
   g.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-  return { g, head, seat, arm, length: L, spin: (a) => (head.rotation.x = a), conveyor: (t) => (beltTex.offset.x = -t * 0.8) };
+  return { g, head, seat, arm, gear, length: L, spin: (a) => (head.rotation.x = a), conveyor: (t) => (beltTex.offset.x = -t * 0.8) };
 }
 
-/** The back part of one lining ring (5 segments, ±amax around straight back), axis along x, centered at the origin, width w. */
-export function makeHalfRing(R = 1.8, thick = 0.2, w = 0.86, seed = 1, amax = Math.PI / 2) {
-  const g = new THREE.Group(), n = 5, gap = 0.014;
-  const shades = [0xbdbab2, 0xb3b0a7, 0xc5c2ba];
+/** The back part of one lining ring (5 segments, ±amax around straight back), axis along x, centered at the origin, width w.
+ *  opts.dress adds tunnel services on the inner face (a cable bundle; a work lamp when opts.lamp) — children 5+ of the group.
+ *  Concrete is mid-grey with a speckle map: the v1/v2 light grey (0xbdbab2) washed out to flat white under the sun. */
+let concreteTex = null;
+export function makeHalfRing(R = 1.8, thick = 0.2, w = 0.86, seed = 1, amax = Math.PI / 2, opts = {}) {
+  const g = new THREE.Group(), n = 5, gap = 0.02;
+  const shades = opts.shades || [0xbdbab2, 0xb3b0a7, 0xc5c2ba];
+  if (opts.dress && !concreteTex) {
+    concreteTex = tex(256, 256, (c, W, H) => { c.fillStyle = '#fff'; c.fillRect(0, 0, W, H); const r = rng(77);
+      for (let i = 0; i < 2600; i++) { const v = 200 + Math.floor(r() * 55); c.fillStyle = `rgba(${v},${v},${v - 4},.55)`; c.fillRect(r() * W, r() * H, 1 + r() * 3, 1 + r() * 3); }
+      for (let i = 0; i < 40; i++) { c.fillStyle = 'rgba(120,118,112,.25)'; c.beginPath(); c.arc(r() * W, r() * H, 1 + r() * 2.5, 0, 7); c.fill(); } });
+    concreteTex.wrapS = concreteTex.wrapT = THREE.RepeatWrapping; concreteTex.colorSpace = THREE.SRGBColorSpace;
+  }
   for (let i = 0; i < n; i++) {
     const a0 = -amax + (i / n) * 2 * amax + gap, a1 = -amax + ((i + 1) / n) * 2 * amax - gap;
     const s = new THREE.Shape(); s.absarc(0, 0, R, a0, a1, false); s.absarc(0, 0, R - thick, a1, a0, true);
-    const geo = new THREE.ExtrudeGeometry(s, { depth: w, bevelEnabled: true, bevelSize: 0.015, bevelThickness: 0.015, bevelSegments: 1, curveSegments: 10 });
+    const geo = new THREE.ExtrudeGeometry(s, { depth: w, bevelEnabled: true, bevelSize: 0.022, bevelThickness: 0.022, bevelSegments: 2, curveSegments: 10 });
     geo.translate(0, 0, -w / 2);
-    const m = mk(geo, new THREE.MeshStandardMaterial({ color: shades[(i + seed) % 3], roughness: 0.92 }), g);
+    const m = mk(geo, new THREE.MeshStandardMaterial({ color: shades[(i + seed) % 3], roughness: 0.92, map: opts.dress ? concreteTex : null }), g);
     m.rotation.y = Math.PI / 2; // shape's +x (the back side) → world -z
+  }
+  if (opts.dress) { // a point on the inner face at angle a (0 = straight back, + = up): (0, r·sin a, −r·cos a)
+    const ri = R - thick - 0.04, at = (a, r = ri) => [0, r * Math.sin(a), -r * Math.cos(a)];
+    const cab = new THREE.Group(); g.add(cab);
+    [[0x222428, 0.3], [0x3a3d42, 0.36], [0x8a2a22, 0.42]].forEach(([c, a]) => { const p = at(a); const cy = mk(new THREE.CylinderGeometry(0.035, 0.035, w + 0.02, 8), mat(c, 0.5), cab, ...p); cy.rotation.z = Math.PI / 2; });
+    const br = mk(new THREE.BoxGeometry(0.04, 0.2, 0.05), mat(0x6b7077, 0.5), cab, ...at(0.36, ri + 0.01)); br.rotation.x = 0.36;
+    if (opts.lamp) { const p = at(0.95); mk(new RoundedBoxGeometry(0.34, 0.09, 0.09, 2, 0.03), new THREE.MeshStandardMaterial({ color: 0xfff3d0, emissive: 0xffd98a, emissiveIntensity: 1.6 }), g, ...p).rotation.x = 0.95; }
   }
   return g;
 }
@@ -267,6 +291,8 @@ export async function buildSubway(studio) {
   scene.fog = new THREE.Fog(0xd6ecf8, 70, 260);
   makeSky(root, 320);
 
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.45;
   // light: soft sky fill + a warm sun from the front-left (it lights the cut face)
   const hemi = new THREE.HemisphereLight(0xe2f1ff, 0x9a8a68, 1.05); root.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff0d8, 3.1); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
@@ -279,9 +305,9 @@ export async function buildSubway(studio) {
 
   // the cut face + its back wall
   const F = D.face;
-  const cut = makeCutFace({ ...F, ppm: 96, mppm: 40, depth: D.depth, backShade: 0.32, paint: paintStrata });
+  const cut = makeCutFace({ ...F, ppm: 96, mppm: 40, depth: D.depth, backShade: 0.18, paint: paintStrata });
   root.add(cut.group);
-  const rims = { shaft: makeRim(root, D.depth), v0: makeRim(root, D.depth), v1: makeRim(root, D.depth), station: makeRim(root, D.depth), burrow: null };
+  const rims = { shaft: makeRim(root, D.depth, 0x9a6a44), v0: makeRim(root, D.depth, 0x9a6a44), v1: makeRim(root, D.depth, 0x9a6a44), station: makeRim(root, D.depth, 0x8a6040), burrow: null };
 
   // ground top: verge (masked: holes for the shaft, vents, escalator), sidewalk, road, far side
   const lawn = lawnTexture(); lawn.repeat.set(50 / 1.6, 3.4 / 1.6);
@@ -339,7 +365,11 @@ export async function buildSubway(studio) {
   // tunnel: bored soil surface (back part of a cylinder, clipped at the TBM face), invert slab, track, third rail
   const clipFace = new THREE.Plane(new THREE.Vector3(-1, 0, 0), T.x0);
   const boreT = grainTexture(11); boreT.repeat.set(30, 4);
-  const boreM = new THREE.MeshStandardMaterial({ color: 0x6a5240, roughness: 1, side: THREE.BackSide, bumpMap: boreT, bumpScale: 2, clippingPlanes: [clipFace] });
+  const boreMap = tex(512, 256, (c, w, h) => { const r = rng(21); c.fillStyle = '#7b5c43'; c.fillRect(0, 0, w, h);
+    for (let i = 0; i < 900; i++) { const y = r() * h, L = 20 + r() * 120; c.strokeStyle = r() < 0.6 ? `rgba(40,24,14,${0.1 + r() * 0.2})` : `rgba(210,170,120,${0.06 + r() * 0.12})`; c.lineWidth = 1 + r() * 3; c.beginPath(); c.moveTo(r() * w, y); c.lineTo(r() * w + L, y + (r() - 0.5) * 4); c.stroke(); }
+    for (let i = 0; i < 160; i++) { c.fillStyle = ['#8c7a68', '#a69a8a', '#5f5146'][i % 3]; c.beginPath(); c.ellipse(r() * w, r() * h, 2 + r() * 4, 1.5 + r() * 3, r() * 3, 0, 7); c.fill(); } });
+  boreMap.wrapS = boreMap.wrapT = THREE.RepeatWrapping; boreMap.repeat.set(8, 1);
+  const boreM = new THREE.MeshStandardMaterial({ color: 0xc9b6a2, map: boreMap, roughness: 1, side: THREE.BackSide, bumpMap: boreT, bumpScale: 2, clippingPlanes: [clipFace], clipShadows: true });
   const bores = [[T.x0, D.station.x0 - 0.2], [D.station.x0 - 0.2, D.station.x1 + 0.2], [D.station.x1 + 0.2, 40]].map(([a, b]) => {
     const m = new THREE.Mesh(new THREE.CylinderGeometry(T.R, T.R, b - a, 48, 1, true, Math.PI - ARC, 2 * ARC), boreM);
     m.rotation.z = -Math.PI / 2; m.position.set((a + b) / 2, T.y, T.z); m.receiveShadow = true; root.add(m); return m;
@@ -347,7 +377,7 @@ export async function buildSubway(studio) {
   const bore = bores[1]; // the station section: hide it once the station is dug
   const ringG = new THREE.Group(); root.add(ringG);
   const rings = [];
-  for (let x = T.x0 + T.ring / 2; x < F.x1; x += T.ring) { const r = makeHalfRing(T.R + 0.01, 0.2, T.ring - 0.03, rings.length, ARC); r.position.set(x, T.y, T.z); ringG.add(r); rings.push({ g: r, x }); }
+  for (let x = T.x0 + T.ring / 2; x < F.x1; x += T.ring) { const r = makeHalfRing(T.R + 0.01, 0.2, T.ring - 0.03, rings.length, ARC, { dress: true, lamp: rings.length % 3 === 1, shades: [0x9d9a93, 0x95928b, 0xa5a29b] }); r.position.set(x, T.y, T.z); ringG.add(r); rings.push({ g: r, x }); }
   const track = new THREE.Group(); root.add(track);
   const slab = mk(new THREE.BoxGeometry(40, 0.5, 2.2), mat(0x9d9a92, 0.95), track, T.x0 + 20, T.floor - 0.25, -1.1); void slab;
   const railM = new THREE.MeshStandardMaterial({ color: 0x8c8f94, roughness: 0.3, metalness: 0.8 });
@@ -359,13 +389,15 @@ export async function buildSubway(studio) {
   const third = new THREE.Group(); root.add(third);
   const thirdM = new THREE.MeshStandardMaterial({ color: 0x9aa0a6, roughness: 0.35, metalness: 0.7, emissive: 0x58c8ff, emissiveIntensity: 0 });
   const TZ = T.z + 1.05; // third rail: on the front edge of the track (just outside the cut) so close-ups see Gary's face
-  mk(new THREE.BoxGeometry(40, 0.09, 0.09), thirdM, third, T.x0 + 20, T.floor + 0.32, TZ);
+  mk(new THREE.BoxGeometry(40, 0.09, 0.09), thirdM, third, T.x0 + 20, T.floor + 0.2, TZ);   // low, beside the running rails
   const coverM = mat(0xf2c418, 0.6);
-  mk(new THREE.BoxGeometry(40, 0.03, 0.26), coverM, third, T.x0 + 20, T.floor + 0.45, TZ + 0.02);
-  for (let i = 0; i < 30; i++) mk(new THREE.CylinderGeometry(0.04, 0.05, 0.28, 8), mat(0xeeeeee, 0.4), third, T.x0 + 0.5 + i * 1.3, T.floor + 0.16, TZ);
+  mk(new THREE.BoxGeometry(40, 0.03, 0.26), coverM, third, T.x0 + 20, T.floor + 0.29, TZ + 0.02);
+  for (let i = 0; i < 30; i++) mk(new THREE.CylinderGeometry(0.04, 0.05, 0.16, 8), mat(0xeeeeee, 0.4), third, T.x0 + 0.5 + i * 1.3, T.floor + 0.08, TZ);
   const trackClip = new THREE.Plane(new THREE.Vector3(-1, 0, 0), T.x0), thirdClip = new THREE.Plane(new THREE.Vector3(-1, 0, 0), T.x0);
-  for (const [grp, cp] of [[track, trackClip], [third, thirdClip]]) grp.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.clippingPlanes = [cp]; } });
+  // clipShadows: a clipped part must not keep casting its shadow (v1 showed a phantom third rail in solid ground)
+  for (const [grp, cp] of [[track, trackClip], [third, thirdClip]]) grp.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.clippingPlanes = [cp]; o.material.clipShadows = true; } });
   const thirdMat = third.children[0].material;
+  ties.material = ties.material.clone(); ties.material.clippingPlanes = [trackClip]; ties.material.clipShadows = true;
 
   // vent shafts: fans + street grates
   const fans = D.vents.map(([a, b]) => { const f = makeFan(0.48); f.g.position.set((a + b) / 2, -2.1, -1.4); root.add(f.g); return f; });
@@ -386,12 +418,13 @@ export async function buildSubway(studio) {
     c.fillStyle = '#20232a'; c.beginPath(); c.roundRect(w * 0.42, h * 0.2, w * 0.36, h * 0.2, 12); c.fill();
     c.fillStyle = '#fff'; c.font = '64px "Luckiest Guy", Arial Black'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('GARY ST', w * 0.6, h * 0.31);
     c.fillStyle = '#6cbe45'; c.beginPath(); c.arc(w * 0.47, h * 0.3, 26, 0, 7); c.fill(); c.fillStyle = '#fff'; c.font = '40px "Luckiest Guy", Arial Black'; c.fillText('G', w * 0.47, h * 0.31);
-    // the map nobody understands
-    c.fillStyle = '#fbfbf7'; c.fillRect(w * 0.06, h * 0.12, w * 0.26, h * 0.42); c.strokeStyle = '#333'; c.lineWidth = 3; c.strokeRect(w * 0.06, h * 0.12, w * 0.26, h * 0.42);
-    const lc = ['#e8423a', '#2f6fd6', '#f2b21c', '#6cbe45', '#a24fd8', '#ff8a3d', '#22a6b3'], R2 = rng(4);
-    for (let i = 0; i < 9; i++) { c.strokeStyle = lc[i % lc.length]; c.lineWidth = 5; c.beginPath(); let x = w * (0.07 + R2() * 0.24), y = h * (0.14 + R2() * 0.38); c.moveTo(x, y); for (let k = 0; k < 7; k++) { x = Math.min(w * 0.31, Math.max(w * 0.07, x + (R2() - 0.5) * 70)); y = Math.min(h * 0.53, Math.max(h * 0.13, y + (R2() - 0.5) * 70)); c.lineTo(x, y); } c.stroke(); }
   });
   const wall = mk(new THREE.PlaneGeometry(S.x1 - S.x0, S.y1 - S.y0), new THREE.MeshStandardMaterial({ map: wallT, roughness: 0.6 }), stn, (S.x0 + S.x1) / 2, (S.y0 + S.y1) / 2, -D.depth + 0.04); void wall;
+  // the map nobody understands: its own plane (a video can slam it onto the wall on its word)
+  const mapT = tex(512, 400, (c, w, h) => { c.fillStyle = '#fbfbf7'; c.fillRect(0, 0, w, h); c.strokeStyle = '#333'; c.lineWidth = 8; c.strokeRect(4, 4, w - 8, h - 8);
+    const lc = ['#e8423a', '#2f6fd6', '#f2b21c', '#6cbe45', '#a24fd8', '#ff8a3d', '#22a6b3'], R2 = rng(4);
+    for (let i = 0; i < 9; i++) { c.strokeStyle = lc[i % lc.length]; c.lineWidth = 10; c.lineJoin = 'round'; c.beginPath(); let x = w * (0.05 + R2() * 0.9), y = h * (0.05 + R2() * 0.9); c.moveTo(x, y); for (let k = 0; k < 7; k++) { x = Math.min(w * 0.95, Math.max(w * 0.05, x + (R2() - 0.5) * 140)); y = Math.min(h * 0.95, Math.max(h * 0.05, y + (R2() - 0.5) * 140)); c.lineTo(x, y); } c.stroke(); } });
+  const map = mk(new THREE.PlaneGeometry((S.x1 - S.x0) * 0.26, (S.y1 - S.y0) * 0.42), new THREE.MeshStandardMaterial({ map: mapT, roughness: 0.6 }), root, S.x0 + (S.x1 - S.x0) * 0.19, S.y1 - (S.y1 - S.y0) * 0.33, -D.depth + 0.06);
   const plat = mk(new THREE.BoxGeometry(S.x1 - S.x0 - 0.2, S.platY - S.y0, 1.75), mat(0xb9b5ad, 0.9), stn, (S.x0 + S.x1) / 2, (S.platY + S.y0) / 2, -D.depth + 0.9); void plat;
   mk(new THREE.BoxGeometry(S.x1 - S.x0 - 0.2, 0.02, 0.2), mat(0xf2d12a, 0.6), stn, (S.x0 + S.x1) / 2, S.platY + 0.011, -D.depth + 1.68);
   for (const x of [20.35, 24.6]) { mk(new THREE.BoxGeometry(0.22, S.y1 - S.platY, 0.22), mat(0x2f6fd6, 0.45), stn, x, (S.y1 + S.platY) / 2, -D.depth + 0.5); }
@@ -403,12 +436,18 @@ export async function buildSubway(studio) {
   const drip = mk(new THREE.SphereGeometry(0.04, 10, 8), new THREE.MeshStandardMaterial({ color: 0x8fd8f7, roughness: 0.05, transparent: true, opacity: 0.9 }), stn, 20.6, S.y1, -2.5);
   const turnstiles = [];
   for (let i = 0; i < 3; i++) {
-    const ts = new THREE.Group(); stn.add(ts); ts.position.set(18.2, S.platY, -3.25 + i * 0.62);
+    const ts = new THREE.Group(); stn.add(ts); ts.position.set(23.3, S.platY, -3.25 + i * 0.62);
     mk(new RoundedBoxGeometry(0.5, 0.95, 0.22, 2, 0.05), new THREE.MeshStandardMaterial({ color: 0xa7adb5, metalness: 0.6, roughness: 0.3 }), ts, 0, 0.47, 0);
     const arms = new THREE.Group(); ts.add(arms); arms.position.set(0.28, 0.8, 0.12);
     for (let k = 0; k < 3; k++) { const a = mk(new THREE.CylinderGeometry(0.025, 0.025, 0.5, 8), new THREE.MeshStandardMaterial({ color: 0xd8dde3, metalness: 0.7, roughness: 0.25 }), arms, 0, 0, 0); a.geometry.translate(0, 0.25, 0); a.rotation.x = Math.PI / 2 + (k * 2 * Math.PI) / 3 * 0; a.rotation.set(Math.PI / 2, 0, (k * 2 * Math.PI) / 3); }
     turnstiles.push({ g: ts, arms });
   }
+  // fare line: a fence across the platform with the turnstiles in it (escalator side = paid side)
+  const fence = new THREE.Group(); stn.add(fence); fence.position.set(23.3, S.platY, 0);
+  const fenceM = new THREE.MeshStandardMaterial({ color: 0x8d969f, metalness: 0.6, roughness: 0.35 });
+  for (const z of [-3.55, -1.68]) mk(new THREE.BoxGeometry(0.06, 1.0, 0.06), fenceM, fence, 0, 0.5, z);
+  mk(new THREE.BoxGeometry(0.05, 0.05, 1.9), fenceM, fence, 0, 1.0, -2.62);
+  mk(new THREE.BoxGeometry(D.station.x1 - D.station.x0, 0.3, D.depth), mat(0xcfcac0, 0.9), stn, (D.station.x0 + D.station.x1) / 2, S.y1 - 0.15, -D.depth / 2);
   const esc = new THREE.Group(); root.add(esc);
   const [eb0, eb1] = D.esc.bot, [et0, et1] = D.esc.top;
   const eLen = Math.hypot(et0 - eb0, -S.platY) + 0.6, eAng = Math.atan2(-S.platY, et0 - eb0);
@@ -427,7 +466,7 @@ export async function buildSubway(studio) {
   // pumps + hose (reveal along the curve), shoring timbers, the shovel
   const pumpG = new THREE.Group(); root.add(pumpG);
   const pump = new THREE.Group(); pumpG.add(pump);
-  mk(new RoundedBoxGeometry(0.9, 0.6, 0.7, 3, 0.08), mat(0xf2c418, 0.45), pump, 0, 0.3, 0);
+  mk(new RoundedBoxGeometry(0.9, 0.6, 0.7, 3, 0.08), mat(0xe0533a, 0.45), pump, 0, 0.3, 0);   // not hard-hat yellow (Gary's hat vanished into it)
   mk(new THREE.CylinderGeometry(0.22, 0.22, 0.5, 18), mat(0x3d7bd9, 0.4), pump, -0.1, 0.75, 0).rotation.z = Math.PI / 2;
   const hoseCurve = new THREE.CatmullRomCurve3([[0.3, 0.6, 0], [0.4, 1.4, -0.4], [0.3, 3.5, -0.6], [0.4, 5.6, -0.8], [0.8, 6.15, -1.6], [1.8, 6.12, -3.2], [2.6, 6.2, -4.6], [3.2, 6.4, -5.2]].map((p) => new THREE.Vector3(...p)));
   const hoseGeo = new THREE.TubeGeometry(hoseCurve, 120, 0.07, 10, false);
@@ -438,17 +477,22 @@ export async function buildSubway(studio) {
   // shoring is built for the hole's final size (x -7.6..-5.8, down to -3.0); parts pop in one by one
   for (let i = 0; i < 6; i++) { const p = mk(new THREE.BoxGeometry(0.28, 3.0, 0.05), plank, shoring, -7.45 + i * 0.3, -1.5, -D.depth + 0.04); shoring.userData.parts.push(p); }
   for (const x of [-7.58, -5.82]) for (let k = 0; k < 5; k++) { const p = mk(new THREE.BoxGeometry(0.05, 3.0, 0.5), plank, shoring, x, -1.5, -0.4 - k * 0.68); shoring.userData.parts.push(p); }
-  for (const y of [-0.6, -1.5, -2.4]) for (const z of [-0.9, -2.6]) { const s = mk(new THREE.CylinderGeometry(0.08, 0.08, 1.74, 10), timber, shoring, -6.7, y, z); s.rotation.z = Math.PI / 2; shoring.userData.parts.push(s); }
+  // front struts (z −0.9) stay clear of a standing person's face (≈ −1.5 below the lawn): above the head + at the belly
+  for (const [y, z] of [[-0.45, -0.9], [-2.2, -0.9], [-0.6, -2.6], [-1.5, -2.6], [-2.4, -2.6]]) { const s = mk(new THREE.CylinderGeometry(0.08, 0.08, 1.74, 10), timber, shoring, -6.7, y, z); s.rotation.z = Math.PI / 2; shoring.userData.parts.push(s); }
   const shovel = makeShovel(); root.add(shovel);
 
   // water in the shaft: a translucent box seen in section + a rippling surface
-  const waterM = new THREE.MeshStandardMaterial({ color: 0x3d9fd8, roughness: 0.06, metalness: 0.05, transparent: true, opacity: 0.74, depthWrite: false });
+  const waterT = tex(128, 256, (c, w, h) => { const gr = c.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#a8ecff'); gr.addColorStop(0.06, '#56bce8'); gr.addColorStop(0.5, '#2f8ac8'); gr.addColorStop(1, '#1d5f8c'); c.fillStyle = gr; c.fillRect(0, 0, w, h);
+    const r = rng(9); for (let i = 0; i < 26; i++) { const y = 18 + r() * (h - 30); c.strokeStyle = `rgba(200,240,255,${0.12 + r() * 0.14})`; c.lineWidth = 1.5 + r() * 2; c.beginPath(); for (let x = 0; x <= w; x += 8) { const yy = y + Math.sin(x * 0.09 + i) * 3; x ? c.lineTo(x, yy) : c.moveTo(x, yy); } c.stroke(); } });
+  const waterM = new THREE.MeshStandardMaterial({ map: waterT, roughness: 0.05, metalness: 0.0, transparent: true, opacity: 0.62, depthWrite: false, emissive: 0x1a5a8a, emissiveIntensity: 0.12 });
   const water = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), waterM); water.renderOrder = 3; root.add(water);
   const surfGeo = new THREE.PlaneGeometry(1, 1, 24, 24); surfGeo.rotateX(-Math.PI / 2);
   const surf = new THREE.Mesh(surfGeo, new THREE.MeshStandardMaterial({ color: 0x8fd3f5, roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.6, depthWrite: false })); surf.renderOrder = 4; root.add(surf);
   const surfBase = surfGeo.attributes.position.array.slice();
+  const foam = new THREE.Mesh(new THREE.BoxGeometry(1, 0.035, 0.05), new THREE.MeshStandardMaterial({ color: 0xbfeaff, roughness: 0.4, transparent: true, opacity: 0.6 })); root.add(foam);
   function setWater(x0, x1, y0, level, t) {
-    const on = level > y0 + 0.01; water.visible = surf.visible = on; if (!on) return;
+    const on = level > y0 + 0.01; water.visible = surf.visible = foam.visible = on; if (!on) return;
+    foam.scale.set(x1 - x0 - 0.02, 1, 1); foam.position.set((x0 + x1) / 2, level + 0.01, 0.02);
     water.scale.set(x1 - x0 - 0.02, level - y0, D.depth - 0.02); water.position.set((x0 + x1) / 2, (y0 + level) / 2, -D.depth / 2);
     surf.scale.set(x1 - x0 - 0.02, 1, D.depth - 0.02); surf.position.set((x0 + x1) / 2, level, -D.depth / 2);
     const a = surfGeo.attributes.position;
@@ -457,7 +501,7 @@ export async function buildSubway(studio) {
   }
 
   // the boring machine + the train
-  const tbm = makeTBM(T.R - 0.03); tbm.g.position.set(-4.5, T.y, T.z); root.add(tbm.g);
+  const tbm = makeTBM(T.R - 0.03, 1); tbm.g.position.set(-4.5, T.y, T.z); root.add(tbm.g);
   const train = await makeTrain(2); train.g.position.set(40, T.floor + 0.02, T.z); root.add(train.g);
 
   // holes: the plug (bakery block) region is always cut out of the main face/verge — the plug draws itself there
@@ -467,6 +511,6 @@ export async function buildSubway(studio) {
   setHoles([]); setVerge([]);
   return {
     root, cut, rims, setHoles, setVergeHoles: setVerge, aimSun, sun, hemi, cars, plug, bakery, bore, clipFace, trackClip, thirdClip, rings, track, third, thirdMat,
-    fans, grates, stn, turnstiles, esc, entrance, puddle, drip, pumpG, pump, hose, hoseIdx, shoring, shovel, setWater, tbm, train,
+    fans, grates, stn, map, turnstiles, esc, entrance, puddle, drip, pumpG, pump, hose, hoseIdx, shoring, shovel, setWater, tbm, train,
   };
 }

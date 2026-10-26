@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
@@ -100,10 +101,10 @@ export function mk(geo, material, parent, x = 0, y = 0, z = 0) {
 
 // ---------------------------------------------------------------- renderer + post
 const GradeShader = {
-  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVig: { value: 0.42 }, uGrain: { value: 0.035 }, uLift: { value: 0.018 } },
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVig: { value: 0.42 }, uGrain: { value: 0.035 }, uLift: { value: 0.018 }, uWarm: { value: 1.0 }, uSat: { value: 1.0 } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
   fragmentShader: `
-    uniform sampler2D tDiffuse; uniform float uTime, uVig, uGrain, uLift; varying vec2 vUv;
+    uniform sampler2D tDiffuse; uniform float uTime, uVig, uGrain, uLift, uWarm, uSat; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
     void main(){
       vec4 c = texture2D(tDiffuse, vUv);
@@ -111,7 +112,8 @@ const GradeShader = {
       float v = smoothstep(0.78, 0.22, length(q * vec2(1.0, 0.92)));
       c.rgb *= mix(1.0 - uVig, 1.0, v);
       c.rgb = uLift + c.rgb * (1.0 - uLift);                     // filmic black lift
-      c.rgb *= vec3(1.02, 1.0, 0.97);                             // gentle warm grade
+      c.rgb *= mix(vec3(1.0), vec3(1.02, 1.0, 0.97), uWarm);      // gentle warm grade (look.warm 0 = neutral)
+      c.rgb = mix(vec3(dot(c.rgb, vec3(0.2126, 0.7152, 0.0722))), c.rgb, uSat);   // look.saturation
       float n = hash(vUv * vec2(1080.0, 1920.0) + fract(uTime * 7.31) * 113.0) - 0.5;
       c.rgb += n * uGrain;
       gl_FragColor = vec4(clamp(c.rgb, 0.0, 1.0), 1.0);
@@ -123,7 +125,9 @@ export function createStudio(canvas, look = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(1); renderer.setSize(W, H, false);
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = look.exposure ?? 1.0;
+  // look.toneMapping 'agx' | 'neutral' (build genre: brighter, cleaner yellows than ACES); default ACES
+  renderer.toneMapping = { agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping }[look.toneMapping] ?? THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = look.exposure ?? 1.0;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene(); scene.background = new THREE.Color(0x000000);
@@ -136,6 +140,9 @@ export function createStudio(canvas, look = {}) {
   const composer = new EffectComposer(renderer, rt);
   composer.setPixelRatio(1); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
+  // look.ao = { radius, intensity, thickness } (opt-in): ground-truth ambient occlusion — contact darkening in corners/under feet,
+  // the soft "Blender" depth the build-genre look reviews kept asking for. Costs ~one extra scene pass per frame.
+  if (look.ao) { const ao = new GTAOPass(scene, camera, W, H); ao.updateGtaoMaterial({ radius: look.ao.radius ?? 0.6, distanceExponent: 1, thickness: look.ao.thickness ?? 1, scale: 1, samples: 16 }); ao.updatePdMaterial({ radius: 6, samples: 16 }); ao.blendIntensity = look.ao.intensity ?? 1; composer.addPass(ao); }
   // Guard: a single NaN/Inf pixel (degenerate normal, extreme highlight) gets smeared by bloom into big black
   // rectangles. Scrub non-finite values and clamp hot pixels before bloom.
   composer.addPass(new ShaderPass({
@@ -148,6 +155,10 @@ export function createStudio(canvas, look = {}) {
   composer.addPass(new OutputPass());
   const grade = new ShaderPass(GradeShader);
   if (look.vignette !== undefined) grade.uniforms.uVig.value = look.vignette;
+  if (look.grain !== undefined) grade.uniforms.uGrain.value = look.grain;
+  if (look.warm !== undefined) grade.uniforms.uWarm.value = look.warm;
+  if (look.saturation !== undefined) grade.uniforms.uSat.value = look.saturation;
+  if (look.lift !== undefined) grade.uniforms.uLift.value = look.lift;
   composer.addPass(grade);
 
   const _t = new THREE.Vector3();

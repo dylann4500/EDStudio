@@ -1,0 +1,81 @@
+{
+ "text": "Add stations, escalators, turnstiles, a map nobody understands, and one mysterious puddle that never dries.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Add",
+   "t0": 0.0,
+   "t1": 0.267
+  },
+  {
+   "w": "stations,",
+   "t0": 0.313,
+   "t1": 0.871
+  },
+  {
+   "w": "escalators,",
+   "t0": 0.917,
+   "t1": 1.533
+  },
+  {
+   "w": "turnstiles,",
+   "t0": 1.567,
+   "t1": 2.38
+  },
+  {
+   "w": "a",
+   "t0": 2.519,
+   "t1": 2.577
+  },
+  {
+   "w": "map",
+   "t0": 2.682,
+   "t1": 2.902
+  },
+  {
+   "w": "nobody",
+   "t0": 2.972,
+   "t1": 3.274
+  },
+  {
+   "w": "understands,",
+   "t0": 3.332,
+   "t1": 4.04
+  },
+  {
+   "w": "and",
+   "t0": 4.122,
+   "t1": 4.284
+  },
+  {
+   "w": "one",
+   "t0": 4.354,
+   "t1": 4.574
+  },
+  {
+   "w": "mysterious",
+   "t0": 4.621,
+   "t1": 5.132
+  },
+  {
+   "w": "puddle",
+   "t0": 5.178,
+   "t1": 5.468
+  },
+  {
+   "w": "that",
+   "t0": 5.503,
+   "t1": 5.642
+  },
+  {
+   "w": "never",
+   "t0": 5.689,
+   "t1": 5.898
+  },
+  {
+   "w": "dries.",
+   "t0": 5.944,
+   "t1": 6.92
+  }
+ ]
+}

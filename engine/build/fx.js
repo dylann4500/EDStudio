@@ -13,6 +13,7 @@ const KINDS = {
   rock:     { geo: 'chunk', max: 200, colors: [0x8a8a86, 0x6f6f6c, 0xa3a29c], size: [0.06, 0.16], life: [1.0, 1.6], g: 9.8, drag: 0.2, spin: 7 },
   crumb:    { geo: 'chunk', max: 200, colors: [0xd9a04e, 0xc78a3a, 0xe8b868], size: [0.03, 0.07], life: [0.9, 1.5], g: 9.8, drag: 0.4, spin: 10 },
   drops:    { geo: 'drop', max: 900, colors: [0x5ec3ef, 0x8fd8f7, 0x3fa9dd], size: [0.025, 0.06], life: [0.5, 1.1], g: 9.8, drag: 0.4 },
+  bill:     { geo: 'flake', max: 500, colors: [0xffffff], size: [0.26, 0.34], life: [3.5, 4.5], g: 1.6, drag: 2.0, spin: 7, map: 'bill' },   // printed banknotes (money rain)
   confetti: { geo: 'flake', max: 700, colors: [0xff4d5e, 0xffd23f, 0x3ec7ff, 0x58d36b, 0xb36bff, 0xff8a3d], size: [0.05, 0.09], life: [2.2, 3.4], g: 2.2, drag: 2.2, spin: 13 },
   dust:     { geo: 'sprite', max: 260, colors: [0xc9a57c, 0xb8946a], size: [0.5, 1.2], grow: 2.4, life: [0.9, 1.7], g: -0.25, drag: 2.6, alpha: 0.7 },
   smoke:    { geo: 'sprite', max: 160, colors: [0x6d6d6d, 0x8a8a8a], size: [0.3, 0.6], grow: 2.0, life: [1.0, 1.8], g: -1.2, drag: 1.8, alpha: 0.65 },
@@ -29,6 +30,13 @@ function alphaPatch(m) { // per-instance alpha for instanced sprites
   };
 }
 
+function billTex() { // a cartoon banknote: green, pale border, a big $
+  const c = document.createElement('canvas'); c.width = 128; c.height = 70; const g = c.getContext('2d');
+  g.fillStyle = '#e9f5df'; g.fillRect(0, 0, 128, 70); g.fillStyle = '#5fae4c'; g.fillRect(6, 6, 116, 58); g.strokeStyle = '#d7efc8'; g.lineWidth = 3; g.strokeRect(12, 12, 104, 46);
+  g.fillStyle = '#e9f5df'; g.beginPath(); g.arc(64, 35, 17, 0, 7); g.fill(); g.fillStyle = '#3c7f30'; g.font = 'bold 28px Arial'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$', 64, 37);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+
 export function makeFX(parent) {
   const pools = {}, parts = [];
   let seedN = 1;
@@ -38,7 +46,7 @@ export function makeFX(parent) {
     const K = KINDS[kind]; let geo, m;
     if (K.geo === 'chunk') { geo = new THREE.IcosahedronGeometry(1, 0); m = new THREE.MeshStandardMaterial({ roughness: 0.95, flatShading: true }); }
     else if (K.geo === 'drop') { geo = new THREE.SphereGeometry(1, 8, 6); m = new THREE.MeshStandardMaterial({ roughness: 0.08, transparent: true, opacity: 0.88 }); }
-    else if (K.geo === 'flake') { geo = new THREE.PlaneGeometry(1, 0.55); m = new THREE.MeshStandardMaterial({ roughness: 0.6, side: THREE.DoubleSide }); }
+    else if (K.geo === 'flake') { geo = new THREE.PlaneGeometry(1, 0.55); m = new THREE.MeshStandardMaterial({ roughness: 0.6, side: THREE.DoubleSide, map: K.map === 'bill' ? billTex() : null }); }
     else {
       geo = new THREE.PlaneGeometry(1, 1); geo.setAttribute('aAlpha', new THREE.InstancedBufferAttribute(new Float32Array(K.max), 1));
       m = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, blending: K.additive ? THREE.AdditiveBlending : THREE.NormalBlending, toneMapped: !K.additive });
@@ -87,7 +95,9 @@ export function makeFX(parent) {
           q.copy(camera.quaternion);
           const sz = P.size * (1 + P.grow * a / P.life);
           s.set(sz, sz, sz);
-          Pl.mesh.geometry.attributes.aAlpha.array[Pl.live] = P.alpha * fade * clamp(a / 0.08);
+          // never let a puff fill the lens: sprites fade out as they get within ~2.5 m of the camera
+          const near = clamp((p.distanceTo(camera.position) - sz * 0.6 - 0.4) / 2.0);
+          Pl.mesh.geometry.attributes.aAlpha.array[Pl.live] = P.alpha * fade * clamp(a / 0.08) * near;
         } else if (Pl.K.geo === 'flake') {
           p.x += Math.sin(a * 5 + P.ph) * 0.12 * clamp(a); p.z += Math.cos(a * 4 + P.ph) * 0.08 * clamp(a);
           q.setFromAxisAngle(P.axis, P.spin * a + P.ph); s.setScalar(P.size * Math.min(1, fade * 3));
