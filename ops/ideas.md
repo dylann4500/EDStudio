@@ -27,15 +27,14 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 016 | What if every pet on Earth could suddenly talk? | unhinged / @ed._.studios | assigned Oct 26 |
 | 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | assigned Oct 26 |
 | 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
-| 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | assigned Oct 26 |
+| 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | made Oct 26, in review |
 | 020 | What if your butt doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 | 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | assigned Oct 26 |
+| 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
-- What if your ballsack doubled in size every minute? (NEXT; the user's own example; anatomy implied only: pants, a wheelbarrow,
-  a censor bar, faces; may get age-restricted on TikTok)
-- What if your farts got 2× louder every time? (SFX-led: car alarms, a seismograph, a shockwave visible from space)
+- What if your farts got 2× louder every time? (NEXT) (SFX-led: car alarms, a seismograph, a shockwave visible from space)
 - What if you sneezed 2× harder every time?
 - What if your nose hair grew a meter every minute?
 - What if your tongue doubled in length every 10 seconds?
