@@ -67,6 +67,7 @@ brief, filled in. The number and premise are reserved in `ops/ideas.md` before t
 > writes need the sandbox disabled; `npm run new -- NNN-slug`.
 > **Angle:** 4–8 lines: the moment it happens, 6–10 example places/gags, the escalation, the ending, 2–3 real numbers to verify.
 > **Build:** story → shots → still sheets (look at them) → audio → render → QC checklist. 10–12 beats of ~5 s, motion in every frame.
+> **≤ 70 s total** (TRIBE's audio encoder runs out of GPU memory above that; 016's 71.4 s cut failed).
 > **TRIBE gate:** `sh tools/tribe-score.sh videos/NNN-slug cut1` in the background → `TARGET MET` (beat 013: whole-brain ≥ 0.0448,
 > first 60 s ≥ 0.0421, no dead zone). Not met → one fix pass on the weakest beats → `cut2`; a `cut3` pass only if still not met; then report.
 > **Deliverables:** final.mp4, caption.md (course line as its own block), tribe-cutN.txt, out/upload.mp4, out/preview.mp4. Commit the
