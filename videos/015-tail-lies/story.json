@@ -1,0 +1,276 @@
+{
+  "tone": "funny",
+  "look": {
+    "exposure": 1.05,
+    "fill": 0.45,
+    "vignette": 0.26,
+    "bloom": 0.22,
+    "bloomThreshold": 0.92
+  },
+  "fps": 30,
+  "duration": 70.0,
+  "title": {
+    "html": "What if every human grew a tail that wags when they <em>lie</em>?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.8,
+      5.1,
+      "Monday. 9:00 AM."
+    ],
+    [
+      5.35,
+      7.45,
+      "Every human on Earth grows a tail."
+    ],
+    [
+      7.65,
+      8.95,
+      "Gary's boss calls."
+    ],
+    [
+      9.1,
+      10.5,
+      "“Stuck in traffic, sorry!”"
+    ],
+    [
+      10.9,
+      12.9,
+      "“I didn't eat the cookie.”"
+    ],
+    [
+      13.5,
+      15.9,
+      "“I'm not mad, sweetie.”"
+    ],
+    [
+      16.5,
+      18.3,
+      "+2 hours. A job interview."
+    ],
+    [
+      18.6,
+      21.5,
+      "“My biggest weakness? I work too hard.”"
+    ],
+    [
+      22.1,
+      23.8,
+      "+10 hours. A first date."
+    ],
+    [
+      24.1,
+      26.4,
+      "“Yes, I'm six feet tall.”"
+    ],
+    [
+      27.7,
+      29.5,
+      "+1 day. Grandma knitted a sweater."
+    ],
+    [
+      29.8,
+      31.9,
+      "“We LOVE it!”"
+    ],
+    [
+      33.25,
+      35.1,
+      "+2 days. A used car lot."
+    ],
+    [
+      35.35,
+      37.9,
+      "“One owner. Never been in a crash.”"
+    ],
+    [
+      38.9,
+      40.5,
+      "+3 days. Las Vegas."
+    ],
+    [
+      40.8,
+      42.0,
+      "“All in.”"
+    ],
+    [
+      42.4,
+      44.0,
+      "Poker is dead."
+    ],
+    [
+      44.5,
+      46.2,
+      "+4 days. The President."
+    ],
+    [
+      46.5,
+      47.9,
+      "“I'll be brief.”"
+    ],
+    [
+      48.2,
+      49.7,
+      "Politics goes very quiet."
+    ],
+    [
+      50.05,
+      52.2,
+      "+2 weeks. Every trial takes 4 seconds."
+    ],
+    [
+      52.4,
+      54.7,
+      "“Did you eat Dave's lunch?” “No.”"
+    ],
+    [
+      56.1,
+      58.1,
+      "+1 year. Nobody lies anymore."
+    ],
+    [
+      58.5,
+      60.9,
+      "“I love you, Dad.” “Love you more.”"
+    ],
+    [
+      61.3,
+      64.3,
+      "The only tail still wagging is the dog's."
+    ]
+  ],
+  "hudLabel": "TAILS WAGGING RIGHT NOW",
+  "hud": [
+    {
+      "t0": 0,
+      "t1": 10.6,
+      "from": 0,
+      "to": 470000,
+      "time": "MONDAY · 9:00 AM",
+      "age": "LIES PER PERSON · 1.65 A DAY (AVERAGE)",
+      "r0": 9.3,
+      "r1": 10.4
+    },
+    {
+      "t0": 10.6,
+      "t1": 16.2,
+      "from": 470000,
+      "to": 520000,
+      "time": "+10 MINUTES",
+      "age": "KIDS 3½+ WHO PEEK · 90% LIE ABOUT IT",
+      "r0": 10.9,
+      "r1": 11.9
+    },
+    {
+      "t0": 16.2,
+      "t1": 21.8,
+      "from": 520000,
+      "to": 610000,
+      "time": "+2 HOURS",
+      "age": "JOB APPLICANTS WHO LIE · 81% · 2.19 LIES EACH",
+      "r0": 16.5,
+      "r1": 17.5
+    },
+    {
+      "t0": 21.8,
+      "t1": 27.4,
+      "from": 610000,
+      "to": 1200000,
+      "time": "+10 HOURS · 7:00 PM",
+      "age": "STRANGERS · 60% LIE IN THE FIRST 10 MINUTES",
+      "r0": 22.1,
+      "r1": 23.1
+    },
+    {
+      "t0": 27.4,
+      "t1": 33.0,
+      "from": 1200000,
+      "to": 930000,
+      "time": "+1 DAY",
+      "age": "UNWANTED GIFTS · $9.1 BILLION A YEAR (U.S.)",
+      "r0": 27.7,
+      "r1": 28.7
+    },
+    {
+      "t0": 33.0,
+      "t1": 38.6,
+      "from": 930000,
+      "to": 780000,
+      "time": "+2 DAYS",
+      "age": "HALF OF ALL LIES · TOLD BY 5% OF PEOPLE",
+      "r0": 33.3,
+      "r1": 34.3
+    },
+    {
+      "t0": 38.6,
+      "t1": 44.2,
+      "from": 780000,
+      "to": 2100000,
+      "time": "+3 DAYS · 11:00 PM",
+      "age": "NEVADA CASINOS WON $15.6 BILLION IN 2024",
+      "r0": 38.9,
+      "r1": 39.9
+    },
+    {
+      "t0": 44.2,
+      "t1": 49.8,
+      "from": 2100000,
+      "to": 1400000,
+      "time": "+4 DAYS",
+      "age": "COUNTRIES ON EARTH · 195 · SPEECHES TODAY · 0",
+      "r0": 44.5,
+      "r1": 45.5
+    },
+    {
+      "t0": 49.8,
+      "t1": 55.8,
+      "from": 1400000,
+      "to": 96000,
+      "time": "+2 WEEKS",
+      "age": "U.S. STATE COURT CASES · 64.6 MILLION A YEAR",
+      "r0": 50.099999999999994,
+      "r1": 51.099999999999994
+    },
+    {
+      "t0": 55.8,
+      "t1": 61.5,
+      "from": 96000,
+      "to": 0,
+      "time": "+1 YEAR",
+      "age": "MOST PEOPLE (60%) TELL NO LIES ON A GIVEN DAY",
+      "r0": 56.0,
+      "r1": 57.6
+    },
+    {
+      "t0": 61.5,
+      "t1": 70.0,
+      "from": 0,
+      "to": 1,
+      "r0": 61.6,
+      "r1": 61.7,
+      "time": "+1 YEAR",
+      "age": "MOST PEOPLE (60%) TELL NO LIES ON A GIVEN DAY",
+      "ageGoldAt": 61.6
+    }
+  ],
+  "end": {
+    "in": 65.2,
+    "html": "What lie would your tail <em>give away</em> first?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [
+    64.6,
+    65.2
+  ],
+  "debugView": {
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "height": 14
+  }
+}

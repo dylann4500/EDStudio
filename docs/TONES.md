@@ -133,3 +133,16 @@ skirts, the power grid failing from dryers, TOWELS SOLD OUT, strangers laughing 
 - A real number for comment bait: 400 mL × 8.2 B ≈ 3.3 billion liters ≈ 1,312 Olympic pools (in the HUD stat line).
 - Gary appears 3× (the interview candidate, the dog-blamer, the finale) — a running cameo across videos (002, 007, 010, 012).
 - Sound: "mischief" — pizzicato strings + mallet "uh-oh" motif (audio/README.md); the room's chatter STOPS at the moment.
+
+## Lie-detector body part (`videos/015-tail-lies`) — "What if every human grew a tail that wags when they lie?"
+An unhinged montage where the premise is a visible, always-moving body part (every human has a tail → motion in every frame).
+- **One lie per place, and the tail's wag causes the beat's big physical effect**: a kid's "I didn't eat the cookie" sweeps the
+  (empty) jar off the counter; Mom's "I'm not mad" launches a chair; "I work too hard" spins the swivel chair three times; "I'm six
+  feet tall" kicks his own chair out; "We LOVE it!" pops every balloon; the car salesman's tail becomes a helicopter rotor;
+  "All in." — six tails, the chips erupt; the President's "I'll be brief" knocks both flags over; "No." — three gavel bangs.
+- Picture-first jokes: the subtitle is the lie in quotes, the tail is the punch; a non-wag is a joke too (grandma's tail stays still
+  — she really did knit it). Escalate personal → work → love → family → commerce → gambling → politics → courts.
+- HUD number = the premise in real time (TAILS WAGGING RIGHT NOW ≈ 470,000, derived from 1.65 lies/day × 8.2 B × 3 s); the stat
+  line carries the sourced fact per beat; the number rolls to 0 at +1 YEAR and to 1 when the dog wags (gold).
+- Warm end: honesty wins — "I love you, Dad." "Love you more." with both tails perfectly still; "The only tail still wagging is the dog's."
+

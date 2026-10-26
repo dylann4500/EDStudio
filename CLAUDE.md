@@ -144,6 +144,17 @@ videos/NNN-slug/
   money fountain, kid **two-sided signs** (two planes back to back = readable from the teacher's AND the camera's side), a
   tic-tac-toe hologram replacing the war-room globe, a press-room bell-curve screen, a leash (`TubeGeometry` on a bezier rebuilt
   per frame), a boomerang rocket (up → hover → lands back on its pad).
+- **Tails (015):** `addTail(rig, {color, tip, len, r, seed})` (rig.js) → `rig.tail.update(t, wag 0..1, {rate, sprout, lift, side, curl,
+  spin, still})`: a bushy fur chain on the pelvis that idles with a lazy sway (motion in every frame), whips side to side on `wag`,
+  pops in with `sprout` (boing it), points out past a high chair back with `side` (±1.3), and `lift ≈ 1.05` + `curl` + `spin`
+  turns it into a helicopter rotor (015 car lot). Tail color = hair (bald → a fur color); kids get `len 0.95, r 0.13`.
+- **New sets (015):** `restaurant.js` (evening bistro: brick wall + night-city window, string lights, 6 two-top tables with
+  `tables[i] = {g, cloth, dishes, flame, chairs}`, low-backed chairs, bar, `update(t)` candles), `carlot.js` (used-car lot: two rows
+  of `makeCar`s with price stickers + balloons, pennant strings, HONEST BOB'S sign, sales trailer, a flailing inflatable tube man
+  `tube` — `update(t)` animates both; `aimSun`, own `fog`, far ≥ 330), `casino.js` (poker room laid out for a vertical frame: shoot
+  down the table's long axis from +x, high; slot wall + neon POKER behind the dealer; `stacks[i]`, `pot`, `table`, `update(t)`),
+  `courtroom.js` (judge's bench + `gavel` (pivot at the handle: `rotation.x` slams it), seal, flags, witness stand, counsel tables,
+  jury box, bar rail, gallery benches, daylight windows).
 - `engine/sets/frontier.js` (009, early-1800s America): `buildCabin` (log cabin inside + snowy night outside, fire `update(t)`,
   `setExterior(v)` window glow), `buildWoods` (`setMode('summer'|'autumn'|'night')`, chopping stump + `chips`, half-built cabin,
   grave knoll `DIMS.woods.grave`, dirt road z=9 to a far lit cabin), `buildRiver` (sunset river, flatboat `boat` + `sweep`,
@@ -286,6 +297,12 @@ videos/NNN-slug/
   with a negative `i` → `arr[-1]`. Use `((i % n) + n) % n`. To identify any mystery pixel, serve the repo
   (`python3 -m http.server`), open the page in the browser pane, expose `window.__studio = studio` temporarily, and raycast
   from `studio.camera` at that pixel (prints geometry, world point, material).
+- **Frame every camera with `python3 -I tools/bearing.py checks.py` BEFORE the first still** (015: half the first sheet missed its
+  subjects — a court with nobody in it, a poker table showing only the dealer). It prints each named point's x%/y% in the 9:16 frame
+  and flags OUT / under-the-HUD. Two people side by side need the camera ≥ 2.9 m away at fov 54 for ±0.5 m; a 3.5 m poker table
+  only fits shot down its long axis; an over-the-shoulder two-shot in a vertical frame hides the far person behind the near head.
+- **Hiding set pieces by position? Filter `o.isMesh`.** Lights are children of the set root too: 015 hid street.js's hemisphere
+  light (it sits at (0,1,0)) with a "hide the lamp posts near z≈0" rule, and every shadow in the shot went pitch black.
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
   offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.

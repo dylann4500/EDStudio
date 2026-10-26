@@ -59,6 +59,16 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
   pickup note. With a dense groove, pull `stem_gain_db.music` to ≈ −21 so beds/boops sit ~15 dB under it instead of ~30.
 - The onset checker flags overlapping/gradual sounds (car passes, stacked scribbles) as "--"; that's expected for beds of sound.
 
+## Sneaky lounge swing + wag trills (015)
+- No swing style in synth.py, so 015 writes the groove note by note into `melody` (5th element = note length): a walking bass
+  (root, step, fifth, chromatic approach; quarters at 112 bpm, B-flat I–vi–ii–V one chord per bar) + soft comp stabs on 2 and 4
+  + a swung "and-of-4" push every other bar, over ONE long low drone pad (`level` 0.85, `pad_db` +1.5) → `music dropouts: none`.
+- Signature per lie: a fast two-note `mallet_melody` trill (10 notes, 62 ms apart, climbing a step each beat) + a "fwip-fwip" of
+  short soft `blanket_rustle`s (dur 0.12, softness 0.75) on the frame the tail starts wagging. Reference: `videos/015-tail-lies/make_cues.py`.
+- Gotcha: `mattress_sit` with `args: {dur: 0.3}` crashes the synth (broadcast error) — use its default length.
+- Balloon pops = `bonk` (dur 0.18) + a quiet paper rustle; a rotor = `giant_step` (size 0.22, ground) thumps at every half turn
+  computed from the same spin curve as shots.js + `turbines` underneath; a jar smash = `car_crash` at `weight` 0.12.
+
 ## Open quiet, then the music enters (user steer, Oct 23)
 Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat
 (007 at 6.6 s, 010 at 4.2 s with a braam + boom). The "music never cuts out" rule applies from the moment it starts.
