@@ -147,3 +147,20 @@ last four hours (time-lapse to dusk).
   1.9 B t of steel a year, a hug lasts 3 s) — and the premise defined by one (each human = 1.5 T, an MRI's strength).
 - Warm ending from the premise's one upside (you can't let go of a hug), staged as a time-lapse so the last beat still moves.
 
+
+## Dance montage (`videos/019-cant-stop-dancing`) — "What if everyone on Earth couldn't stop dancing?"
+Motion IS the premise: every person in every frame dances to one shared 120-bpm beat, so the picture never stands still (what
+TRIBE rewards). 11 places, each a new dance gag that ends physically: a silent library erupts (chairs tip, the book cart
+explodes, QUIET PLEASE falls), surgeons do the robot while the ECG reads 120, a plane cabin waves its arms as the oxygen masks
+drop, a supermarket conga line kicks the shelves empty, the President moonwalks and the press does the robot back (chairs
+domino), Ghana-style pallbearers toss the coffin, Gary's cereal never reaches his mouth, a stadium jump registers as an
+earthquake, a job interview becomes a dance-off (the worm → HIRED), a fit-year time-lapse closes the gym, and a dusk rooftop
+slow dance cranes up to a city that is one street party.
+- **Show the premise on the beat:** gold ♪ notes pop over every head at the moment, everyone's first beat is a shocked 'o'
+  face (they can't stop), then smiles. A small library of readable moves (disco point, robot, YMCA, jump, twist, shimmy,
+  sprinkler, body roll, conga kick, slow dance, moonwalk, the worm) shared by every crowd, tiny per-person lag.
+- **The real number per beat** (1518 Strasbourg ~400 "reportedly", ~850,000 surgeries a day, 153,359 flights on the busiest
+  day, the 119,986-person conga record, 193 UN leaders, Ghana's dancing pallbearers, 462 kcal an hour, the magnitude-2.3 Swift
+  Quake, 7.1 M job openings, 890 M adults with obesity) — the subtitle is the gag, the HUD is the fact.
+- **End card = an answer everyone has:** "What song would you be stuck dancing to?" (comment bait that needs no knowledge).
+- Sound: soft piano house locked to the picture (audio/README.md → Dance tone).

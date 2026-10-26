@@ -40,6 +40,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
 | wacky funny (012) | "mischief": pizzicato `strings` (len 0.45, 8ths at 104 bpm) + mallet "uh-oh" (falling minor third) per beat, E minor → warm C/G turn | the room's chatter cuts at the moment, a low cartoon boop, shutter clicks, a soft dog "hmph" |
 | physical-premise montage (018 magnetic) | "magnetic heist": E minor 112 bpm `strings` 8ths drive + soft mallet ostinato + a rising 4-note mallet "pull" motif per beat, taiko on 1+3, braam + boom at the premise, a boom on every pile-up; G-major lift for the rebuild, warm piano arp for the ending | one soft `metal_clang` per splat (size/pitch vary), tiny clinks for cutlery/mics, a cart rattle (`keyboard_type` rate 16–22), cabin roar + wheel clacks on the subway, a rain of small clangs in Paris |
+| dance montage (019 can't stop dancing) | **soft piano house**: A-minor Dorian vamp (Am7–D7) at 120 bpm locked to the picture's beat clock — `kick` four-on-the-floor + `clap` on 2+4 (new soft drums), `disco` style = octave-bouncing piano bass in 8ths + off-beat chord stabs, a catchy 2-bar mallet hook every other phrase ("the song in 8.2 billion heads"), a lift (Fmaj7–G–Em7–Am7) for the big drop, half-time warm arp + the hook slowed on piano for the ending | a silent library open (room tone, page turns, rubber stamps) → riser → the beat drops on the premise; foley on the beat grid: chair thuds, tray clinks, mask fwumps, conga steps, a can avalanche, shutter clicks, a coffin catch, spoon clinks + a bowl bonk, a stadium roar + quake rumble |
 | funny-dramatic (010) | mock-epic strings + taiko march, booms on impacts | heavy soft foley: giant steps, snaps, crunches, groans |
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
@@ -130,3 +131,13 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
   chord pads `level` ≈ 1.9 with `attack` 0.12, melody doubled at the octave, one soft pickup note over the stray dip → LRA 4.5, none.
 - Reference script: `videos/018-magnetic/make_cues.py`.
 
+
+## Dance tone (019) — soft piano house on the picture's beat
+- One beat clock for picture AND score: shots.js `M1` (beat 0) + `BEAT` (0.5 s = 120 bpm); every dancer moves on it, and
+  make_cues.py places the kick/clap/stabs/hook and every foley hit with `beat_t(n) = M1 + n·BEAT`. Synchrony is the joke —
+  the crowd hits the kick.
+- New: drum kinds `kick` (short round thump, 120→48 Hz) and `clap` (three low-passed noise bursts + tail, band 700–2300 Hz —
+  no crack), section style `disco` (`step` 0.25: bass, bass+12, … + stabs on every "and"; `stab_vel`, `stab_hold`,
+  `bass_hold`, `stabs: false`). A kick on every beat keeps the music stem dense → `music dropouts: none` without tricks.
+- Levels that worked: stems `music −6, sfx +12, amb +8`, `drums_db −6`, `mallet_db −2`, pad chords `level` 0.62 under the
+  groove and 1.7 for the piano-arp ending → −15 LUFS, LRA 3.7. Reference script: `videos/019-cant-stop-dancing/make_cues.py`.

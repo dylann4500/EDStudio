@@ -837,8 +837,18 @@ def drum_hit(kind="taiko", vel=0.6):
     key = ("drum", kind, round(float(vel), 2))
     if key in _PIANO_CACHE:
         return _PIANO_CACHE[key]
+    if kind == "clap":   # (019) a soft, low-passed dance clap: three quick noise bursts + a short tail, band-limited (no crack)
+        n = nsamp(0.35)
+        t = tvec(n)
+        env = sum(np.exp(-np.clip(t - d, 0, None) / 0.006) * (t >= d) for d in (0.0, 0.011, 0.023)) + 0.55 * np.exp(-np.clip(t - 0.03, 0, None) / 0.085) * (t >= 0.03)
+        y = bp(seeded("drum", kind).standard_normal(n), 700, 2300) * env
+        y = np.tanh(1.4 * y / (np.max(np.abs(y)) + 1e-9)) / np.tanh(1.4)
+        y = fades(lp(y, 2600), 0.0, 0.05) * vel
+        _PIANO_CACHE[key] = y
+        return y
     f0, f1, sw, dec, nz, nzf, dur = {"taiko": (150, 62, 0.08, 0.7, 0.45, 450, 1.6), "tom": (170, 95, 0.06, 0.32, 0.3, 600, 0.8),
-                                     "boom": (75, 34, 0.35, 2.4, 0.25, 180, 4.0), "tick": (900, 700, 0.01, 0.05, 0.6, 2500, 0.2)}[kind]
+                                     "boom": (75, 34, 0.35, 2.4, 0.25, 180, 4.0), "tick": (900, 700, 0.01, 0.05, 0.6, 2500, 0.2),
+                                     "kick": (120, 48, 0.035, 0.2, 0.12, 300, 0.5)}[kind]   # kick (019): a short, round four-on-the-floor thump
     n = nsamp(dur)
     t = tvec(n)
     f = f1 + (f0 - f1) * np.exp(-t / sw)
@@ -1629,6 +1639,19 @@ def compose(M, mallet=None, strings=None):
                 else:
                     for j, m in enumerate(V["rh"][:3]):
                         add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+        elif st == "disco":
+            # dance tone (019, "piano house"): an octave-bouncing bass in 8ths (low, high, low, high …) + soft chord stabs on
+            # every off-beat "and". step = one 8th (0.25 s at 120 bpm). stab_vel/stab_hold/bass_hold shape it; stabs: false = bass only.
+            step = S.get("step", 0.25)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.3), tk)
+                add(tk, V["bass"] + (12 if k % 2 else 0), vk * (0.95 if k % 2 == 0 else 0.72), hold=stp * S.get("bass_hold", 0.9))
+                if k % 2 == 1 and S.get("stabs", True):
+                    for j, m in enumerate(V["rh"][:3]):
+                        add(tk + 0.006 * j, m, vk * S.get("stab_vel", 0.45), hold=stp * S.get("stab_hold", 0.75))
         elif st == "strings":
             # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
             # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
