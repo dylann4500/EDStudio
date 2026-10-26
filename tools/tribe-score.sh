@@ -24,6 +24,7 @@ printf '%s\n%s\n%s\n' "$$" "$NAME" "$(date '+%F %H:%M')" > "$LOCK/owner"
 
 cd "$TE"
 rm -f "results/$NAME.npy"   # run_tribe.py skips finished stems; a re-render under the same tag must re-score (the per-clip cache keeps it fast)
+rm -f "videos/$NAME.wav" "videos/$NAME.tsv"   # the extracted soundtrack is reused by name: a stale one from an earlier cut (016) re-ran the old audio
 echo "$(date +%H:%M) TRIBE $NAME started (log: $TE/logs/$NAME.log)"
 caffeinate -i .venv/bin/python -u run_tribe.py "videos/$NAME.mp4" > "logs/$NAME.log" 2>&1 || { tail -20 "logs/$NAME.log"; exit 1; }
 .venv/bin/python score.py "results/$NAME.npy" "$V/shots.js" | tee "$V/tribe-$TAG.txt"

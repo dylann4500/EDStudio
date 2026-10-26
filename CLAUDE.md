@@ -354,6 +354,8 @@ One fix pass is enough — edits ripple into neighboring beats (v2: targeted bea
 soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out of memory … max allowed 8.88 GB`) while 70.0 s
 (015) passed. Trim the video rather than raising the shared watermark. `tribe-score.sh` copies `final.mp4` BEFORE it waits for
 the lock — if you re-render while queued, stop the job and re-queue it (check with `md5`) or it scores the old file.
+It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
+`tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
