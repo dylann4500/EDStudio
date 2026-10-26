@@ -8,7 +8,7 @@
   in the middle of it, a couple mid-vows, a dog judging you. Deadpan text over epic music = the joke.
 - **Kind, cartoon-only humor**: embarrassing, never cruel; no gore, nothing sexual, nothing cruder than 012 (a dark wet
   patch, never liquid). Real people only as anonymous roles ("the President"), never named.
-- 60–75 s · question title alone 3 s · premise moment ~4 s (music enters with a braam) · **10–12 beats of ~5 s**, each a new
+- 60–70 s (TRIBE's audio encoder runs out of memory past ~70 s — CLAUDE.md) · question title alone 3 s · premise moment ~4 s (music enters with a braam) · **10–12 beats of ~5 s**, each a new
   place with one escalating gag + one **real sourced number** (013 steer: funny still informs) · last beat warm or absurd ·
   end card = a question people argue about in the comments.
 - HUD: time-stamped ladder (SECOND 0 → +1 YEAR) or one counter that rolls. Small, top-left, steady.

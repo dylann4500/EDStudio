@@ -8,7 +8,7 @@
     "bloomThreshold": 0.92
   },
   "fps": 30,
-  "duration": 71.5,
+  "duration": 69.5,
   "title": {
     "html": "What if everyone on Earth couldn't stop <em>dancing</em>?",
     "in": -0.4,
@@ -36,9 +36,9 @@
     [49.9, 52.4, "Gary has never been more hireable."],
     [52.8, 55.2, "+1 year. The fittest year in human history."],
     [55.5, 57.8, "Gyms go out of business."],
-    [58.3, 60.6, "Turns out, everybody wanted to dance."],
-    [60.9, 63.8, "They were just waiting for someone else to start."],
-    [64.2, 66.3, "Nobody has tried to stop since."]
+    [58.3, 60.4, "Turns out, everybody wanted to dance."],
+    [60.6, 63.3, "They were just waiting for someone else to start."],
+    [63.5, 65.3, "Nobody has tried to stop since."]
   ],
   "hudLabel": "HUMANS DANCING",
   "hud": [
@@ -53,15 +53,15 @@
     { "t0": 41.8, "t1": 47.2, "from": 8200000000, "to": 8200000000, "time": "+1 WEEK", "age": "SWIFT QUAKE, SEATTLE 2023 · MAGNITUDE 2.3" },
     { "t0": 47.2, "t1": 52.6, "from": 8200000000, "to": 8200000000, "time": "+1 MONTH", "age": "U.S. JOB OPENINGS · 7.1 MILLION" },
     { "t0": 52.6, "t1": 58.0, "from": 8200000000, "to": 8200000000, "time": "+1 YEAR", "age": "ADULTS WITH OBESITY BEFORE · 890 MILLION" },
-    { "t0": 58.0, "t1": 71.5, "from": 8200000000, "to": 8200000000, "time": "+1 YEAR", "age": "HUMANS WHO WANT IT TO STOP · 0", "ageGoldAt": 64.2 }
+    { "t0": 58.0, "t1": 69.5, "from": 8200000000, "to": 8200000000, "time": "+1 YEAR", "age": "HUMANS WHO WANT IT TO STOP · 0", "ageGoldAt": 63.5 }
   ],
   "end": {
-    "in": 67.2,
+    "in": 65.5,
     "html": "What song would you be stuck <em>dancing</em> to?",
     "small": "TELL US BELOW"
   },
   "dips": [],
-  "finalFade": [66.6, 67.2],
+  "finalFade": [64.9, 65.5],
   "debugView": {
     "center": [0, 0, 0],
     "height": 14

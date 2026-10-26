@@ -1,7 +1,7 @@
 // VIDEO 019 — "What if everyone on Earth couldn't stop dancing?"  (tone: MONTAGE, unhinged lane, @ed._.studios)
 // At 2:14 PM on a Tuesday every human starts dancing to the same 120-BPM beat and can't stop. Every beat = a new place +
 // one escalating dance gag that ends in something big and physical + one real, sourced number in the HUD stat line.
-// 71.5 s, 11 beats, ELEVEN sets parked at offsets in one scene (one visible per shot; city.js stays at the origin).
+// 69.5 s, 11 beats, ELEVEN sets parked at offsets in one scene (one visible per shot; city.js stays at the origin).
 // NEW sets: engine/sets/library.js, surgery.js (operating room), cemetery.js (funeral), stadium.js (concert bowl, 16k fans).
 // Dance language: one global beat clock (BEAT = 0.5 s from M1), a library of readable moves (disco point, robot, YMCA,
 // jump with arms up, twist, shimmy, sprinkler, body roll, conga kick, coffin bounce, slow dance, moonwalk, the worm), every
@@ -37,7 +37,8 @@
 // 41.8–47.2  stadium  +1 WEEK               | stadium | 16k fans jump on every beat; 44.5 crouch → 45.0 everyone jumps → 45.5 lands: the "quake" (shake + dust + confetti)
 // 47.2–52.6  office   +1 MONTH              | office  | HR does the sprinkler; Gary answers with the worm across the floor; HIRED
 // 52.6–58.0  street   +1 YEAR               | street  | time-lapse through four seasons: Gary dances in front of a GYM, loses the belly, gains arms; 55.4 CLOSED FOREVER
-// 58.0–71.5  roof     +1 YEAR               | city    | golden hour → dusk: Gary + wife slow-dance on a rooftop, the street below is one dance floor; crane up. End card 67.2
+// 58.0–69.5  roof     +1 YEAR               | city    | golden hour → dusk: Gary + wife slow-dance on a rooftop, the street below is one dance floor; crane up. End card 65.5
+// (69.5 s on purpose: TRIBE's audio encoder attends over the whole clip and runs out of GPU memory past ~70 s)
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { K, clamp, lerp, lerpAngle, smooth, rng, mat, mk, canvasTex } from '@engine/core.js';
@@ -75,7 +76,7 @@ export const SHOTS = [
   { t0: 41.8, t1: 47.2, cam: 'stad', set: 'stad' },
   { t0: 47.2, t1: 52.6, cam: 'off', set: 'off' },
   { t0: 52.6, t1: 58.0, cam: 'street', set: 'street' },
-  { t0: 58.0, t1: 71.5, cam: 'roof', set: 'city' },
+  { t0: 58.0, t1: 69.5, cam: 'roof', set: 'city' },
 ];
 // camera coords are LOCAL to the shot's set (two keys, eased)
 export const CAMS = {
@@ -90,7 +91,7 @@ export const CAMS = {
   stad:   { p: [[-38.6, 3.0, 2.2], [-38.3, 3.4, 1.6]], a: [[0, 3.0, -2.0], [0, 4.0, -2.0]], fov: 52, amp: 0.006 },
   off:    { p: [[1.5, 2.1, 2.9], [1.3, 2.0, 2.6]], a: [[-0.05, 0.8, -0.9], [-0.1, 0.75, -0.8]], fov: 54, amp: 0.004 },
   street: { p: [[5.6, 1.35, 4.4], [5.45, 1.35, 3.8]], a: [[5.25, 1.75, -2.5], [5.25, 1.7, -2.5]], fov: 50, amp: 0.004 },
-  roof:   { p: [[-11.0, ROOF_Y + 1.6, 14.2], [-8.5, ROOF_Y + 22.0, 13.0]], a: [[-11.5, ROOF_Y + 1.1, 11.0], [-3.0, 2.0, -12.0]], fov: 50, amp: 0.004, ease: [61.5, 67.0] },   // the crane stays above the roof's footprint (neighbors are taller)
+  roof:   { p: [[-11.0, ROOF_Y + 1.75, 14.6], [-8.5, ROOF_Y + 22.0, 13.0]], a: [[-11.5, ROOF_Y + 1.85, 11.0], [-3.0, 2.0, -12.0]], fov: 50, amp: 0.004, ease: [60.5, 65.2] },   // the crane stays above the roof's footprint (neighbors are taller)
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
 
@@ -440,9 +441,25 @@ export async function build(studio, story) {
     return dancer(crowd[i], 'lib', t, { x: sx, z: r.z, rotY: lerpAngle(r.face, 0, turn), seed, t0: LSTAND, move: 'disco', mirror: i % 2 === 1,
       then: (p) => { if (standK < 1) { p.y += 0.12 * Math.sin(standK * PI); } } });
   }
+  const WALKER = { z0: -3.1, z1: 0.85, t0: 0.0, t1: 5.3 }, booksStack = new THREE.Group(); scene.add(booksStack);
+  for (let k = 0; k < 4; k++) mk(new THREE.BoxGeometry(0.22, 0.05, 0.3), mat([0x9b2f2f, 0x2f5f8a, 0xc9a25a, 0x3f7a3a][k], 0.7), booksStack, 0, k * 0.052, 0).rotation.y = (k - 1.5) * 0.08;
+  const BOOK_DROP = M1 + 0.3;
+  function walkerPose(t) {
+    const rig = crowd[16];
+    if (t < M1) {
+      const u = clamp((t - WALKER.t0) / (WALKER.t1 - WALKER.t0)), z = lerp(WALKER.z0, WALKER.z1, u), p = basePose(); p.eyes = blink(t, 6);
+      Object.assign(p, { x: 0.02, z, rotY: 0, dist: z - WALKER.z0, speed: u < 1 ? 0.75 : 0 }); p.armA = A(-0.75, 0.12, -1.35, 0.55); p.armB = A(-0.75, 0.12, -1.35, -0.55); p.headPitch = 0.1; p.mouth = 'flat';
+      show(rig, 'lib', p);
+    } else dancer(rig, 'lib', t, { x: 0.02, z: WALKER.z1, rotY: 0, seed: 0.15, t0: M1, move: t < LSTAND ? 'groove' : 'disco', k: t < LSTAND ? 0.6 : 1, lag: 0, mouth: t < 7.6 ? 'o' : 'smile' });
+    rig.root.updateMatrixWorld(true);
+    const hA = rig.arms[0].hand.getWorldPosition(V3(0, 0, 0)), hB = rig.arms[1].hand.getWorldPosition(V3(0, 0, 0));
+    booksStack.visible = true;
+    if (t < BOOK_DROP) { booksStack.position.copy(hA).add(hB).multiplyScalar(0.5).add(V3(0, 0.03, 0.06)); booksStack.rotation.set(0, 0, 0); }
+    else { const a = Math.min(t - BOOK_DROP, 0.5), from = V3(OFF.lib[0] + 0.02, 1.0, WALKER.z1 + 0.25); booksStack.position.set(from.x + 0.3 * a, Math.max(0.02, from.y - 4.9 * a * a), from.z + 0.4 * a); booksStack.rotation.set(1.4 * a / 0.5, 0, 0.6 * a); }
+  }
   function librarianPose(t) {
     const [dx, dz] = LD.desk;
-    if (t < M1) { const p = basePose(); p.eyes = blink(t, 3); Object.assign(p, { x: dx, z: dz - 0.6, rotY: 0 }); p.armA = A(-0.75, 0.15, -1.3, 0.5); const st = K(t, [[2.6, 0], [2.8, 1], [3.0, 0], [4.0, 0], [4.2, 1], [4.4, 0]]); p.armB = A(-0.7 - 0.5 * st, 0.15, -1.2 - 0.6 * st, -0.5); p.headPitch = 0.4; p.mouth = 'flat'; show(librarian, 'lib', p); return; }
+    if (t < M1) { const p = basePose(); p.eyes = blink(t, 3); Object.assign(p, { x: dx, z: dz - 0.6, rotY: 0 }); p.armA = A(-0.75, 0.15, -1.3, 0.5); const st = K(t, [[2.6, 0], [2.8, 1], [3.0, 0], [4.4, 0], [4.6, 1], [4.8, 0]]), sh = K(t, [[3.3, 0], [3.55, 1], [4.1, 1], [4.35, 0]]); p.armB = A(-0.7 - 0.5 * st, 0.15, -1.2 - 0.6 * st, -0.5); p.armA = mixArm(p.armA, A(-1.2, 0.05, -2.45, 0.75), sh); p.headPitch = 0.4 - 0.4 * sh; p.mouth = sh > 0.5 ? 'o' : 'flat'; show(librarian, 'lib', p); return; }   // stamps two books; shushes the walker in between
     dancer(librarian, 'lib', t, { x: dx, z: dz - 0.6, rotY: 0, seed: 0.3, t0: M1, move: t < LSTAND ? 'groove' : 'disco', k: t < LSTAND ? 0.5 : 1, mouth: t < 8.2 ? 'o' : 'smile' });
   }
 
@@ -561,7 +578,7 @@ export async function build(studio, story) {
     all.forEach((r) => { r.root.visible = false; r.root.rotation.x = 0; r.root.rotation.z = 0; r.root.scale.setScalar(1); r.headG.visible = true; if (r.base) outfit(r, r.base.top, r.base.pants); });
     ACC.forEach((a) => { a.cap.visible = a.mask.visible = a.shades.visible = false; a.gloves.forEach((g) => (g.visible = false)); });
     puffs.hide(); stars.forEach((s) => (s.visible = false)); notes.forEach((n) => (n.visible = false)); starN = puffN = noteN = 0;
-    bowl.visible = spoon.visible = hired.visible = coffin.visible = false;
+    bowl.visible = spoon.visible = hired.visible = coffin.visible = booksStack.visible = false;
     jolts.length = 0;
     if (garyTorso) garyTorso.scale.set(1.12, 1, 0.78); garyArmMeshes.forEach((m) => m.scale.set(1, 1, 1));
   }
@@ -576,6 +593,8 @@ export async function build(studio, story) {
     if (cam === 'lib') {
       for (let i = 0; i < READERS.length; i++) { libReader(t, i); if (t >= M1) note(t, M1 + crowd[i].seed * 0.12, crowd[i], 1); }
       librarianPose(t); if (t >= M1) note(t, M1 + 0.05, librarian, 1);
+      walkerPose(t); if (t >= M1) note(t, M1 + 0.02, crowd[16], 1.1);
+      impact(t, BOOK_DROP + 0.45, 'lib', [0.2, 0.1, WALKER.z1 + 0.45], 0.5, false);
       // chairs tip back as everyone springs up
       READERS.forEach((r) => { const c = lib.chairs[r.chair], u = K(t, [[LSTAND - 0.02, 0], [LSTAND + 0.3, 1]], (x) => x * x); const p0 = c.userData.p0; c.rotation.x = -1.35 * u; c.position.set(p0.x + Math.sign(r.x) * 0.28 * u, 0.2 * Math.sin(u * 1.35), p0.z); if (t > LSTAND + 0.3) impact(t, LSTAND + 0.3, 'lib', [p0.x + Math.sign(r.x) * 0.5, 0.15, p0.z], 0.55, false); });
       jolts.push([LSTAND + 0.3, 0.02]);
@@ -778,12 +797,12 @@ export async function build(studio, story) {
       [[GYM.x - 1.35, -1.25], [GYM.x + 2.45, -1.2]].forEach(([x, z], i) => { const rig = crowd[i]; dancer(rig, 'street', t, { x, z, rotY: i ? -0.25 : 0.25, seed: rig.seed, move: t > 56.6 ? 'disco' : 'groove', mirror: i === 0, floor: SIDEWALK_H, lag: 0, mouth: 'smile', then: (p) => { if (t > 56.7) { p.armA = FLEX_A; p.armB = FLEX_B; } } }); });
 
     } else if (cam === 'roof') {
-      const dusk = K(t, [[59.0, 0], [66.0, 1]], (x) => x);
+      const dusk = K(t, [[58.6, 0], [64.6, 1]], (x) => x);
       city.setShadowFocus(RC[0], RC[2], 14);
       city.setTime({ day: lerp(1, 0.18, dusk), golden: 1, power: 1, milky: 0, moon: 0.5 });
       bulbLight.intensity = 6 * clamp((dusk - 0.3) / 0.4);
       // Gary + wife slow-dance, turning slowly; the kid and neighbors dance around them
-      const ang = 0.35 * (t - 58);
+      const ang = PI / 2 + 0.2 * (t - 58);   // starts side-on to the lens: both faces in profile
       const cx = RC[0], cz = RC[2];
       for (const [rig, s] of [[gary, 1], [wife, -1]]) {
         const p = basePose(); p.eyes = t > 60.5 ? 'closed' : blink(t, s > 0 ? 1 : 4);
@@ -798,7 +817,7 @@ export async function build(studio, story) {
       // the street below: one dance floor (mini crowd)
       STREET_SPOTS.forEach((q, i) => { const b = bt - q.s * 0.1, air = Math.sin(PI * fr(b)); miniStreet.set(i, q.x, 0.14 * (Math.abs(q.x) > 4 ? 1 : 0) + 0.12 * air, q.z, Math.atan2(-12 - q.x, 13 - q.z), 0.5 + 0.5 * air, 0.12 * swing(b), 1.0); });
       miniStreet.commit();
-      if (t > 63.0) burst(t, 63.0, V3(RC[0], ROOF_Y + 4.5, RC[2] - 1), 4, 2, 1.0, CF_COLORS, 220, ROOF_Y + 0.02);
+      if (t > 62.5) burst(t, 62.5, V3(RC[0], ROOF_Y + 4.5, RC[2] - 1), 4, 2, 1.0, CF_COLORS, 220, ROOF_Y + 0.02);
     }
 
     // camera (local → world) + impact jolts

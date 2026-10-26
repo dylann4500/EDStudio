@@ -16,10 +16,10 @@ Sound identity (new — not 018's strings heist, 014's music box, 013's pluck sl
 import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-D = 71.5
+D = 69.5
 M1, BEAT = 5.5, 0.5
 S8 = BEAT / 2
-SCENES = [0, 9.4, 14.8, 20.2, 25.6, 28.3, 31.0, 36.4, 41.8, 47.2, 52.6, 58.0, 67.2]
+SCENES = [0, 9.4, 14.8, 20.2, 25.6, 28.3, 31.0, 36.4, 41.8, 47.2, 52.6, 58.0, 65.5]
 beat_t = lambda n: M1 + n * BEAT
 
 # ---------------------------------------------------------------- picture sync (mirrors shots.js)
@@ -47,15 +47,15 @@ bars(M1, 41.8, ["Am7", "D7"])
 bars(41.8, 47.2, ["Fmaj7", "G", "Em7", "Am7"])          # stadium: the lift into the drop
 bars(47.2, 52.6, ["Am7", "D7"])
 bars(52.6, END, ["Fmaj7", "G", "Em7", "Am7"])           # fit-year time-lapse: triumphant lift
-bars(END, 67.2, ["C", "G/B", "Am7", "Fmaj7"])            # the warm turn (one chord per bar)
-chords += [[67.2, "C"], [69.2, "Fmaj7"], [70.4, "C"]]
+bars(END, 65.5, ["C", "G/B", "Am7", "Fmaj7"])            # the warm turn (one chord per bar)
+chords += [[65.5, "C"], [67.3, "Fmaj7"], [68.4, "C"]]
 
 sections = [
     {"t0": M1, "t1": 36.4, "style": "disco", "vel": [[M1, 0.5], [9.4, 0.44], [36.4, 0.46]], "step": S8, "stab_vel": 0.42, "stab_hold": 0.8, "bass_hold": 0.95},
     {"t0": 36.4, "t1": 41.8, "style": "disco", "vel": 0.42, "step": S8, "stab_vel": 0.28, "stab_hold": 0.7, "bass_hold": 0.95},   # kitchen: lighter
     {"t0": 41.8, "t1": END, "style": "disco", "vel": [[41.8, 0.46], [45.5, 0.52], [END, 0.46]], "step": S8, "stab_vel": 0.45, "stab_hold": 0.8, "bass_hold": 0.95},
-    {"t0": END, "t1": 67.2, "style": "arp", "vel": [[END, 0.5], [62.0, 0.52], [67.2, 0.46]], "step": S8, "pattern": [0, 1, 2, 3, 2, 1, 2, 3]},
-    {"t0": 67.2, "t1": D, "style": "arp", "vel": 0.4, "step": BEAT, "pattern": [0, 2, 1, 3, 2, 1]},
+    {"t0": END, "t1": 65.5, "style": "arp", "vel": [[END, 0.5], [62.0, 0.52], [65.5, 0.46]], "step": S8, "pattern": [0, 1, 2, 3, 2, 1, 2, 3]},
+    {"t0": 65.5, "t1": D, "style": "arp", "vel": 0.4, "step": BEAT, "pattern": [0, 2, 1, 3, 2, 1]},
 ]
 
 # the hook: 2 bars over Am7 | D7, 8th-note grid (index, semitones above A4)
@@ -87,15 +87,15 @@ for n in range(200):
 melody = []
 for i, s in HOOK:
     ti = END + 0.02 + i * BEAT
-    if ti < 66.5: melody.append([round(ti, 3), 69 + s + 3, 0.34, True, 0.9])   # in C: the same contour starting on C5
+    if ti < 65.2: melody.append([round(ti, 3), 69 + s + 3, 0.34, True, 0.9])   # in C: the same contour starting on C5
 for i, s in HOOK[:6]:
-    ti = 66.6 + i * BEAT * 0.9
+    ti = 65.55 + i * BEAT * 0.9
     if ti < D - 0.6: melody.append([round(ti, 3), 72 + s, 0.3, True, 1.0])
-melody.append([70.4, 72, 0.3, True, 1.2])
+melody.append([68.4, 72, 0.3, True, 1.0])
 
 drums = [[M1, 0.85, "boom"], [LSTAND + 0.3, 0.4, "boom"], [TRAY_T, 0.45, "boom"], [PL_DROP, 0.4, "boom"], [PYR_T + 0.1, 0.55, "boom"],
          [ROWS[-1], 0.55, "boom"], [TOSS1, 0.6, "boom"], [FLIP1, 0.5, "boom"], [ST_LAND, 0.95, "boom"], [ST_LAND, 0.6, "taiko"],
-         [WORM0, 0.35, "boom"], [STAMP, 0.35, "taiko"], [CLOSED_T, 0.5, "boom"], [67.2, 0.4, "boom"]]
+         [WORM0, 0.35, "boom"], [STAMP, 0.35, "taiko"], [CLOSED_T, 0.5, "boom"], [65.5, 0.4, "boom"]]
 drum_patterns = [
     {"t0": M1, "t1": ST_CROUCH, "step": BEAT, "pattern": [1], "vel": [[M1, 0.62], [9.4, 0.55], [41.8, 0.58]], "kind": "kick"},
     {"t0": ST_LAND, "t1": END, "step": BEAT, "pattern": [1], "vel": [[ST_LAND, 0.62], [END, 0.55]], "kind": "kick"},
@@ -103,7 +103,7 @@ drum_patterns = [
     {"t0": ST_LAND + BEAT, "t1": END, "step": 2 * BEAT, "pattern": [1], "vel": 0.42, "kind": "clap"},
     {"t0": ST_CROUCH, "t1": ST_JUMP + 0.01, "step": 0.0625, "pattern": [1], "vel": [[ST_CROUCH, 0.14], [ST_JUMP, 0.5]], "kind": "tom"},   # roll into the jump
     {"t0": ST_JUMP, "t1": ST_LAND, "step": BEAT, "pattern": [1], "vel": 0.5, "kind": "kick"},
-    {"t0": END, "t1": 64.0, "step": 2 * BEAT, "pattern": [1], "vel": [[END, 0.42], [64.0, 0.25]], "kind": "kick"},  # half-time, fading
+    {"t0": END, "t1": 63.0, "step": 2 * BEAT, "pattern": [1], "vel": [[END, 0.42], [63.0, 0.25]], "kind": "kick"},  # half-time, fading
 ]
 pad = [
     {"t0": M1, "t1": M1 + 4 * BEAT + 0.05, "notes": [33, 40, 45, 52, 57], "level": 1.4, "attack": 0.1, "release": 0.8, "cutoff": 900, "hp": 30},   # braam on the drop
@@ -133,8 +133,8 @@ amb = [
     bed("crowd_cheer", ST_LAND - 0.05, 47.25, -27, fi=0.08, seed=15),
     bed("room_tone", 47.2, 52.65, -36, seed=16), bed("traffic_flow", 47.2, 52.65, -48, args={"density": 0.4}, seed=17),
     bed("city_day", 52.6, 58.05, -38, args={"murmur": 0.6, "traffic": 0.7}, seed=18), bed("wind", 54.9, 57.3, -45, fi=0.3, fo=0.3, args={"darkness": 0.6, "gust": 0.5, "whistle": 0.0}, seed=19),
-    bed("city_day", 58.0, D, -41, fo=1.2, args={"murmur": 1.0, "traffic": 0.3}, seed=20), bed("crowd_cheer", 61.5, D, -44, fi=2.0, fo=1.2, seed=21),
-    bed("crickets", 63.0, D, -48, fi=2.0, fo=1.0, args={"count": 3, "density": 0.5}, seed=22),
+    bed("city_day", 58.0, D, -41, fo=1.2, args={"murmur": 1.0, "traffic": 0.3}, seed=20), bed("crowd_cheer", 61.0, D, -44, fi=2.0, fo=1.2, seed=21),
+    bed("crickets", 62.0, D, -48, fi=2.0, fo=1.0, args={"count": 3, "density": 0.5}, seed=22),
 ]
 
 # ---------------------------------------------------------------- events
@@ -150,7 +150,9 @@ def thud(t, g, size=0.35, surface="wood", pan=0.0):
 
 # 1. library: page turns, two rubber stamps, a riser, THE DROP; chairs tip, books rain, the QUIET PLEASE sign falls
 for t, p in ((1.2, -0.3), (2.3, 0.3), (3.6, -0.2)): E(t, "blanket_rustle", -33, p, {"dur": 0.35, "softness": 0.8, "intensity": 0.4, "strokes": 1})
-for t in (2.75, 4.15): E(t, "phone_set_down_wood", -29, -0.05)
+for t in (2.75, 4.55): E(t, "phone_set_down_wood", -29, -0.05)
+steps(0.3, 5.3, -33, 1.6, 0.0, 0.05)                                        # the student walking down the aisle
+E(M1 + 0.75, "plush_place", -26, 0.05)                                      # the walker's books hit the floor
 E(M1 - 0.5, "low_swell", -27, 0.0, {"dur": 0.6, "pitch": 0.8})
 for i in range(8): thud(LSTAND + 0.28 + 0.025 * i, -26 - (i % 3), 0.28, "wood", ((i % 4) - 1.5) * 0.25)
 for i in range(7): E(LSTAND + 0.85 + i * 0.11, "plush_place", -27 - (i % 3), 0.35 - 0.1 * i)
@@ -213,7 +215,7 @@ steps(58.2, 61.5, -36, 1.0, -0.1, 0.1)
 
 cues = {
     "title": "019 - What if everyone on Earth couldn't stop dancing? (montage: soft piano house — kick + clap + octave bass + mallet hook)",
-    "duration": D, "target_lufs": -15.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [70.6, D],
+    "duration": D, "target_lufs": -15.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [68.6, D],
     "stem_gain_db": {"music": -6.0, "sfx": 12.0, "amb": 8.0},
     "stem_dynamics": {"music": {"limit_dbfs": -3.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -15.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -4.0}},
     "sfx_lowpass_hz": 5000,
