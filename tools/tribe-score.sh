@@ -10,7 +10,7 @@ MAIN=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
 TE="$MAIN/tribe-experiment"; LOCK="$TE/.tribe.lock"
 if [ "$1" = "--status" ]; then cat "$LOCK/owner" 2>/dev/null || echo "free"; exit 0; fi
 V=$(cd "$1" && pwd); TAG="${2:?usage: tribe-score.sh videos/NNN-slug vK}"
-NAME="$(basename "$V" | cut -d- -f1)-$TAG"
+NAME="$(basename "$V")-$TAG"   # full slug, not just NNN: two chats can use the same number (015 happened twice)
 [ -f "$V/final.mp4" ] || { echo "no $V/final.mp4 — render first"; exit 1; }
 mkdir -p "$TE/videos" "$TE/logs"; cp "$V/final.mp4" "$TE/videos/$NAME.mp4"
 
