@@ -1044,6 +1044,20 @@ def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
     return Sound(norm(fades(y, 0.001, 0.1)), onsets=[(0.0, "transient")])
 
 
+def sfx_metal_clang(rng, size=1.0, pitch=1.0, dur=1.1):
+    """A body (or a cart, a chair) slamming onto steel (018 magnetic): a soft low "CLONG" — inharmonic steel modes with
+    a padded thump in front, low-passed hard so it lands as weight, never as a bright ping. size > 1 = bigger + darker."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f0 = 190 * pitch / size ** 0.5
+    ring = modal([f0, f0 * 2.71, f0 * 4.43, f0 * 6.9], [0.55 * size, 0.32 * size, 0.18, 0.1], [1.0, 0.55, 0.3, 0.14], dur, contact=0.004)
+    thump = np.sin(2 * np.pi * (70 + 60 * np.exp(-t / 0.03)) * t) * np.exp(-t / (0.07 * size))
+    rattle = bp(white(n, rng), 400, 2200) * np.exp(-t / 0.04) * 0.25
+    x = 0.75 * norm(ring) + 0.9 * thump * size ** 0.3 + rattle
+    x = lp(x, 2600 / size ** 0.25, 2)
+    return Sound(norm(fades(x, 0.0008, 0.15)), onsets=[(0.0, "transient")])
+
+
 def sfx_car_crash(rng, dur=1.2, weight=1.0):
     """A car collision heard from across the street: a low body thump + a short crunch of bent metal + a few settling
     rattles. Kept dark (low-passed) so it lands as weight, not as a harsh bang (006)."""
@@ -1985,6 +1999,7 @@ SFX = {
     "wood_snap": (sfx_wood_snap, "prop"),
     "bonk": (sfx_bonk, "prop"),
     "metal_groan": (sfx_metal_groan, "prop"),
+    "metal_clang": (sfx_metal_clang, "prop"),
     "keyboard_type": (sfx_keyboard_type, "prop"),
     "crow_caw": (sfx_crow_caw, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),

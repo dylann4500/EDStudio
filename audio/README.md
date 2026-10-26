@@ -39,6 +39,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | funny (002) | bouncy piano (`style: "bounce"`) + pad | city murmur, cartoon boops |
 | montage / science / tech (007) | **synth plucks** `instrument: "pluck"` (or `"bell"`) + `echo: {delay, feedback, mix, lp_hz}` + pad | **a different bed every scene** + synced foley |
 | wacky funny (012) | "mischief": pizzicato `strings` (len 0.45, 8ths at 104 bpm) + mallet "uh-oh" (falling minor third) per beat, E minor → warm C/G turn | the room's chatter cuts at the moment, a low cartoon boop, shutter clicks, a soft dog "hmph" |
+| physical-premise montage (018 magnetic) | "magnetic heist": E minor 112 bpm `strings` 8ths drive + soft mallet ostinato + a rising 4-note mallet "pull" motif per beat, taiko on 1+3, braam + boom at the premise, a boom on every pile-up; G-major lift for the rebuild, warm piano arp for the ending | one soft `metal_clang` per splat (size/pitch vary), tiny clinks for cutlery/mics, a cart rattle (`keyboard_type` rate 16–22), cabin roar + wheel clacks on the subway, a rain of small clangs in Paris |
 | funny-dramatic (010) | mock-epic strings + taiko march, booms on impacts | heavy soft foley: giant steps, snaps, crunches, groans |
 | world (005) | soft **mallet** ostinato (`style: "ostinato"`), curious documentary feel | scene beds per location |
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
@@ -121,3 +122,11 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
 - Hums (`lamp_hum`) get loud fast — keep them ≤ −50 dB or they become the loudest thing in the shot (006 capsule hit −12.7 LUFS).
 - Don't put an event at t < 0.03 s (verify() slices a window before the cue and crashes on an empty array).
 - Generate the sheet with a script (`videos/006-memory-loss/make_cues.py`).
+
+## Physical-premise impacts (018 magnetic)
+- `metal_clang` (`size` 0.2–1.7, `pitch` 0.7–3): small = a clink (cutlery, mics; −30 dB), 1.0 = a body on steel (−21…−24 dB),
+  1.3–1.7 = the beat's big pile-up (−17…−19 dB, with a `boom` drum on the music bus). Low-passed inside the generator — never a ping.
+- A piano-arp ending after a loud strings drive sat 6–8 dB under the rest (LRA 9, dropouts at the hand-off). Fix: arp `vel` ≈ 0.45,
+  chord pads `level` ≈ 1.9 with `attack` 0.12, melody doubled at the octave, one soft pickup note over the stray dip → LRA 4.5, none.
+- Reference script: `videos/018-magnetic/make_cues.py`.
+

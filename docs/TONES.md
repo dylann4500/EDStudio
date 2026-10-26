@@ -133,3 +133,17 @@ skirts, the power grid failing from dryers, TOWELS SOLD OUT, strangers laughing 
 - A real number for comment bait: 400 mL × 8.2 B ≈ 3.3 billion liters ≈ 1,312 Olympic pools (in the HUD stat line).
 - Gary appears 3× (the interview candidate, the dog-blamer, the finale) — a running cameo across videos (002, 007, 010, 012).
 - Sound: "mischief" — pizzicato strings + mallet "uh-oh" motif (audio/README.md); the room's chatter STOPS at the moment.
+
+## Physical-premise montage (`videos/018-magnetic`) — "What if every human became magnetic?"
+One invisible force, 11 places, every beat ends in a pile-up: commuters yanked back onto a bus shelter, Gary's breakfast (forks,
+toaster, a pan hat) flies at him and he slams onto the fridge, a snake of shopping carts scoops a shopper and stacks up, two
+strangers on a subway snap into a hug and the whole car joins in, the press slides into the President's stage, a 3 T MRI pulls
+in the whole hospital (a "human sunflower" of heads in the bore), the bride and groom repel (same poles) until he turns around,
+1,800 tourists cover the Eiffel Tower, compasses lead hikers into a four-person knot, the world is rebuilt in wood, and hugs
+last four hours (time-lapse to dusk).
+- **Show the force, not the person:** the cyan shimmer at the premise, bodies tilted toward the target in flight (u³ pull), a
+  starburst + dust + camera jolt + a soft clang on landing. Synchrony = the joke (every row of press chairs slides at once).
+- **Real number per beat in the HUD stat line** (MRI 3 T = 60,000× Earth's field, Eiffel Tower 7,300 t of iron, 49 press seats,
+  1.9 B t of steel a year, a hug lasts 3 s) — and the premise defined by one (each human = 1.5 T, an MRI's strength).
+- Warm ending from the premise's one upside (you can't let go of a hug), staged as a time-lapse so the last beat still moves.
+
