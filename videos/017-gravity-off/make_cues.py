@@ -148,10 +148,9 @@ for tt in (57.75, 58.0):
     pass
 # the ocean lands (screen ≈ 59.78)
 e(59.78, "water_splash", -8, 0.0, {"size": 3.0})
-# kitchen: the coffee puddle drops off the ceiling onto the table (61.06), the toast lands next to it, the dog boofs
-e(61.06, "water_splash", -20, 0.0, {"size": 0.25})
-e(61.12, "plush_place", -26, 0.25)
-e(61.75, "dog_bark", -28, -0.2, {"pitch": 1.0})
+# kitchen: coffee on dad (60.83), toast on the counter (61.02)
+e(60.83, "water_splash", -22, 0.1, {"size": 0.2})
+e(61.02, "plush_place", -26, 0.3)
 # pool: the kid's cannonball lands (63.98), the 27 m dive (65.03)
 e(63.98, "water_splash", -16, -0.25, {"size": 0.6})
 e(65.03, "water_splash", -6, 0.0, {"size": 1.6})

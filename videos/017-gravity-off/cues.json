@@ -630,28 +630,19 @@
    }
   },
   {
-   "t": 61.06,
+   "t": 60.83,
    "sound": "water_splash",
-   "gain_db": -20,
-   "pan": 0.0,
+   "gain_db": -22,
+   "pan": 0.1,
    "args": {
-    "size": 0.25
+    "size": 0.2
    }
   },
   {
-   "t": 61.12,
+   "t": 61.02,
    "sound": "plush_place",
    "gain_db": -26,
-   "pan": 0.25
-  },
-  {
-   "t": 61.75,
-   "sound": "dog_bark",
-   "gain_db": -28,
-   "pan": -0.2,
-   "args": {
-    "pitch": 1.0
-   }
+   "pan": 0.3
   },
   {
    "t": 63.98,
