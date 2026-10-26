@@ -14,6 +14,9 @@ V=$(cd "$1" && pwd); TAG="${2:?usage: tribe-score.sh videos/NNN-slug cutN}"
 NAME="$(basename "$V")-$TAG"   # full slug, not just NNN: two chats can use the same number (015 happened twice)
 [ -f "$V/final.mp4" ] || { echo "no $V/final.mp4 — render first"; exit 1; }
 mkdir -p "$TE/videos" "$TE/logs"; cp "$V/final.mp4" "$TE/videos/$NAME.mp4"
+# the audio extractor skips an existing $NAME.wav: a re-score under the same tag would reuse the OLD audio (019: a trimmed
+# 69.5 s cut was scored with the 71.5 s WAV of the first attempt and hit the same out-of-memory error) — always re-extract
+rm -f "$TE/videos/$NAME.wav" "$TE/videos/$NAME.tsv"
 
 while ! mkdir "$LOCK" 2>/dev/null; do
   PID=$(sed -n 1p "$LOCK/owner" 2>/dev/null || true)

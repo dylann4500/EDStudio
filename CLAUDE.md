@@ -381,6 +381,8 @@ our videos have no speech, so the Llama text stream is empty (no HuggingFace tok
 **Keep TRIBE-gated reels ≤ 70 s** (019): the w2v-BERT audio encoder attends over the WHOLE clip (memory ∝ length²); at
 the 0.5 MPS watermark a 71.5 s reel ran out of GPU memory in the audio step (`MPS backend out of memory … Tried to allocate
 780 MB`), while 70.0 s (015-v2) and 69 s (018) passed. Trim the ending rather than touch the TRIBE setup.
+Re-scoring under the same tag used to reuse the old extracted `$NAME.wav` (the extractor skips an existing WAV), so 019's
+trimmed cut failed again with the identical 780 MB request; `tools/tribe-score.sh` now deletes `$NAME.wav/.tsv` first.
 **Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `sh tools/tribe-score.sh videos/NNN-slug cutN` (in the
 background; it holds a global lock so only ONE TRIBE run happens at a time across all sessions — two at once swap the Mac;
 ~20 min idle, ~60 min when the Mac swaps) → `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut, not a TRIBE version): headline metrics vs the best posted video, a
