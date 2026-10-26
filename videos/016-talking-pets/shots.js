@@ -72,7 +72,7 @@ export const CAMS = {
   press:   { p: [[0.4, 2.0, 1.2], [0.35, 2.0, 0.75]], a: [[0.15, 2.25, -3.0], [0.15, 2.25, -3.0]], fov: 44, amp: 0.004, ay: [[42.0, 2.25], [45.75, 2.25], [46.2, 1.3]], y: [[42.0, 2.0], [45.75, 2.0], [46.2, 1.7]] },
   summit:  { p: [[0.15, 1.5, 3.3], [0.1, 1.45, 2.85]], a: [[0.0, 1.42, -0.8], [0.0, 1.42, -0.8]], fov: 52, amp: 0.004 },
   park:    { p: [[60.3, 1.3, -1.0], [60.2, 1.25, -1.5]], a: [[59.95, 1.0, -8.5], [59.95, 1.0, -8.5]], fov: 54, amp: 0.004 },
-  fav:     { p: [[-0.25, 1.0, 1.45], [-0.32, 0.92, 1.05]], a: [[-0.5, 0.54, -0.7], [-0.5, 0.54, -0.7]], fov: 50, amp: 0.003 },
+  fav:     { p: [[0.2, 1.1, 1.2], [-0.42, 0.9, 1.0]], a: [[-0.42, 0.6, -0.75], [-0.52, 0.54, -0.7]], fov: 50, amp: 0.003 },   // a slow arc right → left (his face turns toward us)
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
 
@@ -236,6 +236,11 @@ export async function build(studio, story) {
   const SITES = [{ lat: 40, lon: -95, w: 3 }, { lat: 50, lon: 10, w: 3 }, { lat: 30, lon: 105, w: 3 }, { lat: -15, lon: -50, w: 2 }, { lat: 22, lon: 78, w: 2 }, { lat: 8, lon: 20, w: 1 }, { lat: -27, lon: 135, w: 1 }, { lat: 36, lon: 138, w: 1 }];
   const dots = makeDots(war.globe, scatter(rng(5), SITES, 900), { color: 0xffc860, size: 0.007, intensity: 2.0 });
 
+  // finale: snow falling past the living-room window (+1 year, winter)
+  const SNOW = 140, snow = new THREE.InstancedMesh(new THREE.SphereGeometry(0.016, 6, 4), new THREE.MeshBasicMaterial({ color: 0xf2f6ff }), SNOW);
+  snow.frustumCulled = false; liv.root.add(snow); snow.visible = false;
+  const SR2 = rng(12), snowSeeds = Array.from({ length: SNOW }, () => [SR2(), SR2(), SR2(), SR2()]);
+
   // ---------------------------------------------------------------- speech bubbles (one per line of dialogue; rows reveal over time)
   const bubbles = [];
   const B = (o) => { const b = makeSpeechBubble({ width: 1, ...o }); scene.add(b.sprite); bubbles.push(b); return b; };
@@ -312,11 +317,12 @@ export async function build(studio, story) {
     const cj = K(t, [[TIP - 0.05, 0], [TIP + 0.45, 1]], (u) => u);
     const c0 = [LV.armchair[0] + 0.27, 0.93, LV.armchair[1] - 0.33], c1 = [LV.coffee[0] - 0.32, LV.coffeeTop, LV.coffee[1] + 0.05];
     putPet(mochi, 'liv', lerp(c0[0], c1[0], cj), lerp(c0[1], c1[1], cj) + 0.45 * Math.sin(cj * PI), lerp(c0[2], c1[2], cj), lerpAngle(-0.5, 0.35, K(t, [[6.7, 0], [6.9, 1]])) );
-    mochi.update(t, 1); mochi.talk(talkK(t, 6.95, 0.8)); mochi.squint(t > 6.9 ? 0.6 : 0.2); mochi.paw(0);
-    mochi.head.rotation.set(0, cj > 0 ? 0 : lerp(-0.4, 0.5, K(t, [[6.6, 0], [6.85, 1]])), 0);
+    const groom = t < M ? Math.max(0, Math.sin(t * 2.6)) : 0;   // grooming behind the title (motion before the moment)
+    mochi.update(t, 1); mochi.talk(talkK(t, 6.95, 0.8)); mochi.squint(t > 6.9 ? 0.6 : 0.2 + 0.4 * groom); mochi.paw(0.55 * groom);
+    mochi.head.rotation.set(0.45 * groom, cj > 0 ? 0 : lerp(-0.4, 0.5, K(t, [[6.6, 0], [6.85, 1]])), 0.15 * groom);
     // the parrot on its perch; the fish; Biscuit asleep in his bed (snoring through all of it)
     putPet(kiwi, 'liv', LV.perch[0], 1.016, LV.perch[1], lerpAngle(0, -0.85, K(t, [[M + 0.3, 0], [M + 0.5, 1]])));
-    kiwi.update(t, K(t, [[6.1, 0], [6.2, 1], [6.9, 1], [7.0, 0]]) * 0.6 + K(t, [[TIP + 0.3, 0], [TIP + 0.4, 1], [TIP + 1.4, 1], [TIP + 1.6, 0]])); kiwi.talk(talkK(t, 6.2, 1.0, 20));
+    kiwi.update(t, K(t, [[6.1, 0], [6.2, 1], [6.9, 1], [7.0, 0]]) * 0.6 + K(t, [[TIP + 0.3, 0], [TIP + 0.4, 1], [TIP + 1.4, 1], [TIP + 1.6, 0]]) + 0.5 * K(t, [[2.3, 0], [2.45, 1], [3.0, 1], [3.2, 0]])); kiwi.talk(talkK(t, 6.2, 1.0, 20));
     putPet(bowlL, 'liv', LV.side[0], LV.sideTop, LV.side[1], 0.3); bowlL.update(t, K(t, [[M + 0.2, 0], [M + 0.6, 1], [TIP, 1], [TIP + 0.5, 0]])); bowlL.talk(t > M + 0.7 && t < TIP ? 0.5 + 0.5 * Math.sin(t * 9) : 0);
     biscuitAsleep(t, LV.dogBed[0], LV.dogBed[1], 0.7);
     // the moment: a warm glow passes through every pet (left → right)
@@ -344,7 +350,7 @@ export async function build(studio, story) {
     max.g.scale.setScalar(1);
     const rows = rowsAt(t, [10.2, 11.05, 11.85]);
     max.update(t, dodge > 0 && dodge < 1 ? 1.6 : 0); max.bark(Math.max(talkK(t, 10.2, 0.75, 16), talkK(t, 11.05, 0.6, 16), talkK(t, 11.85, 0.6, 16)));
-    say(S.max, max.head, pop(t, 10.2) * (1 - K(t, [[12.9, 0], [13.1, 1]])), 0.62, 0.14, rows, 0.15);
+    say(S.max, max.head, pop(t, 10.2) * (1 - K(t, [[12.35, 0], [12.5, 1]])), 0.62, 0.14, rows, 0.15);
     // Dave (Max's owner, bathrobe): bursts out, sprints, trips, face-plants
     const run = K(t, [[12.35, 0], [TRIP, 1]], (u) => u);
     if (t > 12.2) {
@@ -683,23 +689,30 @@ export async function build(studio, story) {
     putPet(biscuit, 'liv', bx, 0.03, bz, 1.15); biscuit.setLie(1); biscuit.update(t, 0);
     const up = K(t, [[SPEAK - 0.5, 0], [SPEAK - 0.1, 1]]);
     biscuit.setWag(t > HUG ? 16 : 4);
-    biscuit.head.rotation.set(lerp(0.42, -0.05, up), lerp(0, 0.55, up), 0); biscuit.g.children[0].scale.set(1, 1 + 0.03 * Math.sin(t * 2.0), 1);
-    biscuit.bark(0.5 * talkK(t, SPEAK, 0.8, 7));
+    const yawn = K(t, [[61.5, 0], [61.9, 1], [62.4, 1], [62.8, 0]]), shift = K(t, [[59.9, 0], [60.3, 1], [60.9, 1], [61.3, 0]]);
+    biscuit.head.rotation.set(lerp(0.42, -0.05, up) - 0.25 * yawn, lerp(0, 0.55, up) + 0.25 * shift, 0.1 * shift); biscuit.g.children[0].scale.set(1, 1 + 0.03 * Math.sin(t * 2.0), 1);
+    biscuit.bark(Math.max(0.5 * talkK(t, SPEAK, 0.8, 7), 0.9 * yawn));
     say(S.fav, biscuit.head, pop(t, SPEAK), 0.5, 0.3);
     // Gary on the floor beside the bed, scratching Biscuit's ears; then a hug
     const p = basePose(); p.eyes = blink(t, 2);
     const gx = bx + 0.52, gz = bz - 0.4; Object.assign(p, { x: gx, z: gz, rotY: faceToward(gx, gz, bx, bz) + 0.35, y: -0.69, footFwd: 0.7 });
     const scr = Math.sin(t * 2.4);
     p.armB = A(-0.3, 0.1, -0.4, -0.2); p.armA = mixArm(PET_A, A(-0.85, 0.3, -0.45, 0.2), 0.5 + 0.5 * scr);
-    p.headPitch = 0.3; p.headYaw = -0.2; p.mouth = 'smile'; p.lean = 0.12;
+    p.headPitch = 0.3; p.headYaw = -0.2 + 0.75 * K(t, [[59.3, 0], [59.8, 1], [60.9, 1], [61.4, 0]]); p.mouth = 'smile'; p.lean = 0.12 + 0.03 * Math.sin(t * 1.6);
+    if (t > 61.5 && t < 62.9) { p.mouth = 'o'; p.headPitch = 0.35; }   // he yawns back
     const look = K(t, [[SPEAK + 0.1, 0], [SPEAK + 0.4, 1]]), hug = K(t, [[HUG, 0], [HUG + 0.5, 1]]);
     if (look > 0) { p.headPitch = lerp(0.3, 0.1, look); p.mouth = 'o'; p.armA = mixArm(p.armA, PET_A, look); }
     if (t > SPEAK + 0.5) { p.mouth = 'smile'; p.tear = true; }
     if (hug > 0) { p.armA = mixArm(p.armA, HUG_A, hug); p.armB = mixArm(p.armB, HUG_B, hug); p.lean = lerp(0.12, 0.55, hug); p.rotY = lerpAngle(p.rotY, faceToward(gx, gz, bx, bz), hug); p.eyes = t > HUG + 0.6 ? 'closed' : p.eyes; p.headPitch = 0.2; }
     put(gary, 'liv', p);
     // the rest of the house, asleep: the cat on the sofa, the parrot on the perch, the fish
-    putPet(mochi, 'liv', LV.sofa[0] - 0.35, 0.5, LV.sofa[1] + 0.05, 0.3); mochi.update(t, 0.3); mochi.squint(0.95); mochi.talk(0); mochi.paw(0); mochi.head.rotation.set(0.35, 0.3, 0.3);
-    putPet(kiwi, 'liv', LV.perch[0], 1.016, LV.perch[1], -0.4); kiwi.update(t, 0); kiwi.talk(0); kiwi.head.rotation.set(0.5, 0.6, 0.2);
+    // the cat grooms on the armchair, then turns to look when Biscuit speaks; the parrot stretches its wings; snow outside
+    const groom = t < 62.6 ? Math.max(0, Math.sin(t * 2.6)) : 0, catLook = K(t, [[SPEAK + 0.2, 0], [SPEAK + 0.6, 1]]);
+    putPet(mochi, 'liv', LV.armchair[0] + 0.1, 0.47, LV.armchair[1] + 0.05, 0.5); mochi.update(t, 1.0); mochi.squint(0.6 - 0.4 * catLook); mochi.talk(0); mochi.paw(0.55 * groom);
+    mochi.head.rotation.set(0.45 * groom, lerp(0, -0.7, catLook), 0.15 * groom);
+    putPet(kiwi, 'liv', LV.perch[0], 1.016, LV.perch[1], -0.4); kiwi.update(t, K(t, [[60.2, 0], [60.4, 1], [60.9, 1], [61.2, 0]]) * 0.7); kiwi.talk(0); kiwi.head.rotation.set(0.3, 0.6 * Math.sin(t * 0.8), 0.2);
+    snow.visible = true; const m4 = new THREE.Matrix4();
+    snowSeeds.forEach((q, i) => { const y = 2.6 - ((t * (0.25 + q[2] * 0.2) + q[3] * 3) % 2.0); m4.makeTranslation(-1.2 + q[0] * 3.4 + 0.08 * Math.sin(t * 0.9 + i), y, -3.2 - q[1] * 1.6); snow.setMatrixAt(i, m4); }); snow.instanceMatrix.needsUpdate = true;
     putPet(bowlL, 'liv', LV.side[0], LV.sideTop, LV.side[1], 0.3); bowlL.update(t * 0.6, 0); bowlL.talk(0);
   }
 
@@ -725,7 +738,7 @@ export async function build(studio, story) {
     if (gary.root.parent !== scene) scene.add(gary.root);
     pets.forEach((p) => (p.g.visible = false)); wheels.forEach((w) => (w.g.visible = false)); bubbles.forEach((b) => (b.sprite.visible = false));
     puffs.hide(); glows.forEach((g) => (g.visible = false)); zs.forEach((z) => (z.visible = false)); leashes.forEach((l) => (l.visible = false));
-    mugG.visible = false; ball.visible = false; treats.visible = false; treaty.visible = false;
+    mugG.visible = false; ball.visible = false; treats.visible = false; treaty.visible = false; snow.visible = false;
     liv.armchair.rotation.x = 0;
 
     if (cam === 'open') openBeat(t);
