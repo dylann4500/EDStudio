@@ -306,6 +306,13 @@ videos/NNN-slug/
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
+## The operation (manager + producers, Oct 26 2026)
+EDStudio now runs as a daily operation: a **manager** Claude assigns numbered concepts from `ops/ideas.md`, starts one **producer**
+session per video (own worktree, commits on its branch, never merges/pushes/posts), gates each video through QC + TRIBE, emails
+the user a phone preview, and schedules approved posts in TikTok Studio (1 PM + 6 PM PT, three accounts, one lane each:
+`docs/lanes/`). A daily research task feeds the backlogs. Playbook: **`docs/OPERATION.md`**; entry point: **`/operation`**.
+If a brief from the manager conflicts with this file's merge/push habits, the brief wins.
+
 ## Brain-response check (TRIBE v2 experiment, Oct 2026)
 `tribe-experiment/` runs Meta's TRIBE v2 (predicted fMRI response, CC BY-NC → personal use only) on our `final.mp4`s, locally
 on the Mac. Read `tribe-experiment/results/report.md` first. **It is not a publish gate:** the whole-brain mean ranked the 10
@@ -315,10 +322,11 @@ rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as 
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
-**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
-`nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
-`.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead
-zones. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
+**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `sh tools/tribe-score.sh videos/NNN-slug vK` (in the
+background; it holds a global lock so only ONE TRIBE run happens at a time across all sessions — two at once swap the Mac;
+~20 min idle, ~60 min when the Mac swaps) → `videos/NNN-slug/tribe-vK.txt`: headline metrics vs the best posted video, a
+per-beat table and dead zones. **In the operation (docs/OPERATION.md) the user made it the gate (Oct 26)**, reach still unproven:
+`study.py` keeps testing it per account from `ops/ledger.csv`. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
 every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
 One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
 
