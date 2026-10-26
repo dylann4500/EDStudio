@@ -1,0 +1,237 @@
+{
+  "title": "How a Hole Becomes a Subway",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "",
+    "model": "eleven_multilingual_v2",
+    "settings": {
+      "stability": 0.38,
+      "similarity_boost": 0.8,
+      "style": 0.35,
+      "use_speaker_boost": true,
+      "speed": 1.08
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 205
+  },
+  "lead": 0.15,
+  "gap": 0.14,
+  "tail": 1.6,
+  "look": {
+    "exposure": 1.05,
+    "bloom": 0.18,
+    "fill": 0.55
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "You're tired of sitting in traffic, so you grab a shovel and dig a hole straight down.",
+      "callouts": [
+        {
+          "at": "traffic",
+          "text": "HONK!",
+          "style": "sfx",
+          "pos": [
+            0.64,
+            0.36
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built a subway. It goes nowhere, and a raccoon already lives in it.",
+      "callouts": [
+        {
+          "at": "raccoon",
+          "text": "TENANT",
+          "style": "stamp",
+          "hold": 1.6
+        }
+      ]
+    },
+    {
+      "id": "cavein",
+      "say": "Your friend Gary climbs in to inspect it, and the walls instantly cave in. Gary is now a fossil.",
+      "callouts": [
+        {
+          "at": "cave",
+          "text": "CRUMBLE!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.4
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "shoring",
+      "say": "So you dig him out and brace the walls with planks and beams. This is called shoring. It stops the ground from giving Gary a hug he can't escape.",
+      "callouts": [
+        {
+          "at": "shoring",
+          "text": "SHORING",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "say": "You dig deeper, and suddenly water pours in. You've hit the water table, where the ground is basically a soggy sponge. Gary is now doing the backstroke.",
+      "callouts": [
+        {
+          "at": "table",
+          "text": "WATER TABLE",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "pumps",
+      "say": "So you install pumps that never stop. New York's subway pumps out about 13 million gallons of water on a dry day.",
+      "callouts": [
+        {
+          "at": "pumps",
+          "text": "PUMPS",
+          "style": "term",
+          "until": "stop"
+        },
+        {
+          "at": "13",
+          "text": "13,000,000 GALLONS",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "byhand",
+      "say": "Now you just have to dig sideways across town. With one shovel, that takes about 100 years. Gary's beard is already touching the floor.",
+      "callouts": [
+        {
+          "at": "100",
+          "text": "100 YEARS",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "tbm",
+      "say": "So you bring in a tunnel boring machine: a giant spinning cheese grater longer than a football field. It chews through about 50 feet of dirt a day.",
+      "callouts": [
+        {
+          "at": "tunnel",
+          "text": "TUNNEL BORING MACHINE",
+          "style": "term",
+          "until": "field"
+        },
+        {
+          "at": "50",
+          "text": "50 FEET A DAY",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "sink",
+      "say": "Unfortunately, that dirt was holding up the bakery above you. This is called settlement. The bakery is now sinking into your tunnel, croissants first.",
+      "callouts": [
+        {
+          "at": "settlement",
+          "text": "SETTLEMENT",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "rings",
+      "say": "So right behind the cutter, the machine bolts concrete rings into place. Each one weighs 60 tons and holds the street up like a giant concrete donut.",
+      "callouts": [
+        {
+          "at": "concrete",
+          "text": "SEGMENT RINGS",
+          "style": "term",
+          "until": "place"
+        },
+        {
+          "at": "60",
+          "text": "60 TONS EACH",
+          "style": "label",
+          "until": "tons"
+        }
+      ]
+    },
+    {
+      "id": "air",
+      "say": "But the tunnel is miles long, the air is awful, and Gary just passed out next to a pigeon. So you add ventilation shafts with giant fans that pull fresh air down from the street.",
+      "callouts": [
+        {
+          "at": "ventilation",
+          "text": "VENTILATION SHAFTS",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "say": "Next, the trains need power, so you add a third rail carrying 625 volts. Don't touch it, Gary. Gary touched it.",
+      "callouts": [
+        {
+          "at": "third",
+          "text": "THIRD RAIL",
+          "style": "term",
+          "until": "volts"
+        },
+        {
+          "at": "625",
+          "text": "625 VOLTS",
+          "style": "label",
+          "until": "volts"
+        },
+        {
+          "at": "touched",
+          "text": "ZAP!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.4
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add stations, escalators, turnstiles, a map nobody understands, and one mysterious puddle that never dries."
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a subway. You started with a shovel because you hated traffic. Now it costs over 4 billion dollars a mile, every ride is 3 dollars, and Gary is stuck in the turnstile. The raccoon rides free.",
+      "callouts": [
+        {
+          "at": "4",
+          "text": "$4,300,000,000 / MILE",
+          "style": "money",
+          "until": "mile"
+        },
+        {
+          "at": "3",
+          "text": "$3 A RIDE",
+          "style": "money",
+          "until": "dollars"
+        },
+        {
+          "at": "free",
+          "text": "RIDES FREE",
+          "style": "stamp",
+          "hold": 1.4
+        }
+      ]
+    }
+  ]
+}
