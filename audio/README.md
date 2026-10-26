@@ -45,6 +45,7 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 | biography, 1800s America (009) | **Americana**: dulcimer-like `mallet` `ostinato` + a pentatonic folk-hymn piano theme in G (a `theme()` helper places it per era), minor turn for the dark beat, `strings` + soft taiko for the war, hymn `arp`/`held` at the speech, solo piano at dawn, full `swell` at the memorial | a bed per era (wind/snow, room tone, dry leaves, crowd murmur, applause, cheer) + wood knocks on the axe, far `distant_boom` per cannon, `pen_scribble` on the signature |
 | funny montage / "sus" (008) | **sneaky pizzicato**: `instrument: "pluck"` + `style: "bounce"` in D minor + a creeping chromatic `mallet_melody` motif per place, warm major arp for the ending | scene beds + soft low `plush_squeak` boops synced to each card/row appearing |
 | talking pets / gossip (016) | **gossip jazz**: piano `style: "walk"` (walking bass in quarter notes at ~133 bpm + soft off-beat comps pushed late by `swing`), F major ii–V loop (Fmaj7 Dm7 Gm7 C7), a 4-note vibes `mallet_melody` "psst" motif opening every beat, one long drone pad under it; warm slow arp for the ending | a pet voice on every speech bubble (`dog_bark`, `cat_meow`, `parrot_chirp`, `fish_blub`, `hamster_squeak`), a party's chatter that stops dead at the reveal, a big soft impact ending each beat |
+| Pip series / good-ending pets (021, lane 3) | **cozy lullaby**: Pip's theme on a music box (`bell_melody`, celesta voice) over a soft piano waltz in F (3/4, 100 bpm, written note by note in `melody`: bass on 1, chord on 2 + 3) + a warm pad; the trouble turns it D minor (a comic lullaby, a hopeful music-box phrase per attempt, a falling "uh-oh" third + low note per failure); the turn goes back to F major (slow theme on piano, sunrise = swelling arp, morning = the waltz again) | soft puppy voices (`whimper`, `puppy_howl`), `heartbeat` (a "ticking clock" told as Mom's heartbeat), `alarm_muffled` (twin bells under a towel), plush squeaks on every sob, paw patter = `footstep` weight 0.25 every 0.13 s, licks = short `slurp` |
 - Successful sim accounts are often **SFX-led** (little/no music, realistic immersive sound). 007 runs 6.6 s with no music at all —
   just a street — and the synth enters on the premise. You may go music-free for a whole video if the sound design carries it.
 - Plucks decay fast: **never use `held`/`cadence` sections with `pluck`** (they leave gaps) — use slow `arp` (step 0.375–0.75)
@@ -72,6 +73,16 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 - Gotcha: `mattress_sit` with `args: {dur: 0.3}` crashes the synth (broadcast error) — use its default length.
 - Balloon pops = `bonk` (dur 0.18) + a quiet paper rustle; a rotor = `giant_step` (size 0.22, ground) thumps at every half turn
   computed from the same spin curve as shots.js + `turbines` underneath; a jar smash = `car_crash` at `weight` 0.12.
+
+## Cozy lullaby + puppy foley (021, Pip ep. 1)
+- New optional music key `bell_melody: [[t, midi, vel, dur], ...]` = a music-box line on the celesta voice (`bell_db`, `bell_lp`,
+  `bell_decay`), mixed into the piano bus. Pip's theme lives in `videos/021-pip-first-night/make_cues.py` (THEME_A/THEME_B).
+- A staccato waltz leaves holes on beats 2–3: the D-minor night section failed the dropout check until its pad ran at level
+  0.9 (chord per bar, attack 0.2, release 0.7) and `auto_duck` was softened to −2 dB (the heartbeat "ticks" kept ducking it).
+- New SFX: `whimper` (pitch, dur — breathy "hnn", low-passed 1.9 kHz, sits at −27…−30 dB), `puppy_howl` (dur), `heartbeat`
+  (size), `alarm_muffled` (dur; a soft rattle, ≈ −25 dB). Keep every puppy sound under the bed: no yelps.
+- Put shared event times in story.json (`"pip": {...}`) and read them in make_cues.py — the whimpers, ring, bonk and squeaks
+  land on the exact frames shots.js animates.
 
 ## Open quiet, then the music enters (user steer, Oct 23)
 Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat

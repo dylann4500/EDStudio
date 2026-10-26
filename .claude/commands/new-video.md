@@ -9,7 +9,7 @@ Follow `CLAUDE.md` exactly. Steps:
 
 1. Read `CLAUDE.md`, `docs/FORMAT.md`, `docs/TONES.md`, and the reference video for the tone:
    `videos/001-bedroom-door/` (emotional) or `videos/002-everyone-pregnant/` (funny) — story.json + shots.js + cues.json.
-2. Pick the concept + tone: if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md` (emotional);
+2. Pick the concept + tone (a Pip episode for lane 3 → `docs/lanes/lane3.md` + `engine/pip.js`, reference `videos/021-pip-first-night`): if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md` (emotional);
    otherwise develop $ARGUMENTS into a concept that follows the format bible (opening question alone + centered with one gold
    keyword, NO 'told by' tag/subtext, a HUD number that changes across a time skip, 2–4 eras, a strong ending, hyper-specific
    details). Montage (the premise in many places, 007) or Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, picture delivers the punch, music never cuts out, warm last beat).
@@ -33,7 +33,7 @@ Follow `CLAUDE.md` exactly. Steps:
    `engine/sets/<name>.js` and new props. **Dress every scene** — never ship a bare still (CLAUDE.md → No bare scenes).
 5. Before the first still, frame every camera with `python3 -I tools/bearing.py checks.py` (subjects' x%/y% in the 9:16 frame; flags OUT + under-the-HUD).
    Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
-   build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup
+   build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup (hide `#ui` in it, or the end card covers it)
    for arm poses. Check that no text sits over a face or a sign. If the premise is a readable prop (cards, signs, screens), check that
    every one you mean to be read is actually legible in the still at half size — compute frame width from distance + fov (CLAUDE.md). Do not full-render before the sheet looks good;
    a `--preview` render is a cheap motion check.
