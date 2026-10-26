@@ -27,6 +27,10 @@ You approve videos, and Claude does everything else.
 3. Paste the prompt below. Claude asks you a few questions (your accounts, your niche, how you approve) and walks you
    through the rest. Your first video takes an afternoon. After that, it runs daily.
 
+**License:** EDStudio is [PolyForm Noncommercial](LICENSE). It's free to use for personal, non-commercial projects.
+Monetized channels, selling it or teaching it commercially need written permission from Dylan, so just ask. The rendered
+videos and brand assets in the repo aren't yours to reuse.
+
 **Pick your own niches.** TikTok holds back videos it has seen before (a re-upload of a 117K-view video got 205 views), and
 we shouldn't compete for the same viewers. So never post a video or a premise that's already in `ops/ideas.md`, and never
 post one video on two of your own accounts.
@@ -39,7 +43,9 @@ github.com/dylann4500/EDStudio. It makes faceless 3D "what if" reels from code (
 them as a daily posting operation with a manager Claude, producer sessions, a TRIBE v2 brain-score gate and approval before
 every post. Keep me posted with short updates, and ask me questions in one list, not one at a time.
 
-1. Read README.md, CLAUDE.md, docs/OPERATION.md, docs/lanes/README.md and .claude/commands/operation.md.
+1. Read LICENSE, README.md, CLAUDE.md, docs/OPERATION.md, docs/lanes/README.md and .claude/commands/operation.md. The
+   license is PolyForm Noncommercial: if I plan to monetize, remind me to get written permission from the author first.
+   Never reuse the repo's rendered videos or brand assets.
 2. Install and check: `npm install` and `npm run doctor`. Fix every ❌ (Node 18+, Python 3 with numpy + scipy, ffmpeg,
    Chrome). Ask before installing system software. Then prove the pipeline: render stills of `_template`, open the sheet
    and look at it, then do one full render of `_template`.
