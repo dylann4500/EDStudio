@@ -618,7 +618,11 @@ It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut
 **023 (Pip ep. 2, Halloween at dusk) met the target on cut1 (wc 0.0625, first 60 s 0.0661):** the peaks were the busy close
 porch beats — the skeleton collapsing on Pip (0.117) and kids hurrying past the dark house four in the foreground (0.124);
 the weakest (besides the title) was the static look-up at the grumpy old man in his doorway (0.039) and the slow home ending.
-**019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
+**031 (Pip ep. 4, supermarket job) = 0.0849, the new best (first 60 s 0.0888), cut1:** a bright store with a crowd of faces in
+every job beat (herded shoppers 0.130, the walk to Mom past watching shoppers 0.120–0.132, the reunion 0.125); weakest were the
+title, a two-shot dominated by a back (0.037) and the near-empty 4 PM aisle (0.053). One location dressed densely scored as
+well as many locations.
+**019 (dance montage) = 0.0806:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
 **022 (ballsack doubling, logistics POV) = 0.0788, cut1 met the target:** the close, face-filled slapstick beats scored highest
