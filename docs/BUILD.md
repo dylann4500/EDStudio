@@ -338,3 +338,38 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
   mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends
   its line.)
+
+## Lessons from 032 (bird feeder → space station: the first build reel that leaves the ground)
+- **Two worlds in one take = a toy planet** (`engine/build/station.js`): the backyard sits on top of a 1.2 km sphere (custom polar
+  mesh, a disc-mapped canvas centred on the yard, a shader with its own `uSun` so the station can sit in Earth's shadow while the
+  planet keeps a day/night terminator + city lights), the station hangs ~75 m above it, and the sky shader fades blue → black
+  with the camera's altitude (`setSpace`). The rocket climb and the ending dive are **follow-cams** (functions of the subject's
+  path, blended in/out of the rail over ~0.5 s) — planRail's speed lint is for framings, not chases.
+- **Build a station VERTICALLY for 9:16**: modules stacked along y, each a partial cylinder cut by z = zc (dollhouse section, racks
+  on the back/side walls, hatches in the bulkheads). Two modules fill a vertical frame; along x they would be a sliver.
+- **A wide thing (a 36 m solar wingspan) never fits a 9:16 wide** (at d = 21 m the frame is 11 m wide: three panels). Ride it
+  instead: the hero rides the unfolding tip and the camera tracks him, the panels stream past — it sells the length and keeps
+  his face in frame. A gag 15+ m from the next room (the swat at the wing) needs a motivated whip: the swat flings him back
+  through the airlock and the camera rides the fling.
+- **Pose-order bug**: props placed from a rig's world pose (the review card on the squirrel's head) must be updated AFTER the rig
+  in `update()` — a still renders one frame, so the prop read the build-time pose and floated 1.5 m off.
+- **Track the side character's face in `EDSTUDIO_QC` too** (Gary + the squirrel): half the first QC's hits were the squirrel under
+  labels/stamps. Stamps/labels take `x`/`y` to dodge; put a stamp between two faces rather than on the default band.
+- **Put the punchline props in one frame**: "the squirrel runs the place, and Gary is still the plug" were 6 m apart (two modules)
+  and the camera could not hold either; the treadmill now sits on a LAB rack shelf right under the plugged Gary (2.5 m apart).
+- **One room per beat on a long interior stretch** (manager on v1: 55–95 s in one module "reads as one place"): a vertical stack
+  of five rooms, each with its own palette + light + props (life support green with fans + lettuce under a pink grow light,
+  galley warm, LAB cool blue with a red beacon, a tiled W.C.), and the camera glides down the stack beat by beat.
+- **A window reads only from INSIDE its frame**: the cupola shot from outside was grey hull + clouds; a lens inside a glass hex
+  dome (opacity 0.2, struts) looking down at the backyard reads at once. Enter through glass (transparent = an invisible
+  pass), never through an opaque floor; leave the same way before rising to the wide.
+- **Tinfoil / thin metal**: metalness 0.95 with only a grey RoomEnvironment is a flat grey slab; metalness ≈ 0.55 + its own
+  crinkle texture as `emissiveMap` (repeated 7 × 2.5) reads as foil.
+- **A quadruped run seen from the front is just the tail curl** (it read as poop on the treadmill): the squirrel got an upright
+  `jog` pose (legs + arms pumping), turned three-quarter to the lens, so the face + captain's hat lead.
+- **QC face-under-caption during a rail move**: a pan that sweeps a face across the centre band flags for the whole move. Hold
+  the old framing longer and move fast (`Fk … until`), time the move with the subject's own motion (the pole shooting up),
+  or aim at the midpoint between two faces so both sit outside the band.
+- Duplicate keys in an fx options object: the LAST wins (`size` twice made the vapor puff a big white ball).
+- Zero-g particles: `fx.burst(kind, t, { g: 0, drag ≈ 0.3–1.5 })` = drift-and-hover (seeds, confetti, money, coffee drops);
+  new fx kind `seed` (sunflower seeds). In zero-g, liquids are blobs or sealed bags — never a half-full tank.

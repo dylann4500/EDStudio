@@ -43,8 +43,8 @@
           "text": "CHOMP!",
           "style": "sfx",
           "pos": [
-            0.68,
-            0.36
+            0.3,
+            0.21
           ],
           "hold": 0.8
         },
@@ -62,7 +62,7 @@
     },
     {
       "id": "congrats",
-      "say": "Congratulations, you've built a space station. [excited] The squirrel gave it FIVE stars!",
+      "say": "Congratulations, you've built a squirrel restaurant. [excited] It got FIVE stars!",
       "callouts": [
         {
           "at": "five",
@@ -178,7 +178,7 @@
           "at": "docking",
           "text": "DOCKING",
           "style": "term",
-          "until": "doorway"
+          "until": "gary"
         },
         {
           "at": "doorway",
@@ -264,7 +264,7 @@
     },
     {
       "id": "air",
-      "say": "Inside, Gary turns blue from his own breath. So you add machines that clean the air and recycle the water. This is called life support.",
+      "say": "Inside, Gary's own breath turns him blue. So you add machines that clean the air and recycle the water. This is called life support.",
       "callouts": [
         {
           "at": "blue",
@@ -314,7 +314,7 @@
           "at": "ten",
           "text": "10 KM / SECOND",
           "style": "label",
-          "until": "second"
+          "until": "a"
         },
         {
           "at": "plug",
@@ -327,7 +327,7 @@
     },
     {
       "id": "whipple",
-      "say": "So you hang a thin metal sheet outside the wall that blows hits into vapor. This is called a Whipple shield. A bulletproof vest made of tinfoil.",
+      "say": "So you hang a thin metal sheet outside the wall that turns hits into vapor. This is called a Whipple shield. A bulletproof vest made of tinfoil.",
       "callouts": [
         {
           "at": "vapor",
@@ -374,14 +374,14 @@
           "text": "CAPTAIN",
           "style": "stamp",
           "hold": 1.2,
-          "y": 0.52,
-          "x": 0.78
+          "y": 0.38,
+          "x": 0.5
         }
       ]
     },
     {
       "id": "end2",
-      "say": "The birds got one seed. [shouting] It was on FIRE!",
+      "say": "The birds finally got one seed. [shouting] It came back on FIRE!",
       "callouts": [
         {
           "at": "fire",

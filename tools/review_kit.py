@@ -27,6 +27,8 @@ def sheets(video, out, name):
     os.makedirs(out, exist_ok=True)
     d = duration(video)
     for s in range(0, int(d) + 1, 10):
+        if d - s < 0.5:   # a last window shorter than one 2 fps frame has nothing to tile (032: a 110.14 s cut)
+            continue
         ff('-ss', str(s), '-t', '10', '-i', video, '-vf', 'fps=2,scale=200:-1,tile=10x2:padding=3:color=white', '-frames:v', '1', os.path.join(out, f'{name}sheet_{s:03d}-{s + 10:03d}s.jpg'))
 
 

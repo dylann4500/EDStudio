@@ -26,9 +26,9 @@ def W(beat, word, n=1):
 
 t = dict(
     squirrels=W('hook', 'squirrels'), robbing=W('hook', 'robbing'), so0=W('hook', 'so'), hang=W('hook', 'hang'), higher=W('hook', 'higher'),
-    c0=W('congrats', 'congratulations'), station0=W('congrats', 'station'), gave=W('congrats', 'gave'), five=W('congrats', 'five'), stars=W('congrats', 'stars'),
-    bso=W('baffle', 'so'), cone=W('baffle', 'cone'), pole=W('baffle', 'pole'), bthis=W('baffle', 'this'), baffle=W('baffle', 'baffle'), bsq2=W('baffle', 'squirrel', 2), baffled=W('baffle', 'baffled'),
-    jit=W('jump', 'it'), ten=W('jump', 'ten'), feet=W('jump', 'feet'), using=W('jump', 'using'), face=W('jump', 'face'), step=W('jump', 'step'),
+    c0=W('congrats', 'congratulations'), station0=W('congrats', 'restaurant'), gave=W('congrats', 'got'), five=W('congrats', 'five'), stars=W('congrats', 'stars'),
+    bso=W('baffle', 'so'), cone=W('baffle', 'cone'), pole=W('baffle', 'pole'), bthis=W('baffle', 'this'), baffle=W('baffle', 'baffle'), bsq2=W('baffle', 'squirrel', 2), not_=W('baffle', 'not'), baffled=W('baffle', 'baffled'),
+    jit=W('jump', 'it'), ten=W('jump', 'ten'), feet=W('jump', 'feet'), tree=W('jump', 'tree'), using=W('jump', 'using'), face=W('jump', 'face'), step=W('jump', 'step'),
     rso=W('rocket', 'so'), strap=W('rocket', 'strap'), rfeed=W('rocket', 'feeder'), rocket=W('rocket', 'rocket'), goes=W('rocket', 'goes'), up=W('rocket', 'up'), back=W('rocket', 'back'), down=W('rocket', 'down'), rgary=W('rocket', 'gary'),
     oso=W('orbit', 'so'), sideways=W('orbit', 'sideways'), really=W('orbit', 'really'), n17=W('orbit', '17500'), miles=W('orbit', 'miles'), hour=W('orbit', 'hour'), falls=W('orbit', 'falls'), earth=W('orbit', 'earth'), orbit=W('orbit', 'orbit'),
     fgary=W('float', 'gary'), floats=W('float', 'floats'), falling=W('float', 'falling'), too=W('float', 'too'), fso=W('float', 'so'), fsq=W('float', 'squirrel'),
@@ -39,23 +39,25 @@ t = dict(
     inside=W('air', 'inside'), blue=W('air', 'blue'), ibreath=W('air', 'breath'), iso=W('air', 'so'), machines=W('air', 'machines'), iair=W('air', 'air'), recycle=W('air', 'recycle'), water=W('air', 'water'), life=W('air', 'life'),
     sweat=W('water', 'sweat'), wbreath=W('water', 'breath'), even=W('water', 'even'), pee=W('water', 'pee'), n98=W('water', '98'), wback=W('water', 'back'), yesterdays=W('water', 'yesterdays'), todays=W('water', 'todays'), c2=W('water', 'coffee', 2),
     hthen=W('hit', 'then'), hits=W('hit', 'hits'), hgary=W('hit', 'gary'), plug=W('hit', 'plug'),
-    sheet=W('whipple', 'sheet'), vapor=W('whipple', 'vapor'), whipple=W('whipple', 'whipple'), bulletproof=W('whipple', 'bulletproof'), tinfoil=W('whipple', 'tinfoil'),
+    sheet=W('whipple', 'sheet'), vest=W('whipple', 'vest'), vapor=W('whipple', 'vapor'), whipple=W('whipple', 'whipple'), bulletproof=W('whipple', 'bulletproof'), tinfoil=W('whipple', 'tinfoil'),
     n23=W('finish', '23'), toilet=W('finish', 'toilet'), treadmill=W('finish', 'treadmill'), bungee=W('finish', 'bungee'), cords=W('finish', 'cords'), window=W('finish', 'window'), backyard=W('finish', 'backyard'),
-    e0=W('end', 'congratulations'), feed=W('end', 'feed'), ebirds=W('end', 'birds'), hundred=W('end', 'hundred'), billion=W('end', 'billion'), runs=W('end', 'runs'), place=W('end', 'place'), egary=W('end', 'gary'), eplug=W('end', 'plug'),
+    e0=W('end', 'congratulations'), still=W('end', 'still'), feed=W('end', 'feed'), ebirds=W('end', 'birds'), hundred=W('end', 'hundred'), billion=W('end', 'billion'), runs=W('end', 'runs'), place=W('end', 'place'), egary=W('end', 'gary'), eplug=W('end', 'plug'),
     e2birds=W('end2', 'birds'), got=W('end2', 'got'), seed=W('end2', 'seed'), fire=W('end2', 'fire'))
 
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
 POLE_UP = t['higher'] - 0.05
 CONE, BONK = t['cone'] - 0.05, t['bthis'] + 0.1
-SLID = BONK + 0.45; ZIP0 = SLID + 0.15; ON_BRANCH = min(t['bsq2'] - 0.1, ZIP0 + 1.15)
-LEAP, FACE, STEP = t['using'] - 0.05, t['face'], t['step']
+SLID = BONK + 0.45; ZIP0 = t['baffle'] + 0.45; ON_BRANCH = t['not_'] - 0.05
+LEAP, FACE, STEP = t['tree'], t['face'], t['step']
 GRAB, TAPED, IGN1 = t['rfeed'] - 0.05, t['rocket'] + 0.1, t['goes'] - 0.1
 APEX = t['up'] + 0.55; FALL0 = APEX + 0.25; IMPACT = t['rgary']
-POPOUT = t['oso'] + 0.12; UPRIGHT = POPOUT + 0.45; INCOCKPIT = UPRIGHT + 0.25; IGN2 = max(t['sideways'], INCOCKPIT + 0.2); ORBIT_IN = t['hour'] + 0.2
+POPOUT = t['oso'] + 0.12; UPRIGHT = POPOUT + 0.45; INCOCKPIT = UPRIGHT + 0.25; IGN2 = max(t['sideways'], INCOCKPIT + 0.2); ORBIT_IN = t['n17'] + 0.4
 EXIT = t['fgary'] - 0.05
 PUSH, M1_IN0, M1_IN1, BOLT1, BOLT2 = t['tiny'] + 0.2, t['launch'] - 0.35, t['rooms'] + 0.45, t['bolt'], t['don']
 DIVE, M2_IN0, M2_CAP, LATCH = t['don'] + 0.35, t['docking'] - 1.1, t['docking'], t['doorway']
-SUNSET0, SUNSET1, LIGHTS_OFF, HATCH_OPEN, WHOOSH, TAUT = t['dthen'] - 0.1, t['dark'] + 0.1, t['power'], t['hatch'], t['kair'] - 0.05, t['him'] + 0.05
+DOCK_T = [0, t['docking'], t['docking'] + 0.32, t['docking'] + 0.64, t['docking'] + 0.96]
+SUNSET0, SUNSET1, LIGHTS_OFF, WHOOSH, TAUT = t['dthen'] - 0.1, t['dark'] + 0.1, t['dark'], t['kair'] - 0.05, t['him'] + 0.05
+HATCH_OPEN = WHOOSH - 0.08
 HAUL0, HAUL1, AL_IN0, AL_DOCK, INTO_AL, WIPE = t['aso'] - 0.1, t['room'] + 0.15, t['aso'] - 0.2, t['first'], t['airlock'] - 0.6, t['mudroom'] - 0.1
 OUT0, UNF0, UNF1, SUNRISE1, POWER_ON, SWAT = t['outside'] - 0.1, t['unfolds'], t['field'] + 0.25, t['wings'] + 0.6, t['array'], t['swatted']
 BLUE0, SCRUB, RECYC, PINK = t['blue'] - 0.2, t['machines'] - 0.05, t['recycle'] - 0.05, t['water'] + 0.2
@@ -131,6 +133,7 @@ e(LEAP, "blanket_rustle", -21, -0.4, dur=0.4, intensity=0.9); e(LEAP + 0.05, "ha
 e(FACE, "bonk", -13, -0.2); e(FACE + 0.02, "plush_squeak", -18, -0.2, pitch=0.9)
 e(STEP, "pop", -15, -0.1, pitch=0.8); e(STEP + 0.25, "giant_step", -13, -0.2, size=0.9); e(STEP + 0.4, "plush_squeak", -21, -0.2, pitch=0.7)
 e(STEP + 0.55, "knock", -20, 0.0, pitch=1.3)   # the squirrel lands on the feeder
+e(t['rso'] + 0.05, "metal_groan", -21, 0.0, dur=0.35, pitch=1.7); e(t['rso'] + 0.4, "clunk", -17, 0.0, size=0.6, metal=0.9)   # the pole telescopes back down
 # rocket: it pops in, the feeder's yanked off the pole, duct tape, ignition, the hop, the fall, the crater
 e(t['strap'] - 0.02, "pop", -12, 0.3, pitch=0.7); e(t['strap'], "giant_step", -15, 0.3, size=1.0)
 e(GRAB, "metal_groan", -21, 0.0, dur=0.3, pitch=1.6); e(GRAB + 0.1, "hamster_squeak", -18, 0.0, pitch=1.8)
@@ -164,7 +167,7 @@ for a in (BOLT1, BOLT2): e(a, "metal_clang", -16, 0.2, size=0.5, pitch=1.6); e(a
 e(DIVE - 0.3, "latch_click", -20, 0.0); e(DIVE + 0.1, "blanket_rustle", -23, 0.0, dur=0.4, intensity=0.5)
 e(M2_IN0, "distant_boom", -20, 0.0, dur=1.6, size=0.5)
 for k in range(5): e(M2_IN0 + 0.2 + k * 0.15, "kick", -23, 0.0)
-e(M2_CAP, "clunk", -15, 0.0, size=1.0, metal=0.8)
+for i in range(1, 5): e(DOCK_T[i], "clunk", -14 - i, 0.0, size=1.1 - 0.1 * i, metal=0.8)   # the docking train: CLUNK x4
 e(LATCH, "metal_clang", -10, 0.0, size=1.6, pitch=0.7); e(LATCH + 0.02, "plush_squeak", -15, 0.0, pitch=0.6); e(LATCH + 0.05, "giant_step", -15, 0.0, size=1.1)
 for k in range(3): e(LATCH + 0.15 + k * 0.1, "knock", -20, -0.2 + 0.2 * k, pitch=1.1)   # the latches
 e(LATCH + 0.45, "pop", -18, 0.0, pitch=1.3)   # he pops free
@@ -175,7 +178,7 @@ for k in range(4): e(LIGHTS_OFF - 0.55 + k * 0.15, "zap", -24, 0.0, dur=0.15)
 e(LIGHTS_OFF, "lamp_switch_click", -17, 0.0); e(LIGHTS_OFF + 0.05, "deflate", -24, 0.0, dur=0.7)
 ev.append({"t0": t['kgary'], "t1": t['opens'] + 0.2, "sound": "footsteps", "rate": 7.0, "gain_db": -30, "pan0": -0.1, "pan1": 0.3})
 for k in range(3): e(t['opens'] + k * 0.17, "metal_groan", -20, 0.3, dur=0.2, pitch=1.9)   # the wheel spins
-e(HATCH_OPEN, "latch_click", -15, 0.3)
+e(HATCH_OPEN, "latch_click", -15, 0.3); e(HATCH_OPEN + 0.03, "metal_groan", -19, 0.3, dur=0.4, pitch=1.4)   # the door swings open
 e(WHOOSH, "pressure_drop", -10, 0.4, dur=2.2); e(WHOOSH + 0.02, "kick", -14, 0.4)
 e(WHOOSH + 0.05, "candy_rattle", -22, 0.5, dur=0.8, density=26.0, size=0.6); e(WHOOSH + 0.1, "blanket_rustle", -19, 0.6, dur=0.9, intensity=1.0)
 e(WHOOSH + 0.1, "hamster_squeak", -18, 0.3, pitch=2.1)   # the squirrel clings on
@@ -200,7 +203,7 @@ e(POWER_ON, "lamp_switch_click", -16, 0.0); e(POWER_ON + 0.05, "pop", -19, 0.0, 
 e(t['sit'] - 0.1, "knock", -21, 0.8, pitch=1.6)   # he pokes the stuck panel
 e(SWAT - 0.05, "wood_snap", -12, 0.8, size=1.1); e(SWAT, "bonk", -11, 0.7); e(SWAT + 0.02, "metal_clang", -16, 0.7, size=1.0, pitch=1.2)
 e(SWAT + 0.05, "plush_squeak", -17, 0.6, pitch=0.6)
-e(SWAT + 0.6, "kick", -18, 0.3); e(SWAT + 0.75, "knock", -19, 0.1, pitch=0.9); e(SWAT + 0.9, "bonk", -14, -0.2); e(SWAT + 0.92, "plush_squeak", -19, -0.2, pitch=1.2)
+e(SWAT + 0.7, "kick", -18, 0.3); e(SWAT + 0.95, "knock", -19, 0.1, pitch=0.9); e(SWAT + 1.05, "pop", -19, 0.0, pitch=0.9); e(SWAT + 1.3, "bonk", -14, -0.2); e(SWAT + 1.32, "plush_squeak", -19, -0.2, pitch=1.2)   # through the airlock, the helmet pops off, bonk
 # life support: Gary turns blue (a strained wheeze), the scrubber + recycler pop in, the fan whirs, the haze is sucked in
 e(BLUE0, "low_swell", -24, 0.0, dur=1.0, pitch=0.5); e(t['blue'] + 0.1, "whimper", -21, 0.0, pitch=1.3)
 e(t['ibreath'] - 0.1, "deflate", -24, 0.0, dur=0.7)
@@ -228,10 +231,10 @@ e(PLUG + 0.5, "slurp", -22, -0.2, dur=0.5)   # the seal holds (a suction squeak)
 # whipple: the foil wraps on (crinkle), a second fleck turns to vapor (poof), the term
 e(SHIELD, "blanket_rustle", -16, -0.3, dur=0.9, intensity=1.0); e(SHIELD + 0.05, "candy_rattle", -24, -0.3, dur=0.6, density=30.0, size=0.4)
 e(HIT2, "deflate", -15, -0.4, dur=0.5); e(HIT2 + 0.02, "pop", -14, -0.4, pitch=0.6)
-e(t['tinfoil'] - 0.1, "blanket_rustle", -22, -0.2, dur=0.5, intensity=0.7)
+e(t['vest'] - 0.08, "candy_rattle", -19, -0.1, dur=0.5, density=30.0, size=0.4); e(t['vest'] - 0.05, "pop", -16, -0.1, pitch=1.2)   # the tinfoil vest crinkles on
 # finish: the toilet (+ its fan), the treadmill + bungees, the cupola
 e(TOILET, "pop", -12, 0.3, pitch=0.8); e(TOILET + 0.05, "clunk", -16, 0.3, size=0.7, metal=0.5)
-e(t['toilet'] + 0.1, "deflate", -18, 0.3, dur=0.7); e(t['toilet'] + 0.15, "slurp", -21, 0.3, dur=0.6)
+e(t['toilet'] + 0.1, "deflate", -18, 0.3, dur=0.7); e(t['toilet'] + 0.15, "slurp", -17, 0.3, dur=0.9)   # the money flushes
 e(TREAD, "pop", -13, -0.3, pitch=0.9); e(TREAD + 0.05, "clunk", -17, -0.3, size=0.6, metal=0.4)
 ev.append({"t0": TREAD + 0.3, "t1": t['backyard'] + 0.5, "sound": "footsteps", "rate": 11.0, "gain_db": -30, "pan0": -0.3, "pan1": -0.3})   # tiny feet on the belt
 for k in range(2): e(t['bungee'] + 0.05 + k * 0.2, "wood_snap", -24, -0.3, size=0.3)   # boing, boing
@@ -242,22 +245,25 @@ for k in range(3): e(t['feed'] - 0.3 + k * 0.4, "candy_rattle", -29, 0.2, dur=0.
 for k in range(4): e(t['hundred'] + k * 0.45, "blanket_rustle", -23, -0.3 + 0.2 * k, dur=0.7, intensity=0.5)
 e(t['runs'] - 0.1, "pop", -16, -0.2, pitch=1.6); e(t['runs'] + 0.05, "hamster_squeak", -18, -0.2, pitch=1.7)
 e(t['egary'], "plush_squeak", -21, 0.0, pitch=0.9)
+e(t['still'] - 0.1, "plush_squeak", -19, 0.0, pitch=1.3); e(t['still'] + 0.3, "slurp", -15, 0.0, dur=0.35); e(t['still'] + 0.33, "bonk", -18, 0.0)   # he tries to leave: yanked back
+e(SEED_OUT - 0.45, "pop", -19, -0.2, pitch=1.8)   # the squirrel spits a shell
 e(SEED_OUT - 0.05, "slurp", -16, 0.0, dur=0.4); e(SEED_OUT + 0.15, "plush_squeak", -19, 0.0, pitch=1.6)   # pfft: the seed squeezes past him
 e(SEED0 + 0.2, "low_swell", -16, 0.0, dur=1.7, pitch=1.6); e(SEED0 + 0.3, "distant_boom", -22, 0.0, dur=1.8, size=0.3)
 e(LAND - 0.3, "parrot_chirp", -22, 0.2, pitch=1.2)
 e(LAND, "kick", -15, 0.0); e(LAND + 0.02, "zap", -17, 0.0, dur=0.9); e(LAND + 0.05, "pop", -18, 0.0, pitch=0.7)
-e(LAND + 0.4, "parrot_chirp", -18, 0.0, pitch=1.6); e(LAND + 0.6, "plush_squeak", -21, 0.0, pitch=1.9); e(LAND + 1.0, "parrot_chirp", -20, 0.0, pitch=0.9)
+e(LAND + 0.4, "parrot_chirp", -18, 0.0, pitch=1.6); e(LAND + 0.9, "kick", -24, 0.0); e(LAND + 0.92, "parrot_chirp", -21, 0.0, pitch=0.7);   # the cough e(LAND + 0.6, "plush_squeak", -21, 0.0, pitch=1.9); e(LAND + 1.0, "parrot_chirp", -20, 0.0, pitch=0.9)
 
 # ---------------------------------------------------------------- beds
 amb = [
     {"sound": "city_day", "t0": 0.0, "t1": IGN2 + 2.0, "fade_in": 0.2, "fade_out": 1.2, "gain_db": -33, "args": {"murmur": 0.15, "traffic": 0.35}, "seed": 1},   # the suburb
     {"sound": "dry_leaves", "t0": 0.0, "t1": IGN2 + 1.0, "fade_in": 0.2, "fade_out": 0.8, "gain_db": -36, "args": {"density": 0.5}, "seed": 2},   # the oak in the breeze
     {"sound": "rocket_rumble", "t0": IGN1, "t1": APEX + 0.4, "fade_in": 0.05, "fade_out": 0.4, "gain_db": -22, "args": {"rise": 0.6}, "seed": 3},   # the hop
-    {"sound": "rocket_rumble", "t0": IGN2, "t1": ORBIT_IN + 0.4, "fade_in": 0.1, "fade_out": 1.0, "gain_db": -17, "args": {"rise": 1.0}, "seed": 4},   # the launch, fading as the air thins
+    {"sound": "rocket_rumble", "t0": IGN2, "t1": t['hour'] + 0.6, "fade_in": 0.1, "fade_out": 1.0, "gain_db": -17, "args": {"rise": 1.0}, "seed": 4},   # the launch, fading as the air thins
     {"sound": "wind", "t0": IGN2 + 0.4, "t1": t['n17'] + 1.2, "fade_in": 0.3, "fade_out": 0.8, "gain_db": -27, "args": {"darkness": 0.5, "gust": 0.8, "whistle": 0.0}, "seed": 5},
     {"sound": "cabin_hum", "t0": ORBIT_IN, "t1": D - 3.5, "fade_in": 1.5, "fade_out": 1.0, "gain_db": -36, "seed": 6},   # the station's soft life-support hum
     {"sound": "fan", "t0": SCRUB + 0.2, "t1": D - 3.5, "fade_in": 0.4, "fade_out": 1.0, "gain_db": -36, "args": {"rate": 9.0}, "seed": 7},   # the scrubber fan
     {"sound": "wind", "t0": WHOOSH, "t1": TAUT + 0.6, "fade_in": 0.05, "fade_out": 0.5, "gain_db": -22, "args": {"darkness": 0.4, "gust": 1.0, "whistle": 0.0}, "seed": 8},   # air rushing out
+    {"sound": "wind", "t0": PLUG + 0.4, "t1": SEED_OUT, "fade_in": 0.3, "fade_out": 0.4, "gain_db": -33, "args": {"darkness": 0.2, "gust": 0.3, "whistle": 0.5}, "seed": 13},   # the plug leaks: a thin whistle to the end
     {"sound": "wind", "t0": HIT, "t1": PLUG + 0.15, "fade_in": 0.1, "fade_out": 0.25, "gain_db": -23, "args": {"darkness": 0.3, "gust": 1.0, "whistle": 0.0}, "seed": 9},
     {"sound": "crowd_cheer", "t0": t['e0'], "t1": t['feed'], "fade_in": 0.1, "fade_out": 0.8, "gain_db": -28, "seed": 10},
     {"sound": "wind", "t0": SEED0, "t1": LAND + 0.2, "fade_in": 0.3, "fade_out": 0.3, "gain_db": -22, "args": {"darkness": 0.5, "gust": 0.9, "whistle": 0.0}, "seed": 11},   # the dive
