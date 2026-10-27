@@ -370,7 +370,10 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 **026's v3 re-voice (Eleven v3 + tags, user's pick, Oct 27; 2,050 chars, 6 `[shouting]` + 2 `[excited]`, all at a beat's end):**
 - **v3 reads ~19 % slower than v2, even the untagged lines** (congrats 5.0 → 6.2 s), and each yell brings a 0.6–0.9 s
   pause before it: 129.6 s at tempo 1.15 against v2's 108.3 s. Tempo is free (cached clips): 1.2 → 124 s, 1.3 → 115 s,
-  **1.35 → 110.7 s = v2's words per second**. Budget the length before voicing: expect v3 ≈ v2 × 1.2 at the same tempo.
+  1.35 → 110.7 s (= v2's words per second). **026 shipped at 1.30 (114.9 s)** — the manager's call: the yells are the point,
+  and +35 % atempo starts to sound rushed and flattens the punch; the reference's reels run 98–118 s, so the build bar is
+  ≤ 118 s for v3 reads. Keep the pre-yell pauses (the beat before a yell sells it); cap one at ~0.4 s only if it sounds dead.
+  Budget the length before voicing: expect v3 ≈ v2 × 1.2 at the same tempo.
 - **A deadpan button after a yell gets its own beat** ("[shouting] Gary was IN the pile!" | "He's a hood ornament now."):
   a tag colours the rest of its clip, a beat boundary resets it. Move the button's `W(beat, word)` anchors to the new beat.
 - **A faster tempo makes 4-letter words flash** ("Then", "want" < 0.1 s): script.json `"joinLen": 4` (narrate.py, default 3)
