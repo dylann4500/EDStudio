@@ -32,7 +32,8 @@ bubble beats (lawn, counter, wheels) scored 0.12–0.14, the quiet finale + end 
 
 `020-butt-doubling` (the first weird-tier doubling POV: a jeans butt 36 cm → 6,040 km, HUD in cm/m/km, a key change + boom per
 doubling, every scale gets its own place — chair, door, bus, intersection, pool, airliners, the ISS, the Moon — and a dream loop
-with the dog). Clothed the whole way; the butt is always read from behind (pockets) or the side.
+with the dog). Clothed the whole way; the butt is always read from behind (pockets) or the side. TRIBE cut1: whole-brain 0.068, no dead zone;
+the door-stuck + cork-pop beat scored 0.147 (the best beat yet), the faceless Moon shot 0.019.
 
 ## What scores (TRIBE + views)
 Bright places, crowds of big-headed faces, motion in every frame, a big physical effect ending every beat (collapse, crush,

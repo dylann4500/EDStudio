@@ -419,6 +419,13 @@ for the lock, so a re-render while queued scored the old file; it now copies aft
 It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
 `tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
 
+**020 (butt doubling, 60 s) cut1: whole-brain 0.068, first 60 s 0.068, 20.9 % above, no dead zone → TARGET MET first try.** Per beat:
+faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
+best beat measured so far; bus 0.125; kitchen 0.104; traffic 0.101). Faceless spectacle sags (the Moon from space 0.019, the ISS 0.050
+even with an astronaut), and so does the sleeping title shot (−0.033). Keep the faceless space beat short and put a face beat after it.
+**The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
+and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
+
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
 - [ ] Every subtitle readable (≥ 0.3 s per word), never over a face, never overlapping the HUD.
