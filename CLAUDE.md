@@ -13,8 +13,8 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
   (user, Oct 26: "an entirely new harness"; reference account analyzed in `docs/reference/wemakebuild.md`). An ElevenLabs
   narrator (scratch macOS voice until `ELEVENLABS_API_KEY` is set) roasts a humble object upgrading into a giant machine,
   fix by fix, each with its real engineering name; Gary the toon gets hurt by every failure; ONE word at a time dead
-  center + yellow TERM callouts; one cutaway diorama; a gliding master camera + punch-in cuts to faces/details and hard impact kicks
-  (`engine/build/cuts.js`, the reference's newer style) at 60 fps + motion blur; improved by a
+  center + yellow TERM callouts; one cutaway diorama; ONE continuous gliding camera, NO cuts (user tried punch-in cuts on 025/026 and
+  rejected them: "much easier to follow" without) + hard impact kicks (`makeKick`, engine/build/cuts.js) at 60 fps + motion blur; improved by a
   5-subagent review loop (`docs/BUILD-REVIEW.md`, brief templates inside). Exempt from the opening question card, HUD, lower-third subtitles,
   "no popping text" and the end card (see BUILD.md for what still holds).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the

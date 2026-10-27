@@ -29,8 +29,8 @@ or effect on almost every phrase.
 6. **Set**: a cutaway diorama built on `engine/build/cutaway.js` (strata canvas + runtime hole mask) + the props the story
    needs. Reuse `engine/build/*` (toon, fx, anim) and `subway.js` props; new sets go in `engine/build/<name>.js`.
    Test the set alone first with a throwaway video folder and 4–6 camera views (fix seams, voids, blocking props).
-7. **shots.js**: every gag keyed to `B.W(beat, word)`; holes as shapes per frame; punch-in cuts + impact kicks on top of the
-   master take (`engine/build/cuts.js`, docs/BUILD.md → Cuts: ~25–35 face shots, ~8–12 TERM inserts, a cold-open flash); the master:
+7. **shots.js**: every gag keyed to `B.W(beat, word)`; holes as shapes per frame; hard impact kicks (`makeKick`, engine/build/cuts.js)
+   on every landing — but NO punch-in cuts (the user rejected them: the one take is "much easier to follow"); ONE continuous camera:
    `makeRail(planRail(frames))` with one framing per 2–4 s, each placed on the word it must show (planRail leaves early so
    no move is faster than 0.6 + d/8 s — fix every `[rail]` warning in the render log); a hit list for camera shake; effects
    scheduled at build time from the same word times. Every character/prop enters and leaves ON screen (docs/BUILD.md →
