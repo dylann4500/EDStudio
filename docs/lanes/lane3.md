@@ -131,10 +131,18 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   the wide family shot (0.035) and the morning wides (0.044) were weakest. Frame tight on faces; keep Pip moving.
 - **TRIBE (023 cut1: TARGET MET, wc 0.0625, first 60 s 0.0661):** close porch gags with faces + motion scored 0.07–0.12; a
   still man in a doorway (0.039) and the sleepy ending (0.042) were weakest. Keep every beat busy, even the "quiet" ones.
+- **TRIBE (030 cut1: TARGET MET, wc 0.094, first 60 s 0.094 — the best of any video so far):** a bright park full of dog
+  faces in motion scored 0.11–0.13 on every gag beat (poodle frizz 0.134, zoomies 0.127–0.135); even the "alone by the fence"
+  low point held 0.087. Weakest: the title (−0.036) and the gate wide from behind Mia (0.027). Crowds of animal faces count.
 - **Ep. 2 (023, Halloween) added `engine/halloween.js`** (CLAUDE.md → Halloween kit): the suburb at dusk with porches you can
   walk up (steps, lanterns, jacks, a lit hallway behind any open door), Pip's pumpkin costume that doubles as his candy bucket,
   candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
   The family's own porch = suburb lot 0 (x −32); the living room stays the indoor home base. Episode rule kept: Pip never eats
   candy (chocolate is toxic to dogs) — his treat is the dog biscuit, and the caption says so.
-- **Still missing (build when an episode needs it):** breed presets for the dog-park cast, a flood plane, a lightning flash +
-  thunder.
+- **Ep. 3 (030, dog park) added `engine/sets/dogpark.js` + `engine/dogbreeds.js`** (CLAUDE.md → Dog park + breeds): a sunny
+  fenced park with a double gate, a big shade tree, agility gear, a kiddie pool, benches; `makeBreed(kind)` = 9 breed presets on
+  Pip's own rig (husky, poodle with frizz-able pom-poms, lab, chihuahua, dalmatian, beagle, dachshund, pug, samoyed), so every
+  dog in Pip's world poses like him. Recurring cast it introduced: **Bean** (a tiny black-and-tan chihuahua, Mrs. Rosa's dog —
+  Pip's first friend, now shares the bunny), **Moose** (the ball-obsessed yellow lab) and Dan, the husky band + Jules on ukulele,
+  the poodles + Celeste. Mrs. Rosa (ep. 2's neighbor) is back on the bench, knitting.
+- **Still missing (build when an episode needs it):** a flood plane, a lightning flash + thunder.

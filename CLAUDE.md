@@ -190,6 +190,16 @@ videos/NNN-slug/
   (`setDeflate(k, t)` slow comic slump), `makeSkeleton()` (`setCollapse(k)`, `legBone` to steal, holds a `bowl`), `makeBone()`
   (a bone-shaped dog biscuit — never a real cooked bone on screen), `makeJackOLantern`, `makeStringLights`, `makeCobweb`,
   `makeSign(text, {lines})`, `costume(rig, 'witch'|'ghost'|'dino'|'hero'|'skeleton'|'pumpkin'|'vampire'|'catEars')`.
+- **Dog park + breeds (030, Pip ep. 3):** `engine/sets/dogpark.js` `buildDogPark(studio)` = a sunny fenced BARK PARK (chain-link
+  panels via an alpha-tested canvas texture — `fence.{front,back,left,right,vest}` groups to hide per shot), a double-gate
+  vestibule (`gates.inner/outer` hinge groups, `rotation.y > 0` swings into the park), the arch sign (`setSign`), a big shade
+  tree `DIMS.tree`, A-frame, weave poles, tunnel, jump bar, tire jump, a pause table (`DIMS.table`, top `DIMS.tableY`), a blue
+  kiddie pool with ripples + a bobbing duck (`DIMS.pool`, `waterY` 0.09 — a corgi's back is 0.18 m, deeper water hides him),
+  a dog fountain, 4 benches (`DIMS.benches`, seat 0.45: adults `y −0.345, footFwd 0.42`, Mia `y −0.133`), bag station, toys,
+  a parking lot, a tree ring, rooftops + hills; `aimSun`, `update(t)`. `engine/dogbreeds.js` `makeBreed(kind, opts)` = breed
+  presets on `makePip` (husky, poodle, lab, chihuahua, dalmatian, beagle, dachshund, pug, samoyed) with the same pose driver;
+  poodles carry pom-poms and `frizz(k)` puffs them (the after-the-splash gag). `makePip` gained additive body options:
+  `legs` (leg length), `snout` (m; < 0 = flat face), `long` (body length), `stride` (gait length; pass the size for big dogs).
 - 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
   (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
   jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
@@ -515,6 +525,14 @@ videos/NNN-slug/
   every rig's position against the camera's, and keep walkers' paths (Mia following Pip) off the lens line.
 - **A small dog + a tall object in a vertical frame needs 2–3 quick angles, not one** (023's 3.6 m inflatable cat): over his
   shoulder up at it, a reverse close-up on his face for the gag line, then a wide for the payoff. One wide made Pip a speck.
+- **Pip close-ups: keep the lens ≥ 0.8 m and never use `eyes: 'closed'`/`'sad'` lids in a face-filling shot (030):** at 0.5 m
+  his pupils poke through a fully closed lid and read as "X" eyes (a dead/hurt cartoon cue — off-brand). Use `eyes: 'open'` +
+  `lids ≤ 0.6` + `sad` brows for a sad close-up, `'happy'` arcs for closed-and-content.
+- **Give side dogs a coat that isn't Pip's (030):** a tan-and-white chihuahua read as a mini Pip in every still; black-and-tan
+  fixed it (a red husky also read as a corgi → silver). Pip is the only orange-and-white dog on screen.
+- **A stampede in a vertical frame (030 zoomies):** 15 dogs spread evenly round a 20 m loop read as specks from any crane.
+  Pack them tight (three lanes, ~0.5 m apart, right behind the leader) and shoot it with a lens that runs backwards just ahead
+  of the pack, inside the loop, aimed back at it (030 `zoomB`), then a static low pass where the leader goes by the lens.
 - **`bearing.py` is meaningless for near-straight-down cameras** (yaw is undefined): check overhead shots with a still.
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
@@ -646,6 +664,10 @@ timeline (027's rule held: no retiming, untouched beats barely moved). Faces in 
 (wheelbarrow + staring neighbors 0.147, tailor 0.140, doctor faint 0.110–0.128), while the faceless planet-scale finale sagged
 (ZIP horizon 0.060, Earth 0.057) and the quiet elevator title open went negative (−0.013). Body-absurd ladders score best
 while they stay human-scale. Keep the cosmic end short, or put a face in it.
+
+**030 (Pip ep. 3, dog park) cut1 = 0.0940 / first 60 s 0.0944, no dead zone — the best so far:** 15 toy dogs + 6 owners
+in one sunny park, a new gag every ~4 s, faces in every shot; the gag beats sat at 0.11–0.13 (poodle frizz 0.134, zoomies
+0.135). The weakest were the title (−0.036) and the gate wide shot from behind Mia (0.027): open on a face, not a back.
 
 **020 (butt doubling, 60 s) cut1: whole-brain 0.068, first 60 s 0.068, 20.9 % above, no dead zone → TARGET MET first try.** Per beat:
 faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
