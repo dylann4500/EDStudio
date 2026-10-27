@@ -29,7 +29,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | made Oct 26, in review |
 | 020 | What if your butt doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 | 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | made Oct 26, in review |
-| 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
+| 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | made Oct 26, in review |
 | 023 | What if Pip went trick-or-treating? (Pip ep. 2, Halloween) | pip / @ed._.sims | assigned Oct 26 |
 | 024 | How a Hole Becomes a Subway (narrated "build" genre) | build — NOT managed by the operation | the user runs build reels separately; number reserved only |
 | 025 | How a Kiddie Pool Becomes a Dam | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |

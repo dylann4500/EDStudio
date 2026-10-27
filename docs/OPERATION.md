@@ -205,3 +205,6 @@ go out on their own; the new manager re-reads `ops/`, re-arms the tick, and chec
   focus it — the typed body vanished. Click the body by coordinates (just above the signature), type, and verify with a
   screenshot (`innerText` on `[aria-label="Message Body"]` reads empty even when it isn't). Attach with `file_upload` on the
   compose's file input; wait ~6 s for the upload chip before Send.
+- Oct 26 (022): the body text landed in the Subject field once (the layout shifted under a coordinate click). Set the
+  Subject with `form_input` on its ref, click the body ~10 px lower than the subject line, type ONE line, zoom to confirm it
+  sits in the body, then type the rest. Never send without a screenshot of subject + body + attachment.
