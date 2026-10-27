@@ -211,14 +211,32 @@ export async function build(studio, story) {
   };
   const eK3 = (tt) => (tt < DUMPS[0] ? 0 : DUMPS.reduce((a, d) => a + easeOutBack(u01(tt, d, d + 0.3), 1.6) / 3, 0));
   const slideX = (tt) => { const u = u01(tt, SLIDE0, SLIDE1), k = Math.min(2, Math.floor(u * 3)); return SL * (u >= 1 ? 1 : (k + smooth(clamp((u * 3 - k) * 1.8))) / 3); };
-  const damLine = (tt) => {   // [site x1, pond x0]
+  // ---- water = its level ∩ its container (user, 025: "it doesn't fill in corners… a triangle of empty space against the wedge").
+  // Each wall is x(y) in the section plane: the water's polygon runs up the left wall from the bed to the level, along the level,
+  // and down the right wall — so it meets every slope it touches, slides along it as the level changes, and never enters solid.
+  const V = (x) => () => x;
+  const eKAt = (tt) => (tt < CRUMB ? eK3(tt) : lerp(1, 0.04, smooth(u01(tt, CRUMB, CRUMB1))));
+  const earthUp = (tt) => { const s = slideX(tt), h = E.h * Math.max(0.01, eKAt(tt)); return (y) => E.x0 + s + clamp((y - BED) / h) * (E.t0 - E.x0); };
+  const earthDn = (tt) => { const s = slideX(tt), h = E.h * Math.max(0.01, eKAt(tt)); return (y) => E.x1 + s - clamp((y - BED) / h) * (E.x1 - E.t1); };
+  const gUp = (y) => (y <= G.crest ? G.heel : G.crestX);                                   // the vertical heel; over the top, the water rides the crest
+  const gDn = (y) => G.toe + clamp((y - BED) / (8.55 - BED)) * (G.crestX - G.toe);         // the wedge's downstream face
+  const MOUND = [0.8, 0.64];                                                                 // the beaver lodge's silhouette (dam.js: hemisphere r 0.8, y × 0.8)
+  const bvL = (y) => BVX - MOUND[0] * Math.sqrt(Math.max(0, 1 - ((y - BED) / MOUND[1]) ** 2)), bvR = (y) => 2 * BVX - bvL(y);
+  const walls = (tt) => {   // [the site's right wall, the pond's left wall]
+    if (tt < LANDK) return [bvL, bvL];                                                       // the creek runs whole up to the beaver's lodge
     const kpx = kpPos(tt)[0];
-    if (tt < LANDK) return [BVX - 0.45, BVX - 0.45];   // before the pool lands the creek runs whole up to the beaver's sticks (no water end under the held pool)
-    if (tt > t.lifts + 0.3 && tt < t.pile) return [kpx, kpx];
-    if (tt < t.lifts + 0.3) return [kpx, kpx];   // both water bodies meet at the pool's centre: no dry strip, no box end beside it
-    if (tt < CRUMB1) { const L = lakeLevel(tt), s = slideX(tt), f = clamp((L - BED) / E.h), xs = E.x0 + s + f * (E.t0 - E.x0); return [lerp(xs, E.x1 + s, smooth(u01(tt, CRUMB, CRUMB + 0.35))), E.x1 + s]; }   // the crumble: the flood front runs on to the pond (no water end standing in the air)
-    if (tt < COL0) return [G.heel, G.toe];
-    return [G.heel, G.toe];
+    if (tt < t.pile || (tt < CRUMB && eKAt(tt) < 0.05)) return [V(kpx), V(kpx)];                             // the kiddie pool: both waters meet at its centre
+    if (tt < CRUMB1) { const up = earthUp(tt), dn = earthDn(tt), x1 = E.x1 + slideX(tt), fl = smooth(u01(tt, CRUMB, CRUMB + 0.35));
+      return [(y) => lerp(up(y), x1, fl), dn]; }                                               // the crumble: the flood front runs on to the pond
+    return [gUp, gDn];
+  };
+  const NS = 12, WB = BED - 0.02;
+  const setWater = (body, fL, fR, L, tt) => {
+    if (L <= WB + 0.01) return body.set(0, 0, L, tt);
+    const pts = [];
+    for (let i = 0; i <= NS; i++) { const y = lerp(WB, L, i / NS); pts.push([fL(y), y]); }
+    for (let i = NS; i >= 0; i--) { const y = lerp(WB, L, i / NS); pts.push([Math.max(fR(y), fL(y) + 0.001), y]); }
+    body.setPoly(pts, fL(L), Math.max(fR(L), fL(L) + 0.001), L, tt);
   };
   const pondLevel = (tt) => PND + 0.25 * Math.exp(-Math.max(0, tt - CRUMB) * 1.6) * (tt > CRUMB ? Math.sin((tt - CRUMB) * 5) * 0.6 + 0.6 : 0) + (tt > t.spillway ? 0.06 : 0);
 
@@ -378,6 +396,15 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   // inside the shot), a detail insert under every TERM, and frame 0 flashes the finished dam
   const fG = (t0, t1, yaw = 0.3, o = {}) => ({ t0, t1, face: gary, yaw, faceY: 0.44, ...o }), fB = (t0, t1, o = {}) => ({ t0, t1, face: beaver, yaw: -0.4, scale: 1.6, faceY: 0.66, push: 0, ...o });   // beaver: from the side away from its card, card above, face below the caption
   const ins = (t0, t1, pos, look, fov = 40, push) => ({ t0, t1, pos, look, fov, push }), F_ = { facing: true }, CEN = W('finish', 'center');
+  const INSPECT = false && {   // flip to true for close stills on the water contact lines (render --stills at these keys)
+    '1.00': [[5.6, -0.1, 3.0], [5.6, -0.4, 0]], '6.00': [[-2.6, 0.2, 3.5], [-2.6, -0.3, 0]], '14.50': [[5.0, 0.2, 3.5], [5.0, -0.3, 0]],
+    '19.80': [[-11.6, 0.0, 3.5], [-11.6, -0.6, 0]], '22.00': [[-5.0, -3.0, 3.5], [-5.0, -3.4, 0]], '24.60': [[-4.4, 1.0, 7.0], [-4.4, 0.5, 0]],
+    '33.00': [[-5.6, 1.5, 4.5], [-5.6, 1.2, 0]], '33.01': [[-1.6, 0.0, 3.0], [-1.6, -0.3, 0]], '33.02': [[-11.9, 1.2, 4.0], [-11.9, 1.0, 0]],
+    '37.50': [[-5.4, 1.6, 4.5], [-5.4, 1.4, 0]], '39.20': [[-4.5, 1.5, 5.5], [-4.5, 1.2, 0]], '40.10': [[-3.0, 1.0, 7.0], [-3.0, 0.5, 0]],
+    '40.40': [[-3.0, 1.0, 7.0], [-3.0, 0.5, 0]], '44.00': [[-8.5, 1.5, 5.0], [-8.5, 1.0, 0]], '47.00': [[-0.2, 0.0, 2.5], [-0.2, -0.3, 0]],
+    '50.00': [[-8.5, 7.2, 5.0], [-8.5, 7.0, 0]], '60.30': [[-7.9, 9.8, 4.0], [-7.9, 9.4, 0]], '66.00': [[0.2, 0.2, 3.0], [0.2, -0.2, 0]],
+    '86.90': [[-8.5, 1.3, 5.0], [-8.5, 1.0, 0]], '95.00': [[6.9, -0.1, 3.0], [6.9, -0.4, 0]],
+  };
   const CUTS = false;   // user (Oct 26, after the cuts pass): "i liked our older continuous style, it was much easier to follow" — one take again
   const cuts = makeCuts(!CUTS ? [] : [
     ins(0, 0.35, [-2.0, 17.0, 27.0], [-4.0, 5.0, -3.0], 50),                       // cold open: the finished dam + lake from above the crest
@@ -469,8 +496,11 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     S.portals.forEach((p, i) => { popIn(p, tt, t.four - 0.15 + i * 0.09); if (tt > PLUG + 1.0) p.visible = false; });   // gone once the tunnel is plugged (a black hole at the frame edge for 20 s otherwise)
 
     // ---- water
-    const L = lakeLevel(tt), Ls = siteLevel(tt), [x1s, x0p] = damLine(tt);
-    water.far.set(-60, INLET, L, tt); water.site.set(INLET, x1s, Ls, tt); water.pond.set(x0p, BVX - 0.45, pondLevel(tt), tt); water.low.set(BVX + 0.45, 60, LOW, tt);
+    const L = lakeLevel(tt), Ls = siteLevel(tt), [sR, pL] = walls(tt), drained = Ls < BED + 0.05 && L > BED + 0.05;
+    setWater(water.far, V(-60), drained ? (y) => INLET - 0.3 + (0.7 * (L - y)) / (L - WB) : V(INLET), L, tt);   // diverted: the river pours down into the inlet
+    setWater(water.site, V(INLET), sR, Ls, tt);
+    setWater(water.pond, (y) => Math.max(pL(y), sR(y)), bvL, pondLevel(tt), tt);
+    setWater(water.low, bvR, V(60), LOW, tt);
     const seeTown = smooth(u01(tt, t.also - 0.3, t.drowned)) * (1 - smooth(u01(tt, WET1, WET1 + 0.6)));
     for (const k of ['far', 'site']) water[k].front.opacity = 0.7 - 0.1 * seeTown;
     const wet = clamp((L - 0.6) / 2.4); townMats.forEach(([m, c]) => m.color.copy(c).lerp(_blue, 0.4 * wet));
@@ -560,7 +590,8 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     if (tt > DRY1 - 0.1 && tt < GAG1) { gary.root.updateMatrixWorld(true); gary.hand(-1).getWorldPosition(_v4); flipflop.visible = true; flipflop.position.set(_v4.x, _v4.y + 0.14, _v4.z + 0.05); flipflop.rotation.set(PI / 2 - 0.25, 0, 0.3 + 0.15 * Math.sin(tt * 9)); flipflop.scale.setScalar(1.3 * pop(tt, DRY1 - 0.1)); }
 
     // ---- camera (one take) + impact shake; the sun follows what we look at
-    const cam = cuts.at(t0) || rail.at(t0);
+    const IN = INSPECT && INSPECT[t0.toFixed(2)];   // close inspection cameras on water contact lines (null in a real render)
+    const cam = IN ? { pos: IN[0], look: IN[1], fov: IN[2] ?? 40, cut: 0 } : cuts.at(t0) || rail.at(t0);
     studio.setCamera(cam.pos, cam.look, cam.fov, tt, 0);
     if (cam.cut == null) { const k = shake(tt, hits); studio.camera.position.x += k.x; studio.camera.position.y += k.y; studio.camera.rotation.z += k.r; }
     kick.apply(studio.camera, t0, Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]));

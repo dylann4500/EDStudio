@@ -255,13 +255,24 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
   const surf = new THREE.Mesh(sg, new THREE.MeshStandardMaterial({ color: 0x8fd3f5, roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.55, depthWrite: false, map: ft })); surf.renderOrder = 4; parent.add(surf);
   const base = sg.attributes.position.array.slice();
   const lip = new THREE.Mesh(new THREE.BoxGeometry(1, 0.03, 0.04), new THREE.MeshStandardMaterial({ color: 0xc8f0ff, roughness: 0.3, transparent: true, opacity: 0.7 })); parent.add(lip);
+  // the section is a polygon (water = its level ∩ its container): the cut-face side at z = 0, the far side at z = −depth;
+  // a box can't meet a sloped dam face — it leaves a triangle of air or pokes through the slope (user, 025)
+  box.visible = false;
+  const backF = backM.clone(); backF.side = THREE.FrontSide;
+  const secF = new THREE.Mesh(new THREE.BufferGeometry(), front), secB = new THREE.Mesh(new THREE.BufferGeometry(), backF);
+  secF.renderOrder = 3; secB.position.z = -depth; parent.add(secF, secB);
   let last = '';
-  return {
+  const api = {
     box, surf, front,
-    set(x0, x1, level, t = 0, f = flow) {
-      const on = level > bottom + 0.01 && x1 > x0 + 0.02; box.visible = surf.visible = lip.visible = on; if (!on) return;
-      const W = x1 - x0, Hh = level - bottom;
-      box.scale.set(W, Hh, depth); box.position.set((x0 + x1) / 2, bottom + Hh / 2, -depth / 2);
+    /** a rectangle from x0 to x1 (open water between two vertical walls) */
+    set(x0, x1, level, t = 0, f = flow) { api.setPoly([[x0, bottom], [x1, bottom], [x1, level], [x0, level]], x0, x1, level, t, f); },
+    /** pts: the water's section [[x, y], …] (its top edge at y = level from xl to xr) */
+    setPoly(pts, xl, xr, level, t = 0, f = flow) {
+      const on = pts.length >= 3 && level > bottom + 0.01 && xr > xl + 0.02; secF.visible = secB.visible = surf.visible = lip.visible = on; if (!on) return;
+      const g = new THREE.ShapeGeometry(new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)))), P = g.attributes.position, UV = g.attributes.uv, Hh = level - bottom;
+      for (let i = 0; i < P.count; i++) UV.setXY(i, (P.getX(i) - xl) / (xr - xl), (P.getY(i) - bottom) / Hh);   // the gradient runs surface → bed
+      secF.geometry.dispose(); secF.geometry = g; secB.geometry.dispose(); secB.geometry = g.clone();
+      const x0 = xl, x1 = xr, W = x1 - x0;
       surf.scale.set(W, 1, D.CW); surf.position.set((x0 + x1) / 2, level, -D.CW / 2);
       lip.scale.set(W, 1, 1); lip.position.set((x0 + x1) / 2, level - 0.005, 0.0);
       ft.repeat.set(W / 4, D.CW / 3); ft.offset.x = -t * 0.12 * f;
@@ -270,6 +281,7 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
       a.needsUpdate = true; if (k !== last) last = k; sg.computeVertexNormals();
     },
   };
+  return api;
 }
 
 // ---------------------------------------------------------------- the set
@@ -415,7 +427,7 @@ export async function buildDam(studio) {
   const bore = new THREE.Mesh(new THREE.TubeGeometry(tCurve, 220, T.R, 28, false), new THREE.MeshStandardMaterial({ map: rockT, roughness: 1, side: THREE.BackSide, clippingPlanes: [keepBack, digClip], clipShadows: true }));
   bore.receiveShadow = true; root.add(bore);
   const tWaterM = waterMat(0.55); tWaterM.clippingPlanes = [keepBack]; tWaterM.side = THREE.DoubleSide;
-  const tWater = new THREE.Mesh(new THREE.TubeGeometry(tCurve, 220, T.R * 0.8, 20, false), tWaterM); tWater.renderOrder = 3; root.add(tWater);
+  const tWater = new THREE.Mesh(new THREE.TubeGeometry(tCurve, 220, T.R * 0.97, 20, false), tWaterM); tWater.renderOrder = 3; root.add(tWater);
   const tWaterIdx = tWater.geometry.index.count;
   // a concrete plug for the inlet (closing the diversion lets the lake fill)
   // the tunnel's two mouths in the creek bed (dark holes in the gravel, shown once it is dug)
