@@ -70,7 +70,10 @@ Fill the `{…}`. Keep every brief self-contained (the agent has no context but 
 Then one of these dimension blocks:
 
 **1 · Logic & continuity** — "Your dimension: physical and narrative LOGIC — appearing/disappearing without cause,
-floating/clipping, state jumps, scale, impossible actions, picture vs narration at its word. Verify each claim rather than
+floating/clipping, state jumps, scale, impossible actions, picture vs narration at its word. Materials behave physically:
+every fluid fills its container to a flat level (touching every wall and slope — no air triangles or gaps at corners, never
+through solid), things fall and land, sand/dirt piles slope. Inspect FULL-SIZE frames at the times listed for each fluid
+(360 px sheets hide these — the user caught water gaps on 025 that three rounds missed). Verify each claim rather than
 trusting it. Timestamps. Output (under ~600 words): SCORE: x/10. VERIFIED / NOT FIXED. TOP ISSUES (ranked, max 10):
 timestamp — problem — concrete fix."
 

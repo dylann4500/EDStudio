@@ -189,6 +189,13 @@ whip pans in between, longer continuous moves only for the hook and transitions;
 - Put gags on surfaces that face the camera: the snail crawls ON the cut face (rotation.x = +π/2 — −π/2 put its foot toward the
   camera and only the belly showed); a glass-roofed car shows its driver only if his head sits in the window band.
 - Gary transforms on a running gag (fossil → pancake → nightlight) — say it, then SHOW it the same second.
+- **Fluids fill their container (user caught it on 025 twice; three review rounds missed it on 360 px sheets):** water = its
+  level ∩ its container, recomputed every frame. Build each water body as a 2-D section polygon (bed → the ACTUAL face profile
+  of the dam/bank/slope up to y = L → back along the level line), extruded across the cut; never a box next to a slope (a
+  rectangle against an earth dam's sloped face left a triangle of air, and poked through the slope elsewhere). Flat level
+  surface, touches every wall/slope/bed, no gaps at corners, never through solid, edges slide along slopes as L changes.
+  Verify with CLOSE stills at every water contact line at several levels; brief the logic reviewer with this checklist and
+  full-size frames.
 - **A doorway a character uses needs something behind it, on a surface facing the lens** (the user caught this on the
   shipped cut): 024's burrow was a circle cut in the cut face beside the shaft with nothing behind it, so the raccoon rose
   through the floor and backed out through the shaft's solid side wall. v6 paints a dark arch on the shaft's BACK wall (a
