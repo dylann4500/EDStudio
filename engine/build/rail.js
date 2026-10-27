@@ -19,7 +19,7 @@ const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
  *    in/out "pumping"; drifting toward the NEXT frame removes both). `stop: true` = a true zero-speed hold (the last frame).
  *  - `until: t` keeps a hold at least until t (a gag that must finish in frame), as long as the next move stays legal.
  *  - Every consecutive pair of keys (pass→pass too) is checked against moveTime; violations print `[rail]` warnings. */
-export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15 } = {}) {
+export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15, shortHoldPass = false } = {}) {   // shortHoldPass (026): a ≤ 0.25 s hold flows through as a pass key instead of a dead stop
   const F = [...frames].sort((a, b) => a.t - b.t).map((f) => ({ ...f })), keys = [];
   const comps = (f) => [...f.pos, ...f.look, f.fov ?? 40], un = (v) => ({ pos: v.slice(0, 3), look: v.slice(3, 6), fov: v[6] });
   const need = (f, n) => moveTime(Math.max(dist3(f.pos, n.pos), dist3(f.look, n.look) * 0.7));
@@ -28,7 +28,8 @@ export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15 } 
     const n = F[i + 1];
     if (!n || f.pass) { keys.push({ ...f, stop: !n || f.stop }); return; }
     const nd = need(f, n), dep0 = n.t - Math.max(nd, Math.min(1.6 * nd, 0.55 * (n.t - f.t))), dep = f.until ? Math.max(dep0, Math.min(f.until, n.t - 0.8 * nd)) : dep0, hold = dep - f.t;   // glide out early when there's room (fewer dash-then-hold moves)
-    if (hold <= 0.25) { keys.push({ ...f }); return; }
+    if (f.until && dep < f.until - 0.05) console.warn(`[rail] until ${f.until.toFixed(2)} at t=${f.t.toFixed(2)} clamped to ${dep.toFixed(2)} (the next framing is too far/too soon)`);   // 026: the camera left before the punch word
+    if (hold <= 0.25) { keys.push({ ...f, pass: shortHoldPass && !f.stop ? true : f.pass }); return; }
     const A = comps(f), N = comps(n), k = f.stop ? 0 : Math.min(maxLead, lead * hold), B = A.map((a, c) => a + (N[c] - a) * k * (c >= 3 && c < 6 ? 0.5 : 1)), vel = f.stop ? null : B.map((b, c) => (b - A[c]) / hold);   // the aim leads half as much: close frames keep their subject
     keys.push({ t: f.t, ...un(A), vel }, { t: dep, ...un(B), vel });
   });

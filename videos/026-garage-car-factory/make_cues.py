@@ -31,7 +31,7 @@ t = dict(
     n12=W('line', '12'), minutes=W('line', 'minutes'), pulls=W('line', 'pulls'), rope=W('line', 'rope'), promoted=W('line', 'promoted'),
     but=W('fits', 'but'), fits=W('fits', 'fits'), hammering=W('fits', 'hammering'), soP=W('parts', 'so'), make=W('parts', 'make'), exactly=W('parts', 'exactly'), alike=W('parts', 'alike'), inter=W('parts', 'interchangeable'), partsW=W('parts', 'parts'),
     mixed=W('parts', 'mixed'), pile=W('parts', 'pile'), rebuilt=W('parts', 'rebuilt'), three2=W('parts', 'three', 2), pile2=W('parts', 'pile', 2), hood=W('parts', 'hood'),
-    garys=W('robots', 'garys'), bolt=W('robots', 'bolt'), day=W('robots', 'day'), asleep=W('robots', 'asleep'), up=W('robots', 'up'), robot=W('robots', 'robot'), never=W('robots', 'never'),
+    garys=W('robots', 'garys'), bolt=W('robots', 'bolt'), day=W('robots', 'day'), asleep=W('robots', 'asleep'), up=W('robots', 'up'), robot=W('robots', 'robot'), arms=W('robots', 'arms'), buy=W('robots', 'buy'), soR=W('robots', 'so'), never=W('robots', 'never'),
     welded=W('robots', 'welded'), garyW=W('robots', 'gary'), doorW=W('robots', 'door'),
     thenE=W('ecoat', 'then'), carsE=W('ecoat', 'cars'), rusts=W('ecoat', 'rusting'), rain=W('ecoat', 'rain'), soE=W('ecoat', 'so'), dip=W('ecoat', 'dip'), body=W('ecoat', 'body'), electrified=W('ecoat', 'electrified'), seals=W('ecoat', 'seals'),
     crack=W('ecoat', 'crack'), ecoating=W('ecoat', 'ecoating'), garyE=W('ecoat', 'gary'), doorE=W('ecoat', 'door'), rustproof=W('ecoat', 'rustproof'),
@@ -75,7 +75,7 @@ ORN, WELD = t['hood'] - 0.25, t['welded']
 PIT0, LIFT0, DIP0, OUT0, OUT1, SET1 = t['dip'] - 0.15, t['dip'] + 0.2, t['body'] + 0.05, t['garyE'] - 0.05, t['doorE'] - 0.05, t['rustproof'] - 0.15
 AVA0, DRAIN0, DRAIN1 = t['allJ'], t['soJ'] + 0.05, t['needed'] - 0.2
 L1, HIT1 = t['crashW'], t['wall']; L2 = max(t['can'] + 0.7, t['crumple'] - 0.5); HIT2 = max(t['crumple'] + 0.05, L2 + 0.35); BAG = t['off'] - 0.08
-LANDQ, HOPQ, STAMP, STAMP2 = t['ships'] - 0.05, t['soQ'] - 0.1, t['rejects'], t['twice']
+LANDQ, HOPQ, STAMP, STAMP2 = t['ships'] + 0.25, t['soQ'] - 0.1, t['rejects'], t['twice']
 EP_desk = t['n53'] + 0.1
 
 # ---------------------------------------------------------------- music
@@ -141,7 +141,7 @@ for k in range(22):
     for x, snd in ((0.4, "knock"), (5.0, "clunk")):
         tc = crossT(k, x)
         if tc is not None and tc < D - 0.5: e(tc, snd, -24, -0.3 + 0.03 * (k % 10), **({"pitch": 1.4} if snd == "knock" else {"size": 0.5, "metal": 0.8}))
-e(t['pulls'] - 0.1, "grate", -24, 0.3, dur=0.6); e(t['promoted'] - 0.05, "pop", -15, 0.3, pitch=1.6); e(t['promoted'] + 0.05, "plush_squeak", -20, 0.3, pitch=1.8)
+e(t['pulls'] - 0.1, "grate", -20, 0.3, dur=0.8); e(t['promoted'] - 0.05, "pop", -15, 0.3, pitch=1.6); e(t['promoted'] + 0.05, "plush_squeak", -20, 0.3, pitch=1.8)
 # parts: the door bonks off, hammered into the sunroof, the press, the Cadillac pile, the hood ornament
 e(t['fits'], "bonk", -14, 0.0)
 for k in range(4): e(t['hammering'] + 0.1 + k * 0.3, "metal_clang", -19, 0.0, size=0.5, pitch=1.4)
@@ -158,7 +158,11 @@ e(ORN, "pop", -15, 0.1, pitch=1.2); e(ORN + 0.3, "low_swell", -20, 0.1, dur=1.2,
 e(t['garys'], "car_pass", -21, 0.2, dur=1.0, size=0.8); e(t['bolt'] + 0.1, "car_pass", -20, 0.2, dur=1.0, size=0.8)
 for k in range(6): e(t['bolt'] + 0.1 + k * 0.22, "knock", -24, 0.0, pitch=1.8)
 e(t['asleep'] - 0.1, "snore", -17, 0.0, dur=2.0, size=0.8)
-for i in range(2): e(t['robot'] - 0.1 + i * 0.35 + 0.42, "giant_step", -14, -0.3 + 0.6 * i, size=1.1); e(t['robot'] - 0.1 + i * 0.35 + 0.44, "metal_clang", -16, -0.3 + 0.6 * i, size=1.2, pitch=0.9)
+e(t['robot'] + 0.32, "giant_step", -14, -0.3, size=1.1); e(t['robot'] + 0.34, "metal_clang", -16, -0.3, size=1.2, pitch=0.9)   # robot 1 drops in
+e(t['soR'] - 0.05, "plush_squeak", -18, 0.2, pitch=1.5)   # Gary jolts awake
+e(t['buy'] + 0.05, "giant_step", -15, 0.3, size=0.8); e(t['buy'] + 0.07, "knock", -16, 0.3, pitch=0.6)   # the crate lands
+e(t['arms'], "wood_snap", -13, 0.3, size=1.0); e(t['arms'] + 0.05, "crumble", -19, 0.3, dur=0.5, size=0.4)   # he rips it open
+for k in range(4): e(t['arms'] + 0.25 + k * 0.15, "knock", -21, 0.3, pitch=1.7)   # bolts it down
 for k in range(5): e(t['never'] - 0.1 + k * 0.45, "zap", -27, -0.3 + 0.15 * k, dur=0.3)
 e(WELD, "zap", -14, 0.0, dur=0.6); e(t['garyW'], "plush_squeak", -17, 0.0, pitch=1.3)
 for k in range(3): e(t['doorW'] - 0.25 + k * 0.2, "metal_groan", -23, 0.0, dur=0.3, pitch=1.6)
