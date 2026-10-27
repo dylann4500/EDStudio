@@ -1341,6 +1341,37 @@ def sfx_bone_clatter(rng, dur=0.9, n_hits=14):
     roll = lp(pink(n, rng), 700) * np.clip((t - 0.25) / 0.1, 0, 1) * np.clip((dur + 0.2 - t) / 0.3, 0, 1) * 0.15 * (0.6 + 0.4 * np.sin(2 * np.pi * 9 * t))
     return Sound(norm(fades(lp(y + roll, 2600), 0.001, 0.08)), onsets=[(0.0, "transient")])
 
+
+def sfx_alarm_beep(rng, dur=1.4, n=3, pitch=1.0):
+    """Bedside alarm clock (020): n soft round double-beeps (sine ~1.3 kHz, rounded envelope, low-passed). Gentle, never piercing."""
+    ns = nsamp(dur)
+    t = tvec(ns)
+    y = np.zeros(ns)
+    f = 1250.0 * pitch
+    for k in range(n):
+        for j in range(2):
+            t0 = k * 0.42 + j * 0.13
+            if t0 > dur - 0.12:
+                continue
+            e = np.clip((t - t0) / 0.008, 0, 1) * np.exp(-np.clip(t - t0 - 0.05, 0, None) / 0.03) * (t >= t0)
+            y += e * (np.sin(2 * np.pi * f * t) + 0.25 * np.sin(2 * np.pi * 2 * f * t))
+    return Sound(norm(fades(lp(y, 2600), 0.001, 0.03)), onsets=[(0.0, "transient")])
+
+
+def sfx_cartoon_splash(rng, dur=2.2, size=1.0):
+    """A big cartoon splash (020; named cartoon_splash — 017's water_splash is a different sound): a soft low 'whump' + a wide burst of filtered water noise that rises then rains back down.
+    Everything low-passed (no hiss); size 0.3 = a bucket, 1 = a pool, 2 = an ocean."""
+    n = nsamp(dur)
+    t = tvec(n)
+    whump = np.sin(2 * np.pi * (70 + 40 * np.exp(-t / 0.08)) * t) * np.exp(-t / (0.18 * size)) * 0.8
+    burst_env = (1 - np.exp(-t / 0.03)) * np.exp(-t / (0.35 * size))
+    burst = lp(hp(white(n, rng), 300), 2600) * burst_env
+    rain_env = np.clip((t - 0.35) / 0.3, 0, 1) * np.exp(-np.clip(t - 0.6, 0, None) / (0.5 * size))
+    rain = lp(hp(pink(n, rng), 600), 3400) * rain_env * 0.45
+    x = unit_rms(burst) * 0.9 + unit_rms(rain) * 0.5 + whump
+    return Sound(norm(fades(x, 0.002, 0.3), 0.9), onsets=[(0.0, "transient")])
+
+
 def amb_room_tone(dur, rng):
     n = nsamp(dur)
     out = []
@@ -2305,6 +2336,8 @@ SFX = {
     "candy_rattle": (sfx_candy_rattle, "prop"),
     "deflate": (sfx_deflate, "prop"),
     "bone_clatter": (sfx_bone_clatter, "prop"),
+    "alarm_beep": (sfx_alarm_beep, "prop"),
+    "cartoon_splash": (sfx_cartoon_splash, "prop"),   # 020 (017 owns water_splash)
 }
 
 # =============================================================================

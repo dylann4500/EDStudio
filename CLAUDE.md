@@ -289,6 +289,25 @@ videos/NNN-slug/
   `tailor.js` (fabric-bolt wall, fitting pedestal, dress forms that topple). core.js HUD `fmt: 'len'` (value in cm → cm/m/km)
   + `geo: true` (a doubling rolls geometrically). A far-away giant in suburb.js: scale the 300 m sky dome ×30, far 14000, and
   give the giant `fog: false` materials with a haze-blue emissive (the set's 220 m fog would erase it); its smoke sprites too.
+- **Doubling-POV kit (020, butt doubling):** `engine/props.js` `makeButt({denim, stitch, belt})` = a cartoon butt in jeans (two cheeks with
+  back pockets + yoke seam, a hip block, waistband + brown belt) that scales from 0.36 m to a planet: `setWidth(W m)`, `setBelt(on)`
+  (off = it snapped), `setSquash(k)` (+ flat / − stretched, bottom stays put), `button` (fly it off). Origin = top-center-front of the
+  waistband: parent it to `rig.pelvis` at (0, 0.06, 0) for small sizes; for big ones place it in the set (anchor y = ground + 0.565·W)
+  and pose the rig's pelvis at the anchor (020 `landmark()`, legs tucked into the denim). Pockets face the rig's −z: **turn the butt
+  so its back faces the lens** in every big shot (a front view of two giant spheres reads wrong). HUD: story.json segments take
+  `fmt: "len"` (value in cm, printed 36 cm / 1.44 m / 11.8 km / 6,040 km) + `geo: true` (rolls geometrically — a doubling, not a ramp).
+  `grow(t, tb, n)` / `squash()` in 020 shots.js = the boing every doubling uses. Copy 020's `impact()` + angular `jolts` (shake scales
+  with the shot's distance, so a 40 m wide shot shakes as much as a 2 m one).
+- **Per-shot `--cam top` (020):** in `update(t)` set `story.debugView = {center: OFF[set] + local, height}` per shot (020 `DBG`) — the
+  bird's-eye view then follows every set parked at an offset. It found a bus parked inside the door shot (a green slab over the lens).
+- **Space at human scale (020 ISS):** scale `tech.js` `buildSpace` root ×10 (Earth R = 4000 m) and put the ISS + an astronaut rig in
+  meters next to the camera; set `camera.far ≈ 30000`. Put the camera over the **sub-solar point** (`(1000,250,300).normalize()`) or the
+  ground is a dark night side, and set `studio.camera.up` to the local vertical there (else the whole frame is rolled / upside down);
+  reset `camera.up` to (0,1,0) in every other shot. Pose rigs with `basisQ(up, front)` (018) there.
+- **A giant thing in a street's sky (020 crowd):** street.js's sky dome (r 150) hides anything beyond it — set its `depthWrite = false`
+  + `renderOrder = −1`, raise `camera.far` for that shot, swap in a thin fog (80 → 9000), give the far object an emissive map (it sits
+  in the set's shadow side) and lift it so its readable part clears the skyline. A cartoon water splash = an open cylinder ring with a
+  jagged-top alpha texture (020 `crown`) — soft puffs alone read as cotton balls.
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -564,6 +583,13 @@ robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced f
 (wheelbarrow + staring neighbors 0.147, tailor 0.140, doctor faint 0.110–0.128), while the faceless planet-scale finale sagged
 (ZIP horizon 0.060, Earth 0.057) and the quiet elevator title open went negative (−0.013). Body-absurd ladders score best
 while they stay human-scale. Keep the cosmic end short, or put a face in it.
+
+**020 (butt doubling, 60 s) cut1: whole-brain 0.068, first 60 s 0.068, 20.9 % above, no dead zone → TARGET MET first try.** Per beat:
+faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
+best beat measured so far; bus 0.125; kitchen 0.104; traffic 0.101). Faceless spectacle sags (the Moon from space 0.019, the ISS 0.050
+even with an astronaut), and so does the sleeping title shot (−0.033). Keep the faceless space beat short and put a face beat after it.
+**The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
+and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.

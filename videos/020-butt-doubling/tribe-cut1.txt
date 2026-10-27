@@ -1,0 +1,22 @@
+020-butt-doubling-cut1: 60 s
+  wc_mean                  +0.0682   best existing +0.0447  BEATS
+  wc_mean_first60          +0.0682   best existing +0.0421  BEATS
+  pct_above_thresh         +20.9085   best existing +15.7313  BEATS
+  hook_0_3                 -0.0334
+  sustain_pooled_median    +86.6667
+  dead zones (≥8 s below 0.0185, after 4 s): none
+  per beat (mean whole-cortex, min second):
+      0.0–  3.4 sleep     -0.0334  min -0.0522  ###
+      3.4–  8.0 stand     +0.0380  min +0.0098  #################
+      8.0– 12.6 kitchen   +0.1038  min +0.0831  ##############################
+     12.6– 17.8 door      +0.1471  min +0.1268  #######################################
+     17.8– 22.4 bus       +0.1248  min +0.1202  ##################################
+     22.4– 27.0 traffic   +0.1011  min +0.0853  ##############################
+     27.0– 31.6 pool      +0.0720  min +0.0617  ########################
+     31.6– 36.4 flight    +0.0584  min +0.0571  #####################
+     36.4– 41.0 iss       +0.0495  min +0.0378  ###################
+     41.0– 43.4 crowdA    +0.0653  min +0.0627  #######################
+     43.4– 45.2 crowdB    +0.0565  min +0.0490  #####################
+     45.2– 50.2 moon      +0.0185  min +0.0055  #############
+     50.2– 60.0 wake      +0.0567  min +0.0103  #####################
+  TARGET MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

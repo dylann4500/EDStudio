@@ -202,3 +202,16 @@ down on top of it; your coffee is still warm).
 - HUD: `fmt: 'len'` width that rolls geometrically on every doubling + MINUTE n · 9:0n AM; one sourced number per beat.
 - Sound: an escalation fanfare that modulates up a whole step per location group, a root–fifth–octave piano pickup + boom on
   every doubling, soft low "boops" for each censor pop; warm piano arp for the sit-down (audio: make_cues.py).
+
+## Doubling POV (`videos/020-butt-doubling`) — "What if your butt doubled in size every minute?"
+The @whatifpov mechanic (one variable on *your* body, ×2 on a clock) in house style, for the unhinged lane's weird tier.
+- **The HUD is the plot:** YOUR BUTT · WIDTH rolls 36 cm → 6,040 km with `fmt: "len"` + `geo` rolls; the time line is `MINUTE n · 7:0n AM`;
+  the stat line is the beat's real number (door 91 cm, bus 12 m, lane 3.7 m, pool 2.5 M L, cruise 11 km, ISS 400 km, Moon 3,474 km).
+  Skip minutes freely once it's huge (M7 → M13 → M20 → M24) — viewers follow the units, not the count.
+- **Every doubling = the beat's physical effect:** a boing (swell + overshoot), a starburst + dust, an angular camera jolt, a swell → boom
+  → low "bwomp" in the mix. The world reacts at each scale: chair → door → bus → intersection → pool → airliners → ISS → the Moon.
+- **Clothed, cartoon, crude-but-kind:** jeans the whole way (the 2 % spandex line explains why), pockets toward the lens, the butt read
+  from behind or the side, never from the front. The joke is on "you" (Gary stands in).
+- **Subtitle order:** the minute is named only AFTER its boom (the HUD flips on the boom); the line before the boom states the fact
+  ("A city bus is 12 m long." → BOOM → "Minute 5. So is your butt.").
+- **Ending = a loop:** it was a dream (7:00, the dog naps on it) … 7:01, BOOM, the dog launches. The last beat matches the first shot.

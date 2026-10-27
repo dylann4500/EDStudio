@@ -195,3 +195,13 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
 - Arc that worked: quiet stadium open (−34 LUFS) → kick + roar → SECOND 0 pressure drop + braam, the roar falls away → plucks build
   place by place (−18 → −14) → tom roll into the countdown (−12) → boom + strings stomp under the landings (−13) → warm F major
   for the button (−17). LRA 7. Beds at −35…−45 with amb stem +9 so each place is audible under the score.
+
+## Escalation polka (020 doubling POV)
+- Piano `bounce` oom-pah + soft spiccato `strings` (pattern [0,1,2,1], octave 1) that **steps up a key on every doubling** (C → Db → D …,
+  a new chord list + pad per key) and speeds up with the scale (120 → 133 → 150 bpm via `step`). A mallet octave-leap "boing" on each
+  doubling climbs with the key. Dream ending = a music-box `arp` lullaby in C; the 7:01 boom restarts the polka (the loop).
+- **Gotcha: booms inflate the music median → every bar end before a boom flags as a dropout.** Fix: a rising 4-note mallet "wind-up"
+  (t−0.48 … t−0.12, crescendo) into each doubling, pads overlapping 0.5 s at key changes (`level` 1.15), booms at vel ≤ 0.6.
+  Result: −15 LUFS, LRA 3.5, `music dropouts: none`.
+- New SFX: `alarm_beep` (n, pitch — soft round double-beeps, low-passed) and `cartoon_splash` (renamed from water_splash at merge — 017 owns that name; size — a whump + a burst + falling rain,
+  low-passed). Reference script: `videos/020-butt-doubling/make_cues.py`.
