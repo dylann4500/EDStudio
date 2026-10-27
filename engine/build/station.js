@@ -547,7 +547,10 @@ export async function buildStation(parent) {
     for (let k = 0; k < 6; k++) mk(new THREE.BoxGeometry(0.12, 0.16, 0.03), mat([0xe8504a, 0xffd23f, 0x58b368, 0x3fa9ff, 0xff8a3d, 0xb36bff][k], 0.5), G, -0.3 + (k % 3) * 0.3 + 0.6, 0.45 + Math.floor(k / 3) * 0.22, 0.02); }
   // M4 LAB: a red alarm beacon (setAlarm), M5 WC: a sign + a floating toilet roll
   const alarmM = new THREE.MeshStandardMaterial({ color: 0x8a1a14, emissive: 0xff2a1a, emissiveIntensity: 0 });
-  mk(new THREE.SphereGeometry(0.13, 16, 10, 0, PI * 2, 0, PI / 2), alarmM, m4.g, -D.hw + 0.25, -0.25, -D.hw + 0.25).rotation.x = PI;
+  mk(new THREE.CylinderGeometry(0.17, 0.17, 0.05, 18), mat(0x8e939b, 0.5, { metalness: 0.4 }), m4.g, -D.hw + 0.3, -0.04, -D.hw + 0.3);
+  mk(new THREE.SphereGeometry(0.13, 16, 10, 0, PI * 2, 0, PI / 2), alarmM, m4.g, -D.hw + 0.3, -0.065, -D.hw + 0.3).rotation.x = PI;   // hangs from the ceiling corner
+  const alarmGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex(64, 64, (c) => { const g = c.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,90,60,1)'); g.addColorStop(1, 'rgba(255,30,20,0)'); c.fillStyle = g; c.fillRect(0, 0, 64, 64); }), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0 }));
+  alarmGlow.position.set(-D.hw + 0.3, -0.16, -D.hw + 0.3); alarmGlow.scale.setScalar(0.7); m4.g.add(alarmGlow);
   const alarm = new THREE.PointLight(0xff3020, 0, 6, 1.4); alarm.position.set(-0.6, -1.2, 0.6); m4.g.add(alarm);
   { const wcT = tex(256, 128, (c, w, h) => { c.fillStyle = '#ffffff'; c.fillRect(0, 0, w, h); c.strokeStyle = '#2f6fd6'; c.lineWidth = 10; c.strokeRect(6, 6, w - 12, h - 12); c.font = font(70); c.fillStyle = '#2f6fd6'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('W.C.', w / 2, h / 2 + 6); });
     mk(new THREE.PlaneGeometry(0.7, 0.35), new THREE.MeshStandardMaterial({ map: wcT, roughness: 0.6 }), m5.g, -0.35, -0.55, -D.hw + 0.02);
@@ -596,6 +599,8 @@ export async function buildStation(parent) {
   const holeT = tex(256, 256, (c, w, h) => { c.clearRect(0, 0, w, h); c.beginPath(); const R = rng(8); for (let k = 0; k <= 22; k++) { const a = (k / 22) * PI * 2, r = 70 + (k % 2 ? 26 : 0) * R(); c.lineTo(w / 2 + Math.cos(a) * r, h / 2 + Math.sin(a) * r); } c.closePath(); c.fillStyle = '#5a5e66'; c.fill();
     c.beginPath(); for (let k = 0; k <= 18; k++) { const a = (k / 18) * PI * 2, r = 52 + (k % 2 ? 12 : 0); c.lineTo(w / 2 + Math.cos(a) * r, h / 2 + Math.sin(a) * r); } c.closePath(); c.fillStyle = '#05070f'; c.fill(); c.save(); c.clip(); for (let i = 0; i < 30; i++) { c.fillStyle = '#fff'; c.fillRect(w / 2 - 50 + R() * 100, h / 2 - 50 + R() * 100, 2, 2); } const gr = c.createRadialGradient(w / 2, h, 0, w / 2, h, 90); gr.addColorStop(0, 'rgba(90,170,255,.7)'); gr.addColorStop(1, 'rgba(90,170,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, w, h); c.restore(); });
   const hole = mk(new THREE.PlaneGeometry(0.62, 0.62), new THREE.MeshBasicMaterial({ map: holeT, transparent: true, toneMapped: true }), m4.g, D.hole[0], D.hole[1] - D.mtop[3], -D.hw + 0.012); hole.castShadow = false; hole.visible = false;
+  const crackT = tex(256, 256, (c, w, h) => { c.clearRect(0, 0, w, h); const R = rng(21); c.strokeStyle = 'rgba(40,40,48,.85)'; c.lineCap = 'round'; for (let k = 0; k < 11; k++) { let a = (k / 11) * PI * 2 + R() * 0.3, r = 36, x = w / 2 + Math.cos(a) * r, y = h / 2 + Math.sin(a) * r; c.lineWidth = 5; c.beginPath(); c.moveTo(x, y); for (let j = 0; j < 4; j++) { a += (R() - 0.5) * 0.7; r += 14 + R() * 16; x = w / 2 + Math.cos(a) * r; y = h / 2 + Math.sin(a) * r; c.lineTo(x, y); c.lineWidth = Math.max(1.5, 5 - j); } c.stroke(); } c.fillStyle = 'rgba(60,62,70,.55)'; c.beginPath(); c.arc(w / 2, h / 2, 46, 0, PI * 2); c.fill(); });
+  const cracks = mk(new THREE.PlaneGeometry(1.5, 1.5), new THREE.MeshBasicMaterial({ map: crackT, transparent: true, depthWrite: false }), hole, 0, 0, -0.004); cracks.renderOrder = -1;   // a dented, cracked rim round the plug
   // the cupola under M5 (a window over the backyard): a glass hex dome with struts; a lens inside it looks down through the struts
   const cup = new THREE.Group(); g.add(cup); cup.position.y = D.bottom;
   { const frame = mat(0xd9dbe0, 0.4, { metalness: 0.4 }), strutM = mat(0x8e939b, 0.45, { metalness: 0.5 });
@@ -609,7 +614,7 @@ export async function buildStation(parent) {
     const strut = (a, b, rr) => { const d = b.clone().sub(a), m = mk(new THREE.CylinderGeometry(rr, rr, d.length(), 6), strutM, dome); m.position.copy(a).addScaledVector(d, 0.5); m.quaternion.setFromUnitVectors(up, d.normalize()); };
     for (let k = 0; k < 6; k++) { strut(corner(r0, 0, k), corner(r1, -H, k), 0.03); strut(corner(r0, 0, k), corner(r0, 0, k + 1), 0.04); strut(corner(r1, -H, k), corner(r1, -H, k + 1), 0.045); } }
   cup.visible = false;
-  return { g, mods, m1, m2, m3, m4, m5, ring, rings, al, setAlarm: (k) => { alarmM.emissiveIntensity = 2.2 * k; alarm.intensity = 5 * k; }, alHull, outerDoor, mud, alLight, truss, shield, hole, cup, setPower: (k) => { mods.forEach((m) => m.setPower(k)); } };   // the airlock keeps its own light (it docks lit)
+  return { g, mods, m1, m2, m3, m4, m5, ring, rings, al, setAlarm: (k) => { alarmM.emissiveIntensity = 2.2 * k; alarm.intensity = 5 * k; alarmGlow.material.opacity = 0.85 * k; }, alHull, outerDoor, mud, alLight, truss, shield, hole, cup, setPower: (k) => { mods.forEach((m) => m.setPower(k)); } };   // the airlock keeps its own light (it docks lit)
 }
 
 // ================================================================ PROPS + CAST
@@ -776,9 +781,10 @@ export function makeTreadmill() {
 }
 /** The $23M space toilet: a seat with thigh bars, a funnel hose, a fan housing. Origin = the base centre (mount it on a wall). */
 export function makeToilet() {
-  const g = new THREE.Group(), w = mat(0xe9e7e2, 0.4), m = mat(0xb8bcc4, 0.35, { metalness: 0.5 }), y = mat(0xf2c14e, 0.5);
-  mk(new THREE.CylinderGeometry(0.22, 0.18, 0.36, 20), w, g, 0, 0.18, 0);
-  const seat = mk(new THREE.TorusGeometry(0.17, 0.045, 10, 24), w, g, 0, 0.38, 0); seat.rotation.x = PI / 2;
+  const g = new THREE.Group(), w = new THREE.MeshStandardMaterial({ color: 0xffc93c, metalness: 0.7, roughness: 0.28, emissive: 0x6a4500, emissiveIntensity: 0.6, envMapIntensity: 2 }), m = w, y = mat(0xf2c14e, 0.5);   // $23M = solid gold
+  const bowl = mk(new THREE.LatheGeometry([[0.0, 0.0], [0.15, 0.0], [0.17, 0.04], [0.2, 0.2], [0.23, 0.34], [0.2, 0.38], [0.15, 0.37]].map(([x, yy]) => new THREE.Vector2(x, yy)), 28), w, g, 0, 0, 0); bowl.material.side = THREE.DoubleSide;
+  const seat = mk(new THREE.TorusGeometry(0.19, 0.04, 10, 28), w, g, 0, 0.39, 0); seat.rotation.x = PI / 2;
+  const lid = mk(new THREE.CylinderGeometry(0.21, 0.21, 0.03, 28), w, g, 0, 0.6, -0.22); lid.rotation.x = -1.35;
   for (const s of [-1, 1]) { const b = mk(new THREE.CapsuleGeometry(0.025, 0.36, 4, 8), y, g, s * 0.24, 0.58, 0.05); b.rotation.x = PI / 2; mk(new THREE.BoxGeometry(0.03, 0.22, 0.03), m, g, s * 0.24, 0.47, -0.12); }
   const hose = mk(new THREE.TorusGeometry(0.22, 0.035, 8, 20, PI * 1.2), mat(0x58b368, 0.5), g, 0.25, 0.3, 0.05); hose.rotation.set(0, PI / 2, 0.4);
   mk(new THREE.ConeGeometry(0.07, 0.14, 14, 1, true), mat(0xffd23f, 0.5), g, 0.36, 0.55, 0.12).rotation.z = -0.6;

@@ -368,7 +368,7 @@
           "at": "hundred",
           "text": "$100,000,000,000+",
           "style": "money",
-          "until": "place"
+          "until": "dollars"
         },
         {
           "at": "runs",

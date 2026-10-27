@@ -145,6 +145,7 @@ e(t['back'], "plush_squeak", -19, 0.2, pitch=1.4)   # Gary sees it coming
 e(IMPACT, "giant_step", -9, 0.2, size=1.6); e(IMPACT + 0.01, "crumble", -12, 0.2, dur=1.2, size=1.2); e(IMPACT + 0.02, "metal_clang", -15, 0.2, size=1.4, pitch=0.8)
 for k in range(5): e(IMPACT + 0.35 + k * 0.12, "knock", -23, 0.2 + 0.05 * k, pitch=0.8)   # clods land
 for k in range(3): e(IMPACT + 0.4 + k * 0.15, "parrot_chirp", -22, 0.5, pitch=1.8)   # the birds scatter
+for k, tw in enumerate([W('end', 'wanted'), t['feed'], t['ebirds']]): e(tw + 0.05, "parrot_chirp", -21, -0.4 + 0.4 * k, pitch=1.3 + 0.2 * k)   # three birds in helmets fly past the lens (shots.js spaceBirds)
 # orbit: pop out, the rocket rights itself, in the cockpit, LAUNCH, the climb, the cloud, space goes quiet, the arrows
 e(POPOUT, "crumble", -15, 0.2, dur=0.6, size=0.7); e(POPOUT + 0.02, "pop", -15, 0.1, pitch=1.0)
 e(UPRIGHT, "clunk", -15, 0.2, size=1.0, metal=0.6); e(INCOCKPIT, "latch_click", -18, 0.2)
@@ -162,7 +163,7 @@ e(t['fsq'] - 0.35, "pop", -13, -0.2, pitch=1.4); e(t['fsq'] - 0.33, "candy_rattl
 # dock: push the rocket away, M1 rises on its thrusters, bolts, Gary dives in, M2 rises, capture, CLUNK
 e(PUSH, "blanket_rustle", -22, -0.3, dur=0.4, intensity=0.8); e(PUSH + 0.2, "metal_groan", -25, -0.5, dur=1.2, pitch=0.8)
 e(M1_IN0, "distant_boom", -18, 0.0, dur=1.8, size=0.5)
-for k in range(6): e(M1_IN0 + 0.1 + k * 0.14, "kick", -22, 0.0)   # thruster puffs
+for k in range(6): e(M1_IN0 + 0.1 + k * 0.14, "kick", -22, 0.0)   # thruster puffs (the booster flame under the rising module)
 e(M1_IN1 - 0.05, "clunk", -13, 0.0, size=1.3, metal=0.7)
 for a in (BOLT1, BOLT2): e(a, "metal_clang", -16, 0.2, size=0.5, pitch=1.6); e(a + 0.05, "knock", -20, 0.2, pitch=1.4)
 e(DIVE - 0.3, "latch_click", -20, 0.0); e(DIVE + 0.1, "blanket_rustle", -23, 0.0, dur=0.4, intensity=0.5)
@@ -216,7 +217,8 @@ e(t['life'] - 0.05, "pop", -19, 0.0, pitch=1.4)
 # water: sweat beads, a breath, the PEE bag, the gauge, the tap, the sip, the blob, the gulp
 for k in range(3): e(t['sweat'] + k * 0.12, "plip", -21, 0.2, pitch=1.4 + 0.1 * k)
 e(t['wbreath'], "deflate", -23, 0.1, dur=0.5)
-e(t['even'] - 0.3, "hamster_squeak", -20, 0.3, pitch=1.6); e(PEE_IN, "slurp", -17, 0.3, dur=0.4); e(PEE_IN + 0.05, "plip", -20, 0.3, pitch=0.8)
+e(t['pee'] - 0.2, "pop", -17, 0.1, pitch=1.1); e(t['pee'] + 0.05, "hamster_squeak", -21, 0.3, pitch=1.6)   # Gary holds the bag up on "pee"
+e(t['pee'] + 0.55, "slurp", -15, 0.3, dur=0.45); e(t['pee'] + 0.7, "plip", -19, 0.3, pitch=0.8)   # ...and the recycler slurps it (shots.js: into over pee+0.3..0.7)
 for k in range(8): e(GAUGE0 + k * (GAUGE1 - GAUGE0) / 8, "knock", -27, 0.2, pitch=1.9)   # the needle ratchets to 98 %
 e(GAUGE1, "pop", -17, 0.2, pitch=1.8)
 e(POUR, "water_splash", -24, 0.3, dur=0.6, size=0.3)
@@ -260,6 +262,7 @@ amb = [
     {"sound": "dry_leaves", "t0": 0.0, "t1": IGN2 + 1.0, "fade_in": 0.2, "fade_out": 0.8, "gain_db": -36, "args": {"density": 0.5}, "seed": 2},   # the oak in the breeze
     {"sound": "rocket_rumble", "t0": IGN1, "t1": APEX + 0.4, "fade_in": 0.05, "fade_out": 0.4, "gain_db": -22, "args": {"rise": 0.6}, "seed": 3},   # the hop
     {"sound": "rocket_rumble", "t0": IGN2, "t1": t['hour'] + 0.6, "fade_in": 0.1, "fade_out": 1.0, "gain_db": -17, "args": {"rise": 1.0}, "seed": 4},   # the launch, fading as the air thins
+    {"sound": "rocket_rumble", "t0": M1_IN0, "t1": M1_IN1 + 0.1, "fade_in": 0.05, "fade_out": 0.3, "gain_db": -25, "args": {"rise": 0.5}, "seed": 7},   # the module's booster
     {"sound": "wind", "t0": IGN2 + 0.4, "t1": t['n17'] + 1.2, "fade_in": 0.3, "fade_out": 0.8, "gain_db": -27, "args": {"darkness": 0.5, "gust": 0.8, "whistle": 0.0}, "seed": 5},
     {"sound": "cabin_hum", "t0": ORBIT_IN, "t1": D - 3.5, "fade_in": 1.5, "fade_out": 1.0, "gain_db": -36, "seed": 6},   # the station's soft life-support hum
     {"sound": "fan", "t0": SCRUB + 0.2, "t1": D - 3.5, "fade_in": 0.4, "fade_out": 1.0, "gain_db": -36, "args": {"rate": 9.0}, "seed": 7},   # the scrubber fan

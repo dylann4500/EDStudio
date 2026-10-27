@@ -218,6 +218,10 @@ v3 (planRail, visible exits, re-voiced punch-ups) 7 · 6 · 8 · 6.5 · 7.5 → 
 driver, turnstile swipes) 8 · 6.5 · 8.5 · 6.5 · 8 → v5 (QC hook for faces under text, soft holds, money bills, nightlight
 dark + glowing Gary) 8 · 6.5 · 8.5 · 7 · 8.5; v6 = the round-5 fixes below, shipped without a 6th review round. The camera stayed at 6.5 until the soft holds; the look reviewers keep asking for
 AO/DoF/sky — the biggest remaining gap to the Blender reference.
+032's (bird feeder → space station, scratch voice): v1 6.5 · 6 · 6 · 6 · 6.5 → v2 (one room per beat down a 5-module stack,
+cupola, stowaway squirrel, emergency light, Whipple section) 7 · 6.3 · 7 · 6.5 · 7. v2's top find was ours: open hatch lids
+(`hatchDoor.open` swings the lid INTO the room) hung across the plugged hero's face for 30 s; and a mid-line comment had silently
+swallowed the end rail's "birds" key (lint_comments.py now flags comments holding `{ t: …` or ending in `},`).
 Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
 lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
 picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out
