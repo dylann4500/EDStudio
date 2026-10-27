@@ -252,6 +252,18 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   crowd_cheer). The onset checker reports many "--" in this genre — expected, it was built for foley over music.
 
 ## The narrator: ElevenLabs "Adam" (user's pick for meme / exaggerated videos)
+- **Dramatic delivery (user, Oct 27): Eleven v3 + inline audio tags, used TASTEFULLY.** The user A/B'd three reads of one line
+  and picked v3 with tags: Adam gets loud / near-yelling on the big moments ("in the vids i watch… Adam sounds so crazy or
+  exaggerated… almost like he's yelling"), but "not too often or else its too oversaturated". script.json `voice`:
+  `{"model": "eleven_v3", "settings": {"stability": 0.0, "similarity_boost": 0.8}}` (v3 ignores `speed`/`style`; keep
+  `tempo` ≈ 1.15–1.2 — calm v3 reads ~14.8 chars/s, same as v2 at speed 1.12; tagged lines run slower).
+  - Tags go inline in `say`: `[shouting]` / `[excited]` (tested), sparingly `[whispers]` (a hushed setup before a yell),
+    `[sarcastic]`, `[sighs]`. ONE CAPS word per tagged line for the peak ("Gary is NOT!").
+  - **Budget per reel: ~4–6 `[shouting]` + ~3–4 `[excited]`, i.e. ~1 tagged sentence in 3–4.** Tag the payoffs (the failure
+    landing, "Gary is now a ___", the biggest number, the final callback) — never setups, terms or explanations. Calm lines
+    around them make the yell land (contrast is the joke).
+  - narrate.py strips tags from captions/word timing (`untag`, alignment skips `[...]`) and never sends previous/next_text
+    to v3 (the API rejects it). Tags cost characters (they're billed).
 - Voice `pNInz6obpgDQGcFmaJgB` ("Adam – Dominant, Firm"), model `eleven_multilingual_v2`, settings stability 0.35,
   similarity 0.8, style 0.45, speaker boost, speed 1.12 — plus script.json **`"tempo": 1.15`**: Adam reads ~2.9 words/s
   even at speed 1.12, so narrate.py time-stretches each clip at assembly (ffmpeg `atempo`, pitch kept, cached clips reused —
