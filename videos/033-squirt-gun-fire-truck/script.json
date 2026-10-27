@@ -1,0 +1,442 @@
+{
+  "title": "How a Squirt Gun Becomes a Fire Truck",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 255
+  },
+  "lead": 0.06,
+  "gap": 0.04,
+  "tail": 1.3,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.3,
+  "joinLen": 4,
+  "look": {
+    "exposure": 1.08,
+    "bloom": 0.14,
+    "fill": 0.45,
+    "toneMapping": "neutral",
+    "vignette": 0.14,
+    "grain": 0.012,
+    "warm": 0.34,
+    "saturation": 1.1,
+    "lift": 0.01
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "Your grill is on fire, and all you've got is a squirt gun.",
+      "callouts": [
+        {
+          "at": "gun",
+          "text": "PEW!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.34
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built a fire engine. It holds one cup of water, and the cat in that tree is not impressed.",
+      "callouts": [
+        {
+          "at": "one",
+          "text": "1 CUP",
+          "style": "label",
+          "until": "water"
+        },
+        {
+          "at": "impressed",
+          "text": "YAWN…",
+          "style": "sfx",
+          "pos": [
+            0.55,
+            0.2
+          ],
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "grease",
+      "say": "Gary squirts the grease. [shouting] FIREBALL!",
+      "callouts": [
+        {
+          "at": "fireball",
+          "text": "FWOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.3
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "triangle",
+      "say": "Water makes grease explode. Fire needs heat, fuel and air, so you slam the lid. This is called the fire triangle. [excited] Now the HEDGE is on fire!",
+      "callouts": [
+        {
+          "at": "heat",
+          "text": "HEAT + FUEL + AIR",
+          "style": "label",
+          "until": "lid"
+        },
+        {
+          "at": "lid",
+          "text": "SLAM!",
+          "style": "sfx",
+          "pos": [
+            0.32,
+            0.3
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "fire",
+          "nth": 2,
+          "text": "FIRE TRIANGLE",
+          "style": "term",
+          "hold": 1.8
+        }
+      ]
+    },
+    {
+      "id": "tank",
+      "say": "Water works on hedges. You just need more than one cup. A real engine carries 750 gallons. That's three tons. Bye, wagon.",
+      "callouts": [
+        {
+          "at": "750",
+          "text": "750 GALLONS",
+          "style": "label",
+          "until": "gallons"
+        },
+        {
+          "at": "three",
+          "text": "3 TONS",
+          "style": "label",
+          "until": "wagon"
+        },
+        {
+          "at": "wagon",
+          "text": "CRUNCH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "truck",
+      "say": "So you bolt it onto a truck. This is called a booster tank. Then you brake, and the water keeps going. [shouting] So does GARY!",
+      "callouts": [
+        {
+          "at": "booster",
+          "text": "BOOSTER TANK",
+          "style": "term",
+          "until": "brake"
+        },
+        {
+          "at": "going",
+          "text": "SLOSH!",
+          "style": "sfx",
+          "pos": [
+            0.62,
+            0.58
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "baffles",
+      "say": "So you split the tank with walls full of holes. These are called baffles. Now the water hits them instead of Gary. Gary's pants are still on fire.",
+      "callouts": [
+        {
+          "at": "baffles",
+          "text": "BAFFLES",
+          "style": "term",
+          "hold": 1.6
+        },
+        {
+          "at": "fire",
+          "text": "SIZZLE",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.32
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "pump",
+      "say": "Now it just dribbles. So you add a wheel that spins and flings the water out. This is called a centrifugal pump. 1,500 gallons a minute. Gary holds the hose alone. [shouting] The hose holds GARY!",
+      "callouts": [
+        {
+          "at": "dribbles",
+          "text": "DRIP.",
+          "style": "sfx",
+          "pos": [
+            0.34,
+            0.6
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "centrifugal",
+          "text": "CENTRIFUGAL PUMP",
+          "style": "term",
+          "until": "minute"
+        },
+        {
+          "at": "1500",
+          "text": "1,500 GALLONS A MINUTE",
+          "style": "label",
+          "until": "minute"
+        },
+        {
+          "at": "gary",
+          "nth": 2,
+          "text": "WHOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.26
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "deckgun",
+      "say": "A real hose takes a crew. Your crew is Gary. So you bolt the nozzle to the roof. This is called a deck gun.",
+      "callouts": [
+        {
+          "at": "deck",
+          "text": "DECK GUN",
+          "style": "term",
+          "hold": 1.8
+        }
+      ]
+    },
+    {
+      "id": "hydrant",
+      "say": "Your tank empties in 30 seconds. So you tap the city water main. This is called a fire hydrant. Its nut has five sides, so random people can't open it. Gary is a random person.",
+      "callouts": [
+        {
+          "at": "30",
+          "text": "EMPTY IN 30 SECONDS",
+          "style": "label",
+          "until": "seconds"
+        },
+        {
+          "at": "fire",
+          "text": "FIRE HYDRANT",
+          "style": "term",
+          "hold": 1.8
+        },
+        {
+          "at": "five",
+          "text": "5 SIDES",
+          "style": "label",
+          "until": "open"
+        },
+        {
+          "at": "person",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.3
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "fireout",
+      "say": "With the right wrench, [excited] the fire's OUT in seconds!",
+      "callouts": [
+        {
+          "at": "out",
+          "text": "PSSSHH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.3
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "ladder",
+      "say": "But the cat's still up there. So you add a ladder that reaches [excited] 100 FEET!",
+      "callouts": [
+        {
+          "at": "100",
+          "text": "100 FEET",
+          "style": "label",
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "ladder2",
+      "say": "This is called an aerial ladder. The cat is at twenty.",
+      "callouts": [
+        {
+          "at": "aerial",
+          "text": "AERIAL LADDER",
+          "style": "term",
+          "hold": 1.6
+        },
+        {
+          "at": "twenty",
+          "text": "20 FEET",
+          "style": "label",
+          "hold": 1.2,
+          "x": 0.64,
+          "y": 0.6
+        }
+      ]
+    },
+    {
+      "id": "tip",
+      "say": "It reaches out, and [shouting] the whole truck TIPS!",
+      "callouts": [
+        {
+          "at": "out",
+          "text": "CREAK…",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.3
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "outriggers",
+      "say": "So you add legs that brace the truck against the ground. These are called outriggers. Gary is under one.",
+      "callouts": [
+        {
+          "at": "outriggers",
+          "text": "OUTRIGGERS",
+          "style": "term",
+          "hold": 1.6
+        },
+        {
+          "at": "one",
+          "text": "SQUISH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a siren, a fire pole, and a Dalmatian. Dalmatians used to run ahead of the horses. You don't have horses.",
+      "callouts": [
+        {
+          "at": "siren",
+          "text": "WEE-OOO!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.26
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "rescue",
+      "say": "Gary climbs up to save the cat. Firefighters say [whispers] you'll never see a cat skeleton in a tree.",
+      "callouts": [
+        {
+          "at": "never",
+          "text": "NOPE.",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a fire truck. You just wanted burgers. Now you've spent 2.2 million dollars, the hedge is charcoal, and Gary is the one stuck in the tree.",
+      "callouts": [
+        {
+          "at": "truck",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "22",
+          "text": "$2,200,000",
+          "style": "money",
+          "until": "dollars"
+        },
+        {
+          "at": "stuck",
+          "text": "STUCK",
+          "style": "stamp",
+          "hold": 1.2,
+          "x": 0.66,
+          "y": 0.42
+        }
+      ]
+    },
+    {
+      "id": "end2",
+      "say": "[shouting] The cat ate the BURGERS!",
+      "callouts": [
+        {
+          "at": "burgers",
+          "text": "NOM!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.3
+          ],
+          "hold": 1.2
+        }
+      ]
+    }
+  ]
+}

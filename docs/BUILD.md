@@ -599,3 +599,23 @@ as a record of what the cut style needs, if it is ever tried again.
   by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
   final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
+
+## Lessons from 033 (squirt gun → fire truck; each cost a stills round)
+- **A vehicle cutaway = a window, not a half-vehicle**: cut the near skin only over the guts (tank + pump, `engine/build/firetruck.js`)
+  with section-coloured edges, keep the cab, compartments and wheels whole — it still reads as a fire truck in every wide.
+- **Orient the machine so the physics points at the story**: the first layout had the cab away from the fire; flipping it so the
+  cab faces the fire made the brake surge (water + Gary go forward), the tip-over (about the FRONT wheels, the tail rises) and the
+  outriggers (front jacks ahead of the front axle push the nose up, the tail slams down) all physically right at once.
+- **Water in a moving/tilting tank stays level in WORLD space**: `makeSectionWater(...).set(cells)` clips each compartment rect
+  below the line y = L + s(x − xc); in the tank's frame use s = tan(slosh − tank roll), so the bed tilt, the braking dive and the
+  tip all keep the surface flat; baffles = more cells with smaller, faster slosh.
+- **Fire sprites: normal-blended orange flames + a small additive core.** Additive-only flames washed out to pale smudges on a sunny
+  wall; white additive cores turned the fireball into a flashbulb (orange cores fixed it). Ignite a long hedge from the source
+  outward in ~0.3 s (7 sources), or the reveal word lands before anything burns.
+- **A water jet is a ballistic tube** (`makeJet`): v0 = Δ/T + ½gT ŷ for a chosen flight time, the tube grows from the nozzle at the
+  water's speed, stops at a hit test (`stop(p)`), sprays drops at the end. A mega blast that must land ON its word needs a short
+  flight time (T ≈ 0.55 s, flatter), not a lob.
+- **A running gag carries continuity across beats**: Gary's pants catch fire in the fireball and stay lit ("Gary's pants are STILL
+  on fire") until the pump's useless dribble puts them out — one prop, three lines shown.
+- **Three items of a finishing list far apart (cab siren, mid-truck pole, tail) = one whole-truck frame, then push in**; a close-up
+  per item broke the speed rule four times in the scratch read.

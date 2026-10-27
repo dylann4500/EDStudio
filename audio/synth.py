@@ -2509,6 +2509,53 @@ SFX.update({
 AMBIENCE.update({"water_rush": amb_water_rush, "drill": amb_drill, "fan": amb_fan, "train": amb_train})
 
 
+# 033 (fire truck): a fire bed, a steam sizzle, a soft siren wail, a fireball whump — all low-passed, never harsh.
+def amb_fire(dur, rng, intensity=1.0):
+    """A fire burning: a low breathy roar with slow surges + soft wood crackles (all under 3 kHz)."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        roar = unit_rms(lp(brown(n, rng), 420)) * (0.7 + 0.3 * smooth_rand(n, 2.0, rng))
+        breath = unit_rms(bp(pink(n, rng), 250, 1400)) * 0.35 * (0.6 + 0.4 * smooth_rand(n, 4.0, rng))
+        crack = _grains(n, rng, 14 * intensity, 0.0015, 500, 2600) * 0.55
+        out.append(lp(roar + breath + crack, 3000))
+    return norm(np.vstack(out))
+
+
+def sfx_sizzle(rng, dur=0.8):
+    """Water hitting something hot: a steam hiss that swells and fades + tiny spits (low-passed at 4.5 kHz)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    env = (1 - np.exp(-t / 0.03)) * np.exp(-t / (dur * 0.45))
+    hiss = unit_rms(bp(white(n, rng), 1500, 4500)) * env
+    spit = _grains(n, rng, 120, 0.0008, 1200, 4000, t, dur * 0.5) * 0.3
+    return Sound(norm(fades(lp(0.6 * hiss + spit, 4500), 0.002, 0.08)), onsets=[(0.0, "soft")])
+
+
+def sfx_siren(rng, dur=1.6, cycles=1.0):
+    """A soft fire-siren wail (rises and falls once per cycle): a sine + two quiet harmonics, low-passed at 2.2 kHz."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 520 + 330 * (0.5 - 0.5 * np.cos(2 * np.pi * cycles * t / dur))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    y = (np.sin(ph) + 0.25 * np.sin(2 * ph) + 0.08 * np.sin(3 * ph)) * (1 - np.exp(-t / 0.08)) * np.clip((dur - t) / 0.3, 0, 1)
+    return Sound(norm(fades(lp(y, 2200), 0.01, 0.1)), onsets=[(0.0, "soft")])
+
+
+def sfx_fireball(rng, size=1.0):
+    """A grease fireball: a soft low WHUMP + a rolling roar that dies away (no crack)."""
+    n = nsamp(1.6)
+    t = tvec(n)
+    whump = np.sin(2 * np.pi * 55 * t * (1 - 0.3 * np.clip(t / 0.3, 0, 1))) * np.exp(-t / 0.12) * (1 - np.exp(-t / 0.006))
+    roar = unit_rms(lp(brown(n, rng), 500)) * (1 - np.exp(-t / 0.02)) * np.exp(-t / (0.45 * size))
+    y = whump + 0.8 * roar + 0.3 * unit_rms(bp(pink(n, rng), 300, 1800)) * np.exp(-t / 0.3)
+    return Sound(norm(fades(lp(y, 2400), 0.001, 0.2)), onsets=[(0.0, "soft")])
+
+
+SFX.update({"sizzle": (sfx_sizzle, "prop"), "siren": (sfx_siren, "prop"), "fireball": (sfx_fireball, "prop")})
+AMBIENCE.update({"fire": amb_fire})
+
+
 def load_voice(V, N, log=print):
     """Narration stem (build genre): videos/<v>/<V['file']> (any rate, mono/stereo) -> centered stereo at SR, length N.
     Returns (voice, activity 0..1) — activity drives the music/ambience ducking."""
