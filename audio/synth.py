@@ -1223,6 +1223,58 @@ def sfx_heartbeat(rng, size=1.0):
     return Sound(norm(fades(y, 0.001, 0.05)), onsets=[(0.0, "soft")])
 
 
+
+def sfx_candy_rattle(rng, dur=0.8, density=26.0, size=1.0):
+    """Wrapped candies pouring into a plastic pail (023): a stream of soft hollow plastic taps (low modal grains) that thins
+    out at the end, plus a little crinkle. Low-passed — never clicky-bright; keep it around −30 dB."""
+    n = nsamp(dur + 0.25)
+    t = tvec(n)
+    y = np.zeros(n)
+    tk = 0.0
+    while tk < dur:
+        u = tk / dur
+        k = modal([rng.uniform(650, 1050) / size, rng.uniform(1500, 2200) / size], [0.018, 0.008], [1.0, 0.3], 0.07, contact=0.002)
+        i0 = nsamp(tk)
+        m = min(len(k), n - i0)
+        y[i0:i0 + m] += rng.uniform(0.35, 1.0) * (1 - 0.6 * u) * norm(k)[:m]
+        tk += rng.exponential(1.0 / density)
+    crinkle = bp(white(n, rng), 1200, 3000) * 0.12 * np.clip(1 - t / (dur + 0.1), 0, 1)
+    return Sound(norm(fades(lp(y + crinkle, 3000), 0.001, 0.06)), onsets=[(0.0, "transient")])
+
+
+def sfx_deflate(rng, dur=1.3):
+    """A giant lawn inflatable losing its air (023): the blower winds down (a falling low hum), a soft airy hiss, the fabric
+    flapping as it folds, and a round floomp when it lands. All low-passed — a comic sigh, not a hiss in the ear."""
+    n = nsamp(dur + 0.4)
+    t = tvec(n)
+    u = np.clip(t / dur, 0, 1)
+    hum_f = 95 * (1 - 0.55 * u)
+    hum = np.sin(2 * np.pi * np.cumsum(hum_f) / SR) * (1 - u) * 0.5
+    hiss = bp(pink(n, rng), 350, 1300) * (1 - u) ** 1.5 * 0.6
+    flap = lp(pink(n, rng), 500) * (0.5 + 0.5 * np.sin(2 * np.pi * (7 - 4 * u) * t)) * np.sin(np.pi * u) * 0.8
+    land = np.zeros(n)
+    k = nsamp(dur * 0.62)
+    tt = t[: n - k]
+    land[k:] = (np.sin(2 * np.pi * 58 * tt) + 0.4 * lp(white(n - k, rng), 260)) * np.exp(-tt / 0.13) * (1 - np.exp(-tt / 0.01))
+    return Sound(norm(fades(lp(hum + hiss + flap + 1.2 * land, 1800), 0.03, 0.15)), onsets=[(0.0, "soft")])
+
+
+def sfx_bone_clatter(rng, dur=0.9, n_hits=14):
+    """A plastic porch skeleton collapsing (023): a quick cascade of hollow plastic clacks (bones hitting the porch boards),
+    bunched at the start, plus a skull roll. Soft, woody, low-passed — slapstick, never spooky."""
+    n = nsamp(dur + 0.3)
+    t = tvec(n)
+    y = np.zeros(n)
+    for i in range(n_hits):
+        tk = dur * (rng.uniform(0, 1) ** 1.8)
+        f0 = rng.uniform(280, 620)
+        k = modal([f0, f0 * rng.uniform(2.3, 2.8), f0 * 4.1], [0.05, 0.025, 0.012], [1.0, 0.45, 0.15], 0.18, contact=0.003)
+        i0 = nsamp(tk)
+        m = min(len(k), n - i0)
+        y[i0:i0 + m] += rng.uniform(0.4, 1.0) * norm(k)[:m]
+    roll = lp(pink(n, rng), 700) * np.clip((t - 0.25) / 0.1, 0, 1) * np.clip((dur + 0.2 - t) / 0.3, 0, 1) * 0.15 * (0.6 + 0.4 * np.sin(2 * np.pi * 9 * t))
+    return Sound(norm(fades(lp(y + roll, 2600), 0.001, 0.08)), onsets=[(0.0, "transient")])
+
 def amb_room_tone(dur, rng):
     n = nsamp(dur)
     out = []
@@ -2179,6 +2231,9 @@ SFX = {
     "puppy_howl": (sfx_puppy_howl, "prop"),
     "alarm_muffled": (sfx_alarm_muffled, "prop"),
     "heartbeat": (sfx_heartbeat, "prop"),
+    "candy_rattle": (sfx_candy_rattle, "prop"),
+    "deflate": (sfx_deflate, "prop"),
+    "bone_clatter": (sfx_bone_clatter, "prop"),
 }
 
 # =============================================================================

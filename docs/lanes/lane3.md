@@ -129,5 +129,10 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   theme every episode; vary the arrangement per place.
 - **TRIBE (021 cut1: TARGET MET, wc 0.064):** Pip's face close-ups and the human faces at the crate door scored 0.09–0.11;
   the wide family shot (0.035) and the morning wides (0.044) were weakest. Frame tight on faces; keep Pip moving.
-- **Still missing (build when an episode needs it):** a front door + porch on the home base (trick-or-treat!), breed
-  presets for the dog-park cast, a flood plane, a lightning flash + thunder.
+- **Ep. 2 (023, Halloween) added `engine/halloween.js`** (CLAUDE.md → Halloween kit): the suburb at dusk with porches you can
+  walk up (steps, lanterns, jacks, a lit hallway behind any open door), Pip's pumpkin costume that doubles as his candy bucket,
+  candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
+  The family's own porch = suburb lot 0 (x −32); the living room stays the indoor home base. Episode rule kept: Pip never eats
+  candy (chocolate is toxic to dogs) — his treat is the dog biscuit, and the caption says so.
+- **Still missing (build when an episode needs it):** breed presets for the dog-park cast, a flood plane, a lightning flash +
+  thunder.

@@ -85,6 +85,14 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 - Put shared event times in story.json (`"pip": {...}`) and read them in make_cues.py — the whimpers, ring, bonk and squeaks
   land on the exact frames shots.js animates.
 
+## Halloween foley (023, Pip ep. 2)
+- New SFX: `candy_rattle` (dur, density, size — soft hollow plastic taps into a pail, ≈ −26…−30 dB), `deflate` (dur — a lawn
+  inflatable sighing flat: falling blower hum, airy hiss, fabric flaps, a floomp at 62 %), `bone_clatter` (dur, n_hits — a
+  plastic skeleton collapsing, woody clacks + a skull roll). Knocks = `giant_step` size 0.12 on wood; a grumpy door =
+  `door_open` creak 2.2.
+- The music-box line is what holds the music median up: an 8-bar stretch of staccato waltz with no `bell_melody` failed the
+  dropout check twice (16.9 s, 32.7 s) even with bar pads at 1.05 — a soft music-box phrase over each gap fixed it.
+
 ## Open quiet, then the music enters (user steer, Oct 23)
 Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat
 (007 at 6.6 s, 010 at 4.2 s with a braam + boom). The "music never cuts out" rule applies from the moment it starts.
