@@ -1,6 +1,6 @@
 How a Garage Becomes a Car Factory 🔧🚗
 
-It starts with a $900 repair bill and a car with three wheels and a lawnmower engine. Then come the assembly line, interchangeable parts, robot arms, an electrified paint bath, an avalanche of 30,000 parts and a crash wall. Every fix is real engineering (the 1913 assembly line, Cadillac's 1908 parts test, crumple zones), and every one happens to Gary first.
+It starts with a $900 repair bill and a car with three wheels and a lawnmower engine. Then come the assembly line, interchangeable parts, robot arms, an electrified paint bath, 30,000 parts arriving at once, a crash wall and a quality inspector. Every fix is real engineering (Ford's 1913 line, Cadillac's 1908 parts test, Toyota's just-in-time, crumple zones), and every one happens to Gary first, while the Roomba gets promoted.
 
 Which fix would you have quit at? 👇
 

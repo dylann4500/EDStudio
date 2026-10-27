@@ -277,7 +277,7 @@
       "say": "Add a vending machine that only sells meatloaf, a test track on the roof, and a parking lot the size of a town.",
       "callouts": [
         {
-          "at": "track",
+          "at": "roof",
           "text": "VROOM!",
           "style": "sfx",
           "pos": [

@@ -195,7 +195,7 @@ e(t['dummy'] - 0.3, "blanket_rustle", -22, 0.3, dur=0.6, intensity=0.6); e(t['fi
 e(t['notX'], "plush_squeak", -21, 0.3, pitch=0.7)
 e(t['notX'] + 0.2, "metal_groan", -19, 0.0, dur=1.4, pitch=1.2); e(t['front'] - 0.05, "pop", -14, 0.1, pitch=1.0); e(t['front'] - 0.03, "bonk", -18, 0.1)   # winched back; Gary slaps the striped nose on
 e(t['fold'], "metal_groan", -17, 0.1, dur=0.7, pitch=1.8); e(t['can'] + 0.2, "plush_squeak", -21, 0.1, pitch=1.4)   # squeezed like a soda can
-ev.append({"t0": t['notX'] + 0.35, "t1": t['front'] - 0.1, "sound": "footsteps", "rate": 4.5, "gain_db": -24, "pan0": 0.3, "pan1": -0.1})
+ev.append({"t0": t['notX'] + 0.5, "t1": t['front'] - 0.1, "sound": "footsteps", "rate": 4.5, "gain_db": -24, "pan0": 0.3, "pan1": -0.1})
 e(L2, "car_pass", -15, -0.3, dur=0.9, size=1.0); e(HIT2, "car_crash", -11, 0.2, weight=0.8); e(HIT2 + 0.03, "crumble", -15, 0.2, dur=0.6, size=0.6); e(HIT2 + 0.05, "metal_groan", -16, 0.2, dur=0.6, pitch=1.4)
 e(t['garyX3'], "pop", -21, 0.2, pitch=1.3); e(t['away'], "plush_squeak", -21, 0.2, pitch=1.5)
 ev.append({"t0": t['walks'] + 0.15, "t1": t['fine2'] + 0.15, "sound": "footsteps", "rate": 4.0, "gain_db": -25, "pan0": 0.2, "pan1": -0.1})   # the stroll
@@ -216,7 +216,8 @@ e(t['parking'] + 0.1, "crumble", -18, 0.0, dur=1.2, size=0.8)
 # the ending: confetti + cheer, money, Gary up the stairs, the desk, the vacuum, the mechanic wakes + flips the sign
 e(t['end'], "pop", -12, 0.0); e(t['end'] + 0.1, "pop", -15, 0.3, pitch=1.3); e(t['end'] + 0.15, "blanket_rustle", -22, 0.0, dur=1.6, intensity=0.6)
 for k in range(4): e(t['n76'] + k * 0.5, "blanket_rustle", -23, -0.3 + 0.2 * k, dur=0.7, intensity=0.5)
-ev.append({"t0": t['didnt'] + 0.2, "t1": EP_desk - 0.35, "sound": "footsteps", "rate": 5.0, "gain_db": -24, "pan0": 0.0, "pan1": 0.2})
+ev.append({"t0": t['didnt'] + 0.2, "t1": t['dollars2'] + 0.1, "sound": "footsteps", "rate": 5.0, "gain_db": -24, "pan0": 0.0, "pan1": 0.1})
+ev.append({"t0": t['n76'] - 0.1, "t1": EP_desk - 0.35, "sound": "footsteps", "rate": 8.0, "gain_db": -23, "pan0": 0.1, "pan1": 0.2})   # a pause at the foot of the stairs, then a dash up
 e(EP_desk + 0.3, "knock", -18, 0.1, pitch=1.0); e(EP_desk + 0.45, "pop", -16, 0.1, pitch=1.5)
 e(t['shop'] - 0.3, "plush_squeak", -20, 0.3, pitch=0.9)
 e(t['n1400'] - 0.3, "knock", -16, 0.3, pitch=1.1); e(t['n1400'], "pop", -13, 0.3, pitch=0.85); e(t['n1400'] + 0.25, "blanket_rustle", -21, 0.3, dur=0.5, intensity=0.8)

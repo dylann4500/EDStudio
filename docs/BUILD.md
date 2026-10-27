@@ -333,4 +333,22 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   lever, slams the press buttons, rips open the robot's crate and bolts it down (then it welds him), drives the JIT tugger,
   slaps on the crumple nose. Passive only when the line makes him the victim (welded → dipped).
 
-026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5.
+- **Path keys must stay in time order after a re-voice** (026 round 2): a route keyed to `pay + 0.6` then `dollars − 0.3` was in
+  order with the scratch voice and swapped with ElevenLabs (the words came 0.6 s closer) → `endPath` skipped a segment and
+  teleported Gary onto the stairs. After every narration change assert `ROUTE[i][0] < ROUTE[i+1][0]` (or key on later words).
+- **The scripted-edit comment trap, third flavour**: a replacement whose match ends MID-LINE and appends `// note` comments out
+  the rest of that line (026 round 2, three times: `looseDoor.scale…`, a closing `}`, the tail of the ROUTE array). Only append a
+  comment when the match runs to the end of the line; `node --check` (a `.mjs` copy) after every batch caught all three.
+- **Anything built in the y–z plane is edge-on to the cutaway lens** (it looks down −z): the QC gate (posts at z ±1.2, a bar along z)
+  read as one black pole, a horizontal scanner strip at eye height as a faint line. Give such props a camera-facing face — a
+  green-lit portal BEHIND the car (posts at x ±1.9) so nobody walks into it, and a vertical additive light curtain in front.
+- **`--qc` gives sfx callouts a wider margin (±6.5 %) than the caption (±4.5 %)**: put SZZT!/HELP! ≥ 7 % of the frame height
+  away from the face they belong to, beside it, not on it.
+- **Some caption crossings can't be framed away**: a move from a frame where the face sits below the caption to one where it
+  sits above crosses the band (026's crane-down to the office). Make it quick — time the subject's own rise (Gary climbing
+  the stairs) to overlap the camera's descent so the face moves through the band twice as fast (one 0.25 s sample).
+- **One framing for "start → impact"**: "You crash one into a wall" framed only the wall, so the viewer saw a parked line car
+  and the crash car rushed in from off-frame. Frame the start position AND the wall (fov 46 at ~10 m), then push in on the
+  aftermath; the move from the previous punch (MANAGER) must fit, so trim its `until` rather than skip the start.
+
+026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5.

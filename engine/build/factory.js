@@ -232,8 +232,9 @@ export function makeRoomba() {
   const acc = new THREE.Group(); g.add(acc);
   const badge = new THREE.Group(); acc.add(badge); badge.position.set(R * 0.35, 0.13, 0);
   mk(new THREE.CylinderGeometry(0.17, 0.2, 0.09, 18), mat(0xffc21a, 0.35), badge, 0, 0.05, 0); mk(new THREE.CylinderGeometry(0.21, 0.21, 0.012, 18), mat(0xffc21a, 0.35), badge, 0.03, 0.006, 0);   // a tiny supervisor hard hat
-  const tie = new THREE.Group(); acc.add(tie); tie.position.set(R * 0.72, 0.125, 0);
-  { const s = new THREE.Shape(); s.moveTo(0, 0.05); s.lineTo(0.035, 0.03); s.lineTo(0.05, -0.12); s.lineTo(0, -0.17); s.lineTo(-0.05, -0.12); s.lineTo(-0.035, 0.03); s.closePath(); const t = mk(new THREE.ExtrudeGeometry(s, { depth: 0.014, bevelEnabled: false }), mat(0xd12f3a, 0.5), tie); t.rotation.set(-PI / 2, 0, -PI / 2); t.scale.setScalar(2.1); }   // lies flat on top, knot at the front
+  const tie = new THREE.Group(); acc.add(tie); tie.position.set(R * 0.86, 0.2, 0);   // a big red bow tie standing on the front rim, facing out (a flat tie on top read as a sliver)
+  { const tm = mat(0xd12f3a, 0.45); for (const sd of [-1, 1]) { const s = new THREE.Shape(); s.moveTo(0, 0); s.lineTo(0.15, 0.08); s.lineTo(0.15, -0.08); s.closePath(); const w = mk(new THREE.ExtrudeGeometry(s, { depth: 0.03, bevelEnabled: false }), tm, tie); w.rotation.y = -PI / 2; w.scale.x = sd; w.position.x = 0.015; }
+    mk(new THREE.SphereGeometry(0.045, 12, 10), mat(0xa8202b, 0.45), tie, 0.01, 0, 0); }
   const hat = new THREE.Group(); acc.add(hat); hat.position.set(0, 0.13, 0);
   mk(new THREE.CylinderGeometry(0.16, 0.16, 0.012, 24), mat(0x141414, 0.4), hat, 0, 0.006, 0); mk(new THREE.CylinderGeometry(0.1, 0.1, 0.2, 20), mat(0x141414, 0.4), hat, 0, 0.11, 0); mk(new THREE.CylinderGeometry(0.102, 0.102, 0.03, 20), mat(0xb3202b, 0.5), hat, 0, 0.03, 0);
   const flag = new THREE.Group(); acc.add(flag); flag.position.set(-R * 0.5, 0.12, 0);
@@ -353,7 +354,7 @@ export async function buildFactory(studio) {
   const counter = new THREE.Group(); shop.add(counter); counter.position.set(0.75, 0, -3.9);
   mk(new RoundedBoxGeometry(1.4, 1.0, 0.6, 2, 0.04), mat(0x6b4a33, 0.7), counter, 0, 0.5, 0); mk(new RoundedBoxGeometry(0.4, 0.28, 0.32, 2, 0.04), mat(0x3a3e44, 0.5), counter, 0.3, 1.14, 0);
   counter.rotation.y = PI / 2;
-  const priceBoard = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.0), new THREE.MeshStandardMaterial({ roughness: 0.7 })); priceBoard.position.set(1.1, 2.35, S.back + 0.03); shop.add(priceBoard);
+  const priceBoard = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.0), new THREE.MeshStandardMaterial({ roughness: 0.7 })); priceBoard.position.set(0.75, 2.35, S.back + 0.03); priceBoard.scale.setScalar(0.87); shop.add(priceBoard);
   const priceTex = (price) => tex(300, 200, (g, w, h) => { g.fillStyle = '#1d2b22'; g.fillRect(0, 0, w, h); g.strokeStyle = '#a0743d'; g.lineWidth = 14; g.strokeRect(7, 7, w - 14, h - 14); g.fillStyle = '#fff'; g.font = font(40); g.textAlign = 'center'; g.fillText('YOUR CAR', w / 2, 66); g.fillStyle = '#ffd23f'; g.font = font(78); g.fillText(price, w / 2, 160); });
   const prices = { '$900': priceTex('$900'), '$1,400': priceTex('$1,400') }; priceBoard.material.map = prices['$900'];
   for (let i = 0; i < 5; i++) { const tr = makeTire(); tr.rotation.x = PI / 2; tr.position.set(6.7, 0.12 + i * 0.21, -4.6); shop.add(tr); }
@@ -467,7 +468,7 @@ export async function buildFactory(studio) {
     for (const z of [E.z0 - 0.1, E.z1 + 0.1]) { const st = mk(new THREE.BoxGeometry(0.34, E.h, 0.2), mat(0xf2c418, 0.5), endWall, 0, E.h / 2, z); }
     sign(endWall, 'SHIPPING', 1.6, 0.4, { bg: '#2f6fd6', fg: '#fff' }).position.set(-0.16, E.h + 0.35, (E.z0 + E.z1) / 2); endWall.children[endWall.children.length - 1].rotation.y = -PI / 2; }
   // logo banner + signs on the back wall (shown when their bays exist)
-  const banner = sign(hall, 'GARAGE MOTORS', 7.0, 1.2, { bg: '#ffffff', fg: '#2f6fd6', border: '#2f6fd6' }); banner.position.set(7.0, 4.6, H.back + 0.04);
+  const banner = sign(hall, 'GARAGE MOTORS', 7.0, 1.2, { bg: '#ffffff', fg: '#2f6fd6', border: '#2f6fd6' }); banner.position.set(7.0, 5.4, H.back + 0.04);
   const daysSign = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 1.1), new THREE.MeshStandardMaterial({ roughness: 0.6 })); daysSign.position.set(1.6, 2.9, H.back + 0.04); hall.add(daysSign);
   const daysTex = [0, 1].map((n) => tex(320, 160, (g, w, h) => { g.fillStyle = '#1e7d3a'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.font = font(30); g.textAlign = 'center'; g.fillText('DAYS WITHOUT A', w / 2, 40); g.fillText('GARY ACCIDENT', w / 2, 72); g.fillStyle = '#ffd23f'; g.font = font(70); g.fillText(String(n), w / 2, 140); }));
   daysSign.material.map = daysTex[0];
@@ -494,10 +495,12 @@ export async function buildFactory(studio) {
 
   // ---- the e-coat dip tank: a pit in front of the line, cut open by the face (the bath is seen in section)
   const T = D.tank, tank = new THREE.Group(); root.add(tank);
-  const pitM = mat(0x9a9890, 0.9);
+  const pitM = mat(0x6b7078, 0.9);
   const pitBack = mk(new THREE.PlaneGeometry(T.x1 - T.x0, -T.y0), pitM, tank, (T.x0 + T.x1) / 2, T.y0 / 2, T.z0);
   for (const x of [T.x0, T.x1]) { const p = mk(new THREE.PlaneGeometry(-T.z0, -T.y0), pitM, tank, x, T.y0 / 2, T.z0 / 2); p.rotation.y = x === T.x0 ? PI / 2 : -PI / 2; }
   const pitFloor = mk(new THREE.PlaneGeometry(T.x1 - T.x0, -T.z0), pitM, tank, (T.x0 + T.x1) / 2, T.y0, T.z0 / 2); pitFloor.rotation.x = -PI / 2;
+  { const hz = tex(256, 32, (g, w, h) => { for (let i = 0; i < 16; i++) { g.fillStyle = i % 2 ? '#111' : '#ffd23f'; g.beginPath(); g.moveTo(i * 16, h); g.lineTo(i * 16 + 16, 0); g.lineTo(i * 16 + 32, 0); g.lineTo(i * 16 + 16, h); g.fill(); } }); hz.wrapS = THREE.RepeatWrapping; hz.repeat.set(4, 1);
+    mk(new THREE.PlaneGeometry(T.x1 - T.x0, 0.22), new THREE.MeshStandardMaterial({ map: hz, roughness: 0.6 }), tank, (T.x0 + T.x1) / 2, -0.13, T.z0 + 0.01); }   // a hazard rim along the pit's back wall
   const bathM = new THREE.MeshStandardMaterial({ color: 0x2f8fe0, emissive: 0x1f5fa0, emissiveIntensity: 0.35, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.55, depthWrite: false, side: THREE.FrontSide });
   const bath = mk(new THREE.BoxGeometry(T.x1 - T.x0 - 0.04, 1, -T.z0 - 0.08), bathM, tank, (T.x0 + T.x1) / 2, 0, T.z0 / 2 - 0.04); bath.castShadow = false; bath.renderOrder = 3;   // 4 cm behind the cut face (it z-fought the face)
   const setBath = (level) => { const hh = Math.max(0.001, level - T.y0); bath.scale.y = hh; bath.position.y = T.y0 + hh / 2; bath.visible = level > T.y0 + 0.01; };
@@ -625,7 +628,9 @@ export async function buildFactory(studio) {
   const suburb = []; for (let r = 0; r < 3; r++) for (let i = 0; i < 16; i++) { const x = -30 + i * 6.8 + (r % 2) * 3.4, z = -22 - r * 13; const hgt = 3.6 + ((i * 7 + r) % 3) * 0.7; const h = new THREE.Group(); root.add(h); h.position.set(x, 0, z); suburb.push(h);
     mk(new THREE.BoxGeometry(5.0, hgt, 4.5), mat(new THREE.Color(houseCols2[(i + r) % houseCols2.length]).getHex(), 0.9), h, 0, hgt / 2, 0); const rf = mk(new THREE.ConeGeometry(3.8, 1.8, 4), mat(0xb5523b, 0.8), h, 0, hgt + 0.9, 0); rf.rotation.y = PI / 4; rf.scale.set(1, 1, 0.85);
     if ((i + r) % 2 === 0) { const tr = makeTree(i * 13 + r * 7 + 3, 0.95 + 0.1 * (i % 3)); tr.position.set(x + 3.4, 0, z + 1.5); root.add(tr); suburb.push(tr); } }
-  for (let i = 0; i < 18; i++) { const hh2 = 26 + ((i * 37) % 40); mk(new THREE.BoxGeometry(12 + (i % 4) * 3, hh2, 10), new THREE.MeshStandardMaterial({ color: 0xb9cfe0, roughness: 1 }), root, -60 + i * 9.5, hh2 / 2, -140 - (i % 3) * 20).castShadow = false; }
+  { const winT = tex(64, 128, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(30,50,80,.45)'; for (let y = 6; y < h; y += 12) for (let x = 5; x < w; x += 14) g.fillRect(x, y, 8, 7); }); winT.wrapS = winT.wrapT = THREE.RepeatWrapping;
+    const tc = [0x8fb3d6, 0x7aa0c8, 0xa9c4de, 0x6f92b8, 0x9ab8d4];   // windowed towers in varied blues (flat pale boxes left the top of the end wide empty)
+    for (let i = 0; i < 18; i++) { const hh2 = 20 + ((i * 37) % 32), wt = winT.clone(); wt.needsUpdate = true; wt.repeat.set(3, hh2 / 9); mk(new THREE.BoxGeometry(12 + (i % 4) * 3, hh2, 10), new THREE.MeshStandardMaterial({ color: tc[i % tc.length], map: wt, roughness: 0.8 }), root, -60 + i * 9.5, hh2 / 2, -150 - (i % 3) * 20).castShadow = false; } }
 
 
   // ---- the start lever (Gary starts the line), the press's two-hand control pedestal, the meatloaf vending machine
@@ -639,8 +644,11 @@ export async function buildFactory(studio) {
   let vendLabel; { const vT = tex(256, 128, (g, w, h) => { g.fillStyle = '#7a3b1e'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffd23f'; g.font = font(54); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('MEATLOAF', w / 2, h / 2 + 4); });
     mk(new RoundedBoxGeometry(1.0, 1.95, 0.8, 3, 0.06), mat(0xd12f3a, 0.45), vend, 0, 0.98, 0);
     vendLabel = mk(new THREE.PlaneGeometry(0.9, 0.36), new THREE.MeshStandardMaterial({ map: vT, roughness: 0.5 }), vend, 0, 1.74, 0.41);   // blank red until "meatloaf"
-    mk(new THREE.PlaneGeometry(0.62, 0.95), new THREE.MeshStandardMaterial({ color: 0xcfefff, roughness: 0.05, transparent: true, opacity: 0.35 }), vend, -0.1, 1.05, 0.41);
-    for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) mk(new RoundedBoxGeometry(0.15, 0.08, 0.1, 2, 0.03), mat(0x8a4a24, 0.8), vend, -0.3 + c * 0.2, 0.7 + r * 0.22, 0.3);
+    mk(new THREE.PlaneGeometry(0.66, 1.0), mat(0x2a1a14, 0.9), vend, -0.1, 1.05, 0.405);   // the dark recess (the loaves sat inside the cabinet)
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) mk(new RoundedBoxGeometry(0.15, 0.08, 0.1, 2, 0.03), mat(0x8a4a24, 0.8), vend, -0.3 + c * 0.2, 0.7 + r * 0.22, 0.44);
+    for (let r = 0; r < 4; r++) mk(new THREE.BoxGeometry(0.62, 0.015, 0.06), steel(0x9aa1a8), vend, -0.1, 0.65 + r * 0.22, 0.43);
+    mk(new THREE.PlaneGeometry(0.66, 1.0), new THREE.MeshStandardMaterial({ color: 0xcfefff, roughness: 0.05, transparent: true, opacity: 0.25 }), vend, -0.1, 1.05, 0.47);
+    mk(new THREE.BoxGeometry(0.12, 0.2, 0.03), mat(0x3a3e44, 0.4), vend, 0.36, 1.2, 0.41); mk(new THREE.BoxGeometry(0.02, 0.07, 0.01), mat(0x111111), vend, 0.36, 1.24, 0.43);   // the coin slot
     mk(new THREE.BoxGeometry(0.5, 0.14, 0.05), mat(0x111111, 0.6), vend, -0.1, 0.3, 0.405); }
   // ---- a parking lot the size of a town: the suburb behind the factory pops out row by row, parked cars pop in
   const lotM = new THREE.MeshStandardMaterial({ roughness: 0.4, metalness: 0.1 }), NLOT = 520;
@@ -738,7 +746,7 @@ export async function buildFactory(studio) {
     if (k > 0.001 && dy < -0.05) face.push({ rect: [cx - hw, dy, cx + hw, 0.05], rough: 0.02 });
     cut.setHoles(face);
   }
-  function setPit(k) { tank.visible = hoist.visible = k > 0.001; pitK = k; applyHoles(); pitBack.scale.y = 1; tank.position.y = 0; }
+  function setPit(k) { tank.visible = hoist.visible = k > 0.001; pitK = k; applyHoles(); pitBack.scale.y = 1; const u = clamp(k * 1.3); tank.position.y = T.y0 * (1 - u * u * (3 - 2 * u)) * 1.15; }   // rises out of the basement floor as the pit opens (it popped in)
   setPit(0);
   setHall(0);
 
