@@ -75,3 +75,9 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   lighthouse) happens on screen; a 25 m pool only has 0.058 s of story, so the swimmers start at the shallow end.
 - Kind cartoon of a violent premise: frozen deadpan faces inside the ~0.2 s reaction time, comic tumbles + sitting up dazed in
   the aftermath (a still of people lying flat read as bodies — make the fall 0.3 s and sit them up by ~1 s).
+- **TRIBE (028): cut1 met the target first try — wc 0.0667, first 60 s 0.0675, 21.7 % above, no dead zone (017 0.0487, 027 0.0441).**
+  Top beats: the Texas wind (dad calm in a cloud of leaves + pickets while bent trees streak past, 0.115), the New York aftermath
+  (people knocked down on the sidewalk, 0.111), the pool water coming back down (0.102). Weakest after the title: the Quito
+  intro before SECOND 0 (−0.007) and the first slide beat (0.030) — early beats sag in every reel; the bright, busy, face-filled
+  middle carried it. A bright DAY ladder with a free-frame camera (faces close, the world streaking past) beat both dark/space reels.
+

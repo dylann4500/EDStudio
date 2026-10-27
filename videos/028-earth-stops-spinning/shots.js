@@ -33,6 +33,9 @@
 //     Texas 10 AM (CDT), Maine 11 AM (EDT), South Pole station 4 AM (NZDT, UTC+13) — the sun never sets there Sep–Mar
 //   South Pole: elevation 9,301 ft (2,835 m) on the marker sign; the ceremonial pole + 12 Antarctic Treaty flags
 //
+// TRIBE (tribe-cut1.txt): cut1 wc 0.0667 / first 60 s 0.0675 / 21.7 % above threshold, no dead zone = TARGET MET first try.
+// Top: texas 0.115, nycR 0.111, poolR 0.102; low: title −0.024, quitoA −0.007, slide 0.030.
+//
 // Shot list (seconds)                     | set    | what happens
 //  0.0– 3.4 title                         | plaza  | crane down over the equator line, tourists posing along it
 //  3.4– 8.2 quitoA  SECOND 0 at 7.6       | plaza  | a selfie on the line, a kid hopping across it; 7.6: jolt

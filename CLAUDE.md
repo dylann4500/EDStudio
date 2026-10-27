@@ -447,6 +447,9 @@ videos/NNN-slug/
   behind the hero along their facing line (3–4 m back, ~1 m to the side) and aim ≤ 10° off that line; check that no parked car
   sits on the camera path (004's day shot started *inside* a car).
 - Big painted skies on a 700 m dome need 4096-px textures and soft round stars (2-px squares showed as a grid at fov 50; big stars read as snow).
+- **Scripted block splices: search the END anchor from the START anchor's index** (`s.index(end, a)`) — 028 spliced to an
+  `if (cam === 'pool')` that also appeared earlier in the file and duplicated 300 lines (`node --check`: "Identifier 'cab' has
+  already been declared"). Assert `b > a` and that each anchor is unique before writing.
 - **After resolving a merge in a shared file, run `node --check`** (copy to `.mjs` first). Two sessions appending to props.js lost a
   closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` + `ops/ledger.csv` before picking NNN — numbers get claimed in worktrees before they're pushed,
   and the operation's manager assigns them (ask it): the build reel took 015 while the manager gave 015 to tail-lies → renumbered 024 at merge.
@@ -618,6 +621,9 @@ while they stay human-scale. Keep the cosmic end short, or put a face in it.
 faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
 best beat measured so far; bus 0.125; kitchen 0.104; traffic 0.101). Faceless spectacle sags (the Moon from space 0.019, the ISS 0.050
 even with an astronaut), and so does the sleeping title shot (−0.033). Keep the faceless space beat short and put a face beat after it.
+**028 (Earth stops spinning, science, 60.6 s) cut1: wc 0.0667 / first 60 s 0.0675 / 21.7 % above, no dead zone → TARGET MET first
+try,** the best science score: every beat a bright day place with faces close and the world streaking past a free-frame camera
+(Texas wind storm 0.115, NYC aftermath 0.111); the faceless/frozen early beats (Quito intro −0.007, first slide 0.030) were the low.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
