@@ -417,6 +417,9 @@ One fix pass is enough — edits ripple into neighboring beats (v2: targeted bea
 seen from behind the defendant sat at 0.015 (busy face-filled beats: 0.08–0.10). v2 moved the kitchen camera closer, added the family
 dog and fidgets (0.031), and cut the court to a reverse angle on the defendant's face + a gallery of reacting onlookers + the gavel
 slamming in the foreground (0.040/0.043). Net: whole-brain +1 %, first 60 s +7 %; the untouched ending dipped (0.050 → 0.035).
+**021 (Pip ep. 1, a NIGHT reel) met the target on cut1 (wc 0.064, first 60 s 0.065):** dark doesn't sag when every shot is a
+close face in constant motion — the crate close-ups, the stairs and the 3 AM shots scored 0.09–0.11. The weakest beats were the
+BRIGHT wide ones with small faces (9 PM family + zoomies 0.035, the morning discovery 0.044): get close, not bright.
 **Keep TRIBE videos ≤ 70 s (016):** with the lowered MPS cap the audio encoder (w2v-BERT relative-position attention, whole
 soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out of memory … max allowed 8.88 GB`) while 70.0 s
 (015) passed. Trim the video rather than raising the shared watermark. (`tribe-score.sh` used to copy `final.mp4` before waiting
