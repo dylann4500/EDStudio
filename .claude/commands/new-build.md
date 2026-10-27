@@ -12,7 +12,8 @@ or effect on almost every phrase.
 
 1. **Worktree + number** (CLAUDE.md → Parallel sessions): `git fetch`, check `videos/`, `origin/main`, `.claude/worktrees/`
    AND `ops/ledger.csv` / `ops/ideas.md` (the operation's manager hands out numbers — ask it, docs/OPERATION.md), take the
-   next free NNN (the first build reel picked 015 while the manager gave 015 to another video, and was renumbered 024 at merge), `git worktree add -b video/NNN-slug .claude/worktrees/NNN-slug main`, then `npm install` in the
+   next free NNN and send the manager a one-line claim (SendMessage to the manager session: "claiming NNN for <title>") —
+   the first build reel picked 015 while the manager gave 015 to another video, and was renumbered 024 at merge; `git worktree add -b video/NNN-slug .claude/worktrees/NNN-slug main`, then `npm install` in the
    worktree (it needs the @fontsource/fredoka + luckiest-guy fonts).
 2. **Topic**: "How a [humble everyday thing] Becomes a [giant machine/structure]". Not a pair the reference already did
    (list in wemakebuild.md). Pick one whose steps are VISIBLE failures with real engineering names (6–8 of them) and

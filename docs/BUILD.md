@@ -232,6 +232,13 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 3. `python3 -I videos/NNN-slug/make_cues.py && python3 -I audio/synth.py NNN-slug`, re-render stills at a few word-synced gags
    (shots are keyed to words, so they follow), then the full render. Commit `voice/eleven-*` + words.json + story.json.
 
+## In the operation (docs/OPERATION.md)
+- Claim the video number with the manager before starting (one-line message); it records build reels in `ops/ledger.csv`
+  (lane "build") and asks the user which account/slot they go on.
+- **The TRIBE gate doesn't fit build reels as-is:** at 95–120 s they exceed the ~70 s TRIBE's audio encoder handles at the
+  default memory cap. Scoring one needs a ≤ 70 s cut or a one-off run with a raised cap — the 5-reviewer loop
+  (docs/BUILD-REVIEW.md) is this genre's quality gate.
+
 ## QC checklist (build)
 - [ ] The hook is spoken on frame 1 over action; no title card, no HUD, no end card; the last line is the punchline.
 - [ ] One word on screen at a time, center, never under a callout; every TERM callout appears on its word and is shown on screen.
