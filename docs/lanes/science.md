@@ -73,3 +73,10 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **Uncertain numbers say so on screen:** tides scaled ×8 are a rough linear estimate (resonance, friction) → "Roughly 130 meters",
   HUD "×8 · ROUGH ESTIMATE"; the eclipse count isn't printed ("far more often"), only the computed half-hour totality.
 - New engine pieces: `engine/moon.js`, `engine/sets/tidetown.js`, `engine/sets/fundy.js` (CLAUDE.md cheat sheet).
+- **TRIBE:** cut1 0.0428 / first 60 s 0.0421, dead zone 39–53 s: a static calendar wall (0.007), a near-static Earth + Moon
+  two-shot (0.002), a static Dad + kid two-shot on a bench (−0.01) and the faceless crater telephoto (0.007). cut2 = the SAME timeline
+  and audio, visual-only fixes: a push-in on a hopping kid, an Earthrise (the camera rises so Earth climbs over the Moon's limb), a
+  camera arc + the kid jumping on the bench with a couple behind, a 1.4 s close-up of the kid's awed face after the craters, a 1.1 s
+  faces insert before the doubling → 0.0471 / 0.0469, no dead zone, TARGET MET. Peaks: faces in eclipse glasses as the light drains
+  (0.145 — the best beat measured so far), the eclipse sky with the crowd silhouetted (0.10), Fundy's tide front chasing tourists
+  (0.095). Static two-shots sag even with close faces; give every face beat a camera move AND body motion.
