@@ -342,3 +342,16 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   **backfill what you dug** (a plugged tunnel kept reading as a white pipe for 40 s — hide the bore, plug and holes once the
   next set piece covers it); **submerged buildings need a tint, not just a see-through front**: lerp their colors toward the
   water blue by depth; **a hand-held book in front of a face hides it** — hold it out beside the head.
+- 025 round 4: v5 logic 8.0 · look 6.7 · pacing 8.1 · camera 7.5 · comedy 8.2 (3 reviewers: logic+pacing+comedy folded, camera, look).
+  **Series rule (user, via the manager): Gary is THE BUILDER.** Every "you ___" line shows Gary doing it with a tool, then the
+  failure hits him — no build step happens by itself. 025's map: shove → he heaves the pool; dig → he digs the tunnel IN SECTION
+  from the outlet back to the inlet and breaks through into the river on the next line (the flush is then his own doing); pile up
+  dirt → three shovel throws, the last one comes back down on him; drive a wall → three overhead mallet hits, the wall sinks a third
+  per hit; pour → the crumble flings him into a cableway bucket and he trips it over every column; cooling pipes → a garden hose
+  on the toe; spillway → one mallet notch in the crest; penstock → he cranks a red valve wheel; fish ladder → he mallets each step
+  as it pops. Props live in the hand (`gary.hand(1).add(prop)`), visible only in their beat.
+  **A camera can't catch a gag that happens faster than the speed rule allows** — re-time the gag instead (the flush was shortened
+  to 1.5 s and started 0.2 s early so the follow pass keeps him in frame; the bucket's last stop sits lower so his face clears the
+  caption band). **Density bar (manager, = 024's):** ≥ 22 callouts, ≥ 70 `fx.burst|stream` call sites, ~45–50 framings, ≥ 250 cue
+  events, beaver/side character in ≥ 4 beats, no 2 s static run. Footsteps beds, per-stroke tool foley and drips are the cheap
+  way to the cue count; mirror every new time in make_cues.py.

@@ -51,7 +51,7 @@ THROW = t['shove'] - 0.1; LANDK = max(t['congrats'] - 0.1, THROW + 0.9)
 FLOAT0 = t['floats'] - 0.15; FLOAT1 = max(t['flip'] + 0.55, FLOAT0 + 1.6)
 DIG0, DIG1 = t['dig'] - 0.05, W('divert', 'hoover') + 0.05     # Gary digs the tunnel; breaks through on "Hoover"
 RUN1 = max(t['four'], DIG1 + 0.9)
-SUCK = t['got']; OUT = SUCK + 2.0; ONPILE = min(OUT + 1.0, t['dirt'] - 0.1)
+SUCK = t['got'] - 0.2; OUT = SUCK + 1.5; ONPILE = OUT + 0.55
 DUMPS = [x + 0.05 for x in (t['pile'], t['wallP'], t['dirt'])]
 PLUG = t['dirt'] + 0.45; JET = t['carves'] + 0.9; POPC = t['cork']; LANDC = POPC + 0.7
 SLAM = t['drive'] + 0.3
@@ -62,6 +62,8 @@ FILL0, FILL1 = t['n660'] + 0.8, t['bully'] - 0.15
 SIT, LEAP = t['sat'] - 0.1, t['medium'] - 0.05
 PIPE0, PIPE1 = t['run'], t['inside'] + 0.4
 RAIN0, RAIN1, OVER = t['rains'] - 0.4, t['spillway'] + 0.6, t['pours'] - 0.05
+HSP = W('spill', 'add') + 0.05                                   # Gary's mallet notches the crest
+VW0, VW1 = t['pipesW'] - 0.3, t['turbines'] + 0.2              # Gary cranks the penstock valve
 SLD0 = t['garyS'] + 0.25; SLD1 = SLD0 + 1.0; SPLASH = max(SLD1 + 0.45, t['once'] + 0.02)
 PH = t['pipesW'] - 0.05; SUCKT = t['garyW'] + 0.15; SPIT = t['cycle'] + 0.55; SPLAT = SPIT + 0.5
 LAD0, LAD1, SLAP = t['fishW'] - 0.05, t['pools'] + 0.1, t['cantF'] - 0.02
@@ -132,6 +134,7 @@ ev.append({"t0": RUN1, "t1": SUCK - 0.1, "sound": "footsteps", "rate": 4.0, "gai
 for i in range(4): e(t['four'] - 0.15 + i * 0.09, "pop", -18, -0.4 + 0.1 * i, pitch=1.0 + 0.15 * i)
 e(SUCK, "slurp", -11, -0.3, dur=0.9); e(OUT, "splash", -12, 0.3, size=1.1); e(ONPILE, "giant_step", -16, -0.1, size=0.4); e(ONPILE + 0.05, "plush_squeak", -21, -0.1, pitch=0.9)
 # piping: three dirt loads, the plug, the leak, the finger, the cork
+for d in DUMPS: e(d - 0.25, "dig", -17, -0.1)                  # Gary's shovel throw
 for d in DUMPS: e(d - 0.05, "crumble", -13, -0.1, dur=0.7, size=0.9); e(d + 0.05, "giant_step", -16, -0.1, size=0.9)
 e(PLUG - 0.1, "clunk", -18, -0.5, size=1.0, metal=0.4)
 e(t['sneaks'], "grate", -21, 0.0, dur=1.6)
@@ -166,10 +169,12 @@ for k2 in range(4): e(t['cooling'] - 0.2 + k2 * 0.25, "plip", -22, 0.0, pitch=1.
 # spill: thunder far off, the overtopping roar, the spillway + EXIT, the water slide, the splash
 e(t['rains'] - 0.3, "distant_boom", -22, -0.2, size=0.8)
 for k2 in range(10): e(RAIN0 + 0.4 + k2 * (RAIN1 - RAIN0 - 0.6) / 10, "plip", -25, -0.5 + 0.1 * k2, pitch=0.9 + 0.05 * (k2 % 4))
+e(HSP, "clunk", -12, -0.3, size=1.3, metal=0.3); e(HSP + 0.03, "crumble", -17, -0.3, dur=0.4, size=0.7)   # the notch
 e(t['spillway'] - 0.12, "clunk", -14, 0.0, size=1.4, metal=0.3); e(t['exit'] - 0.1, "pop", -16, 0.1, pitch=1.2)
 e(SLD0, "slurp", -18, -0.2, dur=1.2); e(SLD1, "pop", -18, 0.1, pitch=0.9); e(SPLASH, "splash", -10, 0.2, size=1.4); e(SPLASH + 0.02, "bonk", -16, 0.2)   # exactly once
 # power: the RENT DUE card, the penstock, the powerhouse pops, the spin cycle, the spit
 e(t['rent'] - 0.15, "pop", -16, 0.4, pitch=1.4)
+for k2 in range(3): e(VW0 + 0.1 + k2 * (VW1 - VW0 - 0.2) / 3, "metal_groan", -22, 0.4, dur=0.35, pitch=1.6)   # the valve wheel squeaks round
 e(PH, "pop", -13, 0.2, pitch=0.8); e(PH + 0.05, "clunk", -17, 0.2, size=1.2, metal=0.7)
 e(t['turbines'] + 0.2, "zap", -24, 0.6, dur=0.4)
 e(SUCKT, "slurp", -14, 0.2, dur=0.6)
