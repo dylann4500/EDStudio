@@ -188,3 +188,17 @@ Storybook narrator in short third-person lines ("So Pip fixed that."), Pip's log
 (HOURS UNTIL MORNING 10 → 0), rule of three (clock → towel → bunny), a low point at ~60 %, the turn, a warm button and a
 next-episode end card ("What should Pip try next?"). Pet's-eye camera (0.3–0.5 m), at least 3 close-ups of his face reacting,
 humans mostly from his height. Sound = the cozy lullaby (audio/README.md). Never sad at the end; Pip is never hurt.
+
+## Body-absurd doubling POV (`videos/022-ballsack-doubling`) — "What if your ballsack doubled in size every minute?"
+The weird-tier "you" ladder (docs/lanes/unhinged.md): one thing on your body doubles every minute (6 cm × 2^n) and the joke is the
+LOGISTICS — an elevator empties, the doctor faints, the tailor's tape runs out, a wheelbarrow, the biggest rental truck, a crane,
+a science press briefing, a ZIP code, satellites, Earth starts orbiting it — then a weirdly sweet button (9:28 AM: you finally sit
+down on top of it; your coffee is still warm).
+- **The anatomy is never modeled** (TikTok): only a camera-facing pixel censor block (`engine/haul.js makeCensor`) at small sizes
+  and a blue tarp load tied with ropes (with a censor patch on it) at big sizes. Faces, props and the HUD carry the joke. Keep the
+  medical beat medical (the doctor examines standing up; "turn your head and cough"), never anything sexual.
+- Different from its twin 020 (butt, modeled in denim, ends on "three moons"): logistics + institutions, not body shapes; the
+  climax flips the scale (Earth becomes ITS moon) instead of adding moons.
+- HUD: `fmt: 'len'` width that rolls geometrically on every doubling + MINUTE n · 9:0n AM; one sourced number per beat.
+- Sound: an escalation fanfare that modulates up a whole step per location group, a root–fifth–octave piano pickup + boom on
+  every doubling, soft low "boops" for each censor pop; warm piano arp for the sit-down (audio: make_cues.py).

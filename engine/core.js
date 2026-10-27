@@ -176,6 +176,17 @@ export function createStudio(canvas, look = {}) {
 // ---------------------------------------------------------------- text overlay (driven by story.json)
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => Math.round(n).toLocaleString('en-US');
+/** 020: a length given in cm, printed with its unit at ~3 significant figures (36 cm, 1.44 m, 23.0 m, 11.8 km, 6,040 km). */
+const fmtLen = (cm) => {
+  const m = cm / 100, km = m / 1000;
+  if (m < 1) return `${Math.round(cm)} cm`;
+  if (m < 10) return `${m.toFixed(2)} m`;
+  if (m < 100) return `${m.toFixed(1)} m`;
+  if (km < 1) return `${Math.round(m)} m`;
+  if (km < 10) return `${km.toFixed(2)} km`;
+  if (km < 100) return `${km.toFixed(1)} km`;
+  return `${Math.round(km).toLocaleString('en-US')} km`;
+};
 
 export function createOverlay(story) {
   const title = $('title'), hud = $('hud'), num = $('hudNum'), time = $('hudTime'), age = $('hudAge');
@@ -193,6 +204,7 @@ export function createOverlay(story) {
     const afterTitle = story.title ? smooth((t - story.title.out) / 0.35) : 1;
 
     // HUD: segments of {t0,t1,from,to,r0,r1,time,age,ageFrom,ageGoldAt}
+    //      + (020) fmt: 'len' = the value is a length in cm, printed with its unit; geo: true = roll geometrically (a doubling)
     const segs = story.hud || [];
     const seg = segs.find((s) => t >= s.t0 && t < s.t1) || segs[segs.length - 1];
     if (seg) {
@@ -200,9 +212,14 @@ export function createOverlay(story) {
       // Steady: fades in once after the opening title, stays at full opacity, fades out once at the end. Never pulses/dims.
       hud.style.opacity = afterTitle * (1 - smooth((t - endT) / 0.3));
       let n = seg.from, u = 1;
-      // seg.ease 'linear' = a steady clock across segments (017); seg.dec decimals + seg.unit suffix ("2.5 s")
-      if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, seg.ease === 'linear' ? u : easeIO(u)); }
-      num.textContent = (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
+      // seg.ease 'linear' = a steady clock across segments (017); seg.dec decimals + seg.unit suffix ("2.5 s") (017)
+      // seg.geo = geometric roll for doublings, seg.fmt 'len' = cm / m / km (020, 022)
+      if (seg.r0 !== undefined) {
+        u = clamp((t - seg.r0) / (seg.r1 - seg.r0));
+        const k = seg.ease === 'linear' ? u : easeIO(u);
+        n = seg.geo && seg.from > 0 && seg.to > 0 ? seg.from * Math.pow(seg.to / seg.from, k) : lerp(seg.from, seg.to, k);
+      }
+      num.textContent = seg.fmt === 'len' ? fmtLen(n) : (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
       time.textContent = seg.time || '';
       age.textContent = seg.ageFrom && u < 0.5 ? seg.ageFrom : seg.age || '';
       const g = seg.ageGoldAt !== undefined ? clamp(1 - (t - seg.ageGoldAt) / 1.6) * (t >= seg.ageGoldAt ? 1 : 0) : 0;

@@ -1,0 +1,529 @@
+{
+ "tone": "funny",
+ "look": {
+  "exposure": 1.05,
+  "fill": 0.45,
+  "vignette": 0.26,
+  "bloom": 0.22,
+  "bloomThreshold": 0.92
+ },
+ "fps": 30,
+ "duration": 63.5,
+ "title": {
+  "html": "What if your ballsack <em>doubled</em> in size every minute?",
+  "in": -0.4,
+  "out": 3.4
+ },
+ "hudLabel": "YOUR BALLSACK · WIDTH",
+ "hud": [
+  {
+   "t0": 0.0,
+   "t1": 5.5,
+   "fmt": "len",
+   "age": "ONE TESTICLE · ABOUT 4 × 3 × 2 CM",
+   "from": 6,
+   "to": 6,
+   "time": "MINUTE 0 · 9:00 AM"
+  },
+  {
+   "t0": 5.5,
+   "t1": 8.9,
+   "fmt": "len",
+   "age": "ONE TESTICLE · ABOUT 4 × 3 × 2 CM",
+   "from": 6,
+   "to": 12,
+   "r0": 5.5,
+   "r1": 6.0,
+   "geo": true,
+   "time": "MINUTE 1 · 9:01 AM"
+  },
+  {
+   "t0": 8.9,
+   "t1": 9.9,
+   "fmt": "len",
+   "age": "U.S. UROLOGISTS · 14,176 (2023)",
+   "from": 12,
+   "to": 12,
+   "time": "MINUTE 1 · 9:01 AM"
+  },
+  {
+   "t0": 9.9,
+   "t1": 12.4,
+   "fmt": "len",
+   "age": "U.S. UROLOGISTS · 14,176 (2023)",
+   "from": 12,
+   "to": 24,
+   "r0": 9.9,
+   "r1": 10.4,
+   "geo": true,
+   "time": "MINUTE 2 · 9:02 AM"
+  },
+  {
+   "t0": 12.4,
+   "t1": 14.2,
+   "fmt": "len",
+   "age": "U.S. UROLOGISTS · 14,176 (2023)",
+   "from": 24,
+   "to": 48,
+   "r0": 12.4,
+   "r1": 12.9,
+   "geo": true,
+   "time": "MINUTE 3 · 9:03 AM"
+  },
+  {
+   "t0": 14.2,
+   "t1": 14.5,
+   "fmt": "len",
+   "age": "TAILOR'S TAPE · 150 CM (60 IN)",
+   "from": 48,
+   "to": 48,
+   "time": "MINUTE 3 · 9:03 AM"
+  },
+  {
+   "t0": 14.5,
+   "t1": 17.6,
+   "fmt": "len",
+   "age": "TAILOR'S TAPE · 150 CM (60 IN)",
+   "from": 48,
+   "to": 96,
+   "r0": 14.5,
+   "r1": 15.0,
+   "geo": true,
+   "time": "MINUTE 4 · 9:04 AM"
+  },
+  {
+   "t0": 17.6,
+   "t1": 19.4,
+   "fmt": "len",
+   "age": "TAILOR'S TAPE · 150 CM (60 IN)",
+   "from": 96,
+   "to": 192,
+   "r0": 17.6,
+   "r1": 18.1,
+   "geo": true,
+   "time": "MINUTE 5 · 9:05 AM"
+  },
+  {
+   "t0": 19.4,
+   "t1": 19.7,
+   "fmt": "len",
+   "age": "WHEELBARROW · RATED ~400 LB (180 KG)",
+   "from": 192,
+   "to": 192,
+   "time": "MINUTE 5 · 9:05 AM"
+  },
+  {
+   "t0": 19.7,
+   "t1": 22.8,
+   "fmt": "len",
+   "age": "WHEELBARROW · RATED ~400 LB (180 KG)",
+   "from": 192,
+   "to": 384,
+   "r0": 19.7,
+   "r1": 20.2,
+   "geo": true,
+   "time": "MINUTE 6 · 9:06 AM"
+  },
+  {
+   "t0": 22.8,
+   "t1": 24.4,
+   "fmt": "len",
+   "age": "WHEELBARROW · RATED ~400 LB (180 KG)",
+   "from": 384,
+   "to": 768,
+   "r0": 22.8,
+   "r1": 23.3,
+   "geo": true,
+   "time": "MINUTE 7 · 9:07 AM"
+  },
+  {
+   "t0": 24.4,
+   "t1": 27.6,
+   "fmt": "len",
+   "age": "BIGGEST RENTAL TRUCK · 26 FT (7.9 M)",
+   "from": 768,
+   "to": 768,
+   "time": "MINUTE 7 · 9:07 AM"
+  },
+  {
+   "t0": 27.6,
+   "t1": 29.4,
+   "fmt": "len",
+   "age": "BIGGEST RENTAL TRUCK · 26 FT (7.9 M)",
+   "from": 768,
+   "to": 1536,
+   "r0": 27.6,
+   "r1": 28.1,
+   "geo": true,
+   "time": "MINUTE 8 · 9:08 AM"
+  },
+  {
+   "t0": 29.4,
+   "t1": 29.7,
+   "fmt": "len",
+   "age": "TOWER CRANE · LIFTS ~18 TONNES",
+   "from": 1536,
+   "to": 1536,
+   "time": "MINUTE 8 · 9:08 AM"
+  },
+  {
+   "t0": 29.7,
+   "t1": 32.6,
+   "fmt": "len",
+   "age": "TOWER CRANE · LIFTS ~18 TONNES",
+   "from": 1536,
+   "to": 3072,
+   "r0": 29.7,
+   "r1": 30.2,
+   "geo": true,
+   "time": "MINUTE 9 · 9:09 AM"
+  },
+  {
+   "t0": 32.6,
+   "t1": 34.6,
+   "fmt": "len",
+   "age": "TOWER CRANE · LIFTS ~18 TONNES",
+   "from": 3072,
+   "to": 6144,
+   "r0": 32.6,
+   "r1": 33.1,
+   "geo": true,
+   "time": "MINUTE 10 · 9:10 AM"
+  },
+  {
+   "t0": 34.6,
+   "t1": 34.9,
+   "fmt": "len",
+   "age": "TALLEST BUILDING · 828 M",
+   "from": 6144,
+   "to": 6144,
+   "time": "MINUTE 10 · 9:10 AM"
+  },
+  {
+   "t0": 34.9,
+   "t1": 36.5,
+   "fmt": "len",
+   "age": "TALLEST BUILDING · 828 M",
+   "from": 6144,
+   "to": 24576,
+   "r0": 34.9,
+   "r1": 35.4,
+   "geo": true,
+   "time": "MINUTE 12 · 9:12 AM"
+  },
+  {
+   "t0": 36.5,
+   "t1": 38.0,
+   "fmt": "len",
+   "age": "TALLEST BUILDING · 828 M",
+   "from": 24576,
+   "to": 49152,
+   "r0": 36.5,
+   "r1": 37.0,
+   "geo": true,
+   "time": "MINUTE 13 · 9:13 AM",
+   "ageGoldAt": 38.0
+  },
+  {
+   "t0": 38.0,
+   "t1": 39.8,
+   "fmt": "len",
+   "age": "TALLEST BUILDING · 828 M",
+   "from": 49152,
+   "to": 98304,
+   "r0": 38.0,
+   "r1": 38.5,
+   "geo": true,
+   "time": "MINUTE 14 · 9:14 AM",
+   "ageGoldAt": 38.0
+  },
+  {
+   "t0": 39.8,
+   "t1": 40.0,
+   "fmt": "len",
+   "age": "U.S. ZIP CODES · 41,561",
+   "from": 98304,
+   "to": 98304,
+   "time": "MINUTE 14 · 9:14 AM"
+  },
+  {
+   "t0": 40.0,
+   "t1": 40.6,
+   "fmt": "len",
+   "age": "U.S. ZIP CODES · 41,561",
+   "from": 98304,
+   "to": 196608,
+   "r0": 40.0,
+   "r1": 40.5,
+   "geo": true,
+   "time": "MINUTE 15 · 9:15 AM"
+  },
+  {
+   "t0": 40.6,
+   "t1": 42.6,
+   "fmt": "len",
+   "age": "U.S. ZIP CODES · 41,562",
+   "from": 196608,
+   "to": 196608,
+   "time": "MINUTE 15 · 9:15 AM",
+   "ageGoldAt": 40.6
+  },
+  {
+   "t0": 42.6,
+   "t1": 45.0,
+   "fmt": "len",
+   "age": "U.S. ZIP CODES · 41,562",
+   "from": 196608,
+   "to": 393216,
+   "r0": 42.6,
+   "r1": 43.1,
+   "geo": true,
+   "time": "MINUTE 16 · 9:16 AM",
+   "ageGoldAt": 40.6
+  },
+  {
+   "t0": 45.0,
+   "t1": 45.2,
+   "fmt": "len",
+   "age": "ACTIVE SATELLITES · ~13,000",
+   "from": 393216,
+   "to": 393216,
+   "time": "MINUTE 16 · 9:16 AM"
+  },
+  {
+   "t0": 45.2,
+   "t1": 47.7,
+   "fmt": "len",
+   "age": "ACTIVE SATELLITES · ~13,000",
+   "from": 393216,
+   "to": 6291456,
+   "r0": 45.2,
+   "r1": 45.7,
+   "geo": true,
+   "time": "MINUTE 20 · 9:20 AM"
+  },
+  {
+   "t0": 47.7,
+   "t1": 50.2,
+   "fmt": "len",
+   "age": "ACTIVE SATELLITES · ~13,000",
+   "from": 6291456,
+   "to": 25165824,
+   "r0": 47.7,
+   "r1": 48.2,
+   "geo": true,
+   "time": "MINUTE 22 · 9:22 AM"
+  },
+  {
+   "t0": 50.2,
+   "t1": 50.4,
+   "fmt": "len",
+   "age": "EARTH · 12,742 KM WIDE",
+   "from": 25165824,
+   "to": 25165824,
+   "time": "MINUTE 22 · 9:22 AM"
+  },
+  {
+   "t0": 50.4,
+   "t1": 51.6,
+   "fmt": "len",
+   "age": "EARTH · 12,742 KM WIDE",
+   "from": 25165824,
+   "to": 402653184,
+   "r0": 50.4,
+   "r1": 50.9,
+   "geo": true,
+   "time": "MINUTE 26 · 9:26 AM"
+  },
+  {
+   "t0": 51.6,
+   "t1": 53.0,
+   "fmt": "len",
+   "age": "EARTH · 12,742 KM WIDE",
+   "from": 402653184,
+   "to": 805306368,
+   "r0": 51.6,
+   "r1": 52.1,
+   "geo": true,
+   "time": "MINUTE 27 · 9:27 AM",
+   "ageGoldAt": 53.0
+  },
+  {
+   "t0": 53.0,
+   "t1": 55.4,
+   "fmt": "len",
+   "age": "EARTH · 12,742 KM WIDE",
+   "from": 805306368,
+   "to": 1610612736,
+   "r0": 53.0,
+   "r1": 53.5,
+   "geo": true,
+   "time": "MINUTE 28 · 9:28 AM",
+   "ageGoldAt": 53.0
+  },
+  {
+   "t0": 55.4,
+   "t1": 63.5,
+   "fmt": "len",
+   "age": "U.S. ADULTS SIT · 6.4 H A DAY",
+   "from": 1610612736,
+   "to": 1610612736,
+   "time": "MINUTE 28 · 9:28 AM"
+  }
+ ],
+ "subs": [
+  [
+   3.6,
+   5.4,
+   "9:00 AM. A normal elevator ride."
+  ],
+  [
+   5.7,
+   7.5,
+   "Then it doubles. Every minute."
+  ],
+  [
+   7.6,
+   8.8,
+   "Everyone takes the stairs."
+  ],
+  [
+   9.1,
+   11.2,
+   "Minute 2. The doctor takes a look."
+  ],
+  [
+   11.4,
+   12.95,
+   "Turn your head and cough."
+  ],
+  [
+   13.15,
+   14.1,
+   "He'll be fine."
+  ],
+  [
+   14.4,
+   15.8,
+   "Minute 4. Nothing fits."
+  ],
+  [
+   15.95,
+   17.5,
+   "His tape is 150 cm."
+  ],
+  [
+   17.8,
+   19.3,
+   "Minute 5. Order more tape."
+  ],
+  [
+   19.6,
+   21.4,
+   "Minute 6. You borrow a wheelbarrow."
+  ],
+  [
+   21.6,
+   22.85,
+   "Rated for 400 pounds."
+  ],
+  [
+   23.05,
+   24.3,
+   "It tried its best."
+  ],
+  [
+   24.5,
+   26.6,
+   "Minute 7. You rent the biggest truck."
+  ],
+  [
+   26.75,
+   27.7,
+   "It fits. Barely."
+  ],
+  [
+   27.9,
+   29.25,
+   "Minute 8. It doesn't."
+  ],
+  [
+   29.5,
+   31.6,
+   "Minute 9. A crane lifts you both."
+  ],
+  [
+   31.8,
+   33.4,
+   "Cranes lift 18 tonnes."
+  ],
+  [
+   34.7,
+   36.9,
+   "Minute 12. Scientists call a press conference."
+  ],
+  [
+   37.1,
+   38.9,
+   "It's taller than any building now."
+  ],
+  [
+   39.9,
+   42.3,
+   "Minute 15. It gets its own ZIP code."
+  ],
+  [
+   42.5,
+   44.4,
+   "Minute 16. And its own weather."
+  ],
+  [
+   45.2,
+   47.0,
+   "Minute 20. Visible from space."
+  ],
+  [
+   47.5,
+   49.8,
+   "Minute 22. Every satellite photo: censored."
+  ],
+  [
+   50.4,
+   52.2,
+   "Earth is 12,742 km wide."
+  ],
+  [
+   52.5,
+   54.9,
+   "Minute 28. Earth orbits you now."
+  ],
+  [
+   55.6,
+   57.4,
+   "9:28 AM. You finally sit down."
+  ],
+  [
+   57.6,
+   59.2,
+   "Your coffee's still warm."
+  ]
+ ],
+ "end": {
+  "in": 59.4,
+  "html": "At what minute do you <em>tell your mom</em>?",
+  "small": "TELL US BELOW"
+ },
+ "dips": [],
+ "finalFade": [
+  58.9,
+  59.5
+ ],
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 8
+ }
+}
