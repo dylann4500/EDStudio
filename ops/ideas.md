@@ -35,6 +35,10 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 025 | How a Kiddie Pool Becomes a Dam | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 026 | How a Garage Becomes a Car Factory | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 027 | What if every electron disappeared? | science / @ed_.studios | made Oct 26, in review |
+| 028 | What if Earth stopped spinning for one second? | science / @ed_.studios | assigned Oct 27 |
+| 029 | What if the Moon were twice as close? | science / @ed_.studios | assigned Oct 27 |
+| 030 | What if nobody at the dog park wanted to play with Pip? (Pip ep. 3) | pip / @ed._.sims | assigned Oct 27 |
+| 031 | What if Pip worked at the supermarket for one day? (Pip ep. 4) | pip / @ed._.sims | assigned Oct 27 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -57,8 +61,6 @@ Classic tier ("everyone on Earth…"):
 - What if everyone had to hold hands with a stranger for 24 hours?
 
 ## Backlog: science (@ed_.studios)
-- What if the Moon were twice as close? (tides, eclipses, day length)
-- What if Earth stopped spinning for one second? (~1,670 km/h at the equator)
 - What if the Sun disappeared? (8 min 20 s of light still on its way)
 - What if the oxygen in the air doubled? (giant insects, fires)
 - What if Earth had rings like Saturn?
@@ -68,9 +70,7 @@ Classic tier ("everyone on Earth…"):
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
 - What if the whole town lost power… and Pip was the only one not scared? (city.js `setPower` + `makeFlashlight`, HOMES WITH POWER; disaster-goes-right got 1.2–1.3M on @whatif.goodending)
-- What if nobody at the dog park wanted to play with Pip? (loneliness, then a surprise: DOGS PLAYING 0 → 14 and whole-park zoomies. Source: "nobody came" 1st birthday 1M)
 - What if a tornado hit while Pip was home alone? (suburb porch-roof collapse, Pip and the bunny ride it out in the bathtub, family comes home. Disaster that goes right)
-- What if Pip worked at the supermarket for one day? (supermarket.js `setStock`/`setSoldOut` on the sausage aisle, ends as employee of the month. Source: Hugo's first job 932K, @okwhatifcrazy)
 - What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
 - What if Pip saw snow for the first time? (first snow, SNOWFLAKES CAUGHT, a snowman that becomes his friend. Firsts are their best tier; seasonal for November)
 - What if the street flooded and Pip went back for the ducklings? (flood plane from pool.js water, WATER LEVEL, the duck family follows him home. Source: tsunami episodes 0.9–1.3M)
