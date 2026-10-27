@@ -6,6 +6,7 @@
 A line is flagged when the text after its first real `//` still looks like code: `; name(`, `; name =`, `; name.`
 or a trailing `}` / `)` / `]`. False positives are rare (a comment that quotes an object literal); read each hit.
 (026: three real bugs in one round — a ✓'s pop-in scale, a closing `}`, the tail of a route array.)
+032: also flags a comment holding an object literal (`{ t: …`) or ending in `},` — a camera key vanished that way.
 """
 import re, sys
 
@@ -19,7 +20,8 @@ for f in sys.argv[1:]:
             if not pre.strip():
                 break      # a whole-line comment
             c = l[m.start():].rstrip('\n')
-            if re.search(r";\s+[A-Za-z_$][\w.$\[\]]*\s*(\(|=[^=]|\.)", c) or (re.search(r"[})\]];?\s*$", c) and not re.search(r"\([^)]*\)\s*$", c)):
+            if re.search(r";\s+[A-Za-z_$][\w.$\[\]]*\s*(\(|=[^=]|\.)", c) or (re.search(r"[})\]];?\s*$", c) and not re.search(r"\([^)]*\)\s*$", c)) \
+                    or re.search(r"[})\]],\s*$", c) or re.search(r"\{\s*[A-Za-z_$]\w*\s*:\s*\S", c):   # 032: a swallowed array entry `{ t: …, pass: true },`
                 print(f"{f}:{n}: {c.strip()[:140]}"); bad += 1
             break
 print(f'comment lint: {bad} suspicious line(s)')

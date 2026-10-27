@@ -123,10 +123,10 @@ void main(){
   gl_FragColor = vec4(col, 1.0);
   #include <colorspace_fragment>
 }`;
-const CLOUD_VS = `attribute vec3 aC0; attribute float aS; attribute float aA; uniform vec3 uCam; uniform vec3 uSun; uniform float uR; uniform float uSpin; varying vec2 vUv; varying float vA; varying float vDay;
+const CLOUD_VS = `attribute vec3 aC0; attribute float aS; attribute float aA; uniform vec3 uCam; uniform vec3 uSun; uniform float uR; uniform float uSpin; uniform vec4 uClear; varying vec2 vUv; varying float vA; varying float vDay;
 void main(){ vUv = uv; vec3 c0 = aC0 + vec3(0.0, uR, 0.0); float cs = cos(uSpin), sn = sin(uSpin); vec3 aC = vec3(cs * c0.x - sn * c0.y, sn * c0.x + cs * c0.y, c0.z) - vec3(0.0, uR, 0.0); vec3 right = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]); vec3 up = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
   vec3 w = aC + (right * position.x + up * position.y) * aS; float d = distance(aC, uCam);
-  vA = aA * clamp((d - aS * 0.7 - 1.0) / 6.0, 0.0, 1.0);
+  vA = aA * clamp((d - aS * 0.7 - 1.0) / 6.0, 0.0, 1.0) * smoothstep(0.6, 1.0, distance(aC, uClear.xyz) / max(uClear.w, 0.001));
   vDay = clamp(dot(normalize(aC - vec3(0.0, -uR, 0.0)), uSun) * 1.3 + 0.25, 0.08, 1.0);
   gl_Position = projectionMatrix * viewMatrix * vec4(w, 1.0); }`;
 const CLOUD_FS = `uniform sampler2D uMap; varying vec2 vUv; varying float vA; varying float vDay;
@@ -188,7 +188,7 @@ export async function buildWorld(studio) {
   cg.setAttribute('aC0', new THREE.InstancedBufferAttribute(new Float32Array(list.flatMap((c) => c.slice(0, 3))), 3));
   cg.setAttribute('aS', new THREE.InstancedBufferAttribute(new Float32Array(list.map((c) => c[3])), 1));
   cg.setAttribute('aA', new THREE.InstancedBufferAttribute(new Float32Array(list.map((c) => c[4])), 1));
-  const cU = { uMap: { value: cloudT }, uCam: pU.uCam, uSun: pU.uSun, uR: { value: R }, uSpin: { value: 0 } };
+  const cU = { uMap: { value: cloudT }, uCam: pU.uCam, uSun: pU.uSun, uR: { value: R }, uSpin: { value: 0 }, uClear: { value: new THREE.Vector4(0, 0, 0, 0) } };
   const clouds = new THREE.Mesh(cg, new THREE.ShaderMaterial({ uniforms: cU, vertexShader: CLOUD_VS, fragmentShader: CLOUD_FS, transparent: true, depthWrite: false }));
   clouds.frustumCulled = false; clouds.renderOrder = 2; root.add(clouds);
   // ---- lights
@@ -222,7 +222,9 @@ export async function buildWorld(studio) {
   aimSun(0, 1, -2);
   /** Drift the cloud deck around the planet (radians about the z axis through its centre): the ground speed seen from orbit. */
   const setCloudSpin = (a) => (cU.uSpin.value = a);
-  return { root, planet, atm, sky, stars, clouds, sun, hemi, SUN, aimSun, setSun, setSpace, setCloudSpin, update, C, R };
+  /** Clear a sight line through the deck: clouds within r of p fade out (r = 0 = off). */
+  const setCloudClear = (p, r) => cU.uClear.value.set(p[0], p[1], p[2], r);
+  return { root, planet, atm, sky, stars, clouds, sun, hemi, SUN, aimSun, setSun, setSpace, setCloudSpin, setCloudClear, update, C, R };
 }
 
 // ================================================================ THE BACKYARD
@@ -535,8 +537,9 @@ export async function buildStation(parent) {
     mk(new THREE.BoxGeometry(1.3, 0.22, 0.32), mat(0xf4f4f0, 0.5), G, 0, 0, 0);
     const lettuce = [0x6fc04a, 0x58a83c, 0x86d05a];
     for (let k = 0; k < 5; k++) for (let j = 0; j < 4; j++) { const b = mk(new THREE.SphereGeometry(0.075, 10, 8), mat(lettuce[(k + j) % 3], 0.8), G, -0.5 + k * 0.25 + (j % 2) * 0.05, 0.16 + j * 0.035, -0.04 + (j % 2) * 0.06); b.scale.set(1, 0.7, 1); }
-    mk(new THREE.BoxGeometry(1.3, 0.05, 0.12), new THREE.MeshStandardMaterial({ color: 0xff7ad8, emissive: 0xff4fc8, emissiveIntensity: 1.4 }), G, 0, 0.62, 0.05);
+    const growM = new THREE.MeshStandardMaterial({ color: 0xff7ad8, emissive: 0xff4fc8, emissiveIntensity: 1.4 }); mk(new THREE.BoxGeometry(1.3, 0.05, 0.12), growM, G, 0, 0.62, 0.05);
     const glow = new THREE.PointLight(0xff6ad0, 1.6, 2.2, 1.6); glow.position.set(0, 0.45, 0.25); G.add(glow);
+    const sp = m2.setPower; m2.setPower = (k) => { sp(k); growM.emissiveIntensity = 1.4 * k; glow.intensity = 1.6 * k; };   // the grow light dies with the power too
     for (const y of [-1.3, -2.3]) { const f = new THREE.Group(); m2.g.add(f); f.position.set(D.hw - 0.06, y, -0.35); f.rotation.y = -PI / 2; mk(new THREE.TorusGeometry(0.26, 0.03, 8, 24), mat(0x3a3f48, 0.4), f); const bl = new THREE.Group(); f.add(bl); for (let k = 0; k < 4; k++) { const b = mk(new THREE.BoxGeometry(0.44, 0.08, 0.01), mat(0x8a9099, 0.4), bl); b.rotation.z = (k * PI) / 4; } f.userData.blades = bl; m2.g.userData.fans = (m2.g.userData.fans || []).concat(f); } }
   // M3 GALLEY: a food warmer, pouches on velcro, a mug on a strap
   { const G = new THREE.Group(); m3.g.add(G); G.position.set(-0.5, -1.2, -D.hw + 0.16);
@@ -567,6 +570,8 @@ export async function buildStation(parent) {
   const suit = new THREE.Group(); mud.add(suit); suit.position.set(A.x0 + 1.15, 0.05, -0.75);
   mk(new THREE.CapsuleGeometry(0.2, 0.45, 6, 12), mat(0xf4f4f0, 0.8), suit, 0, 0, 0); for (const s of [-1, 1]) { const arm = mk(new THREE.CapsuleGeometry(0.07, 0.35, 4, 8), mat(0xf4f4f0, 0.8), suit, s * 0.26, -0.05, 0); arm.rotation.z = s * 0.25; }
   mk(new THREE.BoxGeometry(0.12, 0.08, 0.08), mat(0xe8504a, 0.5), suit, -0.08, 0.15, 0.18);
+  mk(new THREE.SphereGeometry(0.17, 18, 14), mat(0xf4f4f0, 0.35), suit, 0, 0.5, 0); const visor = mk(new THREE.SphereGeometry(0.15, 18, 12, -0.9, 1.8, 0.75, 1.0), new THREE.MeshStandardMaterial({ color: 0x1c2638, roughness: 0.08, metalness: 0.6, emissive: 0x3a5a8a, emissiveIntensity: 0.25 }), suit, 0, 0.5, 0.03); visor.scale.setScalar(1.06);
+  mk(new RoundedBoxGeometry(0.34, 0.42, 0.14, 2, 0.04), mat(0xd9dbe0, 0.6), suit, 0, 0.05, -0.17); for (const s of [-1, 1]) mk(new RoundedBoxGeometry(0.11, 0.12, 0.17, 2, 0.03), mat(0x3a3f48, 0.6), suit, s * 0.09, -0.48, 0.02);
   for (const dx of [0, 0.22]) mk(new THREE.BoxGeometry(0.16, 0.14, 0.3), mat(0x3a3f48, 0.6), mud, A.x0 + 0.5 + dx, -A.r * 0.7, -0.6);
   const signT = tex(256, 96, (c, w, h) => { c.fillStyle = '#2f6fd6'; c.fillRect(0, 0, w, h); c.strokeStyle = '#fff'; c.lineWidth = 6; c.strokeRect(5, 5, w - 10, h - 10); c.font = font(52); c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('MUDROOM', w / 2, h / 2 + 4); });
   mk(new THREE.PlaneGeometry(0.9, 0.34), new THREE.MeshStandardMaterial({ map: signT, roughness: 0.6 }), mud, A.x0 + 1.6, 0.55, -0.98);
@@ -576,8 +581,14 @@ export async function buildStation(parent) {
   // Whipple shield around M2: crinkled foil sheets standing off the hull (cut like the module)
   const foilT = tex(256, 256, (c, w, h) => { const R = rng(3); c.fillStyle = '#eef1f6'; c.fillRect(0, 0, w, h); for (let i = 0; i < 420; i++) { const x = R() * w, y = R() * h; c.fillStyle = `rgba(${R() < 0.5 ? '255,255,255' : '70,78,92'},${0.25 + R() * 0.35})`; c.beginPath(); c.moveTo(x, y); c.lineTo(x + (R() - 0.5) * 40, y + (R() - 0.5) * 40); c.lineTo(x + (R() - 0.5) * 40, y + (R() - 0.5) * 40); c.fill(); } }); foilT.wrapS = foilT.wrapT = THREE.RepeatWrapping; foilT.repeat.set(7, 2.5);
   const shield = new THREE.Group(); m4.g.add(shield);
-  { const Rs = D.Rm + 0.38, a = Math.acos(clamp(D.zc / Rs, -1, 1));
-    mk(partialCyl(Rs, -D.mlen[3] + 0.15, -0.15, a, 2 * PI - a, 72, 24), new THREE.MeshStandardMaterial({ map: foilT, emissiveMap: foilT, roughness: 0.22, metalness: 0.55, side: THREE.DoubleSide, emissive: 0xb4bac4, emissiveIntensity: 0.75, flatShading: true }), shield);   // bright crinkled tinfoil (metalness 0.95 read as a flat grey wall)
+  { const Rs = D.Rm + 0.38, a = Math.acos(clamp(D.zc / Rs, -1, 1)), N = 8, Rf = rng(17);
+    const foilM = new THREE.MeshStandardMaterial({ map: foilT, color: 0xf2f4f8, roughness: 0.22, metalness: 0.85, side: THREE.DoubleSide, emissive: 0x6a7080, emissiveIntensity: 0.35, envMapIntensity: 2.6, flatShading: true });
+    shield.userData.strips = [];
+    for (let k = 0; k < N; k++) {   // 8 crinkled strips (they unroll one by one); radial jitter + flat shading = foil facets
+      const geo = partialCyl(Rs, -D.mlen[3] + 0.15, -0.15, a + (k * (2 * PI - 2 * a)) / N, a + ((k + 1) * (2 * PI - 2 * a)) / N, 10, 18), p = geo.attributes.position;
+      for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i), r = Math.hypot(x, z), d = (Rf() - 0.5) * 0.06; p.setXYZ(i, x * (r + d) / r, p.getY(i) + (Rf() - 0.5) * 0.02, z * (r + d) / r); }
+      geo.computeVertexNormals(); const strip = mk(geo, foilM, shield); shield.userData.strips.push(strip); }
+    shield.userData.mat = foilM;
     const xs = Math.sqrt(Rs * Rs - D.zc * D.zc); for (const s of [-1, 1]) mk(new THREE.BoxGeometry(0.03, D.mlen[3] - 0.3, 0.04), mat(0x9ea2a8, 0.4, { metalness: 0.6 }), shield, s * xs, -D.mlen[3] / 2, D.zc - 0.02);
     for (let k = 0; k < 6; k++) { const th = a + 0.2 + k * ((2 * PI - 2 * a - 0.4) / 5); for (const y of [-0.8, -4.0]) { const s2 = mk(new THREE.CylinderGeometry(0.025, 0.025, 0.38, 6), mat(0x9ea2a8, 0.4), shield, (D.Rm + 0.19) * Math.sin(th), y, (D.Rm + 0.19) * Math.cos(th)); s2.rotation.set(PI / 2 * Math.cos(th) * 0, 0, 0); s2.lookAt(0, y, 0); s2.rotateX(PI / 2); } } }
   shield.visible = false;

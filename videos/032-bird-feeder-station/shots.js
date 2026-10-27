@@ -71,7 +71,7 @@ export async function build(studio, story) {
   const LEAP = t.tree, FACE = t.face, STEP = t.step, ON_FEEDER = STEP + 0.45;
   const GRAB = t.rfeed - 0.05, TAPED = t.rocket + 0.1, IGN1 = t.goes - 0.1, APEX = t.up + 0.55, FLIP0 = APEX - 0.1, FALL0 = APEX + 0.25, IMPACT = t.rgary;
   const POPOUT = t.oso + 0.12, UPRIGHT = POPOUT + 0.45, INCOCKPIT = UPRIGHT + 0.25, IGN2 = Math.max(t.sideways, INCOCKPIT + 0.2), ORBIT_IN = t.n17 + 0.4, COAST1 = t.fgary - 0.1;
-  const EXIT = t.fgary - 0.05, SQ_LET = t.fso - 0.25;
+  const EXIT = t.fgary - 0.05, SQ_LET = t.fsq - 0.35;   // the squirrel pops out of the feeder on "so is the SQUIRREL"
   const DOCK_T = [0, t.docking, t.docking + 0.32, t.docking + 0.64, t.docking + 0.96];   // M2..M5 arrive one after another (each a CLUNK)
   const PUSH = t.tiny + 0.2, M1_IN0 = t.launch - 0.35, M1_IN1 = t.rooms + 0.45, BOLT1 = t.bolt, BOLT2 = t.don, DIVE = t.don + 0.35, M2_IN0 = t.docking - 1.1, M2_CAP = t.docking, LATCH = t.doorway;
   const SUNSET0 = t.dthen - 0.1, SUNSET1 = t.dark + 0.1, SWEEP0 = t.sixteen - 0.05, SWEEP1 = t.day + 0.3, LIGHTS_OFF = t.dark, WHOOSH = t.kair - 0.05, HATCH_OPEN = WHOOSH - 0.08, TAUT = t.him + 0.05;
@@ -139,7 +139,7 @@ export async function build(studio, story) {
   mk(new THREE.PlaneGeometry(0.14, 0.06), new THREE.MeshStandardMaterial({ map: tex(96, 40, (c, w, h) => { c.fillStyle = '#fff'; c.fillRect(0, 0, w, h); c.font = font(30); c.fillStyle = '#c08a00'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('PEE', w / 2, h / 2 + 2); }) }), peeBag, 0, 0, 0.065);
   const pouch = new THREE.Group(); scene.add(pouch);
   mk(new THREE.BoxGeometry(0.12, 0.16, 0.04), mat(0xc0c4cc, 0.35, { metalness: 0.5 }), pouch); mk(new THREE.CylinderGeometry(0.008, 0.008, 0.12, 6), mat(0xe8504a, 0.5), pouch, 0.02, 0.12, 0);
-  const coffee = makeBlob(); scene.add(coffee.m);
+  const coffee = makeBlob(0x7a4a22); coffee.m.material.roughness = 0.15; scene.add(coffee.m);   // glossy milk-coffee brown (dark brown read as a black ball)
   const vest = new THREE.Group(); gary.head.parent.parent.add(vest); vest.position.set(0, 0.17, 0.0);   // "a bulletproof vest made of tinfoil" — on Gary
   { const fv = tex(128, 128, (c, w, h) => { c.fillStyle = "#e6e9ee"; c.fillRect(0, 0, w, h); for (let i = 0; i < 160; i++) { c.fillStyle = i % 2 ? 'rgba(255,255,255,.6)' : 'rgba(80,88,100,.45)'; const x = (i * 37) % w, y = (i * 61) % h; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 14, y + 6); c.lineTo(x + 4, y + 16); c.fill(); } });
     const vm = new THREE.MeshStandardMaterial({ map: fv, metalness: 0.85, roughness: 0.2, emissive: 0x3a3e46, flatShading: true });
@@ -156,16 +156,19 @@ export async function build(studio, story) {
   const tread = makeTreadmill(); scene.add(tread.g); tread.g.position.set(...P(-0.88, MT[3] - 3.3, 0.15)); tread.g.scale.setScalar(0.75); mk(new THREE.BoxGeometry(0.95, 0.06, 0.6), mat(0x9aa3b0, 0.5), scene, ...P(-0.85, MT[3] - 3.34, 0.1));   // on a rack shelf in the LAB, under the plugged Gary
   const bungee = [0, 1].map(() => { const b = mk(new THREE.CylinderGeometry(0.01, 0.01, 1, 6), mat(0xff4fa0, 0.5), scene); b.castShadow = false; return b; });
   // the orbit explainer: chevrons flowing along the real circular path around the planet
-  const orbitPts = []; { const c = W.C, ox = P(-4.8)[0], oy = 78.4, r = Math.hypot(ox - c.x, oy - c.y), a0 = Math.atan2(ox - c.x, oy - c.y); for (let k = 0; k <= 60; k++) { const a = a0 - 0.004 + k * 0.0028; orbitPts.push([c.x + Math.sin(a) * r, c.y + Math.cos(a) * r, 0.3]); } }
-  const orbitArrows = makeArrows(scene, orbitPts, { color: 0xffd23f, count: 18, size: 3.0, speed: 22, emissive: 0.9 });
+  const orbitPts = []; { const c = W.C, ox = P(-4.8)[0], oy = 78.4, r = Math.hypot(ox - c.x, oy - c.y), a0 = Math.atan2(ox - c.x, oy - c.y); for (let k = 0; k <= 40; k++) { const a = a0 - 0.002 + k * 0.0009; orbitPts.push([c.x + Math.sin(a) * r, c.y + Math.cos(a) * r, 0.3]); } }
+  const orbitArrows = makeArrows(scene, orbitPts, { color: 0xffd23f, count: 11, size: 1.7, speed: 9, emissive: 0.9 });   // a short dense stream that stays in the wide frame
   // the paint fleck streaks (hit + whipple demo) and the burning seed
-  const streak = mk(new THREE.CylinderGeometry(0.02, 0.0, 1.6, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xfff2c0).multiplyScalar(2), toneMapped: false, transparent: true }), scene); streak.castShadow = false;
+  const streak = mk(new THREE.CylinderGeometry(0.035, 0.0, 1.6, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xfff2c0).multiplyScalar(2), toneMapped: false, transparent: true }), scene); streak.castShadow = false;
   const looseHelmet = makeHelmet(0.47); scene.add(looseHelmet); looseHelmet.visible = false;   // knocked off in the fling
   const spit = mk(new THREE.SphereGeometry(0.03, 8, 6), mat(0x2e2b28, 0.6), scene); spit.scale.set(0.7, 0.45, 1.5); spit.castShadow = false;
   const hotSeed = new THREE.Group(); scene.add(hotSeed);
-  { const s2 = mk(new THREE.SphereGeometry(0.05, 10, 8), mat(0x2e2b28, 0.5), hotSeed); s2.scale.set(0.7, 0.45, 1.5); }
+  const seedM = new THREE.MeshStandardMaterial({ color: 0x2e2b28, roughness: 0.5, emissive: 0xff4a00, emissiveIntensity: 0 });
+  { const s2 = mk(new THREE.SphereGeometry(0.05, 10, 8), seedM, hotSeed); s2.scale.set(0.7, 0.45, 1.5); }
   const seedGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex(64, 64, (c) => { const g = c.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,250,220,1)'); g.addColorStop(0.3, 'rgba(255,170,60,.9)'); g.addColorStop(1, 'rgba(255,80,0,0)'); c.fillStyle = g; c.fillRect(0, 0, 64, 64); }), blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, transparent: true }));
   hotSeed.add(seedGlow);
+  const trailM = seedGlow.material.clone(); trailM.color.set(0xff5a00);
+  const seedTrail = [1, 2, 3, 4, 5, 6].map(() => { const sp = new THREE.Sprite(trailM); scene.add(sp); return sp; });   // a comet tail of embers behind the burning seed
   const seedLight = new THREE.PointLight(0xff8a30, 0, 4, 1.6); hotSeed.add(seedLight);
 
   // ---------------------------------------------------------------- FX schedule (analytic; the same word times drive the cue sheet)
@@ -231,7 +234,8 @@ export async function build(studio, story) {
   fx.burst('spark', RECYC, { pos: REC, box: [0.6, 0.5, 0.1], n: 12, speed: [0.5, 1.2], spread: 1.4, g: 0, seed: 58 });
   fx.burst('mist', t.wbreath, { pos: P(-0.35, MT[1] - 1.85, 0.6), n: 8, dir: [0.6, -0.6, -0.5], spread: 0.5, speed: [0.6, 1.0], g: 0, drag: 0.8, size: [0.12, 0.25], seed: 59 });
   fx.burst('drops', GAUGE1, { pos: [REC[0] + 0.24, REC[1] - 0.12, REC[2] + 0.36], n: 8, dir: [0, 0, 1], spread: 0.4, speed: [0.2, 0.4], g: 0, drag: 1.2, life: [2, 3], seed: 60, color: 0x5a3418 });
-  const HP = P(D.hole[0], D.hole[1], -1.1), WX = -Math.sqrt((D.Rm + 0.38) ** 2 - D.zc ** 2);   // the hole; the shield's left cut edge (x)
+  const HP = P(D.hole[0], D.hole[1], -1.1), WX = -Math.sqrt((D.Rm + 0.38) ** 2 - D.zc ** 2), HF = P(-2.16, MT[3] - 1.4, 0.74), HFN = [-0.95, 0.05, 0.33];   // the hole; the shield's left cut edge (x); the hit on the foil's visible face + its outward normal
+  S.shield.userData.mat.envMap = studio.scene.environment;   // envMapIntensity only applies with an explicit envMap
   fx.burst('glow', HIT, { pos: HP, n: 2, size: [0.3, 0.5], seed: 62 });
   fx.burst('spark', HIT, { pos: HP, n: 30, dir: [0, 0, 1], speed: [1, 3], spread: 1.0, g: 0, seed: 63 });
   fx.stream('mist', HIT + 0.05, PLUG, { pos: P(0.0, MT[3] + 0.9, 0.4), box: [2.0, 2.4, 1.6], rate: 50, dir: [-0.3, -1, -0.8], spread: 0.45, speed: [2, 4], g: 0, drag: 0.4, size: [0.15, 0.35], life: [0.5, 0.8], seed: 64 });
@@ -240,9 +244,9 @@ export async function build(studio, story) {
   fx.burst('spark', PLUG, { pos: P(D.hole[0], D.hole[1], -0.9), n: 14, speed: [0.6, 1.6], spread: 1.4, g: 0, seed: 67 });
   fx.stream('mist', PLUG + 0.5, SEED_OUT, { pos: P(D.hole[0] + 0.33, D.hole[1] - 0.05, -0.95), box: [0.04, 0.25, 0.04], rate: 9, dir: [0.15, 0, -1], spread: 0.3, speed: [0.4, 0.8], g: 0, drag: 0.6, size: [0.05, 0.11], life: [0.4, 0.7], seed: 90 });
   fx.burst('spark', SHIELD + 0.1, { pos: P(WX, MT[3] - 1.6, 1.1), box: [0.3, 3.5, 0.2], n: 22, speed: [0.5, 1.5], spread: 1.4, g: 0, seed: 68 });
-  fx.burst('glow', HIT2, { pos: P(WX, MT[3] - 1.4, 1.0), n: 1, size: [0.18, 0.28], seed: 69 });
-  fx.burst('mist', HIT2, { pos: P((WX - 1.43) / 2, MT[3] - 1.4, 1.18), box: [0.1, 0.4, 0.1], n: 30, size: [0.08, 0.2], dir: [0.2, 0, 0.3], spread: 1.3, speed: [0.3, 1.1], g: 0, drag: 1.2, seed: 70, color: 0xe8eef6 });
-  fx.burst('spark', HIT2, { pos: P(WX, MT[3] - 1.4, 1.2), n: 20, speed: [0.8, 2.2], spread: 1.4, g: 0, seed: 71 });
+  fx.burst('glow', HIT2, { pos: HF, n: 1, size: [0.32, 0.45], seed: 69 });
+  fx.burst('mist', HIT2, { pos: HF, box: [0.05, 0.12, 0.05], n: 34, size: [0.1, 0.24], dir: HFN, spread: 0.9, speed: [0.4, 1.4], g: 0, drag: 1.4, seed: 70, color: 0xe8eef6 });   // the fleck turns to vapor ON the foil
+  fx.burst('spark', HIT2, { pos: HF, n: 26, dir: HFN, speed: [0.8, 2.4], spread: 1.1, g: 0, seed: 71 });
   fx.burst('spark', TOILET, { pos: P(0.9, MT[4] - 1.45, 0), n: 14, speed: [0.5, 1.2], spread: 1.4, g: 0, seed: 72 });
   fx.burst('bill', TOILET + 0.2, { pos: P(0.55, MT[4] - 0.9, 0.4), box: [0.6, 0.4, 0.3], n: 10, dir: [-0.3, 0.4, 0.4], spread: 1.2, speed: [0.3, 0.8], g: 0, drag: 0.8, life: [3, 4], seed: 73 });
   fx.stream('bill', t.toilet - 0.3, t.toilet + 1.0, { pos: P(0.15, MT[4] - 1.05, 0.5), box: [0.4, 0.5, 0.4], rate: 12, dir: [1, -0.4, -0.4], spread: 0.25, speed: [0.8, 1.2], g: 0, drag: 0.3, life: [0.7, 0.9], seed: 150 });   // the money flushes
@@ -259,8 +263,13 @@ export async function build(studio, story) {
   fx.stream('spark', LAND, LAND + 1.5, { pos: [0.06, 1.09, -1.5], box: [0.03, 0.01, 0.03], rate: 16, dir: [0, 1, 0], spread: 0.5, speed: [0.3, 0.7], seed: 88 });   // it's still on fire
   fx.burst('smoke', LAND + 0.9, { pos: [0.0, 1.27, -1.45], n: 5, dir: [0, 0.4, 1], spread: 0.5, speed: [0.3, 0.6], size: [0.05, 0.1], g: -0.4, seed: 89, color: 0x6a6a6a });   // the cardinal coughs
   fx.burst('crumb', LAND + 0.45, { pos: [0.02, 1.12, -1.45], n: 6, size: [0.012, 0.022], speed: [0.4, 0.9], spread: 1.3, floor: 1.03, seed: 84, color: 0x3a2a20 });   // soot
-  const seedPath = (tt) => { const u = clamp((tt - SEED0) / (LAND - SEED0)), e = u * u * (3 - 2 * u) * 0.35 + u * u * 0.65; return bez3(P(D.hole[0] - 0.05, D.hole[1], -2.3), P(-0.8, -20, -2.0), P(-8, -50, 0), [0.06, 1.07, -1.5], e); };   // out the hole past Gary, down behind the stack
-  for (let k = 0; k < 26; k++) { const tt = SEED0 + 0.1 + k * (LAND - SEED0 - 0.15) / 26; if (seedPath(tt)[1] > 40) continue; fx.burst('smoke', tt, { pos: seedPath(tt), n: 2, speed: [0.05, 0.2], spread: 1.4, g: 0, drag: 2, size: [0.25, 0.6], life: [0.8, 1.4], seed: 90 + k, color: 0x777777 }); fx.burst('spark', tt, { pos: seedPath(tt), n: 3, speed: [0.3, 0.8], spread: 1.4, g: 0, seed: 130 + k }); }
+  fx.burst('confetti', t.backyard + 0.3, { pos: [22.0, 54.5, 0.6], box: [2.2, 1.2, 1.8], n: 280, speed: [0.8, 2.4], spread: 1.6, g: 0, drag: 0.6, seed: 177 });   // a ta-da the lens flies through on "Congratulations"
+  fx.stream('smoke', LAND + 0.55, END, { pos: [0.06, 1.42, -1.5], box: [0.04, 0.02, 0.04], rate: 9, dir: [0, 1, 0], spread: 0.4, speed: [0.12, 0.3], g: 0, drag: 0.6, size: [0.05, 0.13], life: [0.9, 1.5], seed: 171, color: 0x5a5550 });   // the scorched bird's crest smokes
+  const SEED1 = SEED0 + 0.55, A1 = P(-3.3, D.hole[1] - 0.45, 1.1), TH0 = Math.atan2(-2.3, D.hole[0] - 0.05), TH1 = Math.atan2(1.1, -3.3) - 2 * PI, RH0 = Math.hypot(-2.3, D.hole[0] - 0.05), RH1 = Math.hypot(1.1, -3.3);
+  const seedPath = (tt) => {   // shot out of the hole, it curls round the LAB's left side into view (clear of the foil), then falls to the yard
+    if (tt < SEED1) { const e = 1 - (1 - clamp((tt - SEED0) / (SEED1 - SEED0))) ** 2, th = lerp(TH0, TH1, e), r = lerp(RH0, RH1, e); return P(r * Math.cos(th), D.hole[1] - 0.45 * e, r * Math.sin(th)); }
+    const u = clamp((tt - SEED1) / (LAND - SEED1)), e = u * u * (3 - 2 * u) * 0.3 + u * u * 0.7; return bez3(A1, P(-4.4, D.hole[1] - 3.5, 1.6), P(-9, -45, 4), [0.06, 1.07, -1.5], e); };
+  for (let k = 0; k < 26; k++) { const tt = SEED0 + 0.1 + k * (LAND - SEED0 - 0.15) / 26; if (seedPath(tt)[1] > 52) continue; fx.burst('smoke', tt, { pos: seedPath(tt), n: 2, speed: [0.05, 0.2], spread: 1.4, g: 0, drag: 2, size: [0.25, 0.6], life: [0.8, 1.4], seed: 90 + k, color: 0x777777 }); fx.burst('spark', tt, { pos: seedPath(tt), n: 3, speed: [0.3, 0.8], spread: 1.4, g: 0, seed: 130 + k }); }
 
   // ---------------------------------------------------------------- the camera: ONE continuous take, framed on the words
   const C0 = IGN2 - 0.15, C1 = t.falls + 0.15;   // the rocket chase (between rail 1 and rail 2)
@@ -274,7 +283,8 @@ export async function build(studio, story) {
   F(F1, t.bso + 0.25, [0.6, 1.45, 5.2], [0.15, 1.0, -1.6], 42);                      // Gary shoos the squirrel, the cone
   Fk(F1, CONE - 0.15, [0.4, 1.5, 4.0], [0.05, 1.05, -1.6], 38, t.baffle + 0.35);   // the cone pops on; the squirrel bonks it, slides down, sits dazed under SQUIRREL BAFFLE
   Fk(F1, t.not, [-2.55, 2.75, 1.4], [-2.9, 2.45, -2.3], 38, t.baffled + 0.4);       // NOT BAFFLED on the branch tip
-  Fk(F1, t.tree - 0.1, [-1.6, 2.8, 7.6], [-1.65, 2.35, -1.9], 44, STEP + 0.15);     // a straight dolly back: the 10-ft arc grows, the leap, Gary's face, the step
+  F(F1, t.tree - 0.1, [-1.6, 2.8, 7.6], [-1.65, 2.35, -1.9], 44);     // a straight dolly back: the 10-ft arc grows, the leap
+  Fk(F1, FACE, [-1.5, 1.9, 5.0], [-1.5, 0.45, -1.5], 40, STEP + 0.15);               // Gary's face as a step
   F(F1, t.rfeed - 0.05, [1.0, 1.95, 6.6], [1.15, 1.55, -1.3], 44);                    // the rocket pops in; the feeder is taped on
   F(F1, t.goes - 0.05, [1.6, 2.2, 13.0], [2.0, 5.2, -1.2], 50, true);                  // tilt up after it
   Fk(F1, t.down - 0.3, [1.8, 2.3, 9.0], [1.9, 2.4, -1.1], 46, IMPACT + 0.55);        // back down onto Gary
@@ -282,38 +292,41 @@ export async function build(studio, story) {
   const WIDE_ORBIT = { pos: [10, 85, 21], look: [23, 69.5, -20], fov: 50 };
   Fk(F2, C1, WIDE_ORBIT.pos, WIDE_ORBIT.look, WIDE_ORBIT.fov, t.earth + 0.25);       // the orbit: the arrows fall around the planet
   F(F2, t.ocalled - 0.25, [17.5, 79.1, 7.6], [17.7, 77.75, 0.3], 46);                 // back in on the rocket (ORBIT)
-  Fk(F2, t.floats - 0.25, [19.2, 79.5, 6.2], [19.1, 78.9, 0.5], 42, t.too + 0.1);    // Gary floats out, seeds drift
-  Fk(F2, t.fsq - 0.35, [18.8, 78.5, 5.2], [19.3, 78.05, 1.4], 38, t.fsq + 0.4);        // SO IS THE SQUIRREL
+  F(F2, t.floats - 0.25, [19.0, 79.5, 6.3], [19.0, 78.9, 0.5], 44);                  // Gary floats out, seeds drift
+  Fk(F2, t.falling, [20.0, 79.4, 6.3], [20.0, 78.85, 0.5], 44, t.too - 0.1);          // FREE FALL: Gary fully in frame as he drifts right
+  Fk(F2, t.fso + 0.15, [18.05, 79.0, 4.3], [17.8, 78.6, 0.9], 42, t.fsq + 0.3);        // SO IS THE SQUIRREL: it bursts out of the feeder taped to the rocket
   F(F2, t.tiny - 0.35, [20.4, 79.3, 5.2], [20.3, 78.7, 0.6], 40);                    // a feeder is tiny
   Fk(F2, t.launch - 0.1, [21.7, 79.8, 8.4], [21.6, 78.2, 0], 42, t.don);             // M1 rises in under him; the feeder is bolted on top
   F(F2, t.docking - 0.05, [22.1, 74.6, 12.0], [22.0, 73.8, 0], 50);   // the docking train rises, Gary dives to the doorway
   Fk(F2, LATCH - 0.45, [22.05, 73.7, 5.6], [22.0, 73.3, 0], 38, LATCH + 0.15);        // Gary in the doorway: CLUNK
   Fk(F2, t.sixteen - 0.2, [24.2, 76.6, 10.5], [21.6, 72.8, -3.0], 46, t.power - 0.1); // dark: the terminator sweeps the planet below
-  Fk(F2, t.kgary + 0.15, [23.3, 75.9, 6.6], [23.5, 75.35, 0], 44, WHOOSH);          // Gary at the side hatch (the door swings open)
-  Fk(F2, t.him - 0.2, [25.0, 76.2, 8.2], [25.2, 75.4, 0], 46, AL_DOCK + 0.2);        // the pan trails his blowout; the airlock flies in
+  Fk(F2, t.opens - 0.15, [20.2, 75.9, 5.6], [23.5, 75.4, 0], 44, WHOOSH);             // from the left: the door's inner face swings open, Gary at the wheel
+  Fk(F2, t.him + 0.1, [25.0, 76.2, 8.2], [25.2, 75.4, 0], 46, AL_DOCK + 0.2);        // the pan trails his blowout; the airlock flies in
   Fk(F2, t.airlock - 0.35, [25.3, 76.0, 6.0], [25.3, 75.6, 0], 46, t.mudroom + 0.35);   // the mudroom
   F(F2, t.blue - 0.35, [22.0, 71.7, 6.4], [21.95, 70.55, 0], 42);                    // M2 LIFE SUPPORT (green): Gary turns blue, the squirrel isn't
   Fk(F2, t.machines - 0.2, [21.85, 72.0, 5.4], [21.8, 71.2, 0], 40, t.iair + 0.2);   // the scrubber eats the haze
   F(F2, t.recycle - 0.15, [22.25, 70.85, 5.8], [22.35, 70.3, 0], 42);                // the recycler
   F(F2, t.life - 0.3, [22.0, 71.2, 8.0], [22.0, 70.4, 0], 44);                       // LIFE SUPPORT: the whole green room (plants, fans)
   Fk(F2, t.sweat - 0.2, [22.05, 71.0, 5.6], [22.1, 70.6, 0], 40, t.pee + 0.4);       // sweat, breath, the PEE bag into the hopper
-  F(F2, t.n98 + 0.4, [22.6, 70.4, 3.4], [22.45, 70.2, -0.9], 36);                    // the 98 % gauge
+  Fk(F2, t.n98 + 0.1, [22.6, 70.4, 3.4], [22.45, 70.2, -0.9], 36, t.comes - 0.1);    // the 98 % gauge
   Fk(F2, t.yesterdays - 0.2, [21.75, 66.15, 4.2], [21.65, 65.55, 0.3], 36, GULP + 0.35);   // M3 GALLEY (warm): the coffee blob, GULP
-  Fk(F2, HIT + 0.1, [21.9, 64.6, 7.0], [21.8, 64.3, -0.3], 50);                      // the galley over the LAB: the hit, the hole, the red alarm
-  Fk(F2, PLUG - 0.45, [21.65, 64.05, 5.0], [21.5, 63.2, -0.4], 38, PLUG + 0.7);      // Gary is now the plug
-  Fk(F2, t.sheet, [19.75, 63.35, 5.6], [20.85, 62.6, 0.2], 44, t.whipple + 0.15);     // three-quarter from the left: the tinfoil wraps the LAB, a hit turns to vapor at the cut edge; Gary plugged inside
+  Fk(F2, HIT + 0.1, [21.9, 64.6, 7.0], [21.8, 64.3, -0.3], 50, t.now - 0.25);                      // the galley over the LAB: the hit, the hole, the red alarm
+  Fk(F2, PLUG + 0.15, [21.65, 64.05, 5.0], [21.5, 63.2, -0.4], 38, PLUG + 0.8);      // Gary is now the plug
+  Fk(F2, t.sheet, [19.3, 63.4, 6.5], [20.52, 62.75, 0.2], 46, t.wall);
+  Fk(F2, HIT2 - 0.7, [20.5, 63.15, 5.0], [20.45, 62.75, 0], 48, t.whipple + 0.15);   // front-on section: foil | gap | hull | Gary; the fleck crosses and puffs on the foil     // three-quarter from the left: the tinfoil wraps the LAB, a hit turns to vapor at the cut edge; Gary plugged inside
   Fk(F2, t.bulletproof + 0.15, [21.65, 64.05, 5.0], [21.5, 63.2, -0.4], 38);        // the tinfoil vest on the plugged Gary
-  Fk(F2, t.toilet - 0.45, [22.5, 58.55, 6.2], [22.6, 57.95, 0], 42, t.toilet); // M5 W.C.: the $23M toilet
-  Fk(F2, t.treadmill - 0.25, [21.8, 59.95, 5.8], [21.6, 59.75, 0], 46, t.treadmill + 0.4);                   // the treadmill on its LAB shelf (+ bungees), under the plugged Gary
-  F(F2, t.window - 0.12, [22.45, 55.85, 2.5], [22.0, 53.6, -0.4], 60);
-  Fk(F2, t.backyard - 0.3, [22.4, 55.98, 0.12], [21.25, 53.3, -0.05], 72);   // inside the cupola: the backyard through the struts   // the cupola: the window over your backyard (far below)
+  Fk(F2, t.n23, [22.5, 58.55, 6.2], [22.6, 57.95, 0], 42, t.toilet + 0.3); // M5 W.C.: the $23M toilet
+  Fk(F2, t.treadmill + 0.15, [21.8, 59.95, 5.8], [21.6, 59.75, 0], 46, t.cords - 0.05);                   // the treadmill on its LAB shelf (+ bungees), under the plugged Gary
+  F(F2, Wd('finish', 'over') - 0.1, [22.45, 55.85, 2.5], [22.0, 53.6, -0.4], 60, true);
+  Fk(F2, t.backyard, [22.4, 55.98, 0.12], [21.25, 53.3, -0.05], 72);   // inside the cupola: the backyard through the struts
   const LAST = { pos: [0.32, 1.36, 0.95], look: [0.05, 0.93, -1.55], fov: 36 };   // the bird + the seed at ~41 % (above the caption)
   F2.push({ t: END, pos: LAST.pos, look: LAST.look, fov: LAST.fov, stop: true });
   planRail.verbose = true;
   const rail1 = makeRail(planRail(F1, { shortHoldPass: true })), rail2 = makeRail(planRail(F2.slice(0, -1), { shortHoldPass: true }));
-  const E0 = t.backyard + 0.4, WIDE_END = { pos: [14, 74, 30], look: [22, 68, 0], fov: 46 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
-  const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: E0 + 0.85, pos: [22.45, 55.8, 3.4], look: [22.2, 58.6, 0], fov: 52, pass: true }, { t: t.eyou - 0.2, ...WIDE_END, pass: true },   // back out of the cupola, then up and away to the whole station { t: t.ebirds, pos: [16.5, 79, 20], look: [22.4, 76.5, 0], fov: 44, pass: true },
-    { t: t.spent, pos: [17.6, 76.2, 17.0], look: [22.3, 73.6, 0], fov: 44, pass: true }, { t: Wd('end', 'dollars') - 0.1, pos: [20.6, 63.7, 12.6], look: [21.5, 62.9, -0.3], fov: 44, pass: true }, { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT + 0.8, pos: [21.5, 62.9, 4.8], look: [21.45, 62.5, -0.4], fov: 40 }]);   // no stop: a slow push on Gary into the dive
+  const E0 = t.backyard + 0.3, WIDE_END = { pos: [16, 70, 25], look: [22, 67.6, 0], fov: 50 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
+  // back out of the cupola through the glass looking up, up and away to the whole station (on "birds"), then down to the LAB
+  const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: E0 + 1.0, pos: [22.35, 54.9, 3.3], look: [22.15, 56.4, 0], fov: 54, pass: true }, { t: t.ebirds + 0.2, ...WIDE_END },
+    { t: Wd('end', 'dollars') - 0.1, pos: [21.4, 63.7, 12.6], look: [22.5, 62.7, -0.3], fov: 44, pass: true }, { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT + 0.8, pos: [21.5, 62.9, 4.8], look: [21.45, 62.5, -0.4], fov: 40 }]);
   // the chase: from the yard frame to the rocket, up through the clouds, then out to the wide orbit frame
   const rocketCenter = (tt) => { const st = rocketAt(tt); return [st.p[0] + st.dir[0] * 1.6, st.p[1] + st.dir[1] * 1.6, st.p[2] + st.dir[2] * 1.6]; };
   function chaseAt(tt) {
@@ -330,9 +343,9 @@ export async function build(studio, story) {
   function diveAt(tt) {
     const r = endRail.at(tt); if (tt <= D0) return r;
     const sp = seedPath(Math.min(tt, LAND)), SL = seedPath(LAND), endOff = [LAST.pos[0] - SL[0], LAST.pos[1] - SL[1], LAST.pos[2] - SL[2]];
-    const off = LP([1.2, 1.2, 6.0], endOff, smooth(u01(tt, SEED0 + 0.3, LAND - 0.3)));
+    const near = smooth(u01(tt, SEED0 + 0.15, SEED1)), off = LP(LP([1.2, 1.2, 6.0], [0.7, 0.4, 2.7], near), endOff, smooth(u01(tt, t.seed + 0.25, LAND - 0.3)));   // close on "one seed", then the chase
     let pos = [sp[0] + off[0], sp[1] + off[1], sp[2] + off[2]];
-    pos = LP(pos, LAST.pos, smooth(u01(tt, LAND - 1.0, LAND - 0.3)));   // the seed streaks into a held frame (the LAND kick sells the hit)
+    pos = LP(pos, LAST.pos, smooth(u01(tt, LAND - 0.2, LAND)));   // the seed streaks into a held frame (the LAND kick sells the hit)
     const dist = Math.hypot(pos[0] - sp[0], pos[1] - sp[1], pos[2] - sp[2]);
     let look = [sp[0], sp[1] - 0.06 * dist, sp[2]], fov = lerp(44, LAST.fov, smooth(u01(tt, LAND - 1.0, LAND)));   // the seed sits above the caption band
     if (tt >= LAND) { const k = smooth(u01(tt, LAND, END)); pos = LP(LAST.pos, [LAST.pos[0] - 0.08, LAST.pos[1] - 0.04, LAST.pos[2] - 0.25], k); look = LAST.look; fov = LAST.fov; }
@@ -344,16 +357,16 @@ export async function build(studio, story) {
     const pull = smooth(u01(tt, t.football - 0.6, t.football + 0.2)) * (1 - smooth(u01(tt, t.array - 0.5, t.sit - 0.3)));
     const tight = smooth(u01(tt, t.sit - 0.6, t.sit - 0.1)) * (1 - smooth(u01(tt, SWAT + 0.1, SWAT + 0.4)));
     const off = LP(LP([-1.7, 0.9, 6.6], [-5.0, 2.0, 15.5], pull), [-0.9, 0.45, 4.6], tight), drift = -0.3 * Math.max(0, tt - (t.football - 0.6)) * pull;
-    let pos = [G[0] + off[0] + drift, G[1] + off[1], G[2] + off[2]], look = [G[0] + 0.9 * (1 - tight) - 1.6 * pull, G[1] - 0.25 - 0.35 * tight, G[2] - 0.5], fov = lerp(44, 50, pull);
+    let pos = [G[0] + off[0] + drift, G[1] + off[1], G[2] + off[2]], hy = gary.head.getWorldPosition(v3).y, look = [G[0] + 0.9 * (1 - tight) - 1.6 * pull, lerp(G[1] - 0.25 - 1.7 * pull, hy - 0.55, tight), G[2] - 0.5], fov = lerp(44, 50, pull);   // his face rides above the caption band
     const f = smooth(u01(tt, SWAT + 0.15, W1)); if (f > 0) { const r = rail2.at(W1); pos = LP(pos, r.pos, f); look = LP(look, r.look, f); fov = lerp(fov, r.fov, f); }
     const a = smooth(u01(tt, W0, W0 + 0.8)); if (a < 1) { const r = rail2.at(tt); pos = LP(r.pos, pos, a); look = LP(r.look, look, a); fov = lerp(r.fov, fov, a); }
     return { pos, look, fov };
   }
   const camAt = (tt) => (tt < C0 ? rail1.at(tt) : tt < C1 ? chaseAt(tt) : tt < W0 ? rail2.at(tt) : tt < W1 ? rideAt(tt) : tt < E0 ? rail2.at(tt) : tt < D0 ? endRail.at(tt) : diveAt(tt));
   const kick = makeKick([[POLE_UP + 0.12, 0.6], [t.c0, 0.35], [CONE, 0.6], [BONK, 0.45], [FACE, 0.8], [STEP + 0.25, 0.7], [t.strap - 0.02, 0.5], [TAPED, 0.3], [IGN1, 0.6], [IMPACT, 1.3, 0.6],
-    [POPOUT, 0.6], [UPRIGHT, 0.5], [IGN2, 1.0, 0.7], [IGN2 + 1.2, 0.5], [t.n17 + 0.3, 0.6], [M1_IN1 - 0.05, 0.6], [BOLT1, 0.35], [BOLT2, 0.35], [M2_CAP, 0.5], [LATCH, 1.1, 0.55], [LIGHTS_OFF, 0.35],
-    [HATCH_OPEN, 0.4], [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [SWAT, 1.1, 0.55], [POWER_ON, 0.3], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
-    [PLUG, 1.2, 0.6], [SHIELD, 0.5], [HIT2, 0.8], [TOILET, 0.5], [TREAD, 0.5], [CUPOLA, 0.5], [t.e0, 0.45], [LAND, 0.8, 0.5]]);
+    [POPOUT, 0.6], [UPRIGHT, 0.5], [IGN2, 1.0, 0.7], [IGN2 + 1.2, 0.5], [t.n17 + 0.3, 0.6], [M1_IN1 - 0.05, 0.6], [BOLT2, 0.35], [M2_CAP, 0.5], [LATCH, 1.1, 0.55], [LIGHTS_OFF, 0.35],
+    [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [SWAT, 1.1, 0.55], [POWER_ON, 0.3], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
+    [PLUG, 1.2, 0.6], [SHIELD, 0.5], [HIT2, 0.8], [TOILET, 0.5], [TREAD, 0.5], [t.e0, 0.45], [LAND, 0.8, 0.5]]);
 
   // ---------------------------------------------------------------- per-actor state (pure functions of t)
   const seq = (tt, keys) => { let p = keys[0][1]; for (let i = 0; i < keys.length - 1; i++) { const [a, pa] = keys[i], [b, pb] = keys[i + 1]; if (tt <= a) return pa; if (tt < b) return LP(pa, pb, smooth((tt - a) / (b - a))); p = pb; } return p; };
@@ -435,7 +448,7 @@ export async function build(studio, story) {
       const sip = tt > SIP - 0.3 && tt < GULP + 0.8, gulp = tt > GULP - 0.15 && tt < GULP + 0.6, aftr = tt > GULP + 0.2;
       p = { x: pos[0], y: pos[1], z: pos[2], rotY: tt > t.sweat - 0.3 && tt < t.n98 ? 0.5 : 0.1 * Math.sin(tt * 0.7), rx: 0.08 * Math.sin(tt * 1.2), eyes: bonk ? 'spiral' : blue > 0.3 ? 'half' : gulp ? 'wide' : 'open', mouth: bonk ? 'wavy' : blue > 0.3 ? 'wavy' : gulp ? 'o' : aftr ? 'wavy' : tt > t.yesterdays - 0.2 && tt < SIP ? 'grin' : 'flat', brows: blue > 0.3 ? 0.9 : aftr ? 0.7 : 0,
         faceTint: blue > 0.01 ? [0x2f5ff0, 0.92 * blue] : aftr ? [0x7fb86a, 0.6 * smooth(u01(tt, GULP + 0.2, GULP + 0.5))] : null, ...FLOAT(tt, 0.5),
-        armR: sip ? { x: -1.9, z: -0.2, el: 1.7 } : FLOAT(tt, 0.5).armR, armL: tt > t.recycle && tt < t.life ? { x: -1.6, z: 0.6, el: 0.2 } : FLOAT(tt, 0.5).armL, look: blue > 0.3 ? [0, -0.3] : [0.3, -0.2] }; }
+        armR: sip ? { x: -1.9, z: -0.2, el: 1.7 } : tt > t.even - 0.35 && tt < PEE_IN + 0.4 ? { x: -1.55, z: 0.25, el: 0.7 } : FLOAT(tt, 0.5).armR, armL: tt > t.recycle && tt < t.life ? { x: -1.6, z: 0.6, el: 0.2 } : FLOAT(tt, 0.5).armL, look: blue > 0.3 ? [0, -0.3] : [0.3, -0.2] }; }
     else { // M2: sucked onto the hole, plugged to the end
       const startle = smooth(u01(tt, HIT, HIT + 0.3)), suck = clamp((tt - SUCK0) / (PLUG - SUCK0)), e = suck * suck, from = LP(G3, P(-0.15, MT[2] - 3.3, 0.35), startle), RING = P(0, MT[3] + 0.25, 0.3);
       const tug = tt > t.still - 0.3 && tt < t.still + 0.45 ? Math.sin(PI * clamp((tt - t.still + 0.3) / 0.65)) : 0, pos0 = tt < SUCK0 ? from : e < 0.5 ? LP(from, RING, e * 2) : LP(RING, HOLE, e * 2 - 1), pos = [pos0[0], pos0[1], pos0[2] + 0.35 * tug * (tt < t.still + 0.3 ? 1 : 0.2)], plugged = tt > PLUG, wave = tt > t.egary - 0.1 && tt < t.eplug + 0.8, pfft = tt > SEED_OUT - 0.1 && tt < SEED_OUT + 0.35;
@@ -471,7 +484,7 @@ export async function build(studio, story) {
     else if (tt < UPRIGHT + 0.1) { const u = clamp((tt - GRAB + 0.15) / 0.45), r = arcP(ROOF(poleH(GRAB)), [-0.45, 0, -0.95], u, 0.7), see = tt > IGN1; p = { ...p, pose: u < 1 ? 'leap' : 'sit', x: r[0], y: r[1], z: r[2], rotY: see ? 0.5 : -0.3, eyes: see ? 'wide' : 'half', look: see ? [0.8, 0.8] : [0.5, 0], tailWag: 0.5 }; }
     else if (tt < SQ_LET) { const jump = smooth(u01(tt, UPRIGHT + 0.1, INCOCKPIT)), fp = local(rocket.body, [0, 1.7, 0.6]);   // a stowaway: it dives into the feeder taped to the rocket
       const r = arcP([-0.45, 0, -0.95], fp, jump, 1.0); p = { ...p, pose: 'leap', x: r[0], y: r[1], z: r[2], rotY: 0.8, squash: [1 - 0.3 * jump, 1 + 0.2 * jump] }; hidden = jump >= 1; }
-    else if (tt < t.tiny - 0.1) { const u = smooth(u01(tt, SQ_LET, t.fsq - 0.05)), c = local(rocket.body, [0, 1.75, 0.6]), pos = arcP(c, P(-2.7, 0.1, 1.4), u, 0.3), out = Math.max(0.05, easeOutBack(u01(tt, SQ_LET, SQ_LET + 0.3), 2.4));   // SO IS THE SQUIRREL: it pops out of the feeder in a tiny helmet
+    else if (tt < t.tiny - 0.1) { const u = smooth(u01(tt, SQ_LET + 0.1, t.dfeed)), c = local(rocket.body, [0, 1.75, 0.6]), pos = arcP(c, P(-2.7, 0.1, 1.4), u, 0.3), out = Math.max(0.05, easeOutBack(u01(tt, SQ_LET, SQ_LET + 0.3), 2.4));   // SO IS THE SQUIRREL: it pops out of the feeder in a tiny helmet
       p = { ...p, pose: 'float', x: pos[0], y: pos[1], z: pos[2], rotY: 0.2, rx: 0.3 * Math.sin(tt * 1.4), helmet: true, cheeks: 1, chew: 1, eyes: 'open', look: [0, 0], tailWag: 1, scale: SS * out, armsUp: tt < t.fsq + 0.4 ? 1 : 0 }; }
     else if (tt < DIVE + 0.6) { const fd = feeder.g.position, u = smooth(u01(tt, t.tiny - 0.1, t.tiny + 0.35)), pos = LP(P(-2.7, 0.1, 1.4), [fd.x, fd.y + 0.44, fd.z], u);
       p = { ...p, pose: u < 1 ? 'float' : 'sit', x: u < 1 ? pos[0] : fd.x, y: u < 1 ? pos[1] : fd.y + 0.44, z: u < 1 ? pos[2] : fd.z, rotY: 0.2, helmet: true, cheeks: 1, chew: 1, eyes: 'half', hold: true }; }
@@ -501,7 +514,7 @@ export async function build(studio, story) {
     else pos = P(0.75, 0.02, 0.4);
     if (feeder.g.parent !== parent) parent.add(feeder.g);
     feeder.g.position.set(...pos); feeder.g.rotation.set(0, ry, 0);
-    const roofOpen = tt > EXIT + 0.1; feeder.setRoof(roofOpen ? 0.1 + 0.03 * Math.sin(tt * 2) : 0, roofOpen ? 0.5 : 0); feeder.setFill(tt < t.robbing ? 1 : tt < IMPACT ? 0.75 : 0.5);
+    const roofOpen = tt > EXIT + 0.1, flip = Math.sin(PI * clamp((tt - SQ_LET + 0.05) / 0.5)); feeder.setRoof(roofOpen ? 0.1 + 0.03 * Math.sin(tt * 2) + 0.3 * flip : 0, roofOpen ? 0.5 + 1.2 * flip : 0); feeder.setFill(tt < t.robbing ? 1 : tt < IMPACT ? 0.75 : 0.5);   // the roof flips as the stowaway bursts out
   }
   function birdsAt(tt) {
     birds.forEach((b, i) => {
@@ -527,11 +540,12 @@ export async function build(studio, story) {
       if (b > 0) sd = b < 0.5 ? sunNight.clone().lerp(sunMid, b * 2).normalize() : sunMid.clone().lerp(sunDay, b * 2 - 1).normalize();
       else sd = a < 0.5 ? sunDay.clone().lerp(sunMid, a * 2).normalize() : sunMid.clone().lerp(sunNight, a * 2 - 1).normalize();
       sk = Math.max(1 - smooth(u01(tt, SUNSET0 + 0.2, SUNSET1)), smooth(u01(tt, SUNRISE0 + 0.4, SUNRISE1)));
-      const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sd.applyAxisAngle(new THREE.Vector3(0, 0, 1), -PI * 2 * 3 * smooth(sw));   // 16 sunsets a day: the terminator sweeps the planet
+      const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sd.applyAxisAngle(new THREE.Vector3(0, 0, 1), -PI * 2 * 4 * smooth(sw));   // 16 sunsets a day: the terminator sweeps the planet
     }
     if (tt < IGN2 + 3) sd = new THREE.Vector3(0.72, 0.58, 0.38).normalize().lerp(sunDay, smooth(u01(tt, IGN2, IGN2 + 3))).normalize();   // a raking yard sun (from behind the camera flattened the siding)
-    { const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sk = Math.max(sk, 0.85 * Math.sin(PI * sw * 2) ** 2); }   // 16 sunsets a day: the light sweeps over twice
+    { const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sk = Math.max(sk, Math.sin(PI * sw * 4) ** 2); }   // 16 sunsets a day: four day/night flashes across Gary + the station
     W.setSun(sd, sk);
+    { const clr = smooth(u01(tt, t.window - 0.3, t.window + 0.2)) * (1 - smooth(u01(tt, E0 + 0.6, E0 + 1.2))); W.setCloudClear([10.5, 27, -0.8], 16 * clr); }   // the cupola's sight line to the backyard stays clear
     { const spin = (x) => 0.0011 * (x - IGN2) + 0.006 * smooth(u01(x, IGN2 + 1, ORBIT_IN)) + 0.05 * smooth(u01(x, ORBIT_IN - 0.5, t.falls)); W.setCloudSpin(tt < IGN2 ? 0 : tt < D0 - 3 ? spin(tt) : spin(D0 - 3) * (1 - smooth(u01(tt, D0 - 3, D0 - 1.5)))); }   // the clouds streak past at 17,500 mph
     const pw = tt < M1_IN0 ? 1 : tt < LIGHTS_OFF - 0.6 ? 1 : tt < LIGHTS_OFF ? (Math.floor(tt * 14) % 3 ? 0.25 : 1) * (1 - u01(tt, LIGHTS_OFF - 0.6, LIGHTS_OFF)) : tt < POWER_ON - 0.4 ? 0.0 : tt < POWER_ON ? (Math.floor(tt * 12) % 2 ? 0.3 : 0.9) : 1;
     S.setPower(pw); studio.fill.intensity = 0.45 * (tt > M1_IN0 ? lerp(0.35, 1, Math.max(pw, smooth(u01(tt, SUNRISE0, SUNRISE1)))) : 1);   // the dark beat reads dark
@@ -554,7 +568,7 @@ export async function build(studio, story) {
       for (let i = 1; i < 5; i++) { const A = DOCK_T[i], rise = tt < A - 1.1 ? 1 : 1 - smooth(u01(tt, A - 1.1, A)); S.mods[i].g.position.y = MT[i] - (7 + 2.5 * i) * rise - 0.32 * i * cinch + (tt > A && tt < A + 0.3 ? 0.04 * wobble(tt, A, 1, 20, 8) : 0); S.mods[i].g.visible = tt > A - 1.15; }
       S.rings.forEach((r, i) => { r.visible = tt > LATCH - 0.05; });
       S.cup.position.y = D.bottom + (S.mods[4].g.position.y - MT[4]);
-      S.m1.ends.top.door.open(tt > DIVE - 0.4 ? 1 : 0); S.mods.forEach((m, i) => { if (i < 4) m.ends.bot.door.open(tt > M2_CAP - 0.6 ? 1 : 0); if (i > 0) m.ends.top.door.open(tt > M2_CAP - 0.6 ? 1 : 0); }); S.m5.ends.bot.door.open(tt > CUPOLA ? 1 : 0); }
+      S.m1.ends.top.door.open(tt > DIVE - 0.4 ? 1 : 0); S.mods.forEach((m, i) => { if (i < 4) { m.ends.bot.door.open(tt > M2_CAP - 0.6 ? 1 : 0); m.ends.bot.door.lid.visible = tt < M2_CAP - 0.6; } if (i > 0) { m.ends.top.door.open(tt > M2_CAP - 0.6 ? 1 : 0); m.ends.top.door.lid.visible = tt < M2_CAP - 0.6; } }); S.m5.ends.bot.door.open(tt > CUPOLA ? 1 : 0); }
     // M2's fans spin, M4's alarm (after the hit, a slow red beacon), the WC's toilet roll drifts; the HAB's red emergency light while the power is out
     S.m2.g.userData.fans.forEach((f, i) => (f.userData.blades.rotation.z = -tt * (8 + 3 * i) * Math.max(0.15, pw)));
     S.setAlarm(tt > HIT + 0.2 ? 0.55 + 0.45 * Math.sin((tt - HIT) * 3.2) : 0);
@@ -567,18 +581,18 @@ export async function build(studio, story) {
     { const k = unfoldK(tt); S.truss.unfold(k); const last = S.truss.wings[1].panels[NW - 1], hx = 0.6 + (NW - 1) * PW * k, th = tt < SWAT - 0.12 ? -PI + 0.07 : tt < SWAT + 0.04 ? lerp(-PI + 0.07, 0, smooth(u01(tt, SWAT - 0.12, SWAT + 0.04))) : wobble(tt, SWAT + 0.04, 0.2, 16, 5);
       last.position.set(hx + Math.cos(th) * PW / 2, 0, -Math.sin(th) * PW / 2 + (tt < SWAT - 0.12 ? 0.06 : 0)); last.rotation.set(0, th, 0); last.visible = k > 0.002; }   // hinged at its inner edge: it swings out through the front (where Gary is)
     S.hole.visible = tt > HIT; S.hole.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, HIT, HIT + 0.15), 2)));
-    S.shield.visible = tt > SHIELD; S.shield.scale.set(lerp(0.85, 1, easeOutBack(u01(tt, SHIELD, SHIELD + 0.35), 2)), 1, lerp(0.85, 1, easeOutBack(u01(tt, SHIELD, SHIELD + 0.35), 2)));
+    S.shield.visible = tt > SHIELD; { const st = S.shield.userData.strips, n = st.length; st.forEach((m, k) => { const t0 = SHIELD + 0.07 * (n - 1 - k), sc = lerp(0.83, 1, easeOutBack(u01(tt, t0, t0 + 0.3), 2.2)); m.visible = tt > t0; m.scale.set(sc, 1, sc); }); }   // the foil unrolls strip by strip from the left edge round the back
     S.cup.visible = tt > CUPOLA; S.cup.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, CUPOLA, CUPOLA + 0.3), 2)));
     scrub.visible = tt > SCRUB; scrub.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, SCRUB, SCRUB + 0.3), 2.2))); fan.rotation.z = -tt * 14; scrubLed.material.emissiveIntensity = 1.5 * pw;
     recyc.visible = tt > RECYC; recyc.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, RECYC, RECYC + 0.3), 2.2)));
     needle.rotation.z = -(PI * 0.75 + PI * 1.5 * 0.98 * smooth(u01(tt, GAUGE0, GAUGE1))) + PI * 0.5 + 0.03 * Math.sin(tt * 30) * (tt > GAUGE1 ? 1 : 0);
     tags.forEach((tg, i) => { tg.visible = tt > [t.sweat, t.wbreath, t.pee][i] - 0.1; tg.scale.setScalar(Math.max(0.01, pop(tt, [t.sweat, t.wbreath, t.pee][i] - 0.1, 0.25))); });
     // the pee bag: the squirrel shoves it into the hopper
-    peeBag.visible = tt > t.even - 0.55 && tt < PEE_IN + 0.1; if (peeBag.visible) { sq.root.updateMatrixWorld(true); sq.head.getWorldPosition(v3); const into = smooth(u01(tt, PEE_IN - 0.35, PEE_IN)), grab = smooth(u01(tt, t.even - 0.55, t.even - 0.1)), hp = [REC[0] + 0.22, REC[1] + 0.5, REC[2] + 0.04], gp = gary.root.position, hip = [gp.x + 0.18, gp.y + 0.5, gp.z + 0.2]; peeBag.position.set(...LP(LP(hip, [v3.x, v3.y + 0.18, v3.z + 0.08], grab), hp, into)); peeBag.scale.setScalar(Math.max(0.01, (1 - 0.7 * into) * pop(tt, t.even - 0.5, 0.25))); peeBag.rotation.z = 0.3 * Math.sin(tt * 3); }   // from Gary's hip, the squirrel delivers it
+    peeBag.visible = tt > t.even - 0.3 && tt < t.n98 + 0.05; if (peeBag.visible) { gary.root.updateMatrixWorld(true); const hand = gary.hand(1).getWorldPosition(v3).toArray(), into = smooth(u01(tt, PEE_IN + 0.35, t.n98 - 0.05)), hp = [REC[0] + 0.22, REC[1] + 0.5, REC[2] + 0.04]; peeBag.position.set(...LP([hand[0] + 0.05, hand[1] + 0.12, hand[2] + 0.12], hp, into)); peeBag.scale.setScalar(Math.max(0.01, 2.2 * (1 - 0.75 * into) * pop(tt, t.even - 0.3, 0.25))); peeBag.rotation.set(0, -0.2, 0.15 * Math.sin(tt * 3)); }   // Gary holds it up to the lens on "PEE", then it goes into the recycler
     gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); const GH = v3.toArray();
     sweat.forEach((s2, i) => { const a = t.sweat - 0.15 + i * 0.12, u = u01(tt, a, a + 0.85), from = [GH[0] + 0.15 - i * 0.12, GH[1] + 0.22, GH[2] + 0.2], to = [REC[0] - 0.3 + i * 0.18, REC[1] + 0.62, REC[2] - 0.05]; s2.set(LP(from, to, smooth(u)), u > 0 && u < 1 ? 0.035 : 0, tt + i, 1); });
     pouch.visible = tt > POUR - 0.3 && tt < GULP + 1.2; if (pouch.visible) { const hp = gary.hand(1).getWorldPosition(new THREE.Vector3()); pouch.position.set(hp.x + 0.02, hp.y + 0.06, hp.z + 0.05); pouch.rotation.set(0, 0, -0.3); }
-    { const rel = SIP + 0.05; if (tt > rel && tt < GULP + 0.12) { const u = smooth(u01(tt, rel, rel + 0.45)), hp = pouch.position.toArray(), drift = [GH[0] + 0.2, GH[1] + 0.02, GH[2] + 0.45], gp = [GH[0], GH[1] - 0.12, GH[2] + 0.3], to = tt > GULP - 0.15 ? LP(drift, gp, smooth(u01(tt, GULP - 0.15, GULP + 0.1))) : LP(hp, drift, u); coffee.set(to, 0.12 * (tt > GULP - 0.05 ? 1 - smooth(u01(tt, GULP - 0.05, GULP + 0.12)) : 1), tt, 1.2); } else coffee.set([0, -100, 0], 0, tt); }
+    { const rel = SIP + 0.05; if (tt > rel && tt < GULP + 0.12) { const u = smooth(u01(tt, rel, rel + 0.45)), hp = pouch.position.toArray(), drift = [GH[0] + 0.28, GH[1] - 0.12, GH[2] + 0.45], gp = [GH[0], GH[1] - 0.2, GH[2] + 0.3], to = tt > GULP - 0.15 ? LP(drift, gp, smooth(u01(tt, GULP - 0.15, GULP + 0.1))) : LP(hp, drift, u); coffee.set(to, 0.12 * (tt > GULP - 0.05 ? 1 - smooth(u01(tt, GULP - 0.05, GULP + 0.12)) : 1), tt, 1.2); } else coffee.set([0, -100, 0], 0, tt); }
     tread.update(tt, tt > TREAD ? 1.4 : 0); tread.g.visible = tt > TREAD; tread.g.scale.setScalar(0.7 * Math.max(0.01, easeOutBack(u01(tt, TREAD, TREAD + 0.3), 2.2)));
     toilet.g.visible = tt > TOILET; toilet.g.scale.setScalar(1.3 * Math.max(0.01, easeOutBack(u01(tt, TOILET, TOILET + 0.3), 2.2)));
     bungee.forEach((b, i) => { b.visible = tt > t.bungee - 0.1; if (!b.visible) return; sq.root.updateMatrixWorld(true); const a = sq.body.localToWorld(new THREE.Vector3(0, 0.05, 0)), c = new THREE.Vector3(...P(-0.88 + (i ? 0.34 : -0.34), MT[3] - 3.29, i ? -0.2 : 0.4)); b.position.copy(a).lerp(c, 0.5); b.scale.set(1, Math.max(0.01, a.distanceTo(c)), 1); b.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), c.clone().sub(a).normalize()); });
@@ -587,10 +601,13 @@ export async function build(studio, story) {
     else if (tt > OUT0 && tt < SWAT + 0.3) { const g2 = gary.root.position; setTether(P(4.75, -2.6, 0.1), [g2.x, g2.y + 0.55, g2.z], tt > SWAT ? 1.2 : 0.5 + 0.4 * Math.sin(tt * 1.3)); }
     else setTether(null);
     // the paint flecks: a streak into the back wall (hit), a streak into the shield (whipple)
-    { let on = false; for (const [a, from, to] of [[HIT, P(-4.2, D.hole[1] + 1.4, -2.6), P(D.hole[0], D.hole[1], -1.6)], [HIT2, P(-4.6, MT[3] - 0.6, 1.25), P(WX, MT[3] - 1.4, 1.2)]]) { const u = (tt - (a - 0.12)) / 0.12; if (u > 0 && u < 1) { on = true; const p0 = new THREE.Vector3(...from), p1 = new THREE.Vector3(...to), pos = p0.clone().lerp(p1, u); streak.position.copy(pos); streak.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), p1.clone().sub(p0).normalize()); } } streak.visible = on; }
+    { let on = false; for (const [a, from, to] of [[HIT, P(-4.2, D.hole[1] + 1.4, -2.6), P(D.hole[0], D.hole[1], -1.6)], [HIT2, P(-7.0, MT[3] - 0.4, 2.2), HF]]) { const d = a === HIT2 ? 0.25 : 0.12, u = (tt - (a - d)) / d; if (u > 0 && u < 1) { on = true; const p0 = new THREE.Vector3(...from), p1 = new THREE.Vector3(...to), pos = p0.clone().lerp(p1, u); streak.position.copy(pos); streak.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), p1.clone().sub(p0).normalize()); } } streak.visible = on; }
     // the burning seed
     spit.visible = tt > SEED_OUT - 0.45 && tt < SEED_OUT - 0.02; if (spit.visible) { sq.root.updateMatrixWorld(true); sq.head.getWorldPosition(v3); spit.position.set(...arcP(v3.toArray(), P(D.hole[0] + 0.3, D.hole[1] + 0.05, -0.9), smooth(u01(tt, SEED_OUT - 0.45, SEED_OUT - 0.02)), 0.25)); spit.rotation.set(tt * 9, tt * 7, 0); }
-    hotSeed.visible = tt > SEED0 && tt < END + 1; if (hotSeed.visible) { const sp = seedPath(Math.min(tt, LAND)); hotSeed.position.set(...sp); const burn = (tt < LAND ? 1 : 1 - 0.6 * smooth(u01(tt, LAND, LAND + 1.2))) * (tt < LAND ? smooth(clamp((40 - sp[1]) / 10)) : 1); seedGlow.scale.setScalar((tt < LAND ? 0.9 : 0.35) * burn); seedLight.intensity = (tt < LAND ? 6 : 1.2) * burn; hotSeed.rotation.set(tt * 5, tt * 3, 0); }   // dark in space, it ignites at the cloud deck (re-entry)
+    hotSeed.visible = tt > SEED0 && tt < END + 1; if (hotSeed.visible) { const sp = seedPath(Math.min(tt, LAND)); hotSeed.position.set(...sp); const burn = (tt < LAND ? 1 : 1 - 0.6 * smooth(u01(tt, LAND, LAND + 1.2))) * (tt < LAND ? smooth(clamp((54 - sp[1]) / 8)) : 1); seedGlow.scale.setScalar((tt < LAND ? 0.55 : 0.3) * burn); seedLight.intensity = (tt < LAND ? 6 : 1.2) * burn; hotSeed.rotation.set(tt * 5, tt * 3, 0);
+      seedM.emissiveIntensity = 4 * burn * (tt < LAND ? 1 : 0.5); hotSeed.scale.setScalar(1 + 1.3 * smooth(u01(tt, SEED0 + 0.1, SEED0 + 0.5)) * (1 - smooth(u01(tt, LAND - 0.35, LAND))));
+      seedTrail.forEach((sp, k) => { sp.visible = tt < LAND + 0.1 && burn > 0.05; if (sp.visible) { sp.position.set(...seedPath(Math.min(tt, LAND) - 0.03 * (k + 1))); sp.scale.setScalar(0.75 * burn * (1 - k / 7)); } }); }
+    else seedTrail.forEach((sp) => (sp.visible = false));   // dark in space, it ignites at the cloud deck (re-entry)
     looseHelmet.visible = tt > SWAT + 1.05 && tt < t.water; if (looseHelmet.visible) { const a = tt - SWAT - 1.05; looseHelmet.position.set(...LP(P(-0.15, MT[1] + 0.1, 0.35), P(0.8, MT[1] - 0.7, 0.5), smooth(clamp(a / 4)))); looseHelmet.rotation.set(a * 1.3, a * 0.9, a * 0.5); }
     goalposts.forEach((g, i) => { const on = tt > t.football - 0.15 && tt < t.array + 0.6; g.visible = on; if (!on) return; g.position.set(...P(i ? tipX(unfoldK(tt)) + PW + 0.25 : ROOTX + 0.75, D.truss.y - 1.75, 0.3)); g.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, t.football - 0.15 + i * 0.15, t.football + 0.15 + i * 0.15), 2.2))); });
     vest.visible = tt > t.vest - 0.08; vest.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, t.vest - 0.08, t.vest + 0.2), 2.4)));

@@ -108,7 +108,7 @@
           "style": "sfx",
           "pos": [
             0.66,
-            0.4
+            0.27
           ],
           "hold": 0.8
         }
@@ -145,7 +145,7 @@
       "say": "So you go sideways, really fast. 17,500 miles an hour. It falls, but it keeps missing the Earth. This is called an orbit.",
       "callouts": [
         {
-          "at": "17500",
+          "at": "miles",
           "text": "17,500 MPH",
           "style": "label",
           "until": "missing",
@@ -178,7 +178,8 @@
           "at": "docking",
           "text": "DOCKING",
           "style": "term",
-          "until": "gary"
+          "until": "gary",
+          "y": 0.62
         },
         {
           "at": "doorway",
@@ -374,7 +375,7 @@
           "text": "CAPTAIN",
           "style": "stamp",
           "hold": 1.2,
-          "y": 0.38,
+          "y": 0.6,
           "x": 0.5
         }
       ]

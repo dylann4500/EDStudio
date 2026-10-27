@@ -158,6 +158,7 @@ e(t['orbit'] + 0.3, "deflate", -24, 0.0, dur=0.8); e(EXIT, "latch_click", -18, -
 e(EXIT + 0.1, "plush_squeak", -21, -0.1, pitch=1.4)
 for k in range(6): e(EXIT + 0.3 + k * 0.35, "candy_rattle", -30, -0.2 + 0.08 * k, dur=0.4, density=12.0, size=0.5)   # seeds tumbling in zero-g
 e(t['fso'] - 0.1, "hamster_squeak", -17, 0.2, pitch=1.5); e(t['fsq'], "hamster_squeak", -16, 0.2, pitch=1.9)
+e(t['fsq'] - 0.35, "pop", -13, -0.2, pitch=1.4); e(t['fsq'] - 0.33, "candy_rattle", -20, -0.2, dur=0.5, density=25.0, size=0.3)   # the stowaway bursts out of the feeder (SQ_LET in shots.js)
 # dock: push the rocket away, M1 rises on its thrusters, bolts, Gary dives in, M2 rises, capture, CLUNK
 e(PUSH, "blanket_rustle", -22, -0.3, dur=0.4, intensity=0.8); e(PUSH + 0.2, "metal_groan", -25, -0.5, dur=1.2, pitch=0.8)
 e(M1_IN0, "distant_boom", -18, 0.0, dur=1.8, size=0.5)
