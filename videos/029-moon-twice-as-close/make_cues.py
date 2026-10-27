@@ -14,7 +14,7 @@ import json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 D = 61.4
 SW = 6.2                                       # SECOND 0
-B = [0, 3.4, 8.6, 12.2, 16.4, 19.6, 22.4, 26.4, 32.4, 35.4, 39.0, 43.6, 48.2, 51.0, 54.0, D]   # shot boundaries (shots.js)
+B = [0, 3.4, 7.6, 12.2, 16.4, 19.6, 22.4, 26.4, 32.4, 35.4, 39.0, 43.6, 48.2, 51.0, 54.0, D]   # shot boundaries (shots.js)
 BEAT = 60 / 90.0
 S8 = BEAT / 2
 

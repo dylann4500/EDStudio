@@ -67,8 +67,8 @@ const RN = 192200 / UNIT, RO = 384400 / UNIT, RM = 1737.4 / UNIT;
 
 export const SHOTS = [
   { t0: 0, t1: 3.4, cam: 'title', set: 'town' },
-  { t0: 3.4, t1: 8.6, cam: 'rise', set: 'town' },
-  { t0: 8.6, t1: 12.2, cam: 'faces', set: 'town' },
+  { t0: 3.4, t1: 7.6, cam: 'rise', set: 'town' },
+  { t0: 7.6, t1: 12.2, cam: 'faces', set: 'town' },
   { t0: 12.2, t1: 16.4, cam: 'roof', set: 'city' },
   { t0: 16.4, t1: 19.6, cam: 'flood', set: 'town' },
   { t0: 19.6, t1: 22.4, cam: 'floodB', set: 'town' },
@@ -305,6 +305,14 @@ export async function build(studio, story) {
       if (u >= t2) { const k = clamp((u - t2) / 1.4), a = [LAND[0] + 1.5, LAND[1], LAND[2]], b = FD.stairTop; Object.assign(p, { x: lerp(a[0], b[0], k) + (i % 2) * 0.35 - 0.17, z: lerp(a[2], b[2], k), rotY: Math.atan2(b[0] - a[0], b[2] - a[2]), speed: k < 1 ? 6 : 0, dist: w.dist + (u - t1) * 4 }); y = lerp(a[1], FD.cliffY + 1, k);
         if (k >= 1) { Object.assign(p, { x: b[0] - 1.5 + (i % 4) * 0.9, z: b[2] + 1.2 + Math.floor(i / 4) * 0.8, rotY: PI + 0.5, lean: 0.05, headPitch: 0.35 }); p.armA = REST; p.armB = i % 2 ? A(-1.2, 0.2, -0.3) : REST; p.mouth = 'o'; } }
       put(tourRigs[i], 'fundy', p, y, y);
+    });
+    // two tourists right by the lens: they turn to us, point back at the incoming sea, then bolt for the stairs (exit right)
+    [[13.1, 5.4, 12], [11.6, 5.0, 13]].forEach(([x, z, ri], k) => {
+      const go = 0.55 + k * 0.25, legs = [{ t0: go, t1: go + 0.9, pts: [[17.2 - k * 0.4, 7.4 + k * 0.3]] }];
+      const w = walkLegs(u, [x, z], legs), p = basePose(); p.eyes = blink(t, k + 20);
+      Object.assign(p, { x: w.x, z: w.z, rotY: u < go ? Math.atan2(14.4 - x, 9.6 - z) + 0.1 * Math.sin(t * 2 + k) : w.head ?? 1.2, dist: w.dist, speed: u < go ? 0 : 7, headYaw: u < go ? 0.1 : -0.9, headPitch: -0.05, mouth: 'o' });
+      if (u < go) { p.armB = A(-1.4, 0.9, -0.2, 0); p.armA = A(-0.5, 0.2, -1.5, 0.5); } else { p.lean = 0.3; p.armA = A(-0.9, 0.2, -1.4, 0.3, 0); p.armB = A(-0.9, 0.2, -1.4, -0.3, 0); }
+      if (u < go + 1.0) put(crowd[ri], 'fundy', p, 0, 0);
     });
   }
   const fundyFront = (t) => -62 + 70 * clamp((t - 26.6) / 3.2);              // the incoming edge, racing over the floor toward the stairs
