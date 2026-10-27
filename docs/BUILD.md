@@ -307,3 +307,15 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   point until BOTH sit above ~45 %; and give stamps a `y` (0.63) when their default band covers the sign they're about.
 - **Pluck "walk" music decays between notes**: the dropout check (12 dB under median per 50 ms) failed until the pad came up
   (`pad_db` +4). Signature mallet notes on hook callouts BEFORE the music enters make the checker start early — skip them.
+- **025's review loop** (logic · look · pacing · camera · comedy): v1 6.5 · 6 · 7 · 6 · 7.5 (a much better first cut than 024's
+  4 · 4 · 6 · 3 · 5 — the 024 lessons above were applied up front). Round-1 wins: the camera reviewer's framings (it simulated
+  planRail against the word times: the named thing in frame ON its word, peak zoom 108 → 69 %/s, a town shot at yaw 21° not 33°);
+  "show what's said" fixes (the finger really stops the leak; the beaver's cards turned to the lens; the salmon bonk the dam
+  BEFORE they "blame Gary"; "Exactly once." = a head-first landing); a line for a beat that had no joke (the drowned town:
+  "The beaver sells it as lakefront."); water with an opaque deep-blue back face (a translucent box over an orange wall read lavender).
+- **`planRail.strict = true`** (rail.js, opt-in) also warns on crash zooms (> 50 %/s framed-size change) and fast pans (> 0.7 frame
+  widths/s) — the metre rule alone let a far-away push-in pass lint while reading as a cut.
+- **Turn a held card to the lens every frame** (`card.quaternion = parentWorldQuat⁻¹ · camera.quaternion`, after the camera is
+  set): a card in a toon's hand is edge-on in half the framings.
+- **Things a character "uses" should be where he already is**: Gary had to teleport for the water slide until the "week of rain"
+  became an on-screen climb up the dam face (a time skip the line already gives you).

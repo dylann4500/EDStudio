@@ -25,7 +25,7 @@ def W(beat, word, n=1):
 
 s1 = lambda b: B[b]['t1']
 t = {k: W(b, w, n) for k, (b, w, n) in {
-    'n104': ('hook', '104', 1), 'closed': ('hook', 'closed', 1), 'shove': ('hook', 'shove', 1), 'creek': ('hook', 'creek', 1),
+    'n104': ('hook', '104', 1), 'so0': ('hook', 'so', 1), 'closed': ('hook', 'closed', 1), 'shove': ('hook', 'shove', 1), 'creek': ('hook', 'creek', 1),
     'congrats': ('congrats', 'congratulations', 1), 'six': ('congrats', 'six', 1), 'inches': ('congrats', 'inches', 1), 'beaver': ('congrats', 'beaver', 1), 'already0': ('congrats', 'already', 1), 'notes': ('congrats', 'notes', 1),
     'hops': ('float', 'hops', 1), 'inF': ('float', 'in', 1), 'lifts': ('float', 'lifts', 1), 'floats': ('float', 'floats', 1), 'lost': ('float', 'lost', 1), 'flip': ('float', 'flipflop', 1),
     'cant': ('divert', 'cant', 1), 'running': ('divert', 'running', 1), 'river': ('divert', 'river', 1), 'dig': ('divert', 'dig', 1), 'diversion': ('divert', 'diversion', 1), 'four': ('divert', 'four', 1), 'got': ('divert', 'got', 1),
@@ -47,7 +47,7 @@ t = {k: W(b, w, n) for k, (b, w, n) in {
 }.items()}
 
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
-THROW = t['shove'] + 0.05; LANDK = max(t['creek'] - 0.05, THROW + 0.9)
+THROW = t['closed'] + 0.32; LANDK = max(t['creek'] - 0.05, THROW + 0.9)
 FLOAT0 = t['floats'] - 0.15; FLOAT1 = max(t['flip'] + 0.55, FLOAT0 + 1.6)
 DIG0, DIG1 = t['dig'] - 0.05, t['diversion']
 RUN0 = t['dig'] + 0.35; RUN1 = max(t['four'], RUN0 + 2.6)
@@ -143,6 +143,7 @@ e(CRUMB, "crumble", -9, 0.0, dur=1.6, size=1.5); e(CRUMB + 0.05, "splash", -12, 
 for i in range(NCOLS):
     for l in range(3): e(COL0 + i * COLDT + (l + 1) / 3 * COLDUR, "clunk", -20 + (l == 2) * 4, -0.5 + 0.2 * i, size=1.1, metal=0.15)
 for k2 in range(8): e(t['n660'] - 0.15 + k2 * 0.05, "knock", -24, -0.1 - 0.08 * k2, pitch=1.8)   # the tape zips out
+e(t['bully'] - 0.05, "bonk", -13, 0.3); e(t['bully'], "giant_step", -19, 0.3, size=0.4)   # Gary shoulder-charges the dam
 e(FILL0 + 0.1, "slurp", -18, -0.5, dur=1.2); e(FILL1, "splash", -9, -0.5, size=1.8); e(FILL1 + 0.05, "giant_step", -15, -0.4, size=1.2)
 # heat: the sizzle (a short rain bed), the leap; cooling pipes pop in, drip, frost
 e(t['hoovers'], "plip", -20, 0.3, pitch=0.7); e(t['n125'] - 0.1, "pop", -17, 0.2, pitch=1.1)

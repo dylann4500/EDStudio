@@ -42,12 +42,6 @@
           "text": "104°F",
           "style": "label",
           "until": "degrees"
-        },
-        {
-          "at": "closed",
-          "text": "CLOSED",
-          "style": "stamp",
-          "hold": 0.5
         }
       ]
     },
@@ -215,7 +209,8 @@
         {
           "at": "penstocks",
           "text": "PENSTOCKS",
-          "style": "term"
+          "style": "term",
+          "y": 0.15
         },
         {
           "at": "cycle",
@@ -289,7 +284,8 @@
           "text": "BESTSELLER",
           "style": "stamp",
           "hold": 1.2,
-          "y": 0.63
+          "y": 0.62,
+          "x": 0.62
         },
         {
           "at": "closed",

@@ -33,6 +33,11 @@ export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15 } 
     keys.push({ t: f.t, ...un(A), vel }, { t: dep, ...un(B), vel });
   });
   for (let i = 0; i + 1 < keys.length; i++) { const a = keys[i], b = keys[i + 1], d = Math.max(dist3(a.pos, b.pos), dist3(a.look, b.look) * 0.7), dt = b.t - a.t; if (d > 1.5 && dt < moveTime(d) * 0.8) console.warn(`[rail] ${d.toFixed(1)} m in ${dt.toFixed(2)} s at t=${a.t.toFixed(2)} (needs ${moveTime(d).toFixed(2)} s)`); }
+  // opt-in (planRail.strict = true, 025 camera review): the metre rule misses crash zooms (a big push from far away) and fast
+  // pans across a close subject. Warn when the framed size changes > 50 %/s or the aim crosses > 0.7 frame widths/s.
+  if (planRail.strict) for (let i = 0; i + 1 < keys.length; i++) { const a = keys[i], b = keys[i + 1], dt = b.t - a.t; if (dt <= 0) continue;
+    const half = (k) => dist3(k.pos, k.look) * Math.tan(((k.fov ?? 40) * Math.PI) / 360), ha = half(a), hb = half(b), zoom = Math.abs(hb - ha) / Math.min(ha, hb) / dt, pan = dist3(a.look, b.look) / (2 * Math.min(ha, hb) * 9 / 16) / dt;
+    if (zoom > 0.5) console.warn(`[rail] zoom ${(zoom * 100).toFixed(0)} %/s at t=${a.t.toFixed(2)}`); if (pan > 0.7) console.warn(`[rail] pan ${pan.toFixed(2)} frame widths/s at t=${a.t.toFixed(2)}`); }
   return keys;
 }
 

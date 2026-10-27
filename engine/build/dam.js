@@ -31,7 +31,7 @@ export const D = {
   ladder: { z0: -2.6, z1: -4.2 },
   pool: { x0: 8.7, x1: 12.9, z0: -3.25, z1: -6.4 },
   shop: { x: 6.6, z: -3.15 }, visitor: { x: 6.9, z: -5.6 },
-  gate: 9.45, thermo: [10.95, -2.3], noSwim: [8.15, -2.4], pylon: [13.9, -6.6],
+  gate: 9.45, thermo: [10.55, -2.3], noSwim: [8.15, -2.4], pylon: [13.9, -6.6],
 };
 const T = D.tunnel;
 /** y of the gravity dam's downstream face at x (crest edge → toe). */
@@ -178,6 +178,7 @@ export function makeBeaver() {
     glasses.visible = p.glasses ?? true;
     arms[0].a.rotation.set(-0.9 * st - 0.3 * wr, 0, 0.2); arms[1].a.rotation.set(-1.0 * st - 0.6 * wr - 1.8 * Math.min(1, cd) - 1.4 * pt, 0, -0.25 - 0.4 * pt);
     if (wr > 0) { arms[1].hand.position.set(0.02 * Math.sin(t * 26) * wr, -0.15, 0.015 * Math.cos(t * 19) * wr); } else arms[1].hand.position.set(0, -0.15, 0);
+    card.position.set(0, 0.2 + (p.cardLift ?? 0), 0.03 + (p.cardFwd ?? 0));
     clip.visible = (p.clip ?? 1) > 0.5; pencil.visible = clip.visible && cd < 0.5; card.visible = cd > 0.01; card.scale.setScalar(Math.max(0.01, cd));
     if (card.visible) { const m = cardMap(p.cardText || '2/10'); if (cardFace.material.map !== m) { cardFace.material.map = m; cardFace.material.needsUpdate = true; } }
     tail.rotation.x = (p.slap ?? 0) * -0.9 * Math.abs(Math.sin(t * 14)) + Math.sin(t * 2.1) * 0.06 + st * 0.9; tail.rotation.y = Math.sin(t * 1.3) * 0.15;
@@ -244,10 +245,10 @@ function waterMat(opacity = 0.6) {
 }
 let foamT = null;
 /** A body of water between x0 and x1 from the bed up to `level`, z 0..−CW (behind the bank it hides inside the ground). */
-export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, flow = 0 } = {}) {
+export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, flow = 0, depth = D.CW } = {}) {
   if (!foamT) { foamT = tex(256, 64, (c, w, h) => { c.clearRect(0, 0, w, h); const r = rng(4); for (let i = 0; i < 70; i++) { c.fillStyle = `rgba(255,255,255,${0.25 + r() * 0.4})`; c.beginPath(); c.ellipse(r() * w, r() * h, 6 + r() * 16, 1.5 + r() * 2, 0, 0, 7); c.fill(); } }); foamT.wrapS = foamT.wrapT = THREE.RepeatWrapping; }
   const hid = new THREE.MeshBasicMaterial({ visible: false }), front = waterMat(opacity);
-  const backM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35 });
+  const backM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35, side: THREE.BackSide });   // the −z face points away from the lens: draw its inside
   const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), [hid, hid, hid, hid, front, backM]); box.renderOrder = 3; parent.add(box);
   const sg = new THREE.PlaneGeometry(1, 1, 30, 8); sg.rotateX(-Math.PI / 2);
   const ft = foamT.clone(); ft.needsUpdate = true;
@@ -260,7 +261,7 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
     set(x0, x1, level, t = 0, f = flow) {
       const on = level > bottom + 0.01 && x1 > x0 + 0.02; box.visible = surf.visible = lip.visible = on; if (!on) return;
       const W = x1 - x0, Hh = level - bottom;
-      box.scale.set(W, Hh, D.CW); box.position.set((x0 + x1) / 2, bottom + Hh / 2, -D.CW / 2);
+      box.scale.set(W, Hh, depth); box.position.set((x0 + x1) / 2, bottom + Hh / 2, -depth / 2);
       surf.scale.set(W, 1, D.CW); surf.position.set((x0 + x1) / 2, level, -D.CW / 2);
       lip.scale.set(W, 1, 1); lip.position.set((x0 + x1) / 2, level - 0.005, 0.0);
       ft.repeat.set(W / 4, D.CW / 3); ft.offset.x = -t * 0.12 * f;
@@ -622,7 +623,7 @@ export async function buildDam(studio) {
   root.traverse((o) => { if (o.isMesh && o.castShadow === undefined) o.castShadow = true; });
   return {
     root, cut, aimSun, sun, hemi, setHoles: (shapes) => cut.setHoles(shapes), tunnelHoles, tCurve, bore, digClip, tWater, tWaterIdx, plug, portals, mouths,
-    earth, pipeDark, pipeWater, pipeIdx, pipeCurve, cutoff, cutoffTop, damCols, secM, sideM, pipeSpots, setPipes, coolCore,
+    earth, pipeDark, pipeWater, pipeIdx, pipeCurve, cutoff, cutoffTop, damCols, secM, sideM, pipeSpots, setPipes, coolCore, coolRing,
     spill, chuteBack, ogee, bucket, exitSign, sheetAll, sheetChute, slopeA, slopeLen, SPW,
     penstock, penOuter, penInner, penIdx, penCurve, rack, power, turb, rotor, swirl, gen, pylon, wireGlow, winMats, feedCurve,
     ladder, road, crestCars, visitor, shop, books, heldBook, noSwim, ring, setRing, storm, thermo, mercury,

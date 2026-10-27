@@ -63,7 +63,7 @@ export async function build(studio, story) {
     swimming: W('end', 'swimming'), illegal: W('end', 'illegal'), beavers: W('end', 'beavers'), bestseller: W('end', 'bestseller'), publicE: W('end', 'public'), still: W('end', 'still'), closedE: W('end', 'closed'),
   };
   // derived beats
-  const THROW = t.shove + 0.05, LANDK = Math.max(t.creek - 0.05, THROW + 0.9);       // Gary heaves the pool; it lands in the creek
+  const THROW = t.closed + 0.32, LANDK = Math.max(t.creek - 0.05, THROW + 0.9);       // Gary heaves the pool; it lands in the creek
   const FLOAT0 = t.floats - 0.15, FLOAT1 = Math.max(t.flip + 0.55, FLOAT0 + 1.6);       // the pool drifts to the beaver's dam
   const DIG0 = t.dig - 0.05, DIG1 = t.diversion;                                         // the tunnel is dug from the outlet back to the inlet
   const RUN0 = t.dig + 0.35, RUN1 = Math.max(t.four, RUN0 + 2.6);                        // Gary runs upstream above the dig
@@ -92,7 +92,7 @@ export async function build(studio, story) {
   const salmon = [0, 1, 2, 3, 4, 5].map((i) => { const f = makeSalmon(i); f.g.scale.setScalar(1.25); scene.add(f.g); return f; });
   const kp = makeKiddiePool(D.kp.r); scene.add(kp.g);
   const dizzy = makeDizzy(scene);
-  const water = { far: makeWaterBody(scene, { flow: 1 }), site: makeWaterBody(scene, { flow: 1 }), pond: makeWaterBody(scene, { flow: 0.6 }), low: makeWaterBody(scene, { flow: 1 }) };
+  const water = { far: makeWaterBody(scene, { flow: 1, depth: 7.5 }), site: makeWaterBody(scene, { flow: 1, depth: 7.5 }), pond: makeWaterBody(scene, { flow: 0.6 }), low: makeWaterBody(scene, { flow: 1 }) };
   const rock = mk(new THREE.IcosahedronGeometry(0.42, 1), new THREE.MeshStandardMaterial({ color: 0x8c8276, roughness: 0.9, flatShading: true }), scene, -0.55, BED + 0.12, -0.75); rock.scale.set(1.1, 0.75, 0.9);
   // "six inches": a yardstick standing in the water behind the pool
   const stick = new THREE.Group(); scene.add(stick); stick.position.set(-3.95, BED, 0.02);
@@ -110,13 +110,13 @@ export async function build(studio, story) {
   const dimLine = mk(new THREE.BoxGeometry(1, 0.1, 0.02).translate(-0.5, 0, 0), new THREE.MeshBasicMaterial({ map: tapeT }), dim);
   const dimEnd = new THREE.Group(); dim.add(dimEnd); { const c = mk(new THREE.ConeGeometry(0.16, 0.34, 3), yelM, dimEnd, 0.12, 0, 0); c.rotation.z = PI / 2; mk(new THREE.BoxGeometry(0.06, 0.55, 0.02), yelM, dimEnd); }
   const tapeCase = mk(new RoundedBoxGeometry(0.16, 0.16, 0.08, 2, 0.03), mat(0xffc21a, 0.4), gary.hand(1), 0, -0.05, 0.06);
-  const coolBoard = new THREE.Group(); scene.add(coolBoard); coolBoard.position.set(-1.45, 0, -1.5);
+  const coolBoard = new THREE.Group(); scene.add(coolBoard); coolBoard.position.set(0.75, BED, -0.35);
   mk(new THREE.CylinderGeometry(0.03, 0.03, 1.0, 6), mat(0x6b4a30), coolBoard, 0, 0.5, 0);
   const coolTex = [1, 2].map((pct) => tex(512, 220, (g, w, h) => { g.fillStyle = '#ffffff'; g.beginPath(); g.roundRect(6, 6, w - 12, h - 12, 22); g.fill(); g.strokeStyle = '#1b1b1b'; g.lineWidth = 8; g.stroke();
     g.fillStyle = '#1b1b1b'; g.font = '62px "Luckiest Guy", Arial Black'; g.textAlign = 'center'; g.fillText('COOLING…', w / 2, 82); g.strokeRect(40, 112, w - 80, 58); g.fillStyle = '#3fb2ea'; g.fillRect(44, 116, (w - 88) * pct / 100, 50);
     g.fillStyle = '#d8231c'; g.font = '44px "Luckiest Guy", Arial Black'; g.fillText(pct + '%', w / 2, 158); }));
   const coolSign = mk(new THREE.PlaneGeometry(1.05, 0.45), new THREE.MeshStandardMaterial({ map: coolTex[0], roughness: 0.6 }), coolBoard, 0, 1.1, 0.03);
-  const forSale = new THREE.Group(); scene.add(forSale); forSale.position.set(-10.35, 1.84, -3.75);
+  const forSale = new THREE.Group(); scene.add(forSale); forSale.position.set(-11.15, 1.84, -3.9);
   mk(new THREE.CylinderGeometry(0.03, 0.03, 0.9, 6), mat(0x6b4a30), forSale, 0, 0.45, 0);
   mk(new THREE.PlaneGeometry(1.0, 0.62), new THREE.MeshStandardMaterial({ map: signTex(320, 200, 'LAKEFRONT\nFOR SALE', { bg: '#ffffff', fg: '#d8231c', border: '#d8231c' }), roughness: 0.6, side: THREE.DoubleSide }), forSale, 0, 0.95, 0.03);
   const anger = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthWrite: false, map: tex(128, 128, (g) => { g.strokeStyle = '#e8231c'; g.lineWidth = 14; g.lineCap = 'round'; for (const [a, b] of [[0.6, 1], [2.17, 1], [3.74, 1], [5.31, 1]]) { const x = 64 + Math.cos(a) * 30, y = 64 + Math.sin(a) * 30; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(64, 64, 64 + Math.cos(a + 0.9) * 30, 64 + Math.sin(a + 0.9) * 30); g.stroke(); } }) }));
@@ -131,7 +131,7 @@ export async function build(studio, story) {
   const penFlow = makeArrows(scene, S.penCurve.getPoints(12).map((p) => [p.x, p.y, 0.09]), { color: 0xbfeaff, count: 7, size: 0.32, speed: 2.4, emissive: 0.8 });
   const creekFlow = makeArrows(scene, [[-10, CRK + 0.06, -0.15], [5.5, CRK + 0.06, -0.15]], { color: 0xffffff, count: 9, size: 0.34, speed: 2.2, emissive: 0.6 });
   const tunFlow = makeArrows(scene, S.tCurve.getPoints(20).map((p) => [p.x, p.y, 0.02]), { color: 0xbfeaff, count: 10, size: 0.36, speed: 4.5, emissive: 0.8 });
-  const pushArrows = makeArrows(scene, [[-11.5, 1.2, 0.08], [E.x0 + 0.6, 1.2, 0.08]], { color: 0xff8a3d, count: 5, size: 0.5, speed: 3, emissive: 0.7 });
+  const pushArrows = makeArrows(scene, [[-8.6, 0.9, 0.12], [-5.4, 0.9, 0.12]], { color: 0xff8a3d, count: 4, size: 0.6, speed: 3, emissive: 0.8 });
   const bullyArrows = makeArrows(scene, [[-13, 4.0, 0.08], [G.heel - 0.2, 4.0, 0.08]], { color: 0xff8a3d, count: 6, size: 0.6, speed: 4, emissive: 0.7 });
   // the plug that closes the tunnel just inside its inlet
   const PLUG_U = 0.12, plugP = S.tCurve.getPointAt(PLUG_U), plugT = S.tCurve.getTangentAt(PLUG_U);
@@ -151,7 +151,7 @@ export async function build(studio, story) {
     if (tt < LANDK) return CRK;
     if (tt < t.lifts) return lerp(CRK, 0.0, smooth(u01(tt, LANDK, t.inches)));             // six inches piles up behind the pool
     if (tt < PLUG) return lerp(0.0, CRK, smooth(u01(tt, t.lifts, t.lifts + 0.6)));
-    if (tt < CRUMB) return lerp(CRK, 2.0, smooth(u01(tt, PLUG, t.piping))) + 0.38 * smooth(u01(tt, t.lake, t.shoves));
+    if (tt < CRUMB) return lerp(CRK, 2.0, smooth(u01(tt, PLUG, t.piping))) + 0.38 * smooth(u01(tt, t.deeper, t.downstream));
     if (tt < FILL0) return lerp(2.38, CRK, smooth(u01(tt, CRUMB, CRUMB1)));
     if (tt < OVER - 1.5) return lerp(CRK, LAKE, easeOutBack(u01(tt, FILL0, FILL1), 1.2));
     if (tt < t.spillway) return lerp(LAKE, G.crest + 0.22, smooth(u01(tt, RAIN0, OVER + 0.5)));
@@ -222,9 +222,7 @@ export async function build(studio, story) {
   fx.burst('drops', FILL1, { pos: [G.heel - 0.3, LAKE - 0.2, -1.0], box: [0.6, 0.6, 3], n: 180, dir: [-0.4, 1, 0.3], spread: 0.6, speed: [4, 8], seed: 110 });
   fx.burst('mist', FILL1, { pos: [G.heel - 0.4, LAKE + 0.3, -0.8], box: [0.8, 0.5, 2], n: 12, speed: [0.5, 1.5], spread: 1.2, size: [0.5, 1.0], seed: 111 });
   fx.stream('mist', t.concreteH, PIPE1, { pos: [-7.6, G.crest + 0.3, -1.6], box: [1.2, 0.2, 2.6], rate: 14, dir: [0.15, 1, 0], spread: 0.25, speed: [0.8, 1.4], size: [0.35, 0.6], grow: 2.4, alpha: 0.28, seed: 112 });   // steam off the crest
-  fx.stream('mist', t.concreteH, PIPE1, { pos: [-3.0, 4.2, -1.6], box: [4.5, 0.2, 2.0], rate: 8, dir: [0.6, 0.8, 0], spread: 0.25, speed: [0.6, 1.0], size: [0.3, 0.5], grow: 2.2, alpha: 0.22, seed: 119 });
   fx.stream('smoke', SIT + 0.1, LEAP + 0.6, { pos: [-0.25, -0.2, -0.75], box: [0.3, 0.1, 0.2], rate: 14, dir: [0, 1, 0], spread: 0.3, speed: [0.4, 0.9], size: [0.18, 0.32], seed: 113 });
-  fx.burst('mist', t.cooling - 0.1, { pos: [-4.2, 3.6, 0.3], box: [7, 7, 0.4], n: 30, speed: [0.2, 0.6], spread: 1.3, size: [0.3, 0.6], seed: 114 });
   fx.stream('rain', RAIN0, RAIN1, { pos: [-6, 16, -2.6], box: [26, 0.5, 6], rate: 900, dir: [0.12, -1, 0], spread: 0.02, speed: [9, 11], life: [1.4, 1.8], seed: 115 });
   fx.stream('drops', OVER + 0.3, t.spillway + 0.4, { pos: [G.toe + 0.2, BED + 0.4, -3.2], box: [0.6, 0.3, 6], rate: 160, dir: [1, 0.7, 0], spread: 0.5, speed: [2, 4], size: [0.03, 0.06], seed: 116 });
   fx.stream('mist', OVER + 0.3, t.spillway + 0.4, { pos: [G.toe + 0.6, BED + 0.5, -3.0], box: [0.8, 0.3, 6], rate: 14, speed: [0.4, 1.0], spread: 1.2, size: [0.5, 1.0], seed: 117 });
@@ -241,7 +239,8 @@ export async function build(studio, story) {
   fx.burst('dust', t.visitor, { pos: [D.visitor.x, 0.3, D.visitor.z + 0.8], box: [2.4, 0.3, 0.4], n: 8, speed: [0.3, 0.8], spread: 1.2, size: [0.4, 0.7], seed: 161 });
   fx.burst('dust', t.gift, { pos: [D.shop.x, 0.2, D.shop.z + 0.4], box: [1.6, 0.2, 0.3], n: 6, speed: [0.3, 0.8], spread: 1.2, size: [0.3, 0.6], seed: 162 });
   fx.burst('confetti', t.end, { pos: [-4, 9.8, -1.5], box: [8, 0.5, 2], n: 300, dir: [0, 1, 0.3], spread: 0.8, speed: [4, 7], size: [0.12, 0.2], seed: 170 });
-  fx.burst('confetti', t.end + 0.1, { pos: [4, 2.5, -1.2], box: [9, 0.5, 2], n: 360, dir: [0, 1, 0.3], spread: 0.8, speed: [4.5, 7.5], size: [0.12, 0.2], seed: 171 });
+  fx.burst('drops', t.coolE, { pos: [D.thermo[0], 2.12, D.thermo[1] + 0.12], n: 30, dir: [0, 1, 0.3], spread: 0.7, speed: [1.2, 2.6], color: 0xe8231c, size: [0.03, 0.05], seed: 173 });
+  fx.burst('confetti', t.end + 0.1, { pos: [8, 3.2, -1.2], box: [9, 0.5, 2], n: 360, dir: [0, 1, 0.3], spread: 0.8, speed: [4.5, 7.5], size: [0.12, 0.2], seed: 171 });
   fx.burst('drops', CRUMB + 0.6, { pos: [BVX, 0.3, -1.1], box: [0.6, 0.3, 1.8], n: 80, dir: [1, 1, 0.2], spread: 0.6, speed: [2, 4], seed: 172 });   // the flood pours over the beaver's dam (it holds)
   fx.stream('bill', t.n49 + 0.1, t.illegal, { pos: [7.5, 5.5, -2.0], box: [7, 0.4, 2.6], rate: 110, dir: [0, -1, 0], spread: 0.4, speed: [0.5, 1.4], life: [3.4, 4.2], seed: 172 });
   for (let k = 0; k < 4; k++) fx.burst('drops', t.coolE - 0.4 + k * 0.4, { pos: [FIN[0] + (k % 2 ? 0.15 : -0.15), LOW + 1.1, FIN[1] + 0.2], n: 3, dir: [k % 2 ? 1 : -1, 0.5, 0.4], spread: 0.4, speed: [0.6, 1.1], size: [0.025, 0.04], seed: 180 + k });
@@ -254,9 +253,8 @@ export async function build(studio, story) {
   Fk(t.closed - 0.1, [9.3, 1.6, 7.0], [9.4, 0.5, -2.6], 42);
   Fk(t.creek + 0.1, [-1.9, 1.9, 8.6], [-2.2, 0.0, -1.2], 42);
   Fk(t.six - 0.15, [-3.75, 0.8, 4.6], [-3.8, -0.05, -0.8], 38);
-  Fk(t.beaver - 0.1, [-0.75, 0.95, 5.3], [-0.6, -0.15, -0.8], 38, t.notes + 0.6);          // FIX: aim lower, beaver face off the caption
-  F(t.hops - 0.1, [-1.9, 1.6, 6.6], [-2.2, 0.2, -1.4], 40);
-  F(t.floats + 0.4, [-0.3, 1.7, 8.4], [-0.4, 0.15, -1.3], 42, true);         // FIX lint: earlier, wider pass
+  Fk(t.beaver - 0.1, [-1.05, 1.0, 5.6], [-0.95, -0.15, -0.8], 42, t.notes + 0.7);   // also holds the hop into the pool          // FIX: aim lower, beaver face off the caption
+    F(t.floats + 0.4, [-0.3, 1.7, 8.4], [-0.4, 0.15, -1.3], 42, true);         // FIX lint: earlier, wider pass
   Fk(t.flip + 0.3, [4.7, 1.3, 7.6], [4.9, 0.15, -1.2], 42);
   F(t.dig + 0.7, [1.4, 1.1, 12.0], [1.2, -1.5, -0.6], 46, true);
   F(t.diversion, [-5.6, 1.1, 12.0], [-5.8, -1.5, -0.6], 46, true);
@@ -269,21 +267,22 @@ export async function build(studio, story) {
   Fk(t.oneC, [5.7, 0.7, 7.6], [5.8, -0.4, -0.6], 40);
   Fk(W('push', 'gary'), [-1.6, 1.4, 15.5], [-1.8, -0.4, -1.2], 46, W('push', 'included') + 0.5);
   Fk(t.n660 - 0.2, [-4.3, 3.7, 20.5], [-4.3, 3.2, -1.5], 46);             // FIX: a touch wider: crest + both 660 arrows in
-  Fk(t.bully - 0.6, [-4.6, 4.4, 20.0], [-4.8, 3.9, -1.5], 46);
+  Fk(t.bully - 0.6, [-3.4, 4.2, 20.0], [-3.6, 3.7, -1.5], 46);
   F(t.hot, [-2.4, 3.6, 16.5], [-2.6, 3.0, -1.0], 46);                     // FIX: Gary + egg in the hot frame
   Fk(t.sat - 0.15, [-0.2, 1.0, 6.4], [-0.25, 0.0, -0.9], 40, LEAP + 0.7);  // FIX: leap stays in frame
   Fk(t.inside, [-3.7, 4.3, 18.5], [-3.8, 4.1, -1.0], 46);                 // FIX: whole dam (crest..toe) for cooling pipes
   Fk(t.week, [-4.4, 5.8, 21.5], [-4.8, 4.9, -2.0], 46, t.top);
   Fk(t.exit - 0.2, [-6.0, 10.0, 9.0], [-6.9, 9.4, -1.0], 42);
   F(SLD0 + 0.6, [-3.0, 6.0, 9.5], [-3.6, 4.4, -1.0], 42, true);
-  Fk(t.rent - 0.1, [5.7, 1.25, 6.6], [5.85, 0.25, -1.0], 40);                       // FIX: beaver + RENT DUE + the pool, not two edges
+  Fk(t.rent - 0.25, [6.1, 2.4, 6.3], [6.3, 0.5, -1.0], 40);                       // FIX: beaver + RENT DUE + the pool, not two edges
   Fk(t.penstocks - 0.2, [0.6, 1.6, 13.6], [0.4, -0.1, -1.6], 46);  // FIX: penstock through the dam + turbine for the TERM
   Fk(t.cycle - 0.25, [3.0, 2.0, 5.6], [3.1, 0.75, -3.0], 40, SPIT + 0.2);   // FIX: d 8.7 not 6.2; turbine at ~42 %
   Fk(t.furious, [4.6, 1.4, 6.6], [3.0, 0.3, -1.6], 40);                     // FIX: salmon + ladder foot
   Fk(W('fish', 'staircase'), [3.8, 2.4, 7.6], [-1.6, 2.8, -3.4], 46);
   Fk(t.cantF - 0.3, [2.4, 1.6, 4.6], [0.6, 1.0, -2.6], 40, SLAP + 0.25);
   Fk(W('town', 'really'), [-10.5, 5.6, 12.5], [-17.0, 2.2, -4.0], 44);     // FIX: yaw ~21 deg, not 33
-  Fk(t.only + 0.2, [-9.4, 4.8, 12.8], [-12.9, 1.2, -4.0], 44, t.lakefront + 0.3);
+  Fk(t.only + 0.2, [-9.4, 4.8, 12.8], [-12.9, 1.2, -4.0], 44);
+Fk(t.sells - 0.15, [-9.7, 2.9, 7.4], [-10.8, 1.4, -4.0], 40, t.lakefront + 0.35);   // push in: the beaver's LAKEFRONT sign
   F(t.road + 0.3, [-4.0, 11.5, 14.0], [-7.0, 8.8, -3.0], 46, true);
   F(t.gift + 0.15, [3.0, 4.6, 13.0], [5.5, 0.7, -3.0], 46, true);
   Fk(t.swimmingF, [8.0, 2.2, 9.9], [8.0, -0.35, -2.8], 44, t.damE);     // FIX: the bank cluster in one 5.6 m frame
@@ -303,21 +302,22 @@ export async function build(studio, story) {
   const hide = (o) => (o.root.visible = false);
   const show = (o, on) => (o.visible = !!on);
   const popIn = (o, tt, t0, s = 1) => { o.visible = tt > t0; if (o.visible) o.scale.setScalar(Math.max(0.001, s * pop(tt, t0))); };
-  const sun0 = S.sun.intensity, hemi0 = S.hemi.intensity, _pq = new THREE.Quaternion();
+  const sun0 = S.sun.intensity, hemi0 = S.hemi.intensity, _pq = new THREE.Quaternion(), _v3 = new THREE.Vector3(), _v4 = new THREE.Vector3(), boreMap = S.bore.material.map, exp0 = studio.renderer.toneMappingExposure;
 
   function update(tt) {
     // ---- the cut face: the diversion tunnel (dug once, from the outlet back to the inlet)
     const digU = 1 - smooth(u01(tt, DIG0, DIG1)), dug = tt > DIG0;
     S.setHoles(dug ? tunnelHoles(digU) : []);
     S.bore.visible = dug; const fp = S.tCurve.getPointAt(digU);
-    S.bore.material.color.setHex(0xffffff).lerp(new THREE.Color(0x8a6a58), smooth(u01(tt, PLUG, PLUG + 1.2))).lerp(new THREE.Color(0xc4c0b8), smooth(u01(tt, COL0, COL0 + 1.2))); S.digClip.normal.set(1, 0, 0); S.digClip.constant = -(fp.x - 0.05);
+    const plugged = tt > PLUG + 0.6; if (S.bore.material.map !== (plugged ? null : boreMap)) { S.bore.material.map = plugged ? null : boreMap; S.bore.material.needsUpdate = true; }
+    S.bore.material.color.setHex(plugged ? 0x5a4334 : 0xffffff); if (plugged) S.bore.material.color.lerp(new THREE.Color(0x9d9a93), smooth(u01(tt, COL0, COL0 + 1.2))); S.digClip.normal.set(1, 0, 0); S.digClip.constant = -(fp.x - 0.05);
     const tw = tt < DIG1 ? 0 : smooth(u01(tt, DIG1, DIG1 + 0.5)), drain = smooth(u01(tt, PLUG, PLUG + 1.6)) * (1 - tWaterUplug) + (tt > PLUG ? tWaterUplug : 0);
     const st0 = Math.floor((S.tWaterIdx * drain) / 3) * 3, cnt = Math.floor((S.tWaterIdx * tw) / 3) * 3 - st0;
     S.tWater.visible = cnt > 3 && drain < 0.99; S.tWater.geometry.setDrawRange(st0, Math.max(0, cnt));
     tunFlow.update(tt, smooth(u01(tt, DIG1, DIG1 + 0.4)) * (1 - smooth(u01(tt, PLUG - 0.2, PLUG + 0.1))));
     S.mouths[0].visible = digU < 0.02 && tt < FILL0; S.mouths[1].visible = dug;
     S.plug.visible = tt > PLUG - 0.25; S.plug.scale.setScalar(Math.max(0.001, pop(tt, PLUG - 0.25)));
-    S.portals.forEach((p, i) => { popIn(p, tt, t.four - 0.15 + i * 0.09); if (lakeLevel(tt) > 2.4) p.visible = false; });
+    S.portals.forEach((p, i) => { popIn(p, tt, t.four - 0.15 + i * 0.09); if (lakeLevel(tt) > 2.4 || tt > FILL0) p.visible = false; });
 
     // ---- water
     const L = lakeLevel(tt), Ls = siteLevel(tt), [x1s, x0p] = damLine(tt);
@@ -328,7 +328,7 @@ export async function build(studio, story) {
     S.setRing(L + 0.05, tt > DRY0 && tt < WET1 + 0.5 ? FULL : -10);
 
     // ---- the hook: the thermometer pegs at 104, the CLOSED sign slaps onto the gate; the beaver's rock
-    S.mercury.scale.y = lerp(0.35, 1.3, easeOutBack(u01(tt, t.n104 - 0.1, t.n104 + 0.35), 2.2));
+    S.mercury.scale.y = lerp(0.35, 1.3, easeOutBack(u01(tt, t.n104 - 0.1, t.n104 + 0.35), 2.2)) * (tt > t.end ? 0.8 + 0.25 * easeOutBack(u01(tt, t.coolE - 0.15, t.coolE + 0.25), 2.2) : 1);
     S.closed.visible = tt > t.closed - 0.2; S.closed.position.y = 1.62 + drop(tt, t.closed - 0.2, 2.2, 0.18); S.closed.rotation.z = wobble(tt, t.closed - 0.02, 0.12, 20, 6);
     show(rock, tt < t.dig);
     forSale.visible = tt > t.lakefront - 0.4 && lakeLevel(tt) < 2.6; forSale.scale.setScalar(Math.max(0.001, pop(tt, t.lakefront - 0.4))); forSale.position.y = 1.84 - 0.12 * smooth(u01(tt, t.lakefront - 0.4, t.lakefront + 0.1));
@@ -353,7 +353,7 @@ export async function build(studio, story) {
     S.cutoff.position.set(S.cutoff.position.x, above ? BED + E.h : tt > COL0 ? BED - 0.32 : BED, 0.022); if (tt > COL0) S.cutoff.scale.y = BED - 0.32 - D.cutoff.y1;
     S.cutoffTop.visible = tt > t.drive - 0.3 && tt < CRUMB + 0.2;
     S.cutoffTop.position.set((D.cutoff.x0 + D.cutoff.x1) / 2 + slideX(tt), BED + E.h + 0.25 + (tt < SLAM ? 9 * (1 - u01(tt, t.drive - 0.3, SLAM)) ** 2 : 0) - (tt > CRUMB ? 2 * u01(tt, CRUMB, CRUMB + 0.2) : 0), -D.CW / 2);
-    pushArrows.update(tt, smooth(u01(tt, t.lake - 0.1, t.shoves)) * (1 - smooth(u01(tt, SLIDE1, SLIDE1 + 0.3))));
+    pushArrows.update(tt + slideX(tt) * 0.4, smooth(u01(tt, t.deeper - 0.1, t.shoves)) * (1 - smooth(u01(tt, SLIDE1, SLIDE1 + 0.3))));
 
     // ---- the gravity dam: columns rise in lifts (heel → toe), the 660 ft line, the lake slams it; heat + cooling pipes
     S.damCols.forEach((c, i) => {
@@ -366,7 +366,8 @@ export async function build(studio, story) {
     bullyArrows.update(tt, smooth(u01(tt, FILL1 - 0.6, FILL1)) * (1 - smooth(u01(tt, FILL1 + 0.4, FILL1 + 0.8))));
     const heat = smooth(u01(tt, t.concreteH - 0.1, t.hot + 0.3)) * (1 - smooth(u01(tt, PIPE0, PIPE1)));
     S.secM.emissiveIntensity = 0.85 * heat; S.sideM.emissiveIntensity = 0.65 * heat; S.secM.color.setRGB(1 - 0.5 * heat, 1 - 0.62 * heat, 1 - 0.72 * heat); S.sideM.color.setRGB(0.72 * (1 - 0.5 * heat), 0.71 * (1 - 0.62 * heat), 0.67 * (1 - 0.72 * heat));
-    const pipeShrink = 1 - 0.45 * smooth(u01(tt, t.cooling + 0.8, t.cooling + 1.8));   // after their beat the pipes settle into the concrete (no polka dots)
+    const pipeShrink = 1 - 0.65 * smooth(u01(tt, t.cooling + 0.8, t.cooling + 1.8)), pipeOff = smooth(u01(tt, t.cooling + 0.8, t.cooling + 1.8));
+    S.coolCore.material.emissiveIntensity = 0.6 * (1 - pipeOff); S.coolCore.material.color.setHex(0x6fd6ff).lerp(new THREE.Color(0x8f8b84), pipeOff); S.coolRing.material.color.setHex(0x44474c).lerp(new THREE.Color(0x77736c), pipeOff);   // after their beat the pipes settle into the concrete (no polka dots)
     S.setPipes((x, y) => (tt < PIPE0 ? 0 : pipeShrink * pop(tt, PIPE0 + ((y - BED) / (G.crest - BED)) * (PIPE1 - PIPE0 - 0.4) + ((x - G.heel) / 9) * 0.15)));
     if (tt > PIPE1 - 0.6 && tt < t.rains) { const c = new THREE.Color(); S.pipeSpots.forEach(([x, y], i) => { const w = 0.5 + 0.5 * Math.sin(x * 2.2 - y * 0.6 - tt * 9); S.coolCore.setColorAt(i, c.setRGB(0.55 + 0.45 * w, 0.75 + 0.25 * w, 1)); }); S.coolCore.instanceColor.needsUpdate = true; }
     show(egg, tt > t.hot - 0.1 && tt < t.rains); if (egg.visible) { egg.position.set(-1.05, slopeY(-1.05) - 0.38, 0.03); egg.scale.setScalar(pop(tt, t.hot - 0.1) * (1 + 0.4 * smooth(u01(tt, t.hot, t.cool)))); }
@@ -381,7 +382,7 @@ export async function build(studio, story) {
     for (const o of [S.chuteBack, S.ogee, S.bucket]) o.scale.setScalar(Math.max(0.001, pop(tt, t.spillway - 0.12)));
     popIn(S.exitSign, tt, t.exit - 0.1);
     S.sheetChute.m.visible = tt > t.spillway + 0.1; S.sheetChute.m.material.opacity = 0.9 * smooth(u01(tt, t.spillway + 0.1, t.spillway + 0.5)); S.sheetChute.t2.offset.x = -tt * 1.6;
-    S.sun.intensity = sun0 * (1 - 0.7 * storm); S.hemi.intensity = hemi0 * (1 - 0.45 * storm);
+    S.sun.intensity = sun0 * (1 - 0.7 * storm); S.hemi.intensity = hemi0 * (1 - 0.45 * storm); studio.renderer.toneMappingExposure = exp0 * (1 - 0.2 * storm);
 
     // ---- power: the penstock draws in the dam's section, the powerhouse pops, the turbine spins, the wires spark
     const penK = smooth(u01(tt, t.send, PH + 0.3));
@@ -409,7 +410,9 @@ export async function build(studio, story) {
     studio.setCamera(cam.pos, cam.look, cam.fov, tt, 0);
     const k = shake(tt, hits); studio.camera.position.x += k.x; studio.camera.position.y += k.y; studio.camera.rotation.z += k.r;
     S.aimSun(cam.look[0], cam.look[1], Math.max(7, Math.hypot(cam.pos[0] - cam.look[0], cam.pos[2] - cam.look[2]) * 0.6));
-    if (beaver.card.visible) { beaver.card.parent.updateMatrixWorld(true); beaver.card.parent.getWorldQuaternion(_pq); beaver.card.quaternion.copy(_pq.invert().multiply(studio.camera.quaternion)); }
+    if (beaver.card.visible) { // the card faces the lens and sits above the beaver's head (in the hand's own frame it drifted onto its face)
+      beaver.root.updateMatrixWorld(true); beaver.head.getWorldPosition(_v3); _v3.y += 0.62; _v3.addScaledVector(_v4.subVectors(studio.camera.position, _v3).normalize(), 0.25);
+      beaver.card.parent.getWorldQuaternion(_pq); beaver.card.quaternion.copy(_pq.invert().multiply(studio.camera.quaternion)); beaver.card.position.copy(beaver.card.parent.worldToLocal(_v3)); }
     fx.update(tt, studio.camera);
   }
 
@@ -422,21 +425,21 @@ export async function build(studio, story) {
     garyShades.visible = !hat;
     const base = { t: tt, eyes: 'open', mouth: 'smile', brows: 0, noHat: !hat, hatLift: hat ? 3 * (1 - smooth(u01(tt, t.dig - 0.1, t.dig + 0.3))) : 0 };
     // the hook: melting at the locked gate, the pool held over his head; heaves it on "shove"
-    if (tt < THROW + 0.35) { const heave = smooth(u01(tt, t.shove - 0.25, THROW + 0.1));
+    if (tt < THROW + 0.35) { const heave = smooth(u01(tt, THROW - 0.3, THROW + 0.1));
       const peek = tt > t.closed - 0.05 && tt < t.shove - 0.3, flinch = tt > t.closed - 0.05 && tt < t.closed + 0.3, hold = 1 - heave;
       return g.set({ ...base, x: 9.1, y: 0, z: -2.5, rotY: -0.2 - 0.9 * heave, lean: 0.4 * heave, eyes: flinch ? 'wide' : 'half', mouth: tt > t.closed && tt < t.shove ? 'frown' : 'o', brows: tt > t.closed ? 1 : 0.4,
         squash: flinch ? [0.94, 1.05] : [1, 1], faceTint: [0xe0483a, 0.35], look: peek ? [0.8, 0.2] : [0, 0], head: peek ? { x: 0, y: 0.6, z: 0 } : undefined,
         armR: { x: -2.9 * hold - 1.5 * heave, z: 0.3 * hold, el: 0.45 * hold }, armL: { x: -2.9 * hold - 1.5 * heave, z: 0.3 * hold, el: 0.45 * hold } }); }
-    const WALK1 = t.hops - 0.3;
-    if (tt < WALK1) { const u = u01(tt, THROW + 0.35, WALK1); return g.set({ ...base, x: lerp(9.1, -1.15, u), y: 0, z: -2.55, rotY: -PI / 2 + 0.25, walk: tt * 10, eyes: 'half', mouth: 'o', faceTint: [0xe0483a, 0.3] }); }
+    const WALK1 = t.hops - 0.3, WALKA = Math.min(t.beaver - 0.5, WALK1 - 0.5);
+    if (tt < WALK1) { const u = u01(tt, THROW + 0.35, WALKA); if (u >= 1) return g.set({ ...base, x: -1.6, y: 0, z: -2.55, rotY: 0.3, eyes: tt > t.notes - 0.1 ? 'wide' : 'half', mouth: tt > t.notes - 0.1 ? 'o' : 'smile', look: [0.8, 0], faceTint: [0xe0483a, 0.3] }); return g.set({ ...base, x: lerp(9.1, -1.6, u), y: 0, z: -2.55, rotY: -PI / 2 + 0.25, walk: tt * 10, eyes: 'half', mouth: 'o', faceTint: [0xe0483a, 0.3] }); }
     // hops in, floats away happy, bonks into the beaver's dam
     const POOLSEAT = () => { const p = kpPos(tt); return [p[0], p[1] - 0.12, p[2]]; };
-    if (tt < t.inF + 0.1) { const [x, y, z] = hop(tt, WALK1, t.inF + 0.1, [-1.15, 0, -2.55], POOLSEAT(), 0.9); return g.set({ ...base, x, y, z, rotY: -0.3, eyes: 'wide', mouth: 'grin', armL: { x: -2.8, z: 0.4 }, armR: { x: -2.8, z: 0.4 } }); }
+    if (tt < t.inF + 0.1) { const [x, y, z] = hop(tt, WALK1, t.inF + 0.1, [-1.6, 0, -2.55], POOLSEAT(), 0.9); return g.set({ ...base, x, y, z, rotY: -0.3, eyes: 'wide', mouth: 'grin', armL: { x: -2.8, z: 0.4 }, armR: { x: -2.8, z: 0.4 } }); }
     const sitPose = { legL: { x: -1.5, kn: 0.25 }, legR: { x: -1.5, kn: 0.25 } };
-    if (tt < t.dig + 0.2) { const [x, y, z] = POOLSEAT(), bonk = tt > FLOAT1 - 0.25 && tt < FLOAT1 + 0.3;
+    if (tt < t.dig - 0.15) { const [x, y, z] = POOLSEAT(), bonk = tt > FLOAT1 - 0.25 && tt < FLOAT1 + 0.3;
       return g.set({ ...base, ...sitPose, x, y, z, rotY: 0.2 + 0.4 * Math.sin(tt * 0.9), squash: squash(tt, FLOAT1 - 0.2, 0.3), eyes: bonk ? 'wide' : 'half', mouth: bonk ? 'o' : 'grin', armL: { x: -2.2, z: 0.9, el: 1.9 }, armR: { x: -2.2, z: 0.9, el: 1.9 } }); }
     // hard hat on: out of the pool, runs upstream over the tunnel being dug, to the inlet
-    if (tt < RUN0) { const [x, y, z] = hop(tt, t.dig + 0.2, RUN0, POOLSEAT(), [KP_AT_BV - 0.5, 0, RUNZ], 0.6); return g.set({ ...base, x, y, z, rotY: -PI / 2, eyes: 'wide', mouth: 'o' }); }
+    if (tt < RUN0) { const [x, y, z] = hop(tt, t.dig - 0.15, RUN0, POOLSEAT(), [KP_AT_BV - 0.5, 0, RUNZ], 0.6); return g.set({ ...base, x, y, z, rotY: -PI / 2, eyes: 'wide', mouth: 'o' }); }
     if (tt < RUN1) { const u0 = u01(tt, RUN0, RUN1), u = 0.15 * smooth(u0) + 0.85 * u0; return g.set({ ...base, x: lerp(KP_AT_BV - 0.5, INLET_EDGE[0], u), y: 0, z: RUNZ, rotY: -PI / 2 + 0.2, walk: tt * 15, lean: 0.3, eyes: 'wide', mouth: 'grin' }); }
     if (tt < SUCK) { const u = smooth(u01(tt, RUN1, SUCK - 0.05)); return g.set({ ...base, x: lerp(INLET_EDGE[0], INLET + 0.6, u), y: lerp(0, BED + 0.05, u), z: lerp(RUNZ, -1.3, u), rotY: -PI / 2 + 0.6, lean: 0.4 * u, look: [-0.6, -0.8], eyes: 'open', mouth: 'smile', head: { x: 0.4, y: 0, z: 0 } }); }
     // flushed: down the inlet, through the tunnel (seen in section), out the far end, into the kiddie pool
@@ -454,7 +457,7 @@ export async function build(studio, story) {
     if (tt < POPC) { const reach = smooth(u01(tt, t.plugs, t.finger)), grin = tt > t.finger + 0.25, strain = tt > t.garyP2 - 0.1 ? Math.sin(tt * 40) * 0.02 : 0;
       return g.set({ ...base, x: PLUGX + strain, y: BED, z: -0.35, rotY: -PI / 2 + (grin ? 0.95 : 0.4), lean: 0.25 * reach, legL: { x: -0.4 * reach, kn: 0.6 * reach }, legR: { x: -0.1, kn: 0.4 * reach },
         armR: { x: -1.15 * reach - 0.1, z: -0.05, el: 0.05 }, armL: grin ? { x: -0.4, z: 0.9, el: 1.6 } : { x: 0, z: 0.2 }, eyes: tt > t.garyP2 ? 'wide' : grin ? 'open' : 'open', mouth: tt > t.garyP2 ? 'o' : grin ? 'grin' : 'flat', brows: tt > t.garyP2 ? 1 : 0, look: grin ? [0.5, 0] : [-0.8, -0.3], faceTint: [0xe0483a, 0.4 * u01(tt, t.garyP2, POPC)] }); }
-    const TOPX = -3.05, TOPY = BED + E.h, LANDC = POPC + 0.7;
+    const TOPX = -3.92, TOPY = BED + E.h, LANDC = POPC + 0.7;
     if (tt < LANDC) { const [x, y, z] = hop(tt, POPC, LANDC, [PLUGX, BED + 0.2, -0.35], [TOPX, TOPY, -1.0], 1.6); return g.set({ ...base, x, y, z, rx: -(tt - POPC) * 10, eyes: 'spiral', mouth: 'scream', armL: { x: -2.9, z: 0.5 }, armR: { x: -2.9, z: 0.5 }, legL: { x: 0.5 }, legR: { x: -0.5 } }); }
     // on the dirt dam's top: the cutoff wall slams down beside him (he jumps); then rides the dam as the lake shoves it; it crumbles
     if (tt < CRUMB) { const s = slideX(tt), jump = tt > SLAM && tt < SLAM + 0.45 ? 0.5 * Math.sin(PI * u01(tt, SLAM, SLAM + 0.45)) : 0, surf = tt > SLIDE0;
@@ -465,6 +468,12 @@ export async function build(studio, story) {
     if (tt < CRUMB1 + 0.2) { const [x, y, z] = hop(tt, CRUMB, CRUMB1 + 0.2, [TOPX + SL, TOPY, -1.0], MUD, 0.5); return g.set({ ...base, x, y, z, rx: (tt - CRUMB) * 6, eyes: 'wide', mouth: 'scream', armL: { x: -2.8, z: 0.5 }, armR: { x: -2.8, z: 0.5 } }); }
     // the concrete rises next to him; he backs off; the lake slams it; then the heat: he sits on the toe… medium rare… cooling pipes
     const TOE = [0.35, BED, -0.85];
+    // "too heavy to bully": Gary shoulder-charges the toe of the dam and bounces off (it doesn't budge)
+    if (tt > t.bully - 0.5 && tt < t.hot - 0.2) { const ch = u01(tt, t.bully - 0.5, t.bully - 0.05), back = u01(tt, t.bully - 0.05, t.bully + 0.45), home = u01(tt, t.bully + 0.6, t.hot - 0.2);
+      if (ch < 1) return g.set({ ...base, x: lerp(TOE[0] + 0.7, 0.05, ch * ch), y: BED, z: TOE[2], rotY: -PI / 2 + 0.3, walk: tt * 16, lean: 0.45, eyes: 'wide', mouth: 'teeth', brows: -1, armL: { x: 0.3, z: 0.2 }, armR: { x: 0.3, z: 0.2 } });
+      dizzy.update(tt, home < 1 ? 1 : 0, [lerp(1.0, TOE[0], home), BED + 1.62, TOE[2]]);
+      if (back < 1) { const [x, y, z] = hop(tt, t.bully - 0.05, t.bully + 0.45, [0.05, BED, TOE[2]], [1.0, BED, TOE[2]], 0.5); return g.set({ ...base, x, y, z, rotY: -PI / 2 + 0.3, rx: -0.5 * Math.sin(PI * back), squash: [0.85, 1.1], eyes: 'x', mouth: 'o', armL: { x: -2.6, z: 0.6 }, armR: { x: -2.6, z: 0.6 } }); }
+      return g.set({ ...base, x: lerp(1.0, TOE[0], home), y: BED, z: TOE[2], rotY: -0.3, walk: home > 0 && home < 1 ? tt * 8 : undefined, squash: squash(tt, t.bully + 0.45, 0.35), eyes: 'spiral', mouth: 'wavy' }); }
     if (tt < SIT) { const u = smooth(u01(tt, COL0 + 1.0, COL0 + 1.6)), back = tt > COL0 + 1.0;
       dizzy.update(tt, tt < CRUMB1 + 1.2 ? 1 : 0, [lerp(MUD[0], TOE[0], u), BED + 1.62, -0.9]);
       const hot = tt > t.hot;
@@ -515,16 +524,16 @@ export async function build(studio, story) {
   }
 
   // ---------------------------------------------------------------- the beaver (silent engineer: judges, holds, collects rent, sells the book)
-  const BV = [BVX + 0.05, BED + 0.6, -0.95];
+  const BV = [BVX + 0.05, BED + 0.82, -0.25];   // on the front of its stick pile (from behind, the sticks hid it)
   function beaverAt(tt) {
     const b = beaver, sc = 1.35; b.root.visible = true; book.visible = false;
     if (tt < t.beaver - 0.4) return hide(b);
     const ROCK = [-0.55, BED + 0.4, -0.75];
-    if (tt < t.floats - 0.2) { const up = smooth(u01(tt, t.beaver - 0.4, t.beaver + 0.2)), writing = tt > t.already - 0.1, card = smooth(u01(tt, t.notes - 0.05, t.notes + 0.15)) * (1 - smooth(u01(tt, t.notes + 1.1, t.notes + 1.3)));
-      return b.set({ x: ROCK[0], y: lerp(CRK - 0.5, ROCK[1], up), z: ROCK[2], rotY: -0.5, stand: up, write: writing && card < 0.5 ? 1 : 0, card: 1.5 * card, cardText: '2/10', t: tt, scale: sc, look: tt < t.hops ? [-0.6, 0] : [-0.8, 0.2] }); }
+    if (tt < t.floats - 0.2) { const up = smooth(u01(tt, t.beaver - 0.4, t.beaver + 0.2)), writing = tt > t.already - 0.1, card = smooth(u01(tt, t.notes - 0.35, t.notes - 0.05)) * (1 - smooth(u01(tt, t.notes + 1.1, t.notes + 1.3)));
+      return b.set({ x: ROCK[0], y: lerp(CRK - 0.5, ROCK[1], up), z: ROCK[2], rotY: -0.5, stand: up, write: writing && card < 0.5 ? 1 : 0, card: 1.5 * card, cardText: '2/10', cardLift: 0.25, cardFwd: 0.12, t: tt, scale: sc, look: tt < t.hops ? [-0.6, 0] : [-0.8, 0.2] }); }
     if (tt < t.flip) { const u = smooth(u01(tt, t.floats - 0.2, t.flip)); return b.set({ x: lerp(ROCK[0] + 0.6, BV[0] - 0.4, u), y: pondLevel(tt) - 0.12, z: lerp(ROCK[2], BV[2], u), rotY: PI / 2, swim: 1, t: tt * 2, scale: sc, clip: 0 }); }
     if (tt < t.flip + 0.35) { const [x, y, z] = hop(tt, t.flip, t.flip + 0.35, [BV[0] - 0.4, pondLevel(tt) - 0.12, BV[2]], BV, 0.3); return b.set({ x, y, z, rotY: 0, stand: 0.5, t: tt, scale: sc }); }
-    const TOWNB = [-10.55, 1.84, -4.05];
+    const TOWNB = [-10.3, 1.84, -4.05];
     if (tt > t.sells - 0.7 && tt < WET0 + 0.9) { const up = u01(tt, t.sells - 0.7, t.sells - 0.2), L = lakeLevel(tt), off = tt > WET0 + 0.2;
       if (off) return b.set({ x: TOWNB[0] - 1.2 * u01(tt, WET0 + 0.2, WET0 + 0.9), y: L - 0.12, z: TOWNB[2] + 0.4, rotY: -PI / 2, swim: 1, t: tt * 2, scale: sc, clip: 0 });
       const [x, y, z] = up < 1 ? hop(tt, t.sells - 0.7, t.sells - 0.2, [TOWNB[0] + 0.9, L - 0.1, TOWNB[2] + 0.6], TOWNB, 0.5) : TOWNB, hammer = tt > t.lakefront - 0.4 && tt < t.lakefront + 0.1;
@@ -535,14 +544,14 @@ export async function build(studio, story) {
       const point = smooth(u01(tt, t.already - 0.1, t.already + 0.2)) * (1 - smooth(u01(tt, t.oneC + 0.6, t.oneC + 0.9)));
       const shakeNo = tt > t.running && tt < t.river + 0.4 ? 0.35 * Math.sin((tt - t.running) * 16) : 0;
       const writing = (tt > FLOAT1 && tt < FLOAT1 + 1.4) || (tt > POPC && tt < POPC + 1.2) || (tt > CRUMB && tt < CRUMB + 1.4) || (tt > SPLASH && tt < SPLASH + 1.0);
-      return b.set({ x: BV[0], y: BV[1], z: BV[2], rotY: point > 0.1 ? 0.2 : -0.35, stand: 1, write: writing ? 1 : 0, card: 1.8 * rent, cardText: 'RENT\nDUE', point, nod: point * 0.35 * Math.max(0, Math.sin(tt * 6)), headY: shakeNo, t: tt, scale: sc, look: point > 0.5 ? [0, -1] : [-0.6, 0] });
+      return b.set({ x: BV[0], y: BV[1], z: BV[2], rotY: point > 0.1 ? 0.2 : -0.35, stand: 1, write: writing ? 1 : 0, card: 1.8 * rent, cardText: 'RENT\nDUE', cardLift: 0.5, cardFwd: 0.2, point, nod: point * 0.35 * Math.max(0, Math.sin(tt * 6)), headY: shakeNo, t: tt, scale: sc, look: point > 0.5 ? [0, -1] : [-0.6, 0] });
     }
     // the gift shop: behind the counter; holds up the bestseller
     const hold = smooth(u01(tt, t.bestseller - 0.35, t.bestseller - 0.05));
     b.set({ x: D.shop.x - 0.1, y: 0.42, z: D.shop.z - 0.38, rotY: 0.35, stand: 1, card: 0, clip: 0, point: hold * 0.6, t: tt, scale: sc, look: [0.4, 0] });
     if (hold > 0.01) { b.root.updateMatrixWorld(true); const hp = new THREE.Vector3(); b.hand(1).getWorldPosition(hp); book.visible = true; book.position.set(hp.x, hp.y + 0.28, hp.z + 0.1); book.rotation.set(0, 0.2, 0); book.scale.setScalar(2.2 * hold); }
   }
-  t.finish0 = t.add - 0.5;
+  t.finish0 = t.gift - 0.12;
   for (let k = 0; k < 9; k++) fx.burst('drops', t.also + 0.2 + k * 0.32, { pos: [-22 + k * 1.5, 1.0 + (k % 3) * 0.7, -4.2], box: [1.0, 0.3, 0.6], n: 5, dir: [0, 1, 0], spread: 0.3, speed: [0.3, 0.6], g: -2.2, size: [0.04, 0.07], life: [1.2, 1.8], seed: 190 + k });   // bubbles rise from the drowned town
 
   // ---------------------------------------------------------------- salmon: furious at the dam, climb the ladder (one slaps Gary), swim past the drowned town

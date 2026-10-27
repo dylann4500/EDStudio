@@ -861,7 +861,7 @@
    "pan": 0.2
   },
   {
-   "t": 3.078,
+   "t": 2.49,
    "sound": "blanket_rustle",
    "gain_db": -18,
    "pan": 0.0,
@@ -1676,6 +1676,21 @@
    "pan": -0.4,
    "args": {
     "size": 1.2
+   }
+  },
+  {
+   "t": 46.182,
+   "sound": "bonk",
+   "gain_db": -13,
+   "pan": 0.3
+  },
+  {
+   "t": 46.232,
+   "sound": "giant_step",
+   "gain_db": -19,
+   "pan": 0.3,
+   "args": {
+    "size": 0.4
    }
   },
   {
