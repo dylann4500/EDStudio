@@ -54,3 +54,8 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **Subtractive SECOND 0:** no electrons = no sound (air molecules can't bump), so every bed stops dead and the score enters.
 - State the stylization (bare nuclei don't reflect light; we keep drawing things lit) and the honest limit (the energy exceeds
   Earth's mass-energy → general relativity; we show only the light-speed front) in the header + the caption comment.
+- **TRIBE (027):** cut1 0.0416 (no dead zone). A fix pass that SHORTENED the weak beats (retimed everything after them) lifted
+  those beats but dropped the untouched late beats by half in their new slots (cut2 0.0392). Fix weak beats in place (camera
+  moves, faces, brightness) and keep the timeline when the late part already scores well. cut3 did that: 0.0441 / first 60 s
+  0.0430 (beats 013), no dead zone, 0.0006 under the whole-brain target — the frozen dark Tokyo beat (0.006) and the pool (0.023)
+  stay the weakest: a night street with frozen people sags even with close faces.

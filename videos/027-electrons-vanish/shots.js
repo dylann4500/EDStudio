@@ -1,5 +1,5 @@
 // VIDEO 027 — "What if every electron disappeared?"  (tone: whatif, SCIENCE lane @ed_.studios)
-// 65.2 s. SECOND 0 hits four places at the same instant (Tokyo 10 PM, Rio 10 AM, Chicago 8 AM, New York 9 AM — all 13:00 UTC),
+// 65.2 s (cut3). SECOND 0 hits four places at the same instant (Tokyo 10 PM, Rio 10 AM, Chicago 8 AM, New York 9 AM — all 13:00 UTC),
 // then one clock sweeps 20 decades (10 attoseconds → 8 min 17 s, HUD `ease: 'log'`, `timefmt`), one new scale per step:
 // an atom → a Tokyo street → Paris → Earth from orbit → Earth + Moon → the Sun. Rewind to 9:59 PM for the human button.
 // NEW: engine/nuclei.js (world-space noise dissolve for any material, a shader dot cloud that blows apart along surface
@@ -41,6 +41,13 @@
 //   Earth gravitational binding energy 2.49 × 10³² J (PREM; Wikipedia "Gravitational binding energy")
 //   electrons in the observable universe ≈ 10⁸⁰ (the usual estimate of atoms; the universe is electrically neutral)
 //
+// TRIBE (tribe-cut1..3.txt): cut1 0.0416 / first 60 s 0.0398, no dead zone (weak: the dark frozen Tokyo, the pool tilt to an
+// empty black sky, the atom slab, Earth from orbit 0.026). cut2 tightened those beats (−2.8 s) + push-ins: they rose (orbit
+// 0.037, shell 0.040) but the UNTOUCHED Moon/Sun/rewind beats fell 0.07 → 0.03–0.05 in their new time slots → 0.0392.
+// cut3 = cut1's timeline + audio again, with only visual fixes (orbit push-in, atom dolly, pool kept on faces + the Sun in
+// frame, brighter frozen Tokyo, four more faces walking behind the friends) → 0.0441 / first 60 s 0.0430 (BEATS), no dead zone:
+// 0.0006 under the whole-brain target. SHIPPED cut3 (best of three; the brief allows three cuts).
+//
 // Shot list (seconds)                     | set    | what happens
 //  0.0– 3.4 title   Tokyo 10 PM           | city   | high over the scramble crossing: neon, screens, a crowd crossing
 //  3.4–11.4 tokyo   SECOND 0 at 7.4       | city   | walking backward ahead of three friends lit by their phones; 7.4: every light dies, they freeze;
@@ -77,18 +84,18 @@ const OFF = { city: [0, 0, 0], cls: [3000, 0, 0], kit: [6000, 0, 0], pool: [9000
 
 export const SHOTS = [
   { t0: 0, t1: 3.4, cam: 'title', set: 'city' },
-  { t0: 3.4, t1: 10.8, cam: 'tokyo', set: 'city' },
-  { t0: 10.8, t1: 14.6, cam: 'pool', set: 'pool' },
-  { t0: 14.6, t1: 18.4, cam: 'kitchen', set: 'kit' },
-  { t0: 18.4, t1: 22.2, cam: 'class', set: 'cls' },
-  { t0: 22.2, t1: 25.6, cam: 'atoms', set: 'atoms' },
-  { t0: 25.6, t1: 30.6, cam: 'dust', set: 'city' },
-  { t0: 30.6, t1: 35.2, cam: 'paris', set: 'paris' },
-  { t0: 35.2, t1: 38.6, cam: 'orbit', set: 'space' },
-  { t0: 38.6, t1: 42.6, cam: 'shell', set: 'space' },
-  { t0: 42.6, t1: 46.8, cam: 'moon', set: 'space' },
-  { t0: 46.8, t1: 52.0, cam: 'sun', set: 'solar' },
-  { t0: 52.0, t1: 62.4, cam: 'rewind', set: 'city' },
+  { t0: 3.4, t1: 11.4, cam: 'tokyo', set: 'city' },
+  { t0: 11.4, t1: 15.2, cam: 'pool', set: 'pool' },
+  { t0: 15.2, t1: 19.0, cam: 'kitchen', set: 'kit' },
+  { t0: 19.0, t1: 22.8, cam: 'class', set: 'cls' },
+  { t0: 22.8, t1: 26.8, cam: 'atoms', set: 'atoms' },
+  { t0: 26.8, t1: 31.8, cam: 'dust', set: 'city' },
+  { t0: 31.8, t1: 36.4, cam: 'paris', set: 'paris' },
+  { t0: 36.4, t1: 41.0, cam: 'orbit', set: 'space' },
+  { t0: 41.0, t1: 45.4, cam: 'shell', set: 'space' },
+  { t0: 45.4, t1: 49.6, cam: 'moon', set: 'space' },
+  { t0: 49.6, t1: 54.8, cam: 'sun', set: 'solar' },
+  { t0: 54.8, t1: 65.2, cam: 'rewind', set: 'city' },
 ];
 const S0 = Object.fromEntries(SHOTS.map((s) => [s.cam, s.t0])), S1 = Object.fromEntries(SHOTS.map((s) => [s.cam, s.t1]));
 const TP = S0.pool + 0.55, TK = S0.kitchen + 0.55, TC = S0.class + 0.6;
@@ -96,7 +103,7 @@ const TP = S0.pool + 0.55, TK = S0.kitchen + 0.55, TC = S0.class + 0.6;
 export const CAMS = {
   title:   { p: [[3.2, 5.2, 6.5], [2.6, 4.2, 4.8]], a: [[0.2, 1.4, -9], [0.6, 1.4, -8]], fov: 52, amp: 0.01 },
   tokyo:   { p: [[1, 1.55, 0], [1, 1.55, 0]], a: [[1, 1.5, -1], [1, 1.5, -1]], fov: 50, amp: 0.004 },
-  pool:    { p: [[6.6, 1.0, 9.0], [6.2, 0.75, 8.2]], a: [[1.8, 1.5, 5.4], [-0.5, 3.0, 2.6]], fov: 52, amp: 0.004 },
+  pool:    { p: [[5.4, 1.15, 8.3], [4.9, 0.95, 7.7]], a: [[1.95, 1.85, 5.6], [1.55, 2.3, 4.9]], fov: 52, amp: 0.004 },
   kitchen: { p: [[-0.75, 1.32, 1.55], [0.35, 1.38, 1.7]], a: [[0.5, 0.98, -0.4], [0.55, 1.0, -0.4]], fov: 50, amp: 0.003 },
   class:   { p: [[1.05, 1.5, 1.0], [0.85, 1.52, 0.7]], a: [[1.2, 1.78, -2.6], [1.18, 1.78, -2.6]], fov: 52, amp: 0.003 },
   atoms:   { p: [[-6.0, 3.2, 9.5], [3.2, 1.5, 4.6]], a: [[0, -0.6, -1.5], [0.6, 0.6, -1.5]], fov: 50, amp: 0.002 },
@@ -196,9 +203,11 @@ export async function build(studio, story) {
   const pal = person({ skin: 0xd9a37f, top: 0xf2c14e, pants: 0x3a3d42, hair: 0x1a1a1a, hairStyle: 'short' });
   const yuki = person({ skin: 0xf3d0b5, top: 0x4fb3a8, collar: 0xffffff, pants: 0x6b5a48, hair: 0x5a3a24, hairStyle: 'bob' });
   const heroes = [girl, boy, pal];
+  const COMP = [[-1.3, -2.2], [2.5, -1.8], [2.9, -3.6], [-0.6, -3.9]];   // 027 cut3: faces behind the friends (TRIBE: faces + motion)
+  const comps = COMP.map((_, i) => person({ skin: [0xc98e6a, 0xf1c3a1, 0x9a6447, 0xe2ad8c][i], top: [0x3d7bd9, 0xe08a3a, 0x6fa84f, 0x8f6fb8][i], pants: PANTS[i], hair: HAIRS[i], hairStyle: ['short', 'bob', 'messy', 'bob'][i], glasses: i === 2 }));
   const phones = [];
   const givePhone = (rig, side = 1) => { const ph = makePhone(); rig.arms.find((a) => a.s === side).hand.add(ph.g); ph.g.position.set(0, -0.06, 0.03); ph.g.rotation.set(PI / 2, 0, 0); ph.g.scale.setScalar(1.25); phones.push(ph); return ph; };
-  givePhone(girl); givePhone(boy);
+  givePhone(girl); givePhone(boy); comps.forEach((c, i) => { if (i % 2 === 0) givePhone(c); });
   const faceLights = [girl, boy].map(() => { const L = new THREE.PointLight(0x9fc4ff, 0.12, 0.9, 2); scene.add(L); return L; });
   const crowd = Array.from({ length: 22 }, (_, i) => { const st = pick(STYLES); const p = person({ skin: pick(SKINS), top: pick(CASUAL), pants: pick(PANTS), hair: pick(HAIRS), hairStyle: st, glasses: R() < 0.25 }); if (i % 3 === 0) givePhone(p); return p; });
   const CR = rng(31);
@@ -234,6 +243,7 @@ export async function build(studio, story) {
     const pb = basePose(); pb.eyes = blink(tt, 2); Object.assign(pb, { x: 1.62, z: z - 0.35, rotY: -0.06, dist: d + 0.4, speed: HV, headPitch: 0.42 }); pb.armB = PHONE_LOW; pb.armA = A(-0.6, 0.1, -1.0, 0.4); pb.headPitch = 0.5;
     const pp = basePose(); pp.eyes = blink(tt, 3); Object.assign(pp, { x: 0.38, z: z - 0.25, rotY: 0.2, dist: d + 0.8, speed: HV, headYaw: -0.2, headPitch: -0.15, mouth: 'o' }); pp.armA = LAUGH_A; pp.armB = REST;
     put(girl, 'city', pg); put(boy, 'city', pb); put(pal, 'city', pp);
+    comps.forEach((c, i) => { const q = basePose(); q.eyes = blink(tt, 60 + i); Object.assign(q, { x: 1.0 + COMP[i][0], z: z + COMP[i][1], rotY: 0.05 * (i - 1.5), dist: d + i * 0.3, speed: HV, headPitch: i % 2 === 0 ? 0.35 : -0.05, headYaw: i % 2 ? 0.3 : 0, mouth: i === 1 ? 'o' : 'smile' }); if (i % 2 === 0) q.armB = PHONE_LOW; put(c, 'city', q); });
   }
   function tokyoRewind(t) {   // 9:59 PM: the scramble is alive again; Yuki runs up and hugs the girl at the far corner
     const u = t - S0.rewind, tt = 0.8 + u;
@@ -280,7 +290,7 @@ export async function build(studio, story) {
     const tj = Math.max(0, tt - (S0.pool + 0.15)), ky = 3.3 * tj - 0.5 * G * tj * tj, kz = 6.2 - 1.6 * tj;
     const pk = basePose(); pk.eyes = 'closed'; Object.assign(pk, { x: 1.8, z: kz, rotY: 0.95, crouch: 0.3, lean: 0.5, footFwd: 0.35, mouth: 'o', headPitch: -0.2 }); pk.armA = A(-1.2, 0.2, -2.0, 0.6); pk.armB = A(-1.2, 0.2, -2.0, -0.6);
     put(kid, 'pool', pk, 0.35 + ky, ky + 0.75);
-    swimmers.forEach((s, i) => { const p = basePose(); p.eyes = blink(tt, i + 20); const [x, z] = [[-0.6, 3.0], [-3.2, 1.8], [3.6, 0.6], [-6.0, -2.0]][i]; Object.assign(p, { x, z, rotY: [0.4, 0.9, -0.5, 0.2][i], mouth: i === 0 ? 'o' : 'smile', headPitch: -0.15 }); p.armA = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); p.armB = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); put(s, 'pool', p, PD.water - 1.42, PD.water - 1.42); });
+    swimmers.forEach((s, i) => { const p = basePose(); p.eyes = blink(tt, i + 20); const [x, z] = [[-0.6, 3.0], [3.1, 3.7], [-0.1, 4.6], [-3.2, 1.8]][i]; Object.assign(p, { x, z, rotY: [0.4, 0.45, 0.9, 0.9][i], mouth: i === 0 ? 'o' : 'smile', headPitch: -0.15 }); p.armA = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); p.armB = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); put(s, 'pool', p, PD.water - 1.42, PD.water - 1.42); });
     bathers.forEach((s, i) => { const p = basePose(); p.eyes = blink(tt, i + 30); Object.assign(p, { x: [-0.4, 2.8][i], z: 8.2, rotY: PI, footFwd: 0.42, headPitch: -0.25, mouth: i ? 'o' : 'smile' }); p.armA = A(-0.3, 0.2, -0.5, 0.3); p.armB = i ? A(-1.6, 0.3, -1.4, -0.4) : A(-0.3, 0.2, -0.5, -0.3); put(s, 'pool', p, -0.0, 0); });
     { const p = basePose(); p.eyes = blink(tt, 40); Object.assign(p, { x: PD.tower[0], z: PD.tower[1] - 0.05, rotY: PI, footFwd: 0.42, headPitch: 0.1 }); p.armB = A(-1.3, 0.2, -1.9, -0.6); put(guard, 'pool', p, 2.04 - 0.375, 2.04); }
     const k = sstep(TP, TP + 0.35, t);
@@ -373,7 +383,7 @@ export async function build(studio, story) {
   UD.paris = patchDissolve(paris.root, { uGlow: { value: new THREE.Color(0xffd9a0) }, uFreq: { value: 0.6 } });
   const tourists = Array.from({ length: 8 }, () => person({ skin: pick(SKINS), top: pick(CASUAL), pants: pick(PANTS), hair: pick(HAIRS), hairStyle: pick(STYLES), glasses: R() < 0.3 }));
   UD.people = { uDis: { value: 0 }, uGlow: { value: new THREE.Color(0xbfe2ff) }, uFreq: { value: 18 } };
-  for (const r of [...crowd, ...heroes, yuki, ...tourists]) patchDissolve(r.root, UD.people);
+  for (const r of [...crowd, ...heroes, ...comps, yuki, ...tourists]) patchDissolve(r.root, UD.people);
   function parisScene(t) {
     const spots = [[-3, 30, 0.4], [-1.6, 31, -0.3], [2.4, 34, 3.0], [3.4, 33.6, -2.6], [-4.5, 38, 0.2], [5.5, 40, 2.4], [0.5, 42, PI], [-6.5, 44, 0.8]];
     tourists.forEach((r, i) => { const [x, z, ry] = spots[i], p = basePose(); p.eyes = 'open'; Object.assign(p, { x, z, rotY: ry, headPitch: -0.5, mouth: i % 2 ? 'o' : 'smile' }); if (i % 3 === 0) { p.armB = SELFIE_B; } else if (i % 3 === 1) { p.armA = POINT_A; } put(r, 'paris', p); });
@@ -434,10 +444,10 @@ export async function build(studio, story) {
   }
 
   // ---------------------------------------------------------------- Tokyo dust: build the clouds from the frozen state (deterministic)
-  tokyoScene(SW, SW); [...all].forEach((r) => { if (!crowd.includes(r) && !heroes.includes(r)) r.root.visible = false; });
+  tokyoScene(SW, SW); [...all].forEach((r) => { if (!crowd.includes(r) && !heroes.includes(r) && !comps.includes(r)) r.root.visible = false; });
   scene.updateMatrixWorld(true);
   const near = (c, r) => (m) => { const p = new THREE.Vector3(); m.getWorldPosition(p); return p.distanceTo(c) < r; };
-  cloud.add(heroes.map((h) => h.root), 42000, { group: 0, gain: 1.25 });
+  cloud.add([...heroes, ...comps].map((h) => h.root), 48000, { group: 0, gain: 1.25 });
   cloud.add(crowd.map((h) => h.root), 30000, { group: 0, gain: 1.15 });
   const HC = new THREE.Vector3(1.0, 1.0, heroAt(SW));
   cloud.add([city.root], 40000, { group: 1, gain: 0.9, pick: (m) => !m.isInstancedMesh && m.geometry.boundingSphere !== undefined && (m.geometry.computeBoundingSphere(), m.geometry.boundingSphere.radius < 60) && near(HC, 26)(m) });
@@ -467,7 +477,7 @@ export async function build(studio, story) {
     if (S === 'city') {
       const rewind = cam === 'rewind', frozen = !rewind && t >= SW;
       power(rewind || t < SW ? 1 : 0);
-      studio.fill.intensity = frozen ? 0.85 : 0.5;
+      studio.fill.intensity = frozen ? 1.15 : 0.6;
       if (rewind) tokyoRewind(t); else tokyoScene(t, Math.min(t, SW));
       // phone glow on the two faces
       [girl, boy].forEach((r, i) => { r.root.updateMatrixWorld(true); const h = r.headG.getWorldPosition(new THREE.Vector3()); faceLights[i].position.set(h.x + 0.05, h.y - 0.12, h.z + 0.32); faceLights[i].intensity = frozen || rewind ? 0 : 0.12; });
@@ -518,7 +528,7 @@ export async function build(studio, story) {
     // stars + sun disc ride with the camera
     stars.position.set(P[0], P[1], P[2]); stars.scale.setScalar(studio.camera.far * 0.8);
     if (S === 'pool' || S === 'paris') {
-      const L = (S === 'pool' ? pool : paris).lights.sun, d = S === 'pool' ? new THREE.Vector3(-6.2, 3.6, -4.4).normalize() : L.position.clone().sub(L.target.position).normalize();
+      const L = (S === 'pool' ? pool : paris).lights.sun, d = S === 'pool' ? new THREE.Vector3(-0.545, 0.53, -0.65).normalize() : L.position.clone().sub(L.target.position).normalize();
       sunDisc.visible = true; sunDisc.position.set(P[0] + d.x * 200, P[1] + d.y * 200, P[2] + d.z * 200); sunDisc.scale.setScalar(16);
     }
     setCamera(P, Aim, c.fov, t, c.amp);

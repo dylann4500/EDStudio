@@ -1,0 +1,22 @@
+027-electrons-vanish-cut3: 66 s
+  wc_mean                  +0.0441   best existing +0.0447  below
+  wc_mean_first60          +0.0430   best existing +0.0421  BEATS
+  pct_above_thresh         +16.7146   best existing +15.7313  BEATS
+  hook_0_3                 -0.0264
+  sustain_pooled_median    +83.3333
+  dead zones (≥8 s below 0.0185, after 4 s): none
+  per beat (mean whole-cortex, min second):
+      0.0–  3.4 title     -0.0264  min -0.0299  ####
+      3.4– 11.4 tokyo     +0.0063  min -0.0268  ###########
+     11.4– 15.2 pool      +0.0232  min +0.0163  ##############
+     15.2– 19.0 kitchen   +0.0475  min +0.0328  ###################
+     19.0– 22.8 class     +0.0546  min +0.0417  ####################
+     22.8– 26.8 atoms     +0.0341  min +0.0306  ################
+     26.8– 31.8 dust      +0.0589  min +0.0376  #####################
+     31.8– 36.4 paris     +0.0553  min +0.0406  #####################
+     36.4– 41.0 orbit     +0.0280  min +0.0189  ###############
+     41.0– 45.4 shell     +0.0382  min +0.0306  #################
+     45.4– 49.6 moon      +0.0664  min +0.0602  #######################
+     49.6– 54.8 sun       +0.0702  min +0.0533  ########################
+     54.8– 65.2 rewind    +0.0813  min +0.0020  ##########################
+  TARGET NOT MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

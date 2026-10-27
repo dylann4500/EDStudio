@@ -148,41 +148,6 @@ cues = {
               "ducks": [], "auto_duck": {"db": -3.0, "categories": ["prop"], "lookahead": 0.04, "hold": 0.4, "smooth": 0.15, "max_len": 0.8},
               "eq": [{"f": 2800, "q": 0.8, "db": -2.0}, {"f": 6500, "q": 0.6, "db": -4.0}]},
 }
-# ---- cut2 (TRIBE fix pass): the sheet above is written on cut1's 65.2 s timeline; M() maps it onto the 62.4 s cut
-# (dark Tokyo 4.0 → 3.4 s, atoms 4.0 → 3.4, orbit 4.6 → 3.4, shell 4.4 → 4.0; everything else shifts).
-OLD = [0, 3.4, 7.4, 11.4, 15.2, 19.0, 22.8, 26.8, 31.8, 36.4, 41.0, 45.4, 49.6, 54.8, 65.2]
-NEW = [0, 3.4, 7.4, 10.8, 14.6, 18.4, 22.2, 25.6, 30.6, 35.2, 38.6, 42.6, 46.8, 52.0, 62.4]
-def M(t):
-    for i in range(len(OLD) - 1):
-        if t <= OLD[i + 1] + 1e-9:
-            return round(NEW[i] + (t - OLD[i]) * (NEW[i + 1] - NEW[i]) / (OLD[i + 1] - OLD[i]), 3)
-    return round(t - 2.8, 3)
-def Mv(v):
-    return [[M(a), b] for a, b in v] if isinstance(v, list) else v
-def remap(c):
-    c["duration"] = M(c["duration"]); c["end_fade"] = [M(x) for x in c["end_fade"]]; c["shots"] = [M(x) for x in c["shots"]]
-    for a_ in c["ambience"]:
-        a_["t0"], a_["t1"] = M(a_["t0"]), M(a_["t1"])
-    for e_ in c["events"]:
-        for k in ("t", "t0", "t1"):
-            if k in e_:
-                e_[k] = M(e_[k])
-    m = c["music"]; m["end"] = M(m["end"])
-    m["chords"] = [[M(t), sym] for t, sym in m["chords"]]
-    for key in ("sections", "layers"):
-        for S in m.get(key, []):
-            S["t0"], S["t1"] = M(S["t0"]), M(S["t1"]); S["vel"] = Mv(S["vel"])
-    m["drums"] = [[M(t), v, k] for t, v, k in m["drums"]]
-    for P in m["drum_patterns"]:
-        P["t0"], P["t1"] = M(P["t0"]), M(P["t1"]); P["vel"] = Mv(P["vel"])
-    m["melody"] = [[M(x[0])] + x[1:] for x in m["melody"]]
-    for r in m["pad"]:
-        r["t0"], r["t1"] = M(r["t0"]), M(r["t1"])
-    for st in m["stings"]:
-        st["t"] = M(st["t"])
-    return c
-cues = remap(cues)
-cues["title"] = cues["title"].replace("(science:", "(62.4 s cut2, science:")
 out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "cues.json")
 json.dump(cues, open(out, "w"), indent=1)
 print("wrote", out, len(ev), "events")
