@@ -175,6 +175,18 @@ videos/NNN-slug/
   and a sunrise: `setDawn(0..1)` / `setMode('morning')` (window view crossfades, the sun patch sweeps the floor = a time-lapse).
   021 `shots.js` helpers: `sideLie()` (a rig lying on its side/back/tummy via a carrier basis: x = up × face; root = feet),
   the towel "ghost" drape that follows Pip's head (`drapeGhost`), steam sprites, a twin-bell alarm clock.
+- **Halloween kit (023, `engine/halloween.js`):** `dressHalloween(studio, suburb, {dark:[i]})` turns suburb.js into a dusk
+  trick-or-treat street (violet → tangerine sky + moon, autumn trees, porch STEPS, lanterns, carved jack-o'-lanterns, string
+  lights, window glow with paper bats, cobwebs, hay bales, tree ghosts, street lamps); `hw.houses[i].setLit(0..1)` per house
+  (cascade = "the street lit up"), `hw.setDoorOpen(i, θ)` also shows a lit hallway plane in the doorway (the suburb houses are
+  solid boxes — without it an open door shows siding; people "in the doorway" stand at z ≥ −8.9 so the plane hides their back),
+  `hw.groundY(x, z)` = floor height on walks / steps / porches (0.3), `hw.aimSun` = a LOW sun. Props: `makePumpkinCostume(pip)`
+  (Pip IS the candy bucket: ribbed shell + printed jack face on both flanks, open top with `heap.setFill(n)`; a plain orange
+  shell blended into his fur — the printed face is what makes it read), `makeCandyHeap/makeCandyBowl/makeFlyingCandy` (instanced
+  wrapped candies; `fly()` in 023 shots.js = ballistic arcs that vanish into the heap on arrival), `makeInflatableCat()`
+  (`setDeflate(k, t)` slow comic slump), `makeSkeleton()` (`setCollapse(k)`, `legBone` to steal, holds a `bowl`), `makeBone()`
+  (a bone-shaped dog biscuit — never a real cooked bone on screen), `makeJackOLantern`, `makeStringLights`, `makeCobweb`,
+  `makeSign(text, {lines})`, `costume(rig, 'witch'|'ghost'|'dino'|'hero'|'skeleton'|'pumpkin'|'vampire'|'catEars')`.
 - 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
   (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
   jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
@@ -419,6 +431,11 @@ videos/NNN-slug/
   low (lying) so only his ears sit in the bottom of the frame and the human face carries the shot.
 - **Pose lineup at t ≥ 200 must hide `#ui`** (`document.getElementById('ui').style.display = 'none'`) — past `duration` the
   end card + final fade cover every lineup frame (021's first lineup sheet was 18 black end cards).
+- **Never put a camera where a character can walk (023):** two first-sheet shots rendered as one flat colour — the lens sat
+  inside a crouching neighbor and inside a kid standing on the sidewalk. When a shot looks like a solid wall of colour, check
+  every rig's position against the camera's, and keep walkers' paths (Mia following Pip) off the lens line.
+- **A small dog + a tall object in a vertical frame needs 2–3 quick angles, not one** (023's 3.6 m inflatable cat): over his
+  shoulder up at it, a reverse close-up on his face for the gag line, then a wide for the payoff. One wide made Pip a speck.
 - **`bearing.py` is meaningless for near-straight-down cameras** (yaw is undefined): check overhead shots with a still.
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
@@ -537,6 +554,9 @@ soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out o
 for the lock, so a re-render while queued scored the old file; it now copies after it takes the lock.)
 It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
 `tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
+**023 (Pip ep. 2, Halloween at dusk) met the target on cut1 (wc 0.0625, first 60 s 0.0661):** the peaks were the busy close
+porch beats — the skeleton collapsing on Pip (0.117) and kids hurrying past the dark house four in the foreground (0.124);
+the weakest (besides the title) was the static look-up at the grumpy old man in his doorway (0.039) and the slow home ending.
 **019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
