@@ -71,7 +71,7 @@ DRY0, DRY1, WET0, WET1 = t['only'] - 0.05, t['up'] + 0.25, t['lakefront'] + 0.5,
 NCOLS = 6
 BKIN = CRUMB1 + 0.25; BKEND = COL0 + (NCOLS - 1) * COLDT + COLDUR; BKOUT = BKEND + 0.15
 GAG0 = DRY0 + 0.1                                                # the drought: Gary on a roof with his flip-flop
-CL0 = t['cooling'] + 0.55; CL1 = max(t['week'] + 0.5, CL0 + 1.3)
+CL0 = t['cooling'] + 1.05; CL1 = max(t['week'] + 0.5, CL0 + 1.3)
 
 # ---------------------------------------------------------------- music
 BPM = 104
