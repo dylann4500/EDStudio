@@ -254,6 +254,19 @@ videos/NNN-slug/
   pops over a head, accessories built once per crowd rig and toggled per beat (`wear(rig, {cap, mask, gloves, shades})`,
   `outfit(rig, top, pants)` recolors; `hideAll` restores), props `makeCoffin`, `makeBowl`, `makeSpoon`, `makeCerealBox`,
   `makeSheet(text)` (a stamped paper: HIRED).
+- **Science-lane sets (017, gravity off):** `engine/sets/football.js` (football stadium — renamed from stadium.js at merge, 019's concert bowl is `stadium.js`: striped pitch + markings, goals with a
+  deformable back net `setBulge(k, y, z)`, LED ad boards, 4 stands of ~22k instanced fans — `stands.east.fans[i]` world coords,
+  `setFan(i, dy, tilt, rotY)` + `commit()`, `hide(pred)` where rigs stand in — roof + floodlights, `setScore(text)` (call only on
+  change: it builds a canvas), `aimSun`), `highway.js` (Texas interstate: straight then a R=160 m right curve; `DIMS.frame(s, off)`
+  → {x, z, head} for any lane, billboards, sign gantry, turbines `update(t)`; set far ≥ 1550), `coast.js` (Maine headland + islet
+  lighthouse; `setSea(level, t)` raises the whole ocean, `rideBoats(t, level)`, `waveAt`), `gorge.js` (basalt gorge + steel-arch
+  bridge with a bungee platform, rapids `update(t)`, falls + mist + rainbow), `plaza.js` (Quito equator plaza: yellow line,
+  monument + globe, arcades, bunting, fountain `jets[]`, Andes + volcano).
+- **HUD clock with decimals (017):** a hud segment can carry `dec` (decimals), `unit` (" s") and `ease: 'linear'` (no ease
+  per segment, so consecutive segments read as one steady clock). 017 runs TIME WITHOUT GRAVITY 0.0 → 5.0 s across 10 places.
+- **Slow-motion ladder (017):** one physical moment shown in many places = a physics clock τ that the HUD displays; shots.js
+  derives τ(t) from story.hud (`tauAt`) and computes every position from τ with the real formulas (heights, speeds, sea level),
+  so HUD numbers and pictures can't disagree. Return shots restart τ at the shared instant (5 s) per place, at ~1× speed.
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -400,6 +413,12 @@ videos/NNN-slug/
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
   offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.
+- **State the physics model in the shots.js header (017).** "Gravity off" has two honest answers: with a rigid planet (the usual
+  thought experiment) moving things keep going and squeezed things spring back; with an elastic Earth the ground rebounds at g and
+  carries everything (equivalence principle) so nothing visibly floats. We use the rigid model and say so — physics commenters
+  will ask. Time stamps in subtitles ("+1.5 s.") eat the 0.3 s/word budget; put the clock in the HUD number instead.
+- **A diver/jumper launched straight up comes straight back down on the board (017)** — give anything that "falls back" the
+  small horizontal speed it really had, and check where it lands before staging the splash.
 - **Black patches in an outdoor sky = the sky dome is beyond `camera.far`** (011's Pretoria: dome r=400, far=400, camera 13 m
   off-center → a clipped wedge of black). Keep `far` ≥ dome radius + camera offset (or shrink the dome). Raycast to confirm.
 - **Screen glow lights (CRTs, phones) stay soft and ≥ 0.7 m out** — 1.6 at 0.45 m blew the beige bezel to white and lit a shirt
@@ -474,6 +493,22 @@ background; it holds a global lock so only ONE TRIBE run happens at a time acros
 ~20 min idle, ~60 min when the Mac swaps) → `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut, not a TRIBE version): headline metrics vs the best posted video, a
 per-beat table and dead zones. **In the operation (docs/OPERATION.md) the user made it the gate (Oct 26)**, reach still unproven:
 `study.py` keeps testing it per account from `ops/ledger.csv`. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
+**Slow motion scores low unless the camera moves (017):** v1's slow-mo ladder (a 0.5 s slice of physics stretched over 4.8 s)
+gave a 22 s dead zone (wc 0.032). Bullet-time camera ORBITS around the frozen-ish subjects, a tracking shot behind a runner and a
+crane up through the floating crowd lifted those beats 2–6× (v2 wc 0.0447, a hair under 013). v3 filmed the diver from the
+water with the frame mostly sky (−0.029) and fell to 0.0414. **v4 met the target (0.0487 / first 60 s 0.0458 / no dead zone)** by
+TIGHTENING the weak stretch instead of decorating it: 14.4 s → 10 s (fans 3.8 s, a family table panned across three faces 3.2 s,
+the rising diver 1.6 s + a 1.4 s close-up of a judge's face looking up and pointing). Shorter slow-mo beats = faster motion per
+second + a new face every ~1.5 s. Other lessons: a title over people's BACKS scored −0.05 vs −0.02 over a wide bright crowd;
+commit every scored version so you can ship the best one, not the last one.
+**Keep reels ≤ 69.5 s for TRIBE — trim, don't raise the memory cap (017, manager rule):** w2v-BERT's relative-position attention
+grows with clip length²; 69–70 s fit under the shared MPS cap (`PYTORCH_MPS_HIGH_WATERMARK_RATIO` 0.5 = 8.88 GB), a 73.8 s cut
+needed ~9.5 GB and crashed in "Preparing extractor: audio" within a minute. Never raise the cap to get a run through (it can swap
+the Mac while other producers render): tighten the slowest stretch until the cut is ≤ 69.5 s and score that.
+**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
+`nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
+`.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead
+zones. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
 every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
 One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
 **015 (tail-lies) confirmed it: faces + motion lift the weak beats.** v1 met the target (0.056) but a kitchen two-shot and a court

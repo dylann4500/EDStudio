@@ -28,3 +28,16 @@ Curious → cinematic: synth pluck/mallet ostinato, sub drones, soft taiko on th
 ## Caption
 Hook + emoji · 2–3 sentences with one real fact · question CTA 👇 · "Send this to your ___" · blank · the course line ·
 blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #animation). Sources as an HTML comment.
+
+## First video: 017 "What if gravity turned off for 5 seconds?" (reference build)
+- **Shape (69.4 s, TRIBE target met on v4):** title over a stadium → the moment it happens (a goal, the crowd mid-jump) → SECOND 0 → a slow-motion ladder
+  (HUD = TIME WITHOUT GRAVITY 0.0 → 5.0 s, one new place per 0.5 s: stadium, kitchen, pool, highway, ocean, bungee bridge, the
+  equator, the ISS, back to the stadium) → GRAVITY BACK in real time, five landings → a human button (judges: 10 · 10 · 10)
+  → debate end card ("Would you survive the *landing*?").
+- **Physics:** pick a model, state it in the shots.js header and the caption comment (017: rigid planet). Compute every HUD
+  number from the same formulas the animation uses (see `tauAt()` in 017). Prefer mechanisms a viewer can check in one line:
+  "moving things keep moving", "squeezed things spring back", "the ground curves away under you", v = √(2gh).
+- **Slow motion needs motion:** a 0.5 s slice of physics stretched over 4.8 s barely moves — give every slow-mo beat a camera
+  move (dolly/crane/track) and secondary motion (flailing arms, wobbling water blobs, spinning fans, drifting confetti), and keep
+  the early slow-mo beats SHORT (3–4 s) with faces close (017 v4: tightening 14.4 s → 10 s took TRIBE from 0.045 to 0.049).
+- Keep the cut ≤ 69.5 s: longer reels run TRIBE's audio encoder over the shared memory cap (CLAUDE.md).

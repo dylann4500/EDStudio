@@ -200,8 +200,9 @@ export function createOverlay(story) {
       // Steady: fades in once after the opening title, stays at full opacity, fades out once at the end. Never pulses/dims.
       hud.style.opacity = afterTitle * (1 - smooth((t - endT) / 0.3));
       let n = seg.from, u = 1;
-      if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, easeIO(u)); }
-      num.textContent = fmt(n);
+      // seg.ease 'linear' = a steady clock across segments (017); seg.dec decimals + seg.unit suffix ("2.5 s")
+      if (seg.r0 !== undefined) { u = clamp((t - seg.r0) / (seg.r1 - seg.r0)); n = lerp(seg.from, seg.to, seg.ease === 'linear' ? u : easeIO(u)); }
+      num.textContent = (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
       time.textContent = seg.time || '';
       age.textContent = seg.ageFrom && u < 0.5 ? seg.ageFrom : seg.age || '';
       const g = seg.ageGoldAt !== undefined ? clamp(1 - (t - seg.ageGoldAt) / 1.6) * (t >= seg.ageGoldAt ? 1 : 0) : 0;
