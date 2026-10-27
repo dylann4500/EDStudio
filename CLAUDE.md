@@ -323,6 +323,15 @@ videos/NNN-slug/
 - **HUD extras (027, core.js, additive):** a hud segment can carry `text` (a literal string, e.g. "~10⁸⁰"), `label` (overrides
   `hudLabel` from that segment on), `timefmt: true` (the number is seconds, printed "320 femtoseconds" / "8 min 17 s") and
   `ease: 'log'` (from·(to/from)^u — one clock that sweeps 20 decades, 10 as → 8 min). shots.js reads the same segments for τ.
+- **South Pole + "the ground slides away" kit (028):** `engine/sets/southpole.js` (`buildSouthPole`: white plateau + sastrugi,
+  ceremonial barber pole with a chrome globe (canvas env map), 12 treaty flags `update(t, wind)`, survey marker + sign, a station
+  on stilts, snowcat, cargo, flag-lined road, twinkling diamond dust, low 13° sun + 22° halo; `aimSun`, own fog, far ≥ 1700).
+  028 `shots.js`: a **free-frame camera** (`CAMS.*.free`) rides with everything that slides (adds `V·τ` along the set's east axis)
+  so faces stay close while the bolted world streaks past — the cheapest way to show "the ground moved, you didn't"; `put(rig, key,
+  p, {dx, tx, back, s})` tilts a rig in WORLD x (`tx`) or backward in its own frame (`back`) with `rotation.order = 'YXZ'`; a red
+  parka with a hood + fur ruff (`parka(rig)`: the SphereGeometry gap is at phi = π/2 = the face side, no rotation needed); a pool
+  whose water slides into the deep end and goes up the wall (slab + sheet), a receding ocean (own sea plane with its near edge at
+  the shore + a sloped seabed + an edge wall: coast.js `setSea` only moves the level), a debris cloud that rides with the free frame.
 - **Build genre kit (024, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
   `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeShades`, `makeRaccoon`, `makePigeon` with `flap`),
   `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
