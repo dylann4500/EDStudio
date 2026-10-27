@@ -285,3 +285,25 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
   mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends
   its line.)
+
+## Lessons from 025 (kiddie pool → dam; each cost a stills round)
+- **A cut ALONG a river** reads a dam in section: the lake is a translucent box on one side, the river on the other, the dam's
+  profile (and its guts: cutoff wall, cooling pipes, penstock, tunnel) is the cut face. `engine/build/dam.js` `makeWaterBody`
+  generalizes 024's `setWater` (`set(x0, x1, level, t)`, z 0..−CW, a foam texture scrolls with the flow).
+- **`CatmullRomCurve3.getPoint(u)` is NOT arc-length**: equal `u` steps per control-point segment, so a character sent along a
+  path with uneven points zips through the long segment in a few frames (Gary "vanished" in the diversion tunnel). Use
+  `getPointAt(u)` for anything that travels, digs or reveals along a path.
+- **Groups whose children were placed in world coordinates scale around the world origin** — a popping powerhouse or fish-ladder
+  step flies across the set. `recenter(group, c)` (dam.js) moves the pivot first.
+- **A vertical frame can't hold two places > ~8 m apart.** Plan the ending's last three items (sign, gift shop, closed pool) inside
+  one 4–5 m frame; a finishing list that spans the set is a sweep (pass keys), not a hold. Check with `tools/bearing.py` first.
+- **A canyon wall behind the cut** dominates every low frame: fat strata bands read as bacon/curtains. Thin (1–3 % of its height),
+  low-contrast bands + a pale haze overlay, a wall only ~12 m tall (sky shows in the wides), greenery and boulders at its foot.
+- **A concrete section facing the sun washes out to white paper** — mid-grey base (≈ 0x86847e). "Red-hot" = an orange emissive
+  AND a darker base color (`color × (1 − 0.5·heat)`); orange emissive on grey reads pink.
+- **Never route a pipe across the front channel**: 025 v1's penstock feed crossed the creek and blocked every downstream gag
+  (salmon, the ladder slap). Draw it in section under the creek bed and let a riser come up behind the channel.
+- **Two faces at different heights (a toon sitting low, a beaver at a counter) straddle the 52 % caption band** — lower the look
+  point until BOTH sit above ~45 %; and give stamps a `y` (0.63) when their default band covers the sign they're about.
+- **Pluck "walk" music decays between notes**: the dropout check (12 dB under median per 50 ms) failed until the pad came up
+  (`pad_db` +4). Signature mallet notes on hook callouts BEFORE the music enters make the checker start early — skip them.

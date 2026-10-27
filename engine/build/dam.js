@@ -108,7 +108,7 @@ function canyonTex(w, h) {
     for (let k = 0; k < 2600; k++) { const x = R() * w, yy = R() * h; g.strokeStyle = R() < 0.6 ? `rgba(90,40,20,${0.05 + R() * 0.1})` : `rgba(255,236,200,${0.05 + R() * 0.1})`; g.lineWidth = 1 + R() * 2; g.beginPath(); g.moveTo(x, yy); g.lineTo(x + 20 + R() * 90, yy + (R() - 0.5) * 3); g.stroke(); }
     // desert varnish streaks running down from the rim + joints/cracks
     for (let k = 0; k < 340; k++) { const x = R() * w, y0 = R() * h * 0.5, L = 60 + R() * 380; const gr = g.createLinearGradient(x, y0, x, y0 + L); gr.addColorStop(0, 'rgba(60,26,16,.3)'); gr.addColorStop(1, 'rgba(60,26,16,0)'); g.fillStyle = gr; g.fillRect(x, y0, 2 + R() * 7, L); }
-    g.strokeStyle = 'rgba(55,22,10,.5)'; for (let k = 0; k < 240; k++) { let x = R() * w, yy = R() * h; g.lineWidth = 1 + R() * 2.5; g.beginPath(); g.moveTo(x, yy); for (let q = 0; q < 4; q++) { x += (R() - 0.5) * 16; yy += 10 + R() * 26; g.lineTo(x, yy); } g.stroke(); }
+    g.strokeStyle = 'rgba(55,22,10,.22)'; for (let k = 0; k < 80; k++) { let x = R() * w, yy = R() * h; g.lineWidth = 1 + R() * 2.5; g.beginPath(); g.moveTo(x, yy); for (let q = 0; q < 4; q++) { x += (R() - 0.5) * 16; yy += 10 + R() * 26; g.lineTo(x, yy); } g.stroke(); }
     g.fillStyle = 'rgba(246,226,204,.28)'; g.fillRect(0, 0, w, h);
     // a darker damp band at the foot of the wall
     const fg = g.createLinearGradient(0, h * 0.86, 0, h); fg.addColorStop(0, 'rgba(70,35,20,0)'); fg.addColorStop(1, 'rgba(70,35,20,.35)'); g.fillStyle = fg; g.fillRect(0, h * 0.86, w, h * 0.14);
@@ -176,7 +176,7 @@ export function makeBeaver() {
     body.rotation.x = -st * 1.2 + sw * 0.2; body.position.set(0, st * 0.14 - sw * 0.22, -st * 0.1);
     head.rotation.set(st * 1.05 + (p.nod ?? 0) - sw * 0.2, p.headY ?? 0, Math.sin(t * 1.7) * 0.04);
     glasses.visible = p.glasses ?? true;
-    arms[0].a.rotation.set(-0.9 * st - 0.3 * wr, 0, 0.2); arms[1].a.rotation.set(-1.0 * st - 0.6 * wr - 1.8 * cd - 1.4 * pt, 0, -0.25 - 0.4 * pt);
+    arms[0].a.rotation.set(-0.9 * st - 0.3 * wr, 0, 0.2); arms[1].a.rotation.set(-1.0 * st - 0.6 * wr - 1.8 * Math.min(1, cd) - 1.4 * pt, 0, -0.25 - 0.4 * pt);
     if (wr > 0) { arms[1].hand.position.set(0.02 * Math.sin(t * 26) * wr, -0.15, 0.015 * Math.cos(t * 19) * wr); } else arms[1].hand.position.set(0, -0.15, 0);
     clip.visible = (p.clip ?? 1) > 0.5; pencil.visible = clip.visible && cd < 0.5; card.visible = cd > 0.01; card.scale.setScalar(Math.max(0.01, cd));
     if (card.visible) { const m = cardMap(p.cardText || '2/10'); if (cardFace.material.map !== m) { cardFace.material.map = m; cardFace.material.needsUpdate = true; } }
@@ -185,7 +185,7 @@ export function makeBeaver() {
     void paddle;
   }
   set({});
-  return { root, set, head, hand: (s) => arms[s < 0 ? 0 : 1].hand };
+  return { root, set, head, card, hand: (s) => arms[s < 0 ? 0 : 1].hand };
 }
 
 /** A salmon (~0.45 m) with angry brows. set({x,y,z,rotY, pitch, t, flap}) */
@@ -246,7 +246,9 @@ let foamT = null;
 /** A body of water between x0 and x1 from the bed up to `level`, z 0..−CW (behind the bank it hides inside the ground). */
 export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, flow = 0 } = {}) {
   if (!foamT) { foamT = tex(256, 64, (c, w, h) => { c.clearRect(0, 0, w, h); const r = rng(4); for (let i = 0; i < 70; i++) { c.fillStyle = `rgba(255,255,255,${0.25 + r() * 0.4})`; c.beginPath(); c.ellipse(r() * w, r() * h, 6 + r() * 16, 1.5 + r() * 2, 0, 0, 7); c.fill(); } }); foamT.wrapS = foamT.wrapT = THREE.RepeatWrapping; }
-  const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), waterMat(opacity)); box.renderOrder = 3; parent.add(box);
+  const hid = new THREE.MeshBasicMaterial({ visible: false }), front = waterMat(opacity);
+  const backM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35 });
+  const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), [hid, hid, hid, hid, front, backM]); box.renderOrder = 3; parent.add(box);
   const sg = new THREE.PlaneGeometry(1, 1, 30, 8); sg.rotateX(-Math.PI / 2);
   const ft = foamT.clone(); ft.needsUpdate = true;
   const surf = new THREE.Mesh(sg, new THREE.MeshStandardMaterial({ color: 0x8fd3f5, roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.55, depthWrite: false, map: ft })); surf.renderOrder = 4; parent.add(surf);
@@ -254,7 +256,7 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
   const lip = new THREE.Mesh(new THREE.BoxGeometry(1, 0.03, 0.04), new THREE.MeshStandardMaterial({ color: 0xc8f0ff, roughness: 0.3, transparent: true, opacity: 0.7 })); parent.add(lip);
   let last = '';
   return {
-    box, surf,
+    box, surf, front,
     set(x0, x1, level, t = 0, f = flow) {
       const on = level > bottom + 0.01 && x1 > x0 + 0.02; box.visible = surf.visible = lip.visible = on; if (!on) return;
       const W = x1 - x0, Hh = level - bottom;
@@ -333,6 +335,13 @@ export async function buildDam(studio) {
   // green along the water: willows / cottonwoods on the canyon floor (kept out of the dam site)
   const trees = [];
   for (const [x, z, s] of [[-30, -7.4, 0.9], [-24.6, -7.6, 0.8], [-18.8, -7.4, 0.85], [-12.6, -7.7, 0.75], [-27.6, -6.9, 0.7], [9.6, -7.8, 0.75], [15.6, -7.5, 0.8], [19.8, -7.6, 0.9], [27.2, -7.4, 1.0], [33, -7.2, 0.85]]) { const tr = makeTree(Math.round(x * 7 + 90), s); tr.position.set(x, 0, z); root.add(tr); trees.push(tr); }
+  const cactusM = mat(0x5f8f3f, 0.8), joshM = mat(0x6e5236, 0.9), joshLeaf = mat(0x7aa24a, 0.9);
+  const CR = rng(57);
+  for (let i = 0; i < 70; i++) { const x = -60 + CR() * 120, z = -3.2 - CR() * 4.6; if (x > -9.4 && x < 14.6) continue; if (x > -28 && x < -9.4 && z > -6.4) continue; if (x > 14.6 && x < 31 && z > -6.6) continue;
+    const c = new THREE.Group(); root.add(c); c.position.set(x, 0, z); const k = i % 3;
+    if (k === 0) { const s2 = 0.7 + CR() * 0.6; mk(new THREE.CapsuleGeometry(0.14 * s2, 0.9 * s2, 4, 10), cactusM, c, 0, 0.6 * s2, 0); for (const sd of [-1, 1]) if (CR() > 0.3) { const a = new THREE.Group(); c.add(a); a.position.set(sd * 0.14 * s2, (0.45 + CR() * 0.3) * s2, 0); mk(new THREE.CapsuleGeometry(0.08 * s2, 0.18 * s2, 4, 8), cactusM, a, sd * 0.12 * s2, 0, 0).rotation.z = Math.PI / 2; mk(new THREE.CapsuleGeometry(0.08 * s2, 0.3 * s2, 4, 8), cactusM, a, sd * 0.24 * s2, 0.18 * s2, 0); } }
+    else if (k === 1) { const s2 = 0.8 + CR() * 0.7; mk(new THREE.CylinderGeometry(0.07 * s2, 0.1 * s2, 1.3 * s2, 6), joshM, c, 0, 0.65 * s2, 0); for (let b = 0; b < 3; b++) { const br = new THREE.Group(); c.add(br); br.position.set(0, 1.2 * s2, 0); br.rotation.set((CR() - 0.5) * 1.2, CR() * 6, (CR() - 0.5) * 1.2); mk(new THREE.CylinderGeometry(0.05 * s2, 0.06 * s2, 0.6 * s2, 5), joshM, br, 0, 0.3 * s2, 0); mk(new THREE.IcosahedronGeometry(0.2 * s2, 0), joshLeaf, br, 0, 0.65 * s2, 0); } }
+    else { mk(new THREE.IcosahedronGeometry(0.25 + CR() * 0.5, 0), mat([0xa47c5a, 0x8c6a4e, 0xb98f68][i % 3], 0.95), c, 0, 0.12, 0).scale.set(1.3, 0.7, 1); } }
   // a strip of green at the foot of the wall (willows, reeds, boulders) breaks the wall's base and gives the floor depth
   const greens = [mat(0x6f9a45, 0.95), mat(0x86ad52, 0.95), mat(0x5a8238, 0.95), mat(0x9bb865, 0.95)], boulderM = [mat(0xa47c5a, 0.95), mat(0x8c6a4e, 0.95), mat(0xb98f68, 0.95)];
   for (let i = 0; i < 150; i++) { const x = -60 + R() * 120, z = -D.CW + 0.35 + R() * 1.6; if (x > -9.2 && x < 1.6) continue;
@@ -444,13 +453,17 @@ export async function buildDam(studio) {
   // ---- the gravity dam: N concrete columns (extruded slices of the profile), a section texture with lift lines + block edges
   const G = D.dam;
   const prof = [[G.heel, D.bed - 0.3], [G.toe + 0.15, D.bed - 0.3], [G.toe, D.bed], [G.crestX, 8.55], [G.crestX, G.crest], [G.heel, G.crest]];
-  const secT = tex(512, 512, (c, w, h) => { c.fillStyle = '#86847e'; c.fillRect(0, 0, w, h); const r = rng(55); for (let i = 0; i < 9000; i++) { const v = 105 + Math.floor(r() * 80); c.fillStyle = `rgba(${v},${v},${v - 4},.4)`; c.fillRect(r() * w, r() * h, 1 + r() * 3, 1 + r() * 3); }
+  const secT = tex(512, 512, (c, w, h) => { c.fillStyle = '#958f84'; c.fillRect(0, 0, w, h); const r = rng(55); for (let i = 0; i < 9000; i++) { const v = 112 + Math.floor(r() * 80); c.fillStyle = `rgba(${v},${v},${v - 4},.4)`; c.fillRect(r() * w, r() * h, 1 + r() * 3, 1 + r() * 3); }
     for (let i = 0; i < 90; i++) { c.fillStyle = 'rgba(70,68,64,.25)'; c.beginPath(); c.arc(r() * w, r() * h, 1.5 + r() * 3, 0, 7); c.fill(); }
-    c.strokeStyle = 'rgba(70,68,62,.28)'; c.lineWidth = 2; for (let y = 0; y < h; y += 192) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); } });
+    c.strokeStyle = 'rgba(60,56,50,.4)'; c.lineWidth = 3; for (let y = 0; y < h; y += 384) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); }
+    c.strokeStyle = 'rgba(255,250,240,.18)'; c.lineWidth = 2; for (let y = 4; y < h; y += 384) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); }
+    for (let i = 0; i < 16; i++) { const x = r() * w, y = r() * h; const gr = c.createLinearGradient(x, y, x, y + 120); gr.addColorStop(0, 'rgba(70,60,50,.18)'); gr.addColorStop(1, 'rgba(70,60,50,0)'); c.fillStyle = gr; c.fillRect(x, y, 4 + r() * 6, 120); } });
   secT.wrapS = secT.wrapT = THREE.RepeatWrapping; secT.repeat.set(0.5, 0.5);
-  const secM = new THREE.MeshStandardMaterial({ map: secT, roughness: 0.9, emissive: 0xff3c00, emissiveIntensity: 0 });
+    const glowT = tex(256, 256, (c, w, h) => { const gr = c.createRadialGradient(w * 0.42, h * 0.62, 4, w * 0.42, h * 0.62, w * 0.62); gr.addColorStop(0, '#fff3c0'); gr.addColorStop(0.25, '#ffb43a'); gr.addColorStop(0.6, '#ff5a10'); gr.addColorStop(1, '#a01806'); c.fillStyle = gr; c.fillRect(0, 0, w, h); });
+  glowT.repeat.set(1 / (G.toe + 0.15 - G.heel), 1 / (G.crest - D.bed + 0.3)); glowT.offset.set(-G.heel / (G.toe + 0.15 - G.heel), -(D.bed - 0.3) / (G.crest - D.bed + 0.3));
+  const secM = new THREE.MeshStandardMaterial({ map: secT, roughness: 0.9, emissive: 0xffffff, emissiveMap: glowT, emissiveIntensity: 0 });
   const sideT = concT.clone(); sideT.needsUpdate = true; sideT.repeat.set(0.4, 0.4);
-  const sideM = new THREE.MeshStandardMaterial({ map: sideT, color: 0xb8b4ac, roughness: 0.9, emissive: 0xff3c00, emissiveIntensity: 0 });
+  const sideM = new THREE.MeshStandardMaterial({ map: sideT, color: 0x9a968e, roughness: 0.9, emissive: 0xff4a10, emissiveIntensity: 0 });
   const clipX = (pts, a, b) => { // Sutherland–Hodgman against a ≤ x ≤ b
     const cl = (P, keep, X) => { const o = []; for (let i = 0; i < P.length; i++) { const A = P[i], B = P[(i + 1) % P.length], ia = keep(A[0]), ib = keep(B[0]); if (ia) o.push(A); if (ia !== ib) { const u = (X - A[0]) / (B[0] - A[0]); o.push([X, A[1] + u * (B[1] - A[1])]); } } return o; };
     return cl(cl(pts, (x) => x >= a, a), (x) => x <= b, b);
@@ -486,7 +499,7 @@ export async function buildDam(studio) {
   chuteBack.rotation.z = -slopeA;
   const ogee = mk(new THREE.CylinderGeometry(0.5, 0.5, SPW, 20, 1, false, 0, Math.PI), new THREE.MeshStandardMaterial({ map: concT, roughness: 0.85 }), spill, G.crestX + 0.05, 8.55, -SPW / 2); ogee.rotation.x = Math.PI / 2; ogee.rotation.y = Math.PI / 2;
   const bucket = mk(new THREE.CylinderGeometry(0.7, 0.7, SPW, 20, 1, false, Math.PI * 0.5, Math.PI * 0.5), new THREE.MeshStandardMaterial({ map: concT, roughness: 0.85 }), spill, G.toe + 0.35, D.bed + 0.7, -SPW / 2); bucket.rotation.x = Math.PI / 2;
-  const exitSign = new THREE.Group(); spill.add(exitSign); exitSign.position.set(G.crestX + 0.4, G.crest + 1.25, -0.25);
+  const exitSign = new THREE.Group(); spill.add(exitSign); exitSign.position.set(G.crestX + 1.25, G.crest + 1.05, -0.25);
   const exitB = board(1.5, 0.62, 'EXIT', { bg: '#1f9e4a', fg: '#ffffff', border: '#ffffff' }); exitB.material.emissive = new THREE.Color(0x1f9e4a); exitB.material.emissiveIntensity = 0.35; exitSign.add(exitB);
   for (const s of [-1, 1]) mk(new THREE.CylinderGeometry(0.03, 0.03, 0.9, 6), mat(0x55585e, 0.4), exitSign, s * 0.6, -0.6, -0.02);
   // water sheets: one full-width (overtopping, before the spillway) and one in the chute; both scroll foam downhill
@@ -609,7 +622,7 @@ export async function buildDam(studio) {
   root.traverse((o) => { if (o.isMesh && o.castShadow === undefined) o.castShadow = true; });
   return {
     root, cut, aimSun, sun, hemi, setHoles: (shapes) => cut.setHoles(shapes), tunnelHoles, tCurve, bore, digClip, tWater, tWaterIdx, plug, portals, mouths,
-    earth, pipeDark, pipeWater, pipeIdx, pipeCurve, cutoff, cutoffTop, damCols, secM, sideM, pipeSpots, setPipes,
+    earth, pipeDark, pipeWater, pipeIdx, pipeCurve, cutoff, cutoffTop, damCols, secM, sideM, pipeSpots, setPipes, coolCore,
     spill, chuteBack, ogee, bucket, exitSign, sheetAll, sheetChute, slopeA, slopeLen, SPW,
     penstock, penOuter, penInner, penIdx, penCurve, rack, power, turb, rotor, swirl, gen, pylon, wireGlow, winMats, feedCurve,
     ladder, road, crestCars, visitor, shop, books, heldBook, noSwim, ring, setRing, storm, thermo, mercury,

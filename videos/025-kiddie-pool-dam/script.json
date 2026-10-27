@@ -2,7 +2,7 @@
   "title": "How a Kiddie Pool Becomes a Dam",
   "tone": "build",
   "voice": {
-    "provider": "scratch",
+    "provider": "eleven",
     "voice_id": "pNInz6obpgDQGcFmaJgB",
     "name": "Adam",
     "model": "eleven_multilingual_v2",
@@ -47,7 +47,7 @@
           "at": "closed",
           "text": "CLOSED",
           "style": "stamp",
-          "hold": 1.0
+          "hold": 0.5
         }
       ]
     },
@@ -59,7 +59,9 @@
           "at": "notes",
           "text": "2/10",
           "style": "stamp",
-          "hold": 1.2
+          "hold": 1.2,
+          "x": 0.66,
+          "y": 0.63
         }
       ]
     },
@@ -81,19 +83,19 @@
     },
     {
       "id": "divert",
-      "say": "You can't build in a running river, so you dig tunnels to send it around. This is called diversion. Hoover Dam had four. Gary got flushed through one.",
+      "say": "You can't build in a running river, so you dig tunnels to send it around. These are called diversion tunnels. Hoover Dam had four. Gary got flushed through one.",
       "callouts": [
         {
           "at": "diversion",
           "text": "DIVERSION TUNNELS",
           "style": "term",
-          "until": "four"
+          "until": "tunnels"
         },
         {
           "at": "four",
           "text": "HOOVER DAM: 4",
           "style": "label",
-          "until": "four"
+          "until": "one"
         },
         {
           "at": "flushed",
@@ -109,7 +111,7 @@
     },
     {
       "id": "piping",
-      "say": "Now you pile up a wall of dirt. Water sneaks underneath and carves a tunnel through it. This is called piping. Gary plugs it with a finger. Gary is now a cork.",
+      "say": "Now you pile up a wall of dirt. Water sneaks underneath and carves a tunnel. This is called piping. Gary plugs it with a finger. Gary is now a cork.",
       "callouts": [
         {
           "at": "piping",
@@ -154,12 +156,22 @@
           "at": "gravity",
           "text": "GRAVITY DAM",
           "style": "term"
+        },
+        {
+          "at": "included",
+          "text": "CRUMBLE!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.3
+          ],
+          "hold": 0.9
         }
       ]
     },
     {
       "id": "heat",
-      "say": "Bad news: concrete gets hot while it sets. Hoover's would've taken 125 years to cool. Gary sat on it. Medium rare. So you run cold water through pipes inside. These are called cooling pipes.",
+      "say": "Concrete gets hot while it sets. Hoover's would've taken 125 years to cool. Gary sat on it. Medium rare. So you run cold water through pipes inside. These are called cooling pipes.",
       "callouts": [
         {
           "at": "125",
@@ -186,7 +198,7 @@
     },
     {
       "id": "spill",
-      "say": "Then it rains for a week, and the lake pours over the top. So you add a spillway, an emergency exit for water. Gary uses it as a water slide.",
+      "say": "Then it rains for a week, and the lake pours over the top. So you add a spillway, an emergency exit for water. Gary uses it as a water slide. Exactly once.",
       "callouts": [
         {
           "at": "spillway",
@@ -219,7 +231,7 @@
     },
     {
       "id": "fish",
-      "say": "The salmon are furious, so you build a fish ladder: a staircase of little pools. Salmon climb it. Gary can't.",
+      "say": "The salmon can't get home, and they blame Gary. So you build a fish ladder: a staircase of little pools. Salmon climb it. Gary can't.",
       "callouts": [
         {
           "at": "fish",
@@ -234,13 +246,14 @@
             0.68,
             0.3
           ],
-          "hold": 0.8
+          "hold": 0.8,
+          "nth": 2
         }
       ]
     },
     {
       "id": "town",
-      "say": "Also, your lake just drowned a town. That really happened: St. Thomas, Nevada, is under Lake Mead. It only comes up in droughts.",
+      "say": "Your lake just drowned a town. That really happened: St. Thomas, Nevada, is under Lake Mead. It only comes up in droughts. The beaver sells it as lakefront.",
       "callouts": [
         {
           "at": "st",
@@ -268,7 +281,8 @@
           "at": "49",
           "text": "$49,000,000",
           "style": "money",
-          "until": "money"
+          "until": "money",
+          "y": 0.12
         },
         {
           "at": "bestseller",
