@@ -1,6 +1,6 @@
 How a Kiddie Pool Becomes a Dam 🏊‍♂️🌊
 
-It's 104 degrees, the public pool is closed, and one kiddie pool shoved into a creek turns into a full-size dam. The river gets sent through tunnels, the dirt dam leaks and slides away, the concrete takes 125 years to cool, and a beaver out-engineers you at every step, then sells the drowned town as lakefront. Every fix has a real name (cutoff walls, spillways, penstocks), and Gary personally tests every one of them.
+It's 104 degrees, the public pool is closed, and one kiddie pool shoved into a creek turns into a full-size dam. The river gets sent through tunnels, the dirt dam leaks and slides away, the concrete takes 125 years to cool, and a beaver out-engineers you at every step, then sells the drowned town as lakefront. Every fix has a real name (cutoff walls, spillways, penstocks), Gary builds every one of them himself, and every one of them gets him back.
 
 Which fix would you have quit at? 👇
 
