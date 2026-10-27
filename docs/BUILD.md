@@ -384,4 +384,7 @@ v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the 
   and wider, draw effects inside it after it (`renderOrder 5`, `depthTest false` for the additive bolts).
 - **Cold open:** `const update = (tq) => update0(tq < 0.35 ? END - 0.8 : tq, tq)` + an insert for t < 0.3 — the scene renders
   the finished factory while the real time drives the cuts/captions.
+- **A film-cheat window (a hidden wall) tied to a cut must end with the cut's REAL end**: `tight()` stretched the end-door insert
+  by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
+  final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
