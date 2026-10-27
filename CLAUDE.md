@@ -454,6 +454,10 @@ It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut
 **019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
+**022 (ballsack doubling, logistics POV) = 0.0788, cut1 met the target:** the close, face-filled slapstick beats scored highest
+(wheelbarrow + staring neighbors 0.147, tailor 0.140, doctor faint 0.110–0.128), while the faceless planet-scale finale sagged
+(ZIP horizon 0.060, Earth 0.057) and the quiet elevator title open went negative (−0.013). Body-absurd ladders score best
+while they stay human-scale. Keep the cosmic end short, or put a face in it.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.
