@@ -27,9 +27,13 @@ Exempt: opening question card, HUD, lower-third subtitles, "no popping text" (po
 still nothing pulses or flickers after), end card.
 
 ## The script formula (write this first — it IS the video)
+**Series rule (user, Oct 26): Gary is the builder in every build video.** The narration says "you" (the format), but on
+screen Gary does every build step with the tools — then each failure hits him. Same look everywhere so the series reads:
+`makeToon({ shirt: 0x2bb3a3, pants: 0x34495e, hair: 0x6b3f22, hairStyle: 'tuft', hat: 'hardhat' })` (add-ons fine). Each video
+adds its own side character (024 raccoon, 025 beaver, 026 Roomba).
 1. **Hook (1 line):** the dumbest possible version, second person. "You're tired of traffic, so you grab a shovel and dig a hole."
 2. **"Congratulations, you've built a [thing]."** + a roast ("It goes nowhere, and a raccoon already lives in it.").
-3. **The loop, 6–8×:** failure gag that hurts **Gary** (our recurring victim; their Kevin) → **"So…"** + the fix → **"This is
+3. **The loop, 6–8×:** failure gag that hurts **Gary** (our recurring builder AND victim; their Kevin) → **"So…"** + the fix → **"This is
    called [TERM]"** (yellow callout) → one plain sentence on what it does → a simile/joke. Escalate stakes each loop.
 4. **One real, sourced number per 2–3 loops** as a label callout ("13,000,000 GALLONS", "60 TONS EACH", "625 VOLTS").
 5. **Finishing list** in one breath ("Add stations, escalators, turnstiles, a map nobody understands…").
