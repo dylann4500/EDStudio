@@ -369,3 +369,19 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 
 026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5;
 v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
+**026's cuts pass (the newer cut-heavy style on top of the finished one-take, 45 cuts / 84 shots / avg 1.29 s):**
+- **Face shots on the 1.1 m toon: `{ dist: 2.9, faceY: 0.36 }`** — the default faceY 0.40 put the one-word caption across the
+  MOUTH (52 %) in most close-ups; 0.36 lands it on the chin, the hat top at ≈ 4 %. Spread one `GF` object into every face cut.
+- **Join gaps < 0.35 s between consecutive cuts** (a `tight(list, 0.35)` pass before `makeCuts`): 1–3 frames of the master
+  between two cuts read as stutters (five of them in the first pass); either butt them or leave ≥ 0.35 s of master.
+- **Never put a face cut where something is held in front of the face** (the tugger's steering wheel, the Roomba carried in his
+  arms — no yaw/pitch fixed either; drop the cut) and **never let a face cut replace the gag's own wide** (the airbag burst, the
+  soda-can squeeze): cut to the face AFTER the physical gag lands. Inside a pile (buried in wheels) clear the instanced debris
+  on the lens→head line for that cut only (`inLens()` scales them to 0) — a film cheat nobody sees.
+- **`facing: true` swings the lens with the character**: when he turns (the shipping car rounding the end door) the lens went
+  behind a wall → 4 grey frames. End the cut before the turn.
+- **Close-ups into a transparent volume wash out** (the e-coat bath at opacity 0.55 filled the frame blue): shoot it from higher
+  and wider, draw effects inside it after it (`renderOrder 5`, `depthTest false` for the additive bolts).
+- **Cold open:** `const update = (tq) => update0(tq < 0.35 ? END - 0.8 : tq, tq)` + an insert for t < 0.3 — the scene renders
+  the finished factory while the real time drives the cuts/captions.
+026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
