@@ -7,6 +7,8 @@
 //   Motion is built in: he breathes, blinks, twitches an ear and sways his tail even with an empty state, so no frame is static.
 //   pip.anchors.hat / .mouth / .back / .tag — parent costumes and props to these (bunny in his mouth, a Halloween hat).
 //   makePip({ fur, white, cream, earInner, collar, tag, name, size, earStyle: 'up'|'flop' }) = other dogs for a dog park.
+//   030 (additive, defaults = Pip): legs (leg-length factor, 1.5 = a lab's long legs), snout (m added to the muzzle; < 0 = a
+//   pug's flat face), long (body-length factor, 1.75 = a dachshund), stride (gait-length factor; pass the size for big dogs). engine/dogbreeds.js has the dog-park breed presets.
 //   makeCrate() = the big wire crate (door at +z, panels you can hide for a shot); makeMia / makeMom / makeDad = his family.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
@@ -67,6 +69,7 @@ export function makePip(o = {}) {
   const mMouth = mat(0x6a2422, 0.6), mTongue = mat(0xe9737c, 0.45), mGlint = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, 1.6, 1.6) });
   const mCollar = mat(C.collar, 0.55), mGold = new THREE.MeshStandardMaterial({ color: C.tag, roughness: 0.28, metalness: 0.75 });
 
+  const LEGS = o.legs ?? 1, SN = o.snout ?? 0, LONG = o.long ?? 1;   // 030 body options (1 / 0 / 1 = Pip)
   const g = new THREE.Group();            // placement (position on the floor, rotation.y)
   const R = new THREE.Group(); g.add(R);  // size + hop
   R.scale.setScalar(o.size ?? 1);
@@ -74,20 +77,20 @@ export function makePip(o = {}) {
   // ---------------------------------------------------------------- torso (pivots for sit / lie / beg)
   const T = new THREE.Group(); R.add(T);
   const bodyGeo = new THREE.CapsuleGeometry(0.08, 0.17, 8, 18); bodyGeo.rotateX(PI / 2);
-  const body = mk(bodyGeo, mFur, T); body.scale.set(1.05, 0.95, 1);
-  const belly = mk(new THREE.SphereGeometry(0.07, 20, 14), mWhite, T, 0, -0.036, 0.02); belly.scale.set(0.92, 0.72, 1.75);
-  const bib = mk(new THREE.SphereGeometry(0.078, 22, 16), mWhite, T, 0, 0.0, 0.104); bib.scale.set(1.04, 1.12, 0.9);
-  mk(new THREE.SphereGeometry(0.05, 14, 10), mWhite, T, 0, -0.045, 0.125).scale.set(1.2, 0.8, 1);   // fluffy chest
+  const body = mk(bodyGeo, mFur, T); body.scale.set(1.05, 0.95, LONG);
+  const belly = mk(new THREE.SphereGeometry(0.07, 20, 14), mWhite, T, 0, -0.036, 0.02 * LONG); belly.scale.set(0.92, 0.72, 1.75 * LONG);
+  const bib = mk(new THREE.SphereGeometry(0.078, 22, 16), mWhite, T, 0, 0.0, 0.104 * LONG); bib.scale.set(1.04, 1.12, 0.9);
+  mk(new THREE.SphereGeometry(0.05, 14, 10), mWhite, T, 0, -0.045, 0.125 * LONG).scale.set(1.2, 0.8, 1);   // fluffy chest
   for (const s of [-1, 1]) {
-    mk(new THREE.SphereGeometry(0.066, 18, 14), mFur, T, s * 0.036, 0.012, -0.118);
-    mk(new THREE.SphereGeometry(0.048, 16, 12), mCream, T, s * 0.034, -0.026, -0.156);   // fluffy "corgi pants"
+    mk(new THREE.SphereGeometry(0.066, 18, 14), mFur, T, s * 0.036, 0.012, -0.118 * LONG);
+    mk(new THREE.SphereGeometry(0.048, 16, 12), mCream, T, s * 0.034, -0.026, -0.156 * LONG);   // fluffy "corgi pants"
   }
-  const HIP_L = new THREE.Vector3(0, -0.045, -0.115);
-  const SH = [[-1, 0.1], [1, 0.1], [-1, -0.115], [1, -0.115]].map(([s, z]) => new THREE.Vector3(s * 0.048, -0.045, z));   // FL FR BL BR
-  const NECK_L = new THREE.Vector3(0, 0.056, 0.12);
+  const HIP_L = new THREE.Vector3(0, -0.045, -0.115 * LONG);
+  const SH = [[-1, 0.1], [1, 0.1], [-1, -0.115], [1, -0.115]].map(([s, z]) => new THREE.Vector3(s * 0.048, -0.045, z * LONG));   // FL FR BL BR
+  const NECK_L = new THREE.Vector3(0, 0.056, 0.12 * LONG);
 
   // ---------------------------------------------------------------- tail: a fluffy plume that curls up
-  const tailB = new THREE.Group(); tailB.position.set(0, 0.03, -0.172); tailB.rotation.order = 'YXZ'; T.add(tailB);
+  const tailB = new THREE.Group(); tailB.position.set(0, 0.03, -0.172 * LONG); tailB.rotation.order = 'YXZ'; T.add(tailB);
   const tailJ = []; let par = tailB;
   [0.024, 0.031, 0.035, 0.035, 0.031, 0.023].forEach((r, i) => {
     const j = new THREE.Group(); j.position.z = i ? -0.026 : 0; par.add(j); tailJ.push(j); par = j;
@@ -119,14 +122,14 @@ export function makePip(o = {}) {
   const H = new THREE.Group(); H.rotation.order = 'YXZ'; R.add(H);
   const skull = mk(new THREE.SphereGeometry(0.1, 36, 26), mFur, H); skull.scale.set(1.12, 0.98, 1.0);
   const blaze = mk(new THREE.CapsuleGeometry(0.016, 0.07, 6, 12), mWhite, H, 0, 0.036, 0.087); blaze.rotation.x = -0.42; blaze.scale.set(1.25, 1, 0.55);
-  const muzzle = mk(new THREE.SphereGeometry(0.052, 26, 18), mWhite, H, 0, -0.036, 0.074); muzzle.scale.set(1.22, 0.84, 1.08);
+  const muzzle = mk(new THREE.SphereGeometry(0.052, 26, 18), mWhite, H, 0, -0.036, 0.074 + SN * 0.5); muzzle.scale.set(1.22, 0.84, 1.08 * Math.max(0.5, 1 + SN / 0.112));
   for (const s of [-1, 1]) { const c = mk(new THREE.SphereGeometry(0.04, 16, 12), mWhite, H, s * 0.053, -0.045, 0.047); c.scale.set(1.05, 0.85, 0.9); }
-  const nose = mk(new THREE.SphereGeometry(0.019, 18, 12), mNose, H, 0, -0.016, 0.13); nose.scale.set(1.4, 0.95, 0.9);
-  mk(new THREE.CapsuleGeometry(0.0022, 0.008, 4, 6), mDark, H, 0, -0.041, 0.1285);
-  const smile = new THREE.Group(); H.add(smile);
+  const nose = mk(new THREE.SphereGeometry(0.019, 18, 12), mNose, H, 0, -0.016, 0.13 + SN); nose.scale.set(1.4, 0.95, 0.9);
+  mk(new THREE.CapsuleGeometry(0.0022, 0.008, 4, 6), mDark, H, 0, -0.041, 0.1285 + SN);
+  const smile = new THREE.Group(); smile.position.z = SN; H.add(smile);
   for (const s of [-1, 1]) { const a = mk(new THREE.TorusGeometry(0.0105, 0.0027, 6, 14, PI), mDark, smile, s * 0.0102, -0.0475, 0.1255); a.rotation.z = PI; }
-  const oMouth = mk(new THREE.SphereGeometry(0.012, 16, 12), mMouth, H, 0, -0.058, 0.118);   // the little "o" (whimper / howl)
-  const jaw = new THREE.Group(); jaw.position.set(0, -0.056, 0.07); H.add(jaw);
+  const oMouth = mk(new THREE.SphereGeometry(0.012, 16, 12), mMouth, H, 0, -0.058, 0.118 + SN);   // the little "o" (whimper / howl)
+  const jaw = new THREE.Group(); jaw.position.set(0, -0.056, 0.07 + SN); H.add(jaw);
   const jawM = mk(new THREE.SphereGeometry(0.033, 18, 12), mWhite, jaw, 0, -0.006, 0.012); jawM.scale.set(1.15, 0.6, 1.15);
   const inner = mk(new THREE.SphereGeometry(0.028, 18, 12), mMouth, jaw, 0, 0.006, 0.022); inner.scale.set(1.0, 0.42, 0.95);
   const tongue = mk(new THREE.CapsuleGeometry(0.0115, 0.022, 6, 10), mTongue, jaw, 0, 0.004, 0.045); tongue.rotation.x = PI / 2; tongue.scale.set(1.25, 1, 0.45);
@@ -180,12 +183,13 @@ export function makePip(o = {}) {
 
     // gait phase
     const moving = Math.max(walk, run);
-    const ph = S.dist !== undefined ? (S.dist / (run > 0.3 ? 0.26 : 0.15)) * 2 * PI : t * 2 * PI * (run > 0.3 ? 3.4 : 2.6);
+    const ph = S.dist !== undefined ? (S.dist / ((run > 0.3 ? 0.26 : 0.15) * LEGS * (o.stride ?? 1))) * 2 * PI : t * 2 * PI * (run > 0.3 ? 3.4 : 2.6);
 
     // torso: hip anchor + pitch blended between stand / sit / beg / lie
-    let hy = 0.11, hz = -0.115, pitch = -0.02;
+    let hy = 0.11, hz = -0.115 * LONG, pitch = -0.02;
     hy += (0.074 - 0.11) * sit; hz += (-0.09 + 0.115) * sit; pitch += (-0.5 + 0.02) * sit;
-    pitch += -0.62 * beg;
+    pitch += -0.62 * beg - 0.6 * (LEGS - 1) * sit;
+    hy += 0.095 * (LEGS - 1) * (1 - lie) * (1 - 0.75 * sit);   // long legs stand taller (sitting, the haunches stay down)
     hy += (0.056 - 0.11) * lie; pitch += 0.04 * lie;
     pitch += (S.lean ?? 0) + run * 0.12 * Math.sin(ph) + wh * 0.04 * Math.sin(t * 9);
     hy += moving * 0.008 * Math.abs(Math.sin(ph * (run > 0.3 ? 1 : 2))) + run * 0.02 * Math.max(0, Math.sin(ph + 0.6));
@@ -205,8 +209,8 @@ export function makePip(o = {}) {
       const front = L.front, s = L.s;
       // phase: trot = diagonal pairs; gallop (run) = front pair vs back pair
       const lp = run > 0.3 ? (front ? 0 : PI) + (s > 0 ? 0.35 : 0) : (i === 0 || i === 3 ? 0 : PI);
-      const A = 0.032 * walk + 0.058 * run;
-      let px = L.sh.x * 1.05, pz = L.S.z + A * Math.sin(ph + lp), py = 0.018 + (0.026 * walk + 0.05 * run) * Math.max(0, Math.cos(ph + lp));
+      const A = (0.032 * walk + 0.058 * run) * LEGS;
+      let px = L.sh.x * 1.05, pz = L.S.z + A * Math.sin(ph + lp), py = 0.018 + (0.026 * walk + 0.05 * run) * LEGS * Math.max(0, Math.cos(ph + lp));
       if (!front) pz = lerp(pz, L.S.z + 0.075, sit);                                         // haunches: back paws forward
       if (front && beg > 0) { py = lerp(py, L.S.y - 0.09, beg); pz = lerp(pz, L.S.z + 0.05, beg); } // begging: front paws up
       if (lie > 0) {
