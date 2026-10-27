@@ -31,7 +31,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | made Oct 26, in review |
 | 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 | 023 | What if Pip went trick-or-treating? (Pip ep. 2, Halloween) | pip / @ed._.sims | assigned Oct 26 |
-| 024 | How a Hole Becomes a Subway (narrated "build" genre, `docs/BUILD.md`) | build / account TBD | made by the separate "New Style" chat (renumbered from 015); claimed 024 |
+| 024 | How a Hole Becomes a Subway (narrated "build" genre) | build — NOT managed by the operation | the user runs build reels separately; number reserved only |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:

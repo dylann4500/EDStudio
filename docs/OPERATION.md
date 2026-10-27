@@ -29,6 +29,10 @@ built-in browser, logged out, for research.
 | @ed_.studios | `science.md` — science what-ifs | 1:00 PM + 6:00 PM | live (Oct 26) |
 | @ed._.sims | `lane3.md` — good-ending pet sims, Pip the corgi series | 1:00 PM + 6:00 PM | live (Oct 26) |
 
+**Out of scope:** "build" reels ("How a ___ Becomes a ___", `docs/BUILD.md`, `/new-build`) are run by the user separately, on
+their own account. The manager doesn't assign, review, merge, email or post them; it only skips their numbers (they're listed
+in `ops/ideas.md` so numbering never collides).
+
 Never post one video on two accounts: TikTok holds back copies (twice as smart: 117K original → 205 → 8 views).
 
 **Capacity (one 24 GB Mac):** sub-Claudes think in the cloud, but every render and every TRIBE run happens on this Mac.
