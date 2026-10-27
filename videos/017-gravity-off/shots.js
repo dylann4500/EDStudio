@@ -28,27 +28,30 @@
 //     (m·g·100 m) comes back as speed √(2·9.81·100) = 44 m/s = 160 km/h upward
 //   ISS: ~400 km up, 7.66 km/s ≈ 27,600 km/h (NASA)
 //
-// TRIBE (tribe-v1..3.txt): v1 0.0317 (slow-mo dead zone 4–26 s) → v2 0.0447 (bullet-time orbits, a tracking run behind the striker,
-// a crane up through the floating fans) → v3 0.0414 (family table + diver filmed from the water; worse) → SHIPPED v2 (these sources).
+// TRIBE (tribe-v1..4.txt): v1 0.0317 (slow-mo dead zone 4–26 s) → v2 0.0447 (bullet-time orbits, a tracking run behind the striker,
+// a crane up through the floating fans) → v3 0.0414 (diver filmed from the water: worse) → v4 0.0487 / first 60 s 0.0458, no dead
+// zone = TARGET MET: the 14–27 s stretch tightened by 4.4 s (fans 3.8 s, the family table 3.2 s, the diver 1.6 s + the judges'
+// faces 1.4 s) — a 69.4 s cut, which also keeps TRIBE's audio encoder under the shared memory cap. SHIPPED v4.
 //
 // Shot list (seconds)                     | set    | what happens
-//  0.0– 3.4 aerial  title                 | stadium| cup final, players attack the home end
-//  3.4– 9.4 goal    LONDON 3 PM           | stadium| the striker scores (7.6), the home end erupts and jumps; SECOND 0 at 8.2 → slow motion
-//  9.4–14.2 fans    +0 → +0.5 s           | stadium| fans who were mid-jump keep rising, confetti stops in mid-air
-// 14.2–19.0 coffee  +0.5 → +1 s           | kitchen| Ohio: dad lifts his coffee and stops; the coffee doesn't (a floating blob); toast keeps popping
-// 19.0–23.8 diver   +1 → +1.5 s           | pool   | Budapest: a diver leaves the 3 m board at 4.6 m/s and keeps going; splash blobs hang in the air
-// 23.8–28.6 hwy     +1.5 → +2 s           | highway| Texas: the springs push every car off the road; at the curve they go straight
-// 28.6–33.4 coast   +2 → +2.5 s           | coast  | Maine: the sea rises up the lighthouse (+20 → +30 m), boats ride it up
-// 33.4–38.2 bungee  +2.5 → +3 s           | gorge  | Victoria Falls: the stretched cord fires the jumper up past the bridge at 160 km/h
-// 38.2–43.0 quito   +3 → +3.5 s           | plaza  | the equator: everyone's feet 15 → 21 cm off the ground, fountain jets become towers
-// 43.0–47.8 iss     +3.5 → +4 s           | space  | 400 km up: an astronaut waves — nothing changed up here
-// 47.8–53.0 peak    +4 → +5 s             | stadium| fans 12–14 m above the stand, the striker still rising, countdown
-// 53.0–55.6 fall    GRAVITY BACK          | stadium| everything falls at once (real time): fans drop into the stand, dust, shake
-// 55.6–58.0 hwyR                          | highway| the cars, 6 m up and far off the curve, slam into the field
-// 58.0–60.4 coastR                        | coast  | the ocean drops 35 m; white water around the lighthouse
-// 60.4–62.2 kitR                          | kitchen| coffee rains off the ceiling onto dad, the dog catches the toast
-// 62.2–65.6 poolR                         | pool   | the diver falls 27 m: the biggest splash of his life
-// 65.6–73.8 judges                        | pool   | he surfaces, thumbs up; the judges hold up 10 · 10 · 10. Fade 69.0, end card 69.6
+//  0.0– 3.4 aerial  title                 | stadium| tracking behind the striker's run toward the packed home end
+//  3.4– 9.4 goal    LONDON 3 PM           | stadium| he scores (7.6), the home end erupts and jumps; SECOND 0 at 8.2 → slow motion
+//  9.4–13.2 fans    +0 → +0.5 s           | stadium| orbit across the front rows: fans who were mid-jump keep rising, confetti hangs
+// 13.2–16.4 coffee  +0.5 → +1 s           | kitchen| Ohio breakfast table: dad stops his mug, the coffee doesn't; pan across mom, dad, grandpa
+// 16.4–18.0 diver   +1 → +1.3 s           | pool   | Budapest: a diver leaves the 3 m board at 4.6 m/s and keeps going; splash blobs hang
+// 18.0–19.4 judgesUp +1.3 → +1.5 s        | pool   | the judges' faces, looking up, one pointing
+// 19.4–24.2 hwy     +1.5 → +2 s           | highway| Texas: the springs push every car off the road; at the curve they go straight
+// 24.2–29.0 coast   +2 → +2.5 s           | coast  | Maine: the sea rises up the lighthouse (+20 → +30 m), boats ride it up
+// 29.0–33.8 bungee  +2.5 → +3 s           | gorge  | Victoria Falls: the stretched cord fires the jumper up past the bridge at 160 km/h
+// 33.8–38.6 quito   +3 → +3.5 s           | plaza  | the equator: everyone's feet 15 → 21 cm off the ground, fountain jets become towers
+// 38.6–43.4 iss     +3.5 → +4 s           | space  | 400 km up: an astronaut waves — nothing changed up here
+// 43.4–48.6 peak    +4 → +5 s             | stadium| crane up through fans 12–14 m above the stand, the striker still rising, countdown
+// 48.6–51.2 fall    GRAVITY BACK          | stadium| everything falls at once (real time): fans drop past the lens into the stand, dust, shake
+// 51.2–53.6 hwyR                          | highway| the cars, 6 m up and far off the curve, slam into the field
+// 53.6–56.0 coastR                        | coast  | the ocean drops 35 m; white water around the lighthouse
+// 56.0–57.8 kitR                          | kitchen| the coffee drops off the ceiling onto the table, the toast lands, the dog boofs
+// 57.8–61.2 poolR                         | pool   | the diver falls 27 m: the biggest splash of his life
+// 61.2–69.4 judges                        | pool   | he surfaces, thumbs up; the judges hold up 10 · 10 · 10. Fade 64.6, end card 65.2
 import * as THREE from 'three';
 import { K, clamp, lerp, rng, mat, mk, canvasTex } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink } from '@engine/rig.js';

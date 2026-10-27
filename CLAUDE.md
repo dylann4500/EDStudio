@@ -336,11 +336,12 @@ encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention ne
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
 **Slow motion scores low unless the camera moves (017):** v1's slow-mo ladder (a 0.5 s slice of physics stretched over 4.8 s)
 gave a 22 s dead zone (wc 0.032). Bullet-time camera ORBITS around the frozen-ish subjects, a tracking shot behind a runner and a
-crane up through the floating crowd lifted those beats 2–6× (v2 wc 0.0447, a hair under 013). v3 then turned the lone dad into
-a family table (pan across three faces: that beat +0.005 → +0.016) but filmed the diver from the water past swimmers' faces with
-the frame mostly sky — that beat fell to −0.029 and dragged its neighbours, so v3 scored 0.0414 and **v2 shipped**. Lessons:
-one edit can sink a whole stretch (TRIBE smooths over ~5 s); a title over people's BACKS scored −0.05 vs −0.02 over a wide bright
-crowd; keep every version's sources recoverable (commit each scored version) so you can ship the best one, not the last one.
+crane up through the floating crowd lifted those beats 2–6× (v2 wc 0.0447, a hair under 013). v3 filmed the diver from the
+water with the frame mostly sky (−0.029) and fell to 0.0414. **v4 met the target (0.0487 / first 60 s 0.0458 / no dead zone)** by
+TIGHTENING the weak stretch instead of decorating it: 14.4 s → 10 s (fans 3.8 s, a family table panned across three faces 3.2 s,
+the rising diver 1.6 s + a 1.4 s close-up of a judge's face looking up and pointing). Shorter slow-mo beats = faster motion per
+second + a new face every ~1.5 s. Other lessons: a title over people's BACKS scored −0.05 vs −0.02 over a wide bright crowd;
+commit every scored version so you can ship the best one, not the last one.
 **Keep reels ≤ 69.5 s for TRIBE — trim, don't raise the memory cap (017, manager rule):** w2v-BERT's relative-position attention
 grows with clip length²; 69–70 s fit under the shared MPS cap (`PYTORCH_MPS_HIGH_WATERMARK_RATIO` 0.5 = 8.88 GB), a 73.8 s cut
 needed ~9.5 GB and crashed in "Preparing extractor: audio" within a minute. Never raise the cap to get a run through (it can swap
