@@ -1134,6 +1134,16 @@
    }
   },
   {
+   "t": 5.407,
+   "sound": "crumble",
+   "gain_db": -24,
+   "pan": -0.3,
+   "args": {
+    "dur": 0.35,
+    "size": 0.2
+   }
+  },
+  {
    "t": 5.757,
    "sound": "pop",
    "gain_db": -16,
@@ -1177,6 +1187,15 @@
    "gain_db": -24,
    "pan0": 0.3,
    "pan1": 0.0
+  },
+  {
+   "t": 7.614,
+   "sound": "plush_squeak",
+   "gain_db": -26,
+   "pan": -0.3,
+   "args": {
+    "pitch": 1.6
+   }
   },
   {
    "t": 7.664,

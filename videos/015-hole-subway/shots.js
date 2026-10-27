@@ -139,6 +139,10 @@ export async function build(studio, story) {
   const nowhere = board(0.7, 0.32, (g, w, h) => { g.fillStyle = '#b07f4a'; g.fillRect(0, 0, w, h); g.strokeStyle = '#6b4a2a'; g.lineWidth = 8; g.strokeRect(4, 4, w - 8, h - 8); g.fillStyle = '#3a2412'; g.font = font(110); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('NOWHERE ↓', w / 2, h / 2 + 6); }); scene.add(nowhere);
   const post = mk(new THREE.CylinderGeometry(0.03, 0.03, 0.6, 8), mat(0x7a5233), scene);
   const mat_ = mk(new RoundedBoxGeometry(0.42, 0.02, 0.26, 2, 0.01), new THREE.MeshStandardMaterial({ map: tex(256, 160, (g, w, h) => { g.fillStyle = '#c0392b'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.font = font(64); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('WELCOME', w / 2, h / 2 + 4); }) }), scene);
+  const BX = HOLE[0] + 0.42, BZ = -D.depth, R_OUT = -1.5;   // the raccoon's burrow: an arch in the shaft's back wall (x, wall z); it stands at z R_OUT
+  const burrowArch = mk(new THREE.PlaneGeometry(0.74, 0.64), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, map: tex(256, 224, (g, w, h) => {
+    const arch = (pad) => { g.beginPath(); g.moveTo(pad, h); g.lineTo(pad, h * 0.5); g.arc(w / 2, h * 0.5, w / 2 - pad, PI, 0); g.lineTo(w - pad, h); g.closePath(); };
+    g.fillStyle = '#6b4526'; arch(0); g.fill(); const gr = g.createRadialGradient(w / 2, h * 0.75, 10, w / 2, h * 0.7, w * 0.5); gr.addColorStop(0, '#0d0704'); gr.addColorStop(1, '#2a1709'); g.fillStyle = gr; arch(16); g.fill(); }) }), scene, BX, 0, BZ + 0.012);
   const suitcase = new THREE.Group(); mk(new RoundedBoxGeometry(0.3, 0.22, 0.1, 2, 0.03), mat(0x8e5a2b, 0.6), suitcase, 0, 0.11, 0); mk(new THREE.TorusGeometry(0.05, 0.012, 6, 12, PI), mat(0x222222), suitcase, 0, 0.23, 0); scene.add(suitcase);
   const floatie = mk(new THREE.TorusGeometry(0.3, 0.1, 12, 24), mat(0xff6fb1, 0.35), scene); floatie.rotation.x = PI / 2;
   const plaque = board(0.9, 0.36, (g, w, h) => { g.fillStyle = '#c9a227'; g.fillRect(0, 0, w, h); g.strokeStyle = '#7a5f12'; g.lineWidth = 10; g.strokeRect(6, 6, w - 12, h - 12); g.fillStyle = '#3a2a05'; g.font = font(96); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('GARY, 2026', w / 2, h / 2 + 6); }); scene.add(plaque);
@@ -301,7 +305,7 @@ export async function build(studio, story) {
   fx.burst('dust', t.shovel + 0.3, { pos: [HX, 0.1, -1.4], n: 6, speed: [0.4, 1.0], spread: 1.3, size: [0.3, 0.5] });
   for (let k = 0; k < 5; k++) { const tk = t.dig + ((k + 0.6) / 5) * (t.digEnd - t.dig), d = (DIG * (k + 1)) / 5; fx.burst('dirt', tk, { pos: [HX, -d + 0.3, -0.7], n: 24, dir: [0.35, 1, 0.3], spread: 0.45, speed: [4, 6.5], floor: -d, seed: 40 + k }); }
   fx.burst('confetti', t.congrats, { pos: [HX, 0.2, -0.6], n: 260, dir: [0, 1, 0.15], spread: 0.6, speed: [5, 8.5], seed: 3 });
-  fx.burst('dirt', t.racc - 0.15, { pos: [HOLE[0] + 0.1, -2.4, -0.6], n: 14, dir: [1, 0.6, 0.2], spread: 0.5, speed: [1, 2], floor: -DIG, size: [0.03, 0.06] });
+  fx.burst('dirt', t.racc - 0.5, { pos: [HOLE[0] + 0.42, -DIG + 0.3, -D.depth + 0.25], n: 14, dir: [0, 0.6, 1], spread: 0.5, speed: [1, 2], floor: -DIG, size: [0.03, 0.06] });   // out of the burrow
   fx.stream('dirt', t.walls - 0.1, t.give, { pos: [HX, -0.15, -0.6], box: [1.6, 0.1, 0.4], rate: 30, dir: [0, -1, 0], spread: 0.3, speed: [0.2, 1], size: [0.03, 0.07], floor: -DIG, seed: 7 });
   fx.burst('dirt', t.give, { pos: [HX, -0.9, -0.4], box: [2.0, 1.6, 0.4], n: 150, dir: [0, 1, 0.3], spread: 1.1, speed: [2, 5], floor: -DIG, life: [0.5, 0.8], seed: 8 });
   fx.burst('dust', t.give + 0.05, { pos: [HX, 0.2, -0.6], box: [2.4, 0.6, 0.4], n: 12, speed: [0.5, 1.6], spread: 1.3, size: [0.4, 0.8], seed: 9 });
@@ -437,7 +441,6 @@ export async function build(studio, story) {
     const hs = holeState(tt), shapes = [], verge = [];
     if (hs) {
       shapes.push({ rect: hs.rect, rough: hs.rough }); verge.push({ rect: [hs.rect[0], -3.4, hs.rect[2], 0.1] });
-      if (hs.burrow) shapes.push({ circle: [HOLE[0] - 0.12, (tt < t.give ? -DIG : -3.0) + 0.33, 0.36] });
       S.rims.shaft.set([hs.rect[0], hs.rect[1], hs.rect[2], 0]);
     } else S.rims.shaft.set([0, 0, 0, 0]);
     if (tt > t.with) { // Gary's hand tunnel (its ceiling sags onto him on "load-bearing")
@@ -487,7 +490,8 @@ export async function build(studio, story) {
 
     // ---- set dressing that comes and goes with its gag
     show(nowhere, tt > t.nowhere - 0.1 && tt < t.give); show(post, nowhere.visible); nowhere.position.set(HX + 0.35, -DIG + 0.55, -1.0); post.position.set(HX + 0.35, -DIG + 0.3, -1.03); nowhere.scale.setScalar(pop(tt, t.nowhere - 0.1));
-    show(mat_, tt > t.already - 0.1 && tt < t.give); mat_.position.set(HOLE[0] + 0.3, -DIG + 0.06, -0.6); mat_.rotation.x = 0.55; mat_.scale.setScalar(pop(tt, t.already - 0.1));
+    show(mat_, tt > t.already - 0.1 && tt < t.give); mat_.position.set(BX, -DIG + 0.06, BZ + 0.45); mat_.rotation.x = 0.55; mat_.scale.setScalar(1.4 * pop(tt, t.already - 0.1));   // the doormat at its door
+    show(burrowArch, tt > t.racc - 0.7 && tt < t.give); burrowArch.position.y = -DIG + 0.32;
     show(plaque, tt > t.fossil - 0.15 && tt < t.out); plaque.position.set(-5.95, -2.75, 0.05); plaque.scale.setScalar(pop(tt, t.fossil - 0.15));
     show(sponge, tt > t.soggy - 0.35 && tt < t.cant + 0.2); sponge.scale.set(1 + 0.25 * smooth(u01(tt, t.sponge, t.sponge + 0.2)), pop(tt, t.soggy - 0.35) * (1 - 0.45 * smooth(u01(tt, t.sponge, t.sponge + 0.2))) * unpop2(tt, t.cant), 1);
     beardTrail.visible = tt > t.load - 0.15 && tt < t.soT + 0.45; beardGeo.setDrawRange(0, Math.floor(beardIdx * smooth(u01(tt, t.load - 0.15, W('byhand', 'tunnel') + 0.25)) * (1 - smooth(u01(tt, t.soT, t.soT + 0.45))) / 3) * 3);
@@ -770,11 +774,11 @@ export async function build(studio, story) {
   }
   function raccoonAt(tt) {
     const r = raccoon; r.root.visible = true; suitcase.visible = false; floatie.visible = false; r.root.rotation.z = 0;
-    if (tt < t.racc - 0.2) return hide(r);
-    if (tt < t.send + 0.75) { // moves in: pops out of its burrow with a suitcase, waves; goes back inside when Gary comes down
-      const up = easeOutBack(u01(tt, t.racc - 0.2, t.racc + 0.15)), back = smooth(u01(tt, t.send + 0.05, t.send + 0.7));
-      suitcase.visible = true; suitcase.position.set(HOLE[0] + 0.45 - back * 1.0, -DIG, -0.45); suitcase.scale.setScalar(Math.max(0.01, pop(tt, t.racc)));
-      return r.set({ x: HOLE[0] + 0.1 - back * 0.8, y: -DIG - 0.4 + 0.4 * up, z: -0.6, rotY: back > 0.01 ? -PI / 2 : 0.5, stand: back > 0.01 ? 0 : smooth(u01(tt, t.racc, t.racc + 0.4)), wave: tt > t.racc + 0.3 && tt < t.send ? 1 : 0, t: back > 0.01 ? tt * 3 : tt, look: [0.3, 0] });
+    if (tt < t.racc - 0.6) return hide(r);
+    if (tt < t.send + 0.75) { // moves in: scurries out of its burrow (the arch in the back wall) with a suitcase, waves; backs into it when Gary comes down
+      const uo = u01(tt, t.racc - 0.55, t.racc + 0.05), back = smooth(u01(tt, t.send + 0.05, t.send + 0.7)), z = lerp(lerp(BZ - 0.35, R_OUT, easeOutBack(uo, 1.3)), BZ - 0.35, back);
+      suitcase.visible = true; suitcase.position.set(BX + 0.3, -DIG, z + 0.12); suitcase.scale.setScalar(1);
+      return r.set({ x: BX, y: -DIG, z, rotY: back > 0.01 ? PI : lerp(0, 0.5, smooth(u01(tt, t.racc + 0.05, t.racc + 0.4))), stand: back > 0.01 ? 0 : smooth(u01(tt, t.racc + 0.05, t.racc + 0.45)), wave: tt > t.racc + 0.3 && tt < t.send ? 1 : 0, t: uo < 1 || (back > 0.01 && back < 1) ? tt * 3 : tt, look: [0.3, 0] });
     }
     if (tt > t.racW - 0.1 && tt < t.n13) { // cannonballs in with a floatie and shades; rides the water down when it's pumped out
       const L = level(tt), jump = u01(tt, t.racW - 0.1, t.brought);   // cannonball from the far rim

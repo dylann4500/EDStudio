@@ -16,8 +16,10 @@ matching video possible." Density is the point: something new pops, breaks, floo
 | Timing | fixed shot clock | **the voice sets the clock**: `tools/narrate.py` lays out story.json from per-word times |
 | Ending | end card ≥ 3.5 s | the callback punchline + ~1.5 s hold, no end card |
 | Length | 45–80 s | 95–120 s (theirs: 98–118 s), ~3.1 words/s, ~300–350 words |
-| Camera | composed holds | always moving; a cut or a big move every 1–3 s; shake on every impact |
+| Camera | composed holds | **ONE continuous take, no cuts** (user steer) — always gliding, a new framing every 2–4 s (`planRail`); shake on every impact |
 | World | many sets | **one cutaway diorama** (the ground sliced open) + close-ups/angles on it, plus a few street-level shots |
+| Frame rate | 30 fps | **60 fps + 2-sample motion blur** (user: "theirs feel like 60 fps") |
+| Iteration | stills + self-QC | stills + `--qc` + **a 5-subagent review loop** (docs/BUILD-REVIEW.md) until every dimension ≥ 8 |
 
 House rules that still hold: deterministic renders (no Math.random/Date), real numbers web-searched and cited, caption.md
 with the course link pasted in every delivery, music continuous and never harsh, stills before every full render.
@@ -44,7 +46,7 @@ shots.js                      3D: author every gag against B.W(beat, word) (when
 cues.json → python3 -I audio/synth.py NNN-slug    music bed + SFX + the voice → audio.wav (−14 LUFS, voice on top)
 node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 ```
-- **ElevenLabs:** put `ELEVENLABS_API_KEY=…` in a git-ignored `.env` at the repo root (or the env). `python3 -I tools/narrate.py
+- **ElevenLabs:** put `ELEVENLABS_API_KEY=…` in `~/.config/edstudio/.env` (outside every repo; a git-ignored repo-root `.env` or the env also work). `python3 -I tools/narrate.py
   --voices` lists voices; set `voice.voice_id` in script.json; re-run narrate (only beats whose text changed are re-billed).
   The `with-timestamps` endpoint returns per-character times → exact word timing. Commit `voice/eleven-*.mp3|json`.
 - **Scratch voice** (no key): macOS `say` (`scratch.voice`, `scratch.rate` ≈ 205 → ~3 w/s). Word times are estimated
@@ -53,10 +55,11 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 
 ## Engine kit (`engine/build/`)
 - `captions.js` — the build overlay (main.js picks it when `story.mode === 'build'`). Fonts: Fredoka 700 (words),
-  Luckiest Guy (callouts), from `@fontsource/*` in node_modules (run `npm install` after pulling). Styles: `term` (yellow,
-  y≈600), `label` (orange, y≈470, stacks above a term), `money` (green), `stamp` (red, tilted, slams in), `sfx` (small yellow
-  comic word at `pos` [x, y] frame fractions); any callout can take `y` (frame fraction) when its band would cover the subject
-  (015's RIDES FREE stamp sat on the raccoon until `y: 0.63`). Long callouts auto-shrink to 960 px. Label/money are big with a
+  Luckiest Guy (callouts), from `@fontsource/*` in node_modules (run `npm install` after pulling). Styles (band tops in px of 1920): `term` (yellow,
+  390), `label` (orange, 262, stacks above a term), `money` (green, 318), `stamp` (red, tilted, slams in, 560), `sfx` (small yellow
+  comic word centred at `pos` [x, y] frame fractions); any callout can take `y` — or `x` + `y` (centred there) — when its band
+  would cover the subject (015: "$3 A RIDE" at x 0.7 / y 0.66 off Gary's face, RIDES FREE at x 0.5 / y 0.6). The one-word
+  caption sits at 1000 px (52 %); `render.mjs --qc` lists faces under any of them. Long callouts auto-shrink to 960 px. Label/money are big with a
   wide dark halo (an orange label vanished on the orange TBM).
 - `toon.js` — `makeToon({skin, shirt, pants, hair, hairStyle 'tuft'|'messy'|'side'|'none', hat 'hardhat'|'chef'|'cap', mustache})`
   (`glow: [color, k]` in `set()` = emissive glow; `beard`, `gray` age him)
@@ -157,8 +160,14 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - Put gags on surfaces that face the camera: the snail crawls ON the cut face (rotation.x = +π/2 — −π/2 put its foot toward the
   camera and only the belly showed); a glass-roofed car shows its driver only if his head sits in the window band.
 - Gary transforms on a running gag (fossil → pancake → nightlight) — say it, then SHOW it the same second.
+- **A doorway a character uses needs something behind it, on a surface facing the lens** (the user caught this on the
+  shipped cut): 015's burrow was a circle cut in the cut face beside the shaft with nothing behind it, so the raccoon rose
+  through the floor and backed out through the shaft's solid side wall. v6 paints a dark arch on the shaft's BACK wall (a
+  decal at z = −depth + 0.01) and the raccoon scurries out of it toward the lens and backs into it: the opaque back wall hides
+  whatever is behind the arch, so it reads as a real hole. Check entrances/exits frame by frame, not only the held pose.
 
 ## The review loop (how 015 went from ~4/10 to …)
+**Full playbook + the five reviewer brief templates: docs/BUILD-REVIEW.md.** The short version:
 1. Render a 30 fps review cut; build a kit: 2 fps contact sheets per 10 s (`fps=2,scale=200:-1,tile=10x2`), single frames at
    0.5 s, the word timeline (story.json → text), the reference sheets (incl. 6 fps strips of the camera).
 2. Dispatch 5 reviewer agents in parallel, one dimension each, each scoring /10 with ranked, timestamped fixes: logic &

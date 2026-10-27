@@ -38,11 +38,15 @@ or effect on almost every phrase.
    close to fit the 9:16 frame. Then `--preview` and scan it at 1 fps (`fps=1,scale=150:-1,tile=12x5`).
    After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 015's `window.EDSTUDIO_QC` into build()) — no face
    under the caption/callouts for ≥ 0.5 s — and no `[rail] … m in … s` line in the log.
-8b. **Review loop** (docs/BUILD.md → The review loop): render a 30 fps cut, `python3 -I tools/review_kit.py NNN-slug <dir>
-   --ref <reference.mp4>`, send 5 read-only reviewer agents (logic, look, pacing, camera, comedy) scoring /10, look at the
-   frames yourself meanwhile, merge their fixes, repeat until all ≥ 8.
+8b. **Review loop — follow docs/BUILD-REVIEW.md** (it's what made 015 good): render a 30 fps cut (`--fps 30 --blur 1`),
+   `python3 -I tools/review_kit.py NNN-slug <scratchpad>/reviewN --video videos/NNN-slug/final.mp4 --ref <reference.mp4>`,
+   send 5 read-only reviewer agents in ONE message (logic, look, pacing, camera, comedy — brief templates in that file) scoring
+   /10, look at the frames yourself meanwhile, merge their fixes (script → camera → logic → look), verify with stills + `--qc`,
+   record the scores in BUILD.md, repeat until all ≥ 8 (fold logic/pacing/comedy into one agent once they plateau).
 9. **Audio**: `make_cues.py` computes every cue from story.json (copy 015's) → `python3 -I audio/synth.py NNN-slug`.
    Check: −14 LUFS, `music dropouts: none`, voice on top (measure stems: voice ≈ −15, sfx ≈ −20, music ≈ −24 LUFS).
-10. **Render** `node tools/render.mjs NNN-slug`, QC (docs/BUILD.md checklist), write caption.md (house format + course
-    line), commit the folder incl. script.json, words.json, make_cues.py (+ `voice/eleven-*` once real), merge to main, push.
+10. **Render** `node tools/render.mjs NNN-slug` (60 fps + blur, ~25 min), QC (docs/BUILD.md checklist) — scan the ACTUAL
+    render (1 fps sheet + the last 8 s at 2.5 fps), not only stills — write caption.md (house format + course line), commit the
+    folder incl. script.json, words.json, make_cues.py and only the `voice/eleven-*` takes the current script uses (older
+    takes stay local). Merge to main / push only when the user says so (or the manager's brief does).
     Paste the caption in the report. If the narration was the scratch voice, say so and give the one-command upgrade path.

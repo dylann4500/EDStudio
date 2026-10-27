@@ -126,8 +126,8 @@ e(t['shovel'] + 0.28, "dig", -16, -0.1)
 for k in range(5): e(t['dig'] + (k + 0.6) / 5 * (t['digEnd'] - t['dig']) - 0.05, "dig", -14, -0.1 + 0.05 * k)
 e(t['congrats'], "pop", -12, 0.0); e(t['congrats'] + 0.12, "pop", -16, -0.3, pitch=1.3); e(t['congrats'] + 0.2, "blanket_rustle", -24, 0.2, dur=1.4, intensity=0.6)
 e(t['nowhere'] - 0.1, "knock", -18, 0.2, pitch=1.1)
-e(t['racc'] - 0.15, "pop", -16, -0.3, pitch=1.7); e(t['racc'] + 0.4, "plush_squeak", -24, -0.3, pitch=1.4); e(t['already'] - 0.1, "pop", -20, -0.2, pitch=1.4)
-e(t['send'] - 0.25, "knock", -17, 0.1, pitch=0.9); e(t['send'] + 0.15, "knock", -20, 0.1, pitch=0.8)          # the ladder lands
+e(t['racc'] - 0.5, "crumble", -24, -0.3, dur=0.35, size=0.2); e(t['racc'] - 0.15, "pop", -16, -0.3, pitch=1.7); e(t['racc'] + 0.4, "plush_squeak", -24, -0.3, pitch=1.4); e(t['already'] - 0.1, "pop", -20, -0.2, pitch=1.4)
+e(t['send'] + 0.1, "plush_squeak", -26, -0.3, pitch=1.6); e(t['send'] - 0.25, "knock", -17, 0.1, pitch=0.9); e(t['send'] + 0.15, "knock", -20, 0.1, pitch=0.8)          # the ladder lands
 ev.append({"t0": t['send'] - 0.05, "t1": t['down'] - 0.1, "sound": "footsteps", "rate": 3.4, "gain_db": -24, "pan0": 0.3, "pan1": 0.0})
 for k in range(4): e(t['down'] + 0.1 + k * 0.12, "knock", -24, 0.0, pitch=1.3 + 0.05 * k)
 e(t['inspect'] + 0.1, "pen_scribble", -24, 0.1, dur=0.6)
