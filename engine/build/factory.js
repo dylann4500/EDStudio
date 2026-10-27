@@ -30,7 +30,8 @@ export const D = {
   work: -4.9,                                                  // where workers stand (behind the line, facing the lens)
   st: { body: 0.4, doors: 5.0, paint: 9.6, gary: 18.8 },       // stations (x); cars are spaced line.pitch apart
   press: 21.3, cadillac: [14.2, 18.8, 23.4], robot: 23.4,      // the stamping press, the three Cadillac-test cars, Gary's bolt station
-  tank: { x0: 27.4, x1: 32.1, y0: -2.3, z0: -2.5, level: -0.22, dipZ: -1.35 },
+  tank: { x0: 27.4, x1: 32.1, y0: -3.0, z0: -2.5, level: -0.22, dipZ: -1.35 },   // it stands in the basement
+  base: { y0: -3.4, y1: -0.3, z1: -4.0, conv: -2.1, lifts: [0.4, 5.0, 9.6, 20.4, 23.4, 35.6, 40.0, 44.4] },   // the basement under the hall (cut open by the face)
   dock: { x0: 33.8, x1: 38.0 }, jit: 35.6,                     // roll-up door in the back wall (the parts avalanche)
   booth: { x0: 38.6, x1: 42.6 },                               // the paint booth (back wall, pops in on "paint shop")
   qc: { x: 45.0, z: -2.05 },                                 // the QC gate at the end of the line (under the office floor)
@@ -652,7 +653,7 @@ export async function buildFactory(studio) {
 
   // ---- growth: the hall pops up bay by bay over the yard (k 0..1), the slab section + floor wipe in along x
   function setHall(k) {
-    const xEdge = lerp(H.x0, H.x1 + 0.5, clamp(k * 1.15));
+    const xEdge = lerp(H.x0, H.x1 + 0.5, clamp(k * 1.15)); hallEdge = xEdge; hallK = k; if (typeof applyHoles === 'function') applyHoles();
     floorClip.constant = xEdge; slabClip.constant = xEdge;   // plane (−1,0,0)·p + c ≥ 0  ⇔  x ≤ c
     hallFloor.mesh.visible = k > 0.001; conveyor.visible = k > 0.001; slabMP.mesh.visible = k > 0.001;
     bays.forEach((b, i) => { const u = clamp((k - i / nB * 0.8) / 0.25), e = easeOutBack(u, 1.6); b.wall.visible = b.roof.visible = u > 0.001;
@@ -663,26 +664,80 @@ export async function buildFactory(studio) {
     const show = (o, x) => (o.visible = k > 0.02 && x < xEdge);
     show(banner, 3.5); show(daysSign, 0.6); show(daysSign2, 43.5); show(safety, 24);   show(clock, 16); show(racks, 1); show(press, D.press - 1.2); show(dock, D.dock.x0); show(qcGate, D.qc.x); show(crash, D.crash.x0); show(booth, D.booth.x0); show(pedal, D.press - 1.5); garageLine.visible = k > 0.001;
   }
-  setHall(0);
 
-  // ---- the pit opens (k 0..1): holes grow in the hall floor, the lawn under it, the slab strip and the cut face
+  // ---- the basement (x hall.x0 … the growth edge): back wall, floor, ceiling (the floor slab's underside, with hatches), a parts
+  // conveyor with parts riding it, lifts carrying parts up through floor hatches to the stations, pipes, cable trays, lights,
+  // signs, the Roomba's charging dock. It shows through the cut face below the floor and fills the band that was plain soil.
+  const BS = D.base, basement = new THREE.Group(); root.add(basement);
+  const bLen = H.x1 - H.x0, bcx = (H.x0 + H.x1) / 2, bH = BS.y1 - BS.y0;
+  const bWallT = tex(512, 256, (g, w, h) => { g.fillStyle = '#9a9891'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 64) { g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x, 0, 3, h); } g.fillStyle = '#f2c418'; g.fillRect(0, h - 26, w, 12); g.fillStyle = '#222'; for (let x = 0; x < w; x += 36) { g.beginPath(); g.moveTo(x, h - 26); g.lineTo(x + 14, h - 26); g.lineTo(x + 2, h - 14); g.lineTo(x - 12, h - 14); g.fill(); } });
+  bWallT.wrapS = THREE.RepeatWrapping; bWallT.repeat.set(bLen / 6, 1);
+  const bMats = [];
+  const bm = (m) => { bMats.push(m); return m; };
+  mk(new THREE.PlaneGeometry(bLen, bH), bm(new THREE.MeshStandardMaterial({ map: bWallT, roughness: 0.9 })), basement, bcx, (BS.y0 + BS.y1) / 2, BS.z1);
+  const bFloorT = tex(256, 256, (g, w, h) => { g.fillStyle = '#8c8a84'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(0,0,0,.12)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h); }); bFloorT.wrapS = bFloorT.wrapT = THREE.RepeatWrapping; bFloorT.repeat.set(bLen / 3, 1.4);
+  mk(new THREE.PlaneGeometry(bLen, -BS.z1), bm(new THREE.MeshStandardMaterial({ map: bFloorT, roughness: 0.85 })), basement, bcx, BS.y0 + 0.002, BS.z1 / 2).rotation.x = -PI / 2;
+  const ceil2 = maskedPlane(bLen, -BS.z1, bm(new THREE.MeshStandardMaterial({ color: 0xb8b4ab, roughness: 0.9, side: THREE.DoubleSide })), 30); ceil2.mesh.rotation.x = PI / 2; ceil2.mesh.position.set(bcx, BS.y1, BS.z1 / 2); basement.add(ceil2.mesh);
+  const ceilHoles = (shapes) => ceil2.setHoles(shapes, (x, z) => [x - bcx, (z - BS.z1 / 2)]);
+  for (const x of [H.x0, H.x1]) { const sw = mk(new THREE.PlaneGeometry(-BS.z1, bH), bm(mat(0x9a9891, 0.9)), basement, x, (BS.y0 + BS.y1) / 2, BS.z1 / 2); sw.rotation.y = x === H.x0 ? PI / 2 : -PI / 2; }
+  // pipes + cable tray along the back, strip lights on the ceiling, columns
+  [[0xf2c418, -0.6, BS.z1 + 0.25, 0.12], [0x2f6fd6, -0.9, BS.z1 + 0.3, 0.16], [0xd12f3a, -1.25, BS.z1 + 0.22, 0.1]].forEach(([c, y, z, r]) => mk(new THREE.CylinderGeometry(r, r, bLen, 14), bm(mat(c, 0.45)), basement, bcx, y, z).rotation.z = PI / 2);
+  mk(new THREE.BoxGeometry(bLen, 0.06, 0.4), bm(steel(0x6b737b)), basement, bcx, -1.55, BS.z1 + 0.3);
+  const bLampM = bm(new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff4dc, emissiveIntensity: 1.6 }));
+  for (let x = H.x0 + 2; x < H.x1; x += 4.5) mk(new THREE.BoxGeometry(1.4, 0.06, 0.18), bLampM, basement, x, BS.y1 - 0.06, -1.6).castShadow = false;
+  for (let x = H.x0 + 3.1; x < H.x1; x += 6.2) mk(new THREE.BoxGeometry(0.25, bH, 0.25), bm(mat(0x7d7b75, 0.9)), basement, x, (BS.y0 + BS.y1) / 2, BS.z1 + 0.13);
+  const bLights = [8, 24, 40].map((x) => { const l = new THREE.PointLight(0xfff0d8, 7, 16, 1.4); l.position.set(x, -1.0, -1.2); basement.add(l); return l; });
+  // the parts conveyor (split at the dip tank) + the parts riding it (instanced: crates + tyres)
+  const bConvT = slatT.clone(); bConvT.needsUpdate = true; bConvT.wrapS = THREE.RepeatWrapping;
+  const bConvM = bm(new THREE.MeshStandardMaterial({ map: bConvT, roughness: 0.5, metalness: 0.3 }));
+  const segs = [[H.x0 + 0.4, D.tank.x0 - 0.5], [D.tank.x1 + 0.5, H.x1 - 0.4]];
+  segs.forEach(([a, b]) => { const cv = mk(new THREE.BoxGeometry(b - a, 0.32, 0.9), [bm(mat(0x3a3f45)), bm(mat(0x3a3f45)), bConvM, bm(mat(0x3a3f45)), bm(mat(0x3a3f45)), bm(mat(0x3a3f45))], basement, (a + b) / 2, BS.y0 + 0.16, BS.conv); bConvT.repeat.set((b - a) / 2, 1); });
+  const NB = 70, bCrates = new THREE.InstancedMesh(new RoundedBoxGeometry(0.5, 0.36, 0.5, 2, 0.04), bm(new THREE.MeshStandardMaterial({ roughness: 0.7 })), NB);
+  bCrates.frustumCulled = false; basement.add(bCrates); { const cc = [0xc49158, 0x2f6fd6, 0xd12f3a, 0x58b368, 0xf2c418]; for (let i = 0; i < NB; i++) bCrates.setColorAt(i, new THREE.Color(cc[i % cc.length])); }
+  // lifts: a platform + a part rising from the conveyor through a floor hatch at each station (z just in front of the line)
+  const LZ = -1.95, lifts = BS.lifts.map((x, i) => { const g2 = new THREE.Group(); basement.add(g2); g2.position.set(x, 0, LZ);
+    for (const [dx, dz] of [[-0.4, -0.4], [0.4, -0.4], [-0.4, 0.4], [0.4, 0.4]]) mk(new THREE.BoxGeometry(0.05, bH, 0.05), bm(mat(0xf2c418, 0.5)), g2, dx, (BS.y0 + BS.y1) / 2, dz);
+    const plat = new THREE.Group(); g2.add(plat); mk(new THREE.BoxGeometry(0.76, 0.06, 0.76), bm(steel(0x5d656e)), plat); const part = mk(new RoundedBoxGeometry(0.42, 0.3, 0.42, 2, 0.04), bm(mat([0xc49158, 0xd12f3a, 0x2f6fd6][i % 3], 0.7)), plat, 0, 0.18, 0);
+    return { g: g2, plat, part, ph: (i * 0.37) % 1 }; });
+  const hatchHoles = BS.lifts.map((x) => ({ rect: [x - 0.42, LZ - 0.42, x + 0.42, LZ + 0.42] }));
+  const signB = sign(basement, 'B1 · PARTS EXPRESS', 3.2, 0.5, { bg: '#2f6fd6', fg: '#fff' }); signB.position.set(4.2, -1.0, BS.z1 + 0.02); bMats.push(signB.material);
+  const signB2 = sign(basement, 'WATCH YOUR HEAD', 2.4, 0.42, { bg: '#ffd23f', fg: '#222' }); signB2.position.set(16.5, -1.0, BS.z1 + 0.02); bMats.push(signB2.material);
+  const dock2 = new THREE.Group(); basement.add(dock2); dock2.position.set(12.4, BS.y0, -2.9);   // the Roomba's charging dock (ROOMBA ONLY)
+  mk(new RoundedBoxGeometry(0.7, 0.34, 0.3, 2, 0.05), bm(mat(0x2b2e33, 0.4)), dock2, 0, 0.17, 0); mk(new THREE.SphereGeometry(0.04, 10, 8), new THREE.MeshBasicMaterial({ color: 0x46e07a, toneMapped: false }), dock2, 0, 0.3, 0.16);
+  const signB3 = sign(dock2, 'ROOMBA ONLY', 1.0, 0.24, { bg: '#2b2e33', fg: '#46e07a' }); signB3.position.set(0, 0.62, -0.12); bMats.push(signB3.material);
+  bMats.forEach((m) => { m.clippingPlanes = [floorClip]; });   // grows with the hall
+  function setBasement(tt) {   // motion in every frame: parts ride the conveyor, lifts carry parts up through the hatches
+    basement.visible = hallK > 0.001;
+    bConvT.offset.x = -tt * 0.6;
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(1, 1, 1), p3 = new THREE.Vector3();
+    for (let i = 0; i < NB; i++) { const span = bLen - 1.0, x = H.x0 + 0.5 + (((i * span) / NB + tt * 1.2) % span); const onTank = x > D.tank.x0 - 0.5 && x < D.tank.x1 + 0.5;
+      p3.set(x, BS.y0 + 0.5, BS.conv + (i % 2 ? 0.15 : -0.15)); q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), i * 0.7); sc.setScalar(onTank || x > hallEdge ? 0.001 : 1); m4.compose(p3, q, sc); bCrates.setMatrixAt(i, m4); }
+    bCrates.instanceMatrix.needsUpdate = true;
+    lifts.forEach((L2, i) => { const u = ((tt * 0.32 + L2.ph) % 1), up = u < 0.45 ? smoothU(u / 0.45) : u < 0.6 ? 1 : 1 - smoothU((u - 0.6) / 0.4);
+      L2.plat.position.y = lerp(BS.y0 + 0.4, -0.05, up); L2.part.visible = u < 0.5; });
+  }
+  const smoothU = (u) => u * u * (3 - 2 * u);
+  // ---- holes: the face (basement + pit), the floor + slab strip + lawn + basement ceiling (pit + hatches), composed in one place
   const lawnHole = (shapes) => outside.setHoles(shapes, (x, z) => [x - 21, -(z + 15)]);
   const slabHole = (shapes) => slabMP.setHoles(shapes, (x, y) => [x - (H.x0 + H.x1) / 2, y + 0.15]);
-  let extraFloorHoles = [];
-  function setPit(k) {
-    tank.visible = hoist.visible = k > 0.001;
-    const cx = (T.x0 + T.x1) / 2, hw = (T.x1 - T.x0) / 2 * clamp(k * 1.3), dz = T.z0 * clamp(k * 1.3), dy = T.y0 * clamp(k * 1.1 - 0.1);
-    const open = k > 0.001 ? [{ rect: [cx - hw, dz, cx + hw, 0.05], rough: 0.02 }] : [];
-    hallFloor.setHoles([...open, ...extraFloorHoles], (x, z) => [x - (H.x0 + H.x1) / 2, -(z - H.back / 2)]);
-    lawnHole(k > 0.001 ? [{ rect: [cx - hw, dz, cx + hw, 0.05] }] : []);
+  let hallEdge = H.x0, hallK = 0, pitK = 0;
+  function applyHoles() {
+    const k = pitK, cx = (T.x0 + T.x1) / 2, hw = (T.x1 - T.x0) / 2 * clamp(k * 1.3), dz = T.z0 * clamp(k * 1.3), dy = T.y0 * clamp(k * 1.1 - 0.1);
+    const pitTop = k > 0.001 ? [{ rect: [cx - hw, dz, cx + hw, 0.05], rough: 0.02 }] : [], hatches = hallK > 0.001 ? hatchHoles.filter((h2) => h2.rect[2] < hallEdge) : [];
+    hallFloor.setHoles([...pitTop, ...hatches], (x, z) => [x - (H.x0 + H.x1) / 2, -(z - H.back / 2)]);
+    lawnHole([...pitTop, ...hatches.map((h2) => ({ rect: h2.rect }))]);
     slabHole(k > 0.001 ? [{ rect: [cx - hw, -0.4, cx + hw, 0.05] }] : []);
-    cut.setHoles(k > 0.001 && dy < -0.05 ? [{ rect: [cx - hw, dy, cx + hw, 0.05], rough: 0.02 }] : []);
-    pitBack.scale.y = 1; tank.position.y = 0;
+    ceilHoles([...(k > 0.001 ? [{ rect: [cx - hw, dz, cx + hw, 0.05] }] : []), ...hatches]);
+    const face = []; if (hallK > 0.001 && hallEdge > H.x0 + 0.2) face.push({ rect: [H.x0, BS.y0, Math.min(hallEdge, H.x1), BS.y1], rough: 0.02 });
+    if (k > 0.001 && dy < -0.05) face.push({ rect: [cx - hw, dy, cx + hw, 0.05], rough: 0.02 });
+    cut.setHoles(face);
   }
+  function setPit(k) { tank.visible = hoist.visible = k > 0.001; pitK = k; applyHoles(); pitBack.scale.y = 1; tank.position.y = 0; }
   setPit(0);
+  setHall(0);
 
   return {
-    root, cut, aimSun, setPit, sun, hemi, setHall, setLine, setFloorHoles, setFaceHoles: (shapes) => cut.setHoles(shapes),
+    root, cut, aimSun, setPit, setBasement, basement, lifts, sun, hemi, setHall, setLine, setFloorHoles, setFaceHoles: (shapes) => cut.setHoles(shapes),
     shop: { g: shop, lift, liftArms, priceBoard, prices, counter, cobwebs }, garage: { g: garage, setRollDoor, tools, lawnmower, lmEng, bulb, pegboard },
     yard, bays, conveyor, banner, daysSign, daysSign2, daysTex, safety, tpsSign, pressSign, clock, hands, press, ram, tank: { g: tank, setBath, bath, rail: tankRail }, hoist: { g: hoist, setHoist, trolley, hanger },
     crack, dock: { g: dock, setDock }, qcGate, lever, lvArm, pedal, pButtons, vend, setLot, booth, boothMist, office: { g: office, desk: oDesk, glass: oGlass, invoice: framedBill }, stairs, garageLine, endWall, house, crash: { g: crash, wall: crashWall, target, camStands }, roofTrack, racks,

@@ -315,3 +315,22 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   car and one swings over to weld Gary to the door.
 - The mid-line `//` hazard bit again: a replacement that ended mid-line got a comment appended and silently commented out
   `heapW.visible = …` (the heap never hid). Run the CLAUDE.md grep after every scripted batch.
+- **Punch words land after the camera left** (026 round 1: Promoted, Manager, Twice, Meatloaf, CEO — comedy 6.5, camera 5.5).
+  Root cause: `planRail` clamps a framing's `until` to `next.t − 0.8·need` when the next framing is far, silently. rail.js now
+  prints `[rail] until … clamped to …` — treat it like a speed warning. The real fix is LAYOUT: put each punch's prop next to
+  the next gag (the vending machine beside the QC gate; Gary's sunroof car = the lead car the Roomba pulls), so the move after
+  the punch is short. `planRail(frames, { shortHoldPass: true })` (opt-in) turns ≤ 0.25 s holds into pass keys instead of
+  zero-speed stops (the camera review found three dead stops followed by 8 m/s moves).
+- **A tighter mid-line-comment lint**: the CLAUDE.md grep misses a comment that swallows code without a `;` before it
+  (`…);   // deflates airbag.g.position.set(…)`, `// no cap … scene.add(mech.root);`, both 026). After every scripted batch
+  also flag any line whose `//` part contains `{`, `}` or `);` — two real bugs in 026 round 1.
+- **Lay the gag out so the important side faces the lens**: a door "into a sunroof" stuck upright in the cockpit was a blank
+  slab — laid flat across the cockpit like a roof (blue, with a window + handle) it reads; plain black tori read as tyres —
+  spokes + tan/red/steel rims make "steering wheels"; the Roomba at r 0.3 m vanished under the crew's legs — ×1.7 in its gags.
+- **The Cadillac-style "three cars → one pile" needs a down-the-line view** (cars 4.6 m apart side by side don't fit 9:16):
+  a three-quarter from the front-left, high (camera (7, 4.6, 3.5) → look (19.5, 0.6, −3.4)) shows all three + the pile.
+- **The builder rule (user, Oct 26): Gary does what the narration says "you" do** — he builds the junk car, yanks the start
+  lever, slams the press buttons, rips open the robot's crate and bolts it down (then it welds him), drives the JIT tugger,
+  slaps on the crumple nose. Passive only when the line makes him the victim (welded → dipped).
+
+026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5.

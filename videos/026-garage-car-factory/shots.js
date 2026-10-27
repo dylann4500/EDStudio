@@ -243,6 +243,7 @@ export async function build(studio, story) {
   fx.stream('mist', t.rain - 0.2, t.dip + 0.3, { pos: [27.2, 1.15, L.z + 0.1], box: [4.6, 0.1, 1.6], rate: 14, speed: [0.2, 0.6], spread: 1.3, size: [0.25, 0.45], seed: 100 });   // spray off the car roofs
   fx.burst('dust', t.rusts + 0.5, { pos: [27.2, 0.3, -2.3], box: [4, 0.2, 0.6], n: 8, speed: [0.3, 0.8], spread: 1.3, size: [0.25, 0.45], color: 0xb0683a, seed: 101 });   // rust flakes
   fx.burst('dust', t.n30000 + 0.4, { pos: [(D.dock.x0 + D.dock.x1) / 2, 2.0, D.hall.back + 0.4], box: [4, 3, 0.3], n: 8, speed: [0.3, 0.8], spread: 1.3, size: [0.4, 0.7], seed: 102 });
+  for (const x of [D.jit, 40.0]) fx.burst('crumb', AVA0 + 0.1, { pos: [x, 0.1, -1.95], box: [0.6, 0.1, 0.6], n: 40, dir: [0, 1, 0.2], spread: 0.5, speed: [4, 6.5], color: 0x2a2d31, floor: 0.05, seed: 125 + Math.round(x) });   // the floor hatches overflow too
   fx.burst('crumb', AVA0 + 0.25, { pos: [HEAP.x, 1.2, HEAP.z], box: [5, 1.5, 3], n: 80, dir: [0, 1, 0.4], spread: 1.0, speed: [2, 4], color: 0x2a2d31, floor: 0.05, seed: 103 });
   fx.stream('dust', t.needed - 0.6, t.toyota + 0.2, { pos: [D.jit + 1.0, 0.1, -1.25], box: [3, 0.1, 0.4], rate: 6, speed: [0.2, 0.5], spread: 1.2, size: [0.15, 0.3], seed: 104 });   // the tugger's dust trail
   fx.burst('spark', t.needed + 0.3, { pos: [D.jit + 1.4, 0.8, L.z + 0.2], n: 20, speed: [1, 2], spread: 1.2, seed: 105 });
@@ -400,7 +401,7 @@ export async function build(studio, story) {
   function update(tt) {
     // ---- the hall: pops up bay by bay on "roll each car past a row of stations"; the line runs
     const hk = smooth(u01(tt, t.roll - 0.3, t.stations + 0.1));
-    S.setHall(hk); S.setLine(lineS(tt));
+    S.setHall(hk); S.setLine(lineS(tt)); S.setBasement(tt);
     S.garage.setRollDoor(Math.max(0.8 * smooth(u01(tt, t.soH - 0.2, t.soH + 0.3)) * (1 - smooth(u01(tt, t.garage + 0.4, t.congrats + 0.4))), smooth(u01(tt, t.now - 0.2, t.everyone + 0.2))));   // open for Gary, shut, then up for the queue
     S.daysSign.material.map = S.daysTex[0];
     S.pressSign.visible = tt > t.exactly; S.tpsSign.visible = S.tpsSign.visible && tt > t.jitW;
