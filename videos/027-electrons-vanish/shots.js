@@ -69,7 +69,7 @@ import { buildSpace } from '@engine/sets/tech.js';
 import { patchDissolve, makeNucleiCloud, makeAtomLattice } from '@engine/nuclei.js';
 
 const PI = Math.PI, G = 9.81, C = 299792458, SW = 7.4;
-const TP = 11.95, TK = 15.75, TC = 19.6;                 // the same instant, replayed in Rio / Chicago / New York
+// (TP/TK/TC — the same instant replayed in Rio / Chicago / New York — are set from SHOTS below)
 const UNIT = 6371e3 / 400;                               // space set: 1 unit = 15.93 km (Earth R = 400)
 const MOON_D = 384400e3 / UNIT, MOON_R = 1737e3 / UNIT;
 const SOL = 1e8, RSUN = 6.96e8 / SOL, AU = 1.496e11 / SOL;  // solar set: 1 unit = 100,000 km
@@ -77,31 +77,33 @@ const OFF = { city: [0, 0, 0], cls: [3000, 0, 0], kit: [6000, 0, 0], pool: [9000
 
 export const SHOTS = [
   { t0: 0, t1: 3.4, cam: 'title', set: 'city' },
-  { t0: 3.4, t1: 11.4, cam: 'tokyo', set: 'city' },
-  { t0: 11.4, t1: 15.2, cam: 'pool', set: 'pool' },
-  { t0: 15.2, t1: 19.0, cam: 'kitchen', set: 'kit' },
-  { t0: 19.0, t1: 22.8, cam: 'class', set: 'cls' },
-  { t0: 22.8, t1: 26.8, cam: 'atoms', set: 'atoms' },
-  { t0: 26.8, t1: 31.8, cam: 'dust', set: 'city' },
-  { t0: 31.8, t1: 36.4, cam: 'paris', set: 'paris' },
-  { t0: 36.4, t1: 41.0, cam: 'orbit', set: 'space' },
-  { t0: 41.0, t1: 45.4, cam: 'shell', set: 'space' },
-  { t0: 45.4, t1: 49.6, cam: 'moon', set: 'space' },
-  { t0: 49.6, t1: 54.8, cam: 'sun', set: 'solar' },
-  { t0: 54.8, t1: 65.2, cam: 'rewind', set: 'city' },
+  { t0: 3.4, t1: 10.8, cam: 'tokyo', set: 'city' },
+  { t0: 10.8, t1: 14.6, cam: 'pool', set: 'pool' },
+  { t0: 14.6, t1: 18.4, cam: 'kitchen', set: 'kit' },
+  { t0: 18.4, t1: 22.2, cam: 'class', set: 'cls' },
+  { t0: 22.2, t1: 25.6, cam: 'atoms', set: 'atoms' },
+  { t0: 25.6, t1: 30.6, cam: 'dust', set: 'city' },
+  { t0: 30.6, t1: 35.2, cam: 'paris', set: 'paris' },
+  { t0: 35.2, t1: 38.6, cam: 'orbit', set: 'space' },
+  { t0: 38.6, t1: 42.6, cam: 'shell', set: 'space' },
+  { t0: 42.6, t1: 46.8, cam: 'moon', set: 'space' },
+  { t0: 46.8, t1: 52.0, cam: 'sun', set: 'solar' },
+  { t0: 52.0, t1: 62.4, cam: 'rewind', set: 'city' },
 ];
+const S0 = Object.fromEntries(SHOTS.map((s) => [s.cam, s.t0])), S1 = Object.fromEntries(SHOTS.map((s) => [s.cam, s.t1]));
+const TP = S0.pool + 0.55, TK = S0.kitchen + 0.55, TC = S0.class + 0.6;
 // camera coords are LOCAL to the shot's set: p/a = [start, end] (eased); fov; amp = handheld drift. Several shots override P/Aim.
 export const CAMS = {
   title:   { p: [[3.2, 5.2, 6.5], [2.6, 4.2, 4.8]], a: [[0.2, 1.4, -9], [0.6, 1.4, -8]], fov: 52, amp: 0.01 },
   tokyo:   { p: [[1, 1.55, 0], [1, 1.55, 0]], a: [[1, 1.5, -1], [1, 1.5, -1]], fov: 50, amp: 0.004 },
-  pool:    { p: [[6.6, 1.0, 9.0], [7.4, 0.95, 9.6]], a: [[1.8, 1.5, 5.4], [-1.0, 5.2, -12]], fov: 52, amp: 0.004 },
+  pool:    { p: [[6.6, 1.0, 9.0], [6.2, 0.75, 8.2]], a: [[1.8, 1.5, 5.4], [-0.5, 3.0, 2.6]], fov: 52, amp: 0.004 },
   kitchen: { p: [[-0.75, 1.32, 1.55], [0.35, 1.38, 1.7]], a: [[0.5, 0.98, -0.4], [0.55, 1.0, -0.4]], fov: 50, amp: 0.003 },
   class:   { p: [[1.05, 1.5, 1.0], [0.85, 1.52, 0.7]], a: [[1.2, 1.78, -2.6], [1.18, 1.78, -2.6]], fov: 52, amp: 0.003 },
-  atoms:   { p: [[-4.5, 2.6, 8.5], [2.5, 2.0, 6.5]], a: [[0, -0.6, -1.5], [0.5, 0.2, -1.5]], fov: 50, amp: 0.002 },
+  atoms:   { p: [[-6.0, 3.2, 9.5], [3.2, 1.5, 4.6]], a: [[0, -0.6, -1.5], [0.6, 0.6, -1.5]], fov: 50, amp: 0.002 },
   dust:    { p: [[1, 1.55, 0], [1, 1.55, 0]], a: [[1, 1.5, -1], [1, 1.5, -1]], fov: 50, amp: 0.004 },
   paris:   { p: [[2, 1.6, 52], [6, 14, 118]], a: [[0, 26, 0], [0, 40, 0]], fov: 54, amp: 0.006 },
-  orbit:   { p: [[1300, 520, 2150], [2050, 420, 1350]], a: [[0, 0, 0], [0, 0, 0]], fov: 40, amp: 0 },
-  shell:   { p: [[2050, 420, 1350], [4300, 800, 2300]], a: [[0, 0, 0], [0, 0, 0]], fov: 40, amp: 0 },
+  orbit:   { p: [[600, 1100, 4300], [1650, 360, 1150]], a: [[0, 0, 0], [0, 0, 0]], fov: 40, amp: 0 },
+  shell:   { p: [[1650, 360, 1150], [4300, 800, 2300]], a: [[0, 0, 0], [0, 0, 0]], fov: 40, amp: 0 },
   moon:    { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 50, amp: 0 },
   sun:     { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 50, amp: 0 },
   rewind:  { p: [[3.35, 1.56, -7.75], [3.0, 1.52, -8.15]], a: [[1.5, 1.48, -8.75], [1.5, 1.48, -8.8]], fov: 46, amp: 0.004 },
@@ -135,7 +137,7 @@ export async function build(studio, story) {
   studio.renderer.localClippingEnabled = true;
   // physics time τ (seconds) from the HUD's log segments — the SAME numbers the HUD shows
   const LOG = story.hud.filter((h) => h.ease === 'log');
-  const tauAt = (t) => { const s = LOG.find((h) => t >= h.r0 && t < h.r1) || (t >= LOG[LOG.length - 1].r1 && t < 54.8 ? LOG[LOG.length - 1] : null); if (!s) return 0; const u = clamp((t - s.r0) / (s.r1 - s.r0)); return s.from * Math.pow(s.to / s.from, u); };
+  const tauAt = (t) => { const s = LOG.find((h) => t >= h.r0 && t < h.r1) || (t >= LOG[LOG.length - 1].r1 && t < S0.rewind ? LOG[LOG.length - 1] : null); if (!s) return 0; const u = clamp((t - s.r0) / (s.r1 - s.r0)); return s.from * Math.pow(s.to / s.from, u); };
 
   // ---------------------------------------------------------------- sets (parked at offsets; one visible per shot)
   const city = buildCity(studio, {}); city.setTime({ day: 0, golden: 0, milky: 0, moon: 1 }); city.setPower(1);
@@ -164,9 +166,9 @@ export async function build(studio, story) {
     const p = new THREE.Points(g, new THREE.PointsMaterial({ size: 3.6, map: dotTex, transparent: true, depthWrite: false, color: 0xe8eeff, fog: false, sizeAttenuation: false, toneMapped: false })); p.frustumCulled = false; p.renderOrder = -5; scene.add(p); return p; })();
   const sunDisc = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: new THREE.Color(0xfff6e6).multiplyScalar(4), toneMapped: false, depthWrite: false, fog: false })); scene.add(sunDisc);
   /** the daytime sky of a set fades to black (no electrons = no scattering): every big BackSide sky dome + its cloud sprites */
-  const skyParts = (root) => { const L = [], seen = new Set(); root.traverse((o) => { const m = o.material; if (!m || seen.has(m)) return; if ((o.isMesh && m.isMeshBasicMaterial && m.fog === false) || (o.isSprite && m.map && m.fog === false)) { seen.add(m); L.push({ o, c: m.color.clone() }); } }); return L; };
+  const skyParts = (root) => { const L = [], col = new Map(); root.traverse((o) => { const m = o.material; if (!m) return; if ((o.isMesh && m.isMeshBasicMaterial && m.fog === false) || (o.isSprite && m.map && m.fog === false)) { if (!col.has(m)) col.set(m, m.color.clone()); L.push({ o, c: col.get(m) }); } }); return L; };
   const SKY = { pool: skyParts(pool.root), paris: skyParts(paris.root) };
-  const blackSky = (key, k) => { for (const { o, c } of SKY[key]) o.material.color.copy(c).multiplyScalar(1 - 0.985 * k); };
+  const blackSky = (key, k) => { for (const { o, c } of SKY[key]) { o.material.color.copy(c).multiplyScalar(1 - 0.985 * k); if (o.material.side !== THREE.BackSide) { o.material.transparent = true; o.material.depthWrite = false; o.material.opacity = 1 - k; o.visible = k < 0.99; } } };   // clouds fade out (dark blobs read as a night sky)
 
   // ---------------------------------------------------------------- dissolve controls (engine/nuclei.js)
   const UD = {};
@@ -234,7 +236,7 @@ export async function build(studio, story) {
     put(girl, 'city', pg); put(boy, 'city', pb); put(pal, 'city', pp);
   }
   function tokyoRewind(t) {   // 9:59 PM: the scramble is alive again; Yuki runs up and hugs the girl at the far corner
-    const u = t - 54.8, tt = 0.8 + u;
+    const u = t - S0.rewind, tt = 0.8 + u;
     walks.forEach((w, i) => { const s = ((tt + w.ph) * w.v) % w.L; const p = basePose(); p.eyes = blink(tt, i + 7); Object.assign(p, { x: w.x0 + Math.sin(w.a) * s, z: w.z0 + Math.cos(w.a) * s, rotY: w.a, dist: s + w.ph * 3, speed: w.v }); if (w.phone) { p.armB = PHONE_B; p.headPitch = 0.35; } put(crowd[i], 'city', p); });
     const hug = sstep(0.9, 1.5, u), sway = 0.05 * Math.sin(u * 2.4) * hug;
     const gx = 1.4, gz = -8.6;
@@ -268,14 +270,14 @@ export async function build(studio, story) {
   const blobs = new THREE.InstancedMesh(blobGeo, waterM, splash.length); blobs.frustumCulled = false; pool.root.add(blobs);
   const M4 = new THREE.Matrix4(), Q4 = new THREE.Quaternion(), V3 = new THREE.Vector3(), S3 = new THREE.Vector3();
   function poolScene(t) {
-    const tt = Math.min(t, TP), u = tt - 11.4;   // live for 0.55 s, then frozen
+    const tt = Math.min(t, TP), u = tt - S0.pool;   // live for 0.55 s, then frozen
     pool.update(10 + tt);
     // the splash of a swimmer who just slapped the water: blobs flying up (frozen at TP)
     const age = 0.25 + u;
     splash.forEach((b, i) => { const y = PD.water + b.vy * age - 0.5 * G * age * age, r = b.vr * age; V3.set(-0.6 + Math.cos(b.a) * (0.2 + r), Math.max(PD.water, y), 3.2 + Math.sin(b.a) * (0.2 + r) * 0.6); S3.setScalar(b.s); M4.compose(V3, Q4, S3); blobs.setMatrixAt(i, M4); });
     blobs.instanceMatrix.needsUpdate = true;
     // the cannonball: leaves the deck at 11.55 (feet at y 0), freezes near the top of the arc
-    const tj = Math.max(0, tt - 11.55), ky = 3.3 * tj - 0.5 * G * tj * tj, kz = 6.2 - 1.6 * tj;
+    const tj = Math.max(0, tt - (S0.pool + 0.15)), ky = 3.3 * tj - 0.5 * G * tj * tj, kz = 6.2 - 1.6 * tj;
     const pk = basePose(); pk.eyes = 'closed'; Object.assign(pk, { x: 1.8, z: kz, rotY: 0.95, crouch: 0.3, lean: 0.5, footFwd: 0.35, mouth: 'o', headPitch: -0.2 }); pk.armA = A(-1.2, 0.2, -2.0, 0.6); pk.armB = A(-1.2, 0.2, -2.0, -0.6);
     put(kid, 'pool', pk, 0.35 + ky, ky + 0.75);
     swimmers.forEach((s, i) => { const p = basePose(); p.eyes = blink(tt, i + 20); const [x, z] = [[-0.6, 3.0], [-3.2, 1.8], [3.6, 0.6], [-6.0, -2.0]][i]; Object.assign(p, { x, z, rotY: [0.4, 0.9, -0.5, 0.2][i], mouth: i === 0 ? 'o' : 'smile', headPitch: -0.15 }); p.armA = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); p.armB = i === 0 ? A(-2.2, 0.8, -0.4, 0) : A(-0.6, 0.9, -0.3, 0); put(s, 'pool', p, PD.water - 1.42, PD.water - 1.42); });
@@ -354,14 +356,14 @@ export async function build(studio, story) {
     yardM.forEach(({ o, c }) => o.material.color.copy(c).multiplyScalar(1 - 0.75 * k));
     // the bubble: pops up while she talks; frozen (cut off) after the switch
     teacher.root.updateMatrixWorld(true); const hp = teacher.headG.getWorldPosition(new THREE.Vector3());
-    bubble.sprite.position.set(hp.x - 0.2, hp.y + 0.43, hp.z + 0.25); bubble.setRows(1); bubble.setPop(0.95 * sstep(19.05, 19.35, t)); bubble.sprite.visible = true;
+    bubble.sprite.position.set(hp.x - 0.2, hp.y + 0.43, hp.z + 0.25); bubble.setRows(1); bubble.setPop(0.95 * sstep(S0.class + 0.05, S0.class + 0.35, t)); bubble.sprite.visible = true;
   }
 
   // ================================================================ ATOMS (the micro view)
   const lattice = makeAtomLattice({ nx: 18, nz: 14, ny: 5, s: 1 }); atoms.add(lattice.g);
   mk(new THREE.SphereGeometry(40, 32, 16), new THREE.MeshBasicMaterial({ side: THREE.BackSide, fog: false, map: canvasTex(16, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#02040c'); gr.addColorStop(0.55, '#0b1838'); gr.addColorStop(1, '#03060f'); g.fillStyle = gr; g.fillRect(0, 0, w, h); }) }), atoms);
   function atomScene(t, tau) {
-    const cloudsK = 1 - sstep(22.8, 23.25, t);                    // the electron clouds go (a reminder of τ = 0)
+    const cloudsK = 1 - sstep(S0.atoms, S0.atoms + 0.4, t);                    // the electron clouds go (a reminder of τ = 0)
     const spread = Math.pow(tau / 3e-16, 3);                      // surface nuclei: one atom width by ~0.3 fs, ×(τ/0.3 fs)³
     const vis = spread < 1 ? spread : 1 + 1.5 * Math.log(spread);   // the display compresses the (τ/0.3 fs)³ growth so the last second stays readable
     lattice.set(cloudsK, vis, vis * 0.9, t);
@@ -405,7 +407,7 @@ export async function build(studio, story) {
     space.clouds.visible = reach < 4; space.clouds.material.opacity = 0.95 * (1 - sstep(0.4, 3.5, reach));
     space.atm.visible = reach < 25; space.atm.scale.setScalar(1 + reach / 420);
     const grow = Math.max(1, (400 + reach) / 400);
-    ecloud.set(studio.camera, t, { reach, thick: 400, spread: 0.06, size: 2.6 * Math.pow(grow, 0.92), fade: 0, minR: 0.25, gain: 1.4, groups: [{ on: 1 }] });
+    ecloud.set(studio.camera, t, { reach, thick: 400, spread: 0.06, size: (cam === 'orbit' ? 3.2 : 2.6) * Math.pow(grow, 0.92), fade: 0, minR: 0.25, gain: cam === 'orbit' ? 1.9 : 1.4, groups: [{ on: 1 }] });
     const mreach = reach;
     mcloud.set(studio.camera, t, { reach: mreach, thick: MOON_R, spread: 0.06, size: 2.6 * Math.max(1, (MOON_R + mreach) / 400) * 0.9, fade: 0.9, minR: 0.25, gain: 1.2, groups: [{ on: cam === 'moon' ? 1 : 0 }] });
     const touch = sstep(0.5, 0.63, tau); meet.visible = cam === 'moon' && touch > 0; meet.position.copy(moonDir).multiplyScalar(MOON_D * 0.5); meet.scale.setScalar(2000 + 9000 * touch); meet.material.opacity = touch;
@@ -472,8 +474,8 @@ export async function build(studio, story) {
       if (rewind) { yuki.root.visible = true; pal.root.visible = true; }
       const hz = heroAt(Math.min(t, SW)), cx = 1.0;
       if (cam === 'tokyo') {    // walk backward ahead of the friends; after the switch, orbit them (bullet time)
-        const ang = 0.7 * sstep(SW, 11.4, t) + 0.05 * Math.sin(t * 0.7), rad = lerp(2.55, 1.9, sstep(SW, 11.4, t));
-        P = [cx + 0.25 + Math.sin(ang) * rad, 1.52 + 0.08 * sstep(SW, 11.4, t), hz - 0.2 + Math.cos(ang) * rad]; Aim = [cx + 0.25, 1.42, hz - 0.25];
+        const ang = 0.8 * sstep(SW, S1.tokyo, t) + 0.05 * Math.sin(t * 0.7), rad = lerp(2.55, 1.8, sstep(SW, S1.tokyo, t));
+        P = [cx + 0.25 + Math.sin(ang) * rad, 1.52 + 0.08 * sstep(SW, S1.tokyo, t), hz - 0.2 + Math.cos(ang) * rad]; Aim = [cx + 0.25, 1.42, hz - 0.25];
       }
       if (cam === 'dust') {
         const reach = C * tau, ang = lerp(0.55, -0.35, e), rad = lerp(1.9, 3.8, sstep(0.45, 1, u));
@@ -483,7 +485,7 @@ export async function build(studio, story) {
       }
     }
     if (S === 'pool') { const k = poolScene(t); stars.visible = k > 0; stars.material.opacity = k;
-      const tl = sstep(12.9, 15.2, t); Aim = c.a[0].map((v, i) => lerp(v, c.a[1][i], tl) + o[i]); }
+      const tl = sstep(S0.pool + 1.4, S1.pool, t); Aim = c.a[0].map((v, i) => lerp(v, c.a[1][i], tl) + o[i]); }
     if (S === 'cls') studio.fill.intensity = 0.75;
     if (S === 'kit') kitchen(t);
     if (S === 'cls') classroom(t);
@@ -516,7 +518,7 @@ export async function build(studio, story) {
     // stars + sun disc ride with the camera
     stars.position.set(P[0], P[1], P[2]); stars.scale.setScalar(studio.camera.far * 0.8);
     if (S === 'pool' || S === 'paris') {
-      const L = (S === 'pool' ? pool : paris).lights.sun, d = S === 'pool' ? new THREE.Vector3(-8.4, 5.0, -21.6).normalize() : L.position.clone().sub(L.target.position).normalize();
+      const L = (S === 'pool' ? pool : paris).lights.sun, d = S === 'pool' ? new THREE.Vector3(-6.2, 3.6, -4.4).normalize() : L.position.clone().sub(L.target.position).normalize();
       sunDisc.visible = true; sunDisc.position.set(P[0] + d.x * 200, P[1] + d.y * 200, P[2] + d.z * 200); sunDisc.scale.setScalar(16);
     }
     setCamera(P, Aim, c.fov, t, c.amp);
