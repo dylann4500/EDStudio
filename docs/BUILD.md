@@ -351,4 +351,21 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   and the crash car rushed in from off-frame. Frame the start position AND the wall (fov 46 at ~10 m), then push in on the
   aftermath; the move from the previous punch (MANAGER) must fit, so trim its `until` rather than skip the start.
 
-026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5.
+- **`python3 -I tools/lint_comments.py <files>`** flags a `//` that swallowed code (the three flavours above, plus a ✓ that lost its
+  pop-in scale in 026 round 3). Run it with `node --check` after EVERY scripted batch; it found a real bug every round of 026.
+- **Sample `--qc` at 0.1 s, not 0.25 s** (026's hook steps 0.1): two 0.25 s hits can be anything from 0.25 to 0.75 s. At 0.1 s a
+  crossing during a crane-down measured 0.5 s; a pause at the foot of the stairs + a 0.7 s dash up (his own rise adding to the
+  camera's descent) cut it to 0.3 s.
+- **Anything that appears inside the cutaway section should GROW, not pop**: the e-coat tank's walls appeared full height in one
+  frame and blanked the basement behind it (look review: a "blank grey box"). It now rises out of the basement floor with the
+  pit (`tank.position.y = y0·(1 − ease(k))`), basement grey + a hazard rim.
+- **Thin lines don't exist at 1080×1920**: lightning as zig-zag BOXES (0.1 m, additive yellow, rebuilt per frame from two end
+  points + jitter), not `THREE.Line` (always 1 px) and not cyan on a cyan bath. Same for small props: a flat tie on top of the
+  Roomba read as a red sliver → a big bow tie standing on its front rim, and the Roomba turned to the lens on "manager".
+- **Props that hide the person using them**: the vending machine popped in exactly where the inspector walked (he vanished
+  behind it). Stand the user beside the prop's front, on the lens side, and hand them the result (the meatloaf in his hand).
+- **Moving the subject fixes framing faster than moving the camera**: a price board cut by a lift post from every camera x was
+  fixed by sliding the board 0.35 m along the wall (and scaling it 0.87), not by another camera key.
+
+026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5;
+v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
