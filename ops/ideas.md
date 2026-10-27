@@ -34,7 +34,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 024 | How a Hole Becomes a Subway (narrated "build" genre) | build — NOT managed by the operation | the user runs build reels separately; number reserved only |
 | 025 | How a Kiddie Pool Becomes a Dam | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 026 | How a Garage Becomes a Car Factory | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
-| 027 | What if every electron disappeared? | science / @ed_.studios | assigned Oct 26 |
+| 027 | What if every electron disappeared? | science / @ed_.studios | made Oct 26, in review |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
