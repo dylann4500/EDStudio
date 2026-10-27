@@ -129,6 +129,19 @@ videos/NNN-slug/
   `put(rig, key, p, s, rootY, groundY)` helper (010's `putG` with a variable scale); sitting root = ground − s·(HIP_H − 0.17).
   **Keep the camera at ADULT eye level after a shrink** — dropping it with them made the shrink invisible.
 - `supermarket.setStock(k, belowY)` (014): only shelves lower than `belowY` empty ("everything below 3 feet: gone").
+- **Sunny Market (031, `engine/pipmart.js`):** `dressMarket(studio, buildSupermarket(studio))` dresses the 010 store for a
+  job episode: glass front wall at z = 6 with automatic doors (`setDoors(0..1)`) + a sunny parking lot and a painted horizon
+  card (`setSunset(k)` = a low warm light through the glass), a LOBBY at x 3…8, z 2.4…6, hanging aisle signs (1 PRODUCE · 2 CEREAL ·
+  3 MEAT), printed labels on every product, a sausage cooler in aisle 3 (`M.bin`, pile top `bin.topY`), checkout 3 on the
+  x = 2 counter (`lane.setBelt(m)`, `lane.setScreen(n)` = a register listing n "items", `lane.D`), a back-wall clock
+  (`clock.setClock`), an EMPLOYEE OF THE MONTH board on the right wall (`eotm.photoSlot`), a balloon net (`balloons.update(t,
+  tDrop)`), pumpkins, flowers, gumball machine, cart corral, kiddie ride. Props: `makeStaffVest(pip)` (green working-dog vest,
+  STAFF on both flanks, top handle a toddler can hold, `setBadge(k)` HI, I'M PIP), `makeScanner()` (`setBeep`), `makeShopCart` +
+  `loadCart`, `makeHandBasket`, `makePolaroidCam` (`setFlash`) + `makePolaroid(tex)` (`setDevelop`), `makeGroceries(parent, n)`
+  (instanced cans/boxes/bottles/oranges for a belt jam → avalanche: 031 `scan()`), `makeScentTrail` (golden dotted ribbon).
+  **An in-world photo of a rig = render it to a texture once at build (031 `photoRT`):** a second `makePip` posed in an offscreen
+  "photo booth" root (backdrop + key light) far from the set, `renderer.setRenderTarget(rt); renderer.render(scene, cam)`,
+  then hide that root; the Polaroid/frame uses `rt.texture` (it stays valid for every later frame).
 - `engine/sky.js`: painted night skies + weather particles.
 - `engine/sets/classroom.js`: sunny kindergarten (Room 4), 24 desks (`DIMS.desks`), chalkboard `setBoard(text)`, clock, seasonal schoolyard
   `setSeason('autumn'|'winter'|'spring'|'summer')`, `setChairsUp(bool)`, `setAbandoned(0..1)`, door into the room `setDoor(1.8)`.
@@ -587,6 +600,14 @@ videos/NNN-slug/
   A crane that stays above the roof footprint is safe; the neighbors are taller.
 - **street.js generic storefronts have an awning at y 2.75** that hides any sign you hang above the window — hide it
   (019 IRON GYM). Canvas text wider than its canvas is silently clipped ("LOSED FOREVE") — shrink the font or measure it.
+- **Instances you move at runtime need `frustumCulled = false` (031):** an InstancedMesh computes its bounding sphere ONCE from
+  the matrices it has at the first render; 031's groceries started hidden at y −50, so the whole avalanche was culled forever
+  (and fallen balloons outside the net's sphere vanished at frame edges). Same for any pool you re-place per frame.
+- **A sky seen through a store's windows from a low camera needs a TALL card (031):** a 46 m sky cylinder left the top of a
+  low, upward doors shot black. Make the card ~120 m tall (horizon at v ≈ 0.075) and set `scene.background` to the sky colour.
+- **A toddler/kid sitting ON THE FLOOR = `y −0.68, footFwd 0.62`** (in the rig's own units); `y −0.22` is chair height (031).
+- **A close-up of a lying/sitting pet puts his face in the subtitle band** unless the aim is LOW (031 sob shot: aim y 0.13 for a
+  head at 0.3 m); when he stands up mid-shot, dolly back + lift the aim in `update()` or the head leaves the top of the frame.
 - **LatheGeometry profiles: no two consecutive equal points** (zero-length segment → NaN normals → black blocks).
 - **A prop you add can swallow the camera (022):** a press-room reverse shot rendered black because the camera sat behind a
   presentation screen just added to the set. Run bearing.py on new props as well as people. And never fade a cap mesh in by
@@ -654,7 +675,11 @@ It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut
 **023 (Pip ep. 2, Halloween at dusk) met the target on cut1 (wc 0.0625, first 60 s 0.0661):** the peaks were the busy close
 porch beats — the skeleton collapsing on Pip (0.117) and kids hurrying past the dark house four in the foreground (0.124);
 the weakest (besides the title) was the static look-up at the grumpy old man in his doorway (0.039) and the slow home ending.
-**019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
+**031 (Pip ep. 4, supermarket job) = 0.0849, the new best (first 60 s 0.0888), cut1:** a bright store with a crowd of faces in
+every job beat (herded shoppers 0.130, the walk to Mom past watching shoppers 0.120–0.132, the reunion 0.125); weakest were the
+title, a two-shot dominated by a back (0.037) and the near-empty 4 PM aisle (0.053). One location dressed densely scored as
+well as many locations.
+**019 (dance montage) = 0.0806:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
 **029 (Moon twice as close) cut2 = 0.0471, TARGET MET after one in-place fix pass:** the dead zone (static calendar wall, a

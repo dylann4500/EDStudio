@@ -1358,6 +1358,17 @@ def sfx_alarm_beep(rng, dur=1.4, n=3, pitch=1.0):
     return Sound(norm(fades(lp(y, 2600), 0.001, 0.03)), onsets=[(0.0, "transient")])
 
 
+def sfx_scan_beep(rng, pitch=1.0, dur=0.22):
+    """Supermarket barcode beep (031): ONE soft round sine "boop" (~880 Hz, rounded 8 ms attack, short decay), low-passed, with
+    a faint octave-down body so it reads as a till, not an alarm. Gentle at the house's -30 dB; never piercing."""
+    ns = nsamp(dur)
+    t = tvec(ns)
+    f = 880.0 * pitch
+    e = np.clip(t / 0.008, 0, 1) * np.exp(-np.clip(t - 0.07, 0, None) / 0.03)
+    y = e * (np.sin(2 * np.pi * f * t) + 0.35 * np.sin(2 * np.pi * 0.5 * f * t) + 0.12 * np.sin(2 * np.pi * 2 * f * t))
+    return Sound(norm(fades(lp(y, 2200), 0.001, 0.03)), onsets=[(0.0, "transient")])
+
+
 def sfx_cartoon_splash(rng, dur=2.2, size=1.0):
     """A big cartoon splash (020; named cartoon_splash — 017's water_splash is a different sound): a soft low 'whump' + a wide burst of filtered water noise that rises then rains back down.
     Everything low-passed (no hiss); size 0.3 = a bucket, 1 = a pool, 2 = an ocean."""
@@ -2338,6 +2349,7 @@ SFX = {
     "bone_clatter": (sfx_bone_clatter, "prop"),
     "alarm_beep": (sfx_alarm_beep, "prop"),
     "cartoon_splash": (sfx_cartoon_splash, "prop"),   # 020 (017 owns water_splash)
+    "scan_beep": (sfx_scan_beep, "ui"),   # 031 (checkout scanner; "ui" so the music does not duck under every boop)
 }
 
 # =============================================================================
