@@ -175,3 +175,17 @@ slow dance cranes up to a city that is one street party.
   Quake, 7.1 M job openings, 890 M adults with obesity) — the subtitle is the gag, the HUD is the fact.
 - **End card = an answer everyone has:** "What song would you be stuck dancing to?" (comment bait that needs no knowledge).
 - Sound: soft piano house locked to the picture (audio/README.md → Dance tone).
+
+## Body-absurd doubling POV (`videos/022-ballsack-doubling`) — "What if your ballsack doubled in size every minute?"
+The weird-tier "you" ladder (docs/lanes/unhinged.md): one thing on your body doubles every minute (6 cm × 2^n) and the joke is the
+LOGISTICS — an elevator empties, the doctor faints, the tailor's tape runs out, a wheelbarrow, the biggest rental truck, a crane,
+a science press briefing, a ZIP code, satellites, Earth starts orbiting it — then a weirdly sweet button (9:28 AM: you finally sit
+down on top of it; your coffee is still warm).
+- **The anatomy is never modeled** (TikTok): only a camera-facing pixel censor block (`engine/haul.js makeCensor`) at small sizes
+  and a blue tarp load tied with ropes (with a censor patch on it) at big sizes. Faces, props and the HUD carry the joke. Keep the
+  medical beat medical (the doctor examines standing up; "turn your head and cough"), never anything sexual.
+- Different from its twin 020 (butt, modeled in denim, ends on "three moons"): logistics + institutions, not body shapes; the
+  climax flips the scale (Earth becomes ITS moon) instead of adding moons.
+- HUD: `fmt: 'len'` width that rolls geometrically on every doubling + MINUTE n · 9:0n AM; one sourced number per beat.
+- Sound: an escalation fanfare that modulates up a whole step per location group, a root–fifth–octave piano pickup + boom on
+  every doubling, soft low "boops" for each censor pop; warm piano arp for the sit-down (audio: make_cues.py).

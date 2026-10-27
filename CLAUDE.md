@@ -229,6 +229,16 @@ videos/NNN-slug/
   pops over a head, accessories built once per crowd rig and toggled per beat (`wear(rig, {cap, mask, gloves, shades})`,
   `outfit(rig, top, pants)` recolors; `hideAll` restores), props `makeCoffin`, `makeBowl`, `makeSpoon`, `makeCerealBox`,
   `makeSheet(text)` (a stamped paper: HIRED).
+- **Body-absurd premises without anatomy (022):** `engine/haul.js` — `makeCensor({seed, n})` = a camera-facing pixel mosaic
+  sprite (denim blues, `depthTest: false`, drawn over everything like an edit in post; `setSize(m)`), `makeTarpBall({squash})`
+  = ONE lumpy blue tarp mound with ropes (diameter via `setSize`, origin at the bottom; never a two-lobed shape), plus the
+  logistics props `makeWheelbarrow` (`setCrush(k)`), `makeBoxTruck` (26 ft; `setBulge(k)`, `setBurst(seconds)` blows the walls
+  + roof off), `makeTowerCrane` (`setTrolley/setCable/setBuckle`, read `hook` world pos), `makeLawnChair`, `makeTape` (ribbon
+  between two points), `makeClothesRack` (`tip`, `suits[]`), `makeRoadSign(lines)`, `makeMosaicFlag`. New sets: `elevator.js`
+  (filmed from the lobby, no front wall, `setFloor(n)`), `clinic.js` (exam room, door at the back right for a crowd of doctors),
+  `tailor.js` (fabric-bolt wall, fitting pedestal, dress forms that topple). core.js HUD `fmt: 'len'` (value in cm → cm/m/km)
+  + `geo: true` (a doubling rolls geometrically). A far-away giant in suburb.js: scale the 300 m sky dome ×30, far 14000, and
+  give the giant `fog: false` materials with a haze-blue emissive (the set's 220 m fog would erase it); its smoke sprites too.
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -397,6 +407,9 @@ videos/NNN-slug/
 - **street.js generic storefronts have an awning at y 2.75** that hides any sign you hang above the window — hide it
   (019 IRON GYM). Canvas text wider than its canvas is silently clipped ("LOSED FOREVE") — shrink the font or measure it.
 - **LatheGeometry profiles: no two consecutive equal points** (zero-length segment → NaN normals → black blocks).
+- **A prop you add can swallow the camera (022):** a press-room reverse shot rendered black because the camera sat behind a
+  presentation screen just added to the set. Run bearing.py on new props as well as people. And never fade a cap mesh in by
+  `scale.y` (it sinks inside its parent and never shows); fade its opacity.
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 
