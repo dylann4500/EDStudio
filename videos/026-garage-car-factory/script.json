@@ -62,8 +62,13 @@
       ]
     },
     {
+      "id": "queue",
+      "say": "Now everyone wants one, and Gary builds them alone.",
+      "callouts": []
+    },
+    {
       "id": "line",
-      "say": "Now everyone wants one, and Gary builds them alone. So you roll each car past a row of stations, one job each. This is called an assembly line. Ford's line cut a car from 12 hours to 93 minutes. Your Roomba pulls the rope. Promoted.",
+      "say": "So you roll each car past a row of stations, one job each. This is called an assembly line. Ford's line cut a car from 12 hours to 93 minutes. Your Roomba pulls the rope. Promoted.",
       "callouts": [
         {
           "at": "assembly",
@@ -86,8 +91,8 @@
       ]
     },
     {
-      "id": "parts",
-      "say": "But nothing fits. Gary is hammering a door into a sunroof. So you make every part exactly alike. This is called interchangeable parts. In 1908, Cadillac mixed three cars into one pile and rebuilt all three. Gary was in the pile. He's a hood ornament now.",
+      "id": "fits",
+      "say": "But nothing fits. Gary is hammering a door into a sunroof.",
       "callouts": [
         {
           "at": "sunroof",
@@ -98,7 +103,13 @@
             0.3
           ],
           "hold": 0.9
-        },
+        }
+      ]
+    },
+    {
+      "id": "parts",
+      "say": "So you make every part exactly alike. This is called interchangeable parts. In 1908, Cadillac mixed three cars into one pile and rebuilt all three. Gary was in the pile. He's a hood ornament now.",
+      "callouts": [
         {
           "at": "interchangeable",
           "text": "INTERCHANGEABLE PARTS",
@@ -149,7 +160,7 @@
     },
     {
       "id": "ecoat",
-      "say": "Then the roof leaks, and every car rusts. So you dip every body in electrified paint that seals every crack. This is called e-coating. Gary is still welded to that door. He's rustproof now.",
+      "say": "Then the cars start rusting in the rain. So you dip every body in electrified paint that seals every crack. This is called e-coating. Gary is still welded to that door. He's rustproof now.",
       "callouts": [
         {
           "at": "ecoating",
@@ -191,7 +202,7 @@
     },
     {
       "id": "crash",
-      "say": "Is it safe? You crash one into a wall. Gary is the dummy. The car is fine. Gary is not. So you make the front fold like a soda can. This is called a crumple zone. Gary walks away fine. Then the airbag goes off.",
+      "say": "Is it safe? You crash one into a wall. Gary is the dummy. The car is fine. Gary is not.",
       "callouts": [
         {
           "at": "wall",
@@ -202,13 +213,18 @@
             0.26
           ],
           "hold": 0.9
-        },
+        }
+      ]
+    },
+    {
+      "id": "crumple",
+      "say": "So you make the front fold like a soda can. This is called a crumple zone. Gary walks away fine. Then the airbag goes off.",
+      "callouts": [
         {
           "at": "crumple",
           "text": "CRUMPLE ZONE",
           "style": "term",
-          "until": "fine",
-          "nth": 1
+          "until": "fine"
         },
         {
           "at": "off",
@@ -223,14 +239,42 @@
       ]
     },
     {
-      "id": "finish",
-      "say": "Add a paint shop, a test track, and an inspector who rejects Gary.",
+      "id": "qc",
+      "say": "Then a car ships out with Gary still inside. So you check every car at the end of the line. This is called quality control. The inspector rejects Gary. Twice.",
       "callouts": [
+        {
+          "at": "quality",
+          "text": "QUALITY CONTROL",
+          "style": "term",
+          "until": "control"
+        },
         {
           "at": "rejects",
           "text": "REJECTED",
           "style": "stamp",
-          "hold": 1.4
+          "hold": 0.75
+        },
+        {
+          "at": "twice",
+          "text": "REJECTED AGAIN",
+          "style": "stamp",
+          "hold": 1.2
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a vending machine that only sells meatloaf, a test track on the roof, and a parking lot the size of a town.",
+      "callouts": [
+        {
+          "at": "track",
+          "text": "VROOM!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.24
+          ],
+          "hold": 0.9
         }
       ]
     },

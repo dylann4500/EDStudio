@@ -27,21 +27,22 @@ s1 = lambda b: B[b]['t1']
 t = dict(
     n900=W('hook', '900'), fix=W('hook', 'fix'), soH=W('hook', 'so'), newH=W('hook', 'new'), garage=W('hook', 'garage'),
     congrats=W('congrats', 'congratulations'), three=W('congrats', 'three'), mower=W('congrats', 'lawnmower'), engine=W('congrats', 'engine'), horn=W('congrats', 'horn'), garyC=W('congrats', 'gary'),
-    now=W('line', 'now'), everyone=W('line', 'everyone'), builds=W('line', 'builds'), alone=W('line', 'alone'), roll=W('line', 'roll'), stations=W('line', 'stations'),
+    now=W('queue', 'now'), everyone=W('queue', 'everyone'), builds=W('queue', 'builds'), alone=W('queue', 'alone'), roll=W('line', 'roll'), stations=W('line', 'stations'),
     n12=W('line', '12'), minutes=W('line', 'minutes'), pulls=W('line', 'pulls'), rope=W('line', 'rope'), promoted=W('line', 'promoted'),
-    but=W('parts', 'but'), fits=W('parts', 'fits'), hammering=W('parts', 'hammering'), make=W('parts', 'make'), inter=W('parts', 'interchangeable'), partsW=W('parts', 'parts'),
+    but=W('fits', 'but'), fits=W('fits', 'fits'), hammering=W('fits', 'hammering'), soP=W('parts', 'so'), make=W('parts', 'make'), exactly=W('parts', 'exactly'), alike=W('parts', 'alike'), inter=W('parts', 'interchangeable'), partsW=W('parts', 'parts'),
     mixed=W('parts', 'mixed'), pile=W('parts', 'pile'), rebuilt=W('parts', 'rebuilt'), three2=W('parts', 'three', 2), pile2=W('parts', 'pile', 2), hood=W('parts', 'hood'),
     garys=W('robots', 'garys'), bolt=W('robots', 'bolt'), day=W('robots', 'day'), asleep=W('robots', 'asleep'), up=W('robots', 'up'), robot=W('robots', 'robot'), never=W('robots', 'never'),
     welded=W('robots', 'welded'), garyW=W('robots', 'gary'), doorW=W('robots', 'door'),
-    roof=W('ecoat', 'roof'), rusts=W('ecoat', 'rusts'), soE=W('ecoat', 'so'), dip=W('ecoat', 'dip'), body=W('ecoat', 'body'), electrified=W('ecoat', 'electrified'), seals=W('ecoat', 'seals'),
+    thenE=W('ecoat', 'then'), carsE=W('ecoat', 'cars'), rusts=W('ecoat', 'rusting'), rain=W('ecoat', 'rain'), soE=W('ecoat', 'so'), dip=W('ecoat', 'dip'), body=W('ecoat', 'body'), electrified=W('ecoat', 'electrified'), seals=W('ecoat', 'seals'),
     crack=W('ecoat', 'crack'), ecoating=W('ecoat', 'ecoating'), garyE=W('ecoat', 'gary'), doorE=W('ecoat', 'door'), rustproof=W('ecoat', 'rustproof'),
     n30000=W('jit', '30000'), allJ=W('jit', 'all'), once=W('jit', 'once'), buried=W('jit', 'buried'), soJ=W('jit', 'so'), arrives=W('jit', 'arrives'), needed=W('jit', 'needed'),
     jitW=W('jit', 'justintime'), toyota=W('jit', 'toyota'), roombaJ=W('jit', 'roomba'), manager=W('jit', 'manager'),
-    safe=W('crash', 'safe'), crashW=W('crash', 'crash'), wall=W('crash', 'wall'), dummy=W('crash', 'dummy'), fine=W('crash', 'fine'), notX=W('crash', 'not'), soX=W('crash', 'so'),
-    front=W('crash', 'front'), can=W('crash', 'can'), crumple=W('crash', 'crumple'), zone=W('crash', 'zone'), garyX3=W('crash', 'gary', 3), walks=W('crash', 'walks'), away=W('crash', 'away'), off=W('crash', 'off'),
-    paint=W('finish', 'paint'), test=W('finish', 'test'), inspector=W('finish', 'inspector'), rejects=W('finish', 'rejects'),
+    safe=W('crash', 'safe'), crashW=W('crash', 'crash'), wall=W('crash', 'wall'), dummy=W('crash', 'dummy'), fine=W('crash', 'fine'), notX=W('crash', 'not'),
+    soX=W('crumple', 'so'), front=W('crumple', 'front'), fold=W('crumple', 'fold'), can=W('crumple', 'can'), crumple=W('crumple', 'crumple'), zone=W('crumple', 'zone'), garyX3=W('crumple', 'gary'), walks=W('crumple', 'walks'), away=W('crumple', 'away'), off=W('crumple', 'off'),
+    thenQ=W('qc', 'then'), carQ=W('qc', 'car'), ships=W('qc', 'ships'), inside=W('qc', 'inside'), soQ=W('qc', 'so'), check=W('qc', 'check'), endQ=W('qc', 'end'), quality=W('qc', 'quality'), inspector=W('qc', 'inspector'), rejects=W('qc', 'rejects'), twice=W('qc', 'twice'),
+    vending=W('finish', 'vending'), meatloaf=W('finish', 'meatloaf'), test=W('finish', 'test'), track=W('finish', 'track'), parking=W('finish', 'parking'), town=W('finish', 'town'),
     end=W('end', 'congratulations'), factory=W('end', 'factory'), didnt=W('end', 'didnt'), pay=W('end', 'pay'), n76=W('end', '76'), billion=W('end', 'billion'), makeE=W('end', 'make'), n53=W('end', '53'),
-    garyEnd=W('end', 'gary'), roombaE=W('end', 'roomba'), shop=W('end', 'shop'), mechanicE=W('end', 'mechanic'), n1400=W('end', '1400'))
+    dollars2=W('end', 'dollars'), garyEnd=W('end', 'gary'), roombaE=W('end', 'roomba'), shop=W('end', 'shop'), mechanicE=W('end', 'mechanic'), n1400=W('end', '1400'))
 
 # ---- derived times + the line: SAME formulas as shots.js (keep them in sync)
 clamp = lambda x, a=0.0, b=1.0: max(a, min(b, x))
@@ -50,8 +51,10 @@ u01 = lambda tt, a, b: clamp((tt - a) / (b - a))
 smooth = lambda u: (lambda v: v * v * (3 - 2 * v))(clamp(u))
 LX0, P, HOLD = -4.4, 4.6, 23.4 + 4.4
 SEG = [(t['roll'], t['promoted'] + 0.4, 0, HOLD), (t['garys'] - 0.05, t['garys'] + 0.95, HOLD, HOLD + P), (t['bolt'] + 0.05, t['day'] + 0.35, HOLD + P, HOLD + 2 * P),
-       (t['doorW'] + 0.1, t['soE'] + 0.1, HOLD + 2 * P, HOLD + 2 * P + 6.35), (t['rustproof'] + 0.4, t['end'] - 0.2, HOLD + 2 * P + 6.35, HOLD + 5 * P + 6.35),
-       (t['n53'] - 0.8, D + 1, HOLD + 5 * P + 6.35, HOLD + 5 * P + 6.35 + 40)]
+       (t['doorW'] + 0.1, t['soE'] + 0.1, HOLD + 2 * P, HOLD + 2 * P + 6.35), (t['rustproof'] + 0.4, t['thenQ'] - 0.3, HOLD + 2 * P + 6.35, HOLD + 4 * P + 6.35)]
+_s5 = SEG[-1][3]; _sQ = _s5 + P; _xg = 45.0
+_best = max(LX0 + _sQ - k * P for k in range(60) if LX0 + _sQ - k * P < _xg); _s7 = _sQ + (_xg - _best)
+SEG += [(t['carQ'] - 0.3, t['inside'] + 0.4, _s5, _sQ), (t['check'] - 0.1, t['endQ'] + 0.3, _sQ, _s7), (t['n53'] - 0.8, D + 1, _s7, _s7 + 40)]
 def lineS(tt):
     s = 0
     for i, (a, b, s0, s1_) in enumerate(SEG):
@@ -71,8 +74,8 @@ PILE_IN, PILE_AT, PILE_OUT, PILE_BACK = t['mixed'], t['pile'] - 0.05, t['rebuilt
 ORN, WELD = t['hood'] - 0.25, t['welded']
 PIT0, LIFT0, DIP0, OUT0, OUT1, SET1 = t['dip'] - 0.15, t['dip'] + 0.2, t['body'] + 0.05, t['garyE'] - 0.05, t['doorE'] - 0.05, t['rustproof'] - 0.15
 AVA0, DRAIN0, DRAIN1 = t['allJ'], t['soJ'] + 0.05, t['needed'] - 0.2
-L1, HIT1, L2, HIT2, BAG = t['crashW'], t['wall'], t['zone'] - 0.55, t['crumple'] + 0.05, t['off'] - 0.08
-LAND, STAMP = t['inspector'], t['rejects']
+L1, HIT1 = t['crashW'], t['wall']; L2 = max(t['can'] + 0.7, t['crumple'] - 0.5); HIT2 = max(t['crumple'] + 0.05, L2 + 0.35); BAG = t['off'] - 0.08
+LANDQ, HOPQ, STAMP, STAMP2 = t['ships'] - 0.05, t['soQ'] - 0.1, t['rejects'], t['twice']
 EP_desk = t['n53'] + 0.1
 
 # ---------------------------------------------------------------- music
@@ -101,7 +104,7 @@ for c in story['callouts']:                                  # the build-genre s
     elif c['style'] == 'stamp':
         mallet += [[round(a, 3), 70, 0.3, 0.14], [round(a + 0.12, 3), 65, 0.3, 0.3]]
 pad = [{"t0": IN, "t1": D - 0.2, "notes": [34, 46, 53, 58, 62], "level": 0.38, "attack": 0.3, "release": 0.8, "cutoff": 900, "hp": 30}]
-booms = [IN, t['roll'] + 0.3, t['make'] + 0.84, PILE_AT, t['robot'] + 0.32, PIT0 + 0.1, AVA0 + 0.2, HIT1, HIT2, t['end']]
+booms = [IN, t['roll'] + 0.3, t['make'] + 0.84, PILE_AT, t['robot'] + 0.32, PIT0 + 0.1, AVA0 + 0.2, HIT1, HIT2, BAG, t['parking'] + 0.2, t['end']]
 drums = [[round(b, 3), 0.42, "boom"] for b in booms]
 drum_patterns = [{"t0": IN + 0.02, "t1": D - 1.0, "step": BEAT, "pattern": [1, 0, 0.5, 0], "vel": 0.1, "kind": "taiko"}]
 music = {"gain_db": 0.0, "reverb_db": -12.0, "pad_db": -2.5, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -9.0, "instrument": "pluck",
@@ -131,6 +134,8 @@ e(t['horn'] - 0.15, "plush_squeak", -18, 0.0, pitch=1.5); e(t['garyC'], "car_hor
 # the queue, Gary alone, the hall slamming up bay by bay, the line running
 e(t['now'] - 0.2, "metal_groan", -20, 0.3, dur=0.7, pitch=1.5)
 for k in range(6): e(t['builds'] + k * 0.2, "knock", -19, -0.2, pitch=1.0 + 0.08 * (k % 3))
+e(t['everyone'], "blanket_rustle", -21, 0.4, dur=0.8, intensity=0.6)   # the queue waves cash
+e(t['roll'] - 0.3, "metal_groan", -19, -0.2, dur=0.4, pitch=1.6); e(t['roll'] - 0.05, "clunk", -14, -0.2, size=0.9, metal=0.8)   # Gary yanks the start lever
 for i in range(8): e(t['roll'] - 0.25 + i * 0.12, "giant_step", -15 - (i % 2), -0.5 + i * 0.14, size=0.9); e(t['roll'] - 0.2 + i * 0.12, "clunk", -18, -0.5 + i * 0.14, size=1.2, metal=0.8)
 for k in range(22):
     for x, snd in ((0.4, "knock"), (5.0, "clunk")):
@@ -140,13 +145,14 @@ e(t['pulls'] - 0.1, "grate", -24, 0.3, dur=0.6); e(t['promoted'] - 0.05, "pop", 
 # parts: the door bonks off, hammered into the sunroof, the press, the Cadillac pile, the hood ornament
 e(t['fits'], "bonk", -14, 0.0)
 for k in range(4): e(t['hammering'] + 0.1 + k * 0.3, "metal_clang", -19, 0.0, size=0.5, pitch=1.4)
+for k, a in enumerate((t['make'], t['exactly'], t['alike'])): e(a - 0.03, "knock", -18, 0.1, pitch=1.6)   # Gary slams the press buttons
 for k in range(3): e(t['make'] + k * 0.42 + 0.12, "metal_clang", -13, 0.3, size=1.4, pitch=0.8); e(t['make'] + k * 0.42 + 0.14, "giant_step", -17, 0.3, size=0.8)
 e(t['inter'] + 0.35, "knock", -16, 0.0, pitch=1.3); e(t['inter'] + 0.38, "pop", -18, 0.0, pitch=1.4)
 e(PILE_IN, "crumble", -15, 0.0, dur=1.0, size=0.8)
 for k in range(10): e(PILE_IN + 0.08 + k * 0.08, "clunk", -20, -0.4 + 0.08 * k, size=0.6, metal=0.8)
 e(PILE_AT, "metal_clang", -12, 0.0, size=1.6, pitch=0.7)
 for k in range(12): e(PILE_OUT + k * 0.05, "knock", -20, 0.4 - 0.07 * k, pitch=1.5)
-e(PILE_BACK, "pop", -14, 0.0, pitch=0.9); e(t['pile2'] - 0.2, "plush_squeak", -21, 0.0, pitch=1.1)
+e(PILE_BACK, "pop", -14, 0.0, pitch=0.9); e(t['pile2'] - 0.2, "plush_squeak", -21, 0.0, pitch=1.1); e(t['pile2'], "slurp", -17, 0.2, dur=0.35)   # the Roomba slurps up Gary's shoe
 e(ORN, "pop", -15, 0.1, pitch=1.2); e(ORN + 0.3, "low_swell", -20, 0.1, dur=1.2, pitch=1.4)
 # robots: the line rushes, the bolt, the snore, the robots drop in, welding, Gary welded
 e(t['garys'], "car_pass", -21, 0.2, dur=1.0, size=0.8); e(t['bolt'] + 0.1, "car_pass", -20, 0.2, dur=1.0, size=0.8)
@@ -157,7 +163,8 @@ for k in range(5): e(t['never'] - 0.1 + k * 0.45, "zap", -27, -0.3 + 0.15 * k, d
 e(WELD, "zap", -14, 0.0, dur=0.6); e(t['garyW'], "plush_squeak", -17, 0.0, pitch=1.3)
 for k in range(3): e(t['doorW'] - 0.25 + k * 0.2, "metal_groan", -23, 0.0, dur=0.3, pitch=1.6)
 # e-coat: the leak, the rust, a door drops, the pit opens, the hoist, the dip, the zaps, bubbles, out, rustproof
-for k in range(8): e(t['roof'] + k * 0.18, "plip", -22, 0.1, pitch=1.0 + 0.1 * (k % 3))
+e(t['thenE'] - 0.1, "low_swell", -20, 0.1, dur=1.0, pitch=0.8)   # the indoor rain cloud rolls in
+for k in range(8): e(t['carsE'] + k * 0.18, "plip", -22, 0.1, pitch=1.0 + 0.1 * (k % 3))
 e(t['rusts'] - 0.1, "metal_groan", -18, 0.1, dur=1.0, pitch=0.9); e(t['rusts'] + 0.5, "clunk", -15, 0.1, size=0.9, metal=0.8)
 e(PIT0 + 0.05, "crumble", -11, 0.0, dur=1.2, size=1.2); e(PIT0 + 0.1, "giant_step", -13, 0.0, size=1.2)
 e(LIFT0, "metal_groan", -19, 0.0, dur=1.2, pitch=1.1); e(DIP0 + 0.3, "splash", -11, 0.0, size=1.4)
@@ -173,7 +180,7 @@ for k in range(18): e(AVA0 + 0.15 + k * 0.05, "knock", -21, -0.5 + 0.06 * k, pit
 e(t['buried'], "plush_squeak", -22, 0.0, pitch=0.8)
 e(DRAIN0 + 0.05, "crumble", -14, 0.0, dur=1.0, size=1.0)
 for k in range(10): e(DRAIN0 + 0.1 + k * 0.06, "knock", -23, 0.5 - 0.1 * k, pitch=1.2)
-e(t['needed'] - 0.1, "pop", -18, 0.3, pitch=1.5); e(t['jitW'] - 0.05, "pop", -19, 0.3, pitch=1.7)
+for a in (t['needed'] - 0.1, t['jitW'] - 0.1): e(a, "blanket_rustle", -23, 0.2, dur=0.3, intensity=0.7); e(a + 0.45, "clunk", -16, 0.2, size=0.6, metal=0.6); e(a + 0.47, "pop", -19, 0.2, pitch=1.6)   # Gary tosses parts in, just in time
 e(t['roombaJ'] - 0.5, "pop", -18, 0.2, pitch=1.4); e(t['manager'] - 0.05, "pop", -15, 0.2, pitch=1.6); e(t['manager'] + 0.05, "plush_squeak", -20, 0.2, pitch=1.9)
 # crash test: the flag, run 1 (rigid) + the splat, towed back, the new nose, run 2 (it crumples), the airbag
 e(t['crashW'] - 0.3, "blanket_rustle", -22, -0.2, dur=0.4, intensity=0.8)
@@ -181,16 +188,23 @@ e(L1, "car_pass", -15, -0.3, dur=0.9, size=1.0); e(HIT1, "car_crash", -9, 0.2, w
 e(HIT1 + 0.22, "slurp", -17, 0.3, dur=0.3); e(HIT1 + 0.24, "bonk", -16, 0.3)
 e(t['dummy'] - 0.3, "blanket_rustle", -22, 0.3, dur=0.6, intensity=0.6); e(t['fine'] - 0.1, "pop", -20, 0.1, pitch=2.0)
 e(t['notX'], "plush_squeak", -21, 0.3, pitch=0.7)
-e(t['soX'] + 0.15, "metal_groan", -19, 0.0, dur=1.4, pitch=1.2); e(t['front'] - 0.1, "pop", -15, 0.1, pitch=1.0)
-ev.append({"t0": t['soX'] + 0.2, "t1": t['can'] - 0.1, "sound": "footsteps", "rate": 4.5, "gain_db": -24, "pan0": 0.3, "pan1": -0.1})
+e(t['notX'] + 0.2, "metal_groan", -19, 0.0, dur=1.4, pitch=1.2); e(t['front'] - 0.05, "pop", -14, 0.1, pitch=1.0); e(t['front'] - 0.03, "bonk", -18, 0.1)   # winched back; Gary slaps the striped nose on
+e(t['fold'], "metal_groan", -17, 0.1, dur=0.7, pitch=1.8); e(t['can'] + 0.2, "plush_squeak", -21, 0.1, pitch=1.4)   # squeezed like a soda can
+ev.append({"t0": t['notX'] + 0.35, "t1": t['front'] - 0.1, "sound": "footsteps", "rate": 4.5, "gain_db": -24, "pan0": 0.3, "pan1": -0.1})
 e(L2, "car_pass", -15, -0.3, dur=0.9, size=1.0); e(HIT2, "car_crash", -11, 0.2, weight=0.8); e(HIT2 + 0.03, "crumble", -15, 0.2, dur=0.6, size=0.6); e(HIT2 + 0.05, "metal_groan", -16, 0.2, dur=0.6, pitch=1.4)
 e(t['garyX3'], "pop", -21, 0.2, pitch=1.3); e(t['away'], "plush_squeak", -21, 0.2, pitch=1.5)
-e(BAG, "pop", -9, 0.3, pitch=0.55); e(BAG + 0.05, "bonk", -14, 0.3); e(BAG + 0.2, "plush_squeak", -18, 0.0, pitch=1.6)
-# finish: the paint shop, the roof racer, Gary lands, the stamp
-e(t['paint'] - 0.15, "pop", -15, -0.1, pitch=0.9); e(t['paint'], "blanket_rustle", -23, -0.2, dur=0.9, intensity=0.5)
-e(t['test'] - 0.15, "pop", -17, 0.1, pitch=1.1); e(t['test'] + 0.1, "car_pass", -18, 0.3, dur=1.2, size=0.8)
-e(LAND, "giant_step", -15, 0.0, size=0.5); e(LAND + 0.03, "bonk", -18, 0.0)
-e(STAMP, "knock", -13, 0.0, pitch=0.7); e(STAMP + 0.02, "bonk", -18, 0.0)
+e(BAG, "pop", -9, 0.3, pitch=0.55); e(BAG + 0.05, "bonk", -14, 0.3); e(BAG + 0.2, "plush_squeak", -18, 0.0, pitch=1.6); e(BAG + 0.6, "blanket_rustle", -22, 0.3, dur=0.9, intensity=0.4)   # the airbag deflates
+# qc: Gary drops into a car leaving through the end door, rides out, walks back in, stamped twice
+e(t['carQ'] - 0.3, "car_pass", -17, 0.5, dur=1.8, size=0.9); e(LANDQ, "giant_step", -15, 0.4, size=0.6); e(LANDQ + 0.03, "plush_squeak", -19, 0.4, pitch=1.2)
+e(HOPQ, "knock", -20, 0.5, pitch=0.9)
+ev.append({"t0": HOPQ + 0.35, "t1": t['inspector'] - 0.15, "sound": "footsteps", "rate": 5.5, "gain_db": -23, "pan0": 0.5, "pan1": 0.1})
+e(t['check'], "pop", -16, 0.1, pitch=1.2); e(t['check'] + 0.05, "low_swell", -22, 0.1, dur=0.8, pitch=1.6)   # the QC gate lights up
+for a in (STAMP, STAMP2): e(a, "knock", -13, 0.0, pitch=0.7); e(a + 0.02, "bonk", -17, 0.0)
+# finish: the meatloaf machine, the roof racer, the town turns into a parking lot
+e(t['vending'] - 0.15, "pop", -14, -0.1, pitch=0.8); e(t['meatloaf'] + 0.15, "slurp", -18, -0.1, dur=0.3); e(t['meatloaf'] + 0.17, "knock", -19, -0.1, pitch=0.6)
+e(t['test'] - 0.15, "pop", -16, 0.1, pitch=1.1); e(t['track'] - 0.1, "car_pass", -15, 0.3, dur=1.3, size=0.9)
+for k in range(10): e(t['parking'] + k * 0.12, "pop", -21, -0.5 + 0.1 * k, pitch=0.9 + 0.05 * k)
+e(t['parking'] + 0.1, "crumble", -18, 0.0, dur=1.2, size=0.8)
 # the ending: confetti + cheer, money, Gary up the stairs, the desk, the vacuum, the mechanic wakes + flips the sign
 e(t['end'], "pop", -12, 0.0); e(t['end'] + 0.1, "pop", -15, 0.3, pitch=1.3); e(t['end'] + 0.15, "blanket_rustle", -22, 0.0, dur=1.6, intensity=0.6)
 for k in range(4): e(t['n76'] + k * 0.5, "blanket_rustle", -23, -0.3 + 0.2 * k, dur=0.7, intensity=0.5)
@@ -208,11 +222,11 @@ amb = [
     {"sound": "city_day", "t0": t['now'] - 0.1, "t1": t['roll'] + 0.4, "fade_in": 0.3, "fade_out": 0.4, "gain_db": -30, "args": {"murmur": 1.0, "traffic": 0.0}, "seed": 4},   # the queue
     {"sound": "turbines", "t0": t['roll'], "t1": D, "fade_in": 1.0, "fade_out": 0.8, "gain_db": -33, "args": {"rate": 0.45}, "seed": 5},   # the factory hum
     {"sound": "drill", "t0": t['never'] - 0.2, "t1": t['doorW'] + 0.5, "fade_in": 0.3, "fade_out": 0.4, "gain_db": -31, "args": {"rate": 9.0}, "seed": 6},   # the robots' servos
-    {"sound": "rain_window", "t0": t['roof'] - 0.2, "t1": t['dip'] + 0.5, "fade_in": 0.3, "fade_out": 0.5, "gain_db": -27, "args": {"intensity": 0.7}, "seed": 7},   # the leak
+    {"sound": "rain_window", "t0": t['carsE'] - 0.2, "t1": t['dip'] + 0.5, "fade_in": 0.3, "fade_out": 0.5, "gain_db": -27, "args": {"intensity": 0.7}, "seed": 7},   # the leak
     {"sound": "water_rush", "t0": PIT0 + 0.4, "t1": t['body'] + 0.6, "fade_in": 0.2, "fade_out": 0.6, "gain_db": -24, "seed": 8},   # the bath fills
     {"sound": "lamp_hum", "t0": t['electrified'] - 0.1, "t1": t['crack'] + 0.5, "fade_in": 0.2, "fade_out": 0.4, "gain_db": -29, "seed": 9},
     {"sound": "drill", "t0": t['arrives'] - 0.4, "t1": t['toyota'] + 0.8, "fade_in": 0.2, "fade_out": 0.5, "gain_db": -32, "args": {"rate": 12.0}, "seed": 10},   # the tugger
-    {"sound": "wind", "t0": BAG + 0.1, "t1": LAND + 0.1, "fade_in": 0.2, "fade_out": 0.3, "gain_db": -27, "args": {"darkness": 0.4, "gust": 0.7, "whistle": 0.0}, "seed": 11},   # Gary in flight
+    {"sound": "wind", "t0": BAG + 0.1, "t1": LANDQ + 0.1, "fade_in": 0.2, "fade_out": 0.3, "gain_db": -27, "args": {"darkness": 0.4, "gust": 0.7, "whistle": 0.0}, "seed": 11},   # Gary in flight
     {"sound": "crowd_cheer", "t0": t['end'], "t1": t['didnt'] + 0.4, "fade_in": 0.1, "fade_out": 0.6, "gain_db": -26, "seed": 12},
     {"sound": "drill", "t0": EP_desk + 0.6, "t1": t['shop'] + 0.4, "fade_in": 0.3, "fade_out": 0.6, "gain_db": -30, "args": {"rate": 20.0}, "seed": 13},   # Gary's vacuum
 ]

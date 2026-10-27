@@ -33,7 +33,8 @@ export const D = {
   tank: { x0: 27.4, x1: 32.1, y0: -2.3, z0: -2.5, level: -0.22, dipZ: -1.35 },
   dock: { x0: 33.8, x1: 38.0 }, jit: 35.6,                     // roll-up door in the back wall (the parts avalanche)
   booth: { x0: 38.6, x1: 42.6 },                               // the paint booth (back wall, pops in on "paint shop")
-  qc: { x: 39.6, z: -1.9 },
+  qc: { x: 45.0, z: -2.05 },                                 // the QC gate at the end of the line (under the office floor)
+  vend: [36.6, -0.6],                                          // the meatloaf vending machine (front aisle)
   crash: { x0: 42.0, wall: 47.0, z: -1.0 },
   office: { x0: 43.4, x1: 48.2, y: 3.0, z0: -1.4, z1: -6.4 }, // the CEO's corner office on a mezzanine
   exit: { z0: -4.8, z1: -1.9, h: 3.0 },                        // the shipping door in the hall's end wall (x = hall.x1)
@@ -470,7 +471,7 @@ export async function buildFactory(studio) {
   daysSign.material.map = daysTex[0];
   const safety = sign(hall, 'SAFETY FIRST!', 2.4, 0.6, { bg: '#ffd23f', fg: '#222' }); safety.position.set(25.0, 3.9, H.back + 0.04);
   const tpsSign = sign(hall, 'JUST-IN-TIME ZONE', 3.0, 0.55, { bg: '#2f6fd6', fg: '#fff' }); tpsSign.position.set(D.jit, 4.5, H.back + 0.04);
-  const qcSign = sign(hall, 'QUALITY CONTROL', 2.6, 0.5, { bg: '#d12f3a', fg: '#fff' }); qcSign.position.set(D.qc.x - 0.6, 4.6, H.back + 0.04);
+  const qcSign = sign(hall, 'QUALITY CONTROL', 2.6, 0.5, { bg: '#d12f3a', fg: '#fff' }); qcSign.position.set(D.qc.x, 2.95, L.z + 1.32); qcSign.scale.setScalar(0.7);
   const clock = new THREE.Group(); hall.add(clock); clock.position.set(17.0, 4.6, H.back + 0.05);
   mk(new THREE.CircleGeometry(0.42, 32), mat(0xffffff, 0.4), clock); mk(new THREE.TorusGeometry(0.42, 0.04, 8, 32), mat(0x222222, 0.4), clock);
   const hands = [0.3, 0.2].map((l) => { const h = new THREE.Group(); clock.add(h); mk(new THREE.BoxGeometry(0.03, l, 0.01), mat(0x222222), h, 0, l / 2, 0.01); return h; });
@@ -612,10 +613,40 @@ export async function buildFactory(studio) {
   { const n = 12, sx0 = O.x0 - 2.6, zz = -5.3; for (let i = 0; i < n; i++) mk(new THREE.BoxGeometry(0.26, 0.06, 1.0), steel(0x8d969f), stairs, sx0 + (i + 0.5) * 0.22, (i + 1) * (O.y / n), zz);
     for (const z of [zz - 0.5, zz + 0.5]) { const r = mk(new THREE.BoxGeometry(2.9, 0.05, 0.05), mat(0xf2c418, 0.5), stairs, sx0 + 1.32, O.y / 2 + 0.95, z); r.rotation.z = Math.atan2(O.y, n * 0.22); } }
   // the far suburb: rows of houses + trees + a hazy skyline (wide shots look past the roofs)
-  for (let r = 0; r < 3; r++) for (let i = 0; i < 16; i++) { const x = -30 + i * 6.8 + (r % 2) * 3.4, z = -22 - r * 13; const hgt = 3.6 + ((i * 7 + r) % 3) * 0.7; const h = new THREE.Group(); root.add(h); h.position.set(x, 0, z);
+  const suburb = []; for (let r = 0; r < 3; r++) for (let i = 0; i < 16; i++) { const x = -30 + i * 6.8 + (r % 2) * 3.4, z = -22 - r * 13; const hgt = 3.6 + ((i * 7 + r) % 3) * 0.7; const h = new THREE.Group(); root.add(h); h.position.set(x, 0, z); suburb.push(h);
     mk(new THREE.BoxGeometry(5.0, hgt, 4.5), mat(new THREE.Color(houseCols2[(i + r) % houseCols2.length]).getHex(), 0.9), h, 0, hgt / 2, 0); const rf = mk(new THREE.ConeGeometry(3.8, 1.8, 4), mat(0xb5523b, 0.8), h, 0, hgt + 0.9, 0); rf.rotation.y = PI / 4; rf.scale.set(1, 1, 0.85);
-    if ((i + r) % 2 === 0) { const tr = makeTree(i * 13 + r * 7 + 3, 0.95 + 0.1 * (i % 3)); tr.position.set(x + 3.4, 0, z + 1.5); root.add(tr); } }
+    if ((i + r) % 2 === 0) { const tr = makeTree(i * 13 + r * 7 + 3, 0.95 + 0.1 * (i % 3)); tr.position.set(x + 3.4, 0, z + 1.5); root.add(tr); suburb.push(tr); } }
   for (let i = 0; i < 18; i++) { const hh2 = 26 + ((i * 37) % 40); mk(new THREE.BoxGeometry(12 + (i % 4) * 3, hh2, 10), new THREE.MeshStandardMaterial({ color: 0xb9cfe0, roughness: 1 }), root, -60 + i * 9.5, hh2 / 2, -140 - (i % 3) * 20).castShadow = false; }
+
+
+  // ---- the start lever (Gary starts the line), the press's two-hand control pedestal, the meatloaf vending machine
+  const lever = new THREE.Group(); root.add(lever); lever.position.set(-2.25, 0, -1.85);
+  mk(new RoundedBoxGeometry(0.34, 0.9, 0.3, 2, 0.04), mat(0xf2c418, 0.5), lever, 0, 0.45, 0); const lvArm = new THREE.Group(); lever.add(lvArm); lvArm.position.set(0, 0.85, 0.05);
+  mk(new THREE.CylinderGeometry(0.025, 0.025, 0.6, 8), steel(0x9aa3ad), lvArm, 0, 0.3, 0); mk(new THREE.SphereGeometry(0.07, 12, 10), mat(0xd12f3a, 0.4), lvArm, 0, 0.62, 0);
+  const pedal = new THREE.Group(); root.add(pedal); pedal.position.set(D.press - 1.1, 0, -1.65);
+  mk(new THREE.CylinderGeometry(0.06, 0.08, 0.95, 10), steel(0x3a3e44), pedal, 0, 0.48, 0); mk(new RoundedBoxGeometry(0.62, 0.16, 0.3, 2, 0.04), mat(0xf2c418, 0.5), pedal, 0, 1.0, 0);
+  const pButtons = [-0.18, 0.18].map((x) => mk(new THREE.CylinderGeometry(0.075, 0.075, 0.07, 16), mat(0xd12f3a, 0.35), pedal, x, 1.1, 0));
+  const vend = new THREE.Group(); root.add(vend); vend.position.set(D.vend[0], 0, D.vend[1] - 0.45);
+  { const vT = tex(256, 128, (g, w, h) => { g.fillStyle = '#7a3b1e'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffd23f'; g.font = font(54); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('MEATLOAF', w / 2, h / 2 + 4); });
+    mk(new RoundedBoxGeometry(1.0, 1.95, 0.8, 3, 0.06), mat(0xd12f3a, 0.45), vend, 0, 0.98, 0);
+    mk(new THREE.PlaneGeometry(0.9, 0.36), new THREE.MeshStandardMaterial({ map: vT, roughness: 0.5 }), vend, 0, 1.74, 0.405);
+    mk(new THREE.PlaneGeometry(0.62, 0.95), new THREE.MeshStandardMaterial({ color: 0xcfefff, roughness: 0.05, transparent: true, opacity: 0.35 }), vend, -0.1, 1.05, 0.41);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) mk(new RoundedBoxGeometry(0.15, 0.08, 0.1, 2, 0.03), mat(0x8a4a24, 0.8), vend, -0.3 + c * 0.2, 0.7 + r * 0.22, 0.3);
+    mk(new THREE.BoxGeometry(0.5, 0.14, 0.05), mat(0x111111, 0.6), vend, -0.1, 0.3, 0.405); }
+  // ---- a parking lot the size of a town: the suburb behind the factory pops out row by row, parked cars pop in
+  const lotM = new THREE.MeshStandardMaterial({ roughness: 0.4, metalness: 0.1 }), NLOT = 520;
+  const lotCars = new THREE.InstancedMesh(new RoundedBoxGeometry(1.6, 0.9, 3.0, 2, 0.25), lotM, NLOT); lotCars.castShadow = false; lotCars.frustumCulled = false; root.add(lotCars);
+  const lotSpots = []; { const RL = rng(33), cols = [0xd94b3d, 0x2f6fd6, 0xf2c14e, 0x58b368, 0xb36bff, 0xff8a3d, 0xe8e8ec, 0x2f2f33]; let i = 0;
+    for (let row = 0; row < 13 && i < NLOT; row++) for (let c = 0; c < 40 && i < NLOT; c++, i++) { lotSpots.push([-28 + c * 2.3 + (row % 2) * 0.4, -14 - row * 3.6]); lotCars.setColorAt(i, new THREE.Color(cols[Math.floor(RL() * cols.length)])); } }
+  const lotPave = mk(new THREE.PlaneGeometry(100, 48), new THREE.MeshStandardMaterial({ map: (() => { const t2 = tex(256, 256, (g, w, h) => { g.fillStyle = '#4a4d52'; g.fillRect(0, 0, w, h); g.fillStyle = '#e8e8e8'; for (let y = 0; y < h; y += 37) g.fillRect(0, y, w, 3); for (let x = 0; x < w; x += 12) g.fillRect(x, 0, 2, h); }); t2.wrapS = t2.wrapT = THREE.RepeatWrapping; t2.repeat.set(8, 4); return t2; })(), roughness: 0.9 }), root, 18, 0.012, -36); lotPave.rotation.x = -PI / 2; lotPave.castShadow = false;
+  function setLot(k) {
+    lotPave.visible = k > 0.001; lotPave.scale.set(1, Math.max(0.001, clamp(k * 1.5)), 1); lotPave.position.z = -12 - 24 * clamp(k * 1.5);
+    suburb.forEach((h) => { const u = clamp((k * 1.4 - (-14 - h.position.z) / 50) / 0.25); h.visible = u < 1; h.scale.setScalar(Math.max(0.001, 1 - u * u)); });
+    const m4 = new THREE.Matrix4();
+    lotSpots.forEach(([x, z], i) => { const u = clamp((k * 1.4 - (-14 - z) / 50 - 0.08) / 0.2), e = u > 0 ? Math.max(0.001, easeOutBack(u, 2.2)) : 0.001; m4.makeScale(e, e, e); m4.setPosition(x, 0.45 * e, z); lotCars.setMatrixAt(i, m4); });
+    lotCars.visible = k > 0.001; lotCars.instanceMatrix.needsUpdate = true;
+  }
+  setLot(0);
 
   // ---- growth: the hall pops up bay by bay over the yard (k 0..1), the slab section + floor wipe in along x
   function setHall(k) {
@@ -628,7 +659,7 @@ export async function buildFactory(studio) {
     yardItems.forEach((o, i) => { const u = clamp((k - (o.position.x - H.x0) / (H.x1 - H.x0) * 0.8 + 0.05) / 0.12); o.visible = u < 1; o.scale.setScalar(Math.max(0.001, 1 - u * u)); });
     yard.children.forEach((o) => { if (yardItems.includes(o)) return; o.visible = k < 0.05 || o.position.x > xEdge + 1; });
     const show = (o, x) => (o.visible = k > 0.02 && x < xEdge);
-    show(banner, 3.5); show(daysSign, 0.6); show(safety, 24); show(tpsSign, D.jit - 1.5); show(qcSign, D.qc.x - 1.8); show(clock, 16); show(racks, 1); show(press, D.press - 1.2); show(dock, D.dock.x0); show(qcGate, D.qc.x); show(crash, D.crash.x0); garageLine.visible = k > 0.001;
+    show(banner, 3.5); show(daysSign, 0.6); show(safety, 24); show(tpsSign, D.jit - 1.5); show(qcSign, D.qc.x - 1.0); show(clock, 16); show(racks, 1); show(press, D.press - 1.2); show(dock, D.dock.x0); show(qcGate, D.qc.x); show(crash, D.crash.x0); show(booth, D.booth.x0); show(pedal, D.press - 1.5); garageLine.visible = k > 0.001;
   }
   setHall(0);
 
@@ -652,6 +683,6 @@ export async function buildFactory(studio) {
     root, cut, aimSun, setPit, sun, hemi, setHall, setLine, setFloorHoles, setFaceHoles: (shapes) => cut.setHoles(shapes),
     shop: { g: shop, lift, liftArms, priceBoard, prices, counter, cobwebs }, garage: { g: garage, setRollDoor, tools, lawnmower, lmEng, bulb, pegboard },
     yard, bays, conveyor, banner, daysSign, daysTex, clock, hands, press, ram, tank: { g: tank, setBath, bath, rail: tankRail }, hoist: { g: hoist, setHoist, trolley, hanger },
-    crack, dock: { g: dock, setDock }, qcGate, booth, boothMist, office: { g: office, desk: oDesk, glass: oGlass, invoice: framedBill }, stairs, garageLine, endWall, house, crash: { g: crash, wall: crashWall, target, camStands }, roofTrack, racks,
+    crack, dock: { g: dock, setDock }, qcGate, lever, lvArm, pedal, pButtons, vend, setLot, booth, boothMist, office: { g: office, desk: oDesk, glass: oGlass, invoice: framedBill }, stairs, garageLine, endWall, house, crash: { g: crash, wall: crashWall, target, camStands }, roofTrack, racks,
   };
 }

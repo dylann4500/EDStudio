@@ -285,3 +285,33 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
   mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends
   its line.)
+
+## Lessons from 026 (garage → car factory; each cost a stills round)
+- **A building cutaway works like the ground one**: slice every FRONT wall at z = 0 (light "section" colour on the cut ends),
+  keep the roofs/ceilings, and still cut the floor slab + ground below (`engine/build/factory.js`). A pit (the e-coat tank) needs
+  holes in FOUR layers: the hall floor, the lawn under it, the slab strip in front of the face, and the cut face itself
+  (`setPit(k)`), else a plane shows through.
+- **A long horizontal build in a vertical frame: march the story +x and put the ending's callback place at the FAR end** —
+  the first layout had the mechanic's shop at the start, so the ending needed a 50 m fly-back. The hook's tow truck now drives
+  your car off to the right and the last shot finds it on the lift in the shop at the end of the factory.
+- **One line of cars, one offset:** slot k sits at `x0 + s(t) − k·pitch`; s(t) is a list of eased segments with stops placed so
+  the gag cars sit at their stations (the three Cadillac cars, Gary's bolt car, the dip). Station crossing times are solved from
+  s(t) for puffs/sparks AND mirrored in make_cues.py for the clunks. Parts pop on by distance past the station (easeOutBack).
+- **Instanced meshes that travel far need `frustumCulled = false`** — the parts avalanche vanished: its bounding sphere was
+  computed once (with the parts packed in the dock door) and went stale.
+- **Overlay textures need a transparent background** — a rust overlay drawn on white turned every car into white camo.
+- **A character who faces the prop shows his back.** Stage the gag so he faces the lens: on the car's seat beside the door he
+  hammers in (sunroof), leaning back on the door to nap (welded), behind the line like the crew.
+- **Two crash cars on one lane drive through each other** — use ONE car: winched back, new striped crumple nose pops on.
+- **A roof test track can't be seen from below the roof edge**: stand a TEST TRACK sign + a racing car on the front straight
+  (they read over the edge); the high ending wide (camera y ≈ 11) shows the whole oval.
+- **Faces under the one-word caption (52 %): aim ≈ 10 % of the frame height below the head** (≈ 0.6 m at d 8, 1.3 m at d 16,
+  fov 44). The first QC pass had 18 runs; lowering the look points (not the camera) fixed all but one in-move run.
+- **Lifts: four posts at the corners** — a two-post lift puts a post between the lens and the car.
+- **Music: synth.py's "walk" style leaves 50–100 ms gaps under the ducked voice** (the dropout check failed); the "disco"
+  style (8th-note octave bass + off-beat stabs) is continuous. Skip the callout stings before the music enters — a money sting
+  in the hook made the checker count the music-free hook as dropouts.
+- `makeRobotArm().reach(point)` (factory.js) = 2-link IK with the weld gun pointing down; robots weld a bobbing target on each
+  car and one swings over to weld Gary to the door.
+- The mid-line `//` hazard bit again: a replacement that ended mid-line got a comment appended and silently commented out
+  `heapW.visible = …` (the heap never hid). Run the CLAUDE.md grep after every scripted batch.

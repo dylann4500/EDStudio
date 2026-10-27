@@ -269,6 +269,15 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
+  below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
+  conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in
+  section (`setPit(k)` cuts floor + lawn + slab strip + face; `tank.setBath(level)`; a hoist `setHoist(z, carY)`), a loading
+  dock (`dock.setDock(k)`), a paint booth, QC gate, crash lane + wall, a CEO office on a mezzanine + stairs, a roof test track,
+  QUIK FIX AUTO at the far end (four-post lift, `prices` board). Props: `makeKitCar` (toy convertible from parts: `set({stage
+  0..4, finish 'steel'|'ecoat'|'paint', mix [3 colours], rust, crumple, doorOff, stripes, spin})`), `makeJunkCar`,
+  `makeRobotArm` (`pose()`, `reach(point)` IK), `makeRoomba` (badge/tie/hat/flag accessories, LED eyes), `makeTowTruck`,
+  `makeSteeringWheel`, `makeTire`, `makeAirbag`, `makeTugger`, `makeVacuum`, `makeEasel`, `makeInvoice`.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
