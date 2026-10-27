@@ -31,7 +31,7 @@ export const D = {
   ladder: { z0: -2.6, z1: -4.2 },
   pool: { x0: 8.7, x1: 12.9, z0: -3.25, z1: -6.4 },
   shop: { x: 6.6, z: -3.15 }, visitor: { x: 6.9, z: -5.6 },
-  gate: 9.45, thermo: [10.55, -2.3], noSwim: [8.15, -2.4], pylon: [13.9, -6.6],
+  gate: 9.45, thermo: [7.35, -2.3], noSwim: [8.15, -2.4], pylon: [13.9, -6.6],
 };
 const T = D.tunnel;
 /** y of the gravity dam's downstream face at x (crest edge → toe). */
@@ -382,11 +382,12 @@ export async function buildDam(studio) {
   // the chain-link fence along the front with the CLOSED sign + a padlock
   const fenceM = new THREE.MeshStandardMaterial({ color: 0x9aa3ad, roughness: 0.4, metalness: 0.6, transparent: true, opacity: 0.55, side: THREE.DoubleSide });
   const fz = P.z0 + 0.3;
-  mk(new THREE.PlaneGeometry(P.x1 - P.x0 + 1.2, 1.3), fenceM, pool, (P.x0 + P.x1) / 2, 0.65, fz).castShadow = false;
-  for (let i = 0; i <= 6; i++) mk(new THREE.CylinderGeometry(0.035, 0.035, 1.4, 6), mat(0x8d969f, 0.4, { metalness: 0.6 }), pool, P.x0 - 0.6 + i * (P.x1 - P.x0 + 1.2) / 6, 0.7, fz);
-  const closed = board(1.7, 0.95, 'POOL\nCLOSED', { bg: '#d8231c', fg: '#ffffff', border: '#ffffff' }); closed.position.set(D.gate + 0.6, 1.62, fz + 0.06); pool.add(closed);
-  for (const s2 of [-0.7, 0.7]) mk(new THREE.CylinderGeometry(0.04, 0.04, 2.0, 6), mat(0x6b4a30), pool, D.gate + 0.6 + s2, 1.0, fz + 0.03);
-  const lock = mk(new THREE.BoxGeometry(0.16, 0.14, 0.06), mat(0xd4a017, 0.3, { metalness: 0.7 }), pool, D.gate - 0.25, 0.62, fz + 0.06);
+  const fx0 = D.gate + 0.25, fx1 = P.x1 + 0.6;   // the fence starts right of the gate: nothing behind Gary + the held pool
+  mk(new THREE.PlaneGeometry(fx1 - fx0, 1.3), fenceM, pool, (fx0 + fx1) / 2, 0.65, fz).castShadow = false;
+  for (let i = 0; i <= 5; i++) mk(new THREE.CylinderGeometry(0.035, 0.035, 1.4, 6), mat(0x8d969f, 0.4, { metalness: 0.6 }), pool, fx0 + (i * (fx1 - fx0)) / 5, 0.7, fz);
+  const closed = board(1.5, 0.85, 'POOL\nCLOSED', { bg: '#d8231c', fg: '#ffffff', border: '#ffffff' }); closed.position.set(D.gate + 1.7, 1.62, fz + 0.06); pool.add(closed);
+  for (const s2 of [-0.7, 0.7]) mk(new THREE.CylinderGeometry(0.04, 0.04, 2.0, 6), mat(0x6b4a30), pool, D.gate + 1.7 + s2 * 0.9, 1.0, fz + 0.03);
+  const lock = mk(new THREE.BoxGeometry(0.16, 0.14, 0.06), mat(0xd4a017, 0.3, { metalness: 0.7 }), pool, D.gate + 0.35, 0.62, fz + 0.06);
   const downHouses = [];
   [[15.6, -4.6, 7], [18.4, -4.9, 8], [21.0, -4.5, 9], [25.8, -4.7, 10], [28.6, -4.4, 11]].forEach(([x, z, s]) => { const h = makeHouse(s); h.position.set(x, 0, z); downTown.add(h); downHouses.push(h); });
   const winMats = []; downHouses.forEach((h) => h.traverse((o) => { if (o.isMesh && Array.isArray(o.material)) { o.material = o.material.map((m) => (m.map ? m.clone() : m)); o.material.forEach((m) => { if (m.map) { m.emissiveMap = m.map; m.emissive = new THREE.Color(0xffd27a); m.emissiveIntensity = 0; winMats.push(m); } }); } }));

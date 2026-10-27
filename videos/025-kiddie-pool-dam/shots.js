@@ -190,8 +190,8 @@ export async function build(studio, story) {
   // ---------------------------------------------------------------- water levels (lake = far + site; pond; low)
   const lakeLevel = (tt) => {
     if (tt < LANDK) return CRK;
-    if (tt < t.lifts) return lerp(CRK, 0.0, smooth(u01(tt, LANDK, t.inches)));             // six inches piles up behind the pool
-    if (tt < PLUG) return lerp(0.0, CRK, smooth(u01(tt, t.lifts, t.lifts + 0.6)));
+    if (tt < t.lifts) return lerp(CRK, -0.06, smooth(u01(tt, LANDK, t.inches)));           // six inches piles up behind the pool (still below the bank top)
+    if (tt < PLUG) return lerp(-0.06, CRK, smooth(u01(tt, t.lifts, t.lifts + 0.6)));
     if (tt < CRUMB) return lerp(CRK, 2.0, smooth(u01(tt, PLUG, t.piping))) + 0.38 * smooth(u01(tt, t.deeper - 0.2, t.shoves + 0.5));
     if (tt < FILL0) return lerp(2.38, CRK, smooth(u01(tt, CRUMB, CRUMB1)));
     if (tt < OVER - 1.5) return lerp(CRK, LAKE, easeOutBack(u01(tt, FILL0, FILL1), 1.2));
@@ -213,16 +213,17 @@ export async function build(studio, story) {
   const slideX = (tt) => { const u = u01(tt, SLIDE0, SLIDE1), k = Math.min(2, Math.floor(u * 3)); return SL * (u >= 1 ? 1 : (k + smooth(clamp((u * 3 - k) * 1.8))) / 3); };
   const damLine = (tt) => {   // [site x1, pond x0]
     const kpx = kpPos(tt)[0];
-    if (tt < LANDK || (tt > t.lifts + 0.3 && tt < t.pile)) return [kpx, kpx];
-    if (tt < t.lifts + 0.3) return [kpx - KPR + 0.12, kpx + KPR - 0.12];
-    if (tt < CRUMB1) { const L = lakeLevel(tt), s = slideX(tt), f = clamp((L - BED) / E.h); return [E.x0 + s + f * (E.t0 - E.x0), E.x1 + s]; }
+    if (tt < LANDK) return [BVX - 0.45, BVX - 0.45];   // before the pool lands the creek runs whole up to the beaver's sticks (no water end under the held pool)
+    if (tt > t.lifts + 0.3 && tt < t.pile) return [kpx, kpx];
+    if (tt < t.lifts + 0.3) return [kpx, kpx];   // both water bodies meet at the pool's centre: no dry strip, no box end beside it
+    if (tt < CRUMB1) { const L = lakeLevel(tt), s = slideX(tt), f = clamp((L - BED) / E.h), xs = E.x0 + s + f * (E.t0 - E.x0); return [lerp(xs, E.x1 + s, smooth(u01(tt, CRUMB, CRUMB + 0.35))), E.x1 + s]; }   // the crumble: the flood front runs on to the pond (no water end standing in the air)
     if (tt < COL0) return [G.heel, G.toe];
     return [G.heel, G.toe];
   };
   const pondLevel = (tt) => PND + 0.25 * Math.exp(-Math.max(0, tt - CRUMB) * 1.6) * (tt > CRUMB ? Math.sin((tt - CRUMB) * 5) * 0.6 + 0.6 : 0) + (tt > t.spillway ? 0.06 : 0);
 
   // ---------------------------------------------------------------- the kiddie pool: thrown, lands, floats to the beaver dam, ends by the public pool
-  const HOLD = [9.1, 1.78, -2.45];
+  const HOLD = [9.1, 1.47, -2.45];   // the pool sits IN his raised hands
   function kpPos(tt) {
     if (tt < THROW) return [HOLD[0], HOLD[1], HOLD[2]];
     if (tt < LANDK) { const u = u01(tt, THROW, LANDK), e = smooth(u); return [lerp(HOLD[0], D.kp.x, e), lerp(HOLD[1], BED + 0.02, u) + 3.2 * u * (1 - u), lerp(HOLD[2], D.kp.z, e)]; }   // eased so the follow-pan keeps it framed
@@ -319,9 +320,9 @@ export async function build(studio, story) {
   const Fk = (tt, pos, look, fov = 40, until) => Fr.push({ t: tt, pos, look, fov, keep: true, until });
   // look points sit ~1 m below a standing toon's head so faces stay above the one-word caption (52 %)
   F(0, [8.7, 1.8, 8.6], [8.7, 0.5, -2.6], 48);                            // FIX hook: held pool + thermometer both in, slow push
-  Fk(t.closed - 0.1, [9.3, 1.6, 7.0], [9.4, 0.5, -2.6], 42, t.shove - 0.1);   // r4: leave as the throw starts (the pool stays framed)
+  Fk(t.closed - 0.1, [9.65, 1.6, 7.0], [9.75, 0.5, -2.6], 44, t.shove - 0.1);   // r4: leave as the throw starts (the pool stays framed)
   Fk(t.congrats - 0.05, [-1.9, 1.9, 8.6], [-2.2, 0.0, -1.2], 42);
-  Fk(t.six - 0.15, [-2.45, 1.3, 9.8], [-2.45, 0.0, -0.8], 50);
+  Fk(t.six - 0.15, [-3.3, 0.5, 5.2], [-3.5, 0.0, -0.5], 40);              // one take: push in on the yardstick (6 IN)
   Fk(W('congrats', 'taking') - 0.2, [-1.85, 1.15, 8.7], [-1.7, -0.25, -0.9], 42);   // the beaver + its card; also holds the hop into the pool          // FIX: aim lower, beaver face off the caption
     F(t.floats + 0.4, [-0.3, 1.7, 8.4], [-0.4, 0.15, -1.3], 42, true);         // FIX lint: earlier, wider pass
   Fk(t.flip + 0.3, [4.7, 1.3, 7.6], [4.9, 0.15, -1.2], 42);
@@ -330,20 +331,21 @@ export async function build(studio, story) {
   F(DIG0 + 3.1, ...digCam(DIG0 + 3.1), 46, true);
   Fk(t.four - 0.25, [-12.2, 3.0, 8.6], [-12.4, 2.4, -3.0], 42);
   F(t.got + 0.3, [-8.8, 1.4, 13.6], [-9.0, -0.4, -1.0], 46, true);        // r4: with Gary through the flush
-  Fk(t.pile - 0.05, [-2.4, 1.9, 13.5], [-3.2, 0.5, -1.0], 46);            // FIX: one dirt+leak frame (jet in), no STOP at piping
+  Fk(t.pile - 0.05, [-3.6, 3.1, 7.0], [-4.1, 2.0, -1.0], 44, t.sneaks + 0.7);   // one take: close on Gary shovelling, buried, and the leak under him            // FIX: one dirt+leak frame (jet in), no STOP at piping
   Fk(t.finger - 0.1, [-1.3, 0.8, 5.8], [-1.45, -0.05, -0.8], 40);
   Fk(W('piping', 'now', 2), [-2.85, 2.1, 9.0], [-2.85, 1.6, -0.8], 46, POPC + 0.6);      // FIX: plug + landing in one frame for the cork pop
   Fk(HAM[0] - 0.15, [-3.3, 3.4, 9.0], [-4.0, 2.6, -1.0], 42, HAM[2] + 0.1);   // Gary's mallet drives the wall
   Fk(t.cutoff + 0.15, [-3.3, 1.06, 15.8], [-3.2, 1.06, -0.4], 46, W('cutoff', 'wall', 2) - 0.1);   // r4: Gary's head under the TERM, wall to bedrock  // FIX: hold the wall through its TERM
   Fk(t.already + 0.25, [2.4, 0.55, 11.2], [5.8, -0.5, -0.8], 34, t.oneC + 0.35);
   Fk(t.shoves + 0.15, [-3.0, 1.4, 15.5], [-3.2, -0.4, -1.2], 46, W('push', 'included') - 0.05);
-  Fk(t.pour + 0.1, [-4.0, 5.2, 20.5], [-4.0, 4.6, -1.5], 46);                 // the bucket pours the wedge (Gary riding it) + the 660 line             // FIX: a touch wider: crest + both 660 arrows in
+  F(t.pour + 0.9, [-6.6, 10.0, 8.5], [-7.2, 9.4, -1.0], 44, true);             // one take: ride with Gary's bucket…
+  F(t.bottom - 0.2, [-3.0, 4.0, 13.0], [-3.6, 3.2, -1.0], 46, true);          // …down the columns, the 660 line along the base                 // the bucket pours the wedge (Gary riding it) + the 660 line             // FIX: a touch wider: crest + both 660 arrows in
   Fk(t.bully - 0.45, [1.1, 0.5, 8.8], [-0.5, 2.0, -1.0], 48);            // r3: low at the toe: the shoulder-charge + the egg + the hot slope
   Fk(t.hoovers, [0.5, 0.75, 7.5], [-0.6, 1.6, -1.0], 46);                    // r4: a push on "hot… sets" (no 4.6 s lock-off)
   Fk(t.sat - 0.15, [-0.2, 1.0, 6.4], [-0.25, 0.0, -0.9], 40, LEAP + 0.7);  // FIX: leap stays in frame
   Fk(t.run + 0.1, [0.9, 2.2, 7.6], [-0.2, 1.6, -0.9], 42);                     // Gary hoses cold water into the pipes
   Fk(t.cooling - 0.6, [-1.4, 2.4, 12.2], [-1.6, 2.6, -1.0], 44);                 // r4: pipes + Gary's frost sit (10 % of the frame)                 // FIX: whole dam (crest..toe) for cooling pipes
-  Fk(t.pours, [-5.4, 8.0, 14.5], [-6.4, 7.6, -1.0], 46, t.top + 0.3);            // r4: crane with his climb; the lake on the left
+  Fk(t.pours, [-6.2, 9.8, 9.0], [-7.2, 9.3, -1.0], 44, t.top + 0.3);              // one take: close on Gary as the lake comes over the top            // r4: crane with his climb; the lake on the left
   Fk(t.exit - 0.2, [-6.0, 10.0, 9.0], [-6.9, 9.4, -1.0], 42);
   F(SLD0 + 0.6, [-3.0, 6.0, 9.5], [-3.6, 4.4, -1.0], 42, true);
   F(SPLASH, [1.6, 2.0, 9.0], [2.0, 0.4, -1.0], 42, true);                 // "exactly once": the splash
@@ -360,11 +362,11 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   F(t.road + 0.5, [-6.4, 7.8, 13.0], [-7.4, 7.4, -3.0], 46, true);
   F(t.gift + 0.25, [3.0, 4.6, 13.0], [5.5, 0.7, -3.0], 46, true);
   Fk(t.swimmingF, [8.0, 2.2, 9.9], [8.0, -0.35, -2.8], 44, t.damE);     // FIX: the bank cluster in one 5.6 m frame
-  F(t.coolE + 0.6, [9.6, 1.7, 7.4], [9.2, -0.6, -1.6], 42, true);
-  Fk(t.money, [9.0, 2.0, 10.4], [8.4, -0.6, -2.0], 46);
+  Fk(t.coolE - 0.2, [9.4, 0.9, 3.2], [9.1, 0.2, -1.15], 40);                 // one take: Gary steaming in his pool
+  Fk(t.money, [9.2, 1.4, 6.4], [9.0, 0.0, -1.5], 44);                       // one take: bills on Gary, the dive under NO SWIMMING
   Fk(t.bestseller - 0.2, [7.1, 2.6, 5.4], [6.7, 1.05, -2.8], 40);
-  F(t.closedE - 0.1, [8.6, 1.4, 7.8], [8.5, -0.55, -2.2], 42);
-  Fr.push({ t: END, pos: [8.6, 1.36, 7.45], look: [8.5, -0.55, -2.2], fov: 42, stop: true });
+  F(t.closedE - 0.1, [9.0, 0.9, 3.6], [9.1, 0.0, -1.15], 40);                // one take: close on Gary as it's still closed
+  Fr.push({ t: END, pos: [9.0, 0.88, 3.35], look: [9.1, 0.0, -1.15], fov: 40, stop: true });
   planRail.verbose = true;
   const rail = makeRail(planRail(Fr));
   const hits = [[LANDK, 0.08, 0.5], [t.inF + 0.05, 0.05, 0.4], [FLOAT1 - 0.2, 0.05, 0.4], ...DUMPS.map((d) => [d, 0.1, 0.5]), [POPC, 0.12, 0.5], [SLAM, 0.22, 0.8], ...HAM.map((h, k) => [h, 0.08 + 0.03 * k, 0.4]), [BKIN, 0.06, 0.4], [BKOUT + 0.5, 0.04, 0.3],
@@ -376,7 +378,8 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   // inside the shot), a detail insert under every TERM, and frame 0 flashes the finished dam
   const fG = (t0, t1, yaw = 0.3, o = {}) => ({ t0, t1, face: gary, yaw, faceY: 0.44, ...o }), fB = (t0, t1, o = {}) => ({ t0, t1, face: beaver, yaw: -0.4, scale: 1.6, faceY: 0.66, push: 0, ...o });   // beaver: from the side away from its card, card above, face below the caption
   const ins = (t0, t1, pos, look, fov = 40, push) => ({ t0, t1, pos, look, fov, push }), F_ = { facing: true }, CEN = W('finish', 'center');
-  const cuts = makeCuts([
+  const CUTS = false;   // user (Oct 26, after the cuts pass): "i liked our older continuous style, it was much easier to follow" — one take again
+  const cuts = makeCuts(!CUTS ? [] : [
     ins(0, 0.35, [-2.0, 17.0, 27.0], [-4.0, 5.0, -3.0], 50),                       // cold open: the finished dam + lake from above the crest
     fG(2.15, 2.85),                                                                 // CLOSED: he flinches, melting
     ins(W('congrats', 'dam') - 0.05, W('congrats', 'dam') + 0.6, [-1.6, 0.6, 2.8], [-2.4, -0.2, -1.0], 38),   // "a dam": the pool backs up the creek
@@ -438,7 +441,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   const kick = makeKick([[LANDK, 0.9], [t.inF + 0.05, 0.5], [FLOAT1 - 0.2, 0.6], [DIG1, 0.8], [OUT, 0.6], [ONPILE, 0.6], [DUMPS[0], 0.6], [DUMPS[1], 0.6], [DUMPS[2], 1.0],
     [POPC, 0.9], [SLAM, 1.2], [HAM[0], 0.8], [HAM[1], 0.9], [HAM[2], 1.1], [SLIDE0, 1.2], [SLIDE0 + SLD / 3, 1.2], [SLIDE0 + (2 * SLD) / 3, 1.3], [CRUMB, 1.5], [BKIN, 0.8],
     ...S.damCols.map((_, i) => [COL0 + i * COLDT + 0.1, 0.4]), [BKOUT + 0.5, 0.5], [t.bully, 1.0], [FILL1, 1.5], [SIT + 0.15, 0.5], [LEAP, 0.7], [OVER + 0.3, 1.5], [HSP, 0.8],
-    [SPLASH, 1.0], [SPIT, 0.7], [SPLAT, 0.8], [SLAP, 0.9], [SLAP + 0.5, 0.6], [GAG0 + 0.6, 0.5], [t.road, 0.4], [W('finish', 'center') + 0.25, 0.4], [t.gift, 0.4], [t.end, 0.6], [t.closedE, 0.6]]);
+    [SPLASH, 1.0], [SPIT, 0.7], [SPLAT, 0.8], [SLAP, 0.9], [SLAP + 0.5, 0.6], [GAG0 + 0.6, 0.5], [t.road, 0.4], [W('finish', 'center') + 0.25, 0.4], [t.gift, 0.4], [t.end, 0.6], [t.closedE, 0.6]], { amp: 0.022 });   // one-take strength (≈ 60 %): easy to follow
 
   // ---------------------------------------------------------------- helpers
   const hop = (tt, a, b, p0, p1, h) => { const u = clamp((tt - a) / (b - a)); return [lerp(p0[0], p1[0], u), lerp(p0[1], p1[1], u) + 4 * h * u * (1 - u), lerp(p0[2], p1[2], u)]; };
@@ -450,7 +453,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   const sun0 = S.sun.intensity, hemi0 = S.hemi.intensity, _pq = new THREE.Quaternion(), _v3 = new THREE.Vector3(), _v4 = new THREE.Vector3(), boreMap = S.bore.material.map, exp0 = studio.renderer.toneMappingExposure;
 
   function update(t0) {
-    const tt = t0 < 0.35 ? END - 0.8 : t0;   // cold open: frame 0 flashes the finished dam (with an insert on it), then the hook
+    const tt = CUTS && t0 < 0.35 ? END - 0.8 : t0;   // cold open: frame 0 flashes the finished dam (with an insert on it), then the hook
     // ---- the cut face: the diversion tunnel (dug once, from the outlet back to the inlet)
     const digU = 1 - digProf(u01(tt, DIG0, DIG1)), dug = tt > DIG0;
     const filled = tt > t.sat; S.setHoles(dug && !filled ? tunnelHoles(digU) : []);
@@ -563,7 +566,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     kick.apply(studio.camera, t0, Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]));
     S.aimSun(cam.look[0], cam.look[1], Math.max(7, Math.hypot(cam.pos[0] - cam.look[0], cam.pos[2] - cam.look[2]) * 0.6));
     if (beaver.card.visible) { // the card faces the lens and sits above the beaver's head (in the hand's own frame it drifted onto its face)
-      beaver.root.updateMatrixWorld(true); beaver.head.getWorldPosition(_v3); _v3.y += 0.62; _v3.addScaledVector(_v4.subVectors(studio.camera.position, _v3).normalize(), 0.25);
+      beaver.root.updateMatrixWorld(true); beaver.head.getWorldPosition(_v3); _v3.y += 0.8; _v3.addScaledVector(_v4.subVectors(studio.camera.position, _v3).normalize(), 0.25);
       beaver.card.parent.getWorldQuaternion(_pq); beaver.card.quaternion.copy(_pq.invert().multiply(studio.camera.quaternion)); beaver.card.position.copy(beaver.card.parent.worldToLocal(_v3)); }
     fx.update(tt, studio.camera);
   }
@@ -697,7 +700,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     if (tt < SLAP + 0.8) { const [x, y, z] = hop(tt, SLAP, SLAP + 0.8, STEP, [0.9, PND - 0.5, -1.4], 0.8); return g.set({ ...base, x, y, z, rx: -(tt - SLAP) * 7, eyes: 'x', mouth: 'o', faceTint: [0xf07a6a, 0.3], armL: { x: -2.8, z: 0.6 }, armR: { x: -2.8, z: 0.6 } }); }
     // the drought (silent gag): Gary was down there all along — up on a roof in a snorkel mask, holding his lost flip-flop (beat 3)
     if (tt > SWIM0 && tt <= GAG0) { const u = smooth(u01(tt, SWIM0, GAG0)), s6 = Math.sin(tt * 6), s10 = Math.sin(tt * 10);   // snorkels through the drowned town to his roof
-      return g.set({ ...base, x: lerp(-20, GD[0], u), y: lerp(3.4, GD[1], smooth(u01(u, 0.65, 1))) + 0.12 * Math.sin(tt * 3), z: lerp(-3.0, GD[2], u), rotY: PI / 2 - 0.35, rx: 0.55 * (1 - smooth(u01(u, 0.8, 1))),   // a doggy-paddle: his face stays on show
+      return g.set({ ...base, x: lerp(-20, GD[0], u), y: lerp(2.5, GD[1], smooth(u01(u, 0.65, 1))) + 0.12 * Math.sin(tt * 3), z: lerp(-3.0, GD[2], u), rotY: PI / 2 - 0.35, rx: 0.55 * (1 - smooth(u01(u, 0.8, 1))),   // a doggy-paddle: his face stays on show
         eyes: 'wide', mouth: 'o', armL: { x: -2.9 + 0.8 * s6, z: 0.4 }, armR: { x: -2.9 - 0.8 * s6, z: 0.4 }, legL: { x: 0.4 * s10 }, legR: { x: -0.4 * s10 } }); }
     if (tt > GAG0 && tt < GAG1) { const sold = tt > t.sells, wave = tt > DRY1 - 0.1 && !sold;
       return g.set({ ...base, x: GD[0], y: GD[1], z: GD[2], rotY: sold ? 0.55 : 0.15, eyes: sold ? 'half' : 'wide', mouth: sold ? 'frown' : 'grin', brows: sold ? 0.8 : 0,
@@ -722,7 +725,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     if (tt < t.beaver - 0.4) return hide(b);
     const ROCK = [-0.55, BED + 0.4, -0.75];
     if (tt < t.floats - 0.2) { const up = smooth(u01(tt, t.beaver - 0.4, t.beaver + 0.2)), writing = tt > t.already - 0.1, card = smooth(u01(tt, t.notes - 0.35, t.notes - 0.05)) * (1 - smooth(u01(tt, t.notes + 1.1, t.notes + 1.3)));
-      return b.set({ x: ROCK[0], y: lerp(CRK - 0.5, ROCK[1], up), z: ROCK[2], rotY: -0.5, stand: up, write: writing && card < 0.5 ? 1 : 0, card: 1.5 * card, cardText: '2/10', cardLift: 0.25, cardFwd: 0.12, t: tt, scale: sc, look: tt < t.hops ? [-0.6, 0] : [-0.8, 0.2] }); }
+      return b.set({ x: ROCK[0], y: lerp(CRK - 0.5, ROCK[1], up), z: ROCK[2], rotY: -0.5, stand: up, write: writing && card < 0.5 ? 1 : 0, card: 2.3 * card, cardText: '2/10', cardLift: 0.25, cardFwd: 0.12, t: tt, scale: sc, look: tt < t.hops ? [-0.6, 0] : [-0.8, 0.2] }); }
     if (tt < t.flip) { const u = smooth(u01(tt, t.floats - 0.2, t.flip)); return b.set({ x: lerp(ROCK[0] + 0.6, BV[0] - 0.4, u), y: pondLevel(tt) - 0.12, z: lerp(ROCK[2], BV[2], u), rotY: PI / 2, swim: 1, t: tt * 2, scale: sc, clip: 0 }); }
     if (tt < t.flip + 0.35) { const [x, y, z] = hop(tt, t.flip, t.flip + 0.35, [BV[0] - 0.4, pondLevel(tt) - 0.12, BV[2]], BV, 0.3); return b.set({ x, y, z, rotY: 0, stand: 0.5, t: tt, scale: sc }); }
     const TOWNB = [-10.3, 1.84, -4.05];
@@ -736,7 +739,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
       const point = smooth(u01(tt, t.already - 0.1, t.already + 0.2)) * (1 - smooth(u01(tt, t.oneC + 0.6, t.oneC + 0.9)));
       const shakeNo = tt > t.running && tt < t.river + 0.4 ? 0.35 * Math.sin((tt - t.running) * 16) : 0;
       const writing = (tt > FLOAT1 && tt < FLOAT1 + 1.4) || (tt > POPC && tt < POPC + 1.2) || (tt > CRUMB && tt < CRUMB + 1.4) || (tt > SPLASH && tt < SPLASH + 1.0);
-      return b.set({ x: BV[0], y: BV[1], z: BV[2], rotY: point > 0.1 ? 0.2 : -0.35, stand: 1, write: writing ? 1 : 0, card: 1.8 * rent, cardText: 'RENT\nDUE', cardLift: 0.5, cardFwd: 0.2, point, nod: point * 0.35 * Math.max(0, Math.sin(tt * 6)), headY: shakeNo, t: tt, scale: sc, look: point > 0.5 ? [0, -1] : [-0.6, 0] });
+      return b.set({ x: BV[0], y: BV[1], z: BV[2], rotY: point > 0.1 ? 0.2 : -0.35, stand: 1, write: writing ? 1 : 0, card: 2.6 * rent, cardText: 'RENT\nDUE', cardLift: 0.5, cardFwd: 0.2, point, nod: point * 0.35 * Math.max(0, Math.sin(tt * 6)), headY: shakeNo, t: tt, scale: sc, look: point > 0.5 ? [0, -1] : [-0.6, 0] });
     }
     // the gift shop: behind the counter; holds up the bestseller
     const hold = smooth(u01(tt, t.bestseller - 0.35, t.bestseller - 0.05));

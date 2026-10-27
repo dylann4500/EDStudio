@@ -377,3 +377,16 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   cut** — merge them into one medium shot. **Fill every 4+ s stretch with a cut on its own word** (the yardstick on "six", the egg on
   "hot", the drowned church on "drowned", the bills on "dollars"). **Callback the cold open:** cut back to the same finished-dam
   wide on the ending's "Congratulations". A tumbling head-first dive reads better as an INSERT of the legs sticking out of the water.
+- **User verdict on the cuts pass (Oct 26): "i dont really like [the cuts] i liked our older continuous style it was much easier to
+  follow."** 025 went back to ONE take (`const CUTS = false` keeps the cut list for reference; kicks kept at `amp: 0.022`, ≈ 60 %).
+  The take then has to carry every gag alone: push the rail in on each one (025: the yardstick on "six", Gary shovelling + buried on
+  the pile, a two-pass ride with the concrete bucket, the overtop on the crest, the ending in his pool at ~3–4 m) and make held
+  cards big enough for a wide (`card: 2.3–2.6`, lifted 0.8 m above the head). The engine's `cuts.js` stays available.
+- **Water volumes (user: "overlapping elements and weird water cutoff things"):** a `makeWaterBody` front face ends with a hard
+  vertical edge wherever its x-range ends — never end one in the open. Two bodies at a pool/dam: end BOTH at the obstacle's centre
+  (the pool sits in continuous water, the level step hides behind it), not at its walls (that left a dry strip under the pool).
+  Before a thrown prop lands, run the creek whole up to a real wall (the beaver's sticks). Keep a creek's surface BELOW the bank
+  top (the surface plane spans the whole canyon width: at level 0 it z-fights the floor and reads as water on the ground). When a
+  dam vanishes (the crumble), run the water's end on to the next body instead of leaving it standing in the air.
+- **Hook staging: one thing at a time.** A held prop sits IN the raised hands (the pool floated 0.3 m above them); the
+  thermometer, the CLOSED board and the see-through fence each get their own patch of frame (fence starts right of the gate).
