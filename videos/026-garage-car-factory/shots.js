@@ -358,12 +358,13 @@ export async function build(studio, story) {
     IN(t.fix - 0.03, t.fix + 0.62, [2.4, 1.9, 0.6], [2.0, 0.9, -3.3], 40),   // between Gary and the mechanic: your car on the hook           // your car dangling off the tow hook
     FC(t.builtC - 0.05, t.builtC + 0.55, gary, { yaw: -0.3 }),                         // ta-da
     FC(t.horn + 0.15, t.horn + 0.95, gary, { yaw: 0.2 }),                            // the horn is Gary: HONK
-    FC(t.alone - 0.15, t.alone + 0.45, gary, { yaw: 0.3 }),                          // alone (thumbs-up)
-    FC(t.job - 0.06, t.job + 0.5, wA, { yaw: 0.25, pitch: 0.35 }),                  // one job each: a neighbour, bored, at the body station
+    FC(t.alone - 0.15, t.alone + 0.45, gary, { yaw: 0.3 }),                            // alone (thumbs-up)
+    FC(t.job - 0.06, t.job + 0.5, gary, { yaw: 0.9 }),                               // one job each: Gary rides the lead car into the line
+    FC(t.fords - 0.05, t.fords + 0.55, gary, { yaw: 0.25 }),                         // Ford's line: Gary surfs the lead car
     IN(t.n12 - 0.02, t.n93 + 0.05, [17.0, 3.9, -4.6], [17.0, 4.4, -9.4], 32),       // the clock spins: 12 hours → 93 minutes
     FC(t.promoted - 0.08, t.promoted + 0.6, roombaFace, RB),                         // PROMOTED: the tiny hard hat
     IN(t.make + 0.05, t.make + 0.95, [21.3, 3.0, -1.0], [21.3, 1.0, -7.3], 34),      // the press slams out three identical doors
-    IN(t.inter - 0.02, t.inter + 0.7, [22.4, 1.4, 0.4], [23.3, 0.9, -3.2], 34),     // INTERCHANGEABLE PARTS: the stamped door clicks on
+    IN(t.inter - 0.02, t.inter + 0.7, [24.6, 1.5, 0.6], [23.3, 0.9, -3.2], 34),     // INTERCHANGEABLE PARTS: the stamped door clicks on
     FC(t.garyP2 - 0.02, t.garyP2 + 0.7, gary, { yaw: 0.3 }),                         // "Gary was in the pile": dazed, a "?"
     FC(t.ornament, t.ornament + 0.6, gary, { yaw: -0.5, dist: 3.0, faceY: 0.45, facing: true }),                           // a gold hood ornament
     FC(t.asleep - 0.05, t.asleep + 0.6, gary, { yaw: 0.3 }),                         // asleep standing up (ZZZ)
@@ -377,7 +378,6 @@ export async function build(studio, story) {
     FC(t.rustproof - 0.05, t.rustproof + 0.4, gary, { yaw: 0.3 }),                   // rustproof (grin)
     IN(t.n30000 + 0.07, t.n30000 + 0.82, [35.9, 1.7, 3.0], [35.9, 1.9, -9.0], 40),  // the dock: a wall of 30,000 parts
     FC(t.buried - 0.05, t.buried + 0.7, gary, { yaw: 0.25 }),                        // buried: HELP!
-    FC(t.needed - 0.15, t.needed + 0.4, gary, { yaw: 0.4, pitch: 0.32 }),                       // just in time: Gary tosses a part in
     IN(t.jitW - 0.01, t.jitW + 0.75, [36.0, 1.0, 1.9], [37.0, 0.6, -1.4], 36),       // JUST-IN-TIME: one wheel on the tugger
     FC(t.manager - 0.08, t.manager + 0.55, roombaFace, RB),                          // MANAGER: the bow tie
     FC(t.safe - 0.15, t.safe + 0.45, gary, { yaw: 0.3 }),                            // the dummy in the crash car (targets on)
