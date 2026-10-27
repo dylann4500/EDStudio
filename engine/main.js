@@ -47,7 +47,8 @@ try {
   window.renderAtBlur = (t, n = 2, shutter = 0.5, fps = 30) => {
     if (n <= 1) return window.renderAt(t);
     for (let k = 0; k < n; k++) {
-      const tk = Math.max(0, t + ((k + 0.5) / n - 0.5) * shutter / fps);
+      let tk = Math.max(0, t + ((k + 0.5) / n - 0.5) * shutter / fps);
+      for (const c of window.EDSTUDIO_CUTS || []) if ((tk - c) * (t - c) < 0) tk = t;   // never blur across a hard cut (engine/build/cuts.js)
       video.update(tk); studio.render(tk);
       actx.globalAlpha = 1 / (k + 1); actx.drawImage(gl, 0, 0);   // running mean of the sub-frames
     }
