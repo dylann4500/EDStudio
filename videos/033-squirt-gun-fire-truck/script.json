@@ -43,8 +43,8 @@
           "text": "PEW!",
           "style": "sfx",
           "pos": [
-            0.68,
-            0.34
+            0.3,
+            0.45
           ],
           "hold": 0.8
         }
@@ -103,8 +103,8 @@
           "text": "SLAM!",
           "style": "sfx",
           "pos": [
-            0.32,
-            0.3
+            0.26,
+            0.64
           ],
           "hold": 0.7
         },
@@ -113,7 +113,7 @@
           "nth": 2,
           "text": "FIRE TRIANGLE",
           "style": "term",
-          "hold": 1.8
+          "hold": 0.8
         }
       ]
     },
@@ -142,6 +142,16 @@
             0.62
           ],
           "hold": 0.8
+        },
+        {
+          "at": "hedges",
+          "text": "tss.",
+          "style": "sfx",
+          "pos": [
+            0.58,
+            0.72
+          ],
+          "hold": 0.7
         }
       ]
     },
@@ -182,8 +192,8 @@
           "text": "SIZZLE",
           "style": "sfx",
           "pos": [
-            0.3,
-            0.32
+            0.7,
+            0.66
           ],
           "hold": 0.8
         }
@@ -247,6 +257,12 @@
             0.3
           ],
           "hold": 0.8
+        },
+        {
+          "at": "gary",
+          "text": "CREW: 1",
+          "style": "label",
+          "hold": 0.5
         }
       ]
     },
@@ -258,27 +274,23 @@
           "at": "30",
           "text": "EMPTY IN 30 SECONDS",
           "style": "label",
-          "until": "seconds"
+          "until": "seconds",
+          "y": 0.12
         },
         {
           "at": "fire",
           "text": "FIRE HYDRANT",
           "style": "term",
-          "hold": 1.8
-        },
-        {
-          "at": "five",
-          "text": "5 SIDES",
-          "style": "label",
-          "until": "open"
+          "hold": 1.15,
+          "y": 0.1
         },
         {
           "at": "person",
           "text": "BONK!",
           "style": "sfx",
           "pos": [
-            0.3,
-            0.3
+            0.2,
+            0.24
           ],
           "hold": 0.8
         }
@@ -327,8 +339,8 @@
           "text": "20 FEET",
           "style": "label",
           "hold": 1.2,
-          "x": 0.64,
-          "y": 0.6
+          "x": 0.46,
+          "y": 0.36
         }
       ]
     },
@@ -383,6 +395,14 @@
             0.26
           ],
           "hold": 0.9
+        },
+        {
+          "at": "threefoot",
+          "text": "3 FT",
+          "style": "label",
+          "hold": 1.2,
+          "x": 0.62,
+          "y": 0.66
         }
       ]
     },
@@ -411,8 +431,8 @@
           "text": "CLANK!",
           "style": "sfx",
           "pos": [
-            0.72,
-            0.3
+            0.74,
+            0.4
           ],
           "hold": 0.8
         },
@@ -420,14 +440,16 @@
           "at": "22",
           "text": "$2,200,000",
           "style": "money",
-          "until": "dollars"
+          "until": "dollars",
+          "x": 0.62,
+          "y": 0.2
         },
         {
           "at": "stuck",
           "text": "STUCK",
           "style": "stamp",
           "hold": 1.2,
-          "x": 0.66,
+          "x": 0.36,
           "y": 0.42
         }
       ]

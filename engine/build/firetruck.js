@@ -245,15 +245,15 @@ export function makeFires(parent, { max = 900, smokeMax = 420 } = {}) {
   const F = mkPool(flameTex(), max, false), G = mkPool(flameTex(), max, true), S = mkPool(puffTex(), smokeMax, false);   // outer flames are normal-blended (additive alone washed out on a sunny wall); a small additive core glows inside each
   F.mesh.material.toneMapped = false; F.mesh.renderOrder = 6; G.mesh.renderOrder = 7;
   const src = new Map(), balls = [];
-  const cA = new THREE.Color(0xfff0a0), cB = new THREE.Color(0xff8a1c), cC = new THREE.Color(0xd8300f), RIM = new THREE.Color(0x6e2410), CORE = new THREE.Color(0xffd84a), col = new THREE.Color(), sm = new THREE.Color();
-  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), s3 = new THREE.Vector3(), p = new THREE.Vector3(), up = new THREE.Vector3();
+  const cA = new THREE.Color(0xffc23a), cB = new THREE.Color(0xff8a1c), cC = new THREE.Color(0xd8300f), RIM = new THREE.Color(0x6e2410), CORE = new THREE.Color(0xffd84a), col = new THREE.Color(), sm = new THREE.Color();
+  const camFwd = new THREE.Vector3(), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), s3 = new THREE.Vector3(), p = new THREE.Vector3(), up = new THREE.Vector3();
   const put = (P, pos, sx, sy, alpha, c) => { if (P.live >= P.n || alpha < 0.005) return; m4.compose(pos, q, s3.set(sx, sy, 1)); P.mesh.setMatrixAt(P.live, m4); P.mesh.setColorAt(P.live, c); P.mesh.geometry.attributes.aAlpha.array[P.live] = alpha; P.live++; };
   return {
     add(id, o) { src.set(id, { n: 20, size: 0.45, height: 0.9, rate: 1.5, smoke: 0, box: [0.5, 0.1, 0.5], seed: src.size * 37 + 5, k: 0, ...o, pos: new THREE.Vector3(...o.pos) }); },
     set(id, k, pos) { const s = src.get(id); s.k = k; if (pos) s.pos.set(...pos); },
     fireball(t0, pos, R = 1.2, dur = 0.9) { balls.push({ t0, pos: new THREE.Vector3(...pos), R, dur }); },
     update(t, camera) {
-      F.live = 0; G.live = 0; S.live = 0; q.copy(camera.quaternion); up.set(0, 1, 0);
+      F.live = 0; G.live = 0; S.live = 0; q.copy(camera.quaternion); up.set(0, 1, 0); camera.getWorldDirection(camFwd);
       for (const s of src.values()) {
         if (s.k <= 0.01) continue;
         const kk = Math.sqrt(s.k);
@@ -280,14 +280,14 @@ export function makeFires(parent, { max = 900, smokeMax = 420 } = {}) {
           const th = h2(j, 21) * PI * 2, ph = Math.acos(1 - 2 * h2(j, 22)) * 0.85, r = b.R * (1 - Math.pow(1 - a, 3)) * (0.35 + 0.65 * h2(j, 23));
           p.set(b.pos.x + Math.sin(ph) * Math.cos(th) * r, b.pos.y + Math.cos(ph) * r * 0.9 + a * b.R * 0.7, b.pos.z + Math.sin(ph) * Math.sin(th) * r * 0.8);
           const sz = b.R * (0.45 + 0.5 * h2(j, 24)) * (0.45 + 0.9 * a) * Math.pow(1 - a, 0.35);
-          col.copy(cA).lerp(cB, clamp(a * 1.6)).lerp(cC, clamp(a * 1.4 - 0.5)).lerp(RIM, clamp(a * 1.6 - 0.9));
-          put(F, p, sz, sz * 1.2, Math.pow(1 - a, 1.3), col); if (a < 0.3) put(G, p, sz * 0.55, sz * 0.65, (1 - a / 0.3) * 0.9, CORE);   // a yellow core for the first ~0.3 s (white read as a flashbulb)
+          col.copy(cB).lerp(cC, clamp(a * 1.4 - 0.35)).lerp(RIM, clamp(a * 1.6 - 0.9));
+          put(F, p, sz, sz * 1.2, 0.9 * Math.pow(1 - a, 1.3), col); if (a < 0.55) put(G, p, sz * 0.7, sz * 0.8, (1 - a / 0.55) * 0.95, a < 0.2 ? CORE : cB);   // a yellow core for the first ~0.3 s (white read as a flashbulb)
         }
         if (a > 0.4) for (let j = 0; j < 30; j++) {
           const u = (a - 0.4) / 1.8; if (u > 1) continue;
           const th = h2(j, 31) * PI * 2, r = b.R * (0.5 + 0.7 * u) * (0.4 + 0.6 * h2(j, 32));
           p.set(b.pos.x + Math.cos(th) * r, b.pos.y + b.R * 0.9 + u * b.R * 2.2 + h2(j, 33) * b.R * 0.5, b.pos.z + Math.sin(th) * r * 0.6);
-          const sz = b.R * (0.9 + 1.4 * u) * (0.7 + 0.5 * h2(j, 34)); sm.setRGB(0.1, 0.09, 0.09).lerp(new THREE.Color(0.38, 0.36, 0.34), u);
+          p.addScaledVector(camFwd, 0.6); const sz = 0.6 * b.R * (0.9 + 1.4 * u) * (0.7 + 0.5 * h2(j, 34)); sm.setRGB(0.1, 0.09, 0.09).lerp(new THREE.Color(0.38, 0.36, 0.34), u);
           put(S, p, sz, sz, 0.7 * Math.sin(PI * u) * (u < 0.15 ? u / 0.15 : 1), sm);
         }
       }
@@ -340,7 +340,7 @@ export function makeHydrant() {
   mk(new THREE.CylinderGeometry(0.13, 0.135, 0.5, 24), red, g, 0, 0.31, 0);
   mk(new THREE.CylinderGeometry(0.155, 0.155, 0.05, 24), red, g, 0, 0.58, 0);
   const bonnet = mk(new THREE.SphereGeometry(0.14, 24, 12, 0, PI * 2, 0, PI / 2), red, g, 0, 0.6, 0); bonnet.scale.y = 0.85;
-  const nut = mk(new THREE.CylinderGeometry(0.05, 0.05, 0.07, 5), nutM, g, 0, 0.75, 0);   // FIVE sides
+  const nut = mk(new THREE.CylinderGeometry(0.11, 0.11, 0.09, 5), new THREE.MeshStandardMaterial({ color: 0xd2a843, roughness: 0.35, metalness: 0.25, flatShading: true }), g, 0, 0.765, 0); nut.add(new THREE.LineSegments(new THREE.EdgesGeometry(nut.geometry), new THREE.LineBasicMaterial({ color: 0x3a2a10 })));   // FIVE sides, brass, faceted so the edges read
   const ports = [];
   for (const [ry, r, len] of [[0, 0.075, 0.12], [PI / 2, 0.05, 0.09], [-PI / 2, 0.05, 0.09]]) {
     const p = new THREE.Group(); g.add(p); p.position.y = 0.4; p.rotation.y = ry;
@@ -370,7 +370,7 @@ export function makeWagon() {
 export const TANK = { x0: -1.12, x1: 1.12, y0: 0.06, y1: 1.0, d: 1.1 };
 export function makeTank() {
   const g = new THREE.Group();
-  const wall = new THREE.MeshStandardMaterial({ color: 0xf4f6f6, roughness: 0.35, transparent: true, opacity: 0.32, depthWrite: false, side: THREE.DoubleSide });
+  const wall = new THREE.MeshStandardMaterial({ color: 0xf4f6f6, roughness: 0.35, transparent: true, opacity: 0.18, depthWrite: false, side: THREE.DoubleSide });
   const W = TANK.x1 - TANK.x0 + 0.06, Hh = TANK.y1 + 0.04, Dd = TANK.d + 0.06;
   const panels = {
     near: mk(new THREE.PlaneGeometry(W, Hh), wall, g, 0, Hh / 2, Dd / 2), far: mk(new THREE.PlaneGeometry(W, Hh), wall, g, 0, Hh / 2, -Dd / 2),
@@ -575,7 +575,7 @@ export function makeFireTruck() {
     wheels.push(w);
   }
   const fenderM = dark.clone(); fenderM.side = THREE.DoubleSide;
-  for (const x of [-1.45, -5.55]) for (const s of [-1, 1]) { const f = mk(new THREE.CylinderGeometry(0.62, 0.62, 0.42, 24, 1, true, -PI / 2, PI), fenderM, inner, x, 0.55, s * 0.98); f.rotation.x = PI / 2; }
+  for (const x of [-1.45, -5.55]) for (const s of [-1, 1]) { const f = mk(new THREE.CylinderGeometry(0.6, 0.6, 0.42, 16, 1, true, -0.31 * PI, 0.62 * PI), fenderM, inner, x, 0.55, s * 0.98); f.rotation.x = -PI / 2; }   // a short arch over the tire (a half-cylinder hung below the sill as black horns)
   // ---- the cab (cab-over, front at x −6.95): shell, windshield, an open near door frame so Gary reads inside
   const cab = new THREE.Group(); inner.add(cab);
   const shell = (w, h, d, x, y, z) => mk(new RoundedBoxGeometry(w, h, d, 2, 0.06), paint, cab, x, y, z);
@@ -639,7 +639,7 @@ export function makeFireTruck() {
   mk(new THREE.CylinderGeometry(0.07, 0.07, 0.06, 16), steel(0xd0d5da), imp, 0, 0, 0).rotation.x = PI / 2;
   const pipeM = steel(0xa9b1b8, 0.35);
   mk(new THREE.CylinderGeometry(0.075, 0.075, 0.7, 12), pipeM, pumpG, 0.62, -0.42, -0.15).rotation.z = PI / 2;   // the intake from the tank's foot
-  const flow = makeArrows(inner, [[-2.75, 1.28, 0.75], [-3.25, 1.28, 0.75], [-3.6, 1.62, 0.75], [-3.95, 1.95, 0.75], [-3.6, 2.2, 0.75], [-3.6, 2.6, 0.75]], { color: 0xffffff, count: 6, size: 0.13, speed: 1.8, emissive: 0.8 });
+  const flow = makeArrows(inner, [[-2.75, 1.28, 0.75], [-3.25, 1.28, 0.75], [-3.6, 1.62, 0.75], [-3.95, 1.95, 0.75], [-3.6, 2.2, 0.75], [-3.6, 2.6, 0.75]], { color: 0xffd23f, count: 6, size: 0.22, speed: 1.8, emissive: 0.9 });
   const setRun = (k, t) => { pumpWater.material.opacity = 0.55 * clamp(k); flow.update(t, clamp(k)); };
   mk(new THREE.CylinderGeometry(0.075, 0.075, 0.55, 12), pipeM, pumpG, 0.0, 0.64, -0.15);                       // the riser to the roof
   // ---- the deck gun on the roof over the tank (stage deck), near side; yaw/pitch groups; dgTip = the nozzle mouth (points −x at yaw 0)
@@ -662,7 +662,7 @@ export function makeFireTruck() {
   const levers = [-0.08, 0.0, 0.08].map((x) => { const l = new THREE.Group(); pedestal.add(l); l.position.set(x, 0.76, 0); mk(new THREE.CylinderGeometry(0.012, 0.012, 0.2, 6), chrome, l, 0, 0.1, 0); mk(new THREE.SphereGeometry(0.03, 10, 8), mat(0xd42a22, 0.4), l, 0, 0.2, 0); return l; });
   const elev = new THREE.Group(); turn.add(elev); elev.position.set(0, 0.62, 0);
   const lad = new THREE.Group(); elev.add(lad);
-  const ALU = new THREE.MeshStandardMaterial({ color: 0xdfe3e7, roughness: 0.25, metalness: 0.65 }), LRED = new THREE.MeshStandardMaterial({ color: 0xd3241e, roughness: 0.4, metalness: 0.2 });
+  const ALU = new THREE.MeshStandardMaterial({ color: 0xdfe3e7, roughness: 0.25, metalness: 0.65 }), LRED = new THREE.MeshStandardMaterial({ color: 0xb8221c, roughness: 0.55, metalness: 0.2 });
   const SEC = [{ L: 7.6, w: 1.0, h: 0.32 }, { L: 7.4, w: 0.86, h: 0.27 }, { L: 7.2, w: 0.72, h: 0.23 }, { L: 7.0, w: 0.6, h: 0.19 }];
   const secs = SEC.map((s, i) => {
     const sg = new THREE.Group(); lad.add(sg); sg.position.y = i * 0.06;
@@ -692,7 +692,7 @@ export function makeFireTruck() {
     const jack = new THREE.Group(); beam.add(jack); jack.position.z = s * 1.18;
     mk(new THREE.CylinderGeometry(0.11, 0.11, 0.32, 14), mat(0x3a3d42, 0.5), jack, 0, 0.0, 0);
     const rod = mk(new THREE.CylinderGeometry(0.065, 0.065, 1, 12), chrome, jack, 0, -0.5, 0);
-    const pad = mk(new RoundedBoxGeometry(0.5, 0.07, 0.5, 2, 0.02), mat(0xf7c948, 0.5), jack, 0, -1, 0);
+    const pad = mk(new RoundedBoxGeometry(0.75, 0.07, 0.6, 2, 0.02), mat(0xf7c948, 0.5), jack, 0, -1, 0);
     return { o, s, beam, jack, rod, pad, x, set(e, len) { beam.position.z = s * 1.05 * clamp(e); const L = Math.max(0.02, len); rod.scale.y = L; rod.position.y = -L / 2; pad.position.y = -L - 0.03; } };
   });
   // ---- light bar + siren (stage siren)
@@ -774,8 +774,8 @@ export async function buildYard(studio) {
   { const c = document.createElement('canvas'); c.width = 4096; c.height = 2048; const g = c.getContext('2d'); g.scale(2, 2);
     const gr = g.createLinearGradient(0, 0, 0, 1024); gr.addColorStop(0, '#3f86d8'); gr.addColorStop(0.3, '#79b4ea'); gr.addColorStop(0.45, '#cfe0ef'); gr.addColorStop(0.5, '#f6dcc0'); gr.addColorStop(1, '#f6dcc0');
     g.fillStyle = gr; g.fillRect(0, 0, 2048, 1024);
-    for (let i = 0; i < 22; i++) { const cx = h2(i, 5) * 2048, cy = 120 + h2(i, 6) * 310, s = 36 + h2(i, 7) * 60;
-      for (let k = 0; k < 8; k++) { const x = cx + (h2(i, k) - 0.5) * s * 4, y = cy + (h2(k, i) - 0.5) * s * 0.8, rr = s * (0.6 + h2(i + k, 9) * 0.7); const cg = g.createRadialGradient(x, y - rr * 0.3, 0, x, y, rr); cg.addColorStop(0, 'rgba(255,250,244,.97)'); cg.addColorStop(0.8, 'rgba(255,240,226,.9)'); cg.addColorStop(1, 'rgba(255,230,210,0)'); g.fillStyle = cg; g.beginPath(); g.arc(x, y, rr, 0, 7); g.fill(); } }
+    for (let i = 0; i < 50; i++) { const cx = h2(i, 5) * 2048, cy = 300 + h2(i, 6) * 160, s = 10 + h2(i, 7) * 16;   // small, low clouds (big soft puffs read as smudges on the lens)
+      for (let k = 0; k < 8; k++) { const x = cx + (h2(i, k) - 0.5) * s * 4, y = cy + (h2(k, i) - 0.5) * s * 0.8, rr = s * (0.6 + h2(i + k, 9) * 0.7); const cg = g.createRadialGradient(x, y - rr * 0.3, 0, x, y, rr); cg.addColorStop(0, 'rgba(255,255,255,1)'); cg.addColorStop(0.75, 'rgba(236,242,250,.92)'); cg.addColorStop(1, 'rgba(220,230,245,0)'); g.fillStyle = cg; g.beginPath(); g.arc(x, y, rr, 0, 7); g.fill(); } }
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
     root.add(new THREE.Mesh(new THREE.SphereGeometry(600, 48, 24), new THREE.MeshBasicMaterial({ map: t, side: THREE.BackSide, fog: false, toneMapped: false }))); }
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -855,7 +855,9 @@ export async function buildYard(studio) {
   const hedgeM = new THREE.MeshStandardMaterial({ map: hedgeT, roughness: 0.95, bumpMap: hedgeT, bumpScale: 2 });
   const hedge = mk(new RoundedBoxGeometry(H.x1 - H.x0, H.h, H.d, 4, 0.3), hedgeM, root, (H.x0 + H.x1) / 2, H.h / 2, H.z);
   const hedgeBase = new THREE.Color(0xffffff), CHAR = new THREE.Color(0x141110);
-  const setChar = (k) => { hedgeM.color.copy(hedgeBase).lerp(CHAR, clamp(k)); hedgeM.bumpScale = 2 + 4 * clamp(k); };
+  const charT = tex(512, 128, (c, w, h) => { c.fillStyle = '#26211e'; c.fillRect(0, 0, w, h); const R2 = rng(8); for (let i = 0; i < 1500; i++) { c.fillStyle = ['#151210', '#3a3430', '#5d5650', '#1e1a17'][i % 4]; c.beginPath(); c.ellipse(R2() * w, R2() * h, 3 + R2() * 4, 2 + R2() * 3, R2() * 3, 0, 7); c.fill(); } for (let i = 0; i < 70; i++) { c.fillStyle = `rgba(255,${110 + (i % 5) * 20},40,.9)`; c.beginPath(); c.arc(R2() * w, R2() * h * 0.7, 1.5 + R2() * 2, 0, 7); c.fill(); } c.fillStyle = 'rgba(170,165,160,.35)'; c.fillRect(0, 0, w, 10); });
+  charT.wrapS = charT.wrapT = THREE.RepeatWrapping; charT.repeat.copy(hedgeT.repeat);
+  const setChar = (k) => { k = clamp(k); const burnt = k > 0.5; hedgeM.map = burnt ? charT : hedgeT; hedgeM.emissiveMap = burnt ? charT : null; hedgeM.emissive.setHex(burnt ? 0x3a1405 : 0x000000); hedgeM.color.copy(hedgeBase).lerp(burnt ? new THREE.Color(0xffffff) : CHAR, burnt ? 0 : k * 1.6); hedgeM.needsUpdate = true; };
 
   // ---- Gary's house + garage, neighbours, far roofs, fences, beds, toys
   const house = makeHouse({ w: D.house.x1 - D.house.x0, d: D.house.z0 - D.house.z1, h: D.house.h, wall: '#f4e3b2', door: '#d3341e', windows: 4, porch: true, num: '33' });

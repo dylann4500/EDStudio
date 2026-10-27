@@ -1,10 +1,10 @@
 How a Squirt Gun Becomes a Fire Truck 🔥🚒
 
-It starts with a burning grill and one cup of water. Then come the fire triangle, a 750-gallon booster tank, baffles, a centrifugal pump, a deck gun, a fire hydrant with a five-sided nut, a 100-foot aerial ladder and the outriggers that keep it from flipping. Every fix is real fire engineering, every one happens to Gary first, and the cat in the tree is not impressed.
+It starts with a burning grill and one cup of water. Then come the fire triangle, a 750-gallon booster tank, baffles, a centrifugal pump, a deck gun, a fire hydrant with a five-sided nut, a 100-foot aerial ladder and the outriggers that keep it from tipping over. Every fix is real fire engineering, every one happens to Gary first, and the unimpressed cat in the tree ends up with the burgers.
 
 Which fix would you have stopped at? 👇
 
-Send this to the friend who brings a squirt gun to a grill fire.
+Send this to your friend who brings a squirt gun to a grill fire.
 
 🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
 
