@@ -93,6 +93,17 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 - The music-box line is what holds the music median up: an 8-bar stretch of staccato waltz with no `bell_melody` failed the
   dropout check twice (16.9 s, 32.7 s) even with bar pads at 1.05 — a soft music-box phrase over each gap fixed it.
 
+## Shop waltz + checkout foley (031, Pip ep. 4)
+- Pip's theme as in-store music: the 021 waltz brighter and per job a new key (greeter F, sausages Bb, checkout F) with a
+  music-box ta-da on each gag; the time-lapse plays the waltz at double speed (`waltz(..., beat=0.25)`).
+- New SFX `scan_beep` (pitch, dur): one soft round till boop (~880 Hz, low-passed). Registered as category **ui** on purpose:
+  as `prop` every boop triggered `auto_duck`, five boops in 2 s held the music down and the dropout check failed (28.7–29.8 s).
+- Store bed = `city_day` with `murmur 1, traffic 0` (shoppers) + `lamp_hum` −52 + `room_tone`; the lot through the open doors =
+  a short `city_day` with traffic. Grocery avalanche = `candy_rattle` size 2.2 + 7 small `metal_clang` (size 0.22–0.3, pitch
+  2.4–2.7) + `bonk` + a tiny `giant_step` on wood. A cart = `keyboard_type` rate 8–22. Toddler sobs = `whimper` pitch 1.75.
+- Dropouts sat at key changes and before pickups (a staccato bar ending into silence): a 2-note music-box pickup before each
+  key change / big moment cleared them (`music dropouts: none`).
+
 ## Open quiet, then the music enters (user steer, Oct 23)
 Start every video with only subtle sound — a room tone, crickets, a snore, a street — and let the score enter on the premise beat
 (007 at 6.6 s, 010 at 4.2 s with a braam + boom). The "music never cuts out" rule applies from the moment it starts.

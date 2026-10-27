@@ -136,5 +136,14 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
   The family's own porch = suburb lot 0 (x −32); the living room stays the indoor home base. Episode rule kept: Pip never eats
   candy (chocolate is toxic to dogs) — his treat is the dog biscuit, and the caption says so.
+- **Ep. 4 (031, supermarket job) added `engine/pipmart.js`** (CLAUDE.md → Sunny Market): the 010 supermarket dressed for a job
+  episode (glass front + automatic doors + parking lot, sausage cooler, checkout with a live register screen, EMPLOYEE OF THE
+  MONTH board, balloon drop) and Pip's work kit: `makeStaffVest(pip)` (STAFF vest, HI, I'M PIP badge, a top handle — a lost
+  toddler holds it to follow him), a handheld scanner for his mouth, and his **tongue-out staff photo rendered from a second
+  Pip into a texture** (pays off as Employee of the Month). Job template = rule of three in Pip's honest logic (herds the
+  customers / keeps the sausages "in stock" by sitting on them / scans shoes, the belt avalanches) → 4 PM low point → he gives
+  a lost toddler his bunny, sniffs out her mom (golden scent trail) → hug, the store claps, balloons → photo on the wall, paid
+  in dog biscuits (never people food: onion/garlic in sausages are toxic — ASPCA). The bunny comes back to him at the cheer.
+  The Mom of the family works there (green staff polo, JEN badge) and wheels him out asleep in a cart at sunset.
 - **Still missing (build when an episode needs it):** breed presets for the dog-park cast, a flood plane, a lightning flash +
   thunder.
