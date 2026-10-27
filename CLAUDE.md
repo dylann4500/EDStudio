@@ -323,6 +323,15 @@ videos/NNN-slug/
 - **HUD extras (027, core.js, additive):** a hud segment can carry `text` (a literal string, e.g. "~10⁸⁰"), `label` (overrides
   `hudLabel` from that segment on), `timefmt: true` (the number is seconds, printed "320 femtoseconds" / "8 min 17 s") and
   `ease: 'log'` (from·(to/from)^u — one clock that sweeps 20 decades, 10 as → 8 min). shots.js reads the same segments for τ.
+- **South Pole + "the ground slides away" kit (028):** `engine/sets/southpole.js` (`buildSouthPole`: white plateau + sastrugi,
+  ceremonial barber pole with a chrome globe (canvas env map), 12 treaty flags `update(t, wind)`, survey marker + sign, a station
+  on stilts, snowcat, cargo, flag-lined road, twinkling diamond dust, low 13° sun + 22° halo; `aimSun`, own fog, far ≥ 1700).
+  028 `shots.js`: a **free-frame camera** (`CAMS.*.free`) rides with everything that slides (adds `V·τ` along the set's east axis)
+  so faces stay close while the bolted world streaks past — the cheapest way to show "the ground moved, you didn't"; `put(rig, key,
+  p, {dx, tx, back, s})` tilts a rig in WORLD x (`tx`) or backward in its own frame (`back`) with `rotation.order = 'YXZ'`; a red
+  parka with a hood + fur ruff (`parka(rig)`: the SphereGeometry gap is at phi = π/2 = the face side, no rotation needed); a pool
+  whose water slides into the deep end and goes up the wall (slab + sheet), a receding ocean (own sea plane with its near edge at
+  the shore + a sloped seabed + an edge wall: coast.js `setSea` only moves the level), a debris cloud that rides with the free frame.
 - **Build genre kit (024, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
   `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeShades`, `makeRaccoon`, `makePigeon` with `flap`),
   `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
@@ -438,6 +447,9 @@ videos/NNN-slug/
   behind the hero along their facing line (3–4 m back, ~1 m to the side) and aim ≤ 10° off that line; check that no parked car
   sits on the camera path (004's day shot started *inside* a car).
 - Big painted skies on a 700 m dome need 4096-px textures and soft round stars (2-px squares showed as a grid at fov 50; big stars read as snow).
+- **Scripted block splices: search the END anchor from the START anchor's index** (`s.index(end, a)`) — 028 spliced to an
+  `if (cam === 'pool')` that also appeared earlier in the file and duplicated 300 lines (`node --check`: "Identifier 'cab' has
+  already been declared"). Assert `b > a` and that each anchor is unique before writing.
 - **After resolving a merge in a shared file, run `node --check`** (copy to `.mjs` first). Two sessions appending to props.js lost a
   closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` + `ops/ledger.csv` before picking NNN — numbers get claimed in worktrees before they're pushed,
   and the operation's manager assigns them (ask it): the build reel took 015 while the manager gave 015 to tail-lies → renumbered 024 at merge.
@@ -609,6 +621,9 @@ while they stay human-scale. Keep the cosmic end short, or put a face in it.
 faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
 best beat measured so far; bus 0.125; kitchen 0.104; traffic 0.101). Faceless spectacle sags (the Moon from space 0.019, the ISS 0.050
 even with an astronaut), and so does the sleeping title shot (−0.033). Keep the faceless space beat short and put a face beat after it.
+**028 (Earth stops spinning, science, 60.6 s) cut1: wc 0.0667 / first 60 s 0.0675 / 21.7 % above, no dead zone → TARGET MET first
+try,** the best science score: every beat a bright day place with faces close and the world streaking past a free-frame camera
+(Texas wind storm 0.115, NYC aftermath 0.111); the faceless/frozen early beats (Quito intro −0.007, first slide 0.030) were the low.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 

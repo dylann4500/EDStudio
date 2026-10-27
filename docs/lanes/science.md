@@ -59,3 +59,25 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   moves, faces, brightness) and keep the timeline when the late part already scores well. cut3 did that: 0.0441 / first 60 s
   0.0430 (beats 013), no dead zone, 0.0006 under the whole-brain target — the frozen dark Tokyo beat (0.006) and the pool (0.023)
   stay the weakest: a night street with frozen people sags even with close faces.
+
+## Third video: 028 "What if Earth stopped spinning for one second?"
+- **Shape (60.6 s):** Quito's equator plaza (title + a selfie on the line) → SECOND 0 → ONE clock τ = 0 → 1.000 s (HUD 3 decimals,
+  linear per segment) with one place per step and the dramatic moment of each place inside its window: Quito 0–0.03 (the plaza
+  slides away under the crowd), Rio pool 0.03–0.07 (the water reaches the deep end at 0.058), New York 0.07–0.13, Texas wind
+  0.13–0.22, Maine 0.22–0.6 (the sea edge passes the lighthouse at 0.26), South Pole 0.6–1.0 (nothing happens) → EARTH SPINS
+  AGAIN → real-time aftermath per place (tumble + sit up, cart tips, the pool water comes back down, dad 402 m east, the Atlantic
+  comes back) → Dave at the pole raises his coffee → "Where on Earth would you want to be standing?".
+- **Model:** the solid Earth stops for exactly 1 s then spins again; everything free keeps v = 465.1 m/s × cos(lat) east, so for
+  that second it slides v metres relative to the ground. Free things at one place keep their places relative to each other —
+  only bolted things move (in their frame) — and the air moves with them (no wind felt; the bolted world meets Mach 1).
+- **Picture rule that made it read:** a FREE-FRAME camera that rides with the sliding things (faces stay close, the bolted world
+  streaks past: monument, storefronts, bent trees). Pick each place's τ window so its event (water hits the wall, edge passes the
+  lighthouse) happens on screen; a 25 m pool only has 0.058 s of story, so the swimmers start at the shallow end.
+- Kind cartoon of a violent premise: frozen deadpan faces inside the ~0.2 s reaction time, comic tumbles + sitting up dazed in
+  the aftermath (a still of people lying flat read as bodies — make the fall 0.3 s and sit them up by ~1 s).
+- **TRIBE (028): cut1 met the target first try — wc 0.0667, first 60 s 0.0675, 21.7 % above, no dead zone (017 0.0487, 027 0.0441).**
+  Top beats: the Texas wind (dad calm in a cloud of leaves + pickets while bent trees streak past, 0.115), the New York aftermath
+  (people knocked down on the sidewalk, 0.111), the pool water coming back down (0.102). Weakest after the title: the Quito
+  intro before SECOND 0 (−0.007) and the first slide beat (0.030) — early beats sag in every reel; the bright, busy, face-filled
+  middle carried it. A bright DAY ladder with a free-frame camera (faces close, the world streaking past) beat both dark/space reels.
+

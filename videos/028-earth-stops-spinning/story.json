@@ -1,0 +1,284 @@
+{
+  "tone": "whatif",
+  "look": {
+    "exposure": 1.04,
+    "fill": 0.5,
+    "vignette": 0.26,
+    "bloom": 0.24,
+    "bloomThreshold": 0.9
+  },
+  "fps": 30,
+  "duration": 60.6,
+  "title": {
+    "html": "What if Earth stopped <em>spinning</em> for one second?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.8,
+      7.4,
+      "Quito, on the equator. The ground here moves at 1,674 km/h."
+    ],
+    [
+      7.6,
+      9.9,
+      "Second 0: the Earth stops. You don’t."
+    ],
+    [
+      10.0,
+      12.5,
+      "Everything not bolted down keeps going east."
+    ],
+    [
+      12.8,
+      16.3,
+      "Rio. The pool water hits the deep end at 1,542 km/h."
+    ],
+    [
+      16.6,
+      18.6,
+      "New York. The whole street slides."
+    ],
+    [
+      18.7,
+      20.5,
+      "Cabs, carts, dogs: 1,269 km/h."
+    ],
+    [
+      20.8,
+      22.6,
+      "The air keeps going too."
+    ],
+    [
+      22.7,
+      24.9,
+      "You can’t feel it. Your fence can."
+    ],
+    [
+      25.2,
+      27.3,
+      "Maine. The Atlantic slides out to sea."
+    ],
+    [
+      27.4,
+      29.3,
+      "The lighthouse is on dry land."
+    ],
+    [
+      29.5,
+      31.7,
+      "The South Pole moves at 0 km/h."
+    ],
+    [
+      31.8,
+      33.7,
+      "Nothing happens. At all."
+    ],
+    [
+      33.9,
+      35.7,
+      "One second later, Earth spins again."
+    ],
+    [
+      35.8,
+      38.0,
+      "Good news: you’re still on the equator."
+    ],
+    [
+      38.4,
+      40.9,
+      "Everyone on 42nd Street: 353 m east."
+    ],
+    [
+      41.2,
+      43.7,
+      "And the pool water comes back down."
+    ],
+    [
+      44.0,
+      46.7,
+      "Dad just mowed 402 meters of lawn."
+    ],
+    [
+      47.0,
+      50.1,
+      "12 seconds later, the Atlantic comes back."
+    ],
+    [
+      50.6,
+      53.6,
+      "And at the South Pole, Dave didn’t spill a drop."
+    ]
+  ],
+  "hudLabel": "TIME WITHOUT SPIN",
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 7.6,
+      "from": 0,
+      "to": 0,
+      "dec": 3,
+      "unit": " s",
+      "time": "QUITO · 10:00 AM · LATITUDE 0°",
+      "age": "THE GROUND · 1,674 km/h EAST"
+    },
+    {
+      "t0": 7.6,
+      "t1": 12.6,
+      "from": 0,
+      "to": 0.03,
+      "dec": 3,
+      "unit": " s",
+      "time": "QUITO · 10:00 AM · LATITUDE 0°",
+      "age": "YOU · STILL 1,674 km/h EAST",
+      "r0": 7.6,
+      "r1": 12.6,
+      "ease": "linear"
+    },
+    {
+      "t0": 12.6,
+      "t1": 16.4,
+      "from": 0.03,
+      "to": 0.07,
+      "dec": 3,
+      "unit": " s",
+      "time": "RIO · 12:00 PM",
+      "age": "THE WATER · 1,542 km/h EAST",
+      "r0": 12.6,
+      "r1": 16.4,
+      "ease": "linear"
+    },
+    {
+      "t0": 16.4,
+      "t1": 20.6,
+      "from": 0.07,
+      "to": 0.13,
+      "dec": 3,
+      "unit": " s",
+      "time": "NEW YORK · 11:00 AM",
+      "age": "THE STREET · 1,269 km/h EAST",
+      "r0": 16.4,
+      "r1": 20.6,
+      "ease": "linear"
+    },
+    {
+      "t0": 20.6,
+      "t1": 25.0,
+      "from": 0.13,
+      "to": 0.22,
+      "dec": 3,
+      "unit": " s",
+      "time": "TEXAS · 10:00 AM",
+      "age": "WIND · 1,446 km/h · MACH 1.2",
+      "r0": 20.6,
+      "r1": 25.0,
+      "ease": "linear"
+    },
+    {
+      "t0": 25.0,
+      "t1": 29.4,
+      "from": 0.22,
+      "to": 0.6,
+      "dec": 3,
+      "unit": " s",
+      "time": "MAINE · 11:00 AM",
+      "age": "THE ATLANTIC · 1,211 km/h EAST",
+      "r0": 25.0,
+      "r1": 29.4,
+      "ease": "linear"
+    },
+    {
+      "t0": 29.4,
+      "t1": 33.8,
+      "from": 0.6,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "SOUTH POLE · 4:00 AM · SUNNY",
+      "age": "THE GROUND · 0 km/h",
+      "r0": 29.4,
+      "r1": 33.8,
+      "ease": "linear"
+    },
+    {
+      "t0": 33.8,
+      "t1": 38.2,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "EVERYWHERE · AT ONCE",
+      "age": "EARTH SPINS AGAIN",
+      "ageGoldAt": 33.8
+    },
+    {
+      "t0": 38.2,
+      "t1": 41.0,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "NEW YORK",
+      "age": "EVERYONE MOVED · 353 m EAST"
+    },
+    {
+      "t0": 41.0,
+      "t1": 43.8,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "RIO · MOMENTS LATER",
+      "age": "THE POOL · EMPTY"
+    },
+    {
+      "t0": 43.8,
+      "t1": 46.8,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "TEXAS",
+      "age": "DAD MOVED · 402 m EAST"
+    },
+    {
+      "t0": 46.8,
+      "t1": 50.2,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "MAINE · 12 s LATER",
+      "age": "THE ATLANTIC · COMING BACK"
+    },
+    {
+      "t0": 50.2,
+      "t1": 60.6,
+      "from": 1.0,
+      "to": 1.0,
+      "dec": 3,
+      "unit": " s",
+      "time": "SOUTH POLE",
+      "age": "DAVE MOVED · 0 m"
+    }
+  ],
+  "end": {
+    "in": 56.4,
+    "html": "Where on Earth would you want to be <em>standing</em>?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [
+    55.8,
+    56.4
+  ],
+  "debugView": {
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "height": 40
+  }
+}
