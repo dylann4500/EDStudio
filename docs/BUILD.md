@@ -288,6 +288,16 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - **The TRIBE gate doesn't fit build reels as-is:** at 95–120 s they exceed the ~70 s TRIBE's audio encoder handles at the
   default memory cap. Scoring one needs a ≤ 70 s cut or a one-off run with a raised cap — the 5-reviewer loop
   (docs/BUILD-REVIEW.md) is this genre's quality gate.
+- **Posting (user, Oct 27): build reels go to "Gary the Builder"** (Instagram gary.the.builder) at **at most two a day, 1:00 PM and
+  6:00 PM PT** — a finished reel waits for the next free slot instead of going up on completion ("i dont want to be posting too
+  many"). Only on the user's go-ahead. Instagram caption = caption.md minus the 🎬 course-link block (the link is in the bio) and
+  minus the sources comment. Upload = a 60 fps HEVC two-pass copy under 10 MB (Claude in Chrome's upload limit; the user
+  prefers the 60 fps copy even though Instagram plays it at 30 fps): `ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow
+  -b:v ${KBPS}k -x265-params pass=1 -an -f null /dev/null && ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow -b:v ${KBPS}k
+  -x265-params pass=2 -tag:v hvc1 -c:a aac -b:a 96k -movflags +faststart out/upload60.mp4` with KBPS ≈ 9.6e6·8/duration/1000 − 96.
+  instagram.com can't schedule (Meta Business Suite needs a login), so a slot is hit by a one-time local scheduled task
+  (`fireAt`) that posts through Claude in Chrome "Browser 2"; give it guards (too-late cutoff, duplicate check, and a
+  rehearsal mode before the slot that never clicks Share, so "Run now" can pre-approve its tools).
 
 ## QC checklist (build)
 - [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
