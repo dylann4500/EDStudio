@@ -240,6 +240,9 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   (docs/BUILD-REVIEW.md) is this genre's quality gate.
 
 ## QC checklist (build)
+- [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
+      ~4.5 s) · ≥ 70 scheduled `fx.burst|stream` (one per ~1.5 s) · ~45–50 framings in one take (one per ~2.2 s) · ≥ 250 SFX
+      events + beds · the side character in ≥ 4 beats · no 2+ s without something new. Report these counts with each review round.
 - [ ] The hook is spoken on frame 1 over action; no title card, no HUD, no end card; the last line is the punchline.
 - [ ] One word on screen at a time, center, never under a callout; every TERM callout appears on its word and is shown on screen.
 - [ ] Every line is SHOWN (a prop, a failure, an effect) — scan the preview at 1 fps: no run of 2+ s without something new.
