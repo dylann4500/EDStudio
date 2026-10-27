@@ -59,3 +59,17 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   moves, faces, brightness) and keep the timeline when the late part already scores well. cut3 did that: 0.0441 / first 60 s
   0.0430 (beats 013), no dead zone, 0.0006 under the whole-brain target — the frozen dark Tokyo beat (0.006) and the pool (0.023)
   stay the weakest: a night street with frozen people sags even with close faces.
+
+## Third video: 029 "What if the Moon were twice as close?"
+- **Shape (61.4 s):** a Maine harbor at dusk, faces on the quay → a 9° lens on the full moonrise; SECOND 0 it doubles (HUD 384,400 →
+  192,200 km) → one consequence per place, a day-and-night ladder (Day 1 → Day 11): the faces (2× wide), a New York rooftop (4× the
+  moonlight: a reader holds up MOON MOVES CLOSER), the harbor at 1 AM (8× the tidal pull floods the street; HUD = sea level rolling
+  0 → 6 m), the harbor at dawn (−6 m, boats keeled over, faces peering 8 m down), the Bay of Fundy (a time-lapse tide front, then the
+  bay climbs the flowerpot stacks; 16 → ~130 m "rough estimate"), Quito (a half-hour total eclipse; glasses come off at totality,
+  crickets start), an Ohio kitchen (10-day months: 37 full moons a year, the kid howls), Earth + Moon to scale, back to the harbor on
+  Day 11 (craters by eye) → "Would you want the *bigger* Moon?".
+- **Honest size:** the Moon is drawn at its true angular size (engine/moon.js). Twice the Moon is still only ~1° — the "giant moon"
+  shots are long lenses (fov 3.5–9°), as in real moonrise photos; the faces get their own shots. Say so in the header.
+- **Uncertain numbers say so on screen:** tides scaled ×8 are a rough linear estimate (resonance, friction) → "Roughly 130 meters",
+  HUD "×8 · ROUGH ESTIMATE"; the eclipse count isn't printed ("far more often"), only the computed half-hour totality.
+- New engine pieces: `engine/moon.js`, `engine/sets/tidetown.js`, `engine/sets/fundy.js` (CLAUDE.md cheat sheet).
