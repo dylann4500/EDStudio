@@ -39,6 +39,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 029 | What if the Moon were twice as close? | science / @ed_.studios | assigned Oct 27 |
 | 030 | What if nobody at the dog park wanted to play with Pip? (Pip ep. 3) | pip / @ed._.sims | assigned Oct 27 |
 | 031 | What if Pip worked at the supermarket for one day? (Pip ep. 4) | pip / @ed._.sims | assigned Oct 27 |
+| 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
