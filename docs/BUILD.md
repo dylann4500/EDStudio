@@ -398,3 +398,12 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   downstream face, the beaver lodge's silhouette) and slides along it as the level moves. Walls per era live in one `walls(t)`.
   A tunnel's water fills its bore (a thinner tube leaves an air ring). Review missed it twice on 360 px sheets: check water with
   CLOSE stills on each contact line (025's `INSPECT` table of debug cameras keyed by time) and a reviewer on full-size frames.
+- **025 fluid review (full-size frames, explicit checklist) found what 360 px sheets hid:** a tunnel's top poking above the creek
+  bed at its inlet (clip the bore + its water with a plane at the bed); a dome-shaped obstacle drawn as if it were a ridge (make
+  obstacles uniform across the channel so their cut-face section = the wall function); a flood front racing ahead of a dam that
+  shrinks slower (follow the slope up to the CURRENT crest, then run over it); a pond leaning on a wedge that isn't poured yet (the
+  last poured column is the wall); two water bodies at different levels with nothing between them (one level once the pool floats);
+  an overflow sheet starting below the brink (a curtain from the lake level down the crest face); a translucent front showing the
+  sunken floor as a pale "air" layer (tint the submerged floor deep blue). Also: a water volume must be a CLOSED prism drawn from
+  inside with a small polygon offset (it lies exactly on dam faces; a lone back face let sight lines exit past sloped walls), and
+  ONE body per continuous level (an inner wall hides everything under the lake behind it).

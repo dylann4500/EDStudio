@@ -25,7 +25,7 @@ export const D = {
   dam: { heel: -8.5, toe: 0, crest: 9.4, crestX: -7.3, cols: 6 },
   earth: { x0: -7.4, x1: -1.4, t0: -5.1, t1: -3.7, h: 3.0 },
   cutoff: { x0: -4.7, x1: -4.1, y1: -5.6 },
-  kp: { x: -2.6, z: -1.15, r: 0.9 },
+  kp: { x: -2.6, z: -1.04, r: 0.9 },
   beaver: { x: 6.2 },
   power: { x0: 1.6, x1: 4.8, z0: -2.4, z1: -6.2, turb: [3.2, 1.15, -3.05], R: 0.95 },
   ladder: { z0: -2.6, z1: -4.2 },
@@ -269,7 +269,7 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
     /** a rectangle from x0 to x1 (open water between two vertical walls) */
     set(x0, x1, level, t = 0, f = flow) { api.setPoly([[x0, bottom], [x1, bottom], [x1, level], [x0, level]], x0, x1, level, t, f); },
     /** pts: the water's section [[x, y], …] (its top edge at y = level from xl to xr) */
-    setPoly(pts, xl, xr, level, t = 0, f = flow) {
+    setPoly(pts, xl, xr, level, t = 0, f = flow, lipL = xl, lipR = xr) {
       const on = pts.length >= 3 && level > bottom + 0.01 && xr > xl + 0.02; secF.visible = secB.visible = surf.visible = lip.visible = on; if (!on) return;
       const shape = new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)));
       const g = new THREE.ShapeGeometry(shape), P = g.attributes.position, UV = g.attributes.uv, Hh = level - bottom;
@@ -278,7 +278,7 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
       secF.geometry.dispose(); secF.geometry = g; secB.geometry.dispose(); secB.geometry = vol;
       const x0 = xl, x1 = xr, W = x1 - x0;
       surf.scale.set(W, 1, D.CW); surf.position.set((x0 + x1) / 2, level, -D.CW / 2);
-      lip.scale.set(W, 1, 1); lip.position.set((x0 + x1) / 2, level - 0.005, 0.0);
+      lip.scale.set(Math.max(0.01, lipR - lipL), 1, 1); lip.position.set((lipL + lipR) / 2, level - 0.005, 0.0);
       ft.repeat.set(W / 4, D.CW / 3); ft.offset.x = -t * 0.12 * f;
       const k = `${W.toFixed(2)}`; const a = sg.attributes.position;
       for (let i = 0; i < a.count; i++) { const x = base[i * 3], z = base[i * 3 + 2]; a.setY(i, (0.035 * Math.sin(x * W * 1.7 + t * 3) * Math.cos(z * 9 + t * 2.3)) / 1); }
@@ -415,7 +415,8 @@ export async function buildDam(studio) {
   // ---- the beaver's dam (between the dam site and the town): sticks + mud, holds every time; a twig cutoff wall under it
   const beaverDam = new THREE.Group(); root.add(beaverDam); beaverDam.position.set(D.beaver.x, D.bed, 0);
   const stickM = [mat(0x7a5233, 0.9), mat(0x5e3f26, 0.9), mat(0x8f6a45, 0.9)], mudM = mat(0x5a3d26, 1);
-  mk(new THREE.SphereGeometry(0.8, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), mudM, beaverDam, 0, 0, -D.SW / 2).scale.set(1, 0.8, D.SW / 1.5);
+  { const sh = new THREE.Shape(); for (let i = 0; i <= 24; i++) { const a = (Math.PI * i) / 24; i ? sh.lineTo(0.8 * Math.cos(a), 0.64 * Math.sin(a)) : sh.moveTo(0.8, 0); }
+    const g = new THREE.ExtrudeGeometry(sh, { depth: D.SW + 0.2, bevelEnabled: false, curveSegments: 1 }); g.translate(0, 0, -D.SW - 0.19); mk(g, mudM, beaverDam, 0, 0, 0); }   // a mud ridge across the channel
   const BR = rng(41);
   for (let i = 0; i < 46; i++) { const s = mk(new THREE.CylinderGeometry(0.035, 0.04, 0.9 + BR() * 0.8, 6), stickM[i % 3], beaverDam, (BR() - 0.5) * 1.1, 0.15 + BR() * 0.5, -0.1 - BR() * (D.SW - 0.2)); s.rotation.set(BR() * 3, BR() * 3, 1.2 + (BR() - 0.5) * 0.9); }
   // its cutoff wall: a row of stakes driven into the gravel (painted on a decal in the cut face so it reads in section)
@@ -430,7 +431,8 @@ export async function buildDam(studio) {
   rockT.wrapS = rockT.wrapT = THREE.RepeatWrapping; rockT.repeat.set(16, 2);
   const bore = new THREE.Mesh(new THREE.TubeGeometry(tCurve, 220, T.R, 28, false), new THREE.MeshStandardMaterial({ map: rockT, roughness: 1, side: THREE.BackSide, clippingPlanes: [keepBack, digClip], clipShadows: true }));
   bore.receiveShadow = true; root.add(bore);
-  const tWaterM = waterMat(0.55); tWaterM.clippingPlanes = [keepBack]; tWaterM.side = THREE.DoubleSide;
+  const belowBed = new THREE.Plane(new THREE.Vector3(0, -1, 0), D.bed + 0.01); bore.material.clippingPlanes.push(belowBed);   // nothing of the tunnel above the creek bed
+  const tWaterM = waterMat(0.55); tWaterM.clippingPlanes = [keepBack, belowBed]; tWaterM.side = THREE.DoubleSide;
   const tWater = new THREE.Mesh(new THREE.TubeGeometry(tCurve, 220, T.R * 0.97, 20, false), tWaterM); tWater.renderOrder = 3; root.add(tWater);
   const tWaterIdx = tWater.geometry.index.count;
   // a concrete plug for the inlet (closing the diversion lets the lake fill)

@@ -191,10 +191,10 @@ export async function build(studio, story) {
   const lakeLevel = (tt) => {
     if (tt < LANDK) return CRK;
     if (tt < t.lifts) return lerp(CRK, -0.06, smooth(u01(tt, LANDK, t.inches)));           // six inches piles up behind the pool (still below the bank top)
-    if (tt < PLUG) return lerp(-0.06, CRK, smooth(u01(tt, t.lifts, t.lifts + 0.6)));
-    if (tt < CRUMB) return lerp(CRK, 2.0, smooth(u01(tt, PLUG, t.piping))) + 0.38 * smooth(u01(tt, t.deeper - 0.2, t.shoves + 0.5));
-    if (tt < FILL0) return lerp(2.38, CRK, smooth(u01(tt, CRUMB, CRUMB1)));
-    if (tt < OVER - 1.5) return lerp(CRK, LAKE, easeOutBack(u01(tt, FILL0, FILL1), 1.2));
+    if (tt < PLUG) return lerp(-0.06, PND, smooth(u01(tt, t.lifts, t.lifts + 0.6)));   // the pool floats off: one level with the pond
+    if (tt < CRUMB) return lerp(PND, 2.0, smooth(u01(tt, PLUG, t.piping))) + 0.38 * smooth(u01(tt, t.deeper - 0.2, t.shoves + 0.5));
+    if (tt < FILL0) return lerp(2.38, PND, smooth(u01(tt, CRUMB, CRUMB1)));
+    if (tt < OVER - 1.5) return lerp(PND, LAKE, easeOutBack(u01(tt, FILL0, FILL1), 1.2));
     if (tt < t.spillway) return lerp(LAKE, G.crest + 0.22, smooth(u01(tt, RAIN0, OVER + 0.5)));
     if (tt < DRY0) return lerp(G.crest + 0.22, FULL, smooth(u01(tt, t.spillway, t.exit + 0.3)));
     if (tt < WET0) return lerp(FULL, 1.4, smooth(u01(tt, DRY0, DRY1)));
@@ -206,7 +206,6 @@ export async function build(studio, story) {
     if (tt < DIG1) return L;
     if (tt < PLUG) return lerp(L, BED - 0.05, smooth(u01(tt, DIG1, DIG1 + 0.9)));
     if (tt < CRUMB) return L;
-    if (tt < FILL0) return Math.min(L, lerp(2.38, BED - 0.05, smooth(u01(tt, CRUMB, COL0))));
     return L;
   };
   const eK3 = (tt) => (tt < DUMPS[0] ? 0 : DUMPS.reduce((a, d) => a + easeOutBack(u01(tt, d, d + 0.3), 1.6) / 3, 0));
@@ -229,18 +228,22 @@ export async function build(studio, story) {
   const walls = (tt) => {   // [the site's right wall, the pond's left wall]
     if (tt < LANDK) return [bvL, bvL];                                                       // the creek runs whole up to the beaver's lodge
     const kpx = kpPos(tt)[0];
-    if (tt < t.pile || (tt < CRUMB && eKAt(tt) < 0.05)) return [V(kpx), V(kpx)];                             // the kiddie pool: both waters meet at its centre
-    if (tt < CRUMB1) { const up = earthUp(tt), dn = earthDn(tt), x1 = earthPt(tt, E.x1, BED)[0], fl = smooth(u01(tt, CRUMB, CRUMB + 0.35));
-      return [(y) => lerp(up(y), x1, fl), dn]; }                                               // the crumble: the flood front runs on to the pond
-    return [gUp, gDn];
+    if (tt < t.pile || (tt < CRUMB && eKAt(tt) < 0.05)) return [V(kpx + 0.005), V(kpx - 0.005)];             // the kiddie pool: both waters meet at its front (1 cm overlap: no seam)
+    if (tt < CRUMB1) { const up = earthUp(tt), dn = earthDn(tt), x1 = earthPt(tt, E.x1, BED)[0], top = earthPt(tt, E.t0, BED + E.h)[1];
+      return [(y) => (y <= top ? up(y) : x1), dn]; }                                           // the crumble: the lake rides its slope up to the shrinking crest, then floods over it
+    const poured = S.damCols.reduce((k, _, i) => (tt > COL0 + i * COLDT + 0.05 ? i + 1 : k), 0);   // the pond's wall is the last poured column (the full wedge once the toe is in)
+    return [gUp, poured >= NC ? gDn : poured > 0 ? V(S.damCols[poured - 1].x1 - 0.005) : V(G.heel - 0.01)];
   };
   const NS = 12, WB = BED - 0.02;
+  const curtain = mk(new THREE.BoxGeometry(0.14, 1, D.CW), S.sheetAll.m.material, scene); curtain.renderOrder = 4;   // the overflow pours off the crest brink into the sheet
+  const deepM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
+  const sunk = mk(new THREE.PlaneGeometry(1, 1).rotateX(-PI / 2), deepM, scene);   // the canyon floor under the lake (it read as a pale layer of air)
   const setWater = (body, fL, fR, L, tt) => {
     if (L <= WB + 0.01) return body.set(0, 0, L, tt);
     const pts = [];
     for (let i = 0; i <= NS; i++) { const y = lerp(WB, L, i / NS); pts.push([fL(y), y]); }
     for (let i = NS; i >= 0; i--) { const y = lerp(WB, L, i / NS); pts.push([Math.max(fR(y), fL(y) + 0.001), y]); }
-    body.setPoly(pts, fL(L), Math.max(fR(L), fL(L) + 0.001), L, tt);
+    body.setPoly(pts, fL(L), Math.max(fR(L), fL(L) + 0.001), L, tt, undefined, fL(L - 0.02), Math.max(fR(L - 0.02), fL(L - 0.02) + 0.001));
   };
   const pondLevel = (tt) => PND + 0.25 * Math.exp(-Math.max(0, tt - CRUMB) * 1.6) * (tt > CRUMB ? Math.sin((tt - CRUMB) * 5) * 0.6 + 0.6 : 0) + (tt > t.spillway ? 0.06 : 0);
 
@@ -408,6 +411,8 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     '40.40': [[-3.0, 1.0, 7.0], [-3.0, 0.5, 0]], '44.00': [[-8.5, 1.5, 5.0], [-8.5, 1.0, 0]], '47.00': [[-0.2, 0.0, 2.5], [-0.2, -0.3, 0]],
     '50.00': [[-8.5, 7.2, 5.0], [-8.5, 7.0, 0]], '60.30': [[-7.9, 9.8, 4.0], [-7.9, 9.4, 0]], '66.00': [[0.2, 0.2, 3.0], [0.2, -0.2, 0]],
     '86.90': [[-8.5, 1.3, 5.0], [-8.5, 1.0, 0]], '95.00': [[6.9, -0.1, 3.0], [6.9, -0.4, 0]],
+    '3.60': [[5.5, -0.1, 3.0], [5.5, -0.4, 0]], '10.50': [[-2.6, 0.1, 2.6], [-2.6, -0.3, 0]], '20.50': [[-11.4, 0.2, 3.5], [-11.4, -0.5, 0]], '40.03': [[-1.5, 1.0, 6.5], [-1.5, 0.5, 0]],
+    '43.30': [[-1.0, 0.2, 3.5], [-1.0, -0.3, 0]], '60.40': [[-7.2, 9.6, 4.0], [-7.4, 9.0, 0]], '38.90': [[-8.0, 1.6, 5.0], [-8.5, 0.6, -3.0]],
   };
   const CUTS = false;   // user (Oct 26, after the cuts pass): "i liked our older continuous style, it was much easier to follow" — one take again
   const cuts = makeCuts(!CUTS ? [] : [
@@ -502,9 +507,10 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     // ---- water
     const L = lakeLevel(tt), Ls = siteLevel(tt), [sR, pL] = walls(tt), split = Ls < L - 0.01;
     if (split) {   // the site is (being) drained: the river ends at the inlet, pouring down into it
-      setWater(water.far, V(-60), Ls < BED + 0.05 ? (y) => INLET - 0.3 + (0.7 * (L - y)) / (L - WB) : V(INLET), L, tt);
+      const Lb = Math.max(Ls, WB); setWater(water.far, V(-60), (y) => (y > Lb ? INLET - 0.3 + (0.7 * (L - y)) / Math.max(0.05, L - Lb) : INLET), L, tt);
       setWater(water.site, V(INLET), sR, Ls, tt);
     } else { water.far.set(0, 0, WB, tt); setWater(water.site, V(-60), sR, Ls, tt); }   // one body: an inner wall would hide what's under the lake (the town)
+    { const xr = sR(0.01); sunk.visible = Ls > 0.06; if (sunk.visible) { sunk.scale.set(xr + 60, 1, 7.5 - D.SW); sunk.position.set((xr - 60) / 2, 0.012, -(D.SW + 7.5) / 2); } }
     setWater(water.pond, (y) => Math.max(pL(y), sR(y)), bvL, pondLevel(tt), tt);
     setWater(water.low, bvR, V(60), LOW, tt);
     const seeTown = smooth(u01(tt, t.also - 0.3, t.drowned)) * (1 - smooth(u01(tt, WET1, WET1 + 0.6)));
@@ -564,6 +570,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     S.storm.material.opacity = 0.7 * storm; clouds.forEach((c) => (c.material.opacity = 0.85 * storm)); S.hemi.color.setHex(0xe8f2ff).lerp(new THREE.Color(0x9aa6b4), storm);
     const over = smooth(u01(tt, OVER, OVER + 0.4)) * (1 - smooth(u01(tt, t.spillway - 0.1, t.spillway + 0.3)));
     S.sheetAll.m.visible = over > 0.01; S.sheetAll.m.material.opacity = 0.85 * over; S.sheetAll.t2.offset.x = -tt * 1.3;
+    curtain.visible = S.sheetAll.m.visible && L > 8.6; if (curtain.visible) { curtain.scale.y = L - 8.55; curtain.position.set(G.crestX + 0.07, (L + 8.55) / 2, -D.CW / 2); }
     const spOn = tt > t.spillway - 0.12; S.spill.visible = spOn;
     for (const o of [S.chuteBack, S.ogee, S.bucket]) o.scale.setScalar(Math.max(0.001, pop(tt, t.spillway - 0.12)));
     popIn(S.exitSign, tt, t.exit - 0.1);
