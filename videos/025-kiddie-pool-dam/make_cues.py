@@ -35,12 +35,12 @@ t = {k: W(b, w, n) for k, (b, w, n) in {
     'lake': ('push', 'lake', 1), 'shoves': ('push', 'shoves', 1), 'downstream': ('push', 'downstream', 1), 'included': ('push', 'included', 1), 'pour': ('push', 'pour', 1),
     'n660': ('push', '660', 1), 'gravity': ('push', 'gravity', 1), 'bully': ('push', 'bully', 1),
     'concreteH': ('heat', 'concrete', 1), 'hot': ('heat', 'hot', 1), 'hoovers': ('heat', 'hoovers', 1), 'n125': ('heat', '125', 1), 'sat': ('heat', 'sat', 1), 'medium': ('heat', 'medium', 1),
-    'run': ('heat', 'run', 1), 'inside': ('heat', 'inside', 1), 'cooling': ('heat', 'cooling', 1),
+    'run': ('cool', 'run', 1), 'inside': ('cool', 'inside', 1), 'cooling': ('cool', 'cooling', 1),
     'rains': ('spill', 'rains', 1), 'week': ('spill', 'week', 1), 'pours': ('spill', 'pours', 1), 'spillway': ('spill', 'spillway', 1), 'exit': ('spill', 'exit', 1), 'garyS': ('spill', 'gary', 1), 'once': ('spill', 'once', 1), 'heavy': ('push', 'heavy', 1), 'blame': ('fish', 'blame', 1), 'home': ('fish', 'home', 1),
     'rent': ('power', 'rent', 1), 'send': ('power', 'send', 1), 'pipesW': ('power', 'pipes', 1), 'spin': ('power', 'spin', 1), 'turbines': ('power', 'turbines', 1), 'penstocks': ('power', 'penstocks', 1),
     'garyW': ('power', 'gary', 1), 'cycle': ('power', 'cycle', 1),
     'salmon': ('fish', 'salmon', 1), 'fishW': ('fish', 'fish', 1), 'pools': ('fish', 'pools', 1), 'climb': ('fish', 'climb', 1), 'cantF': ('fish', 'cant', 2),
-    'also': ('town', 'your', 1), 'drowned': ('town', 'drowned', 1), 'happened': ('town', 'happened', 1), 'only': ('town', 'only', 1), 'up': ('town', 'up', 1), 'droughts': ('town', 'droughts', 1), 'sells': ('town', 'sells', 1), 'lakefront': ('town', 'lakefront', 1),
+    'also': ('town', 'your', 1), 'drowned': ('town', 'drowned', 1), 'happened': ('town', 'happened', 1), 'only': ('lake', 'only', 1), 'up': ('lake', 'up', 1), 'droughts': ('lake', 'droughts', 1), 'sells': ('lake', 'sells', 1), 'lakefront': ('lake', 'lakefront', 1),
     'add': ('finish', 'add', 1), 'road': ('finish', 'road', 1), 'visitor': ('finish', 'visitor', 1), 'gift': ('finish', 'gift', 1), 'sign': ('finish', 'sign', 1),
     'end': ('end', 'congratulations', 1), 'coolE': ('end', 'cool', 1), 'n49': ('end', '49', 1), 'money': ('end', 'money', 1), 'illegal': ('end', 'illegal', 1),
     'bestseller': ('end', 'bestseller', 1), 'closedE': ('end', 'closed', 1),
@@ -64,7 +64,7 @@ PIPE0, PIPE1 = t['run'], t['inside'] + 0.4
 RAIN0, RAIN1, OVER = t['rains'] - 0.4, t['spillway'] + 0.6, t['pours'] - 0.05
 HSP = W('spill', 'add') + 0.05                                   # Gary's mallet notches the crest
 VW0, VW1 = t['pipesW'] - 0.3, t['turbines'] + 0.2              # Gary cranks the penstock valve
-SLD0 = t['garyS'] + 0.25; SLD1 = SLD0 + 1.0; SPLASH = max(SLD1 + 0.45, t['once'] + 0.02)
+SLD0 = t['garyS'] + 0.25; SLD1 = max(SLD0 + 1.0, t['once'] - 1.05); SPLASH = max(SLD1 + 0.45, t['once'] + 0.02)
 PH = t['pipesW'] - 0.05; SUCKT = t['garyW'] + 0.15; SPIT = t['cycle'] + 0.55; SPLAT = SPIT + 0.5
 LAD0, LAD1, SLAP = t['fishW'] - 0.05, t['pools'] + 0.1, t['cantF'] - 0.02
 DRY0, DRY1, WET0, WET1 = t['only'] - 0.05, t['up'] + 0.25, t['lakefront'] + 0.5, t['visitor'] + 0.4
@@ -171,7 +171,7 @@ e(t['rains'] - 0.3, "distant_boom", -22, -0.2, size=0.8)
 for k2 in range(10): e(RAIN0 + 0.4 + k2 * (RAIN1 - RAIN0 - 0.6) / 10, "plip", -25, -0.5 + 0.1 * k2, pitch=0.9 + 0.05 * (k2 % 4))
 e(HSP, "clunk", -12, -0.3, size=1.3, metal=0.3); e(HSP + 0.03, "crumble", -17, -0.3, dur=0.4, size=0.7)   # the notch
 e(t['spillway'] - 0.12, "clunk", -14, 0.0, size=1.4, metal=0.3); e(t['exit'] - 0.1, "pop", -16, 0.1, pitch=1.2)
-e(SLD0, "slurp", -18, -0.2, dur=1.2); e(SLD1, "pop", -18, 0.1, pitch=0.9); e(SPLASH, "splash", -10, 0.2, size=1.4); e(SPLASH + 0.02, "bonk", -16, 0.2)   # exactly once
+e(SLD0, "slurp", -18, -0.2, dur=SLD1 - SLD0 + 0.2); e(SLD1, "pop", -18, 0.1, pitch=0.9); e(SPLASH, "splash", -10, 0.2, size=1.4); e(SPLASH + 0.02, "bonk", -16, 0.2)   # exactly once
 # power: the RENT DUE card, the penstock, the powerhouse pops, the spin cycle, the spit
 e(t['rent'] - 0.15, "pop", -16, 0.4, pitch=1.4)
 for k2 in range(3): e(VW0 + 0.1 + k2 * (VW1 - VW0 - 0.2) / 3, "metal_groan", -22, 0.4, dur=0.35, pitch=1.6)   # the valve wheel squeaks round

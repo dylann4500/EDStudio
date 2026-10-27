@@ -53,13 +53,13 @@ export async function build(studio, story) {
     lake: W('push', 'lake'), deeper: W('push', 'deeper'), shoves: W('push', 'shoves'), downstream: W('push', 'downstream'), included: W('push', 'included'), soP: W('push', 'so'), pour: W('push', 'pour'),
     wedge: W('push', 'wedge'), n660: W('push', '660'), bottom: W('push', 'bottom'), gravity: W('push', 'gravity'), heavy: W('push', 'heavy'), bully: W('push', 'bully'),
     concreteH: W('heat', 'concrete'), hot: W('heat', 'hot'), sets: W('heat', 'sets'), hoovers: W('heat', 'hoovers'), n125: W('heat', '125'), cool: W('heat', 'cool'),
-    garyH: W('heat', 'gary'), sat: W('heat', 'sat'), medium: W('heat', 'medium'), rare: W('heat', 'rare'), soH: W('heat', 'so'), run: W('heat', 'run'), pipesH: W('heat', 'pipes'), inside: W('heat', 'inside'), cooling: W('heat', 'cooling'),
+    garyH: W('heat', 'gary'), sat: W('heat', 'sat'), medium: W('heat', 'medium'), rare: W('heat', 'rare'), soH: W('cool', 'so'), run: W('cool', 'run'), pipesH: W('cool', 'pipes'), inside: W('cool', 'inside'), cooling: W('cool', 'cooling'),
     rains: W('spill', 'rains'), week: W('spill', 'week'), pours: W('spill', 'pours'), top: W('spill', 'top'), soS: W('spill', 'so'), spillway: W('spill', 'spillway'), exit: W('spill', 'exit'),
     garyS: W('spill', 'gary'), slide: W('spill', 'slide'), once: W('spill', 'once'),
     rent: W('power', 'rent'), send: W('power', 'send'), giant: W('power', 'giant'), pipesW: W('power', 'pipes'), spin: W('power', 'spin'), turbines: W('power', 'turbines'), penstocks: W('power', 'penstocks'),
     garyW: W('power', 'gary'), spin2: W('power', 'spin', 2), cycle: W('power', 'cycle'),
     salmon: W('fish', 'salmon'), home: W('fish', 'home'), blame: W('fish', 'blame'), furious: W('fish', 'blame'), fishW: W('fish', 'fish'), ladder: W('fish', 'ladder'), pools: W('fish', 'pools'), climb: W('fish', 'climb'), garyFi: W('fish', 'gary', 2), cantF: W('fish', 'cant', 2),
-    also: W('town', 'your'), lakefront: W('town', 'lakefront'), sells: W('town', 'sells'), drowned: W('town', 'drowned'), town: W('town', 'town'), happened: W('town', 'happened'), mead: W('town', 'mead'), only: W('town', 'only'), up: W('town', 'up'), droughts: W('town', 'droughts'),
+    also: W('town', 'your'), lakefront: W('lake', 'lakefront'), sells: W('lake', 'sells'), drowned: W('town', 'drowned'), town: W('town', 'town'), happened: W('town', 'happened'), mead: W('lake', 'mead'), only: W('lake', 'only'), up: W('lake', 'up'), droughts: W('lake', 'droughts'),
     add: W('finish', 'add'), road: W('finish', 'road'), visitor: W('finish', 'visitor'), gift: W('finish', 'gift'), sign: W('finish', 'sign'), no: W('finish', 'no'), swimmingF: W('finish', 'swimming'),
     end: W('end', 'congratulations'), damE: W('end', 'dam'), wanted: W('end', 'wanted'), coolE: W('end', 'cool'), spent: W('end', 'spent'), n49: W('end', '49'), money: W('end', 'money'),
     swimming: W('end', 'swimming'), illegal: W('end', 'illegal'), beavers: W('end', 'beavers'), bestseller: W('end', 'bestseller'), publicE: W('end', 'public'), still: W('end', 'still'), closedE: W('end', 'closed'),
@@ -84,7 +84,7 @@ export async function build(studio, story) {
   const PIPE0 = t.run, PIPE1 = t.inside + 0.4;
   const RAIN0 = t.rains - 0.4, RAIN1 = t.spillway + 0.6, OVER = t.pours - 0.05;
   const HSP = W('spill', 'add') + 0.05;                                                  // Gary's mallet notches the crest; the spillway pops
-  const SLD0 = t.garyS + 0.25, SLD1 = SLD0 + 1.0, SPLASH = Math.max(SLD1 + 0.45, t.once + 0.02);   // the water slide, ski-jump, head-first "exactly once"
+  const SLD0 = t.garyS + 0.25, SLD1 = Math.max(SLD0 + 1.0, t.once - 1.05), SPLASH = Math.max(SLD1 + 0.45, t.once + 0.02);   // the water slide, ski-jump, head-first "exactly once"
   const VW0 = t.pipesW - 0.3, VW1 = t.turbines + 0.2;                                      // Gary cranks the valve (the penstock opens)
   const PH = t.pipesW - 0.05, SUCKT = t.garyW + 0.15, SPIT = t.cycle + 0.55, SPLAT = SPIT + 0.5;
   const LAD0 = t.fishW - 0.05, LAD1 = t.pools + 0.1, SLAP = t.cantF - 0.02;
@@ -354,9 +354,9 @@ export async function build(studio, story) {
   F(DIG0 + 0.8, ...digCam(DIG0 + 0.8), 46, true);                       // follow Gary digging the tunnel (in section)
   F(DIG0 + 2.0, ...digCam(DIG0 + 2.0), 46, true);
   F(DIG0 + 3.1, ...digCam(DIG0 + 3.1), 46, true);
-  Fk(t.four - 0.25, [-12.2, 3.0, 8.6], [-12.4, 2.4, -3.0], 42);
-  F(t.got + 0.3, [-8.8, 1.4, 13.6], [-9.0, -0.4, -1.0], 46, true);        // r4: with Gary through the flush
-  Fk(t.pile - 0.05, [-3.6, 3.1, 7.0], [-4.1, 2.0, -1.0], 44, t.sneaks + 0.7);   // one take: close on Gary shovelling, buried, and the leak under him            // FIX: one dirt+leak frame (jet in), no STOP at piping
+  Fk(t.four - 0.4, [-12.2, 3.0, 8.6], [-12.4, 2.4, -3.0], 42);
+  F(t.got + 0.35, [-8.8, 1.4, 13.6], [-9.0, -0.4, -1.0], 46, true);        // r4: with Gary through the flush
+  Fk(t.pile + 0.45, [-3.6, 3.1, 7.0], [-4.1, 2.0, -1.0], 44, t.sneaks + 0.7);   // one take: close on Gary shovelling, buried, and the leak under him            // FIX: one dirt+leak frame (jet in), no STOP at piping
   Fk(t.finger - 0.1, [-1.3, 0.8, 5.8], [-1.45, -0.05, -0.8], 40);
   Fk(W('piping', 'now', 2), [-2.85, 2.1, 9.0], [-2.85, 1.6, -0.8], 46, POPC + 0.6);      // FIX: plug + landing in one frame for the cork pop
   Fk(HAM[0] - 0.15, [-3.3, 3.4, 9.0], [-4.0, 2.6, -1.0], 42, HAM[2] + 0.1);   // Gary's mallet drives the wall
@@ -364,7 +364,8 @@ export async function build(studio, story) {
   Fk(t.already + 0.25, [2.4, 0.55, 11.2], [5.8, -0.5, -0.8], 34, t.oneC + 0.35);
   Fk(t.shoves + 0.15, [-3.0, 1.4, 15.5], [-3.2, -0.4, -1.2], 46, W('push', 'included') - 0.05);
   F(t.pour + 0.9, [-6.6, 10.0, 8.5], [-7.2, 9.4, -1.0], 44, true);             // one take: ride with Gary's bucket…
-  F(t.bottom - 0.2, [-3.0, 4.0, 13.0], [-3.6, 3.2, -1.0], 46, true);          // …down the columns, the 660 line along the base                 // the bucket pours the wedge (Gary riding it) + the 660 line             // FIX: a touch wider: crest + both 660 arrows in
+  F(t.bottom - 0.2, [-3.0, 3.4, 13.0], [-3.6, 1.6, -1.0], 46, true);          // …down the columns, the 660 line along the base                 // the bucket pours the wedge (Gary riding it) + the 660 line             // FIX: a touch wider: crest + both 660 arrows in
+  F(W('push', 'called') + 0.05, [-0.4, 1.2, 11.0], [-1.0, 1.9, -1.0], 46, true);   // v3 voice: drop to the toe as Gary hops down (face off the caption)
   Fk(t.bully - 0.45, [1.1, 0.5, 8.8], [-0.5, 2.0, -1.0], 48);            // r3: low at the toe: the shoulder-charge + the egg + the hot slope
   Fk(t.hoovers, [0.5, 0.75, 7.5], [-0.6, 1.6, -1.0], 46);                    // r4: a push on "hot… sets" (no 4.6 s lock-off)
   Fk(t.sat - 0.15, [-0.2, 1.0, 6.4], [-0.25, 0.0, -0.9], 40, LEAP + 0.7);  // FIX: leap stays in frame
@@ -373,7 +374,7 @@ export async function build(studio, story) {
   Fk(t.pours, [-6.2, 9.8, 9.0], [-7.2, 9.3, -1.0], 44, t.top + 0.3);              // one take: close on Gary as the lake comes over the top            // r4: crane with his climb; the lake on the left
   Fk(t.exit - 0.2, [-6.0, 10.0, 9.0], [-6.9, 9.4, -1.0], 42);
   F(SLD0 + 0.6, [-3.0, 6.0, 9.5], [-3.6, 4.4, -1.0], 42, true);
-  F(SPLASH, [1.6, 2.0, 9.0], [2.0, 0.4, -1.0], 42, true);                 // "exactly once": the splash
+  F(SPLASH, [1.6, 1.5, 9.0], [2.0, -0.5, -1.0], 42, true);                 // "exactly once": the splash
   Fk(t.rent - 0.25, [6.1, 2.4, 6.3], [6.3, 0.5, -1.0], 40);                       // FIX: beaver + RENT DUE + the pool, not two edges
   Fk(t.penstocks - 1.0, [1.6, 1.6, 13.6], [1.4, -0.1, -1.6], 46);  // FIX: penstock through the dam + turbine for the TERM
   Fk(t.cycle - 0.25, [3.0, 2.0, 5.6], [3.1, 0.75, -3.0], 40, SPIT + 0.2);   // FIX: d 8.7 not 6.2; turbine at ~42 %
@@ -382,8 +383,8 @@ export async function build(studio, story) {
   Fk(t.cantF - 0.3, [1.8, 2.2, 9.0], [0.6, 1.3, -2.8], 36, SLAP + 0.25);
 F(t.town + 0.1, [-4.6, 4.4, 14.0], [-9.0, 2.4, -3.8], 40, true);
   Fk(W('town', 'happened'), [-10.5, 5.6, 12.5], [-17.0, 2.2, -4.0], 44);     // FIX: yaw ~21 deg, not 33
-  Fk(t.only + 0.2, [-9.4, 4.8, 12.8], [-12.9, 1.2, -4.0], 44);
-Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4);   // push in: the beaver's LAKEFRONT sign
+  Fk(t.only - 0.15, [-9.4, 4.8, 12.8], [-12.9, 1.2, -4.0], 44);
+Fk(t.sells - 0.2, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4);   // push in: the beaver's LAKEFRONT sign
   F(t.road + 0.5, [-6.4, 7.8, 13.0], [-7.4, 7.4, -3.0], 46, true);
   F(t.gift + 0.25, [3.0, 4.6, 13.0], [5.5, 0.7, -3.0], 46, true);
   Fk(t.swimmingF, [8.0, 2.2, 9.9], [8.0, -0.35, -2.8], 44, t.damE);     // FIX: the bank cluster in one 5.6 m frame
@@ -459,7 +460,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     ins(t.ladder - 0.05, t.ladder + 0.65, [0.2, 2.6, 4.0], [-0.8, 1.6, -3.4], 40),   // FISH LADDER: steps popping
     fG(SLAP - 0.08, SLAP + 0.3),                                                    // "Gary can't": slapped
     ins(t.drowned - 0.05, t.drowned + 0.65, [-14.3, 3.5, 4.0], [-15.3, 3.0, -4.5], 40),   // drowned: the church under the lake
-    fG(W('town', 'thomas') - 0.05, W('town', 'thomas') + 0.65, 0.4, F_),            // snorkeling through it
+    fG(W('lake', 'thomas') - 0.05, W('lake', 'thomas') + 0.65, 0.4, F_),            // snorkeling through it
     fG(DRY1 - 0.15, DRY1 + 0.55, -0.35, { dist: 4.0, faceY: 0.5 }),                 // the flip-flop, found
     fG(t.sells - 0.1, t.sells + 0.45, 0.35),                                        // …and the beaver sells it
     ins(t.sells + 0.45, t.sells + 1.05, [-10.7, 3.0, 0.5], [-11.0, 2.6, -4.0], 46), // LAKEFRONT: sign + beaver

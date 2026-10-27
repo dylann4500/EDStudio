@@ -407,3 +407,14 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   sunken floor as a pale "air" layer (tint the submerged floor deep blue). Also: a water volume must be a CLOSED prism drawn from
   inside with a small polygon offset (it lies exactly on dam faces; a lone back face let sight lines exit past sloped walls), and
   ONE body per continuous level (an inner wall hides everything under the lake behind it).
+- **Eleven v3 re-voice (025, user steer Oct 27: "Adam sounds so crazy… use tastefully"):** 5 `[shouting]` + 3 `[excited]` + 1
+  `[whispers]` on 9 of ~48 sentences, payoffs only, ONE caps word each (the caps show in the captions = emphasis, kept). The
+  measured contrast: tagged lines −13.6…−11.9 dB vs calm −16…−17 dB; the whisper before "Medium RARE!" sits at −23 dB.
+  - **A tag colours the rest of its v3 request**, so a yell must END its beat: split the beat right after the tagged sentence
+    (025: `heat` → `heat` + `cool`, `town` → `town` + `lake`) and move the `W(beat, word)` anchors + callouts to the new beat.
+  - **v3 runs long:** the same words went 106.9 s (v2) → 121.1 s (v3 at tempo 1.15): v3 Adam reads ~19 % slower even on calm
+    lines, plus 0.4–0.8 s before each yell. `"tempo": 1.30` (manager, from 026; free, cached clips) → 107.4 s with every
+    pause kept: those pauses ARE the timing before the yell. Not 1.35 (rushed, flattens the yells). Bar for v3 reads: ≤ 118 s.
+  - Re-check what was timed to a word GAP, not a word: 025's water-slide hop ran from a fixed slide end to "ONCE", so a longer
+    pause turned a 1 s ski-jump into a 1.9 s float; key both ends to words (`SLD1 = max(SLD0 + 1, t.once − 1.05)`). New word
+    times also shifted 4 rail moves + 2 caption overlaps: run `--qc` and the gag-word stills after every re-voice.

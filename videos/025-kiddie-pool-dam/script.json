@@ -5,13 +5,10 @@
     "provider": "eleven",
     "voice_id": "pNInz6obpgDQGcFmaJgB",
     "name": "Adam",
-    "model": "eleven_multilingual_v2",
+    "model": "eleven_v3",
     "settings": {
-      "stability": 0.35,
-      "similarity_boost": 0.8,
-      "style": 0.45,
-      "use_speaker_boost": true,
-      "speed": 1.12
+      "stability": 0.0,
+      "similarity_boost": 0.8
     }
   },
   "scratch": {
@@ -52,7 +49,7 @@
     },
     {
       "id": "float",
-      "say": "Gary hops in. The creek lifts the pool, and Gary floats away like a lost flip-flop.",
+      "say": "Gary hops in. The creek lifts the pool. [excited] Gary floats away like a lost FLIP-FLOP!",
       "callouts": [
         {
           "at": "in",
@@ -96,7 +93,7 @@
     },
     {
       "id": "piping",
-      "say": "Now you pile up a wall of dirt. Water sneaks underneath and carves a tunnel. This is called piping. Gary plugs it with a finger. Gary is now a cork.",
+      "say": "Now you pile up a wall of dirt. Water sneaks underneath and carves a tunnel. This is called piping. Gary plugs it with a finger. [shouting] Gary is now a CORK!",
       "callouts": [
         {
           "at": "piping",
@@ -166,7 +163,7 @@
     },
     {
       "id": "heat",
-      "say": "Concrete gets hot while it sets. Hoover's would've taken 125 years to cool. Gary sat on it. Medium rare. So you run cold water through pipes inside. These are called cooling pipes.",
+      "say": "Concrete gets hot while it sets. Hoover's would've taken 125 years to cool. [whispers] Gary sat on it. [shouting] Medium RARE!",
       "callouts": [
         {
           "at": "125",
@@ -183,7 +180,13 @@
             0.28
           ],
           "hold": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "id": "cool",
+      "say": "So you run cold water through pipes inside. These are called cooling pipes.",
+      "callouts": [
         {
           "at": "cooling",
           "text": "COOLING PIPES",
@@ -193,7 +196,7 @@
     },
     {
       "id": "spill",
-      "say": "Then it rains for a week, and the lake pours over the top. So you add a spillway, an emergency exit for water. Gary uses it as a water slide. Exactly once.",
+      "say": "Then it rains for a week, and the lake pours over the top. So you add a spillway, an emergency exit for water. Gary uses it as a water slide. [shouting] Exactly ONCE!",
       "callouts": [
         {
           "at": "spillway",
@@ -205,7 +208,7 @@
     },
     {
       "id": "power",
-      "say": "All that water should pay rent. So you send it down giant pipes to spin turbines. These are called penstocks. Gary went through the spin cycle.",
+      "say": "All that water should pay rent. So you send it down giant pipes to spin turbines. These are called penstocks. [excited] Gary went through the SPIN cycle!",
       "callouts": [
         {
           "at": "penstocks",
@@ -227,7 +230,7 @@
     },
     {
       "id": "fish",
-      "say": "The salmon can't get home, and they blame Gary. So you build a fish ladder: a staircase of little pools. Salmon climb it. Gary can't.",
+      "say": "The salmon can't get home, and they blame Gary. So you build a fish ladder: a staircase of little pools. Salmon climb it. [shouting] Gary CAN'T!",
       "callouts": [
         {
           "at": "fish",
@@ -249,14 +252,8 @@
     },
     {
       "id": "town",
-      "say": "Your lake just drowned a town. That really happened: St. Thomas, Nevada, is under Lake Mead. It only comes up in droughts. The beaver sells it as lakefront.",
+      "say": "Your lake just drowned a town. [excited] That REALLY happened!",
       "callouts": [
-        {
-          "at": "st",
-          "text": "ST. THOMAS, NEVADA",
-          "style": "label",
-          "until": "mead"
-        },
         {
           "at": "happened",
           "text": "TRUE STORY",
@@ -266,12 +263,24 @@
       ]
     },
     {
+      "id": "lake",
+      "say": "St. Thomas, Nevada, is under Lake Mead. It only comes up in droughts. The beaver sells it as lakefront.",
+      "callouts": [
+        {
+          "at": "st",
+          "text": "ST. THOMAS, NEVADA",
+          "style": "label",
+          "until": "mead"
+        }
+      ]
+    },
+    {
       "id": "finish",
       "say": "Add a road on top, a visitor center, a gift shop, and a sign that says no swimming."
     },
     {
       "id": "end",
-      "say": "Congratulations, you've built a dam. You just wanted to cool off. Now you've spent 49 million dollars in 1931 money, swimming is illegal, the beaver's notes are a bestseller, and the public pool is still closed.",
+      "say": "Congratulations, you've built a dam. You just wanted to cool off. Now you've spent 49 million dollars in 1931 money, swimming is illegal, and the beaver's notes are a bestseller. [shouting] The public pool is still CLOSED!",
       "callouts": [
         {
           "at": "49",
@@ -300,5 +309,5 @@
   ],
   "fps": 60,
   "motionBlur": 2,
-  "tempo": 1.15
+  "tempo": 1.3
 }
