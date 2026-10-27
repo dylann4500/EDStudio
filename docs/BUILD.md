@@ -371,7 +371,7 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
 **USER VERDICT (Oct 27): the cuts were rejected** — "i dont really like [the cuts] i liked our older continuous style it was much
 easier to follow". Build reels stay ONE continuous take. 026 shipped with `const CUTS = false` (the list stays in shots.js for
-reference), the kicks kept at ~60 % (`makeKick(…, { amp: 0.022 })`), every cut-only cheat gated on CUTS, and soft rail push-ins
+reference), the kicks kept at FULL strength (user: "the new effects / density / screen shakes are good its just the cuts that make it weird"), every cut-only cheat gated on CUTS, and soft rail push-ins
 (`Fk(…, until)`) wherever a gag had relied on a close-up (the jaw drop, the face in the heap, flat on "not"). What follows is kept
 as a record of what the cut style needs, if it is ever tried again.
 **026's cuts pass (the newer cut-heavy style on top of the finished one-take, 45 cuts / 84 shots / avg 1.29 s):**

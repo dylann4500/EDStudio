@@ -407,7 +407,7 @@ export async function build(studio, story) {
     FC(t.mechanicE - 0.05, t.wantsE + 0.15, mech, { ...GF, yaw: -0.3 }),               // the mechanic wakes (the master then shows the $1,400 flip, the sag, the spider)
   ], 0.35));
   const kick = makeKick([...hits.map(([h, a]) => [h, Math.min(1.5, 0.45 + a * 5)]), [t.garyC - 0.05, 0.6], [ORN + 0.3, 0.6], [HIT1 + 0.22, 1.0], [UNWELD + 0.5, 0.6],
-    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.buried + 0.35, 0.7], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]], { amp: 0.022 });   // softened (~60 %) for the one take
+    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.buried + 0.35, 0.7], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]]);   // full strength (user, Oct 27: "the screen shakes are good its just the cuts")
 
   // ---------------------------------------------------------------- helpers
   const hop = (tt, a, b, p0, p1, h) => { const u = clamp((tt - a) / (b - a)); return [lerp(p0[0], p1[0], u), lerp(p0[1], p1[1], u) + 4 * h * u * (1 - u), lerp(p0[2], p1[2], u)]; };
