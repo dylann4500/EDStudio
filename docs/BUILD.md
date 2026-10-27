@@ -16,7 +16,7 @@ matching video possible." Density is the point: something new pops, breaks, floo
 | Timing | fixed shot clock | **the voice sets the clock**: `tools/narrate.py` lays out story.json from per-word times |
 | Ending | end card ≥ 3.5 s | the callback punchline + ~1.5 s hold, no end card |
 | Length | 45–80 s | 95–120 s (theirs: 98–118 s), ~3.1 words/s, ~300–350 words |
-| Camera | composed holds | **ONE continuous take, no cuts** (user steer) — always gliding, a new framing every 2–4 s (`planRail`); shake on every impact |
+| Camera | composed holds | **a gliding master take (`planRail`) + punch-in CUTS** to faces and details every ~1–1.5 s (the reference's newer style, user steer Oct 26) + a hard frame-relative kick on every impact |
 | World | many sets | **one cutaway diorama** (the ground sliced open) + close-ups/angles on it, plus a few street-level shots |
 | Frame rate | 30 fps | **60 fps + 2-sample motion blur** (user: "theirs feel like 60 fps") |
 | Iteration | stills + self-QC | stills + `--qc` + **a 5-subagent review loop** (docs/BUILD-REVIEW.md) until every dimension ≥ 8 |
@@ -84,7 +84,27 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
   track + third rail, vent fans + grates, station, escalator, train, pumps + hose, shoring, water. Reusable props:
   `makeTBM`, `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`.
 
-## Camera: ONE continuous take, no cuts (user steer, Oct 26; the 1.85M-like bridge reel has zero cuts)
+## Cuts: punch-ins on faces + details, a hard kick on impacts (user steer, Oct 26 — supersedes "no cuts")
+The account's NEWER reels (Oct 2026, measured in-browser: "Bicycle → F1" 100 s ≈ 100 cuts, "Trash Can → Submarine" 93 s ≈ 62+)
+cut every ~0.5–1.5 s: during a gag the shot is an **extreme face close-up** (the face IS the gag — purple from no air, X eyes,
+dizzy stars — with the label/stamp laid over it), each TERM gets a **detail insert** (the turbine, the viewing port), wides and
+whip pans in between, longer continuous moves only for the hook and transitions; frame 0 FLASHES the finished build for ~0.3 s
+(a cold-open flash-forward) before the hook; the screen **vibrates hard** when things land. 024 (one take) is the older style.
+- `engine/build/cuts.js` `makeCuts([...])`: **face shots** `{t0, t1, face: rig, yaw, pitch, dist = 2.6, fov = 30, faceY = 0.4,
+  push, scale, facing}` track the head every frame (head + shoulders, the one-word caption lands on the chin like the
+  reference; dist 1.6 crops the head); **inserts** `{t0, t1, pos, look, fov, push}`. `cuts.at(t) || rail.at(t)` — the rail stays
+  the master between cuts. It registers `window.EDSTUDIO_CUTS`, and engine/main.js `renderAtBlur` never blends sub-frames
+  across a cut. Lint: `[cuts]` warns on cuts < 0.3 s / > 2.5 s or overlapping.
+- `makeKick(hits)` — `[[t, strength, dur = 0.45]]`, `kick.apply(camera, t, lookDist)` after `setCamera`: shakes ~3.5 % of the
+  CURRENT frame height × strength + roll, so a close-up jolts as hard as a wide. Skip anim.js `shake()` (metres) during cuts.
+- **Targets (≈ the reference):** ~25–35 face punch-ins (0.5–1.0 s, every reaction / "Gary is now a ___" / the side character's
+  judgment — the expression must CHANGE inside the shot), ~8–12 detail inserts (0.6–1.0 s, one per TERM, the callout over it),
+  average shot ≈ 1.2–1.5 s overall, a kick on every landing/crash/slam (strength 0.6–1.2), the cold-open flash
+  (`update(t < 0.35 ? END - 0.8 : t)` + an insert on the finished build for t < 0.35).
+- Faces in close-up are big: staging bugs show (a top-down shot on a flattened Gary put the camera inside the concrete
+  segment). Render a still at the middle of every cut.
+
+## Camera: the master take (gliding, no stop-and-go)
 - `engine/build/rail.js` `makeRail(keys)`: keys `{t, pos, look, fov, pass?}` set with `W(beat, word)`. A normal key is a STOP
   (eases in, settles); `pass: true` flows through (long travels go wide → across → in). Slow breathing drift is built in.
 - **Author FRAMINGS, not keys: `makeRail(planRail(frames))`.** Each framing `{t, pos, look, fov}` is the frame you want ON its
