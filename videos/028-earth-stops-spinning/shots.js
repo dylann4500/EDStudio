@@ -273,7 +273,7 @@ export async function build(studio, story) {
     });
     if (cam === 'title') strollers.forEach((S, i) => { const p = basePose(); p.eyes = blink(t, i + 30); const w = t * S.sp; Object.assign(p, { x: S.x0 + S.dir * w, z: S.z0, rotY: S.ry, dist: w, speed: S.sp }); p.armA = REST; p.armB = REST; put(S.rig, 'plaza', p); });
     if (cam === 'quitoA') jolt(t, SW, 0.05, 5);
-    if (cam === 'restart') { tourists.forEach((T, k) => { if (k < 7) dust(k * 4, 'plaza', T.x + DX - 0.8, 0, T.z, after, 0.38 + (k % 3) * 0.05, 3, 1.3, puffC); }); jolt(after, 0.4, 0.06, 4); }
+    if (cam === 'restart') { tourists.forEach((T, k) => { if (k < 7) dust(k * 4, 'plaza', T.x + DX - 0.8, 0, T.z, after, 0.38 + (k % 3) * 0.05, 2, 0.8, puffC); }); jolt(after, 0.4, 0.06, 4); }
     return d;
   }
 
@@ -493,7 +493,7 @@ export async function build(studio, story) {
       const p = basePose(); p.eyes = tau > 0.42 ? 'open' : blink(t, 3); Object.assign(p, { x: 0, z: 0, rotY: 0 }); p.armA = A(-0.7, 0.25, -1.3, 0.4); p.armB = A(-0.7, 0.25, -1.3, -0.4); p.lean = 0.25; p.headPitch = 0.3; p.mouth = 'flat';
       if (tau > 0.42) { p.headPitch = -0.15; p.headYaw = 0.5 * smooth(clamp((tau - 0.42) / 0.08)); p.mouth = 'o'; p.armB = mixArm(p.armB, A(-1.8, 0.4, -0.3, 0), smooth(clamp((tau - 0.46) / 0.08))); p.lean = 0.05; }
       lob.updateMatrixWorld(true); const v = new THREE.Vector3(0.45, 1.05, -3.0).applyMatrix4(lob.matrixWorld);
-      p.x = v.x - OFF.coast[0]; p.z = v.z - OFF.coast[2]; p.rotY = PI + 0.3; p.headPitch = tau > 0.42 ? -0.35 : 0.3; put(lobster, 'coast', p, { y: v.y - OFF.coast[1], floor: v.y - OFF.coast[1] });
+      p.x = v.x - OFF.coast[0]; p.z = v.z - OFF.coast[2]; p.rotY = PI + 0.2; p.headPitch = -0.45; put(lobster, 'coast', p, { y: v.y - OFF.coast[1], floor: v.y - OFF.coast[1] });
     } else {
       // the comeback: a white bore smashes into the islet (spray), then the cliff foot
       const hitI = (isl.position.z - (ZSHORE - V.coast)) / 28, hitC = (ZSHORE - 4 - (ZSHORE - V.coast)) / 28;
@@ -579,9 +579,12 @@ export async function build(studio, story) {
     if (c.free && S !== 'coast') { P[0] += d; Aim[0] += d; }
     if (cam === 'maine' && boat) {   // a drone riding with the ocean, high off the lobster boat's seaward side, looking back at the coast
       const bw = W('coast', boat.bx, 0, boat.bz), isl = coast.isl.position, tw = W('coast', isl.x, 10, isl.z);
-      P[0] = bw.x + 3.5; P[1] = lerp(13, 16, e) + o[1]; P[2] = bw.z - 14;
-      const st = new THREE.Vector3(bw.x, 0.6, bw.z + 3), k = lerp(0.0, 0.88, e), aim = st.lerp(tw, k);
-      Aim[0] = aim.x; Aim[1] = aim.y - 1.5; Aim[2] = aim.z;
+      // starts on the lobsterman's face (just above the wheelhouse), then cranes up + back to the lighthouse left on dry land
+      const k1 = smooth(clamp((u - 0.2) / 0.6)), lw = lobster.head.g.getWorldPosition(new THREE.Vector3());
+      const p0 = new THREE.Vector3(bw.x + 0.7, 3.9, bw.z - 1.3), p1 = new THREE.Vector3(bw.x + 3.5, 16, bw.z - 14), cp = p0.lerp(p1, k1);
+      P[0] = cp.x; P[1] = cp.y; P[2] = cp.z;
+      const aimEnd = new THREE.Vector3(bw.x, 0.6, bw.z + 3).lerp(tw, 0.88).add(new THREE.Vector3(0, -1.5, 0)), aim = lw.clone().lerp(aimEnd, k1);
+      Aim[0] = aim.x; Aim[1] = aim.y; Aim[2] = aim.z;
     }
     if (cam === 'pole') { const pc = poleCam(t); for (let i = 0; i < 3; i++) { P[i] = pc.P[i] + o[i]; Aim[i] = pc.A[i] + o[i]; } }
     if (cam === 'pool') {   // rides beside the lead swimmer, stops short of the deep-end sheet and tilts up after him
