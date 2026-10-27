@@ -56,7 +56,7 @@ DUMPS = [x + 0.05 for x in (t['pile'], t['wallP'], t['dirt'])]
 PLUG = t['dirt'] + 0.45; JET = t['carves'] + 0.9; POPC = t['cork']; LANDC = POPC + 0.7
 SLAM = t['drive'] + 0.3
 HAM = [W('cutoff', 'wall'), 0, t['bedrock']]; HAM[1] = (HAM[0] + HAM[2]) / 2      # Gary's three mallet hits
-SLIDE0, SLIDE1 = t['downstream'] + 0.05, t['included'] - 0.1; CRUMB = t['included'] + 0.05; CRUMB1 = CRUMB + 0.65
+SLIDE0, SLIDE1 = t['shoves'], t['included'] - 0.1; CRUMB = t['included'] + 0.05; CRUMB1 = CRUMB + 0.65
 COL0, COLDT, COLDUR = t['pour'], 0.5, 0.4                       # the cableway bucket (Gary riding it) pours each column
 FILL0, FILL1 = t['n660'] + 0.8, t['bully'] - 0.15
 SIT, LEAP = t['sat'] - 0.1, t['medium'] - 0.05
@@ -194,6 +194,9 @@ e(GAG0 + 0.6, "splash", -17, -0.4, size=0.7); e(DRY1, "plush_squeak", -20, -0.4,
 for k2 in range(4): e(DRY1 + 0.3 + k2 * 0.45, "plip", -25, -0.4, pitch=1.3)
 for k2 in range(3): e(t['lakefront'] - 0.35 + k2 * 0.16, "knock", -17, -0.3, pitch=1.2)   # the FOR SALE sign hammered in
 # finish: the road, the visitor center, the gift shop, the sign
+ev.append({"t0": t['gift'] - 0.3, "t1": W('finish', 'sign') - 0.2, "sound": "footsteps", "rate": 4.5, "gain_db": -26, "pan0": 0.6, "pan1": 0.3})   # Gary walks to the sign
+for k2 in range(3): e(W('finish', 'sign') - 0.2 + (k2 + 0.5) * 0.35, "knock", -16, 0.3, pitch=0.9)   # mallets it in
+e(W('finish', 'swimming') + 0.05, "splash", -12, 0.4, size=1.0)   # flops into his pool
 e(t['road'] - 0.12, "pop", -14, -0.3, pitch=0.9); e(W('finish', 'center') + 0.25, "pop", -14, 0.2, pitch=1.1); e(t['gift'] - 0.1, "pop", -14, 0.3, pitch=1.3); e(t['sign'] - 0.1, "knock", -15, 0.3, pitch=1.0)
 # the end: confetti + cheer, money, the sign wobble, the bestseller pop, the pool deflates
 e(t['end'], "pop", -12, 0.0); e(t['end'] + 0.1, "pop", -15, 0.3, pitch=1.3); e(t['end'] + 0.15, "blanket_rustle", -22, 0.0, dur=1.6, intensity=0.6)

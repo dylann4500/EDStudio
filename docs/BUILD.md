@@ -355,3 +355,25 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   caption band). **Density bar (manager, = 024's):** ≥ 22 callouts, ≥ 70 `fx.burst|stream` call sites, ~45–50 framings, ≥ 250 cue
   events, beaver/side character in ≥ 4 beats, no 2 s static run. Footsteps beds, per-stroke tool foley and drips are the cheap
   way to the cue count; mirror every new time in make_cues.py.
+- **025 cuts pass (the first build reel cut in the new style): 31 face close-ups + 11 inserts = 42 cuts, 83 shots, average 1.29 s, 44
+  kicks.** What broke on the first stills (render one at the middle of every cut — 025's EDSTUDIO_QC prints `cutmids …` + the cut
+  stats, so `--stills $(… cutmids)` does them all in one command):
+  - **A close-up of a character facing away shows the back of a head.** Gary cranking a valve and walking to the ladder faced
+    −z/−x; turn the POSE toward the lens for his reaction beats (cheaper than hunting a yaw). For a side character whose facing
+    changes beat to beat (the beaver), use `facing: true` so the yaw is measured from its own front.
+  - **A side character holding a card/sign:** `scale ≈ 1.3, faceY ≈ 0.63` puts the card above the head, the face below the
+    caption and the caption between them; with nothing held, `faceY 0.42` (caption on the chin) like Gary.
+  - **Signs between the lens and the face** (LAKEFRONT, NO SWIMMING): pick the yaw side away from the sign (`facing: false`,
+    negative yaw).
+  - **Hold the reaction through the cut:** the frost-sit close-up showed his back because the climb started 0.1 s into it —
+    delay the next action (CL0 +0.5 s) rather than shrink the cut.
+  - Tumbling heads (cork pop, head-first splash) read as chaos — fine, keep those ≤ 0.6 s.
+  - Kicks: old metre-based `shake()` only on the rail (`if (cam.cut == null)`), `kick.apply` everywhere; the dam's shove and the
+    flood at 1.5, slams 1.0–1.2, landings 0.5–0.8, pops 0.4.
+- 025 round 5 (v6, first cut-heavy version): camera+cuts 7.3 (≈ 7.8 with `facing: true` on the side-on close-ups) · logic 7.9 ·
+  pacing 8.3 · comedy 8.4. Fix pass → 56 cuts, 105 shots, average 1.02 s (≈ "Bicycle → F1"). Lessons: **a 0.05–0.2 s gap
+  between two cuts is a FLASH FRAME of the master** — make cuts adjacent (`t1` of one = `t0` of the next) or ≥ 0.3 s apart; 025's
+  EDSTUDIO_QC prints `[cuts] … flash` for any gap < 0.3 s. **Two close-ups of the same face with 0.3 s of wide between = a jump
+  cut** — merge them into one medium shot. **Fill every 4+ s stretch with a cut on its own word** (the yardstick on "six", the egg on
+  "hot", the drowned church on "drowned", the bills on "dollars"). **Callback the cold open:** cut back to the same finished-dam
+  wide on the ending's "Congratulations". A tumbling head-first dive reads better as an INSERT of the legs sticking out of the water.

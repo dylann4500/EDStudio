@@ -38,7 +38,7 @@
       "say": "It's 104 degrees and the public pool is closed, so you shove a kiddie pool across the creek.",
       "callouts": [
         {
-          "at": "104",
+          "at": "degrees",
           "text": "104°F",
           "style": "label",
           "until": "degrees"
@@ -300,13 +300,5 @@
   ],
   "fps": 60,
   "motionBlur": 2,
-  "tempo": 1.15,
-  "debugView": {
-    "center": [
-      -4.5,
-      0,
-      -0.5
-    ],
-    "height": 9
-  }
+  "tempo": 1.15
 }

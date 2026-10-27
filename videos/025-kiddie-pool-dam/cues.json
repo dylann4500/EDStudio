@@ -1550,7 +1550,7 @@
    }
   },
   {
-   "t": 38.963,
+   "t": 37.681,
    "sound": "metal_groan",
    "gain_db": -16,
    "pan": 0.0,
@@ -1560,7 +1560,7 @@
    }
   },
   {
-   "t": 39.013,
+   "t": 37.731,
    "sound": "crumble",
    "gain_db": -15,
    "pan": 0.0,
@@ -2899,6 +2899,15 @@
    }
   },
   {
+   "t0": 91.13000000000001,
+   "t1": 92.008,
+   "sound": "footsteps",
+   "rate": 4.5,
+   "gain_db": -26,
+   "pan0": 0.6,
+   "pan1": 0.3
+  },
+  {
    "t": 91.175,
    "sound": "pop",
    "gain_db": -14,
@@ -2923,6 +2932,42 @@
    "pan": 0.3,
    "args": {
     "pitch": 1.0
+   }
+  },
+  {
+   "t": 92.183,
+   "sound": "knock",
+   "gain_db": -16,
+   "pan": 0.3,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 92.533,
+   "sound": "knock",
+   "gain_db": -16,
+   "pan": 0.3,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 92.883,
+   "sound": "knock",
+   "gain_db": -16,
+   "pan": 0.3,
+   "args": {
+    "pitch": 0.9
+   }
+  },
+  {
+   "t": 93.368,
+   "sound": "splash",
+   "gain_db": -12,
+   "pan": 0.4,
+   "args": {
+    "size": 1.0
    }
   },
   {
