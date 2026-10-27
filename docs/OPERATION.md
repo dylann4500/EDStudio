@@ -211,3 +211,9 @@ go out on their own; the new manager re-reads `ops/`, re-arms the tick, and chec
 - Oct 26 (022): the body text landed in the Subject field once (the layout shifted under a coordinate click). Set the
   Subject with `form_input` on its ref, click the body ~10 px lower than the subject line, type ONE line, zoom to confirm it
   sits in the body, then type the rest. Never send without a screenshot of subject + body + attachment.
+- Oct 27 (027, 023, 020 scheduling): after a scroll, a coordinate click on TikTok's description missed and the typed caption
+  went nowhere. Find the description editor by its `find` ref, click it, cmd+a + Backspace, type, and read the editor's
+  `innerText` with JS before scheduling. Find the final **Schedule** button by ref too (it is not the Schedule radio).
+- Oct 27: clicking Schedule while the music copyright check still says "Checking in progress" opens a "Continue to post?"
+  dialog whose button is "Post now". Never click it: Cancel, wait ~30 s for the check to finish, then Schedule again,
+  and confirm the blue "⏰ <date>, <time>" tag on the content page.
