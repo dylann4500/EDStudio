@@ -567,18 +567,18 @@ export async function buildStation(parent) {
   const outerDoor = hatchDoor(outer, 0.43); outerDoor.hinge.rotation.order = 'ZYX'; outer.rotation.z = PI / 2;   // the lid lies in the y-z plane
   // mudroom dressing: a doormat on the floor, coat hooks with a spare suit, boots, a sign
   const mud = new THREE.Group(); al.add(mud);
-  const matT = tex(256, 128, (c, w, h) => { c.fillStyle = '#7a5a3a'; c.fillRect(0, 0, w, h); c.strokeStyle = '#5a3f26'; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12); c.font = font(30); c.fillStyle = '#f2d9a8'; c.textAlign = 'center'; c.fillText('WIPE YOUR', w / 2, h * 0.44); c.fillText('FEET', w / 2, h * 0.78); });
+  const matT = tex(256, 128, (c, w, h) => { c.fillStyle = '#7a5a3a'; c.fillRect(0, 0, w, h); c.strokeStyle = '#5a3f26'; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12); c.font = font(44); c.fillStyle = '#f2d9a8'; c.textAlign = 'center'; c.fillText('WIPE YOUR', w / 2, h * 0.44); c.fillText('FEET', w / 2, h * 0.84); });
   const doormat = mk(new THREE.PlaneGeometry(1.0, 0.5), new THREE.MeshStandardMaterial({ map: matT, roughness: 0.95 }), mud, (A.x0 + A.x1) / 2 + 0.2, -A.r * 0.78, -0.15); doormat.rotation.x = -PI / 2;
   for (const dx of [0.5, 0.9]) { const hk = mk(new THREE.CylinderGeometry(0.02, 0.02, 0.18, 6), mat(0x8a5a2a, 0.5), mud, A.x0 + dx + 0.6, 0.45, -0.9); hk.rotation.x = PI / 2; }
   const suit = new THREE.Group(); mud.add(suit); suit.position.set(A.x0 + 1.15, 0.05, -0.75);
   mk(new THREE.CapsuleGeometry(0.2, 0.45, 6, 12), mat(0xf4f4f0, 0.8), suit, 0, 0, 0); for (const s of [-1, 1]) { const arm = mk(new THREE.CapsuleGeometry(0.07, 0.35, 4, 8), mat(0xf4f4f0, 0.8), suit, s * 0.26, -0.05, 0); arm.rotation.z = s * 0.25; }
   mk(new THREE.BoxGeometry(0.12, 0.08, 0.08), mat(0xe8504a, 0.5), suit, -0.08, 0.15, 0.18);
-  mk(new THREE.SphereGeometry(0.17, 18, 14), mat(0xf4f4f0, 0.35), suit, 0, 0.5, 0); const visor = mk(new THREE.SphereGeometry(0.15, 18, 12, -0.9, 1.8, 0.75, 1.0), new THREE.MeshStandardMaterial({ color: 0x1c2638, roughness: 0.08, metalness: 0.6, emissive: 0x3a5a8a, emissiveIntensity: 0.25 }), suit, 0, 0.5, 0.03); visor.scale.setScalar(1.06);
+  mk(new THREE.SphereGeometry(0.17, 18, 14), mat(0xf4f4f0, 0.35), suit, 0, 0.5, 0); const visor = mk(new THREE.SphereGeometry(0.15, 18, 12, PI / 2 - 0.9, 1.8, 0.75, 1.0), new THREE.MeshStandardMaterial({ color: 0xd9a520, roughness: 0.1, metalness: 0.8, emissive: 0x6a4a10, emissiveIntensity: 0.4 }), suit, 0, 0.5, 0.03); visor.scale.setScalar(1.06);
   mk(new RoundedBoxGeometry(0.34, 0.42, 0.14, 2, 0.04), mat(0xd9dbe0, 0.6), suit, 0, 0.05, -0.17); for (const s of [-1, 1]) mk(new RoundedBoxGeometry(0.11, 0.12, 0.17, 2, 0.03), mat(0x3a3f48, 0.6), suit, s * 0.09, -0.48, 0.02);
   for (const dx of [0, 0.22]) mk(new THREE.BoxGeometry(0.16, 0.14, 0.3), mat(0x3a3f48, 0.6), mud, A.x0 + 0.5 + dx, -A.r * 0.7, -0.6);
   const signT = tex(256, 96, (c, w, h) => { c.fillStyle = '#2f6fd6'; c.fillRect(0, 0, w, h); c.strokeStyle = '#fff'; c.lineWidth = 6; c.strokeRect(5, 5, w - 10, h - 10); c.font = font(52); c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('MUDROOM', w / 2, h / 2 + 4); });
   mk(new THREE.PlaneGeometry(0.9, 0.34), new THREE.MeshStandardMaterial({ map: signT, roughness: 0.6 }), mud, A.x0 + 1.6, 0.55, -0.98);
-  const alLight = new THREE.PointLight(0xfff1dc, 3, 4, 1.6); alLight.position.set((A.x0 + A.x1) / 2, 0.2, 0.3); al.add(alLight);
+  const alLight = new THREE.PointLight(0xe8f2ff, 6, 4.5, 1.4);   // a cool, bright airlock (it read as the darkest room) alLight.position.set((A.x0 + A.x1) / 2, 0.2, 0.3); al.add(alLight);
   // the truss + solar wings on top
   const truss = makeTruss(g);
   // Whipple shield around M2: crinkled foil sheets standing off the hull (cut like the module)
@@ -785,9 +785,10 @@ export function makeToilet() {
   const bowl = mk(new THREE.LatheGeometry([[0.0, 0.0], [0.15, 0.0], [0.17, 0.04], [0.2, 0.2], [0.23, 0.34], [0.2, 0.38], [0.15, 0.37]].map(([x, yy]) => new THREE.Vector2(x, yy)), 28), w, g, 0, 0, 0); bowl.material.side = THREE.DoubleSide;
   const seat = mk(new THREE.TorusGeometry(0.19, 0.04, 10, 28), w, g, 0, 0.39, 0); seat.rotation.x = PI / 2;
   const lid = mk(new THREE.CylinderGeometry(0.21, 0.21, 0.03, 28), w, g, 0, 0.6, -0.22); lid.rotation.x = -1.35;
+  mk(new THREE.CircleGeometry(0.16, 24), mat(0x2a2218, 0.9), g, 0, 0.3, 0).rotation.x = -PI / 2;
   for (const s of [-1, 1]) { const b = mk(new THREE.CapsuleGeometry(0.025, 0.36, 4, 8), y, g, s * 0.24, 0.58, 0.05); b.rotation.x = PI / 2; mk(new THREE.BoxGeometry(0.03, 0.22, 0.03), m, g, s * 0.24, 0.47, -0.12); }
-  const hose = mk(new THREE.TorusGeometry(0.22, 0.035, 8, 20, PI * 1.2), mat(0x58b368, 0.5), g, 0.25, 0.3, 0.05); hose.rotation.set(0, PI / 2, 0.4);
+  const hose = mk(new THREE.TorusGeometry(0.22, 0.035, 8, 20, PI * 1.2), w, g, 0.25, 0.3, 0.05); hose.rotation.set(0, PI / 2, 0.4);
   mk(new THREE.ConeGeometry(0.07, 0.14, 14, 1, true), mat(0xffd23f, 0.5), g, 0.36, 0.55, 0.12).rotation.z = -0.6;
   mk(new THREE.BoxGeometry(0.34, 0.5, 0.22), m, g, -0.36, 0.3, -0.04);
-  return { g };
+  return { g, gold: w };
 }

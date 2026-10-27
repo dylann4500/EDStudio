@@ -222,6 +222,9 @@ AO/DoF/sky — the biggest remaining gap to the Blender reference.
 cupola, stowaway squirrel, emergency light, Whipple section) 7 · 6.3 · 7 · 6.5 · 7. v2's top find was ours: open hatch lids
 (`hatchDoor.open` swings the lid INTO the room) hung across the plugged hero's face for 30 s; and a mid-line comment had silently
 swallowed the end rail's "birds" key (lint_comments.py now flags comments holding `{ t: …` or ending in `},`).
+v3 (lids hidden, foil unroll, seed curls into view, stowaway pop, camera framings) 7.5 · 6.6 · 7.5 · 6.8 · 7.5 — the camera
+reviewer found two hidden cuts in the ending (a 0.2 s 'pull to the final spot' whipped 1,400°/s at the landing; the dive slid
+2.4 m through a hull in two frames) by rebuilding the camera path numerically — do that before trusting a keyed follow-cam.
 Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
 lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
 picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out

@@ -163,7 +163,8 @@ e(t['fsq'] - 0.35, "pop", -13, -0.2, pitch=1.4); e(t['fsq'] - 0.33, "candy_rattl
 # dock: push the rocket away, M1 rises on its thrusters, bolts, Gary dives in, M2 rises, capture, CLUNK
 e(PUSH, "blanket_rustle", -22, -0.3, dur=0.4, intensity=0.8); e(PUSH + 0.2, "metal_groan", -25, -0.5, dur=1.2, pitch=0.8)
 e(M1_IN0, "distant_boom", -18, 0.0, dur=1.8, size=0.5)
-for k in range(6): e(M1_IN0 + 0.1 + k * 0.14, "kick", -22, 0.0)   # thruster puffs (the booster flame under the rising module)
+for k in range(6): e(M1_IN0 + 0.1 + k * 0.14, "kick", -22, 0.0)
+e(M1_IN1 - 0.65, "deflate", -24, 0.0, dur=0.6)   # retro thrusters brake the module under Gary   # thruster puffs (the booster flame under the rising module)
 e(M1_IN1 - 0.05, "clunk", -13, 0.0, size=1.3, metal=0.7)
 for a in (BOLT1, BOLT2): e(a, "metal_clang", -16, 0.2, size=0.5, pitch=1.6); e(a + 0.05, "knock", -20, 0.2, pitch=1.4)
 e(DIVE - 0.3, "latch_click", -20, 0.0); e(DIVE + 0.1, "blanket_rustle", -23, 0.0, dur=0.4, intensity=0.5)
@@ -177,6 +178,7 @@ e(LATCH + 0.45, "pop", -18, 0.0, pitch=1.3)   # he pops free
 e(SUNSET0, "low_swell", -20, 0.0, dur=1.4, pitch=0.6)
 for k in range(6): e(t['sixteen'] + k * 0.25, "pop", -28, -0.4 + 0.16 * k, pitch=0.9 + 0.1 * k)
 for k in range(4): e(LIGHTS_OFF - 0.55 + k * 0.15, "zap", -24, 0.0, dur=0.15)
+e(t['power'], "zap", -19, 0.0, dur=0.35); e(t['power'] + 0.05, "pop", -20, 0.0, pitch=0.9)   # "no power": the panels spark out
 e(LIGHTS_OFF, "lamp_switch_click", -17, 0.0); e(LIGHTS_OFF + 0.05, "deflate", -24, 0.0, dur=0.7)
 ev.append({"t0": t['kgary'], "t1": t['opens'] + 0.2, "sound": "footsteps", "rate": 7.0, "gain_db": -30, "pan0": -0.1, "pan1": 0.3})
 for k in range(3): e(t['opens'] + k * 0.17, "metal_groan", -20, 0.3, dur=0.2, pitch=1.9)   # the wheel spins
@@ -195,6 +197,7 @@ e(INTO_AL, "latch_click", -18, 0.4); e(INTO_AL + 0.2, "blanket_rustle", -24, 0.4
 for k in range(5): e(WIPE + 0.05 + k * 0.17, "grate", -24, 0.4, dur=0.15)   # wipe, wipe, wipe
 e(t['mudroom'] + 0.4, "blanket_rustle", -21, 0.4, dur=0.6, intensity=0.8); e(t['aspace'], "latch_click", -18, 0.4)   # the helmet clicks on
 # solar: out the hatch, the wings unfold (a ratchet of clunks), sunrise, power back on, the swat, the fling, the bonk
+for wd in ('this', 'called'): e(W('solar', wd) + 0.05, "metal_clang", -16, 0.5, size=0.8, pitch=1.2)   # the last two panels snap out (shots.js unfoldK)
 e(OUT0, "pressure_drop", -24, 0.5, dur=0.8)
 for k in range(NW):
     tt = UNF0 + (t['field'] + 0.25 - UNF0) * (k + 0.5) / NW
@@ -234,7 +237,7 @@ e(PLUG + 0.5, "slurp", -22, -0.2, dur=0.5)   # the seal holds (a suction squeak)
 # whipple: the foil wraps on (crinkle), a second fleck turns to vapor (poof), the term
 e(SHIELD, "blanket_rustle", -16, -0.3, dur=0.9, intensity=1.0); e(SHIELD + 0.05, "candy_rattle", -24, -0.3, dur=0.6, density=30.0, size=0.4)
 e(HIT2, "deflate", -15, -0.4, dur=0.5); e(HIT2 + 0.02, "pop", -14, -0.4, pitch=0.6)
-e(t['vest'] - 0.08, "candy_rattle", -19, -0.1, dur=0.5, density=30.0, size=0.4); e(t['vest'] - 0.05, "pop", -16, -0.1, pitch=1.2)   # the tinfoil vest crinkles on
+e(t['vest'] - 0.45, "candy_rattle", -19, -0.1, dur=0.55, density=30.0, size=0.4); e(t['vest'] + 0.02, "pop", -16, -0.1, pitch=1.2)   # the tinfoil vest wraps on (shots.js: vest - 0.45 .. vest + 0.05)
 # finish: the toilet (+ its fan), the treadmill + bungees, the cupola
 e(TOILET, "pop", -12, 0.3, pitch=0.8); e(TOILET + 0.05, "clunk", -16, 0.3, size=0.7, metal=0.5)
 e(t['toilet'] + 0.1, "deflate", -18, 0.3, dur=0.7); e(t['toilet'] + 0.15, "slurp", -17, 0.3, dur=0.9)   # the money flushes

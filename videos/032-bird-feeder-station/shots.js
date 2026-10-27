@@ -84,7 +84,7 @@ export async function build(studio, story) {
   const SEED_OUT = t.e2birds, SEED0 = t.got - 0.1, LAND = t.fire - 0.04;
   const W0 = t.outside - 0.35, W1 = t.blue - 0.1;   // the wing ride + the fling back inside (a follow-cam between rail-2 frames)
   const NW = D.wing.n, PW = D.wing.pw, ROOTX = D.truss.half + 0.2;
-  const unfoldK = (tt) => smooth(u01(tt, UNF0, UNF1));
+  const unfoldK = (tt) => smooth(u01(tt, UNF0, UNF1)) * 0.82 + 0.09 * easeOutBack(u01(tt, Wd('solar', 'this'), Wd('solar', 'this') + 0.22), 2.2) + 0.09 * easeOutBack(u01(tt, Wd('solar', 'called'), Wd('solar', 'called') + 0.22), 2.2);   // the last two panels snap out
   const tipX = (k) => ROOTX + 0.6 + (NW - 1) * PW * k;   // the outer edge of the second-to-last panel (the last one stays folded back)
   const MT = D.mtop, ML = D.mlen;   // the stack (engine/build/station.js): M1 HAB, M2 LIFE SUPPORT, M3 GALLEY, M4 LAB (the hole), M5 WC
   const G2 = P(0.05, MT[1] - 2.85, 0.3), G3 = P(-0.35, MT[2] - 3.5, 0.35), HOLE = P(D.hole[0], D.hole[1] - 0.47, -1.25 + 0.2);   // Gary's spots (root): life support, galley, the plug
@@ -105,6 +105,8 @@ export async function build(studio, story) {
   const birdLooks = [{ body: 0xd9322b, wing: 0xb42620, crest: true, mask: true }, { body: 0x3f7fd6, belly: 0xeeeeee, wing: 0x2f5fa6, crest: true }, { body: 0xf2d23a, wing: 0x333333, beak: 0xe8b060 }, { body: 0x9a9a9a, belly: 0xf0ede6, wing: 0x6f6f6f, cap: 0x1a1a1a }];
   const birds = birdLooks.map((o) => { const b = makeSongbird(o); scene.add(b.root); return b; });
   const spaceBirds = birdLooks.slice(0, 3).map((o) => { const b = makeSongbird(o), h = makeHelmet(0.11); h.position.set(0, 0.01, 0.01); b.head.add(h); scene.add(b.root); b.root.visible = false; return b; });   // "you just wanted to feed the birds": three birds in tiny helmets fly past the lens toward the feeder on top
+  const retro = new THREE.Group(); S.m1.g.add(retro); retro.visible = false;   // braking thrusters as the module arrives under Gary
+  for (const x of [-1.35, 1.35]) { const f = mk(new THREE.ConeGeometry(0.16, 0.9, 14, 1, true), new THREE.MeshBasicMaterial({ color: 0xffb050, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }), retro, x, 0.4, 0.55); }
   const boost = new THREE.Group(); S.m1.g.add(boost); boost.position.y = -D.mlen[0] - 0.05; boost.visible = false;   // "launch more rooms": a booster flame under the rising module
   for (const [r, l, c, o] of [[0.6, 2.4, 0xff8a30, 0.75], [0.3, 1.5, 0xfff0b0, 0.9]]) { const f = mk(new THREE.ConeGeometry(r, l, 20, 1, true), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }), boost, 0, -l / 2, 0); f.rotation.x = PI; }
   const BIRD_X = [1.55, 2.15, 2.75, 3.35];
@@ -154,7 +156,7 @@ export async function build(studio, story) {
   const junk = [[0xffffff, 'sock'], [0x2f6fd6, 'pen'], [0xe8504a, 'pouch'], [0xffd23f, 'pen']].map(([c, k], i) => { const m = k === 'sock' ? mk(new THREE.CapsuleGeometry(0.05, 0.16, 4, 8), mat(c, 0.9), scene) : k === 'pen' ? mk(new THREE.CylinderGeometry(0.012, 0.012, 0.16, 6), mat(c, 0.4), scene) : mk(new THREE.BoxGeometry(0.1, 0.13, 0.03), mat(c, 0.5), scene); m.castShadow = false; return { m, i }; });   // zero-g junk drifting in the rooms
   const emergency = new THREE.PointLight(0xff3a26, 0, 5.5, 1.5); emergency.position.set(...P(0.4, -1.5, 0.9)); scene.add(emergency);
   const sweat = [0, 1, 2].map(() => { const b = makeBlob(0xbfe6ff, 0.8); scene.add(b.m); return b; });
-  const toilet = makeToilet(); scene.add(toilet.g); toilet.g.position.set(...P(1.25, MT[4] - 1.45, -0.25)); toilet.g.rotation.z = PI / 2; toilet.g.userData.s = 1.3;   // M5, the WC: its own little room
+  const toilet = makeToilet(); scene.add(toilet.g); toilet.g.position.set(...P(1.25, MT[4] - 1.45, -0.25)); toilet.g.rotation.set(0, 0.7, PI / 2); toilet.gold.envMap = studio.scene.environment; toilet.gold.envMapIntensity = 2.4; toilet.g.userData.s = 1.3;   // M5, the WC: its own little room
   const goldSeat = mk(new THREE.TorusGeometry(0.17, 0.05, 10, 24), mat(0xf2c14e, 0.25, { metalness: 0.9 }), toilet.g, 0, 0.39, 0); goldSeat.rotation.x = PI / 2;
   const tread = makeTreadmill(); scene.add(tread.g); tread.g.position.set(...P(-0.88, MT[3] - 3.3, 0.15)); tread.g.scale.setScalar(0.75); mk(new THREE.BoxGeometry(0.95, 0.06, 0.6), mat(0x9aa3b0, 0.5), scene, ...P(-0.85, MT[3] - 3.34, 0.1));   // on a rack shelf in the LAB, under the plugged Gary
   const bungee = [0, 1].map(() => { const b = mk(new THREE.CylinderGeometry(0.01, 0.01, 1, 6), mat(0xff4fa0, 0.5), scene); b.castShadow = false; return b; });
@@ -162,17 +164,17 @@ export async function build(studio, story) {
   const orbitPts = []; { const c = W.C, ox = P(-4.8)[0], oy = 78.4, r = Math.hypot(ox - c.x, oy - c.y), a0 = Math.atan2(ox - c.x, oy - c.y); for (let k = 0; k <= 40; k++) { const a = a0 - 0.002 + k * 0.0009; orbitPts.push([c.x + Math.sin(a) * r, c.y + Math.cos(a) * r, 0.3]); } }
   const orbitArrows = makeArrows(scene, orbitPts, { color: 0xffd23f, count: 11, size: 1.7, speed: 9, emissive: 0.9 });   // a short dense stream that stays in the wide frame
   // the paint fleck streaks (hit + whipple demo) and the burning seed
-  const streak = mk(new THREE.CylinderGeometry(0.035, 0.0, 1.6, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xfff2c0).multiplyScalar(2), toneMapped: false, transparent: true }), scene); streak.castShadow = false;
+  const streak = mk(new THREE.CylinderGeometry(0.075, 0.0, 1.3, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xfff2c0).multiplyScalar(2), toneMapped: false, transparent: true }), scene); streak.castShadow = false;
   const looseHelmet = makeHelmet(0.47); scene.add(looseHelmet); looseHelmet.visible = false;   // knocked off in the fling
-  const spit = mk(new THREE.SphereGeometry(0.03, 8, 6), mat(0x2e2b28, 0.6), scene); spit.scale.set(0.7, 0.45, 1.5); spit.castShadow = false;
+  const spit = mk(new THREE.SphereGeometry(0.06, 12, 8), mat(0x2e2b28, 0.6), scene); spit.scale.set(0.7, 0.45, 1.5); spit.castShadow = false;
   const hotSeed = new THREE.Group(); scene.add(hotSeed);
   const seedM = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, emissive: 0xff8a1a, emissiveIntensity: 0 });
   seedM.map = tex(64, 32, (c, w, h) => { c.fillStyle = '#26221f'; c.fillRect(0, 0, w, h); c.fillStyle = '#e8dcc0'; for (let k = 0; k < 8; k++) c.fillRect(3 + k * 8, 0, 2.5, h); });   // black + cream stripes along the seed
   { const s2 = mk(new THREE.SphereGeometry(0.05, 24, 16).rotateX(PI / 2), seedM, hotSeed); s2.scale.set(0.7, 0.45, 1.5); }
   const seedGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex(64, 64, (c) => { const g = c.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,214,90,1)'); g.addColorStop(0.35, 'rgba(255,122,0,.85)'); g.addColorStop(1, 'rgba(255,70,0,0)'); c.fillStyle = g; c.fillRect(0, 0, 64, 64); }), depthWrite: false, transparent: true, opacity: 0.85 }));   // normal-blended orange (additive white over blue sky read pink)
   hotSeed.add(seedGlow);
-  const trailM = seedGlow.material.clone(); trailM.color.set(0xff8a30);
-  const seedTrail = [...Array(18).keys()].map(() => { const sp = new THREE.Sprite(trailM); scene.add(sp); return sp; });   // a comet tail of embers behind the burning seed
+  const trailM = seedGlow.material.clone(); trailM.color.set(0xffffff); trailM.opacity = 0.45;   // the texture's own yellow → orange, see-through so the tail tapers
+  const seedTrail = [...Array(40).keys()].map(() => { const sp = new THREE.Sprite(trailM); scene.add(sp); return sp; });   // a comet tail of embers behind the burning seed
   const seedLight = new THREE.PointLight(0xff8a30, 0, 4, 1.6); hotSeed.add(seedLight);
 
   // ---------------------------------------------------------------- FX schedule (analytic; the same word times drive the cue sheet)
@@ -208,6 +210,8 @@ export async function build(studio, story) {
   fx.burst('spark', BOLT2, { pos: P(0.75, 0.05, 0.45), n: 14, speed: [0.6, 1.6], spread: 1.4, g: 0, seed: 31 });
   fx.stream('smoke', M1_IN0 - 0.4, M1_IN1 - 0.2, { pos: P(0, -6.5, 0), box: [1.6, 2, 1.0], rate: 30, dir: [0, -1, 0], spread: 0.5, speed: [1, 3], size: [0.8, 1.6], g: 0, drag: 1.5, seed: 32 });
   for (let i = 1; i < 5; i++) fx.stream('smoke', DOCK_T[i] - 1.1, DOCK_T[i] - 0.1, { pos: P(0, MT[i] - ML[i] - 4, 0), box: [1.2, 6, 1.0], rate: 18, dir: [0, -1, 0], spread: 0.5, speed: [1, 2.5], size: [0.6, 1.2], g: 0, drag: 1.5, seed: 140 + i });
+  for (const [tb, sd] of [[BOLT1, 140], [BOLT2, 141]]) fx.burst('spark', tb, { pos: P(0.75, 0.05, 0.45), n: 18, speed: [0.6, 1.8], spread: 1.4, g: 0, seed: sd });   // bolting the feeder on
+  for (const [x, sd] of [[-0.9, 142], [0.9, 143]]) fx.burst('spark', t.power, { pos: P(x, -1.6, -0.9), n: 22, speed: [0.6, 2.0], spread: 1.3, g: 0, seed: sd });   // "no power": the panels spark out
   fx.burst('mist', M2_CAP, { pos: P(0, -4.75, 0.6), box: [1.4, 0.1, 0.4], n: 16, speed: [0.3, 0.8], spread: 1.5, g: 0, size: [0.2, 0.4], seed: 33 });
   fx.burst('spark', LATCH, { pos: P(0, -4.75, 0.8), box: [1.4, 0.05, 0.3], n: 24, speed: [0.8, 2], spread: 1.4, g: 0, seed: 34 });
   fx.burst('glow', LATCH, { pos: P(0, -4.75, 0.9), n: 2, size: [0.3, 0.5], seed: 35 });
@@ -217,7 +221,7 @@ export async function build(studio, story) {
   fx.burst('spark', LIGHTS_OFF, { pos: P(1.0, -0.6, -1.1), n: 10, speed: [0.5, 1.2], spread: 1.4, g: 2, seed: 39 });
   fx.stream('mist', WHOOSH, WHOOSH + 1.0, { pos: P(0.6, -2.6, 0.0), box: [1.2, 1.0, 0.8], rate: 45, dir: [1, 0, -0.1], spread: 0.25, speed: [3, 5], g: 0, drag: 0.5, size: [0.1, 0.22], seed: 40 });
   fx.burst('seed', WHOOSH, { pos: P(0, -2.6, 0.2), box: [1.6, 2, 1.2], n: 60, dir: [1, 0, 0], spread: 0.3, speed: [3, 6], g: 0, drag: 0.4, life: [2.5, 3.5], seed: 41 });
-  fx.burst('confetti', WHOOSH + 0.05, { pos: P(-0.3, -2.0, 0.0), box: [1.2, 1.2, 1], n: 40, dir: [1, 0, 0], spread: 0.35, speed: [3, 6], g: 0, drag: 0.6, seed: 42 });   // papers, socks, snacks
+  fx.burst('confetti', WHOOSH + 0.05, { pos: P(-0.3, -2.0, 0.0), box: [1.2, 1.2, 1], n: 12, dir: [1, 0, 0], spread: 0.35, speed: [3, 6], g: 0, drag: 0.6, size: [0.12, 0.2], life: [1.0, 1.6], color: 0xeeeeea, seed: 42 });   // papers, socks, snacks
   fx.burst('mist', AL_DOCK, { pos: P(1.95, -2.6, 0.7), box: [0.1, 1.4, 0.6], n: 18, speed: [0.3, 0.9], spread: 1.5, g: 0, size: [0.2, 0.4], seed: 43 });
   fx.burst('spark', AL_DOCK, { pos: P(1.95, -2.6, 0.8), box: [0.1, 1.6, 0.3], n: 18, speed: [0.6, 1.5], spread: 1.4, g: 0, seed: 44 });
   fx.stream('mist', t.empties - 0.1, t.first + 0.6, { pos: P(4.6, -2.0, 0.3), box: [0.2, 0.3, 0.3], rate: 30, dir: [1, 0.3, 0], spread: 0.4, speed: [1.5, 3], g: 0, drag: 0.6, size: [0.15, 0.35], seed: 45 });   // the airlock vents (empties first)
@@ -232,13 +236,13 @@ export async function build(studio, story) {
   fx.burst('dust', SWAT + 1.3, { pos: P(-1.0, MT[1] - 2.0, 0.3), n: 10, speed: [0.3, 0.8], spread: 1.4, g: 0, drag: 2, size: [0.15, 0.3], seed: 85, color: 0xd8dde4 });   // he lands inside, against the rack
   fx.burst('spark', SWAT + 1.3, { pos: P(-1.0, MT[1] - 2.0, 0.3), n: 12, speed: [0.6, 1.4], spread: 1.4, g: 0, seed: 86 });
   fx.burst('spark', POWER_ON, { pos: P(0, -0.4, -1.0), box: [2, 0.2, 0.2], n: 14, speed: [0.4, 1], spread: 1.4, g: 1, seed: 54 });
-  fx.stream('smoke', BLUE0 - 0.4, SCRUB + 0.6, { pos: P(0.1, MT[1] - 1.75, 0.3), box: [0.7, 0.5, 0.4], rate: 14, dir: [0, 0.2, 0], spread: 1.3, speed: [0.1, 0.3], g: 0, drag: 1.5, size: [0.25, 0.5], seed: 55, color: 0x8a8f95 });   // stale CO2 haze around Gary
+  fx.stream('smoke', BLUE0 - 0.4, SCRUB + 0.6, { pos: P(0.1, MT[1] - 1.75, 0.3), box: [0.7, 0.5, 0.4], rate: 8, dir: [0, 0.2, 0], spread: 1.3, speed: [0.1, 0.3], g: 0, drag: 1.5, size: [0.15, 0.3], seed: 55, color: 0xaab6c2 });   // stale CO2 haze around Gary
   fx.stream('smoke', SCRUB + 0.25, PINK, { pos: P(0.0, MT[1] - 1.6, 0.3), box: [0.9, 0.6, 0.5], rate: 22, dir: [-0.5, 0.6, -1], spread: 0.25, speed: [0.8, 1.4], g: 0, drag: 0.2, size: [0.18, 0.35], life: [0.6, 0.9], seed: 56, color: 0x8a8f95 });   // sucked into the scrubber
   fx.burst('spark', SCRUB, { pos: SCR, box: [0.6, 0.5, 0.1], n: 12, speed: [0.5, 1.2], spread: 1.4, g: 0, seed: 57 });
   fx.burst('spark', RECYC, { pos: REC, box: [0.6, 0.5, 0.1], n: 12, speed: [0.5, 1.2], spread: 1.4, g: 0, seed: 58 });
   fx.burst('mist', t.wbreath, { pos: P(-0.35, MT[1] - 1.85, 0.6), n: 8, dir: [0.6, -0.6, -0.5], spread: 0.5, speed: [0.6, 1.0], g: 0, drag: 0.8, size: [0.12, 0.25], seed: 59 });
   fx.burst('drops', GAUGE1, { pos: [REC[0] + 0.24, REC[1] - 0.12, REC[2] + 0.36], n: 8, dir: [0, 0, 1], spread: 0.4, speed: [0.2, 0.4], g: 0, drag: 1.2, life: [2, 3], seed: 60, color: 0x5a3418 });
-  const HP = P(D.hole[0], D.hole[1], -1.1), WX = -Math.sqrt((D.Rm + 0.38) ** 2 - D.zc ** 2), HF = P(-2.16, MT[3] - 1.4, 0.74), HFN = [-0.95, 0.05, 0.33];   // the hole; the shield's left cut edge (x); the hit on the foil's visible face + its outward normal
+  const HP = P(D.hole[0], D.hole[1], -1.1), WX = -Math.sqrt((D.Rm + 0.38) ** 2 - D.zc ** 2), HF = P(-2.16, MT[3] - 1.4, 0.74), HFN = [-0.55, 0.1, 0.83];   // the hole; the shield's left cut edge (x); the hit on the foil's visible face + its outward normal
   S.shield.userData.mat.envMap = studio.scene.environment;   // envMapIntensity only applies with an explicit envMap
   fx.burst('glow', HIT, { pos: HP, n: 2, size: [0.3, 0.5], seed: 62 });
   fx.burst('spark', HIT, { pos: HP, n: 30, dir: [0, 0, 1], speed: [1, 3], spread: 1.0, g: 0, seed: 63 });
@@ -257,7 +261,6 @@ export async function build(studio, story) {
   fx.stream('mist', t.toilet + 0.1, t.toilet + 0.8, { pos: P(0.98, MT[4] - 1.45, 0), box: [0.1, 0.2, 0.2], rate: 24, dir: [1, 0, 0], spread: 0.4, speed: [0.6, 1.2], g: 0, drag: 0.5, size: [0.1, 0.22], seed: 74, color: 0x9fd8ff });   // the fan whooshes
   fx.burst('spark', TREAD, { pos: P(-0.88, MT[3] - 3.1, 0.3), n: 12, speed: [0.5, 1.2], spread: 1.4, g: 0, seed: 75 });
   fx.burst('spark', CUPOLA, { pos: P(0, D.m2bot - 0.4, 0.6), n: 14, speed: [0.5, 1.3], spread: 1.4, g: 0, seed: 76 });
-  fx.burst('confetti', t.e0, { pos: P(0, -10, 1), box: [18, 26, 8], n: 900, dir: [0, 0, 1], spread: 1.6, speed: [0.1, 0.5], g: 0, drag: 0.3, life: [9, 11], seed: 77 });   // zero-g confetti hangs in the air
   for (const sx of [-1, 1]) fx.stream('bill', t.hundred - 0.4, t.runs - 1.6, { pos: P(sx * 4.6, -10, -0.6), box: [4.2, 22, 2.6], rate: 80, dir: [0, 0, 1], spread: 1.6, speed: [0.05, 0.25], g: 0, drag: 0.3, life: [5, 7], seed: 78 });
   fx.burst('dust', t.runs + 0.05, { pos: P(-0.6, MT[3] - 3.05, 0.3), n: 8, speed: [0.2, 0.6], spread: 1.4, g: 0, drag: 2, size: [0.1, 0.2], seed: 79 });
   fx.burst('smoke', LAND, { pos: [0.1, 1.1, -1.6], n: 7, color: 0xc8c2bb, speed: [0.2, 0.6], dir: [0, 1, 0], spread: 0.8, size: [0.12, 0.3], g: -0.5, seed: 81 });
@@ -267,7 +270,7 @@ export async function build(studio, story) {
   fx.stream('spark', LAND, LAND + 1.5, { pos: [0.06, 1.09, -1.5], box: [0.03, 0.01, 0.03], rate: 16, dir: [0, 1, 0], spread: 0.5, speed: [0.3, 0.7], seed: 88 });   // it's still on fire
   fx.burst('smoke', LAND + 0.9, { pos: [0.0, 1.27, -1.45], n: 5, dir: [0, 0.4, 1], spread: 0.5, speed: [0.3, 0.6], size: [0.05, 0.1], g: -0.4, seed: 89, color: 0x6a6a6a });   // the cardinal coughs
   fx.burst('crumb', LAND + 0.45, { pos: [0.02, 1.12, -1.45], n: 6, size: [0.012, 0.022], speed: [0.4, 0.9], spread: 1.3, floor: 1.03, seed: 84, color: 0x3a2a20 });   // soot
-  fx.burst('confetti', t.backyard + 0.3, { pos: [22.0, 54.5, 0.6], box: [2.2, 1.2, 1.8], n: 280, size: [0.14, 0.24], speed: [0.8, 2.4], spread: 1.6, g: 0, drag: 0.6, seed: 177 });   // a ta-da the lens flies through on "Congratulations"
+  fx.burst('confetti', t.backyard + 0.3, { pos: [22.0, 54.5, 0.6], box: [2.2, 1.2, 1.8], n: 280, size: [0.14, 0.24], speed: [0.8, 2.4], spread: 1.6, g: 0, drag: 0.6, life: [0.9, 1.4], seed: 177 });   // a ta-da the lens flies through on "Congratulations"
   fx.stream('smoke', LAND + 0.55, END, { pos: [0.06, 1.42, -1.5], box: [0.04, 0.02, 0.04], rate: 9, dir: [0, 1, 0], spread: 0.4, speed: [0.12, 0.3], g: 0, drag: 0.6, size: [0.05, 0.13], life: [0.9, 1.5], seed: 171, color: 0x5a5550 });   // the scorched bird's crest smokes
   const SEED1 = SEED0 + 0.55, A1 = P(-3.3, D.hole[1] - 0.45, 1.1), TH0 = Math.atan2(-2.3, D.hole[0] - 0.05), TH1 = Math.atan2(1.1, -3.3) - 2 * PI, RH0 = Math.hypot(-2.3, D.hole[0] - 0.05), RH1 = Math.hypot(1.1, -3.3);
   const seedPath = (tt) => {   // shot out of the hole, it curls round the LAB's left side into view (clear of the foil), then falls to the yard
@@ -328,7 +331,7 @@ export async function build(studio, story) {
   F2.push({ t: END, pos: LAST.pos, look: LAST.look, fov: LAST.fov, stop: true });
   planRail.verbose = true;
   const rail1 = makeRail(planRail(F1, { shortHoldPass: true })), rail2 = makeRail(planRail(F2.slice(0, -1), { shortHoldPass: true }));
-  const E0 = t.backyard + 0.3, WIDE_END = { pos: [15.5, 71.5, 27], look: [22, 69, 0], fov: 54 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
+  const E0 = t.backyard + 0.3, WIDE_END = { pos: [14.5, 74.5, 30], look: [22, 71.2, 0], fov: 56 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
   // back out of the cupola through the glass looking up, up and away to the whole station (on "birds"), then down to the LAB
   const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: E0 + 1.6, pos: [22.4, 55.0, 2.6], look: [22.1, 55.3, -2.0], fov: 58, pass: true }, { t: t.ebirds + 0.5, ...WIDE_END },
     { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT - 0.2, pos: [21.5, 62.9, 4.85], look: [21.45, 62.5, -0.4], fov: 40 }, { t: SEED0 - 0.03, pos: [19.2, 63.3, 5.6], look: [19.0, 62.6, 0.9], fov: 44 }]);
@@ -369,7 +372,7 @@ export async function build(studio, story) {
   const camAt = (tt) => (tt < C0 ? rail1.at(tt) : tt < C1 ? chaseAt(tt) : tt < W0 ? rail2.at(tt) : tt < W1 ? rideAt(tt) : tt < E0 ? rail2.at(tt) : tt < D0 ? endRail.at(tt) : diveAt(tt));
   const kick = makeKick([[POLE_UP + 0.12, 0.6], [t.c0, 0.35], [CONE, 0.6], [BONK, 0.45], [FACE, 0.8], [STEP + 0.25, 0.7], [t.strap - 0.02, 0.5], [TAPED, 0.3], [IGN1, 0.6], [IMPACT, 1.3, 0.6],
     [POPOUT, 0.6], [UPRIGHT, 0.5], [IGN2, 1.0, 0.7], [M1_IN1 - 0.05, 0.6], [BOLT2, 0.35], [M2_CAP, 0.5], [LATCH, 1.1, 0.55], [LIGHTS_OFF, 0.35],
-    [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [SWAT, 1.1, 0.55], [POWER_ON, 0.3], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
+    [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [Wd('solar', 'this') + 0.05, 0.4], [Wd('solar', 'called') + 0.05, 0.4], [SWAT, 1.1, 0.55], [POWER_ON, 0.3], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
     [PLUG, 1.2, 0.6], [SHIELD, 0.5], [HIT2, 0.8], [TOILET, 0.5], [TREAD, 0.5], [LAND, 0.8, 0.5]]);
 
   // ---------------------------------------------------------------- per-actor state (pure functions of t)
@@ -387,7 +390,7 @@ export async function build(studio, story) {
     if (tt < UPRIGHT) { const u = smooth(u01(tt, POPOUT + 0.15, UPRIGHT)), a = PI * (1 - u), dir = [Math.sin(a) * 0.2, Math.cos(a), 0]; const c = arcP([2.1, 1.32, -1.0], [R0[0], 1.6, R0[2]], u, 1.0); return { vis: true, p: [c[0] - dir[0] * 1.6, c[1] - dir[1] * 1.6, c[2] - dir[2] * 1.6], dir }; }
     if (tt < IGN2) return { vis: true, p: R0, dir: [0, 1, 0], wob: wobble(tt, UPRIGHT, 0.08, 18, 6) };
     if (tt < ORBIT_IN) { const u = clamp((tt - IGN2) / (ORBIT_IN - IGN2)), ee = u * u * (3 - 2 * u);
-      const c0 = R0, c1 = [2.1, 30, -1.2], c2 = [4.0, 74, 0], c3 = ARRIVE, p = bez3(c0, c1, c2, c3, ee), d = bez3d(c0, c1, c2, c3, Math.max(0.001, ee)), L = Math.hypot(...d) || 1;
+      const c0 = R0, c1 = [11, 5, -1.2], c2 = [30, 44, 0], c3 = ARRIVE, p = bez3(c0, c1, c2, c3, ee), d = bez3d(c0, c1, c2, c3, Math.max(0.001, ee)), L = Math.hypot(...d) || 1;
       return { vis: true, p, dir: d.map((v) => v / L), flame: 1, big: 1 }; }
     if (tt < PUSH) { const u = smooth(u01(tt, ORBIT_IN, COAST1 + 0.6)); const dip = Math.sin(PI * clamp((tt - t.falls + 0.1) / (t.missing + 0.45 - t.falls))); return { vis: true, p: (([x, y, z]) => [x, y - 0.7 * dip, z])(LP(ARRIVE, COAST, u)), dir: [1, 0.02 * Math.sin(tt) - 0.55 * dip, 0], flame: tt < t.hour + 0.3 ? 1 : 0.5 * (1 - u01(tt, t.hour + 0.3, t.orbit + 0.4)), big: tt < t.hour + 0.3 ? 1 : 0 }; }
     const a = tt - PUSH; return { vis: a < 5, p: [COAST[0] - 1.6 * a - 0.15 * a * a, COAST[1] - 0.35 * a, COAST[2] - 0.6 * a], dir: [Math.cos(a * 1.3), Math.sin(a * 1.3), 0], roll: a * 0.8 };
@@ -459,7 +462,7 @@ export async function build(studio, story) {
       p = { x: pos[0], y: pos[1], z: pos[2], rotY: plugged ? 0 : 0.4 * Math.sin(tt), rx: plugged ? -0.28 : -0.3 * e, eyes: plugged ? (pfft ? 'closed' : 'wide') : suck > 0 ? 'wide' : 'open', mouth: plugged ? (pfft ? 'o' : tt > t.tinfoil ? 'flat' : 'teeth') : suck > 0 ? 'scream' : 'flat', brows: plugged ? 0.8 : suck > 0 ? 1 : 0,
         squash: plugged ? (tt < PLUG + 0.6 ? squash(tt, PLUG, 0.45) : [1.08 + 0.02 * Math.sin(tt * 3), 0.94]) : [1, 1], armL: plugged ? { x: 0.35, z: 0.62, el: 0.95 + 0.08 * Math.sin(tt * 2.3) } : { x: -2.4, z: 0.8 }, armR: tug > 0.1 ? { x: -1.6, z: 0.2, el: 0.2 } : wave ? { x: -2.3, z: 0.3, el: 0.4 + 0.5 * Math.sin(tt * 9) } : plugged ? { x: 0.35, z: 0.6, el: 0.95 + 0.08 * Math.sin(tt * 2.1 + 1) } : { x: -2.4, z: 0.8 },
         legL: plugged ? { x: -1.45, kn: 0.25 + 0.1 * Math.sin(tt * 2) } : FLOAT(tt).legL, legR: plugged ? { x: -1.35, kn: 0.3 } : FLOAT(tt).legR, look: [0, 0], cheeks: plugged, faceTint: plugged ? [0xe8504a, tt < PLUG + 1.4 ? 0.4 : 0.18] : null }; }
-    if (tt > SWEEP0 && tt < SWEEP1) p.head = { ...(p.head || {}), y: 0.75 * Math.sin(PI * 2 * 4 * u01(tt, SWEEP0, SWEEP1)) };   // his head whips after each sunrise
+    if (tt > SWEEP0 && tt < SWEEP1) p.head = { ...(p.head || {}), y: 0.75 * Math.sin(PI * 2 * 3 * u01(tt, SWEEP0, SWEEP1)) };   // his head whips after each sunrise
     if (gary.root.parent !== parent) parent.add(gary.root);
     gary.set(p); gHelmet.visible = helmet; gPack.visible = pack; gary.head.position.z = parent === rocket.body ? 0.4 : 0;   // in the cockpit: the body stays inside the hull, the head sits in the bubble
     return p;
@@ -508,7 +511,7 @@ export async function build(studio, story) {
     else { const tp = P(-0.88, MT[3] - 3.3 + 0.14 * 0.75 + 0.02, 0.15); p = { ...p, pose: 'jog', x: tp[0], y: tp[1], z: tp[2], rotY: 0.75, ph: tt * 20, helmet: true, hat: tt > t.runs - 0.15, eyes: tt > t.runs ? 'half' : 'open', cheeks: 0.5, look: [-0.6, 0.2] }; }   // three-quarter to the lens
     if (tt > INCOCKPIT && p.scale === undefined) p.scale = SS;
     if (sq.root.parent !== parent) parent.add(sq.root);
-    if (tt > SWEEP0 && tt < SWEEP1) p.headY = 0.75 * Math.sin(PI * 2 * 4 * u01(tt, SWEEP0, SWEEP1) + 0.4);
+    if (tt > SWEEP0 && tt < SWEEP1) p.headY = 0.75 * Math.sin(PI * 2 * 3 * u01(tt, SWEEP0, SWEEP1) + 0.4);
     sq.set(p); sq.root.visible = !hidden; return p;
   }
   function feederAt(tt) {
@@ -546,10 +549,10 @@ export async function build(studio, story) {
       if (b > 0) sd = b < 0.5 ? sunNight.clone().lerp(sunMid, b * 2).normalize() : sunMid.clone().lerp(sunDay, b * 2 - 1).normalize();
       else sd = a < 0.5 ? sunDay.clone().lerp(sunMid, a * 2).normalize() : sunMid.clone().lerp(sunNight, a * 2 - 1).normalize();
       sk = Math.max(1 - smooth(u01(tt, SUNSET0 + 0.2, SUNSET1)), smooth(u01(tt, SUNRISE0 + 0.4, SUNRISE1)));
-      const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sd.applyAxisAngle(new THREE.Vector3(0, 0, 1), -PI * 2 * 4 * smooth(sw));   // 16 sunsets a day: the terminator sweeps the planet
+      const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sd.applyAxisAngle(new THREE.Vector3(0, 0, 1), -PI * 2 * 3 * smooth(sw));   // 16 sunsets a day: the terminator sweeps the planet
     }
     if (tt < IGN2 + 3) sd = new THREE.Vector3(0.72, 0.58, 0.38).normalize().lerp(sunDay, smooth(u01(tt, IGN2, IGN2 + 3))).normalize();   // a raking yard sun (from behind the camera flattened the siding)
-    { const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sk = Math.max(sk, Math.sin(PI * sw * 4) ** 2); }   // 16 sunsets a day: four day/night flashes across Gary + the station
+    { const sw = u01(tt, SWEEP0, SWEEP1); if (sw > 0 && sw < 1) sk = Math.max(sk, 0.45 + 0.55 * Math.sin(PI * sw * 3) ** 2); }   // 16 sunsets a day: four day/night flashes across Gary + the station
     W.setSun(sd, sk);
     { const clr = smooth(u01(tt, t.window - 0.3, t.window + 0.2)) * (1 - smooth(u01(tt, E0 + 0.6, E0 + 1.2))); W.setCloudClear([10.5, 27, -0.8], 16 * clr); }   // the cupola's sight line to the backyard stays clear
     { const spin = (x) => 0.0011 * (x - IGN2) + 0.006 * smooth(u01(x, IGN2 + 1, ORBIT_IN)) + 0.05 * smooth(u01(x, ORBIT_IN - 0.5, t.falls)); W.setCloudSpin(tt < IGN2 ? 0 : tt < D0 - 3 ? spin(tt) : spin(D0 - 3) * (1 - smooth(u01(tt, D0 - 3, D0 - 1.5)))); }   // the clouds streak past at 17,500 mph
@@ -571,9 +574,10 @@ export async function build(studio, story) {
     // the station: modules rise in from below and dock; the airlock flies in; the shield, hole, cupola, props pop
     const m1y = tt < M1_IN0 ? -90 : -14 * (1 - easeOutBack(u01(tt, M1_IN0, M1_IN1), 0.8));
     S.g.visible = tt > M1_IN0 - 0.05;
-    S.m1.g.position.y = m1y; S.truss.g.position.y = D.truss.y + m1y;
+    S.m1.g.position.y = m1y; S.truss.g.position.y = D.truss.y + m1y; S.truss.g.rotation.y = 1.15 * smooth(u01(tt, t.window, t.window + 0.4));   // off screen: the wings turn into depth so the end wide fits them
+    retro.visible = tt > M1_IN1 - 0.7 && tt < M1_IN1 + 0.05; if (retro.visible) retro.scale.set(1, 0.6 + 0.4 * Math.sin(tt * 57) ** 2, 1);
     boost.visible = tt > M1_IN0 && tt < M1_IN1 + 0.15; if (boost.visible) { const k = 1 - smooth(u01(tt, M1_IN1 - 0.35, M1_IN1 + 0.15)); boost.scale.set(k * (0.9 + 0.1 * Math.sin(tt * 61)), k * (1 + 0.15 * Math.sin(tt * 47)), k * (0.9 + 0.1 * Math.sin(tt * 53))); }
-    { const cinch = tt < LATCH - 0.02 ? 1 : 1 - smooth(u01(tt, LATCH - 0.02, LATCH + 0.08));
+    { const cinch = tt < LATCH - 0.3 ? 1 : 1 - smooth(u01(tt, LATCH - 0.3, LATCH));
       for (let i = 1; i < 5; i++) { const A = DOCK_T[i], rise = tt < A - 1.1 ? 1 : 1 - smooth(u01(tt, A - 1.1, A)); S.mods[i].g.position.y = MT[i] - (7 + 2.5 * i) * rise - 0.32 * i * cinch + (tt > A && tt < A + 0.3 ? 0.04 * wobble(tt, A, 1, 20, 8) : 0); S.mods[i].g.visible = tt > A - 1.15; }
       S.rings.forEach((r, i) => { r.visible = tt > LATCH - 0.05; });
       S.cup.position.y = D.bottom + (S.mods[4].g.position.y - MT[4]);
@@ -613,13 +617,13 @@ export async function build(studio, story) {
     { let on = false; for (const [a, from, to] of [[HIT, P(-4.2, D.hole[1] + 1.4, -2.6), P(D.hole[0], D.hole[1], -1.6)], [HIT2, P(-3.6, MT[3] - 0.6, 2.0), HF]]) { const d = a === HIT2 ? 0.3 : 0.12, u = (tt - (a - d)) / d; if (u > 0 && u < 1) { on = true; const p0 = new THREE.Vector3(...from), p1 = new THREE.Vector3(...to), pos = p0.clone().lerp(p1, u); streak.position.copy(pos); streak.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), p1.clone().sub(p0).normalize()); } } streak.visible = on; }
     // the burning seed
     spit.visible = tt > SEED_OUT - 0.45 && tt < SEED_OUT - 0.02; if (spit.visible) { sq.root.updateMatrixWorld(true); sq.head.getWorldPosition(v3); spit.position.set(...arcP(v3.toArray(), P(D.hole[0] + 0.3, D.hole[1] + 0.05, -0.9), smooth(u01(tt, SEED_OUT - 0.45, SEED_OUT - 0.02)), 0.25)); spit.rotation.set(tt * 9, tt * 7, 0); }
-    hotSeed.visible = tt > SEED0 && tt < END + 1; if (hotSeed.visible) { const sp = seedPath(Math.min(tt, LAND)); hotSeed.position.set(...sp); const burn = (tt < LAND ? 1 : 1 - 0.6 * smooth(u01(tt, LAND, LAND + 1.2))) * (tt < LAND ? smooth(clamp((54 - sp[1]) / 8)) : 1); seedGlow.scale.setScalar((tt < LAND ? 0.3 : 0.25) * burn); seedLight.intensity = (tt < LAND ? 6 : 1.2) * burn; hotSeed.rotation.set(tt * 5, tt * 3, 0);
+    hotSeed.visible = tt > SEED0 && tt < END + 1; if (hotSeed.visible) { const sp = seedPath(Math.min(tt, LAND)); hotSeed.position.set(...sp); const burn = (tt < LAND ? 1 : 1 - 0.6 * smooth(u01(tt, LAND, LAND + 1.2))) * (tt < LAND ? smooth(clamp((54 - sp[1]) / 8)) : 1); seedGlow.scale.setScalar((tt < LAND ? 0.19 : 0.2) * burn); seedLight.intensity = (tt < LAND ? 6 : 1.2) * burn; hotSeed.rotation.set(tt * 5, tt * 3, 0);
       seedM.emissiveIntensity = 2.5 * burn * (tt < LAND ? 1 : 0.5); hotSeed.scale.setScalar(1 + 1.3 * smooth(u01(tt, SEED0 + 0.1, SEED0 + 0.5)) * (1 - smooth(u01(tt, LAND - 0.35, LAND))));
-      seedTrail.forEach((sp, k) => { sp.visible = tt < LAND + 0.1 && burn > 0.05; if (sp.visible) { sp.position.set(...seedPath(Math.min(tt, LAND) - 0.0016 * (k + 1))); sp.scale.setScalar(0.22 * burn * (1 - k / 19)); } }); }
+      seedTrail.forEach((sp, k) => { sp.visible = tt < LAND + 0.1 && burn > 0.05; if (sp.visible) { sp.position.set(...seedPath(Math.min(tt, LAND) - 0.0008 * (k + 1))); sp.scale.setScalar(0.17 * burn * (1 - k / 41) ** 1.6 * clamp((sp.position.y - 4) / 6)); } }); }
     else seedTrail.forEach((sp) => (sp.visible = false));   // dark in space, it ignites at the cloud deck (re-entry)
     looseHelmet.visible = tt > SWAT + 1.05 && tt < t.water; if (looseHelmet.visible) { const a = tt - SWAT - 1.05; looseHelmet.position.set(...LP(P(-0.15, MT[1] + 0.1, 0.35), P(0.8, MT[1] - 0.7, 0.5), smooth(clamp(a / 4)))); looseHelmet.rotation.set(a * 1.3, a * 0.9, a * 0.5); }
     goalposts.forEach((g, i) => { const on = tt > t.football - 0.15 && tt < t.array + 0.6; g.visible = on; if (!on) return; g.position.set(...P(i ? tipX(unfoldK(tt)) + PW + 0.25 : ROOTX + 0.75, D.truss.y - 1.75, 0.3)); g.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, t.football - 0.15 + i * 0.15, t.football + 0.15 + i * 0.15), 2.2))); });
-    vest.visible = tt > t.vest - 0.08; vest.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, t.vest - 0.08, t.vest + 0.2), 2.4)));
+    vest.visible = tt > t.vest - 0.45; { const w = smooth(u01(tt, t.vest - 0.45, t.vest + 0.05)); vest.scale.set(lerp(1.4, 1, w), Math.max(0.01, w), lerp(1.4, 1, w)); }   // a foil strip wraps round him
     junk.forEach(({ m, i }) => { m.visible = tt > LATCH + 1 && tt < E0; const r = i % 2 ? 2 : 1; m.position.set(...P(-0.85 + 0.55 * i + 0.15 * Math.sin(tt * 0.7 + i), MT[r] - 1.0 - 0.9 * (i >> 1) + 0.12 * Math.sin(tt * 0.5 + i * 2), 0.65 + 0.2 * Math.sin(tt * 0.6 + i))); m.rotation.set(tt * (0.6 + 0.2 * i), tt * 0.4, i); });   // a sock, pens, a pouch drift in the rooms
     orbitArrows.update(tt, smooth(u01(tt, t.falls - 0.3, t.falls + 0.2)) * (1 - smooth(u01(tt, t.earth + 0.1, t.ocalled))));
     // dizzy stars after the face-step + the swat; the squirrel's after the cone bonk

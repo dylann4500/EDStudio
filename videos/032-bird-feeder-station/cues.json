@@ -1957,6 +1957,15 @@
    "pan": 0.0
   },
   {
+   "t": 37.247,
+   "sound": "deflate",
+   "gain_db": -24,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
    "t": 37.307,
    "sound": "kick",
    "gain_db": -22,
@@ -2289,6 +2298,24 @@
    "pan": 0.4,
    "args": {
     "pitch": 1.4
+   }
+  },
+  {
+   "t": 44.811,
+   "sound": "zap",
+   "gain_db": -19,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.35
+   }
+  },
+  {
+   "t": 44.861,
+   "sound": "pop",
+   "gain_db": -20,
+   "pan": 0.0,
+   "args": {
+    "pitch": 0.9
    }
   },
   {
@@ -2732,6 +2759,26 @@
    "pan": 0.79,
    "args": {
     "pitch": 1.5
+   }
+  },
+  {
+   "t": 58.269,
+   "sound": "metal_clang",
+   "gain_db": -16,
+   "pan": 0.5,
+   "args": {
+    "size": 0.8,
+    "pitch": 1.2
+   }
+  },
+  {
+   "t": 58.732,
+   "sound": "metal_clang",
+   "gain_db": -16,
+   "pan": 0.5,
+   "args": {
+    "size": 0.8,
+    "pitch": 1.2
    }
   },
   {
@@ -3306,18 +3353,18 @@
    }
   },
   {
-   "t": 87.336,
+   "t": 86.966,
    "sound": "candy_rattle",
    "gain_db": -19,
    "pan": -0.1,
    "args": {
-    "dur": 0.5,
+    "dur": 0.55,
     "density": 30.0,
     "size": 0.4
    }
   },
   {
-   "t": 87.366,
+   "t": 87.436,
    "sound": "pop",
    "gain_db": -16,
    "pan": -0.1,
