@@ -23,7 +23,6 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 013 | What if every human became twice as dumb? | funny / @ed._.studios | posted |
 | 014 | What if every adult woke up as a toddler? | unhinged / @ed._.studios | scheduled Oct 26 1 PM |
 | 015 | What if every human grew a tail that wags when they lie? | unhinged / @ed._.studios | assigned Oct 26 |
-| 015 | How a Hole Becomes a Subway (narrated "build" explainer, branch `video/015-hole-subway`) | build genre / — | the separate "New Style" chat, not run by the operation; same number by accident |
 | 016 | What if every pet on Earth could suddenly talk? | unhinged / @ed._.studios | assigned Oct 26 |
 | 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | assigned Oct 26 |
 | 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
@@ -32,6 +31,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | made Oct 26, in review |
 | 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 | 023 | What if Pip went trick-or-treating? (Pip ep. 2, Halloween) | pip / @ed._.sims | assigned Oct 26 |
+| 024 | How a Hole Becomes a Subway (narrated "build" genre, `docs/BUILD.md`) | build / account TBD | made by the separate "New Style" chat (renumbered from 015); claimed 024 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
