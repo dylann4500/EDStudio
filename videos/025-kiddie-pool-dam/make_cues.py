@@ -51,13 +51,13 @@ THROW = t['shove'] - 0.1; LANDK = max(t['congrats'] - 0.1, THROW + 0.9)
 FLOAT0 = t['floats'] - 0.15; FLOAT1 = max(t['flip'] + 0.55, FLOAT0 + 1.6)
 DIG0, DIG1 = t['dig'] - 0.05, t['diversion']
 RUN0 = t['dig'] + 0.35; RUN1 = max(t['four'], RUN0 + 2.6)
-SUCK = t['got']; OUT = SUCK + 1.5; ONPILE = min(OUT + 1.0, t['dirt'] - 0.1)
+SUCK = t['got']; OUT = SUCK + 2.0; ONPILE = min(OUT + 1.0, t['dirt'] - 0.1)
 DUMPS = [x + 0.05 for x in (t['pile'], t['wallP'], t['dirt'])]
 PLUG = t['dirt'] + 0.45; JET = t['carves'] + 0.9; POPC = t['cork']; LANDC = POPC + 0.7
 SLAM = t['drive'] + 0.3
-SLIDE0, SLIDE1 = t['downstream'] - 0.45, t['downstream'] + 0.6; CRUMB = t['included'] + 0.05; CRUMB1 = CRUMB + 0.65
+SLIDE0, SLIDE1 = t['downstream'] + 0.05, t['included'] - 0.1; CRUMB = t['included'] + 0.05; CRUMB1 = CRUMB + 0.65
 COL0, COLDT, COLDUR = t['pour'] - 0.1, 0.2, 0.62
-FILL0, FILL1 = t['gravity'] - 0.55, t['bully'] - 0.15
+FILL0, FILL1 = t['n660'] + 0.8, t['bully'] - 0.15
 SIT, LEAP = t['sat'] - 0.1, t['medium'] - 0.05
 PIPE0, PIPE1 = t['run'], t['inside'] + 0.4
 RAIN0, RAIN1, OVER = t['rains'] - 0.4, t['spillway'] + 0.6, t['pours'] - 0.05

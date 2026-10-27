@@ -690,7 +690,7 @@
   },
   {
    "sound": "water_rush",
-   "t0": 44.238,
+   "t0": 43.044,
    "t1": 46.582,
    "fade_in": 0.3,
    "fade_out": 0.4,
@@ -1146,7 +1146,7 @@
    }
   },
   {
-   "t": 23.146,
+   "t": 23.646,
    "sound": "splash",
    "gain_db": -12,
    "pan": 0.3,
@@ -1174,24 +1174,6 @@
    }
   },
   {
-   "t": 24.146,
-   "sound": "giant_step",
-   "gain_db": -16,
-   "pan": -0.1,
-   "args": {
-    "size": 0.4
-   }
-  },
-  {
-   "t": 24.196,
-   "sound": "plush_squeak",
-   "gain_db": -21,
-   "pan": -0.1,
-   "args": {
-    "pitch": 0.9
-   }
-  },
-  {
    "t": 24.274,
    "sound": "crumble",
    "gain_db": -13,
@@ -1208,6 +1190,24 @@
    "pan": -0.1,
    "args": {
     "size": 0.9
+   }
+  },
+  {
+   "t": 24.577,
+   "sound": "giant_step",
+   "gain_db": -16,
+   "pan": -0.1,
+   "args": {
+    "size": 0.4
+   }
+  },
+  {
+   "t": 24.627,
+   "sound": "plush_squeak",
+   "gain_db": -21,
+   "pan": -0.1,
+   "args": {
+    "pitch": 0.9
    }
   },
   {
@@ -1361,7 +1361,7 @@
    }
   },
   {
-   "t": 38.463,
+   "t": 38.963,
    "sound": "metal_groan",
    "gain_db": -16,
    "pan": 0.0,
@@ -1371,7 +1371,7 @@
    }
   },
   {
-   "t": 38.513,
+   "t": 39.013,
    "sound": "crumble",
    "gain_db": -15,
    "pan": 0.0,
@@ -1670,7 +1670,7 @@
    }
   },
   {
-   "t": 44.338,
+   "t": 43.144,
    "sound": "slurp",
    "gain_db": -18,
    "pan": -0.5,

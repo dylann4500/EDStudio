@@ -107,8 +107,8 @@ function canyonTex(w, h) {
       y += th; i++; }
     for (let k = 0; k < 2600; k++) { const x = R() * w, yy = R() * h; g.strokeStyle = R() < 0.6 ? `rgba(90,40,20,${0.05 + R() * 0.1})` : `rgba(255,236,200,${0.05 + R() * 0.1})`; g.lineWidth = 1 + R() * 2; g.beginPath(); g.moveTo(x, yy); g.lineTo(x + 20 + R() * 90, yy + (R() - 0.5) * 3); g.stroke(); }
     // desert varnish streaks running down from the rim + joints/cracks
-    for (let k = 0; k < 340; k++) { const x = R() * w, y0 = R() * h * 0.5, L = 60 + R() * 380; const gr = g.createLinearGradient(x, y0, x, y0 + L); gr.addColorStop(0, 'rgba(60,26,16,.3)'); gr.addColorStop(1, 'rgba(60,26,16,0)'); g.fillStyle = gr; g.fillRect(x, y0, 2 + R() * 7, L); }
-    g.strokeStyle = 'rgba(55,22,10,.22)'; for (let k = 0; k < 80; k++) { let x = R() * w, yy = R() * h; g.lineWidth = 1 + R() * 2.5; g.beginPath(); g.moveTo(x, yy); for (let q = 0; q < 4; q++) { x += (R() - 0.5) * 16; yy += 10 + R() * 26; g.lineTo(x, yy); } g.stroke(); }
+    for (let k = 0; k < 340; k++) { const x = R() * w, y0 = R() * h * 0.5, L = 60 + R() * 380; const gr = g.createLinearGradient(x, y0, x, y0 + L); gr.addColorStop(0, 'rgba(60,26,16,.15)'); gr.addColorStop(1, 'rgba(60,26,16,0)'); g.fillStyle = gr; g.fillRect(x, y0, 2 + R() * 7, L); }
+    g.strokeStyle = 'rgba(55,22,10,.11)'; for (let k = 0; k < 80; k++) { let x = R() * w, yy = R() * h; g.lineWidth = 1 + R() * 2.5; g.beginPath(); g.moveTo(x, yy); for (let q = 0; q < 4; q++) { x += (R() - 0.5) * 16; yy += 10 + R() * 26; g.lineTo(x, yy); } g.stroke(); }
     g.fillStyle = 'rgba(246,226,204,.28)'; g.fillRect(0, 0, w, h);
     // a darker damp band at the foot of the wall
     const fg = g.createLinearGradient(0, h * 0.86, 0, h); fg.addColorStop(0, 'rgba(70,35,20,0)'); fg.addColorStop(1, 'rgba(70,35,20,.35)'); g.fillStyle = fg; g.fillRect(0, h * 0.86, w, h * 0.14);
@@ -324,7 +324,7 @@ export async function buildDam(studio) {
   const wg = new THREE.PlaneGeometry(240, D.wallH + 2, 240, 24), wp = wg.attributes.position;
   for (let i = 0; i < wp.count; i++) { const x = wp.getX(i), y = wp.getY(i); wp.setZ(i, wallDisp(x, y + D.wallH / 2 - 1)); }
   wg.computeVertexNormals();
-  const canyon = mk(wg, new THREE.MeshStandardMaterial({ map: wallT, roughness: 1, bumpMap: (() => { const t = grainTexture(9); t.repeat.set(120, 9); return t; })(), bumpScale: 2 }), root, 0, D.wallH / 2 - 1, -D.CW - 0.45);
+  const canyon = mk(wg, new THREE.MeshStandardMaterial({ map: wallT, color: 0xe6e2e6, emissive: 0xf0dcc4, emissiveIntensity: 0.14, roughness: 1, bumpMap: (() => { const t = grainTexture(9); t.repeat.set(120, 9); return t; })(), bumpScale: 2 }), root, 0, D.wallH / 2 - 1, -D.CW - 0.45);
   void canyon;
   const plateau = mk(new THREE.PlaneGeometry(900, 500), new THREE.MeshStandardMaterial({ color: 0xd9a46f, roughness: 1 }), root, 0, D.wallH, -D.CW - 250); plateau.rotation.x = -Math.PI / 2;
   // rim boulders + desert shrubs along the canyon top; far mesas
@@ -398,7 +398,7 @@ export async function buildDam(studio) {
   // ---- the beaver's dam (between the dam site and the town): sticks + mud, holds every time; a twig cutoff wall under it
   const beaverDam = new THREE.Group(); root.add(beaverDam); beaverDam.position.set(D.beaver.x, D.bed, 0);
   const stickM = [mat(0x7a5233, 0.9), mat(0x5e3f26, 0.9), mat(0x8f6a45, 0.9)], mudM = mat(0x5a3d26, 1);
-  mk(new THREE.CylinderGeometry(0.5, 0.75, 0.62, 18, 1, false), mudM, beaverDam, 0, 0.3, -D.SW / 2).scale.set(1, 1, D.SW / 1.2);
+  mk(new THREE.SphereGeometry(0.8, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), mudM, beaverDam, 0, 0, -D.SW / 2).scale.set(1, 0.8, D.SW / 1.5);
   const BR = rng(41);
   for (let i = 0; i < 46; i++) { const s = mk(new THREE.CylinderGeometry(0.035, 0.04, 0.9 + BR() * 0.8, 6), stickM[i % 3], beaverDam, (BR() - 0.5) * 1.1, 0.15 + BR() * 0.5, -0.1 - BR() * (D.SW - 0.2)); s.rotation.set(BR() * 3, BR() * 3, 1.2 + (BR() - 0.5) * 0.9); }
   // its cutoff wall: a row of stakes driven into the gravel (painted on a decal in the cut face so it reads in section)
@@ -625,7 +625,7 @@ export async function buildDam(studio) {
     root, cut, aimSun, sun, hemi, setHoles: (shapes) => cut.setHoles(shapes), tunnelHoles, tCurve, bore, digClip, tWater, tWaterIdx, plug, portals, mouths,
     earth, pipeDark, pipeWater, pipeIdx, pipeCurve, cutoff, cutoffTop, damCols, secM, sideM, pipeSpots, setPipes, coolCore, coolRing,
     spill, chuteBack, ogee, bucket, exitSign, sheetAll, sheetChute, slopeA, slopeLen, SPW,
-    penstock, penOuter, penInner, penIdx, penCurve, rack, power, turb, rotor, swirl, gen, pylon, wireGlow, winMats, feedCurve,
+    penstock, penOuter, penInner, penIdx, penCurve, rack, power, phSign, turb, rotor, swirl, gen, pylon, wireGlow, winMats, feedCurve,
     ladder, road, crestCars, visitor, shop, books, heldBook, noSwim, ring, setRing, storm, thermo, mercury,
     upTown, upHouses, church, downTown, pool, closed, lock, beaverDam, twig, trees,
   };

@@ -319,3 +319,17 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   set): a card in a toon's hand is edge-on in half the framings.
 - **Things a character "uses" should be where he already is**: Gary had to teleport for the water slide until the "week of rain"
   became an on-screen climb up the dam face (a time skip the line already gives you).
+- 025 round 2: v2 7.3 · 6.4 · 7.5 · 7 · 7.8. Wins for v3: the camera reviewer's simulated rail again (the hook holds Gary through
+  the heave, then a follow-pan locked on the flying pool — ease the pool's x/z so it stays framed); the drowned town finally
+  underwater; Gary off the air above a slope; cards above heads; Gary shoulder-charging the dam on "too heavy to bully".
+- **An opaque back face for a translucent box needs `side: BackSide`**: the box's −z face points away from the lens and is culled,
+  so the "deep blue" never drew and the orange wall kept showing through the water. Keep that back face in front of any displaced
+  wall relief (025: lake depth 7.5 m in a 9 m canyon) or rock pokes through it.
+- **Lerping `material.color` only tints its `map`** — a brown rock texture can't turn concrete-grey that way; set `map = null`
+  (+ `needsUpdate`) when the surface changes what it is.
+- **A held prop in a toon's hand moves in the hand's rotated frame**: a "lift" offset pushed 025's cards down over the beaver's face.
+  Place such props in world space (`parent.worldToLocal(target)`) above the head, then billboard them.
+- **A camera move from a low framing to a high one carries every face across the 52 % caption band.** If `--qc` flags the transit,
+  move the face out of the move (025: the crumble dumps Gary in the pond; he surfaces once the camera has settled).
+- **Check where a character stands against the geometry's real profile**: 025 v2 had Gary 0.85 m above the earth dam's slope for
+  4.5 s because his x was past the crest edge; compute y from the slope when in doubt.
