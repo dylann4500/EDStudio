@@ -225,6 +225,10 @@ swallowed the end rail's "birds" key (lint_comments.py now flags comments holdin
 v3 (lids hidden, foil unroll, seed curls into view, stowaway pop, camera framings) 7.5 · 6.6 · 7.5 · 6.8 · 7.5 — the camera
 reviewer found two hidden cuts in the ending (a 0.2 s 'pull to the final spot' whipped 1,400°/s at the landing; the dive slid
 2.4 m through a hull in two frames) by rebuilding the camera path numerically — do that before trusting a keyed follow-cam.
+v4 (plug reads stuck in the wall, helmeted birds on "feed the birds", foil unroll + fleck, seed fire) 8.0 · 6.8 · 7.8 · 7.1 · 7.8
+→ stop rule met (manager): no 5th round; the camera reviewer's framings (cupola framed as a window before the lens goes in,
+backing straight out of the open side, the seed picked up at the LAB edge) + a fix pass shipped as v5. The scratch final is not
+rendered: the Eleven v3 voicing re-times everything, so G3-pre = scores + a 30 fps phone preview + the tagged script, then hold.
 Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
 lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
 picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out

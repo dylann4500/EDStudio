@@ -296,22 +296,21 @@ export async function build(studio, story) {
   F(F1, t.goes - 0.05, [1.6, 2.2, 13.0], [2.0, 5.2, -1.2], 50, true);                  // tilt up after it
   Fk(F1, t.down - 0.3, [1.8, 2.3, 9.0], [1.9, 2.4, -1.1], 46, IMPACT + 0.55);        // back down onto Gary
   Fk(F1, POPOUT + 0.1, [1.8, 2.0, 7.2], [2.0, 1.55, -1.1], 44);                      // he pops out, the rocket rights itself, he climbs in
-  const WIDE_ORBIT = { pos: [10, 85, 21], look: [23, 69.5, -20], fov: 50 };
+  const WIDE_ORBIT = { pos: [10, 85, 21], look: [23, 66.0, -20], fov: 50 };
   Fk(F2, C1, WIDE_ORBIT.pos, WIDE_ORBIT.look, WIDE_ORBIT.fov, t.earth + 0.25);       // the orbit: the arrows fall around the planet
   F(F2, t.ocalled - 0.25, [17.5, 79.1, 7.6], [17.7, 77.75, 0.3], 46);                 // back in on the rocket (ORBIT)
   F(F2, t.floats - 0.25, [18.3, 79.5, 6.3], [18.2, 78.9, 0.5], 44);                  // Gary floats out, seeds drift
   Fk(F2, t.falling, [20.0, 79.4, 6.3], [20.0, 78.85, 0.5], 44, t.too - 0.1);          // FREE FALL: Gary fully in frame as he drifts right
   Fk(F2, t.fso + 0.15, [18.05, 79.0, 4.3], [17.8, 78.6, 0.9], 42, t.fsq + 0.3);        // SO IS THE SQUIRREL: it bursts out of the feeder taped to the rocket
-  F(F2, t.tiny - 0.35, [20.0, 79.2, 5.6], [20.2, 78.6, 0.6], 40);                    // a feeder is tiny
-  Fk(F2, t.launch - 0.1, [21.2, 79.8, 8.6], [21.0, 78.3, 0], 42, t.don);             // M1 rises in under him; the feeder is bolted on top
+  Fk(F2, t.launch, [21.5, 77.6, 13.0], [21.8, 76.45, 0], 52, t.don);             // M1 rises in under him; the feeder is bolted on top
   F(F2, t.docking - 0.05, [22.1, 74.6, 12.0], [22.0, 73.8, 0], 50);   // the docking train rises, Gary dives to the doorway
   Fk(F2, LATCH - 0.45, [22.05, 73.7, 5.6], [22.0, 73.3, 0], 38, LATCH + 0.15);        // Gary in the doorway: CLUNK
-  Fk(F2, t.sixteen - 0.2, [24.2, 76.6, 10.5], [21.6, 72.8, -3.0], 46, t.power - 0.1); // dark: the terminator sweeps the planet below
+  Fk(F2, t.sixteen - 0.2, [24.2, 76.6, 10.5], [21.6, 72.8, -3.0], 46, t.day + 0.1); // dark: the terminator sweeps the planet below
   Fk(F2, t.opens - 0.15, [20.2, 75.9, 5.6], [23.5, 75.4, 0], 44, WHOOSH);             // from the left: the door's inner face swings open, Gary at the wheel
   Fk(F2, t.him + 0.1, [25.4, 76.0, 6.4], [25.6, 75.6, 0], 40, AL_DOCK + 0.2);        // the pan trails his blowout; the airlock flies in
   Fk(F2, t.airlock - 0.35, [25.3, 76.0, 6.0], [25.3, 75.6, 0], 46, t.mudroom + 0.35);   // the mudroom
   F(F2, t.blue - 0.35, [22.0, 71.7, 6.4], [21.95, 70.55, 0], 42);                    // M2 LIFE SUPPORT (green): Gary turns blue, the squirrel isn't
-  Fk(F2, t.machines - 0.2, [21.85, 72.0, 5.4], [21.8, 71.2, 0], 40, t.iair + 0.2);   // the scrubber eats the haze
+  Fk(F2, t.machines - 0.2, [21.85, 72.0, 5.4], [21.8, 70.75, 0], 40, t.iair + 0.2);   // the scrubber eats the haze
   F(F2, t.recycle - 0.15, [22.25, 70.85, 5.8], [22.35, 70.3, 0], 42);                // the recycler
   F(F2, t.life - 0.3, [22.0, 71.2, 8.0], [22.0, 70.4, 0], 44);                       // LIFE SUPPORT: the whole green room (plants, fans)
   Fk(F2, t.sweat - 0.2, [22.05, 71.0, 5.6], [22.1, 70.6, 0], 40, t.pee + 0.45);       // sweat, breath, the PEE bag into the hopper
@@ -324,17 +323,18 @@ export async function build(studio, story) {
   F(F2, t.whipple, [20.45, 63.1, 4.4], [20.6, 62.8, 0], 48);                              // a slow push in on the section   // front-on section: foil | gap | hull | Gary; the fleck crosses and puffs on the foil     // three-quarter from the left: the tinfoil wraps the LAB, a hit turns to vapor at the cut edge; Gary plugged inside
   Fk(F2, t.bulletproof + 0.15, [21.65, 64.05, 5.0], [21.5, 63.2, -0.4], 38, t.tinfoil);        // the tinfoil vest on the plugged Gary
   Fk(F2, t.n23 + 0.6, [22.5, 58.55, 6.2], [22.6, 57.95, 0], 42, t.toilet + 0.3); // M5 W.C.: the $23M toilet
-  Fk(F2, Wd('finish', 'with'), [21.4, 60.9, 5.2], [21.2, 60.65, 0.1], 42, t.cords);                   // the treadmill on its LAB shelf (+ bungees), under the plugged Gary
-  F(F2, Wd('finish', 'over') - 0.1, [22.45, 55.85, 2.5], [22.0, 53.6, -0.4], 60, true);
-  Fk(F2, t.backyard, [22.4, 55.98, 0.12], [21.25, 53.3, -0.05], 72);   // inside the cupola: the backyard through the struts
+  Fk(F2, t.treadmill, [21.4, 60.9, 5.2], [21.2, 60.65, 0.1], 42, t.cords - 0.3);                   // the treadmill on its LAB shelf (+ bungees), under the plugged Gary
+  F(F2, t.window - 0.12, [22.2, 58.2, 3.9], [21.7, 55.3, 0], 52, true);                          // the cupola, framed as a window
+  F(F2, t.window + 0.7, [22.35, 56.7, 1.6], [21.4, 53.8, -0.1], 62, true);
+  Fk(F2, t.backyard + 0.42, [22.4, 55.98, 0.12], [21.25, 53.3, -0.05], 72);   // inside the cupola: the backyard through the struts
   const LAST = { pos: [0.32, 1.36, 0.95], look: [0.05, 0.93, -1.55], fov: 36 };   // the bird + the seed at ~41 % (above the caption)
   F2.push({ t: END, pos: LAST.pos, look: LAST.look, fov: LAST.fov, stop: true });
   planRail.verbose = true;
   const rail1 = makeRail(planRail(F1, { shortHoldPass: true })), rail2 = makeRail(planRail(F2.slice(0, -1), { shortHoldPass: true }));
-  const E0 = t.backyard + 0.3, WIDE_END = { pos: [14.5, 74.5, 30], look: [22, 71.2, 0], fov: 56 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
+  const E0 = t.backyard + 0.55, WIDE_END = { pos: [15.2, 73.5, 28], look: [22, 70.8, 0], fov: 56 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
   // back out of the cupola through the glass looking up, up and away to the whole station (on "birds"), then down to the LAB
-  const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: E0 + 1.6, pos: [22.4, 55.0, 2.6], look: [22.1, 55.3, -2.0], fov: 58, pass: true }, { t: t.ebirds + 0.5, ...WIDE_END },
-    { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT - 0.2, pos: [21.5, 62.9, 4.85], look: [21.45, 62.5, -0.4], fov: 40 }, { t: SEED0 - 0.03, pos: [19.2, 63.3, 5.6], look: [19.0, 62.6, 0.9], fov: 44 }]);
+  const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: t.e0 + 1.13, pos: [22.4, 55.6, 3.6], look: [21.6, 53.6, -0.8], fov: 62, pass: true }, { t: t.est + 0.5, pos: [20.6, 58.3, 12.5], look: [22.0, 60.8, 0], fov: 55, pass: true }, { t: t.ebirds + 0.8, ...WIDE_END },
+    { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT + 0.15, pos: [21.5, 62.9, 4.85], look: [21.45, 62.5, -0.4], fov: 40 }, { t: SEED0 + 0.25, pos: [19.2, 63.3, 5.6], look: [19.0, 62.6, 0.9], fov: 44 }]);
   // the chase: from the yard frame to the rocket, up through the clouds, then out to the wide orbit frame
   const rocketCenter = (tt) => { const st = rocketAt(tt); return [st.p[0] + st.dir[0] * 1.6, st.p[1] + st.dir[1] * 1.6, st.p[2] + st.dir[2] * 1.6]; };
   function chaseAt(tt) {
@@ -347,7 +347,7 @@ export async function build(studio, story) {
     return { pos, look, fov };
   }
   // the dive: from Gary's plug close-up, follow the burning seed down through the clouds to the birds
-  const D0 = SEED1 - 0.25;   // the end rail waits at the LAB's left edge; the dive picks the seed up as it rounds it
+  const D0 = SEED0 + 0.3;   // the end rail waits at the LAB's left edge; the dive picks the seed up as it rounds it
   function diveAt(tt) {
     const r = endRail.at(tt); if (tt <= D0) return r;
     const sp = seedPath(Math.min(tt, LAND)), SL = seedPath(LAND), endOff = [LAST.pos[0] - SL[0], LAST.pos[1] - SL[1], LAST.pos[2] - SL[2]];
@@ -370,10 +370,10 @@ export async function build(studio, story) {
     return { pos, look, fov };
   }
   const camAt = (tt) => (tt < C0 ? rail1.at(tt) : tt < C1 ? chaseAt(tt) : tt < W0 ? rail2.at(tt) : tt < W1 ? rideAt(tt) : tt < E0 ? rail2.at(tt) : tt < D0 ? endRail.at(tt) : diveAt(tt));
-  const kick = makeKick([[POLE_UP + 0.12, 0.6], [t.c0, 0.35], [CONE, 0.6], [BONK, 0.45], [FACE, 0.8], [STEP + 0.25, 0.7], [t.strap - 0.02, 0.5], [TAPED, 0.3], [IGN1, 0.6], [IMPACT, 1.3, 0.6],
-    [POPOUT, 0.6], [UPRIGHT, 0.5], [IGN2, 1.0, 0.7], [M1_IN1 - 0.05, 0.6], [BOLT2, 0.35], [M2_CAP, 0.5], [LATCH, 1.1, 0.55], [LIGHTS_OFF, 0.35],
-    [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [Wd('solar', 'this') + 0.05, 0.4], [Wd('solar', 'called') + 0.05, 0.4], [SWAT, 1.1, 0.55], [POWER_ON, 0.3], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
-    [PLUG, 1.2, 0.6], [SHIELD, 0.5], [HIT2, 0.8], [TOILET, 0.5], [TREAD, 0.5], [LAND, 0.8, 0.5]]);
+  const kick = makeKick([[POLE_UP + 0.12, 0.6], [CONE, 0.6], [BONK, 0.45], [FACE, 0.8], [STEP + 0.25, 0.7], [t.strap - 0.02, 0.5], [TAPED, 0.3], [IGN1, 0.6], [IMPACT, 1.3, 0.6],
+    [POPOUT, 0.6], [IGN2, 1.0, 0.7], [M1_IN1 - 0.05, 0.6], [BOLT2, 0.35], [M2_CAP, 0.5], [LATCH, 1.1, 0.55], [LIGHTS_OFF, 0.35],
+    [WHOOSH, 1.0, 0.6], [TAUT, 0.7], [AL_DOCK, 0.8], [UNF0 + 0.2, 0.5], [Wd('solar', 'this') + 0.05, 0.4], [Wd('solar', 'called') + 0.05, 0.4], [SWAT, 1.1, 0.55], [SCRUB, 0.6], [RECYC, 0.6], [PEE_IN, 0.35], [GULP, 0.45], [HIT, 0.9],
+    [PLUG, 1.2, 0.6], [SHIELD, 0.5], [HIT2, 0.8], [t.n23 + 0.6, 0.5], [TREAD, 0.5], [LAND, 0.8, 0.5]]);
 
   // ---------------------------------------------------------------- per-actor state (pure functions of t)
   const seq = (tt, keys) => { let p = keys[0][1]; for (let i = 0; i < keys.length - 1; i++) { const [a, pa] = keys[i], [b, pb] = keys[i + 1]; if (tt <= a) return pa; if (tt < b) return LP(pa, pb, smooth((tt - a) / (b - a))); p = pb; } return p; };
