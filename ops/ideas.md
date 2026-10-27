@@ -29,8 +29,9 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
 | 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | made Oct 26, in review |
 | 020 | What if your butt doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
-| 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | assigned Oct 26 |
+| 021 | What if your new puppy cried all night on his first night home? (Pip ep. 1) | pip / @ed._.sims | made Oct 26, in review |
 | 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
+| 023 | What if Pip went trick-or-treating? (Pip ep. 2, Halloween) | pip / @ed._.sims | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -64,7 +65,6 @@ Classic tier ("everyone on Earth…"):
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
-- What if Pip went trick-or-treating? (post by Oct 31: suburb porches at dusk, CANDY 0 → 41, and the grumpy last house gives him a bone. Source: costume-contest episode 507K)
 - What if the whole town lost power… and Pip was the only one not scared? (city.js `setPower` + `makeFlashlight`, HOMES WITH POWER; disaster-goes-right got 1.2–1.3M on @whatif.goodending)
 - What if nobody at the dog park wanted to play with Pip? (loneliness, then a surprise: DOGS PLAYING 0 → 14 and whole-park zoomies. Source: "nobody came" 1st birthday 1M)
 - What if a tornado hit while Pip was home alone? (suburb porch-roof collapse, Pip and the bunny ride it out in the bathtub, family comes home. Disaster that goes right)
