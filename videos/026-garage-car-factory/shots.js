@@ -70,7 +70,7 @@ export async function build(studio, story) {
     add: W('finish', 'add'), vending: W('finish', 'vending'), meatloaf: W('finish', 'meatloaf'), test: W('finish', 'test'), track: W('finish', 'track'), roofF: W('finish', 'roof'), parking: W('finish', 'parking'), lot: W('finish', 'lot'), town: W('finish', 'town'),
     end: W('end', 'congratulations'), factory: W('end', 'factory'), didnt: W('end', 'didnt'), pay: W('end', 'pay'), n900E: W('end', '900'), spent: W('end', 'spent'), n76: W('end', '76'), billion: W('end', 'billion'),
     line2: W('line', 'line', 2), then2: W('crumple', 'then'),
-    makeE: W('end', 'make'), n53: W('end', '53'), seconds: W('end', 'seconds'), garyEnd: W('end', 'gary'), works: W('end', 'works'), roombaE: W('end', 'roomba'), still2: W('end', 'still'), shop: W('end', 'shop'), mechanicE: W('end', 'mechanic'), n1400: W('end', '1400'), nowEnd: W('end', 'now'),
+    makeE: W('end', 'make'), n53: W('end', '53'), seconds: W('end', 'seconds'), garyEnd: W('end', 'gary'), works: W('end', 'works'), roombaE: W('end', 'roomba'), still2: W('end', 'still'), shop: W('end', 'shop'), mechanicE: W('end', 'mechanic'), wantsE: W('end', 'wants'), n1400: W('end', '1400'), nowEnd: W('end', 'now'),
   };
 
   // ---------------------------------------------------------------- the line: every car rides the same conveyor offset s(t)
@@ -129,6 +129,7 @@ export async function build(studio, story) {
   const cPanels = [[0, 0.75, 0.66, 0, 0], [0, 0.75, -0.66, 0, 0], [0.66, 0.75, 0, 0, PI / 2], [-0.66, 0.75, 0, 0, PI / 2], [0, 1.5, 0, PI / 2, 0]].map(([x, y, z, rx, ry]) => { const p2 = new THREE.Group(); crate.add(p2); p2.position.set(x, y, z); p2.rotation.set(rx, ry, 0); mk(new THREE.BoxGeometry(1.34, rx ? 1.34 : 1.5, 0.05), crateM, p2); p2.userData.rest = [x, y, z, rx, ry]; return p2; });
   const tug = makeTugger(); scene.add(tug.g);
   const vac = makeVacuum(); scene.add(vac);
+  const bonkW = makeSteeringWheel(); scene.add(bonkW); bonkW.scale.setScalar(1.4);   // drops on the buried Gary's hat
   const easel = makeEasel('MY IDEA'); scene.add(easel);
   const invoice = makeInvoice('$900'); scene.add(invoice);
   const invoice2 = makeInvoice('$1,400'); scene.add(invoice2);
@@ -153,7 +154,7 @@ export async function build(studio, story) {
   const qMark = sprite('?', 0.5, '#ffd43b');
   // the door that doesn't fit (Gary hammers it into the cockpit) + the press's three identical doors
   const looseDoor = new THREE.Group(); scene.add(looseDoor); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), mat(0xd12f3a, 0.4), looseDoor, 0, 0, 0); mk(new THREE.PlaneGeometry(0.5, 0.2), mat(0xbfe6ff, 0.1), looseDoor, -0.15, 0.08, 0.052); mk(new THREE.BoxGeometry(0.16, 0.035, 0.04), mat(0xd5d9de, 0.3), looseDoor, 0.3, -0.05, 0.06);
-  const pressDoors = [0, 1, 2].map(() => { const d = new THREE.Group(); scene.add(d); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), new THREE.MeshStandardMaterial({ color: 0xa9b0b7, roughness: 0.4, metalness: 0.55 }), d); return d; });
+  const pressDoors = [0, 1, 2].map(() => { const d = new THREE.Group(); scene.add(d); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), new THREE.MeshStandardMaterial({ color: 0xa9b0b7, roughness: 0.4, metalness: 0.55 }), d); mk(new THREE.PlaneGeometry(0.46, 0.2), mat(0x3a4a5a, 0.3), d, 0.22, 0.08, 0.052); mk(new THREE.BoxGeometry(0.14, 0.03, 0.03), mat(0x555a60, 0.4), d, -0.3, -0.05, 0.06); return d; });   // a door: window + handle
   const stool = new THREE.Group(); scene.add(stool); mk(new THREE.BoxGeometry(0.5, 0.05, 0.4), mat(0xd12f3a, 0.5), stool, 0, 0.55, 0); for (const [x, z] of [[-0.2, -0.15], [0.2, -0.15], [-0.2, 0.15], [0.2, 0.15]]) mk(new THREE.CylinderGeometry(0.02, 0.02, 0.55, 6), mat(0x555555), stool, x, 0.27, z);
   // the rope the Roomba pulls (Ford's 1913 line was a chassis pulled by a rope + windlass)
   const rope = mk(new THREE.CylinderGeometry(0.035, 0.035, 1, 8), mat(0xffd23f, 0.6), scene, 0, 0, 0);
@@ -215,6 +216,7 @@ export async function build(studio, story) {
   fx.burst('dust', t.buy + 0.05, { pos: [CR[0], 0.2, CR[1]], n: 8, speed: [0.5, 1.3], spread: 1.3, size: [0.3, 0.6], seed: 123 });
   fx.burst('crumb', t.arms, { pos: [CR[0], 0.9, CR[1]], box: [1.2, 1.2, 1.2], n: 50, dir: [0, 1, 0.3], spread: 1.2, speed: [2, 4], color: 0xc49158, floor: 0.03, seed: 124 });
   fx.burst('spark', WELD, { pos: [D.robot, 0.95, -2.25], n: 120, dir: [0, 1, 0.5], spread: 1.3, speed: [1.5, 4], seed: 55 });
+  fx.stream('spark', t.industrial - 0.1, t.industrial + 0.85, { pos: [22.2, 1.05, -3.0], box: [1.0, 0.1, 0.8], rate: 110, dir: [0, 1, 0.4], spread: 1.2, speed: [1.5, 3.5], seed: 133 });   // the INDUSTRIAL ROBOT insert welds a body
   fx.stream('spark', WELD - 0.05, WELD + 0.5, { pos: [D.robot + 0.1, 0.95, -2.2], rate: 220, dir: [0.3, 1, 0.6], spread: 1.0, speed: [2, 4.5], seed: 126 });
   fx.burst('glow', WELD, { pos: [D.robot + 0.1, 0.95, -2.15], n: 3, speed: [0, 0.01], size: [0.7, 1.1], seed: 127 });
   fx.burst('smoke', WELD + 0.3, { pos: [D.robot, 1.0, -2.0], n: 5, speed: [0.3, 0.6], spread: 0.6, size: [0.2, 0.35], seed: 56 });
@@ -351,56 +353,58 @@ export async function build(studio, story) {
   const roombaFace = { root: roomba.g, head: (() => { const o = new THREE.Object3D(); roomba.g.add(o); o.position.set(0, 0.16, 0); return o; })() };
   const FC = (t0, t1, face, o = {}) => ({ t0, t1, face, ...o }), IN = (t0, t1, pos, look, fov = 34, o = {}) => ({ t0, t1, pos, look, fov, ...o });
   const RB = { scale: 1.6, pitch: 0.35 };   // the Roomba is a flat 1 m disc: further back, from above
-  const cuts = makeCuts([
-    IN(0, 0.35, [50.0, 24.0, 26.0], [34.0, 2.0, -22.0], 52),                       // cold open: a flash of the finished factory (update renders END − 0.8)
-    FC(0.35, 0.8, mech, { yaw: -0.3 }),                                             // the mechanic, smug
-    FC(t.n900 + 0.02, t.n900 + 0.72, gary, { yaw: 0.3 }),                            // Gary's jaw drops on "900"
-    IN(t.fix - 0.03, t.fix + 0.62, [2.4, 1.9, 0.6], [2.0, 0.9, -3.3], 40),   // between Gary and the mechanic: your car on the hook           // your car dangling off the tow hook
-    FC(t.builtC - 0.05, t.builtC + 0.55, gary, { yaw: -0.3 }),                         // ta-da
-    FC(t.horn + 0.15, t.horn + 0.95, gary, { yaw: 0.2 }),                            // the horn is Gary: HONK
-    FC(t.alone - 0.15, t.alone + 0.45, gary, { yaw: 0.3 }),                            // alone (thumbs-up)
-    FC(t.job - 0.06, t.job + 0.5, gary, { yaw: 0.9 }),                               // one job each: Gary rides the lead car into the line
-    FC(t.fords - 0.05, t.fords + 0.55, gary, { yaw: 0.25 }),                         // Ford's line: Gary surfs the lead car
-    IN(t.n12 - 0.02, t.n93 + 0.05, [17.0, 3.9, -4.6], [17.0, 4.4, -9.4], 32),       // the clock spins: 12 hours → 93 minutes
-    FC(t.promoted - 0.08, t.promoted + 0.6, roombaFace, RB),                         // PROMOTED: the tiny hard hat
-    IN(t.make + 0.05, t.make + 0.95, [21.3, 3.0, -1.0], [21.3, 1.0, -7.3], 34),      // the press slams out three identical doors
-    IN(t.inter - 0.02, t.inter + 0.7, [24.6, 1.5, 0.6], [23.3, 0.9, -3.2], 34),     // INTERCHANGEABLE PARTS: the stamped door clicks on
-    FC(t.garyP2 - 0.02, t.garyP2 + 0.7, gary, { yaw: 0.3 }),                         // "Gary was in the pile": dazed, a "?"
-    FC(t.ornament, t.ornament + 0.6, gary, { yaw: -0.5, dist: 3.0, faceY: 0.45, facing: true }),                           // a gold hood ornament
-    FC(t.asleep - 0.05, t.asleep + 0.6, gary, { yaw: 0.3 }),                         // asleep standing up (ZZZ)
-    FC(t.soR - 0.2, t.soR + 0.15, gary, { yaw: 0.3 }),                              // jolts awake on "So you buy"
-    IN(t.industrial + 0.01, t.industrial + 0.8, [20.0, 2.4, 0.2], [21.6, 1.4, -3.6], 36),   // INDUSTRIAL ROBOT: an arm welding a body
-    FC(WELD - 0.1, WELD + 0.6, gary, { yaw: 0.3 }),                                  // welded to the door: SZZT
-    IN(t.dip - 0.05, t.dip + 0.6, [29.75, 2.2, 4.4], [29.75, -0.6, -1.3], 40),     // the floor caves into the dip pit
-    IN(t.electrified, t.electrified + 0.6, [29.75, 0.6, 7.5], [29.75, -1.2, -1.3], 44),   // the zap: bolts + an x-ray Gary in the bath (a face cut read as blue haze)
-    IN(t.ecoating - 0.01, t.ecoating + 0.8, [29.75, -0.9, 4.2], [29.75, -2.4, -1.2], 36),   // E-COATING: the bath in section
-    FC(t.garyE + 0.05, t.garyE + 0.65, gary, { yaw: 0.25 }),                         // still welded, grey, dripping
-    FC(t.rustproof - 0.05, t.rustproof + 0.4, gary, { yaw: 0.3 }),                   // rustproof (grin)
-    IN(t.n30000 + 0.07, t.n30000 + 0.82, [35.9, 1.7, 3.0], [35.9, 1.9, -9.0], 40),  // the dock: a wall of 30,000 parts
-    FC(t.buried - 0.05, t.buried + 0.7, gary, { yaw: 0.25 }),                        // buried: HELP!
-    IN(t.jitW - 0.01, t.jitW + 0.75, [36.0, 1.0, 1.9], [37.0, 0.6, -1.4], 36),       // JUST-IN-TIME: one wheel on the tugger
-    FC(t.manager - 0.08, t.manager + 0.55, roombaFace, RB),                          // MANAGER: the bow tie
-    FC(t.safe - 0.15, t.safe + 0.45, gary, { yaw: 0.3 }),                            // the dummy in the crash car (targets on)
-    FC(t.garyX, t.garyX + 0.7, gary, { yaw: -0.3 }),                                 // "Gary is the dummy": splatted on the wall
-    FC(t.garyX2, t.not + 0.45, gary, { yaw: 0.2, pitch: 0.75 }),                     // "Gary is not": flat, X eyes, dizzy stars
-    FC(t.soda - 0.05, t.can + 0.3, gary, { yaw: -0.3 }),                             // squeezes the nose like a soda can
-    IN(t.crumple - 0.01, t.crumple + 0.75, [45.0, 0.95, 2.0], [46.4, 0.5, -1.0], 32),   // CRUMPLE ZONE: the nose folds
-    FC(t.walks - 0.1, t.walks + 0.5, gary, { yaw: -0.3 }),                           // walks away fine (thumbs-up)
-    FC(BAG + 0.1, BAG + 0.65, gary, { yaw: 0.3 }),                                   // launched by the airbag
-    FC(t.inside - 0.35, t.inside + 0.3, gary, { yaw: 0.3, facing: true }),                         // shipped out with Gary still inside
-    IN(t.quality - 0.01, t.quality + 0.75, [45.0, 1.5, 3.6], [45.0, 1.1, -3.2], 38),    // QUALITY CONTROL: the curtain sweeps a car
-    FC(STAMP - 0.05, STAMP + 0.55, gary, { yaw: 0.3 }),                              // REJECTED
-    FC(STAMP2 - 0.05, STAMP2 + 0.5, gary, { yaw: 0.3 }),                             // REJECTED AGAIN
-    FC(t.meatloaf + 0.32, t.meatloaf + 0.8, insp, { yaw: -0.3 }),                    // the inspector's meatloaf
-    IN(t.meatloaf + 0.8, t.roofF + 0.3, [41.0, 7.9, 3.0], [44.5, 6.9, -2.0], 42),    // the racer on the roof test track
-    IN(t.parking - 0.02, t.parking + 0.75, [22.0, 14.0, 4.0], [14.0, 0.0, -32.0], 50),   // the town turns into a parking lot, row by row
+  const tight = (list, g = 0.3) => { const L2 = [...list].sort((a, b) => a.t0 - b.t0); for (let i = 0; i + 1 < L2.length; i++) { const d = L2[i + 1].t0 - L2[i].t1; if (d > 0 && d < g) L2[i].t1 = L2[i + 1].t0; } return L2; };   // no 1–3-frame flashes of the master between two cuts
+  const GF = { dist: 2.9, faceY: 0.36 };   // the mouth at ≈ 46 %, the one-word caption (52 %) on the chin (faceY 0.40 put it on the mouth)
+  const FB = S.office.invoice.getWorldPosition(new THREE.Vector3());   // the framed $900 bill on the CEO office wall
+  const cuts = makeCuts(tight([
+    IN(0, 0.3, [50.0, 24.0, 26.0], [34.0, 2.0, -22.0], 52),                        // cold open: a flash of the finished factory (update renders END − 0.8)
+    FC(0.3, 0.62, mech, { ...GF, yaw: -0.3 }),                                       // the mechanic, smug
+    FC(0.62, t.n900 + 0.7, gary, { ...GF, yaw: 0.3 }),                                // Gary's jaw drops on "900" (inside the shot)
+    FC(t.builtC - 0.05, t.builtC + 0.55, gary, { ...GF, yaw: -0.3 }),                 // ta-da: arms up mid-shot
+    FC(t.horn + 0.15, t.horn + 0.95, gary, { ...GF, yaw: 0.2 }),                      // the horn is Gary: HONK
+    FC(t.alone - 0.07, t.alone + 0.28, gary, { ...GF, yaw: 0.3 }),                    // alone: only while he faces the lens
+    FC(t.job - 0.06, t.job + 0.5, gary, { ...GF, yaw: 0.9 }),                         // one job each: Gary rides the lead car into the line
+    FC(t.fords - 0.05, t.fords + 0.55, gary, { ...GF, yaw: 0.25 }),                   // Ford's line: Gary surfs the lead car
+    IN(t.n12 - 0.02, t.n93 + 0.05, [17.0, 3.9, -4.6], [17.0, 4.4, -9.4], 32),        // the clock spins: 12 hours → 93 minutes
+    FC(t.promoted - 0.08, t.promoted + 0.6, roombaFace, RB),                          // PROMOTED: the tiny hard hat
+    FC(t.sunroof - 0.05, t.sunroof + 0.55, gary, { ...GF, yaw: 0.3, pitch: 0.3 }),    // BONK: the door "into a sunroof"
+    IN(t.make + 0.05, t.make + 0.95, [20.6, 3.0, 1.6], [20.9, 0.7, -4.0], 48),       // the press slams out three identical doors (they arc to the stack)
+    IN(t.inter - 0.02, t.inter + 0.7, [24.6, 1.5, 0.6], [23.3, 0.9, -3.2], 34),      // INTERCHANGEABLE PARTS: the stamped door clicks on
+    FC(t.garyP2 - 0.02, t.garyP2 + 0.7, gary, { ...GF, yaw: 0.3 }),                   // "Gary was in the pile": dazed, a "?"
+    FC(t.ornament, t.ornament + 0.6, gary, { yaw: -0.5, dist: 3.6, faceY: 0.3, pitch: 0.2, facing: true }),   // a gold hood ornament (the hood reads)
+    FC(t.asleep - 0.05, t.soR + 0.15, gary, { ...GF, yaw: 0.3 }),                     // asleep standing up (ZZZ) → jolts awake on "So you buy", one shot
+    IN(t.industrial + 0.01, t.industrial + 0.8, [20.6, 2.0, 0.4], [22.2, 1.0, -3.2], 36),   // INDUSTRIAL ROBOT: an arm welding a body
+    FC(WELD - 0.1, WELD + 0.6, gary, { ...GF, yaw: 0.3 }),                            // welded to the door: SZZT
+    IN(t.electrified, t.electrified + 0.6, [29.75, 0.6, 7.5], [29.75, -1.2, -1.3], 44),   // the zap: bolts + an x-ray Gary in the bath
+    IN(t.crack - 0.02, t.crack + 0.6, [33.0, 0.5, 6.6], [29.6, -1.3, -1.3], 42),    // …and again on "crack", from the right
+    IN(t.ecoating - 0.01, t.ecoating + 0.8, [27.4, -1.6, 3.4], [29.9, -2.2, -1.35], 36),   // E-COATING: the bath in section, a 3/4 from the left
+    FC(t.garyE + 0.05, t.garyE + 0.65, gary, { ...GF, yaw: 0.25 }),                   // still welded, grey, dripping
+    FC(t.rustproof - 0.05, t.rustproof + 0.3, gary, { ...GF, yaw: 0.3 }),             // rustproof (grin), before he turns away
+    IN(t.n30000 + 0.07, t.n30000 + 0.82, [35.9, 2.8, 3.0], [35.9, 2.2, -9.0], 40),   // the dock: a wall of 30,000 parts (over the JIT worker's head)
+    FC(t.buried - 0.05, t.buried + 0.7, gary, { ...GF, yaw: 0.6, pitch: 0.4 }),     // buried: HELP! → a wheel bonks his hat
+    IN(t.jitW - 0.01, t.toyota + 0.6, [36.9, 2.3, 3.6], [37.6, 0.8, -2.0], 42),      // JUST-IN-TIME: one wheel on the tugger
+    FC(t.manager - 0.08, t.safe - 0.15, roombaFace, RB),                              // MANAGER: the bow tie
+    FC(t.safe - 0.15, t.safe + 0.45, gary, { ...GF, yaw: 0.3 }),                      // the dummy in the crash car (targets on)
+    FC(t.garyX, t.garyX + 0.7, gary, { ...GF, yaw: -0.3 }),                           // "Gary is the dummy": splatted on the wall
+    FC(t.garyX2, t.not + 0.25, gary, { ...GF, yaw: 0, pitch: 1.25 }),                 // "Gary is not": flat, X eyes, dizzy stars (top-down: the brim edge-on)
+    FC(t.can + 0.09, t.can + 0.54, gary, { ...GF, yaw: -0.3 }),                       // after squeezing the nose like a soda can
+    IN(t.crumple - 0.01, t.crumple + 0.75, [45.6, 1.0, 2.4], [46.6, 0.25, -1.0], 36),   // CRUMPLE ZONE: the nose folds against the wall
+    FC(t.walks - 0.1, t.walks + 0.5, gary, { ...GF, yaw: -0.3 }),                     // walks away fine (thumbs-up)
+    FC(t.inside - 0.35, t.inside + 0.05, gary, { ...GF, yaw: 0.3, pitch: 0.3, facing: true }),      // shipped out with Gary still inside
+    IN(t.quality - 0.01, t.quality + 0.75, [46.6, 1.3, 3.4], [45.1, 0.55, -3.2], 38),   // QUALITY CONTROL: the curtain sweeps a car
+    FC(STAMP - 0.05, STAMP + 0.55, gary, { ...GF, yaw: 0.3 }),                        // REJECTED
+    FC(STAMP2 - 0.05, STAMP2 + 0.5, gary, { ...GF, yaw: 0.3 }),                       // REJECTED AGAIN
+    FC(t.meatloaf, t.meatloaf + 0.5, insp, { ...GF, yaw: -0.3, dist: 3.3, faceY: 0.42 }),   // the inspector gets his meatloaf
+    IN(t.parking - 0.02, t.parking + 0.75, [22.0, 14.0, 4.0], [14.0, 3.0, -32.0], 50),   // the town turns into a parking lot, row by row
+    IN(t.n900E - 0.05, t.n900E + 0.6, [FB.x - 0.3, FB.y + 0.1, FB.z + 2.2], [FB.x, FB.y, FB.z], 34),   // the callback: the $900 bill, framed
+    IN(t.n76 - 0.05, t.billion + 0.3, [39.6, 3.4, 3.2], [41.9, 2.2, -5.3], 44),      // up the stairs through the money rain
     IN(t.n53 - 0.02, t.n53 + 0.72, [45.6, 1.4, 1.0], [48.7, 0.9, -3.4], 38),         // a car every 53 seconds out of the end door
-    FC(t.garyEnd - 0.05, t.garyEnd + 0.6, gary, { yaw: 0.3 }),                       // Gary vacuums for the Roomba
-    FC(t.roombaE - 0.05, t.roombaE + 0.55, roombaFace, RB),                          // CEO: the top hat
-    FC(t.n1400 - 0.05, t.n1400 + 0.6, mech, { yaw: -0.3 }),                          // the mechanic: $1,400
-  ]);
+    FC(t.garyEnd - 0.05, t.roombaE - 0.05, gary, { facing: true, yaw: 0.5, pitch: 0.25, dist: 1.7, fov: 44 }),   // Gary vacuums for the Roomba (from inside the office)
+    FC(t.roombaE - 0.05, t.roombaE + 0.55, roombaFace, RB),                           // CEO: the top hat
+    FC(t.mechanicE - 0.05, t.wantsE + 0.15, mech, { ...GF, yaw: -0.3 }),               // the mechanic wakes (the master then shows the $1,400 flip, the sag, the spider)
+  ], 0.35));
   const kick = makeKick([...hits.map(([h, a]) => [h, Math.min(1.5, 0.45 + a * 5)]), [t.garyC - 0.05, 0.6], [ORN + 0.3, 0.6], [HIT1 + 0.22, 1.0], [UNWELD + 0.5, 0.6],
-    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]]);
+    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.buried + 0.35, 0.7], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]]);
 
   // ---------------------------------------------------------------- helpers
   const hop = (tt, a, b, p0, p1, h) => { const u = clamp((tt - a) / (b - a)); return [lerp(p0[0], p1[0], u), lerp(p0[1], p1[1], u) + 4 * h * u * (1 - u), lerp(p0[2], p1[2], u)]; };
@@ -550,10 +554,12 @@ export async function build(studio, story) {
     S.office.g.scale.setScalar(1);
     // ---- the parts avalanche (instanced): out of the dock into a heap over Gary, then back out (just-in-time)
     const heapOn = tt > t.n30000 + 0.2 && tt < DRAIN1 + 0.2; heapW.visible = heapT.visible = heapOn;   // packed in the open dock door, then the avalanche
+    const lensClear = tt > t.buried - 0.1 && tt < t.buried + 0.75, LH = [GBUR[0], 2.0, GBUR[1]], LD = [Math.sin(0.6) * Math.cos(0.4), Math.sin(0.4), Math.cos(0.6) * Math.cos(0.4)];   // the HELP! close-up: no wheel between the lens and his face
+    const inLens = (v) => { const dx = v.x - LH[0], dy = v.y - LH[1], dz = v.z - LH[2], a = dx * LD[0] + dy * LD[1] + dz * LD[2]; if (a < 0.2 || a > 3.0) return false; return Math.hypot(dx - a * LD[0], dy - a * LD[1], dz - a * LD[2]) < 0.6; };
     if (heapOn) for (const [mesh, pts] of [[heapW, HW], [heapT, HT]]) { pts.forEach((p, i) => {
       const uin = smooth(u01(tt, AVA0 + p.dl, AVA0 + p.dl + 0.45)), uout = smooth(u01(tt, DRAIN0 + p.dl * 0.8, DRAIN0 + p.dl * 0.8 + 0.4)), u = uin * (1 - uout);
       v3.set(lerp(p.from[0], p.to[0], u), lerp(p.from[1], p.to[1], u) + 1.6 * Math.sin(u * PI) * (1 - uin * (1 - uout) > 0.5 ? 1 : 0.3), lerp(p.from[2], p.to[2], u));
-      e3.set(p.rot[0] + tt * 3 * (1 - u), p.rot[1], p.rot[2]); q.setFromEuler(e3); m4.compose(v3, q, one.set(1, 1, 1).multiplyScalar(u > 0.02 || uout < 1 ? 1 : 0.001)); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
+      e3.set(p.rot[0] + tt * 3 * (1 - u), p.rot[1], p.rot[2]); q.setFromEuler(e3); m4.compose(v3, q, one.set(1, 1, 1).multiplyScalar((u > 0.02 || uout < 1) && !(lensClear && inLens(v3)) ? 1 : 0.001)); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
     // the tugger: in from the dock with a steering wheel + a tire, one part per car, just as each car arrives
     tug.g.visible = tt > DRAIN0; const tu = smooth(u01(tt, Math.max(DRAIN1, t.needed - 0.6), t.toyota + 0.2)); tug.g.position.set(lerp(TUG0[0], TUG1[0], tu), 0, lerp(TUG0[1], TUG1[1], tu)); tug.g.rotation.y = 0;
     for (const [part, tt0] of [[jitWheel, t.needed - 0.1], [jitTire, t.jitW - 0.1]]) { const u = u01(tt, tt0, tt0 + 0.45); if (u <= 0) { part.parent !== tug.trailers[part === jitWheel ? 0 : 1] && tug.trailers[part === jitWheel ? 0 : 1].add(part); part.position.set(0, 0.5, 0); part.visible = tt > DRAIN0; continue; }
@@ -577,6 +583,10 @@ export async function build(studio, story) {
     junk.cord.position.x = tt > t.mower && tt < t.engine ? -0.1 - 0.5 * Math.sin(PI * u01(tt, t.mower, t.engine)) : -0.1;
     // ---- the Roomba's rope + characters
     garyAt(tt); mechAt(tt); crewAt(tt); roombaAt(tt);
+    bonkW.visible = tt > t.buried + 0.05 && tt < t.buried + 0.95;
+    if (bonkW.visible) { gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); const hit = t.buried + 0.35, a = tt - hit; if (a < 0) { const u = (tt - t.buried - 0.05) / 0.3; bonkW.position.set(v3.x, v3.y + 0.45 + 1.4 * (1 - u * u), v3.z + 0.05); bonkW.rotation.set(1.2, 0, tt * 3); } else { bonkW.position.set(v3.x + 1.6 * a, v3.y + 0.45 + 1.6 * a - 4.9 * a * a, v3.z + 0.3 * a); bonkW.rotation.set(1.2 + a * 9, 0, a * 6); } }
+    if (tt > t.dummy + 0.4 && tt < t.not + 0.5) { gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); dizzy.update(tt, 1, [v3.x, v3.y + 0.3, v3.z + 0.15]); }   // the stars circle his head, not the floor
+    S.office.glass.visible = !(tt > t.garyEnd - 0.1 && tt < t.roombaE + 0.6);   // the office glass washed the close-ups grey
     if (meat.visible && tt > t.meatloaf + 0.3) { insp.root.updateMatrixWorld(true); insp.hand(1).getWorldPosition(meat.position); meat.position.y += 0.08; }   // the inspector holds up his meatloaf
     // ---- camera (one take) + impact shake; the sun follows what we look at
     const cam = cuts.at(tr) || rail.at(tt);
@@ -635,7 +645,7 @@ export async function build(studio, story) {
       return g.set({ ...base, x: -2.9, y: 0, z: -1.5, rotY: -PI / 2 + 0.5, eyes: 'half', mouth: 'flat', brows: -0.6, armR: { x: -1.8 + 0.8 * Math.sin(ph), z: 0.2, el: 0.6 }, lean: 0.25 });
     }
     if (tt < t.mower - 0.25) { // ta-da
-      return g.set({ ...base, x: -2.9, y: 0, z: -1.4, rotY: -0.2, eyes: 'open', mouth: 'grin', squash: squash(tt, t.congrats, 0.2), armL: { x: -0.5, z: 1.2, el: 0.2 }, armR: { x: -0.5, z: 1.2, el: 0.2 }, look: [-0.3, 0] });
+      const up = tt > t.builtC + 0.12; return g.set({ ...base, x: -2.9, y: 0, z: -1.4, rotY: -0.2, eyes: up ? 'happy' : 'open', mouth: 'grin', squash: up ? squash(tt, t.builtC + 0.12, 0.25) : squash(tt, t.congrats, 0.2), armL: up ? { x: -2.9, z: 0.5, el: 0.1 } : { x: -0.5, z: 1.2, el: 0.2 }, armR: up ? { x: -2.9, z: 0.5, el: 0.1 } : { x: -0.5, z: 1.2, el: 0.2 }, look: [-0.3, 0] });
     }
     if (tt < t.engine + 0.05) { // walks to the back of the crate and yanks the pull cord
       const u = u01(tt, t.mower - 0.25, t.mower), x = lerp(-2.9, JX - 1.35, u), yank = tt > t.mower && tt < t.engine ? Math.sin(PI * u01(tt, t.mower, t.engine)) : 0;
@@ -729,7 +739,7 @@ export async function build(studio, story) {
       return g.set({ ...base, x, y: 0, z, rotY: u < 1 ? PI / 2 : 0.4, walk: u > 0 && u < 1 ? tt * 11 : undefined, tint, eyes: tt > t.once - 0.2 ? 'wide' : 'open', mouth: tt > t.once - 0.2 ? 'scream' : 'smile', look: [0.5, 0.4] });
     }
     if (tt < DRAIN0 + 0.5) { // buried: only his hand (and a hard hat) out of the heap, waving
-      return g.set({ ...base, x: GBUR[0], y: 0.9 * smooth(u01(tt, t.once, t.buried)), z: GBUR[1], rotY: 0.2, tint, eyes: 'wide', mouth: 'o', armR: { x: -3.0, z: 0.25 + 0.35 * Math.sin(tt * 12), el: 0.2 }, armL: { x: -2.6, z: 0.6 + 0.3 * Math.sin(tt * 9 + 1), el: 0.3 } });   // hat + flailing hands out of the heap top
+      return g.set({ ...base, x: GBUR[0], y: 0.9 * smooth(u01(tt, t.once, t.buried)), z: GBUR[1], rotY: 0.2, tint, eyes: tt > t.buried + 0.35 ? 'spiral' : 'wide', mouth: 'o', squash: squash(tt, t.buried + 0.35, 0.25), armR: { x: -3.0, z: 0.25 + 0.35 * Math.sin(tt * 12), el: 0.2 }, armL: { x: -2.6, z: 0.6 + 0.3 * Math.sin(tt * 9 + 1), el: 0.3 } });   // hat + flailing hands out of the heap top
     }
     if (tt < t.toyota + 0.3) { // revealed sitting on the buried tugger, dizzy; then drives it along the line, steering with the loose wheel, and tosses parts in just in time
       handWheel.visible = tt < t.jitW; dizzy.update(tt, 1 - u01(tt, DRAIN1 + 0.6, t.needed - 0.3), [tug.g.position.x - 0.05, 1.75, tug.g.position.z]);
@@ -836,7 +846,7 @@ export async function build(studio, story) {
         return c.set({ ...base, x: lerp(pts[0][0], pts[1][0], pts[2]), y: 0, z: lerp(pts[0][1], pts[1][1], pts[2]), rotY: Math.atan2(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]), walk: tt * 12 }); }
       if (i === 4 && tt < t.check - 0.2) { const u = smooth(u01(tt, t.thenQ, t.check - 0.2)), door = [D.hall.x1 + 0.6, -2.1];   // back in through the end door to the QC gate
         return c.set({ ...base, x: lerp(door[0], x, u), y: 0, z: lerp(door[1], z, u), rotY: -PI / 2, walk: tt * 11, mouth: 'flat' }); }
-      if (i === 4 && tt > t.twice + 0.5) { const u = smooth(u01(tt, t.twice + 0.5, t.vending + 0.1)), V = [D.vend[0] + 0.85, D.vend[1] - 0.1]; return c.set({ ...base, x: lerp(x, V[0], u), y: 0, z: lerp(z, V[1], u), rotY: u < 1 ? -PI / 2 : -0.5, walk: u > 0 && u < 1 ? tt * 10 : undefined, mouth: tt > t.meatloaf + 0.3 ? 'grin' : 'flat', eyes: tt > t.meatloaf + 0.3 ? 'happy' : 'open', armR: tt > t.meatloaf + 0.3 ? { x: -2.7, z: 0.3, el: 0.4 } : undefined }); }   // off to buy a meatloaf
+      if (i === 4 && tt > t.twice + 0.5) { const u = smooth(u01(tt, t.twice + 0.5, t.vending + 0.1)), V = [D.vend[0] + 0.85, D.vend[1] - 0.1]; return c.set({ ...base, x: lerp(x, V[0], u), y: 0, z: lerp(z, V[1], u), rotY: u < 1 ? -PI / 2 : -0.5, walk: u > 0 && u < 1 ? tt * 10 : undefined, mouth: tt > t.meatloaf + 0.3 ? 'grin' : 'flat', eyes: tt > t.meatloaf + 0.3 ? 'wide' : 'open', armR: tt > t.meatloaf + 0.3 ? { x: -1.0, z: 0.15, el: 2.3 } : undefined }); }   // off to buy a meatloaf   // the loaf under his chin
       if (i === 4) { // the inspector: clipboard, looks Gary over, stamps him
         const stamp = (tt > STAMP - 0.25 && tt < STAMP + 0.25) || (tt > STAMP2 - 0.25 && tt < STAMP2 + 0.25), look = tt > t.check && tt < t.end;
         return c.set({ ...base, x, y: 0, z, rotY: look ? 1.0 : 0.3, eyes: look ? 'half' : 'open', mouth: look ? 'flat' : 'smile', brows: look ? -0.6 : 0, armL: { x: -1.5, z: 0.2, el: 1.3 }, armR: stamp ? { x: -1.9 + 0.7 * Math.sin(PI * u01(tt, (tt < STAMP2 - 0.25 ? STAMP : STAMP2) - 0.25, (tt < STAMP2 - 0.25 ? STAMP : STAMP2) + 0.25)), z: -0.1, el: 0.9 } : { x: -0.6, z: 0.2, el: 0.6 } });
@@ -884,7 +894,8 @@ export async function build(studio, story) {
     if (tt < EP.desk + 0.1) { gary.root.updateMatrixWorld(true); gary.hand(-1).getWorldPosition(v3); const h2 = gary.hand(1).getWorldPosition(new THREE.Vector3()); roomba.set({ scale: RS, ...acc, x: (v3.x + h2.x) / 2, z: (v3.z + h2.z) / 2 + 0.05, rotY: gary.root.rotation.y }); roomba.g.position.y = (v3.y + h2.y) / 2 - 0.05; return; }
     const dk = S.office.desk.position; const [x, y, z] = hop(tt, EP.desk + 0.1, EP.desk + 0.4, [dk.x - 0.6, OF.y + 0.9, dk.z + 0.7], [dk.x + 0.2, OF.y + 0.76 + 0.24, dk.z + 0.1], 0.3);   // onto its red cushion
     roomba.set({ scale: RS, ...acc, x, z, rotY: 0.2, blinkAt: t.roombaE + 0.3 }); roomba.g.position.y = y;
-    vac.position.set(gary.root.position.x + 0.45, OF.y, gary.root.position.z + 0.35); vac.rotation.y = 0.5; vac.visible = tt > EP.desk + 0.1;
+    gary.root.updateMatrixWorld(true); gary.hand(1).getWorldPosition(v3); { const vs = clamp((v3.y - OF.y) / 1.04, 0.5, 1.0), ry = gary.root.rotation.y + 0.5, tx = -0.27 * vs; vac.scale.setScalar(vs); vac.rotation.y = ry; vac.position.set(v3.x - Math.cos(ry) * tx, OF.y, v3.z + Math.sin(ry) * tx); }   // the handle top in his hand
+    vac.visible = tt > EP.desk + 0.1;
   }
 
   // QC (`node tools/render.mjs 026-garage-car-factory --qc`): every 0.25 s, project the tracked faces to the screen and list the

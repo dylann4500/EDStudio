@@ -135,8 +135,8 @@
           "text": "ZZZ…",
           "style": "sfx",
           "pos": [
-            0.66,
-            0.32
+            0.82,
+            0.18
           ],
           "hold": 1.0
         },
@@ -200,7 +200,7 @@
           "at": "justintime",
           "text": "JUST-IN-TIME",
           "style": "term",
-          "until": "credit"
+          "hold": 3.28
         },
         {
           "at": "manager",

@@ -2731,11 +2731,18 @@
   },
   {
    "t": 60.201,
-   "sound": "plush_squeak",
-   "gain_db": -22,
-   "pan": 0.2,
+   "sound": "bonk",
+   "gain_db": -15,
+   "pan": 0.1
+  },
+  {
+   "t": 60.211,
+   "sound": "metal_clang",
+   "gain_db": -20,
+   "pan": 0.1,
    "args": {
-    "pitch": 1.1
+    "size": 0.6,
+    "pitch": 1.3
    }
   },
   {

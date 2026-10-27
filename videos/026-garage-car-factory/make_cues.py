@@ -182,7 +182,7 @@ e(t['rustproof'] - 0.05, "plip", -15, 0.1, pitch=1.6); e(t['rustproof'] + 0.35, 
 e(t['n30000'] + 0.2, "metal_groan", -18, 0.3, dur=0.8, pitch=1.3)
 e(AVA0 + 0.1, "crumble", -9, 0.0, dur=1.8, size=1.6); e(AVA0 + 0.2, "giant_step", -12, 0.0, size=1.4)
 for k in range(18): e(AVA0 + 0.15 + k * 0.05, "knock", -21, -0.5 + 0.06 * k, pitch=0.8 + 0.05 * (k % 5))
-e(t['buried'], "plush_squeak", -22, 0.0, pitch=0.8); e(t['buried'] + 0.35, "plush_squeak", -22, 0.2, pitch=1.1)   # HELP! (flailing hands)
+e(t['buried'], "plush_squeak", -22, 0.0, pitch=0.8); e(t['buried'] + 0.35, "bonk", -15, 0.1); e(t['buried'] + 0.36, "metal_clang", -20, 0.1, size=0.6, pitch=1.3);   # a wheel bonks his hat e(t['buried'] + 0.35, "plush_squeak", -22, 0.2, pitch=1.1)   # HELP! (flailing hands)
 e(DRAIN0 + 0.05, "crumble", -14, 0.0, dur=1.0, size=1.0)
 for k in range(10): e(DRAIN0 + 0.1 + k * 0.06, "knock", -23, 0.5 - 0.1 * k, pitch=1.2)
 for a in (t['needed'] - 0.1, t['jitW'] - 0.1): e(a, "blanket_rustle", -23, 0.2, dur=0.3, intensity=0.7); e(a + 0.45, "clunk", -16, 0.2, size=0.6, metal=0.6); e(a + 0.47, "pop", -19, 0.2, pitch=1.6)   # Gary tosses parts in, just in time
