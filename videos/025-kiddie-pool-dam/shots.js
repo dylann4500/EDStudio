@@ -20,6 +20,7 @@ import { beatClock, pop, drop, squash, wobble, shake, u01, easeOutBack, softTex 
 import { makeFX, makeArrows, makeDizzy } from '@engine/build/fx.js';
 import { makeToon, makeShades } from '@engine/build/toon.js';
 import { makeRail, planRail } from '@engine/build/rail.js';
+import { makeShovel } from '@engine/build/subway.js';
 import { buildDam, D, makeKiddiePool, makeBeaver, makeSalmon, makeWaterBody, slopeY, signTex } from '@engine/build/dam.js';
 
 const PI = Math.PI, BED = D.bed, G = D.dam, E = D.earth, PW = D.power;
@@ -65,15 +66,18 @@ export async function build(studio, story) {
   // derived beats
   const THROW = t.shove - 0.1, LANDK = Math.max(t.congrats - 0.1, THROW + 0.9);       // Gary heaves the pool; it lands in the creek
   const FLOAT0 = t.floats - 0.15, FLOAT1 = Math.max(t.flip + 0.55, FLOAT0 + 1.6);       // the pool drifts to the beaver's dam
-  const DIG0 = t.dig - 0.05, DIG1 = t.diversion;                                         // the tunnel is dug from the outlet back to the inlet
-  const RUN0 = t.dig + 0.35, RUN1 = Math.max(t.four, RUN0 + 2.6);                        // Gary runs upstream above the dig
+  const DIG0 = t.dig - 0.05, DIG1 = W('divert', 'hoover') + 0.05;                         // Gary digs the tunnel from the outlet back to the inlet (breaks through on "Hoover")
+  const digProf = (u) => 0.25 * smooth(u) + 0.75 * u;
+  const RUN1 = Math.max(t.four, DIG1 + 0.9);                                             // out on the bank, admiring it, then peeks into the inlet
   const SUCK = t.got, OUT = SUCK + 2.0, ONPILE = Math.min(OUT + 1.0, t.dirt - 0.1);                             // flushed through the tunnel, out, into the pool
   const DUMPS = [t.pile, t.wallP, t.dirt].map((x) => x + 0.05);                          // three loads of dirt
   const PLUG = t.dirt + 0.45;                                                             // the inlet is plugged: the lake fills
   const JET = t.carves + 0.9, POPC = t.cork;                                             // the leak breaks out; Gary pops off it
   const SLAM = t.drive + 0.3;                                                             // the cutoff wall lands
+  const LANDC = POPC + 0.7, TOPX0 = -3.92;
+  const HAM = [W('cutoff', 'wall'), 0, t.bedrock]; HAM[1] = (HAM[0] + HAM[2]) / 2;     // Gary's three mallet hits drive it to bedrock
   const SLIDE0 = t.downstream + 0.05, SLIDE1 = t.included - 0.1, CRUMB = t.included + 0.05, CRUMB1 = CRUMB + 0.65, KPOVER = CRUMB + 1.5;
-  const COL0 = t.pour - 0.1, COLDT = 0.2, COLDUR = 0.62;                                  // the concrete columns rise in lifts, heel → toe
+  const COL0 = t.pour, COLDT = 0.5, COLDUR = 0.4;                                         // the cableway bucket (Gary riding it) pours the columns, heel → toe
   const FILL0 = t.n660 + 0.8, FILL1 = t.bully - 0.15;                                 // the lake comes back, slams the dam on "bully"
   const SIT = t.sat - 0.1, LEAP = t.medium - 0.05;
   const PIPE0 = t.run, PIPE1 = t.inside + 0.4;
@@ -82,6 +86,17 @@ export async function build(studio, story) {
   const PH = t.pipesW - 0.05, SUCKT = t.garyW + 0.15, SPIT = t.cycle + 0.55, SPLAT = SPIT + 0.5;
   const LAD0 = t.fishW - 0.05, LAD1 = t.pools + 0.1, SLAP = t.cantF - 0.02;
   const DRY0 = t.only - 0.05, DRY1 = t.up + 0.25, WET0 = t.lakefront + 0.5, WET1 = t.visitor + 0.4;
+  // the cableway bucket: drops in from above, catches Gary (flung by the crumble), pours each column heel → toe, lowers him at the toe
+  const BZ = -1.0, NC = S.damCols.length, BKIN = CRUMB1 + 0.25, BKEND = COL0 + (NC - 1) * COLDT + COLDUR, BKOUT = BKEND + 0.15;
+  const colX = (i) => (S.damCols[i].x0 + S.damCols[i].x1) / 2, colY = (i) => S.damCols[i].top + 1.15;
+  const bucketAt = (tt) => {
+    if (tt < COL0) return [colX(0), lerp(17, colY(0), smooth(u01(tt, CRUMB - 0.2, BKIN))) + (tt > BKIN ? -0.12 * Math.sin(PI * u01(tt, BKIN, BKIN + 0.3)) : 0), 0];
+    const f = clamp((tt - COL0 - COLDUR / 2) / COLDT, 0, NC - 1), i = Math.min(Math.floor(f), NC - 2), w = smooth(f - i);
+    let tilt = 0; for (let c = 0; c < NC; c++) tilt += 0.25 * Math.sin(PI * u01(tt, COL0 + c * COLDT, COL0 + c * COLDT + COLDUR));
+    const up = smooth(u01(tt, BKOUT + 0.35, BKOUT + 1.8));
+    return [lerp(colX(i), colX(i + 1), w), lerp(lerp(colY(i), colY(i + 1), w), 17, up), tilt];
+  };
+  const GAG0 = DRY0 + 0.1, GAG1 = WET0 + 0.7, GD = [-12.55, 1.84, -4.15];   // the drought: Gary surfaces on a roof with his lost flip-flop (beat 3 callback)
 
   // ---------------------------------------------------------------- cast + props
   const gary = makeToon({ shirt: 0x2bb3a3, pants: 0x34495e, hair: 0x6b3f22, hairStyle: 'tuft', hat: 'hardhat' }); scene.add(gary.root);
@@ -109,7 +124,26 @@ export async function build(studio, story) {
   tapeT.wrapS = THREE.RepeatWrapping; tapeT.repeat.set(4, 1);
   const dimLine = mk(new THREE.BoxGeometry(1, 0.1, 0.02).translate(-0.5, 0, 0), new THREE.MeshBasicMaterial({ map: tapeT }), dim);
   const dimEnd = new THREE.Group(); dim.add(dimEnd); { const c = mk(new THREE.ConeGeometry(0.16, 0.34, 3), yelM, dimEnd, 0.12, 0, 0); c.rotation.z = PI / 2; mk(new THREE.BoxGeometry(0.06, 0.55, 0.02), yelM, dimEnd); }
-  const tapeCase = mk(new RoundedBoxGeometry(0.16, 0.16, 0.08, 2, 0.03), mat(0xffc21a, 0.4), gary.hand(1), 0, -0.05, 0.06);
+  const tapeCase = mk(new RoundedBoxGeometry(0.16, 0.16, 0.08, 2, 0.03), mat(0xffc21a, 0.4), gary.hand(1), 0, -0.05, 0.06); tapeCase.visible = false;
+  // Gary is the builder (series rule): a shovel for the tunnel, a mallet for the cutoff wall, the cableway bucket, a garden hose
+  const handShovel = makeShovel(); handShovel.scale.setScalar(0.62); handShovel.rotation.set(1.3, 0, 0); handShovel.position.set(0, 0, 0.05); gary.hand(1).add(handShovel);
+  const mallet = new THREE.Group(); gary.hand(1).add(mallet); mallet.position.set(0, -0.02, 0.04);
+  mk(new THREE.CylinderGeometry(0.022, 0.022, 0.72, 8), mat(0xb98a55, 0.7), mallet, 0, -0.34, 0);
+  mk(new THREE.CylinderGeometry(0.11, 0.11, 0.32, 14), mat(0x5a5f66, 0.45), mallet, 0, -0.74, 0).rotation.x = PI / 2;
+  const bucket = new THREE.Group(); scene.add(bucket);
+  const bkM = new THREE.MeshStandardMaterial({ color: 0x8a8f96, metalness: 0.5, roughness: 0.45, side: THREE.DoubleSide });
+  mk(new THREE.CylinderGeometry(0.62, 0.46, 0.85, 22, 1, true), bkM, bucket); mk(new THREE.CylinderGeometry(0.46, 0.46, 0.04, 22), bkM, bucket, 0, -0.42, 0);
+  mk(new THREE.CylinderGeometry(0.63, 0.6, 0.13, 22, 1, true), mat(0xffc21a, 0.5), bucket, 0, 0.2, 0);
+  mk(new THREE.CircleGeometry(0.58, 22), mat(0x9d9a93, 0.9), bucket, 0, 0.3, 0).rotation.x = -PI / 2;
+  mk(new THREE.TorusGeometry(0.62, 0.03, 6, 20, PI), bkM, bucket, 0, 0.42, 0);
+  const bkCable = mk(new THREE.CylinderGeometry(0.016, 0.016, 16, 5), mat(0x222222, 0.5), scene);   // stays vertical while the bucket tips
+  const hosePts = [[-0.34, BED + 0.3, -0.62], [-0.05, BED + 0.42, -0.66], [0.22, BED + 0.5, -0.72], [0.55, BED + 0.08, -0.55], [1.3, BED + 0.03, -0.35], [2.6, BED + 0.03, -0.1], [4.2, BED + 0.03, 0.3]];
+  const hose = new THREE.Group(); scene.add(hose);
+  mk(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(hosePts.map((q) => new THREE.Vector3(...q))), 60, 0.035, 8), mat(0x3fae3a, 0.5), hose);
+  mk(new THREE.CylinderGeometry(0.045, 0.065, 0.18, 10), mat(0xffc21a, 0.4), hose, -0.36, BED + 0.29, -0.62).rotation.z = PI / 2 + 0.35;
+  const snorkel = new THREE.Group(); gary.head.add(snorkel); snorkel.position.set(0, 0.05, 0.29);
+  mk(new RoundedBoxGeometry(0.34, 0.15, 0.07, 2, 0.03), mat(0x1d3d8f, 0.4), snorkel); mk(new THREE.PlaneGeometry(0.28, 0.1), new THREE.MeshStandardMaterial({ color: 0xbfe8ff, roughness: 0.1, metalness: 0.2 }), snorkel, 0, 0, 0.037);
+  mk(new THREE.CylinderGeometry(0.022, 0.022, 0.42, 8), mat(0xffd21f, 0.4), snorkel, 0.19, 0.16, -0.08).rotation.z = -0.15;
   const coolBoard = new THREE.Group(); scene.add(coolBoard); coolBoard.position.set(-1.0, 0.15, 0.06);
   const coolTex = [1, 2].map((pct) => tex(512, 220, (g, w, h) => { g.fillStyle = '#ffffff'; g.beginPath(); g.roundRect(6, 6, w - 12, h - 12, 22); g.fill(); g.strokeStyle = '#1b1b1b'; g.lineWidth = 8; g.stroke();
     g.fillStyle = '#1b1b1b'; g.font = '62px "Luckiest Guy", Arial Black'; g.textAlign = 'center'; g.fillText('COOLING…', w / 2, 82); g.strokeRect(40, 112, w - 80, 58); g.fillStyle = '#3fb2ea'; g.fillRect(44, 116, (w - 88) * pct / 100, 50);
@@ -199,7 +233,9 @@ export async function build(studio, story) {
   fx.burst('drops', t.beaver - 0.35, { pos: [-0.55, CRK, -0.75], n: 30, dir: [0, 1, 0.2], spread: 0.6, speed: [1.2, 2.6], seed: 4 });
   fx.burst('drops', t.inF, { pos: [D.kp.x, 0.0, -1.0], n: 70, dir: [0, 1, 0.3], spread: 0.8, speed: [2, 4], seed: 5 });
   fx.burst('drops', FLOAT1 - 0.2, { pos: [KP_AT_BV + 1.0, PND, -1.0], n: 30, dir: [0, 1, 0.2], spread: 0.7, speed: [1, 2.4], seed: 6 });
-  for (let k = 0; k < 14; k++) { const tk = lerp(DIG0, DIG1, k / 14), p = S.tCurve.getPointAt(1 - smooth(k / 14)); fx.burst('dirt', tk, { pos: [p.x, p.y, 0.35], n: 10, dir: [0.2, 0.8, 1], spread: 0.6, speed: [1.5, 3.5], size: [0.04, 0.1], floor: p.y - 0.8, seed: 10 + k }); }
+  for (let k = 0; k < 14; k++) { const tk = lerp(DIG0, DIG1, k / 14), p = S.tCurve.getPointAt(1 - digProf(k / 14)); fx.burst('dirt', tk, { pos: [p.x, p.y, 0.35], n: 10, dir: [0.2, 0.8, 1], spread: 0.6, speed: [1.5, 3.5], size: [0.04, 0.1], floor: p.y - 0.8, seed: 10 + k }); }
+  fx.burst('drops', DIG0 + 0.3, { pos: [D.tunnel.path[9][0], BED + 0.1, -0.5], n: 40, dir: [0, 1, 0.3], spread: 0.7, speed: [1.5, 3], seed: 28 });   // Gary jumps into the outlet
+  fx.burst('rock', DIG1, { pos: [INLET + 0.2, -0.9, 0.3], n: 30, dir: [0.4, 1, 0.6], spread: 0.9, speed: [2, 4], floor: BED - 0.6, size: [0.05, 0.1], seed: 29 });   // breakthrough
   fx.burst('drops', DIG1, { pos: [INLET + 0.3, CRK, -0.9], n: 60, dir: [0.3, 1, 0.2], spread: 0.7, speed: [1.5, 3], seed: 30 });
   fx.burst('drops', SUCK, { pos: [INLET + 0.5, CRK, -0.9], n: 60, dir: [0, 1, 0.3], spread: 0.7, speed: [2, 3.5], seed: 31 });
   fx.burst('drops', OUT, { pos: [D.tunnel.path[9][0], BED + 0.1, -0.6], n: 70, dir: [0.4, 1, 0.2], spread: 0.6, speed: [3, 5], seed: 32 });
@@ -213,11 +249,16 @@ export async function build(studio, story) {
   fx.burst('drops', POPC, { pos: [JETP.x + 0.2, JETP.y, 0.1], n: 60, dir: [1, 0.6, 0.2], spread: 0.6, speed: [3, 6], seed: 63 });
   fx.burst('dirt', SLAM, { pos: [-4.4, BED + E.h, -1.0], box: [0.8, 0.2, 2.5], n: 70, dir: [0, 1, 0.3], spread: 0.9, speed: [2, 5], floor: BED + E.h, seed: 64 });
   fx.burst('dust', SLAM, { pos: [-4.4, BED + E.h + 0.2, -0.6], n: 10, speed: [0.5, 1.3], spread: 1.3, size: [0.4, 0.7], seed: 65 });
-  for (let k = 0; k < 6; k++) fx.burst('rock', lerp(SLAM + 0.1, t.bedrock + 0.1, k / 5), { pos: [-4.4, lerp(BED - 0.3, D.cutoff.y1 + 0.2, k / 5), 0.3], n: 12, dir: [0, 0.4, 1], spread: 1.1, speed: [1, 2.5], floor: lerp(BED - 0.6, D.cutoff.y1, k / 5), size: [0.04, 0.09], life: [0.5, 0.8], seed: 66 + k });
+  HAM.forEach((h, k) => fx.burst('rock', h + 0.05, { pos: [-4.4, lerp(BED + E.h, D.cutoff.y1 + 0.2, (k + 1) / 3), 0.3], n: 22, dir: [0, 0.4, 1], spread: 1.1, speed: [1, 2.5], floor: lerp(BED - 0.6, D.cutoff.y1, (k + 1) / 3), size: [0.04, 0.09], life: [0.5, 0.8], seed: 66 + k }));
+  fx.burst('dust', HAM[0], { pos: [-4.4, BED + E.h + 0.5, -0.5], n: 8, speed: [0.5, 1.2], spread: 1.3, size: [0.3, 0.55], seed: 70 });   // mallet hits
+  fx.burst('dust', HAM[1], { pos: [-4.4, BED + E.h + 0.4, -0.5], n: 8, speed: [0.5, 1.2], spread: 1.3, size: [0.3, 0.55], seed: 71 });
+  fx.burst('dirt', HAM[2], { pos: [-4.4, BED + E.h + 0.3, -0.6], box: [0.6, 0.1, 1.5], n: 40, dir: [0, 1, 0.3], spread: 0.9, speed: [1.5, 3.5], floor: BED + E.h, seed: 72 });
   fx.burst('drops', CRUMB, { pos: [-0.5 + SL, 1.0, -1.5], box: [1.5, 1.6, 3], n: 160, dir: [1, 0.6, 0.2], spread: 0.6, speed: [3, 6], seed: 80 });
   fx.burst('dirt', CRUMB, { pos: [-4.4 + SL, BED + 1.2, -0.6], box: [5, 1.5, 0.8], n: 120, dir: [0.4, 1, 0.2], spread: 0.9, speed: [2, 4.5], floor: BED, life: [0.6, 1.0], seed: 81 });
-  fx.burst('drops', CRUMB1 + 0.2, { pos: [1.1, PND, -0.95], n: 70, dir: [0, 1, 0.3], spread: 0.7, speed: [2, 4], seed: 83 });   // Gary hits the pond
-  fx.burst('drops', t.pour + 0.5, { pos: [1.1, PND, -0.95], n: 40, dir: [0, 1, 0.3], spread: 0.6, speed: [1.5, 3], seed: 84 });   // …and surfaces
+  fx.burst('drops', BKIN, { pos: [colX(0), colY(0) + 0.35, BZ], n: 40, dir: [0, 1, 0.3], spread: 0.8, speed: [1.5, 3], color: 0x9d9a93, size: [0.05, 0.08], seed: 83 });   // Gary lands in the concrete bucket
+  for (let i = 0; i < NC; i++) fx.stream('drops', COL0 + i * COLDT + 0.03, COL0 + i * COLDT + COLDUR, { pos: [colX(i), colY(i) - 0.5, BZ], box: [0.3, 0.05, 0.5], dir: [0, -1, 0], spread: 0.12, speed: [1.5, 2.5], rate: 110, color: 0x9d9a93, size: [0.06, 0.1], floor: S.damCols[i].top - 0.3, life: [0.3, 0.5], seed: 200 + i });   // the pour
+  for (let i = 0; i < NC; i++) fx.burst('drops', COL0 + i * COLDT + COLDUR, { pos: [colX(i), S.damCols[i].top, -0.6], n: 18, dir: [0, 1, 0.4], spread: 0.8, speed: [1, 2.2], color: 0x9d9a93, size: [0.05, 0.08], seed: 210 + i });   // splat on top
+  fx.burst('dust', BKOUT + 0.5, { pos: [0.35, BED + 0.1, -0.6], n: 6, speed: [0.4, 1.0], spread: 1.3, size: [0.3, 0.5], seed: 85 });   // Gary hops down at the toe
   fx.burst('dust', CRUMB + 0.1, { pos: [-4.4 + SL, BED + 0.6, -0.4], box: [5, 0.6, 0.4], n: 12, speed: [0.4, 1.2], spread: 1.3, size: [0.5, 0.9], seed: 82 });
   for (let i = 0; i < S.damCols.length; i++) { const tk = COL0 + i * COLDT + COLDUR; const c = S.damCols[i]; fx.burst('dust', tk, { pos: [(c.x0 + c.x1) / 2, BED + 0.1, 0.4], box: [c.x1 - c.x0, 0.1, 0.3], n: 4, speed: [0.4, 0.9], spread: 1.2, size: [0.3, 0.5], life: [0.4, 0.6], seed: 90 + i }); }
   fx.burst('drops', FILL1, { pos: [G.heel - 0.3, LAKE - 0.2, -1.0], box: [0.6, 0.6, 3], n: 180, dir: [-0.4, 1, 0.3], spread: 0.6, speed: [4, 8], seed: 110 });
@@ -228,17 +269,28 @@ export async function build(studio, story) {
   fx.stream('drops', OVER + 0.3, t.spillway + 0.4, { pos: [G.toe + 0.2, BED + 0.4, -3.2], box: [0.6, 0.3, 6], rate: 160, dir: [1, 0.7, 0], spread: 0.5, speed: [2, 4], size: [0.03, 0.06], seed: 116 });
   fx.stream('mist', OVER + 0.3, t.spillway + 0.4, { pos: [G.toe + 0.6, BED + 0.5, -3.0], box: [0.8, 0.3, 6], rate: 14, speed: [0.4, 1.0], spread: 1.2, size: [0.5, 1.0], seed: 117 });
   fx.stream('drops', t.spillway + 0.3, END, { pos: [G.toe + 0.55, BED + 0.9, -0.95], box: [0.3, 0.2, 1.6], rate: 50, dir: [1, 0.9, 0], spread: 0.35, speed: [2, 3.2], size: [0.03, 0.05], floor: PND, seed: 118 });
+  fx.stream('drops', LANDC, LANDC + 1.6, { pos: [TOPX0, BED + E.h + 0.9, -0.9], box: [0.3, 0.3, 0.2], dir: [0, -1, 0], spread: 0.3, speed: [0.2, 0.6], rate: 9, size: [0.025, 0.04], floor: BED + E.h, seed: 86 });   // the cork drips
+  fx.burst('dust', t.bully, { pos: [0.1, BED + 0.6, -0.5], n: 7, speed: [0.4, 1.0], spread: 1.3, size: [0.25, 0.45], seed: 87 });   // BONK
+  fx.stream('drops', PIPE0, PIPE1, { pos: [-0.36, BED + 0.3, -0.5], box: [0.08, 0.08, 0.08], dir: [0.4, 0.7, 0.5], spread: 0.6, speed: [1, 2], rate: 30, size: [0.025, 0.04], floor: BED, seed: 88 });   // the hose leaks at the joint
+  fx.stream('mist', PIPE0 + 0.3, t.cooling + 0.6, { pos: [-0.6, BED + 0.4, -0.4], box: [0.6, 0.3, 0.3], rate: 6, dir: [0, 1, 0], spread: 0.4, speed: [0.3, 0.6], size: [0.3, 0.5], alpha: 0.35, seed: 89 });   // cold puffs
+  fx.stream('drops', RAIN0 + 0.3, RAIN1, { pos: [-14, LAKE + 0.05, -1.4], box: [9, 0.05, 2.4], dir: [0, 1, 0], spread: 0.5, speed: [0.6, 1.2], rate: 60, size: [0.02, 0.035], floor: LAKE - 0.1, seed: 114 });   // rain hits the lake
+  fx.stream('drops', SLD0, SLD1, { pos: [G.crestX + 0.2, G.crest + 0.1, -0.9], box: [0.2, 0.1, 0.6], dir: [1, 0.6, 0], spread: 0.4, speed: [1.5, 3], rate: 40, size: [0.03, 0.05], seed: 109 });   // spray off the spillway lip
   fx.burst('drops', SPLASH, { pos: [2.5, PND, -1.0], n: 110, dir: [0, 1, 0.3], spread: 0.8, speed: [2.5, 5], seed: 119 });
   fx.stream('drops', SPIT, SPIT + 0.6, { pos: [PW.turb[0] + 0.3, 0.3, PW.z0 + 0.5], dir: [0, 0.4, 1], spread: 0.4, speed: [2, 3.5], rate: 80, floor: PND, seed: 120 });
+  fx.stream('mist', SUCKT, SPLAT, { pos: [PW.turb[0] + 0.4, 0.2, PW.z0 + 0.4], box: [0.5, 0.2, 0.3], rate: 10, dir: [0.2, 1, 0.3], spread: 0.6, speed: [0.4, 0.9], size: [0.35, 0.6], alpha: 0.35, seed: 108 });   // turbine mist
   fx.burst('drops', SPLAT, { pos: [3.9, PND, -1.2], n: 60, dir: [0, 1, 0.3], spread: 0.8, speed: [2, 3.5], seed: 121 });
   for (let k = 0; k < 6; k++) fx.burst('spark', t.turbines + 0.2 + k * 0.18, { pos: [lerp(D.pylon[0], 24, k / 6), 6.0 - 1.4 * Math.sin(PI * k / 6), D.pylon[1]], n: 10, dir: [0, 1, 0.4], spread: 1.1, speed: [1, 2.5], seed: 122 + k });
   for (let k = 0; k < 6; k++) fx.burst('drops', t.salmon - 0.2 + k * 0.32, { pos: [0.3 + (k % 3) * 0.5, PND, -0.7 - (k % 2) * 0.6], n: 12, dir: [0, 1, 0.2], spread: 0.5, speed: [1.2, 2.4], seed: 130 + k });
   fx.burst('drops', SLAP, { pos: [0.9, 1.0, -2.6], n: 30, dir: [0, 1, 0.5], spread: 0.8, speed: [1.5, 3], seed: 140 });
   fx.burst('drops', SLAP + 0.5, { pos: [0.9, PND, -1.4], n: 70, dir: [0, 1, 0.3], spread: 0.8, speed: [2, 4], seed: 141 });
   for (let k = 0; k < 8; k++) fx.burst('drops', DRY1 - 0.3 + k * 0.08, { pos: [-22 + k * 1.6, 1.5 + (k % 3) * 0.6, -4.3], box: [1.2, 0.2, 1.2], n: 10, dir: [0, -1, 0], spread: 0.3, speed: [0.3, 0.8], floor: 0, size: [0.03, 0.05], seed: 150 + k });
+  fx.burst('drops', GAG0 + 0.6, { pos: [GD[0], 1.5, GD[2] + 0.4], n: 40, dir: [0, 1, 0.3], spread: 0.8, speed: [1.5, 3], seed: 155 });   // Gary surfaces with his flip-flop
+  fx.stream('drops', DRY1, WET0, { pos: [GD[0] - 0.35, GD[1] + 1.6, GD[2] + 0.1], box: [0.1, 0.05, 0.1], dir: [0, -1, 0], spread: 0.2, speed: [0.1, 0.3], rate: 8, size: [0.02, 0.035], floor: GD[1], seed: 156 });   // it drips
   fx.burst('dust', t.road, { pos: [(G.heel + G.crestX) / 2, G.crest + 0.3, -2.5], box: [1.2, 0.3, 6], n: 10, speed: [0.3, 0.8], spread: 1.2, size: [0.4, 0.7], seed: 160 });
   fx.burst('dust', t.visitor, { pos: [D.visitor.x, 0.3, D.visitor.z + 0.8], box: [2.4, 0.3, 0.4], n: 8, speed: [0.3, 0.8], spread: 1.2, size: [0.4, 0.7], seed: 161 });
   fx.burst('dust', t.gift, { pos: [D.shop.x, 0.2, D.shop.z + 0.4], box: [1.6, 0.2, 0.3], n: 6, speed: [0.3, 0.8], spread: 1.2, size: [0.3, 0.6], seed: 162 });
+  fx.burst('dust', t.sign, { pos: [D.noSwim[0], 0.2, D.noSwim[1] + 0.3], n: 6, speed: [0.3, 0.8], spread: 1.2, size: [0.3, 0.5], seed: 163 });
+  fx.burst('dust', t.closedE + 0.2, { pos: [FIN[0], LOW + 0.3, FIN[1] + 0.3], n: 7, speed: [0.3, 0.7], spread: 1.3, size: [0.25, 0.45], seed: 175 });   // the pool lets go of its air
   fx.burst('confetti', t.end, { pos: [-4, 9.8, -1.5], box: [8, 0.5, 2], n: 300, dir: [0, 1, 0.3], spread: 0.8, speed: [4, 7], size: [0.12, 0.2], seed: 170 });
   fx.burst('drops', t.coolE, { pos: [D.thermo[0], 2.12, D.thermo[1] + 0.12], n: 30, dir: [0, 1, 0.3], spread: 0.7, speed: [1.2, 2.6], color: 0xe8231c, size: [0.03, 0.05], seed: 173 });
   fx.burst('confetti', t.end + 0.05, { pos: [8.2, 2.2, -0.6], box: [4, 0.4, 1.2], n: 260, dir: [0, 1, 0.3], spread: 0.7, speed: [3, 5.5], size: [0.1, 0.16], seed: 174 });
@@ -249,6 +301,7 @@ export async function build(studio, story) {
 
   // ---------------------------------------------------------------- the camera: ONE continuous take, framed on the words
   const Fr = [], F = (tt, pos, look, fov = 40, pass = false) => Fr.push({ t: tt, pos, look, fov, pass });
+  const digCam = (tk) => { const p = S.tCurve.getPointAt(clamp(1 - digProf(u01(tk, DIG0, DIG1)) + 0.012, 0, 0.985)); return [[p.x + 0.3, p.y + 3.0, 11.8], [p.x, p.y + 1.9, -0.6]]; };   // aim 1.5 m over his head: his face sits below the caption
   const Fk = (tt, pos, look, fov = 40, until) => Fr.push({ t: tt, pos, look, fov, keep: true, until });
   // look points sit ~1 m below a standing toon's head so faces stay above the one-word caption (52 %)
   F(0, [8.7, 1.8, 8.6], [8.7, 0.5, -2.6], 48);                            // FIX hook: held pool + thermometer both in, slow push
@@ -258,25 +311,29 @@ export async function build(studio, story) {
   Fk(W('congrats', 'taking') - 0.2, [-1.85, 1.15, 8.7], [-1.7, -0.25, -0.9], 42);   // the beaver + its card; also holds the hop into the pool          // FIX: aim lower, beaver face off the caption
     F(t.floats + 0.4, [-0.3, 1.7, 8.4], [-0.4, 0.15, -1.3], 42, true);         // FIX lint: earlier, wider pass
   Fk(t.flip + 0.3, [4.7, 1.3, 7.6], [4.9, 0.15, -1.2], 42);
-  F(t.dig + 0.7, [1.4, 1.1, 12.0], [1.2, -1.5, -0.6], 46, true);
-  F(t.diversion, [-5.6, 1.1, 12.0], [-5.8, -1.5, -0.6], 46, true);
-  Fk(t.four - 0.25, [-12.2, 2.3, 8.6], [-12.4, 1.6, -3.0], 42);
+  F(DIG0 + 0.8, ...digCam(DIG0 + 0.8), 46, true);                       // follow Gary digging the tunnel (in section)
+  F(DIG0 + 2.0, ...digCam(DIG0 + 2.0), 46, true);
+  F(DIG0 + 3.1, ...digCam(DIG0 + 3.1), 46, true);
+  Fk(t.four - 0.25, [-12.2, 3.0, 8.6], [-12.4, 2.4, -3.0], 42);
   F(t.flushed + 0.35, [-10.6, 1.3, 9.4], [-5.6, -2.5, -0.4], 46, true);
   Fk(t.dirt - 0.05, [-2.4, 1.9, 13.5], [-3.2, 0.5, -1.0], 46);            // FIX: one dirt+leak frame (jet in), no STOP at piping
   Fk(t.finger - 0.1, [-1.3, 0.8, 5.8], [-1.45, -0.05, -0.8], 40);
   Fk(W('piping', 'now', 2), [-2.85, 2.1, 9.0], [-2.85, 1.6, -0.8], 46, POPC + 0.6);      // FIX: plug + landing in one frame for the cork pop
-  Fk(t.bedrock, [-3.3, -1.0, 13.8], [-3.2, -1.0, -0.4], 46, W('cutoff', 'wall', 2) + 0.05);  // FIX: hold the wall through its TERM
+  Fk(HAM[0] - 0.15, [-3.3, 3.4, 9.0], [-4.0, 2.6, -1.0], 42, HAM[2] + 0.1);   // Gary's mallet drives the wall
+  Fk(t.cutoff, [-3.3, -1.0, 13.8], [-3.2, -1.0, -0.4], 46, W('cutoff', 'wall', 2) + 0.05);  // FIX: hold the wall through its TERM
   Fk(t.already + 0.4, [2.4, 0.55, 11.2], [5.8, -0.5, -0.8], 34, t.oneC + 0.15);
-  Fk(t.shoves - 0.1, [-3.0, 1.4, 15.5], [-3.2, -0.4, -1.2], 46, W('push', 'included') + 0.5);
-  Fk(t.n660 - 0.2, [-4.3, 3.3, 20.5], [-4.3, 2.6, -1.5], 46);             // FIX: a touch wider: crest + both 660 arrows in
+  Fk(t.shoves - 0.1, [-3.0, 1.4, 15.5], [-3.2, -0.4, -1.2], 46, W('push', 'included') + 0.3);
+  Fk(t.pour + 0.55, [-4.0, 5.2, 20.5], [-4.0, 4.6, -1.5], 46);                 // the bucket pours the wedge (Gary riding it) + the 660 line             // FIX: a touch wider: crest + both 660 arrows in
   Fk(t.bully - 0.45, [1.1, 0.5, 8.8], [-0.5, 2.0, -1.0], 48);            // r3: low at the toe: the shoulder-charge + the egg + the hot slope
   Fk(t.sat - 0.15, [-0.2, 1.0, 6.4], [-0.25, 0.0, -0.9], 40, LEAP + 0.7);  // FIX: leap stays in frame
-  Fk(t.inside, [-3.7, 4.3, 18.5], [-3.8, 4.1, -1.0], 46);                 // FIX: whole dam (crest..toe) for cooling pipes
+  Fk(t.run + 0.1, [0.9, 2.2, 7.6], [-0.2, 1.6, -0.9], 42);                     // Gary hoses cold water into the pipes
+  Fk(t.cooling - 0.3, [-3.7, 4.3, 18.5], [-3.8, 4.1, -1.0], 46);                 // FIX: whole dam (crest..toe) for cooling pipes
   Fk(t.week, [-4.4, 5.8, 21.5], [-4.8, 4.9, -2.0], 46, t.top);
   Fk(t.exit - 0.2, [-6.0, 10.0, 9.0], [-6.9, 9.4, -1.0], 42);
   F(SLD0 + 0.6, [-3.0, 6.0, 9.5], [-3.6, 4.4, -1.0], 42, true);
+  F(SPLASH, [1.6, 2.0, 9.0], [2.0, 0.4, -1.0], 42, true);                 // "exactly once": the splash
   Fk(t.rent - 0.25, [6.1, 2.4, 6.3], [6.3, 0.5, -1.0], 40);                       // FIX: beaver + RENT DUE + the pool, not two edges
-  Fk(t.penstocks - 0.2, [0.6, 1.6, 13.6], [0.4, -0.1, -1.6], 46);  // FIX: penstock through the dam + turbine for the TERM
+  Fk(t.penstocks - 1.0, [0.6, 1.6, 13.6], [0.4, -0.1, -1.6], 46);  // FIX: penstock through the dam + turbine for the TERM
   Fk(t.cycle - 0.25, [3.0, 2.0, 5.6], [3.1, 0.75, -3.0], 40, SPIT + 0.2);   // FIX: d 8.7 not 6.2; turbine at ~42 %
   Fk(t.furious, [4.6, 1.4, 6.6], [3.0, 0.3, -1.6], 40);                     // FIX: salmon + ladder foot
   Fk(W('fish', 'staircase'), [3.8, 2.4, 7.6], [-1.6, 2.8, -3.4], 46);
@@ -284,7 +341,7 @@ export async function build(studio, story) {
 F(t.town + 0.1, [-4.6, 4.4, 14.0], [-9.0, 2.4, -3.8], 40, true);
   Fk(W('town', 'happened'), [-10.5, 5.6, 12.5], [-17.0, 2.2, -4.0], 44);     // FIX: yaw ~21 deg, not 33
   Fk(t.only + 0.2, [-9.4, 4.8, 12.8], [-12.9, 1.2, -4.0], 44);
-Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4);   // push in: the beaver's LAKEFRONT sign
+Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4);   // push in: the beaver's LAKEFRONT sign
   F(t.road + 0.5, [-6.4, 7.8, 13.0], [-7.4, 7.4, -3.0], 46, true);
   F(t.gift + 0.25, [3.0, 4.6, 13.0], [5.5, 0.7, -3.0], 46, true);
   Fk(t.swimmingF, [8.0, 2.2, 9.9], [8.0, -0.35, -2.8], 44, t.damE);     // FIX: the bank cluster in one 5.6 m frame
@@ -295,7 +352,7 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
   Fr.push({ t: END, pos: [8.6, 1.36, 7.45], look: [8.5, -0.3, -2.2], fov: 42, stop: true });
   planRail.verbose = true;
   const rail = makeRail(planRail(Fr));
-  const hits = [[LANDK, 0.08, 0.5], [t.inF + 0.05, 0.05, 0.4], [FLOAT1 - 0.2, 0.05, 0.4], ...DUMPS.map((d) => [d, 0.1, 0.5]), [POPC, 0.12, 0.5], [SLAM, 0.22, 0.8],
+  const hits = [[LANDK, 0.08, 0.5], [t.inF + 0.05, 0.05, 0.4], [FLOAT1 - 0.2, 0.05, 0.4], ...DUMPS.map((d) => [d, 0.1, 0.5]), [POPC, 0.12, 0.5], [SLAM, 0.22, 0.8], ...HAM.map((h, k) => [h, 0.08 + 0.03 * k, 0.4]), [BKIN, 0.06, 0.4], [BKOUT + 0.5, 0.04, 0.3],
     [CRUMB, 0.18, 0.8], ...S.damCols.map((_, i) => [COL0 + i * COLDT + COLDUR, 0.07, 0.4]), [FILL1, 0.2, 0.8], [LEAP, 0.06, 0.4], [OVER + 0.3, 0.08, 0.6], [SPLASH, 0.1, 0.5],
     [t.cycle, 0.08, 0.8], [SLAP, 0.08, 0.4], [t.road, 0.04, 0.4], [t.visitor, 0.04, 0.4], [t.gift, 0.04, 0.4], [t.closedE, 0.05, 0.5]];
 
@@ -310,7 +367,7 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
 
   function update(tt) {
     // ---- the cut face: the diversion tunnel (dug once, from the outlet back to the inlet)
-    const digU = 1 - smooth(u01(tt, DIG0, DIG1)), dug = tt > DIG0;
+    const digU = 1 - digProf(u01(tt, DIG0, DIG1)), dug = tt > DIG0;
     const filled = tt > t.sat; S.setHoles(dug && !filled ? tunnelHoles(digU) : []);
     S.bore.visible = dug && !filled; const fp = S.tCurve.getPointAt(digU);
     const plugged = tt > PLUG + 0.6; if (S.bore.material.map !== (plugged ? null : boreMap)) { S.bore.material.map = plugged ? null : boreMap; S.bore.material.needsUpdate = true; }
@@ -352,12 +409,12 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
     const pipeK = smooth(u01(tt, t.sneaks, JET)), cutK = tt > SLAM + 0.1 ? pipeU : 1;
     S.pipeWater.position.z = 0.13; S.pipeDark.visible = S.pipeWater.visible = pipeK > 0.01 && tt < SLIDE0;
     S.pipeDark.geometry.setDrawRange(0, Math.floor((S.pipeIdx * pipeK) / 3) * 3); S.pipeWater.geometry.setDrawRange(0, Math.floor((S.pipeIdx * Math.min(pipeK, cutK)) / 3) * 3);
-    const cutDown = smooth(u01(tt, SLAM, t.bedrock + 0.1));
+    const cutDown = HAM.reduce((a, h) => a + easeOutBack(u01(tt, h, h + 0.16), 1.3) / 3, 0);
     const above = tt < SLIDE0;
     S.cutoff.visible = tt > SLAM; S.cutoff.scale.y = Math.max(0.001, above ? cutDown * cutoffH : BED - D.cutoff.y1);
     S.cutoff.position.set(S.cutoff.position.x, above ? BED + E.h : tt > COL0 ? BED - 0.32 : BED, 0.022); if (tt > COL0) S.cutoff.scale.y = BED - 0.32 - D.cutoff.y1;
     S.cutoffTop.visible = tt > t.drive - 0.3 && tt < CRUMB + 0.2;
-    S.cutoffTop.position.set((D.cutoff.x0 + D.cutoff.x1) / 2 + slideX(tt), BED + E.h + 0.25 + (tt < SLAM ? 9 * (1 - u01(tt, t.drive - 0.3, SLAM)) ** 2 : 0) - (tt > CRUMB ? 2 * u01(tt, CRUMB, CRUMB + 0.2) : 0), -D.CW / 2);
+    S.cutoffTop.position.set((D.cutoff.x0 + D.cutoff.x1) / 2 + slideX(tt), BED + E.h + 0.25 + 0.45 * (1 - Math.min(1, cutDown)) + (tt < SLAM ? 9 * (1 - u01(tt, t.drive - 0.3, SLAM)) ** 2 : 0) - (tt > CRUMB ? 2 * u01(tt, CRUMB, CRUMB + 0.2) : 0), -D.CW / 2);
     pushG.position.x = slideX(tt); pushArrows.update(tt, smooth(u01(tt, t.shoves - 0.3, t.shoves)) * (1 - smooth(u01(tt, SLIDE1, SLIDE1 + 0.3))));
 
     // ---- the gravity dam: columns rise in lifts (heel → toe), the 660 ft line, the lake slams it; heat + cooling pipes
@@ -408,7 +465,11 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
     popIn(S.visitor, tt, W('finish', 'center') + 0.25); popIn(S.shop, tt, t.gift - 0.1); popIn(S.noSwim, tt, t.sign - 0.1);
     S.noSwim.rotation.z = wobble(tt, t.illegal, 0.12, 18, 5);
 
+    { const [bx, by, bt] = bucketAt(tt); bucket.visible = tt > CRUMB - 0.2 && tt < BKOUT + 1.8; bucket.position.set(bx, by, BZ); bucket.rotation.z = bt; bkCable.visible = bucket.visible; bkCable.position.set(bx, by + 1.04 + 8, BZ); }
+    hose.visible = tt > PIPE0 - 0.15 && tt < PIPE1 + 0.2; if (hose.visible) hose.scale.setScalar(Math.max(0.001, pop(tt, PIPE0 - 0.15)));
+    handShovel.visible = tt > DIG0 && tt < DIG1 + 0.5; mallet.visible = tt > SLAM + 0.3 && tt < t.bedrock + 0.4; snorkel.visible = tt > GAG0 && tt < GAG1;
     garyAt(tt); beaverAt(tt); salmonAt(tt);
+    if (tt > DRY1 - 0.1 && tt < GAG1) { gary.root.updateMatrixWorld(true); gary.hand(-1).getWorldPosition(_v4); flipflop.visible = true; flipflop.position.set(_v4.x, _v4.y + 0.14, _v4.z + 0.05); flipflop.rotation.set(PI / 2 - 0.25, 0, 0.3 + 0.15 * Math.sin(tt * 9)); flipflop.scale.setScalar(1.3 * pop(tt, DRY1 - 0.1)); }
 
     // ---- camera (one take) + impact shake; the sun follows what we look at
     const cam = rail.at(tt);
@@ -443,9 +504,15 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
     const sitPose = { legL: { x: -1.5, kn: 0.25 }, legR: { x: -1.5, kn: 0.25 } };
     if (tt < t.dig - 0.15) { const [x, y, z] = POOLSEAT(), bonk = tt > FLOAT1 - 0.25 && tt < FLOAT1 + 0.3;
       return g.set({ ...base, ...sitPose, x, y, z, rotY: 0.2 + 0.4 * Math.sin(tt * 0.9), squash: squash(tt, FLOAT1 - 0.2, 0.3), eyes: bonk ? 'wide' : 'half', mouth: bonk ? 'o' : 'grin', armL: { x: -2.2, z: 0.9, el: 1.9 }, armR: { x: -2.2, z: 0.9, el: 1.9 } }); }
-    // hard hat on: out of the pool, runs upstream over the tunnel being dug, to the inlet
-    if (tt < RUN0) { const [x, y, z] = hop(tt, t.dig - 0.15, RUN0, POOLSEAT(), [KP_AT_BV - 0.5, 0, RUNZ], 0.6); return g.set({ ...base, x, y, z, rotY: -PI / 2, eyes: 'wide', mouth: 'o' }); }
-    if (tt < RUN1) { const u0 = u01(tt, RUN0, RUN1), u = 0.15 * smooth(u0) + 0.85 * u0; return g.set({ ...base, x: lerp(KP_AT_BV - 0.5, INLET_EDGE[0], u), y: 0, z: RUNZ, rotY: -PI / 2 + 0.2, walk: tt * 15, lean: 0.3, eyes: 'wide', mouth: 'grin' }); }
+    // hard hat on, shovel out: hops into the outlet and digs the tunnel (seen in section) back to the inlet; breaks through on "Hoover"
+    const TZ = D.tunnel.z - 0.2, front = (tk) => S.tCurve.getPointAt(clamp(1 - digProf(u01(tk, DIG0, DIG1)) + 0.012, 0, 0.985));
+    if (tt < DIG0 + 0.3) { const p = front(DIG0 + 0.3); const [x, y, z] = hop(tt, t.dig - 0.15, DIG0 + 0.3, POOLSEAT(), [p.x, p.y - 0.78, TZ], 0.6); return g.set({ ...base, x, y, z, rotY: -PI / 2, eyes: 'wide', mouth: 'o', armL: { x: -2.6, z: 0.4 } }); }
+    if (tt < DIG1) { const p = front(tt), sw = Math.sin(tt * 18);
+      return g.set({ ...base, x: p.x, y: p.y - 0.78, z: TZ, rotY: -PI / 2 + 0.5, walk: tt * 14, lean: 0.3, eyes: 'wide', mouth: 'teeth', brows: -0.8,
+        armR: { x: -1.5 + 0.9 * sw, z: -0.1, el: 0.4 }, armL: { x: -1.2 + 0.9 * sw, z: 0.2, el: 0.7 } }); }
+    if (tt < DIG1 + 0.55) { const p = front(DIG1 - 0.01); const [x, y, z] = hop(tt, DIG1, DIG1 + 0.55, [p.x, p.y - 0.78, TZ], INLET_EDGE, 1.0); return g.set({ ...base, x, y, z, rotY: 0.3, eyes: 'wide', mouth: 'grin', armL: { x: -2.9, z: 0.5 }, armR: { x: -2.9, z: 0.5 } }); }
+    if (tt < RUN1) return g.set({ ...base, x: INLET_EDGE[0], y: 0, z: INLET_EDGE[2], rotY: -0.5, squash: squash(tt, DIG1 + 0.55, 0.3), eyes: 'half', mouth: 'grin', brows: -0.5, look: [-0.6, -0.3],
+      armR: { x: -1.25, z: -0.55, el: 1.75 }, armL: { x: -1.15, z: -0.55, el: 1.75 } });
     if (tt < SUCK) { const u = smooth(u01(tt, RUN1, SUCK - 0.05)); return g.set({ ...base, x: lerp(INLET_EDGE[0], INLET + 0.6, u), y: lerp(0, BED + 0.05, u), z: lerp(RUNZ, -1.3, u), rotY: -PI / 2 + 0.6, lean: 0.4 * u, look: [-0.6, -0.8], eyes: 'open', mouth: 'smile', head: { x: 0.4, y: 0, z: 0 } }); }
     // flushed: down the inlet, through the tunnel (seen in section), out the far end, into the kiddie pool
     if (tt < OUT) { const u = u01(tt, SUCK, OUT), p = S.tCurve.getPointAt(Math.pow(u, 1.15)); dizzy.update(tt, 0, [0, 0, 0]);
@@ -465,37 +532,46 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
     const TOPX = -3.92, TOPY = BED + E.h, LANDC = POPC + 0.7;
     if (tt < LANDC) { const [x, y, z] = hop(tt, POPC, LANDC, [PLUGX, BED + 0.2, -0.35], [TOPX, TOPY, -1.0], 1.6); return g.set({ ...base, x, y, z, rx: -(tt - POPC) * 10, eyes: 'spiral', mouth: 'scream', armL: { x: -2.9, z: 0.5 }, armR: { x: -2.9, z: 0.5 }, legL: { x: 0.5 }, legR: { x: -0.5 } }); }
     // on the dirt dam's top: the cutoff wall slams down beside him (he jumps); then rides the dam as the lake shoves it; it crumbles
+    if (tt > SLAM + 0.3 && tt < t.bedrock + 0.4) {   // the mallet: three overhead swings, each one drives the wall deeper
+      const k = HAM.findIndex((h) => tt < h + 0.12), h = HAM[Math.max(0, k)], u = k < 0 ? 1 : u01(tt, h - 0.4, h);
+      const ax = k < 0 ? -0.9 : u < 0.6 ? lerp(-0.9, -3.1, smooth(u / 0.6)) : lerp(-3.1, -0.9, ((u - 0.6) / 0.4) ** 2);
+      return g.set({ ...base, x: TOPX, y: TOPY, z: -1.0, rotY: -PI / 2 + 0.55, lean: ax > -1.2 ? 0.35 : 0, squash: squash(tt, h, 0.2), eyes: 'wide', mouth: 'teeth', brows: -0.8,
+        armR: { x: ax, z: -0.1, el: 0.15 }, armL: { x: ax, z: 0.1, el: 0.15 } });
+    }
     if (tt < CRUMB) { const s = slideX(tt), jump = tt > SLAM && tt < SLAM + 0.45 ? 0.5 * Math.sin(PI * u01(tt, SLAM, SLAM + 0.45)) : 0, surf = tt > SLIDE0;
       dizzy.update(tt, tt < LANDC + 1.0 ? 1 : 0, [TOPX + s, TOPY + 1.62, -1.0]);
       return g.set({ ...base, x: TOPX + s, y: TOPY + jump, z: -1.0, rotY: surf ? 0.5 : 0.25, squash: squash(tt, LANDC, 0.35), lean: surf ? 0.25 : 0, eyes: tt < LANDC + 1.0 ? 'spiral' : surf || jump > 0 ? 'wide' : 'open', mouth: surf ? 'scream' : jump > 0 ? 'o' : 'smile', brows: surf ? 1 : 0,
         armL: surf ? { x: -0.3, z: 1.4 + 0.2 * Math.sin(tt * 18) } : jump > 0 ? { x: -2.8, z: 0.4 } : undefined, armR: surf ? { x: -0.3, z: 1.4 + 0.2 * Math.sin(tt * 18 + 1) } : jump > 0 ? { x: -2.8, z: 0.4 } : undefined, hatLift: jump > 0.2 ? 0.6 : base.hatLift }); }
-    const MUD = [1.1, BED, -0.95], UNDER = t.pour + 0.5;   // the crumble dumps him in the pond; he surfaces once the concrete is going in
-    if (tt < CRUMB1 + 0.2) { const [x, y, z] = hop(tt, CRUMB, CRUMB1 + 0.2, [TOPX + SL, TOPY, -1.0], [MUD[0], PND - 1.6, MUD[2]], 0.9); return g.set({ ...base, x, y, z, rx: (tt - CRUMB) * 6, eyes: 'wide', mouth: 'scream', armL: { x: -2.8, z: 0.5 }, armR: { x: -2.8, z: 0.5 } }); }
-    if (tt < UNDER) return hide(g);
-    if (tt < UNDER + 0.35) { const u = u01(tt, UNDER, UNDER + 0.35); return g.set({ ...base, x: MUD[0], y: lerp(PND - 1.4, BED, smooth(u)), z: MUD[2], rotY: -0.3, eyes: 'wide', mouth: 'o', squash: [0.9, 1.1] }); }
-    // the concrete rises next to him; he backs off; the lake slams it; then the heat: he sits on the toe… medium rare… cooling pipes
+    // the crumble flings him up into the cableway bucket; he rides it heel → toe, yanking the trip rope over every column; hops down at the toe
     const TOE = [0.35, BED, -0.85];
+    if (tt < BKIN) { const [bx, by] = bucketAt(BKIN); const [x, y, z] = hop(tt, CRUMB, BKIN, [TOPX + SL, TOPY, -1.0], [bx, by - 0.35, BZ], 1.4); return g.set({ ...base, x, y, z, rx: (tt - CRUMB) * 7, eyes: 'wide', mouth: 'scream', armL: { x: -2.8, z: 0.5 }, armR: { x: -2.8, z: 0.5 } }); }
+    if (tt < BKOUT) { const [bx, by, bt] = bucketAt(tt), dz = tt < BKIN + 0.7; let yank = 0;
+      for (let c = 0; c < NC; c++) yank = Math.max(yank, Math.sin(PI * u01(tt, COL0 + c * COLDT - 0.1, COL0 + c * COLDT + 0.25)));
+      dizzy.update(tt, dz ? 1 : 0, [bx, by - 0.35 + 1.62, BZ]);
+      return g.set({ ...base, x: bx, y: by - 0.35, z: BZ, rotY: 0.25, rz: bt * 0.6, squash: squash(tt, BKIN, 0.3), eyes: dz ? 'spiral' : 'open', mouth: dz ? 'wavy' : 'grin', brows: -0.3,
+        armL: { x: -2.9, z: 0.15, el: 0.1 }, armR: { x: -2.2 + 1.0 * yank, z: 0.3, el: 0.6 * yank } }); }
+    if (tt < BKOUT + 0.5) { const [bx, by] = bucketAt(BKOUT); const [x, y, z] = hop(tt, BKOUT, BKOUT + 0.5, [bx, by - 0.35, BZ], [TOE[0], BED, TOE[2]], 0.6); return g.set({ ...base, x, y, z, rotY: 0.2, eyes: 'wide', mouth: 'grin', armL: { x: -2.8, z: 0.5 }, armR: { x: -2.8, z: 0.5 } }); }
     // "too heavy to bully": Gary shoulder-charges the toe of the dam and bounces off (it doesn't budge)
     if (tt > t.bully - 0.5 && tt < t.hot - 0.2) { const ch = u01(tt, t.bully - 0.5, t.bully - 0.05), back = u01(tt, t.bully - 0.05, t.bully + 0.45), home = u01(tt, t.bully + 0.6, t.hot - 0.2);
       if (ch < 1) return g.set({ ...base, x: lerp(TOE[0] + 0.7, 0.05, ch * ch), y: BED, z: TOE[2], rotY: -PI / 2 + 0.3, walk: tt * 16, lean: 0.45, eyes: 'wide', mouth: 'teeth', brows: -1, armL: { x: 0.3, z: 0.2 }, armR: { x: 0.3, z: 0.2 } });
       dizzy.update(tt, home < 1 ? 1 : 0, [lerp(1.0, TOE[0], home), BED + 1.62, TOE[2]]);
       if (back < 1) { const [x, y, z] = hop(tt, t.bully - 0.05, t.bully + 0.45, [0.05, BED, TOE[2]], [1.0, BED, TOE[2]], 0.5); return g.set({ ...base, x, y, z, rotY: -PI / 2 + 0.3, rx: -0.5 * Math.sin(PI * back), squash: [0.85, 1.1], eyes: 'x', mouth: 'o', armL: { x: -2.6, z: 0.6 }, armR: { x: -2.6, z: 0.6 } }); }
       return g.set({ ...base, x: lerp(1.0, TOE[0], home), y: BED, z: TOE[2], rotY: -0.3, walk: home > 0 && home < 1 ? tt * 8 : undefined, squash: squash(tt, t.bully + 0.45, 0.35), eyes: 'spiral', mouth: 'wavy' }); }
-    if (tt < SIT) { const u = smooth(u01(tt, COL0 + 1.0, COL0 + 1.6)), back = tt > COL0 + 1.0;
-      dizzy.update(tt, tt < CRUMB1 + 1.2 ? 1 : 0, [lerp(MUD[0], TOE[0], u), BED + 1.62, -0.9]);
-      const hot = tt > t.hot;
-      const tape = tt > t.n660 - 0.4 && tt < t.gravity + 0.2, smug = tt > t.heavy - 0.2 && tt < t.concreteH;
-      return g.set({ ...base, x: lerp(MUD[0], TOE[0], u), y: BED, z: lerp(MUD[2], TOE[2], u), rotY: tape ? -0.9 : smug ? -0.25 : back ? -0.35 : 0, walk: u > 0.01 && u < 0.99 ? tt * 9 : undefined, squash: squash(tt, CRUMB1 + 0.2, 0.3), lean: tape ? 0.25 : smug ? -0.12 : 0,
-        eyes: tt < CRUMB1 + 1.2 ? 'spiral' : smug ? 'half' : hot ? 'half' : 'open', mouth: smug ? 'grin' : hot ? 'o' : 'smile', brows: smug ? -0.6 : 0, faceTint: [0xe0483a, 0.3 * smooth(u01(tt, t.hot, t.hot + 0.6))],
-        armR: tape ? { x: -1.3, z: -0.1, el: 0.3 } : smug ? { x: -1.25, z: -0.55, el: 1.75 } : hot ? { x: -2.2, z: 0.3, el: 1.6 + 0.3 * Math.sin(tt * 14) } : undefined,
-        armL: smug ? { x: -1.15, z: -0.55, el: 1.75 } : undefined, look: tape ? [-0.9, -0.2] : tt > t.hoovers && tt < t.garyH ? [-0.8, -0.6] : [0, 0] }); }
+    if (tt < SIT) { const hot = tt > t.hot, smug = tt > t.gravity - 0.1 && tt < t.concreteH;
+      return g.set({ ...base, x: TOE[0], y: BED, z: TOE[2], rotY: smug ? -0.25 : -0.35, squash: squash(tt, BKOUT + 0.5, 0.3), lean: smug ? -0.12 : 0,
+        eyes: smug ? 'half' : hot ? 'half' : 'open', mouth: smug ? 'grin' : hot ? 'o' : 'smile', brows: smug ? -0.6 : 0, faceTint: [0xe0483a, 0.3 * smooth(u01(tt, t.hot, t.hot + 0.6))],
+        armR: smug ? { x: -1.25, z: -0.55, el: 1.75 } : hot ? { x: -2.2, z: 0.3, el: 1.6 + 0.3 * Math.sin(tt * 14) } : undefined,
+        armL: smug ? { x: -1.15, z: -0.55, el: 1.75 } : undefined, look: tt > t.hoovers && tt < t.garyH ? [-0.8, -0.6] : smug ? [-0.5, 0.4] : [0, 0] }); }
     const SEAT = [-0.18, slopeY(-0.18) - 0.32, -0.85];
     if (tt < LEAP) { const u = smooth(u01(tt, SIT - 0.25, SIT)); return g.set({ ...base, ...sitPose, x: lerp(TOE[0], SEAT[0], u), y: lerp(BED, SEAT[1], u), z: SEAT[2], rotY: 0.1, eyes: tt > SIT + 0.15 ? 'wide' : 'half', mouth: tt > SIT + 0.15 ? 'scream' : 'smile', brows: tt > SIT + 0.15 ? 1 : 0, faceTint: [0xe0483a, 0.3 + 0.4 * u01(tt, SIT, LEAP)], hairUp: u01(tt, SIT + 0.1, LEAP) }); }
-    if (tt < PIPE0 + 0.2) { const up = tt < LEAP + 0.7 ? Math.sin(PI * u01(tt, LEAP, LEAP + 0.7)) * 1.1 : 0;
+    if (tt < PIPE0 - 0.1) { const up = tt < LEAP + 0.7 ? Math.sin(PI * u01(tt, LEAP, LEAP + 0.7)) * 1.1 : 0;
       return g.set({ ...base, x: 0.55, y: BED + up, z: -0.85, rotY: -0.4, eyes: 'wide', mouth: tt < LEAP + 0.8 ? 'scream' : 'teeth', brows: 1, faceTint: [0xe0483a, 0.45], tint: [0xc85a3e, 0.22], hairUp: 1,
         armL: { x: 0.9, z: 0.3, el: 1.3 }, armR: { x: 0.9, z: 0.3, el: 1.3 }, legL: { x: -0.6 * Math.max(0, Math.sin(tt * 20)) }, legR: { x: -0.6 * Math.max(0, -Math.sin(tt * 20)) } }); }
-    if (tt < t.cooling + 0.55) { const u = smooth(u01(tt, PIPE0 + 0.2, t.cooling)), frost = smooth(u01(tt, t.cooling, t.cooling + 0.6));
-      return g.set({ ...base, ...sitPose, x: lerp(0.55, SEAT[0], u), y: lerp(BED, SEAT[1], u), z: SEAT[2], rotY: 0.1, eyes: frost > 0.5 ? 'wide' : 'closed', mouth: frost > 0.5 ? 'teeth' : 'smile', tint: [0x9fdcff, 0.35 * frost], faceTint: [0xe0483a, 0.45 * (1 - u)] }); }
+    if (tt < PIPE1) { const u = smooth(u01(tt, PIPE0 - 0.1, PIPE0 + 0.25));   // grabs the garden hose and holds it on the pipe inlet at the toe
+      return g.set({ ...base, x: lerp(0.55, 0.42, u), y: BED, z: lerp(-0.85, -0.78, u), rotY: -PI / 2 + 0.55, lean: 0.2, eyes: 'open', mouth: tt > PIPE0 + 0.5 ? 'grin' : 'teeth', brows: -0.4, faceTint: [0xe0483a, 0.45 * (1 - u)], tint: [0xc85a3e, 0.22 * (1 - u)], hairUp: 1 - u,
+        armR: { x: -1.35, z: -0.15, el: 0.25 }, armL: { x: -1.2, z: 0.2, el: 0.45 } }); }
+    if (tt < t.cooling + 0.55) { const u = smooth(u01(tt, PIPE1, t.cooling)), frost = smooth(u01(tt, t.cooling, t.cooling + 0.6));
+      return g.set({ ...base, ...sitPose, x: lerp(0.42, SEAT[0], u), y: lerp(BED, SEAT[1], u), z: SEAT[2], rotY: 0.1, eyes: frost > 0.5 ? 'wide' : 'closed', mouth: frost > 0.5 ? 'teeth' : 'smile', tint: [0x9fdcff, 0.35 * frost], faceTint: [0xe0483a, 0.45 * (1 - u)] }); }
     // (a week of rain: he climbs to the crest) — balancing as it overtops; floatie water-slide down the spillway; splash
     const CREST = [-7.75, G.crest, -0.95], CL0 = t.cooling + 0.55, CL1 = Math.max(t.week + 0.5, CL0 + 1.3);
     if (tt < CL1) { const u = smooth(u01(tt, CL0, CL1)), x = lerp(SEAT[0] + 0.3, CREST[0], u), c = Math.sin(tt * 22);
@@ -522,6 +598,10 @@ Fk(t.sells - 0.35, [-10.2, 3.2, 6.4], [-10.8, 1.8, -4.0], 40, t.lakefront + 0.4)
       return g.set({ ...base, ...(u < 0.01 ? sitPose : {}), x: lerp(SPLATP[0], LB[0], u), y: u < 0.7 ? lerp(SPLATP[1] + 0.25, BED + 0.0, u01(u, 0, 0.3)) : lerp(BED, 0, hp), z: lerp(SPLATP[2], LB[2], u), rotY: -PI / 2 - 0.3, walk: u > 0.01 && u < 0.99 ? tt * 9 : undefined, eyes: tt < SPLAT + 1.2 ? 'spiral' : 'open', mouth: 'smile' }); }
     if (tt < SLAP) { const u = smooth(u01(tt, t.climb - 0.4, t.garyFi + 0.1)); return g.set({ ...base, x: lerp(LB[0], STEP[0], u), y: lerp(0, STEP[1], u) + 0.25 * Math.sin(PI * u), z: lerp(LB[2], STEP[2], u), rotY: -PI / 2 + 0.7, lean: 0.2, eyes: 'open', mouth: 'grin', armL: { x: -1.6, z: 0.2 }, armR: { x: -1.6, z: 0.2 } }); }
     if (tt < SLAP + 0.8) { const [x, y, z] = hop(tt, SLAP, SLAP + 0.8, STEP, [0.9, PND - 0.5, -1.4], 0.8); return g.set({ ...base, x, y, z, rx: -(tt - SLAP) * 7, eyes: 'x', mouth: 'o', faceTint: [0xf07a6a, 0.3], armL: { x: -2.8, z: 0.6 }, armR: { x: -2.8, z: 0.6 } }); }
+    // the drought (silent gag): Gary was down there all along — up on a roof in a snorkel mask, holding his lost flip-flop (beat 3)
+    if (tt > GAG0 && tt < GAG1) { const sold = tt > t.sells, wave = tt > DRY1 - 0.1 && !sold;
+      return g.set({ ...base, x: GD[0], y: GD[1], z: GD[2], rotY: sold ? 0.55 : 0.15, eyes: sold ? 'half' : 'wide', mouth: sold ? 'frown' : 'grin', brows: sold ? 0.8 : 0,
+        armL: { x: -2.9, z: 0.35 + (wave ? 0.2 * Math.sin(tt * 12) : 0), el: 0.2 }, armR: sold ? { x: -1.25, z: -0.55, el: 1.75 } : undefined, look: sold ? [0.7, 0] : [0, 0.2] }); }
     if (tt < t.add) return hide(g);
     // the end: in the kiddie pool by the closed public pool, still too hot; NO SWIMMING; STILL CLOSED; the pool deflates under him
     const [px, py, pz] = kpPos(tt), sink = tt > t.closedE ? 0.42 * smooth(u01(tt, t.closedE + 0.1, t.closedE + 0.9)) : 0, sad = tt > t.closedE - 0.1, dive = tt > t.swimming - 0.3 && tt < t.illegal + 0.2;

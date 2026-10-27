@@ -333,3 +333,12 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   move the face out of the move (025: the crumble dumps Gary in the pond; he surfaces once the camera has settled).
 - **Check where a character stands against the geometry's real profile**: 025 v2 had Gary 0.85 m above the earth dam's slope for
   4.5 s because his x was past the crest edge; compute y from the slope when in doubt.
+- 025 round 3: v3 logic 7.9 · look 6.6 · pacing 7.6 · comedy 8.1 · camera 7.5. Wins for v4: **frames closer than ~4 m apart read as
+  one shot** (660 → bully → hot held one grey wedge for 10 s with Gary at 3 % of the frame) — replace the middle with one LOW
+  ground-level frame at the subject (Gary 2.3× larger; the egg + the hot slope in the same frame); **`until` can't hold a frame
+  the next move needs**: planRail leaves at `next.t − 0.8·moveTime`, so a 12 m crane after a 2 s line ate the whole LAKEFRONT
+  hold — bring the next framing closer (shorter move) instead of pushing `until`; **show the gag where the camera already is**
+  (the lake's shove now starts on "deeper" with push arrows on the upstream slope inside the frame, riding the dam's slide);
+  **backfill what you dug** (a plugged tunnel kept reading as a white pipe for 40 s — hide the bore, plug and holes once the
+  next set piece covers it); **submerged buildings need a tint, not just a see-through front**: lerp their colors toward the
+  water blue by depth; **a hand-held book in front of a face hides it** — hold it out beside the head.

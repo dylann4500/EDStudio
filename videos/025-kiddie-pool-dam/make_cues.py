@@ -49,14 +49,15 @@ t = {k: W(b, w, n) for k, (b, w, n) in {
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
 THROW = t['shove'] - 0.1; LANDK = max(t['congrats'] - 0.1, THROW + 0.9)
 FLOAT0 = t['floats'] - 0.15; FLOAT1 = max(t['flip'] + 0.55, FLOAT0 + 1.6)
-DIG0, DIG1 = t['dig'] - 0.05, t['diversion']
-RUN0 = t['dig'] + 0.35; RUN1 = max(t['four'], RUN0 + 2.6)
+DIG0, DIG1 = t['dig'] - 0.05, W('divert', 'hoover') + 0.05     # Gary digs the tunnel; breaks through on "Hoover"
+RUN1 = max(t['four'], DIG1 + 0.9)
 SUCK = t['got']; OUT = SUCK + 2.0; ONPILE = min(OUT + 1.0, t['dirt'] - 0.1)
 DUMPS = [x + 0.05 for x in (t['pile'], t['wallP'], t['dirt'])]
 PLUG = t['dirt'] + 0.45; JET = t['carves'] + 0.9; POPC = t['cork']; LANDC = POPC + 0.7
 SLAM = t['drive'] + 0.3
+HAM = [W('cutoff', 'wall'), 0, t['bedrock']]; HAM[1] = (HAM[0] + HAM[2]) / 2      # Gary's three mallet hits
 SLIDE0, SLIDE1 = t['downstream'] + 0.05, t['included'] - 0.1; CRUMB = t['included'] + 0.05; CRUMB1 = CRUMB + 0.65
-COL0, COLDT, COLDUR = t['pour'] - 0.1, 0.2, 0.62
+COL0, COLDT, COLDUR = t['pour'], 0.5, 0.4                       # the cableway bucket (Gary riding it) pours each column
 FILL0, FILL1 = t['n660'] + 0.8, t['bully'] - 0.15
 SIT, LEAP = t['sat'] - 0.1, t['medium'] - 0.05
 PIPE0, PIPE1 = t['run'], t['inside'] + 0.4
@@ -66,6 +67,9 @@ PH = t['pipesW'] - 0.05; SUCKT = t['garyW'] + 0.15; SPIT = t['cycle'] + 0.55; SP
 LAD0, LAD1, SLAP = t['fishW'] - 0.05, t['pools'] + 0.1, t['cantF'] - 0.02
 DRY0, DRY1, WET0, WET1 = t['only'] - 0.05, t['up'] + 0.25, t['lakefront'] + 0.5, t['visitor'] + 0.4
 NCOLS = 6
+BKIN = CRUMB1 + 0.25; BKEND = COL0 + (NCOLS - 1) * COLDT + COLDUR; BKOUT = BKEND + 0.15
+GAG0 = DRY0 + 0.1                                                # the drought: Gary on a roof with his flip-flop
+CL0 = t['cooling'] + 0.55; CL1 = max(t['week'] + 0.5, CL0 + 1.3)
 
 # ---------------------------------------------------------------- music
 BPM = 104
@@ -109,6 +113,7 @@ for k2 in range(5): e(0.35 + k2 * 0.45, "plip", -27, 0.2, pitch=1.3)
 e(t['n104'] - 0.05, "pop", -17, 0.3, pitch=1.6)
 e(t['closed'] - 0.05, "knock", -13, 0.2, pitch=0.8); e(t['closed'], "bonk", -20, 0.2)
 e(THROW, "blanket_rustle", -18, 0.0, dur=0.9, intensity=0.8); e(LANDK, "splash", -11, -0.2, size=1.3)
+ev.append({"t0": THROW + 0.4, "t1": min(t['beaver'] - 0.5, t['hops'] - 0.8), "sound": "footsteps", "rate": 4.5, "gain_db": -27, "pan0": 0.4, "pan1": -0.2})   # Gary walks over
 # congrats: confetti; the yardstick; the beaver surfaces, scribbles, holds up its card
 e(t['congrats'], "pop", -12, 0.0); e(t['congrats'] + 0.12, "pop", -15, -0.3, pitch=1.3); e(t['congrats'] + 0.2, "blanket_rustle", -23, 0.2, dur=1.4, intensity=0.6)
 e(t['six'] - 0.2, "knock", -18, -0.3, pitch=1.2)
@@ -120,9 +125,10 @@ e(t['lost'] - 0.1, "pop", -22, 0.2, pitch=1.8); e(FLOAT1 - 0.2, "bonk", -15, 0.3
 e(FLOAT1 + 0.2, "pen_scribble", -23, 0.4, dur=0.8)
 # divert: the hard hat lands, the tunnel is dug back to the inlet, Gary runs, the portals pop, the flush
 e(t['dig'] + 0.25, "clunk", -18, 0.2, size=0.5, metal=0.8)
-for k2 in range(12): e(DIG0 + (k2 + 0.5) * (DIG1 - DIG0) / 12, "dig", -16 - (k2 % 2), 0.4 - 0.07 * k2)
-ev.append({"t0": RUN0, "t1": RUN1, "sound": "footsteps", "rate": 6.5, "gain_db": -24, "pan0": 0.3, "pan1": -0.3})
-e(DIG1, "splash", -14, -0.4, size=1.0)
+e(DIG0 + 0.3, "splash", -15, 0.4, size=0.7)                                           # Gary jumps into the outlet
+for k2 in range(22): e(DIG0 + 0.35 + (k2 + 0.5) * (DIG1 - DIG0 - 0.35) / 22, "dig", -16 - (k2 % 2), 0.4 - 0.04 * k2)   # his shovel, stroke by stroke
+e(DIG1, "crumble", -13, -0.4, dur=0.6, size=1.0); e(DIG1, "splash", -14, -0.4, size=1.0); e(DIG1 + 0.55, "plush_squeak", -21, -0.4, pitch=1.3)   # breakthrough
+ev.append({"t0": RUN1, "t1": SUCK - 0.1, "sound": "footsteps", "rate": 4.0, "gain_db": -26, "pan0": -0.4, "pan1": -0.4})
 for i in range(4): e(t['four'] - 0.15 + i * 0.09, "pop", -18, -0.4 + 0.1 * i, pitch=1.0 + 0.15 * i)
 e(SUCK, "slurp", -11, -0.3, dur=0.9); e(OUT, "splash", -12, 0.3, size=1.1); e(ONPILE, "giant_step", -16, -0.1, size=0.4); e(ONPILE + 0.05, "plush_squeak", -21, -0.1, pitch=0.9)
 # piping: three dirt loads, the plug, the leak, the finger, the cork
@@ -131,15 +137,19 @@ e(PLUG - 0.1, "clunk", -18, -0.5, size=1.0, metal=0.4)
 e(t['sneaks'], "grate", -21, 0.0, dur=1.6)
 e(t['finger'] - 0.03, "plush_squeak", -20, 0.1, pitch=1.4); e(t['garyP2'], "metal_groan", -22, 0.0, dur=0.8, pitch=1.4)
 e(POPC, "pop", -10, 0.0, pitch=0.6); e(POPC + 0.03, "splash", -13, 0.1, size=1.0); e(LANDC, "giant_step", -18, -0.1, size=0.4)
+for k2 in range(4): e(LANDC + 0.25 + k2 * 0.35, "plip", -24, -0.1, pitch=1.2 + 0.1 * k2)   # the cork drips
 # cutoff: the wall slams through to bedrock; the beaver taps its twig wall
 e(SLAM, "clunk", -9, 0.0, size=2.0, metal=0.35); e(SLAM + 0.02, "giant_step", -12, 0.0, size=1.4)
-e(SLAM + 0.15, "crumble", -15, 0.0, dur=(t['bedrock'] - SLAM) + 0.4, size=0.9)
+for h in HAM: e(h, "clunk", -11, 0.0, size=1.6, metal=0.3); e(h + 0.03, "crumble", -16, 0.0, dur=0.35, size=0.8)   # mallet: CLONK, the wall sinks
 for k2 in range(3): e(t['already'] + 0.05 + k2 * 0.22, "knock", -19, 0.4, pitch=1.6)
 # push: the dam strains, slides, crumbles; the flood
 e(t["lake"] - 0.1, "low_swell", -20, -0.3, dur=1.4, pitch=0.8)
 e(SLIDE0, "metal_groan", -16, 0.0, dur=1.3, pitch=0.6); e(SLIDE0 + 0.05, "crumble", -15, 0.0, dur=1.3, size=1.0)
 e(CRUMB, "crumble", -9, 0.0, dur=1.6, size=1.5); e(CRUMB + 0.05, "splash", -12, 0.2, size=1.6)
-e(CRUMB1 + 0.2, "splash", -14, 0.3, size=1.0); e(t['pour'] + 0.5, "splash", -18, 0.3, size=0.6)   # Gary into the pond, and back up
+e(CRUMB - 0.2, "metal_groan", -24, -0.4, dur=1.0, pitch=1.3)                          # the cableway bucket comes down
+e(BKIN, "bonk", -14, -0.3); e(BKIN + 0.02, "clunk", -17, -0.3, size=0.8, metal=0.9)        # Gary lands in it
+for i in range(NCOLS): e(COL0 + i * COLDT - 0.05, "knock", -19, -0.5 + 0.2 * i, pitch=1.4); e(COL0 + i * COLDT + 0.1, "splash", -20, -0.5 + 0.2 * i, size=0.45)   # trip rope, glop
+e(BKOUT + 0.35, "metal_groan", -24, 0.4, dur=1.2, pitch=1.4); e(BKOUT + 0.5, "giant_step", -19, 0.3, size=0.35)   # bucket up, Gary down
 # the concrete columns rise in lifts; 660 ft; the lake slams it on "bully"
 for i in range(NCOLS):
     for l in range(3): e(COL0 + i * COLDT + (l + 1) / 3 * COLDUR, "clunk", -20 + (l == 2) * 4, -0.5 + 0.2 * i, size=1.1, metal=0.15)
@@ -149,17 +159,22 @@ e(FILL0 + 0.1, "slurp", -18, -0.5, dur=1.2); e(FILL1, "splash", -9, -0.5, size=1
 # heat: the sizzle (a short rain bed), the leap; cooling pipes pop in, drip, frost
 e(t['hoovers'], "plip", -20, 0.3, pitch=0.7); e(t['n125'] - 0.1, "pop", -17, 0.2, pitch=1.1)
 e(LEAP, "plush_squeak", -16, 0.2, pitch=1.5); e(LEAP + 0.7, "giant_step", -20, 0.2, size=0.35)
+e(PIPE0 - 0.1, "plush_squeak", -20, 0.1, pitch=0.8); e(PIPE0, "slurp", -18, 0.0, dur=0.8)   # Gary's garden hose
+ev.append({"t0": CL0, "t1": CL1, "sound": "footsteps", "rate": 5.0, "gain_db": -26, "pan0": 0.1, "pan1": -0.4})   # the climb up the dam in the rain
 for k2 in range(10): e(PIPE0 + k2 * (PIPE1 - PIPE0 - 0.3) / 10, "pop", -21 - (k2 % 3), -0.4 + 0.08 * k2, pitch=1.0 + 0.06 * k2)
 for k2 in range(4): e(t['cooling'] - 0.2 + k2 * 0.25, "plip", -22, 0.0, pitch=1.4)
 # spill: thunder far off, the overtopping roar, the spillway + EXIT, the water slide, the splash
 e(t['rains'] - 0.3, "distant_boom", -22, -0.2, size=0.8)
+for k2 in range(10): e(RAIN0 + 0.4 + k2 * (RAIN1 - RAIN0 - 0.6) / 10, "plip", -25, -0.5 + 0.1 * k2, pitch=0.9 + 0.05 * (k2 % 4))
 e(t['spillway'] - 0.12, "clunk", -14, 0.0, size=1.4, metal=0.3); e(t['exit'] - 0.1, "pop", -16, 0.1, pitch=1.2)
 e(SLD0, "slurp", -18, -0.2, dur=1.2); e(SLD1, "pop", -18, 0.1, pitch=0.9); e(SPLASH, "splash", -10, 0.2, size=1.4); e(SPLASH + 0.02, "bonk", -16, 0.2)   # exactly once
 # power: the RENT DUE card, the penstock, the powerhouse pops, the spin cycle, the spit
 e(t['rent'] - 0.15, "pop", -16, 0.4, pitch=1.4)
 e(PH, "pop", -13, 0.2, pitch=0.8); e(PH + 0.05, "clunk", -17, 0.2, size=1.2, metal=0.7)
 e(t['turbines'] + 0.2, "zap", -24, 0.6, dur=0.4)
-e(SUCKT, "slurp", -14, 0.2, dur=0.6); e(SPIT, "pop", -15, 0.3, pitch=0.9); e(SPLAT, "splash", -13, 0.3, size=1.0)
+e(SUCKT, "slurp", -14, 0.2, dur=0.6)
+for k2 in range(3): e(SUCKT + 0.35 + k2 * 0.3, "plush_squeak", -22, 0.2, pitch=1.2 + 0.2 * k2)   # round and round
+e(SPIT, "pop", -15, 0.3, pitch=0.9); e(SPLAT, "splash", -13, 0.3, size=1.0)
 # fish: angry leaps, the ladder pops step by step, the climb, the slap
 for k2 in range(6): e(t['salmon'] - 0.2 + k2 * 0.32, "splash", -21, 0.2 - 0.05 * k2, size=0.35)
 for k2 in range(9): e(LAD0 + (LAD1 - 0.3 - LAD0) * k2 / 8, "knock", -18, -0.2 - 0.04 * k2, pitch=0.9 + 0.08 * k2)
@@ -170,12 +185,16 @@ e(t['blame'] + 0.1, "bonk", -15, 0.3)   # …then Gary
 # town: under the lake (a low swell), the drought, the refill
 e(t['drowned'] - 0.2, "low_swell", -18, -0.3, dur=1.8, pitch=0.7)
 e(DRY0, "slurp", -17, -0.3, dur=1.0); e(WET0, "slurp", -18, -0.3, dur=1.0)
+e(GAG0 + 0.6, "splash", -17, -0.4, size=0.7); e(DRY1, "plush_squeak", -20, -0.4, pitch=1.6); e(t['sells'] + 0.05, "plush_squeak", -22, -0.4, pitch=0.7)   # Gary + the flip-flop
+for k2 in range(4): e(DRY1 + 0.3 + k2 * 0.45, "plip", -25, -0.4, pitch=1.3)
 for k2 in range(3): e(t['lakefront'] - 0.35 + k2 * 0.16, "knock", -17, -0.3, pitch=1.2)   # the FOR SALE sign hammered in
 # finish: the road, the visitor center, the gift shop, the sign
 e(t['road'] - 0.12, "pop", -14, -0.3, pitch=0.9); e(W('finish', 'center') + 0.25, "pop", -14, 0.2, pitch=1.1); e(t['gift'] - 0.1, "pop", -14, 0.3, pitch=1.3); e(t['sign'] - 0.1, "knock", -15, 0.3, pitch=1.0)
 # the end: confetti + cheer, money, the sign wobble, the bestseller pop, the pool deflates
 e(t['end'], "pop", -12, 0.0); e(t['end'] + 0.1, "pop", -15, 0.3, pitch=1.3); e(t['end'] + 0.15, "blanket_rustle", -22, 0.0, dur=1.6, intensity=0.6)
 for k2 in range(4): e(t['n49'] + 0.2 + k2 * 0.6, "blanket_rustle", -24, -0.3 + 0.2 * k2, dur=0.7, intensity=0.5)
+for k2 in range(3): e(t['end'] + 0.3 + k2 * 0.25, "pop", -20, -0.3 + 0.3 * k2, pitch=1.4 + 0.15 * k2)
+e(t['bestseller'] + 0.1, "pen_scribble", -22, -0.3, dur=0.6)
 e(t['illegal'], "bonk", -18, -0.1); e(t['bestseller'] - 0.3, "pop", -16, -0.3, pitch=1.5)
 e(t['closedE'] + 0.1, "slurp", -15, 0.0, dur=0.9); e(t['closedE'] + 0.15, "low_swell", -21, 0.0, dur=1.2, pitch=0.6)
 

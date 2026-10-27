@@ -48,16 +48,7 @@
     {
       "id": "congrats",
       "say": "Congratulations, you've built a dam. It holds back six inches of water, and a beaver is already taking notes.",
-      "callouts": [
-        {
-          "at": "notes",
-          "text": "2/10",
-          "style": "stamp",
-          "hold": 1.2,
-          "x": 0.66,
-          "y": 0.63
-        }
-      ]
+      "callouts": []
     },
     {
       "id": "float",
