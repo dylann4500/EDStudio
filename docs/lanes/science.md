@@ -41,3 +41,21 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   move (dolly/crane/track) and secondary motion (flailing arms, wobbling water blobs, spinning fans, drifting confetti), and keep
   the early slow-mo beats SHORT (3–4 s) with faces close (017 v4: tightening 14.4 s → 10 s took TRIBE from 0.045 to 0.049).
 - Keep the cut ≤ 69.5 s: longer reels run TRIBE's audio encoder over the shared memory cap (CLAUDE.md).
+
+## Second video: 027 "What if every electron disappeared?"
+- **Shape (65.2 s):** a live Tokyo crossing → SECOND 0 replayed in four places at the same instant (13:00 UTC: Tokyo 10 PM, Rio
+  10 AM, Chicago 8 AM, New York 9 AM — check the local times against each other) → ONE log clock (HUD `ease:'log'` + `timefmt`)
+  from 10 attoseconds to 8 min 17 s, one new SCALE per step (an atom, a street, Paris, Earth from orbit, Earth + Moon, the Sun)
+  → rewind to 9:59 PM for the human button (a hug: "Every hug was electrons pushing back") → "Which would you rather lose:
+  gravity or electrons?" (cross-promotes 017 on the same account).
+- **When the honest physics is too fast to see, slow the clock, not the physics:** everything electrons do stops at τ = 0, so at
+  femtoseconds the world is a paused video (honest AND cheap: frozen poses + bullet-time camera moves). The visible change is
+  driven by one rule from the shots.js header (blast front: displacement = max(0, cτ − depth)), so the HUD and the picture agree.
+- **Subtractive SECOND 0:** no electrons = no sound (air molecules can't bump), so every bed stops dead and the score enters.
+- State the stylization (bare nuclei don't reflect light; we keep drawing things lit) and the honest limit (the energy exceeds
+  Earth's mass-energy → general relativity; we show only the light-speed front) in the header + the caption comment.
+- **TRIBE (027):** cut1 0.0416 (no dead zone). A fix pass that SHORTENED the weak beats (retimed everything after them) lifted
+  those beats but dropped the untouched late beats by half in their new slots (cut2 0.0392). Fix weak beats in place (camera
+  moves, faces, brightness) and keep the timeline when the late part already scores well. cut3 did that: 0.0441 / first 60 s
+  0.0430 (beats 013), no dead zone, 0.0006 under the whole-brain target — the frozen dark Tokyo beat (0.006) and the pool (0.023)
+  stay the weakest: a night street with frozen people sags even with close faces.

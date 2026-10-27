@@ -1,0 +1,328 @@
+{
+ "tone": "whatif",
+ "look": {
+  "exposure": 1.05,
+  "fill": 0.5,
+  "vignette": 0.26,
+  "bloom": 0.3,
+  "bloomThreshold": 0.88
+ },
+ "fps": 30,
+ "duration": 65.2,
+ "title": {
+  "html": "What if every <em>electron</em> disappeared?",
+  "in": -0.4,
+  "out": 3.4
+ },
+ "subs": [
+  [
+   3.7,
+   6.95,
+   "Tokyo, 10 PM. Every light here runs on electrons."
+  ],
+  [
+   7.55,
+   9.3,
+   "Second 0: every electron vanishes."
+  ],
+  [
+   9.45,
+   11.3,
+   "Every screen and lamp goes dark."
+  ],
+  [
+   11.55,
+   13.15,
+   "Rio. The sky turns black."
+  ],
+  [
+   13.3,
+   15.15,
+   "Blue was sunlight bouncing off electrons."
+  ],
+  [
+   15.35,
+   17.0,
+   "Chicago. The toast stops browning."
+  ],
+  [
+   17.1,
+   18.95,
+   "Cooking is chemistry. Chemistry is electrons."
+  ],
+  [
+   19.15,
+   20.95,
+   "New York. Thinking is chemistry too."
+  ],
+  [
+   21.1,
+   22.7,
+   "She freezes mid-word."
+  ],
+  [
+   22.95,
+   25.15,
+   "Every atom is now a bare nucleus."
+  ],
+  [
+   25.3,
+   26.7,
+   "All of them positive."
+  ],
+  [
+   26.95,
+   30.3,
+   "Positive pushes positive, a trillion trillion trillion times harder than gravity."
+  ],
+  [
+   30.4,
+   31.75,
+   "Everything comes apart."
+  ],
+  [
+   31.95,
+   34.1,
+   "Paris. The tower lasts under a microsecond."
+  ],
+  [
+   34.25,
+   36.3,
+   "So does the ground under it."
+  ],
+  [
+   36.55,
+   38.6,
+   "Earth peels from the outside in."
+  ],
+  [
+   38.75,
+   40.9,
+   "At nearly the speed of light."
+  ],
+  [
+   41.15,
+   43.25,
+   "21 milliseconds: the blast reaches the core."
+  ],
+  [
+   43.35,
+   45.3,
+   "A cloud, twice Earth’s size."
+  ],
+  [
+   45.55,
+   47.4,
+   "The Moon does the same thing."
+  ],
+  [
+   47.55,
+   49.5,
+   "At 0.63 seconds, they collide."
+  ],
+  [
+   49.75,
+   51.0,
+   "So does the Sun."
+  ],
+  [
+   51.15,
+   53.25,
+   "Its last light arrives 8 minutes later."
+  ],
+  [
+   53.35,
+   54.75,
+   "Then the Sun itself."
+  ],
+  [
+   55.0,
+   55.9,
+   "Rewind."
+  ],
+  [
+   56.0,
+   57.6,
+   "You’ve never truly touched anything."
+  ],
+  [
+   57.7,
+   59.6,
+   "Every hug was electrons pushing back."
+  ]
+ ],
+ "hudLabel": "ELECTRONS IN THE UNIVERSE",
+ "hud": [
+  {
+   "t0": 0.0,
+   "t1": 7.4,
+   "from": 0,
+   "to": 0,
+   "text": "~10⁸⁰",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "TOKYO · 10:00 PM · TUESDAY",
+   "age": "EVERY LIGHT HERE · ELECTRONS"
+  },
+  {
+   "t0": 7.4,
+   "t1": 11.4,
+   "from": 0,
+   "to": 0,
+   "text": "0",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "TOKYO · 10:00 PM",
+   "age": "LIGHTS ON · 0",
+   "ageGoldAt": 7.4
+  },
+  {
+   "t0": 11.4,
+   "t1": 15.2,
+   "from": 0,
+   "to": 0,
+   "text": "0",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "RIO DE JANEIRO · 10:00 AM",
+   "age": "BLUE SKY · GONE"
+  },
+  {
+   "t0": 15.2,
+   "t1": 19.0,
+   "from": 0,
+   "to": 0,
+   "text": "0",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "CHICAGO · 8:00 AM",
+   "age": "TOASTER · 1,200 W → 0 W"
+  },
+  {
+   "t0": 19.0,
+   "t1": 22.8,
+   "from": 0,
+   "to": 0,
+   "text": "0",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "NEW YORK · 9:00 AM",
+   "age": "NERVE SIGNALS · 120 m/s → 0"
+  },
+  {
+   "t0": 22.8,
+   "t1": 26.8,
+   "from": 1e-17,
+   "to": 1e-15,
+   "r0": 22.8,
+   "r1": 26.8,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "EVERY ATOM · EVERYWHERE",
+   "age": "NUCLEUS · 100,000× SMALLER THAN THE ATOM"
+  },
+  {
+   "t0": 26.8,
+   "t1": 31.8,
+   "from": 1e-15,
+   "to": 1e-09,
+   "r0": 26.8,
+   "r1": 31.8,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "TOKYO · 10:00 PM",
+   "age": "PUSH · 10³⁶ × STRONGER THAN GRAVITY"
+  },
+  {
+   "t0": 31.8,
+   "t1": 36.4,
+   "from": 1e-09,
+   "to": 1e-06,
+   "r0": 31.8,
+   "r1": 36.4,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "PARIS · 2:00 PM",
+   "age": "DEBRIS · 99.99…% OF LIGHT SPEED"
+  },
+  {
+   "t0": 36.4,
+   "t1": 41.0,
+   "from": 1e-06,
+   "to": 0.001,
+   "r0": 36.4,
+   "r1": 41.0,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "EARTH · FROM 40,000 km",
+   "age": "BLAST FRONT · MOVING IN AT LIGHT SPEED"
+  },
+  {
+   "t0": 41.0,
+   "t1": 45.4,
+   "from": 0.001,
+   "to": 0.021,
+   "r0": 41.0,
+   "r1": 45.4,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "EARTH",
+   "age": "RADIUS · 6,371 km → 12,700 km"
+  },
+  {
+   "t0": 45.4,
+   "t1": 49.6,
+   "from": 0.021,
+   "to": 0.63,
+   "r0": 45.4,
+   "r1": 49.6,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "EARTH + MOON",
+   "age": "DISTANCE · 384,400 km"
+  },
+  {
+   "t0": 49.6,
+   "t1": 54.8,
+   "from": 0.63,
+   "to": 497,
+   "r0": 49.6,
+   "r1": 54.4,
+   "ease": "log",
+   "timefmt": true,
+   "label": "TIME SINCE THE ELECTRONS VANISHED",
+   "time": "THE SUN · 150 MILLION km AWAY",
+   "age": "ITS LAST LIGHT · 8 MIN 17 S AWAY"
+  },
+  {
+   "t0": 54.8,
+   "t1": 65.2,
+   "from": 0,
+   "to": 0,
+   "text": "~10⁸⁰",
+   "label": "ELECTRONS IN THE UNIVERSE",
+   "time": "TOKYO · 9:59 PM",
+   "age": "REWIND · ONE MINUTE BEFORE SECOND 0",
+   "ageGoldAt": 54.8
+  }
+ ],
+ "end": {
+  "in": 61.0,
+  "html": "Which would you rather lose: <em>gravity</em> or electrons?",
+  "small": "TELL US BELOW"
+ },
+ "dips": [],
+ "finalFade": [
+  60.4,
+  61.0
+ ],
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 40
+ }
+}

@@ -187,6 +187,15 @@ const fmtLen = (cm) => {
   if (km < 100) return `${km.toFixed(1)} km`;
   return `${Math.round(km).toLocaleString('en-US')} km`;
 };
+/** seconds → "320 femtoseconds" / "1.0 nanoseconds" / "8 min 17 s" (3 significant digits; 027). */
+export function fmtTime(v) {
+  if (!(v > 0)) return '0 seconds';
+  if (v >= 60) { const m = Math.floor(v / 60), s = Math.floor(v - m * 60); return `${m} min ${s} s`; }
+  const U = [[1e-18, 'attosecond'], [1e-15, 'femtosecond'], [1e-12, 'picosecond'], [1e-9, 'nanosecond'], [1e-6, 'microsecond'], [1e-3, 'millisecond'], [1, 'second']];
+  let k = 0; while (k < U.length - 1 && v >= U[k + 1][0] * 0.9995) k++;
+  const x = v / U[k][0], str = x < 9.95 ? x.toFixed(1) : x < 99.5 ? x.toFixed(0) : x.toFixed(0);
+  return `${str} ${U[k][1]}s`;
+}
 
 export function createOverlay(story) {
   const title = $('title'), hud = $('hud'), num = $('hudNum'), time = $('hudTime'), age = $('hudAge');
@@ -214,12 +223,19 @@ export function createOverlay(story) {
       let n = seg.from, u = 1;
       // seg.ease 'linear' = a steady clock across segments (017); seg.dec decimals + seg.unit suffix ("2.5 s") (017)
       // seg.geo = geometric roll for doublings, seg.fmt 'len' = cm / m / km (020, 022)
+      // 027: seg.ease 'log' = from·(to/from)^u (a clock that sweeps decades); seg.text = a literal string instead of the number;
+      // seg.timefmt = n is seconds, shown with the right SI word ("320 femtoseconds", "8 min 17 s"); seg.label overrides hudLabel
       if (seg.r0 !== undefined) {
         u = clamp((t - seg.r0) / (seg.r1 - seg.r0));
-        const k = seg.ease === 'linear' ? u : easeIO(u);
-        n = seg.geo && seg.from > 0 && seg.to > 0 ? seg.from * Math.pow(seg.to / seg.from, k) : lerp(seg.from, seg.to, k);
+        if (seg.ease === 'log') n = seg.from * Math.pow(seg.to / seg.from, u);
+        else {
+          const k = seg.ease === 'linear' ? u : easeIO(u);
+          n = seg.geo && seg.from > 0 && seg.to > 0 ? seg.from * Math.pow(seg.to / seg.from, k) : lerp(seg.from, seg.to, k);
+        }
       }
-      num.textContent = seg.fmt === 'len' ? fmtLen(n) : (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
+      num.textContent = seg.text !== undefined ? seg.text : seg.timefmt ? fmtTime(n)
+        : seg.fmt === 'len' ? fmtLen(n) : (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
+      if (seg.label !== undefined || story.hudLabel) $('hudLabel').textContent = seg.label ?? story.hudLabel ?? '';
       time.textContent = seg.time || '';
       age.textContent = seg.ageFrom && u < 0.5 ? seg.ageFrom : seg.age || '';
       const g = seg.ageGoldAt !== undefined ? clamp(1 - (t - seg.ageGoldAt) / 1.6) * (t >= seg.ageGoldAt ? 1 : 0) : 0;
