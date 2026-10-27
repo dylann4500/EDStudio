@@ -24,7 +24,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 014 | What if every adult woke up as a toddler? | unhinged / @ed._.studios | scheduled Oct 26 1 PM |
 | 015 | What if every human grew a tail that wags when they lie? | unhinged / @ed._.studios | assigned Oct 26 |
 | 016 | What if every pet on Earth could suddenly talk? | unhinged / @ed._.studios | assigned Oct 26 |
-| 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | assigned Oct 26 |
+| 017 | What if gravity turned off for 5 seconds? | science / @ed_.studios | made Oct 26, in review |
 | 018 | What if every human became magnetic? | unhinged / @ed._.studios | made Oct 26, in review |
 | 019 | What if everyone on Earth couldn't stop dancing? | unhinged / @ed._.studios | made Oct 26, in review |
 | 020 | What if your butt doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
@@ -32,6 +32,9 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 022 | What if your ballsack doubled in size every minute? | unhinged (weird tier) / @ed._.studios | assigned Oct 26 |
 | 023 | What if Pip went trick-or-treating? (Pip ep. 2, Halloween) | pip / @ed._.sims | assigned Oct 26 |
 | 024 | How a Hole Becomes a Subway (narrated "build" genre) | build — NOT managed by the operation | the user runs build reels separately; number reserved only |
+| 025 | How a Kiddie Pool Becomes a Dam | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
+| 026 | How a Garage Becomes a Car Factory | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
+| 027 | What if every electron disappeared? | science / @ed_.studios | assigned Oct 26 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -54,7 +57,6 @@ Classic tier ("everyone on Earth…"):
 - What if everyone had to hold hands with a stranger for 24 hours?
 
 ## Backlog: science (@ed_.studios)
-- What if every electron disappeared? (user's example)
 - What if the Moon were twice as close? (tides, eclipses, day length)
 - What if Earth stopped spinning for one second? (~1,670 km/h at the equator)
 - What if the Sun disappeared? (8 min 20 s of light still on its way)
