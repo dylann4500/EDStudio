@@ -134,7 +134,7 @@ skirts, the power grid failing from dryers, TOWELS SOLD OUT, strangers laughing 
 - Gary appears 3× (the interview candidate, the dog-blamer, the finale) — a running cameo across videos (002, 007, 010, 012).
 - Sound: "mischief" — pizzicato strings + mallet "uh-oh" motif (audio/README.md); the room's chatter STOPS at the moment.
 
-## Build: "How a ___ Becomes a ___" (`"tone": "build"`, `videos/015-hole-subway`) — its own category
+## Build: "How a ___ Becomes a ___" (`"tone": "build"`, `videos/024-hole-subway`) — its own category
 Full rulebook: **docs/BUILD.md** (+ `/new-build`, reference account `docs/reference/wemakebuild.md`). In one line: a narrated
 (ElevenLabs) roast of a humble object upgrading into a giant machine — fail → "So…" → "This is called [TERM]" → joke, 6–8×,
 Gary gets hurt every time, ONE word on screen at a time, one cutaway diorama, a marimba "ta-da" on every TERM, the callback

@@ -6,12 +6,13 @@ Make one complete EDStudio **build** video for: **$ARGUMENTS**
 
 The build genre is its own category (user, Oct 26 2026: "an entirely new harness"). Read **`docs/BUILD.md`** first (the
 rulebook + kit), then `docs/reference/wemakebuild.md` (what the reference account does and why it retains), then CLAUDE.md
-(deterministic renders, worktrees, hard-won rules). Reference video: `videos/015-hole-subway` (script.json, shots.js,
+(deterministic renders, worktrees, hard-won rules). Reference video: `videos/024-hole-subway` (script.json, shots.js,
 make_cues.py). User steer: "their videos are really dense with lots of good animation, actions, items" — a new action, prop
 or effect on almost every phrase.
 
-1. **Worktree + number** (CLAUDE.md → Parallel sessions): `git fetch`, check `videos/`, `origin/main`, `.claude/worktrees/`,
-   take the next free NNN, `git worktree add -b video/NNN-slug .claude/worktrees/NNN-slug main`, then `npm install` in the
+1. **Worktree + number** (CLAUDE.md → Parallel sessions): `git fetch`, check `videos/`, `origin/main`, `.claude/worktrees/`
+   AND `ops/ledger.csv` / `ops/ideas.md` (the operation's manager hands out numbers — ask it, docs/OPERATION.md), take the
+   next free NNN (the first build reel picked 015 while the manager gave 015 to another video, and was renumbered 024 at merge), `git worktree add -b video/NNN-slug .claude/worktrees/NNN-slug main`, then `npm install` in the
    worktree (it needs the @fontsource/fredoka + luckiest-guy fonts).
 2. **Topic**: "How a [humble everyday thing] Becomes a [giant machine/structure]". Not a pair the reference already did
    (list in wemakebuild.md). Pick one whose steps are VISIBLE failures with real engineering names (6–8 of them) and
@@ -36,14 +37,14 @@ or effect on almost every phrase.
    `node tools/sheet.mjs NNN-slug`, look, fix, repeat. Typical fixes: a tree/lamp/car between camera and subject, sprites
    (dust/stink/drops) spawned right in front of the lens, the hero hidden behind trailing machinery, a ring/donut too
    close to fit the 9:16 frame. Then `--preview` and scan it at 1 fps (`fps=1,scale=150:-1,tile=12x5`).
-   After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 015's `window.EDSTUDIO_QC` into build()) — no face
+   After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 024's `window.EDSTUDIO_QC` into build()) — no face
    under the caption/callouts for ≥ 0.5 s — and no `[rail] … m in … s` line in the log.
-8b. **Review loop — follow docs/BUILD-REVIEW.md** (it's what made 015 good): render a 30 fps cut (`--fps 30 --blur 1`),
+8b. **Review loop — follow docs/BUILD-REVIEW.md** (it's what made 024 good): render a 30 fps cut (`--fps 30 --blur 1`),
    `python3 -I tools/review_kit.py NNN-slug <scratchpad>/reviewN --video videos/NNN-slug/final.mp4 --ref <reference.mp4>`,
    send 5 read-only reviewer agents in ONE message (logic, look, pacing, camera, comedy — brief templates in that file) scoring
    /10, look at the frames yourself meanwhile, merge their fixes (script → camera → logic → look), verify with stills + `--qc`,
    record the scores in BUILD.md, repeat until all ≥ 8 (fold logic/pacing/comedy into one agent once they plateau).
-9. **Audio**: `make_cues.py` computes every cue from story.json (copy 015's) → `python3 -I audio/synth.py NNN-slug`.
+9. **Audio**: `make_cues.py` computes every cue from story.json (copy 024's) → `python3 -I audio/synth.py NNN-slug`.
    Check: −14 LUFS, `music dropouts: none`, voice on top (measure stems: voice ≈ −15, sfx ≈ −20, music ≈ −24 LUFS).
 10. **Render** `node tools/render.mjs NNN-slug` (60 fps + blur, ~25 min), QC (docs/BUILD.md checklist) — scan the ACTUAL
     render (1 fps sheet + the last 8 s at 2.5 fps), not only stills — write caption.md (house format + course line), commit the

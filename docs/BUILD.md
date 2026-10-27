@@ -3,7 +3,7 @@
 A fast, narrated, joke-dense explainer: a humble object upgrades step by step into a giant machine. Every step **fails in a
 funny physical way**, gets **fixed**, and the fix gets its **real engineering name**. Its own category (user, Oct 26 2026:
 "an entirely new harness, entirely new design process"). Reference account + full analysis: `docs/reference/wemakebuild.md`.
-Design spec: `docs/superpowers/specs/2026-10-26-build-genre-design.md`. First video: `videos/015-hole-subway`.
+Design spec: `docs/superpowers/specs/2026-10-26-build-genre-design.md`. First video: `videos/024-hole-subway`.
 User steer: "their videos are really dense with lots of good animation, actions, items… make the best video and highest
 matching video possible." Density is the point: something new pops, breaks, floods or flies on almost every phrase.
 
@@ -58,7 +58,7 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
   Luckiest Guy (callouts), from `@fontsource/*` in node_modules (run `npm install` after pulling). Styles (band tops in px of 1920): `term` (yellow,
   390), `label` (orange, 262, stacks above a term), `money` (green, 318), `stamp` (red, tilted, slams in, 560), `sfx` (small yellow
   comic word centred at `pos` [x, y] frame fractions); any callout can take `y` — or `x` + `y` (centred there) — when its band
-  would cover the subject (015: "$3 A RIDE" at x 0.7 / y 0.66 off Gary's face, RIDES FREE at x 0.5 / y 0.6). The one-word
+  would cover the subject (024: "$3 A RIDE" at x 0.7 / y 0.66 off Gary's face, RIDES FREE at x 0.5 / y 0.6). The one-word
   caption sits at 1000 px (52 %); `render.mjs --qc` lists faces under any of them. Long callouts auto-shrink to 960 px. Label/money are big with a
   wide dark halo (an orange label vanished on the orange TBM).
 - `toon.js` — `makeToon({skin, shirt, pants, hair, hairStyle 'tuft'|'messy'|'side'|'none', hat 'hardhat'|'chef'|'cap', mustache})`
@@ -76,7 +76,7 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - `fx.js` — analytic particles (pure functions of age → any frame renders alone): `fx.burst(kind, t0, {pos, n, dir, spread,
   speed, box, floor})`, `fx.stream(kind, t0, t1, {rate,…})`; kinds dirt, rock, crumb, drops, confetti, dust, smoke, stink,
   mist, spark, glow. `makeArrows(path)` (flow chevrons), `makeDizzy()` (stars around a head).
-- `subway.js` — the 015 set (see its header): strata, street + traffic jam, bakery block that settles, TBM, lining rings,
+- `subway.js` — the 024 set (see its header): strata, street + traffic jam, bakery block that settles, TBM, lining rings,
   track + third rail, vent fans + grates, station, escalator, train, pumps + hose, shoring, water. Reusable props:
   `makeTBM`, `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`.
 
@@ -96,14 +96,14 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - **Glide out early** (v5 camera review: near-still time 36 → 14 s): a framing departs `max(need, min(1.6·need, 0.55·gap))`
   before the next word, not at the last legal moment, and drifts `lead 0.06/s` (max 15 %) toward the next frame while held.
   When a gag must FINISH in frame (Gary flattened → springs back), pass `until: t` (`Fk(t, pos, look, fov, until)`): the hold
-  lasts to t as long as the next move stays legal. 015's carry gag left frame mid-pancake before `until`.
+  lasts to t as long as the next move stays legal. 024's carry gag left frame mid-pancake before `until`.
 - The render log must show NO `[rail] … m in … s` warnings. (Until Oct 26 tools/render.mjs dropped them: Puppeteer reports
   `console.warn` as type `'warn'`, not `'warning'` — every lint warning from page code was silently lost.)
 - **Vary the angle**: a three-quarter view down the bore that follows a jogging character (camera ~3 m in front of the cut, x
   behind him, look ~5 m ahead) sold "miles of tunnel"; a side three-quarter (≈27° yaw) made a finger-on-the-rail poke read.
-- **Run `node tools/render.mjs NNN --qc`** after every camera change: it runs the video's `window.EDSTUDIO_QC` (015's shots.js
+- **Run `node tools/render.mjs NNN --qc`** after every camera change: it runs the video's `window.EDSTUDIO_QC` (024's shots.js
   end), which steps the take every 0.25 s and lists each moment a tracked face (Gary, plus any other face the ending leans on —
-  015's old driver) sits under the one-word caption (±0.045) or a callout (±0.065, only near its x for placed/sfx callouts).
+  024's old driver) sits under the one-word caption (±0.045) or a callout (±0.065, only near its x for placed/sfx callouts).
   Fix runs ≥ 0.5 s; single 0.25 s hits during a move are fine. Callouts take `pos` (sfx), `x`/`y` (frame fractions) to dodge.
 - **Framing math for toons:** the toon's head centre is root + 1.12 m (≈1.45 m tall with a hat). Aim the look point ≥ ~1 m
   below head height so faces sit at ≤ 42 % of frame height — the one-word caption is at 52 % (v3 still had captions across
@@ -116,7 +116,7 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - **Speed limits:** ≤ ~30°/s rotation, ≤ 0.7 frame widths/s lateral (frame width = 0.41·d at fov 40, 0.45·d at 44); travel in
   +x along the build; |yaw| ≤ 25–30° so the cut still reads as a cutaway; camera always at z > 0 (in front of the cut).
 - Follow-cams (the TBM chewing) = pass keys every 0.5 s computed from the subject's path.
-- A thing seen edge-on (the lining rings from the front) can't carry a gag — 015's donut gag became one giant donut popping
+- A thing seen edge-on (the lining rings from the front) can't carry a gag — 024's donut gag became one giant donut popping
   face-on around the tunnel mouth.
 
 ## Smoothness: 60 fps + motion blur (user steer: "theirs feel like 60 fps, ours felt choppier")
@@ -161,12 +161,12 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
   camera and only the belly showed); a glass-roofed car shows its driver only if his head sits in the window band.
 - Gary transforms on a running gag (fossil → pancake → nightlight) — say it, then SHOW it the same second.
 - **A doorway a character uses needs something behind it, on a surface facing the lens** (the user caught this on the
-  shipped cut): 015's burrow was a circle cut in the cut face beside the shaft with nothing behind it, so the raccoon rose
+  shipped cut): 024's burrow was a circle cut in the cut face beside the shaft with nothing behind it, so the raccoon rose
   through the floor and backed out through the shaft's solid side wall. v6 paints a dark arch on the shaft's BACK wall (a
   decal at z = −depth + 0.01) and the raccoon scurries out of it toward the lens and backs into it: the opaque back wall hides
   whatever is behind the arch, so it reads as a real hole. Check entrances/exits frame by frame, not only the held pose.
 
-## The review loop (how 015 went from ~4/10 to …)
+## The review loop (how 024 went from ~4/10 to …)
 **Full playbook + the five reviewer brief templates: docs/BUILD-REVIEW.md.** The short version:
 1. Render a 30 fps review cut; build a kit: 2 fps contact sheets per 10 s (`fps=2,scale=200:-1,tile=10x2`), single frames at
    0.5 s, the word timeline (story.json → text), the reference sheets (incl. 6 fps strips of the camera).
@@ -177,7 +177,7 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
    dimension scores ≥ 8.
 4. Look at the frames yourself while the reviewers run — you're the one fixing it, and their claims need checking.
 
-015's scores (logic · look · pacing · camera · comedy): v1 4 · 4 · 6 · 3 · 5 → v2 (one take, ElevenLabs, continuity) 6 · 5 · 7.5 · 6 · 6.5 →
+024's scores (logic · look · pacing · camera · comedy): v1 4 · 4 · 6 · 3 · 5 → v2 (one take, ElevenLabs, continuity) 6 · 5 · 7.5 · 6 · 6.5 →
 v3 (planRail, visible exits, re-voiced punch-ups) 7 · 6 · 8 · 6.5 · 7.5 → v4 (croissants-first, ring in the world, bearded stuck
 driver, turnstile swipes) 8 · 6.5 · 8.5 · 6.5 · 8 → v5 (QC hook for faces under text, soft holds, money bills, nightlight
 dark + glowing Gary) 8 · 6.5 · 8.5 · 7 · 8.5; v6 = the round-5 fixes below, shipped without a 6th review round. The camera stayed at 6.5 until the soft holds; the look reviewers keep asking for
@@ -201,11 +201,11 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 
 ## Audio (make_cues.py → audio/synth.py)
 - **The narrator sits on top.** cues.json `"voice": {file, duck_db ≈ −9, amb_duck_db ≈ −5, presence_db 2, hp 75}` loads
-  voice.wav as its own stem; music + ambience duck under every phrase. Measured on 015: voice ≈ −15.4, sfx ≈ −19.9,
+  voice.wav as its own stem; music + ambience duck under every phrase. Measured on 024: voice ≈ −15.4, sfx ≈ −19.9,
   music ≈ −23.8, amb ≈ −23.9 LUFS; master −14.0 LUFS, LRA 2.0 (the reference: −14.1 / 1.6). Measure stems with
   `ffmpeg -i out/stems/<k>.wav -af ebur128 -f null -`.
 - **make_cues.py computes every cue from story.json** (same word anchors as shots.js), so re-voicing never desyncs sound.
-- **Music identity "WORKSHOP"** (015): marimba `ostinato` 8ths in F major, 118 bpm, I–V–vi–IV, piano bass every 4 steps,
+- **Music identity "WORKSHOP"** (024): marimba `ostinato` 8ths in F major, 118 bpm, I–V–vi–IV, piano bass every 4 steps,
   a soft F pad under everything, a very light taiko pulse (vel 0.12), booms on the big impacts. **The genre's audio
   signature: a rising marimba "ta-da" (F5–A5–C6) on every TERM callout**, a two-note lift on money/labels, a falling pair on
   stamps. The hook is foley only (traffic, horns, shovel); the music drops in on "Congratulations". Never stops after.
@@ -243,7 +243,7 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - [ ] `--qc` lists no face-under-text run ≥ 0.5 s; the render log has no `[rail] … m in … s` warning.
 - [ ] 1080×1920, 60 fps (motion blur 2), H.264 + AAC, < 100 MB; caption.md in house format with the course line, pasted in the report.
 
-## Lessons from 015 (each cost a stills round)
+## Lessons from 024 (each cost a stills round)
 - A cutaway needs the cut **off-center** through round things so the visible part is big enough (tunnel axis at z = −0.6:
   the train fits). Rings/bore use the matching arc (`ARC = acos(T.z / R)`).
 - Anything that replaces a region of the face (the bakery block that sinks) must be **masked out of the face always**, or
@@ -271,9 +271,9 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   Mid-grey (≈0x9d9a93) + a speckle map + cables and a lamp every third ring (`makeHalfRing(…, {dress, lamp, shades})`) reads as
   a real tunnel and sells "miles" in a three-quarter view down the bore.
 - Hide trailing machinery that covers the gag (`S.tbm.gear.visible = false` once the rings must be seen being built).
-- **Ambient occlusion (`look.ao`, GTAOPass in engine/core.js) was tried on 015 and left OFF**: on a flat cut face it barely shows,
+- **Ambient occlusion (`look.ao`, GTAOPass in engine/core.js) was tried on 024 and left OFF**: on a flat cut face it barely shows,
   and at a usable radius it paints blocky squares on the tunnel lining. Opt-in for future sets with real corners (rooms, streets).
-- **Scripted edits that append `// why` comments mid-line bit twice more in 015** (a money-rain stream lost its closing `});`
+- **Scripted edits that append `// why` comments mid-line bit twice more in 024** (a money-rain stream lost its closing `});`
   = syntax error; a planner line lost `vel = …` = runtime ReferenceError that `node --check` can't see). Append comments only at
   the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
   mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends

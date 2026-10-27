@@ -1,11 +1,11 @@
-# BUILD-REVIEW — the subagent review loop that took 015 from ~4/10 to "really good"
+# BUILD-REVIEW — the subagent review loop that took 024 from ~4/10 to "really good"
 
-The loop that turned 015's first cut (logic 4 · look 4 · pacing 6 · camera 3 · comedy 5) into the version the user called
+The loop that turned 024's first cut (logic 4 · look 4 · pacing 6 · camera 3 · comedy 5) into the version the user called
 "really good… way better than before" (v5: 8 · 6.5 · 8.5 · 7 · 8.5, then one fix pass). User steer: "spawn sub agents to review
 different parts of the video, critique / score, then iteratively improve until the video is best / great… have the claudes
 rank and stuff". Use it for every build reel (docs/BUILD.md, `/new-build` step 8b); it works for any EDStudio tone.
 
-## One round (≈ 45–75 min; 015 needed 5 rounds)
+## One round (≈ 45–75 min; 024 needed 5 rounds)
 1. **Review cut** (~8 min for 100 s): `node tools/render.mjs NNN-slug --fps 30 --blur 1` (writes final.mp4; no motion blur —
    reviewers judge path/framing/speed; the real final is 60 fps + blur). Run `--qc` and check the log has no `[rail] … m in`.
 2. **Kit** (~1 min): `python3 -I tools/review_kit.py NNN-slug <scratchpad>/reviewN --video videos/NNN-slug/final.mp4
@@ -13,7 +13,7 @@ rank and stuff". Use it for every build reel (docs/BUILD.md, `/new-build` step 8
    its second + the callouts), the reference sheets + 6 fps camera strips. Then copy `videos/NNN-slug/script.json` and
    `docs/reference/<account>.md` (as `reference_analysis.md`) into the kit folder.
    Reference reels: 1–3 of the account's top posts (links in `docs/reference/*.md`), downloaded into the SCRATCHPAD only —
-   never commit someone else's video. 015 used the bridge (98 s, 1.85M likes), coaster and skyscraper reels.
+   never commit someone else's video. 024 used the bridge (98 s, 1.85M likes), coaster and skyscraper reels.
 3. **Dispatch 5 reviewers in ONE message** (they run in parallel, ~8–10 min, ~150–200k tokens each): `general-purpose`
    agents, read-only, one dimension each, briefs from the templates below. Each brief carries: the round + version, the
    dimension's score history, **the list of claims** ("v3's issue → what v4 changed") for the reviewer to VERIFY, the kit
@@ -35,15 +35,15 @@ rank and stuff". Use it for every build reel (docs/BUILD.md, `/new-build` step 8
    video will hit it (BUILD.md rules, CLAUDE.md cheat sheet). That's how this file and BUILD.md were written.
 
 **When to stop:** every dimension ≥ 8, or a round moves nothing by ≥ 0.5. Once logic, pacing and comedy plateau, fold them
-into ONE reviewer (015's round 5: camera · look · logic+pacing+comedy = 3 agents) and finish with a fix pass instead of a 6th
+into ONE reviewer (024's round 5: camera · look · logic+pacing+comedy = 3 agents) and finish with a fix pass instead of a 6th
 round. The look score plateaus at ~6.5 (Three.js vs the reference's Blender renders) — don't chase it with heavy passes
 (AO was tried and left off, docs/BUILD.md).
 
 **Then the final:** `node tools/render.mjs NNN-slug` (60 fps + blur, ~25 min) and **check the actual render**, not just stills:
 `ffmpeg -ss <t> -t 8 -i final.mp4 -vf "fps=2.5,scale=180:-1,tile=10x2" -frames:v 1 end.jpg` on the last 8 s and a 1 fps sheet of
-the whole thing. 015's first final hid Gary behind the departing train in the last second — invisible in every still.
+the whole thing. 024's first final hid Gary behind the departing train in the last second — invisible in every still.
 
-## 015's arc (what each round fixed)
+## 024's arc (what each round fixed)
 | Round | logic · look · pacing · camera · comedy | biggest wins |
 |---|---|---|
 | v1 → v2 | 4·4·6·3·5 → 6·5·7.5·6·6.5 | ONE continuous camera (no cuts), ElevenLabs voice, continuity (one hole that only deepens, visible exits) |
@@ -85,7 +85,7 @@ Output (under ~600 words): SCORE: x/10. EVENT COUNTS per 10 s (short table). TOP
 fixes."
 
 **4 · Camera & transitions** ("You are a cinematographer reviewing…") — add **the set's coordinates** (cut face z = 0, camera
-z > 0, where each location sits in x/y — 015's brief listed the hole, shafts, tunnel band, bakery, vents, station, street) and
+z > 0, where each location sits in x/y — 024's brief listed the hole, shafts, tunnel band, bakery, vents, station, street) and
 point it at the camera code (`shots.js`, search "the camera: ONE continuous take", and `engine/build/rail.js`; it may evaluate
 the path numerically from story.json). "Output (under ~700 words): SCORE: x/10. WHAT WORKS. TOP ISSUES (ranked, max 8) with
 timestamps. SPECIFIC FIXES as framings {t (word), pos, look, fov} in our coordinates." (Its framings drop straight into
@@ -96,4 +96,4 @@ and is every line SHOWN at its word? Which gags still don't read? Cheap punch-up
 Output (under ~600 words): SCORE: x/10. BEST GAGS. TOP ISSUES (ranked, max 8) with timestamps + fixes."
 
 Round 1 (no history yet) adds to each brief: the user's steer for the video, the reference analysis, and "rank fixes by
-impact/effort". The full original briefs are in 015's session transcript; the templates above are them, generalized.
+impact/effort". The full original briefs are in 024's session transcript; the templates above are them, generalized.

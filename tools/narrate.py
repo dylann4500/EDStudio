@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Build-genre narration: videos/<slug>/script.json -> voice clips -> voice.wav + words.json + story.json.
 
-    python3 -I tools/narrate.py 015-hole-subway            voice every beat (cached) + lay out story.json
-    python3 -I tools/narrate.py 015-hole-subway --scratch  force the scratch voice (macOS `say`) even if a key is set
-    python3 -I tools/narrate.py 015-hole-subway --layout   re-lay out story.json from words.json (callout edits; no voicing)
+    python3 -I tools/narrate.py 024-hole-subway            voice every beat (cached) + lay out story.json
+    python3 -I tools/narrate.py 024-hole-subway --scratch  force the scratch voice (macOS `say`) even if a key is set
+    python3 -I tools/narrate.py 024-hole-subway --layout   re-lay out story.json from words.json (callout edits; no voicing)
     python3 -I tools/narrate.py --voices                   list your ElevenLabs voices (name, id, labels)
     python3 -I tools/narrate.py --sample "text" id1 id2…   voice one line with several ElevenLabs voices -> scratchpad/sample-*.mp3
 

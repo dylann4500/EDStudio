@@ -9,7 +9,7 @@
 //   node tools/render.mjs <video> --fps 60 --blur 2    60 fps + motion blur (2 sub-frames per frame, 180° shutter); story.json
 //                                                      "fps" / "motionBlur" set the defaults (build genre: 60 + 2)
 //   node tools/render.mjs <video> --stills 5 --cam top  bird's-eye debug view (check blocking, light, collisions)
-//   node tools/render.mjs <video> --qc                  run the video's EDSTUDIO_QC hook (015: faces under caption/callout bands)
+//   node tools/render.mjs <video> --qc                  run the video's EDSTUDIO_QC hook (024: faces under caption/callout bands)
 //   (--stills clears previous stills first; add --keep to append)
 //
 // Env overrides: CHROME_PATH, FFMPEG_PATH.

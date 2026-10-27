@@ -1991,7 +1991,7 @@ SFX = {
 }
 
 # =============================================================================
-# 6b. build genre (015, docs/BUILD.md): construction foley + beds. Soft, low-passed, cartoon — never harsh.
+# 6b. build genre (024, docs/BUILD.md): construction foley + beds. Soft, low-passed, cartoon — never harsh.
 # =============================================================================
 
 

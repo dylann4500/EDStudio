@@ -9,7 +9,7 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
 - **biography** ("The story of [Name]", `videos/009-abe-lincoln`) — **its own category: follow `docs/BIOGRAPHY.md` and
   `/new-biography`**. A narrator tells one real life birth → death in full connected sentences; `tools/biography.py` turns a
   beat table (`script.json`) into story.json with shot lengths set by the narration. HUD = AGE + date + place.
-- **build** ("How a ___ Becomes a ___", `videos/015-hole-subway`) — **its own category: follow `docs/BUILD.md` and `/new-build`**
+- **build** ("How a ___ Becomes a ___", `videos/024-hole-subway`) — **its own category: follow `docs/BUILD.md` and `/new-build`**
   (user, Oct 26: "an entirely new harness"; reference account analyzed in `docs/reference/wemakebuild.md`). An ElevenLabs
   narrator (scratch macOS voice until `ELEVENLABS_API_KEY` is set) roasts a humble object upgrading into a giant machine,
   fix by fix, each with its real engineering name; Gary the toon gets hurt by every failure; ONE word at a time dead
@@ -183,13 +183,13 @@ videos/NNN-slug/
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
-- **Build genre kit (015, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
+- **Build genre kit (024, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
   `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeShades`, `makeRaccoon`, `makePigeon` with `flap`),
   `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
   (`beatClock` → `B.W(beat, word)`, `pop/drop/squash/wobble/shake`, `camAt`), `rail.js` (one continuous camera:
   `makeRail(planRail(frames))` — framings on words, moves ≥ 0.6 + d/8 s, `keep`/`until` holds, `[rail]` warnings; `render.mjs --qc` runs
   the video's `window.EDSTUDIO_QC` = faces under caption/callouts), `fx.js` (analytic particles: dirt, drops,
-  confetti, dust, smoke, stink, mist, spark, glow, bill (banknotes); `makeArrows`, `makeDizzy`), `subway.js` (the 015 set + `makeTBM`,
+  confetti, dust, smoke, stink, mist, spark, glow, bill (banknotes); `makeArrows`, `makeDizzy`), `subway.js` (the 024 set + `makeTBM`,
   `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`). Narration:
   `tools/narrate.py` (script.json → voice.wav + words.json + story.json). synth.py: a `"voice"` cue = narrator stem with the
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
@@ -290,7 +290,8 @@ videos/NNN-slug/
   sits on the camera path (004's day shot started *inside* a car).
 - Big painted skies on a 700 m dome need 4096-px textures and soft round stars (2-px squares showed as a grid at fov 50; big stars read as snow).
 - **After resolving a merge in a shared file, run `node --check`** (copy to `.mjs` first). Two sessions appending to props.js lost a
-  closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` before picking NNN — numbers get claimed in worktrees before they're pushed.
+  closing brace in the merge. Also `git fetch` + `ls .claude/worktrees` + `ops/ledger.csv` before picking NNN — numbers get claimed in worktrees before they're pushed,
+  and the operation's manager assigns them (ask it): the build reel took 015 while the manager gave 015 to tail-lies → renumbered 024 at merge.
 - **Readable props (phone screens, posters, signs)** must sit in the clear band: ≈38–65 % of frame height and right of x≈40 %,
   so the HUD (top-left) and subtitles (≈70 %) never cover their text. Phones read best as a POV shot: camera 0.17 m in front of
   the face, aimed at the screen (006). Keep any line of card text above the subtitle band.

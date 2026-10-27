@@ -1,4 +1,4 @@
-// 015 v3 — "How a Hole Becomes a Subway" (build genre, docs/BUILD.md). ONE continuous camera take: framings arrive on their
+// 024 v3 — "How a Hole Becomes a Subway" (build genre, docs/BUILD.md). ONE continuous camera take: framings arrive on their
 // word and leave early enough to glide (engine/build/rail.js planRail — v2's 11 sub-second whips read as cuts).
 // Everything is keyed to the spoken word: W(beat, word) = when that word is said (story.json from tools/narrate.py), so
 // re-voicing keeps every gag and move on its word.
@@ -820,7 +820,7 @@ export async function build(studio, story) {
     });
   }
 
-  // QC (`node tools/render.mjs 015-hole-subway --qc`): every 0.25 s, project Gary's head to the screen and list the moments a
+  // QC (`node tools/render.mjs 024-hole-subway --qc`): every 0.25 s, project Gary's head to the screen and list the moments a
   // caption/callout band covers it (the look reviews flagged faces under text every round).
   const BAND_Y = { term: 390, label: 262, money: 318, stamp: 560 };   // engine/build/captions.js tops (px of 1920)
   window.EDSTUDIO_QC = () => {

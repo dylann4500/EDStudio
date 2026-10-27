@@ -7,7 +7,7 @@ Reference analysis: `docs/reference/wemakebuild.md`. Working rulebook (after it 
 A new EDStudio genre that reproduces @wemakebuild's high-retention format with our own scripts, mascot and topics:
 a humble object upgrades step by step into a giant machine; every step fails in a funny physical way, gets fixed, and the fix
 gets its real engineering name. Narrated by an ElevenLabs voice (user's choice; a scratch voice stands in until the key is set).
-First video: **015 "How a Hole Becomes a Subway 🤔"**, ~100 s.
+First video: **024 "How a Hole Becomes a Subway 🤔"**, ~100 s.
 
 ## Decisions
 | Question | Decision | Why |
@@ -56,7 +56,7 @@ link pasted in every delivery, music continuous and never harsh, stills before e
 Pace: ~3 words/s narration, ~300 words, 90–110 s, 6–8 fix steps, a gag + SFX on every step, something moving every frame,
 a cut or a big camera move every 1–3 s.
 
-## 015 outline (Gary)
+## 024 outline (Gary)
 Hook: Gary wants to cross town without traffic → digs a hole with a shovel → "Congratulations, you've built a subway…"
 1. Walls cave in on Gary → **SHORING**. 2. Deeper: groundwater floods → **PUMPS** + waterproof lining.
 3. By hand it would take centuries → **TUNNEL BORING MACHINE**. 4. The bakery above sinks → **SEGMENT RINGS** + grout.

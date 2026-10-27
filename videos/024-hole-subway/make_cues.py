@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Cue sheet for 015 (build genre) -> cues.json.   python3 -I videos/015-hole-subway/make_cues.py
+"""Cue sheet for 024 (build genre) -> cues.json.   python3 -I videos/024-hole-subway/make_cues.py
 
 Every time comes from story.json (the narration's word times, tools/narrate.py), mirroring shots.js — re-voicing the narration
-(scratch → ElevenLabs) and re-running this keeps every sound on its picture. Then: python3 -I audio/synth.py 015-hole-subway
+(scratch → ElevenLabs) and re-running this keeps every sound on its picture. Then: python3 -I audio/synth.py 024-hole-subway
 
 Sound identity: "WORKSHOP" — a bright marimba ostinato in F major at 118 bpm (I–V–vi–IV) with a piano bass, a soft F pad
 under everything (the music never drops out), a very light taiko pulse, and a rising marimba "ta-da" (F–A–C) on every
@@ -232,7 +232,7 @@ amb = [
 ]
 
 cues = {
-    "title": "015 - How a Hole Becomes a Subway (build genre: WORKSHOP marimba groove + construction foley + narrator)",
+    "title": "024 - How a Hole Becomes a Subway (build genre: WORKSHOP marimba groove + construction foley + narrator)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
     "stem_gain_db": {"music": -8.0, "sfx": 5.0, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -6.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},

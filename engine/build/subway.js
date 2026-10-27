@@ -1,4 +1,4 @@
-// Subway cutaway set (build genre, video 015 "How a Hole Becomes a Subway"). A sunny city verge + street sliced open at
+// Subway cutaway set (build genre, video 024 "How a Hole Becomes a Subway"). A sunny city verge + street sliced open at
 // z = 0: strata down to bedrock, the water table, and everything a subway needs, each piece with a handle the shots animate.
 // Layout (meters): the cut face spans x -16..34, y -11..0. Tunnel axis along x at (y = T.y, z = T.z), cut off-center so the
 // visible back part is wide enough for a train. Camera lives on +z. Reusable pieces: makeTBM, makeTrain, makeShovel,
