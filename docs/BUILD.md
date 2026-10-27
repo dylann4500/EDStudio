@@ -391,3 +391,10 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   dam vanishes (the crumble), run the water's end on to the next body instead of leaving it standing in the air.
 - **Hook staging: one thing at a time.** A held prop sits IN the raised hands (the pool floated 0.3 m above them); the
   thermometer, the CLOSED board and the see-through fence each get their own patch of frame (fence starts right of the gate).
+- **Water = its level ∩ its container (user, 025: "it doesn't fill in corners, clips… a triangle of empty space against the
+  wedge").** A box of water can only meet vertical walls. `makeWaterBody(...).setPoly(pts, xl, xr, level, t)` (dam.js) takes the
+  water's SECTION polygon; 025's `setWater(body, fL, fR, L)` builds it from two wall functions x(y) — up the left wall from the
+  bed to the level, along the flat level, down the right wall — so it rides every slope (the dirt dam's faces, the wedge's
+  downstream face, the beaver lodge's silhouette) and slides along it as the level moves. Walls per era live in one `walls(t)`.
+  A tunnel's water fills its bore (a thinner tube leaves an air ring). Review missed it twice on 360 px sheets: check water with
+  CLOSE stills on each contact line (025's `INSPECT` table of debug cameras keyed by time) and a reviewer on full-size frames.

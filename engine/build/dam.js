@@ -248,7 +248,8 @@ let foamT = null;
 export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, flow = 0, depth = D.CW } = {}) {
   if (!foamT) { foamT = tex(256, 64, (c, w, h) => { c.clearRect(0, 0, w, h); const r = rng(4); for (let i = 0; i < 70; i++) { c.fillStyle = `rgba(255,255,255,${0.25 + r() * 0.4})`; c.beginPath(); c.ellipse(r() * w, r() * h, 6 + r() * 16, 1.5 + r() * 2, 0, 0, 7); c.fill(); } }); foamT.wrapS = foamT.wrapT = THREE.RepeatWrapping; }
   const hid = new THREE.MeshBasicMaterial({ visible: false }), front = waterMat(opacity);
-  const backM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35, side: THREE.BackSide });   // the −z face points away from the lens: draw its inside
+  const backM = new THREE.MeshStandardMaterial({ color: 0x1b5f96, roughness: 0.2, emissive: 0x0d3f6e, emissiveIntensity: 0.35, side: THREE.BackSide,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });   // the volume's inside; it wins over the dam/bed faces it lies on (no submerged slope showing through as a pale band)
   const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), [hid, hid, hid, hid, front, backM]); box.renderOrder = 3; parent.add(box);
   const sg = new THREE.PlaneGeometry(1, 1, 30, 8); sg.rotateX(-Math.PI / 2);
   const ft = foamT.clone(); ft.needsUpdate = true;
@@ -258,9 +259,10 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
   // the section is a polygon (water = its level ∩ its container): the cut-face side at z = 0, the far side at z = −depth;
   // a box can't meet a sloped dam face — it leaves a triangle of air or pokes through the slope (user, 025)
   box.visible = false;
-  const backF = backM.clone(); backF.side = THREE.FrontSide;
-  const secF = new THREE.Mesh(new THREE.BufferGeometry(), front), secB = new THREE.Mesh(new THREE.BufferGeometry(), backF);
-  secF.renderOrder = 3; secB.position.z = -depth; parent.add(secF, secB);
+  // the volume behind the section is a closed prism drawn from the inside (back + floor + slopes + the surface's underside):
+  // a single far face let sight lines slip out past a sloped wall and showed a pale band along the dam (025 v8)
+  const secF = new THREE.Mesh(new THREE.BufferGeometry(), front), secB = new THREE.Mesh(new THREE.BufferGeometry(), backM);
+  secF.renderOrder = 3; parent.add(secF, secB);
   let last = '';
   const api = {
     box, surf, front,
@@ -269,9 +271,11 @@ export function makeWaterBody(parent, { opacity = 0.74, bottom = D.bed - 0.02, f
     /** pts: the water's section [[x, y], …] (its top edge at y = level from xl to xr) */
     setPoly(pts, xl, xr, level, t = 0, f = flow) {
       const on = pts.length >= 3 && level > bottom + 0.01 && xr > xl + 0.02; secF.visible = secB.visible = surf.visible = lip.visible = on; if (!on) return;
-      const g = new THREE.ShapeGeometry(new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)))), P = g.attributes.position, UV = g.attributes.uv, Hh = level - bottom;
+      const shape = new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)));
+      const g = new THREE.ShapeGeometry(shape), P = g.attributes.position, UV = g.attributes.uv, Hh = level - bottom;
       for (let i = 0; i < P.count; i++) UV.setXY(i, (P.getX(i) - xl) / (xr - xl), (P.getY(i) - bottom) / Hh);   // the gradient runs surface → bed
-      secF.geometry.dispose(); secF.geometry = g; secB.geometry.dispose(); secB.geometry = g.clone();
+      const vol = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 1 }); vol.translate(0, 0, -depth);
+      secF.geometry.dispose(); secF.geometry = g; secB.geometry.dispose(); secB.geometry = vol;
       const x0 = xl, x1 = xr, W = x1 - x0;
       surf.scale.set(W, 1, D.CW); surf.position.set((x0 + x1) / 2, level, -D.CW / 2);
       lip.scale.set(W, 1, 1); lip.position.set((x0 + x1) / 2, level - 0.005, 0.0);

@@ -216,8 +216,12 @@ export async function build(studio, story) {
   // and down the right wall — so it meets every slope it touches, slides along it as the level changes, and never enters solid.
   const V = (x) => () => x;
   const eKAt = (tt) => (tt < CRUMB ? eK3(tt) : lerp(1, 0.04, smooth(u01(tt, CRUMB, CRUMB1))));
-  const earthUp = (tt) => { const s = slideX(tt), h = E.h * Math.max(0.01, eKAt(tt)); return (y) => E.x0 + s + clamp((y - BED) / h) * (E.t0 - E.x0); };
-  const earthDn = (tt) => { const s = slideX(tt), h = E.h * Math.max(0.01, eKAt(tt)); return (y) => E.x1 + s - clamp((y - BED) / h) * (E.x1 - E.t1); };
+  // the dirt dam's faces exactly as the mesh draws them: scaled in y (eK), tilted while it lurches, slid downstream
+  const earthTilt = (tt) => (tt > SLIDE0 && tt < CRUMB ? -0.05 * Math.sin(PI * u01(tt, SLIDE0, SLIDE1)) : 0);
+  const earthPt = (tt, x, y) => { const k = Math.max(0.01, eKAt(tt)), th = earthTilt(tt), c = Math.cos(th), sn = Math.sin(th), ly = y * k; return [x * c - ly * sn + slideX(tt), x * sn + ly * c + BED * (1 - k)]; };
+  const face = (A, B) => (y) => A[0] + clamp((y - A[1]) / (B[1] - A[1])) * (B[0] - A[0]);
+  const earthUp = (tt) => face(earthPt(tt, E.x0, BED), earthPt(tt, E.t0, BED + E.h));
+  const earthDn = (tt) => face(earthPt(tt, E.x1, BED), earthPt(tt, E.t1, BED + E.h));
   const gUp = (y) => (y <= G.crest ? G.heel : G.crestX);                                   // the vertical heel; over the top, the water rides the crest
   const gDn = (y) => G.toe + clamp((y - BED) / (8.55 - BED)) * (G.crestX - G.toe);         // the wedge's downstream face
   const MOUND = [0.8, 0.64];                                                                 // the beaver lodge's silhouette (dam.js: hemisphere r 0.8, y × 0.8)
@@ -226,7 +230,7 @@ export async function build(studio, story) {
     if (tt < LANDK) return [bvL, bvL];                                                       // the creek runs whole up to the beaver's lodge
     const kpx = kpPos(tt)[0];
     if (tt < t.pile || (tt < CRUMB && eKAt(tt) < 0.05)) return [V(kpx), V(kpx)];                             // the kiddie pool: both waters meet at its centre
-    if (tt < CRUMB1) { const up = earthUp(tt), dn = earthDn(tt), x1 = E.x1 + slideX(tt), fl = smooth(u01(tt, CRUMB, CRUMB + 0.35));
+    if (tt < CRUMB1) { const up = earthUp(tt), dn = earthDn(tt), x1 = earthPt(tt, E.x1, BED)[0], fl = smooth(u01(tt, CRUMB, CRUMB + 0.35));
       return [(y) => lerp(up(y), x1, fl), dn]; }                                               // the crumble: the flood front runs on to the pond
     return [gUp, gDn];
   };
@@ -496,9 +500,11 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     S.portals.forEach((p, i) => { popIn(p, tt, t.four - 0.15 + i * 0.09); if (tt > PLUG + 1.0) p.visible = false; });   // gone once the tunnel is plugged (a black hole at the frame edge for 20 s otherwise)
 
     // ---- water
-    const L = lakeLevel(tt), Ls = siteLevel(tt), [sR, pL] = walls(tt), drained = Ls < BED + 0.05 && L > BED + 0.05;
-    setWater(water.far, V(-60), drained ? (y) => INLET - 0.3 + (0.7 * (L - y)) / (L - WB) : V(INLET), L, tt);   // diverted: the river pours down into the inlet
-    setWater(water.site, V(INLET), sR, Ls, tt);
+    const L = lakeLevel(tt), Ls = siteLevel(tt), [sR, pL] = walls(tt), split = Ls < L - 0.01;
+    if (split) {   // the site is (being) drained: the river ends at the inlet, pouring down into it
+      setWater(water.far, V(-60), Ls < BED + 0.05 ? (y) => INLET - 0.3 + (0.7 * (L - y)) / (L - WB) : V(INLET), L, tt);
+      setWater(water.site, V(INLET), sR, Ls, tt);
+    } else { water.far.set(0, 0, WB, tt); setWater(water.site, V(-60), sR, Ls, tt); }   // one body: an inner wall would hide what's under the lake (the town)
     setWater(water.pond, (y) => Math.max(pL(y), sR(y)), bvL, pondLevel(tt), tt);
     setWater(water.low, bvR, V(60), LOW, tt);
     const seeTown = smooth(u01(tt, t.also - 0.3, t.drowned)) * (1 - smooth(u01(tt, WET1, WET1 + 0.6)));
@@ -523,7 +529,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
     // ---- the earth dam: three loads of dirt, the leak (piping), the cutoff wall, the shove, the crumble
     const eK = tt < CRUMB ? eK3(tt) : lerp(1, 0.04, smooth(u01(tt, CRUMB, CRUMB1)));
     S.earth.visible = eK > 0.01 && tt < COL0 + 0.6; S.earth.scale.set(1, Math.max(0.01, eK), 1); S.earth.position.set(slideX(tt), BED * (1 - Math.max(0.01, eK)), 0);
-    S.earth.rotation.z = tt > SLIDE0 && tt < CRUMB ? -0.05 * Math.sin(PI * u01(tt, SLIDE0, SLIDE1)) : tt > t.garyP2 - 0.2 && tt < POPC ? 0.006 * Math.sin(tt * 45) : 0;
+    S.earth.rotation.z = tt > SLIDE0 && tt < CRUMB ? earthTilt(tt) : tt > t.garyP2 - 0.2 && tt < POPC ? 0.006 * Math.sin(tt * 45) : 0;
     const pipeK = smooth(u01(tt, t.sneaks, JET)), cutK = tt > SLAM + 0.1 ? pipeU : 1;
     S.pipeWater.position.z = 0.13; S.pipeDark.visible = S.pipeWater.visible = pipeK > 0.01 && tt < SLIDE0;
     S.pipeDark.geometry.setDrawRange(0, Math.floor((S.pipeIdx * pipeK) / 3) * 3); S.pipeWater.geometry.setDrawRange(0, Math.floor((S.pipeIdx * Math.min(pipeK, cutK)) / 3) * 3);
