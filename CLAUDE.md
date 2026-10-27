@@ -270,6 +270,17 @@ videos/NNN-slug/
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
+- **Matter falling apart (027, `engine/nuclei.js`):** `patchDissolve(root, U)` patches every Standard/Lambert/Basic/Phong material
+  under a root (instanced too) with a world-space noise dissolve + glowing edge, driven by shared uniforms (`U.uDis.value` 0 → 1;
+  patch AFTER everything is added to that root — later meshes aren't patched). `makeNucleiCloud(parent, {max})` = one additive
+  dot cloud for many sources: `add(objects, n, {group, gain, pick})` samples the visible meshes (area-weighted, material colors,
+  world space — pose first), `addPlanet(c, R, n, colorAt)` fills a sphere, and per frame `set(camera, t, {reach, thick, size,
+  gain, groups: [{on, reach, thick}]})` moves every dot along its normal by max(0, reach − depth) in the vertex shader (no CPU
+  per frame; 250k dots are fine). `makeAtomLattice()` = electron clouds + nuclei. Additive dots blow out to white fast: keep
+  gain ≈ 0.75–1 and dot size small (pixel size = size·1920/(2·tan(fov/2))/depth).
+- **HUD extras (027, core.js, additive):** a hud segment can carry `text` (a literal string, e.g. "~10⁸⁰"), `label` (overrides
+  `hudLabel` from that segment on), `timefmt: true` (the number is seconds, printed "320 femtoseconds" / "8 min 17 s") and
+  `ease: 'log'` (from·(to/from)^u — one clock that sweeps 20 decades, 10 as → 8 min). shots.js reads the same segments for τ.
 - **Build genre kit (024, `engine/build/`, docs/BUILD.md):** `captions.js` (word-by-word overlay, picked by main.js when
   `story.mode === 'build'`), `toon.js` (`makeToon` big-headed cast with face states, `makeShades`, `makeRaccoon`, `makePigeon` with `flap`),
   `cutaway.js` (`makeCutFace` strata + runtime hole mask, `makeRim`, `maskedPlane`, `lawnTexture`, `makeSky`), `anim.js`
