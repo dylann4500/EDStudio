@@ -67,7 +67,9 @@ const RN = 192200 / UNIT, RO = 384400 / UNIT, RM = 1737.4 / UNIT;
 
 export const SHOTS = [
   { t0: 0, t1: 3.4, cam: 'title', set: 'town' },
-  { t0: 3.4, t1: 7.6, cam: 'rise', set: 'town' },
+  { t0: 3.4, t1: 5.0, cam: 'rise', set: 'town' },
+  { t0: 5.0, t1: 6.1, cam: 'look', set: 'town' },
+  { t0: 6.1, t1: 7.6, cam: 'rise', set: 'town' },
   { t0: 7.6, t1: 12.2, cam: 'faces', set: 'town' },
   { t0: 12.2, t1: 16.4, cam: 'roof', set: 'city' },
   { t0: 16.4, t1: 19.6, cam: 'flood', set: 'town' },
@@ -79,7 +81,8 @@ export const SHOTS = [
   { t0: 39.0, t1: 43.6, cam: 'cal', set: 'kit' },
   { t0: 43.6, t1: 48.2, cam: 'orbit', set: 'space' },
   { t0: 48.2, t1: 51.0, cam: 'end1', set: 'town' },
-  { t0: 51.0, t1: 54.0, cam: 'end2', set: 'town' },
+  { t0: 51.0, t1: 52.6, cam: 'end2', set: 'town' },
+  { t0: 52.6, t1: 54.0, cam: 'end2b', set: 'town' },
   { t0: 54.0, t1: 61.4, cam: 'end3', set: 'town' },
 ];
 // camera coords are LOCAL to the shot's set: p/a = [start, end] (eased); fov; amp = handheld drift
@@ -87,6 +90,7 @@ export const CAMS = {
   title: { p: [[1.15, Q + 2.0, -2.6], [1.1, Q + 1.92, -2.1]], a: [[1.1, Q + 1.4, 4.0], [1.1, Q + 1.42, 4.0]], fov: 46, amp: 0.006 },
   rise:  { p: [[20, Q + 1.7, 0.6], [20, Q + 1.7, 0.6]], a: [[0, 0, 0], [0, 0, 0]], fov: 9, amp: 0.0 },                 // aim from the Moon
   faces: { p: [[0.8, Q + 1.66, -1.0], [1.3, Q + 1.6, -0.2]], a: [[1.05, Q + 1.52, 2.6], [1.05, Q + 1.5, 2.6]], fov: 42, amp: 0.004 },
+  look:  { p: [[1.5, Q + 1.6, 0.0], [1.3, Q + 1.58, 0.35]], a: [[1.05, Q + 1.48, 2.6], [1.05, Q + 1.5, 2.6]], fov: 34, amp: 0.004 },   // v2: calm faces before the switch
   roof:  { p: [[-11.0, 17.75, 16.6], [-11.35, 17.7, 16.2]], a: [[-12.0, 17.55, 11.0], [-12.0, 17.6, 11.0]], fov: 24, amp: 0.004 },
   flood: { p: [[3.0, 8.0, 0.4], [3.4, 8.7, 1.6]], a: [[2.5, 7.4, 16.5], [2.5, 7.3, 16.5]], fov: 54, amp: 0.006 },
   floodB: { p: [[1.5, 0, 7.4], [1.9, 0, 8.0]], a: [[3.3, 0, 16.4], [3.3, 0, 16.4]], fov: 60, amp: 0.006 },   // y rides the water (aim y = level + 3.4)
@@ -94,10 +98,11 @@ export const CAMS = {
   fundy: { p: [[14.4, 2.2, 9.6], [13.0, 18.0, 13.2]], a: [[6.0, 2.0, -9.0], [3.0, 7.5, -14.0]], fov: 52, amp: 0.006 },
   eclA:  { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 40, amp: 0.004 },
   eclB:  { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 56, amp: 0.003 },
-  cal:   { p: [[-1.5, 1.45, 0.4], [-1.15, 1.43, 0.3]], a: [[3.0, 1.4, 0.0], [3.0, 1.42, 0.0]], fov: 46, amp: 0.004 },
-  orbit: { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 20, amp: 0 },
-  end1:  { p: [[26.0, Q + 1.25, -1.35], [26.15, Q + 1.2, -1.05]], a: [[26.05, Q + 0.85, 3.2], [26.05, Q + 0.88, 3.2]], fov: 34, amp: 0.004 },
+  cal:   { p: [[-1.6, 1.5, 0.75], [0.35, 1.3, 0.45]], a: [[3.0, 1.42, 0.05], [2.6, 1.2, 0.2]], fov: 46, amp: 0.004 },   // v2: push in
+  orbit: { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 26, amp: 0 },
+  end1:  { p: [[23.6, Q + 1.3, -0.9], [27.3, Q + 1.25, -0.8]], a: [[26.05, Q + 1.0, 3.3], [26.0, Q + 1.05, 3.3]], fov: 38, amp: 0.004 },   // v2: arc
   end2:  { p: [[26.0, Q + 1.6, 1.0], [26.0, Q + 1.6, 1.0]], a: [[0, 0, 0], [0, 0, 0]], fov: 3.6, amp: 0 },
+  end2b: { p: [[26.6, Q + 1.42, 1.85], [26.45, Q + 1.4, 2.05]], a: [[26.2, Q + 1.48, 3.2], [26.2, Q + 1.5, 3.2]], fov: 38, amp: 0.004 },   // v2: the kid's face, awed
   end3:  { p: [[26.1, Q + 1.3, -1.4], [27.2, Q + 3.4, -8.5]], a: [[26.05, Q + 0.95, 3.2], [25.6, Q + 1.4, 3.2]], fov: 36, amp: 0.004 },
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -214,7 +219,7 @@ export async function build(studio, story) {
   const quayRigs = [crowd[0], crowd[1], crowd[2], dad, crowd[3], crowd[4], crowd[5], crowd[6], crowd[7], crowd[8], crowd[9]];
   function townCrowd(t, cam, moonK) {
     const react = sstep(SW + 0.2, SW + 1.2, t);
-    (cam === 'faces' ? QUAY_F : QUAY_T).forEach(([x, z, f, role], i) => {
+    (cam === 'faces' || cam === 'look' ? QUAY_F : QUAY_T).forEach(([x, z, f, role], i) => {
       const rig = quayRigs[i], p = basePose(); Object.assign(p, { x, z, rotY: PI + f, headPitch: -0.12 - 0.12 * react }); idle(p, t, i, 0.6);
       p.mouth = react > 0.5 && role !== 'look' ? 'o' : role === 'kidDad' ? 'smile' : 'flat';
       if (role === 'phoneA' || role === 'phoneB') { p.armB = mix(A(-0.3, 0.1, -1.0, -0.3), PHONE, t > SW ? 1 : sstep(1.0, 2.0, t)); }
@@ -254,12 +259,14 @@ export async function build(studio, story) {
   function benchScene(t, cam) {
     const [bx, bz] = TD.bench[2], seat = Q + 0.52;
     const p = basePose(); Object.assign(p, { x: bx - 0.4, z: bz - 0.05, rotY: PI + 0.08, footFwd: 0.42, headPitch: -0.22, headYaw: 0.25 * Math.sin(t * 0.4) }); p.eyes = blink(t, 1); p.mouth = 'smile';
-    p.armB = HUG_B; p.armA = A(-0.3, 0.12, -1.1, 0.4); put(dad, 'town', p, seat - 0.42 - 0.375, Q);
+    const up2 = sstep(48.7, 49.1, t);   // v2: the kid stands up on the bench; Dad laughs and points too
+    p.armB = mix(HUG_B, A(-0.6, 0.6, -0.5, -0.3), up2); p.armA = mix(A(-0.3, 0.12, -1.1, 0.4), UP, up2 * (1 - sstep(50.6, 51.0, t))); p.headPitch = -0.22 - 0.15 * up2; p.headRoll = 0.08 * Math.sin(t * 4) * up2; put(dad, 'town', p, seat - 0.42 - 0.375, Q);
     const pt = sstep(48.6, 49.4, t) * (1 - sstep(53.6, 54.6, t) * 0.6);
     const k = basePose(); Object.assign(k, { x: bx + 0.25, z: bz - 0.05, rotY: PI - 0.1, footFwd: 0.4, headPitch: -0.35, headYaw: cam === 'end3' ? -0.15 : 0 }); k.eyes = blink(t, 4); k.mouth = t > 49.2 && t < 51 ? 'o' : 'smile';
-    k.armB = mix(A(-0.5, 0.15, -0.9, -0.2), UP, pt); k.armA = A(-0.5, 0.2, -0.8, 0.3); putKid('town', k, Q, seat);
+    k.armB = mix(A(-0.5, 0.15, -0.9, -0.2), UP, pt); k.armA = mix(A(-0.5, 0.2, -0.8, 0.3), A(-2.3, 0.6, -0.3, 0), up2 * (1 - sstep(53.4, 54.0, t)));
+    if (up2 > 0.5) { k.footFwd = 0; putKid('town', k, seat + (t < 51 ? 0.12 * Math.abs(Math.sin((t - 49) * 6)) : 0)); } else putKid('town', k, Q, seat);
     // a few couples further along the quay (end3 wide)
-    [[20.8, 3.4, 0.2], [19.6, 3.2, -0.1], [30.0, 2.0, 0.1], [31.2, 1.8, -0.2], [33.5, 3.6, 0.3]].forEach(([x, z, f], i) => { const rig = crowd[10 + i], q = basePose(); Object.assign(q, { x, z, rotY: PI + f, headPitch: -0.25 }); idle(q, t, i + 3, 0.5); q.mouth = 'smile'; if (i === 1) q.armB = UP; if (i === 3) q.armA = A(-0.6, 0.6, -0.5, 0.3); put(rig, 'town', q, Q, Q); });
+    [[25.0, 4.7, 0.15], [27.0, 4.9, -0.15], [30.0, 2.0, 0.1], [31.2, 1.8, -0.2], [21.5, 3.6, 0.3]].forEach(([x, z, f], i) => { const rig = crowd[10 + i], q = basePose(); Object.assign(q, { x, z, rotY: PI + f, headPitch: -0.25 }); idle(q, t, i + 3, 0.5); q.mouth = 'smile'; if (i === 1) q.armB = UP; if (i === 3) q.armA = A(-0.6, 0.6, -0.5, 0.3); put(rig, 'town', q, Q, Q); });
   }
 
   // ================================================================ CITY rooftop
@@ -373,18 +380,19 @@ export async function build(studio, story) {
   kit.root.children.filter((o) => o.isMesh && o.geometry.type === 'PlaneGeometry' && Math.abs(o.position.z - 0.6) < 0.01 && Math.abs(o.position.y - 1.4) < 0.01).forEach((o) => (o.visible = false));   // the set's small calendar (ours replaces it)
   function kitchenScene(t) {
     const p = basePose(); const turn = sstep(41.2, 41.8, t);
-    Object.assign(p, { x: 2.5, z: 0.92, rotY: -PI / 2 - 0.25, headYaw: lerp(0.9, 0.0, turn), headPitch: 0.05 }); p.eyes = blink(t, 3); p.mouth = turn > 0.5 ? 'o' : 'smile';
+    Object.assign(p, { x: 2.5, z: 0.92, rotY: -PI / 2 - 0.25, headYaw: lerp(0.9, 0.0, turn), headPitch: 0.05 }); p.eyes = blink(t, 3); p.mouth = turn > 0.5 ? 'smile' : 'o'; p.headRoll = 0.12 * Math.sin(t * 3) * turn;
     p.armA = mix(A(-0.55, 1.15, -0.1, 0), A(-0.75, 1.05, -0.15, 0), 0.5 + 0.5 * Math.sin(t * 2.4)); p.armB = turn > 0.3 ? A(-0.5, 0.3, -1.7, -0.6) : REST;
     put(mom, 'kit', p);
     // the kid in wolf ears: howls at 41.6 (37 full moons)
     const how = sstep(41.5, 41.9, t) * (1 - sstep(43.0, 43.4, t));
+    const hop = t < 41.4 ? 0.13 * Math.abs(Math.sin((t - 39) * 5.2)) : 0;   // v2: hopping with excitement, then the howl
     const k = basePose(); Object.assign(k, { x: 2.15, z: -0.12, rotY: -PI / 2 + 0.35 + 0.15 * Math.sin(t * 0.6), headPitch: lerp(-0.1, -0.85, how) }); k.eyes = how > 0.5 ? 'closed' : blink(t, 5); k.mouth = how > 0.3 ? 'o' : 'smile';
-    k.armA = mix(A(-0.4, 0.3, -1.6, 0.6), A(-1.2, 0.3, -2.0, 0.6), how); k.armB = mix(A(-0.4, 0.3, -1.6, -0.6), A(-1.2, 0.3, -2.0, -0.6), how); putKid('kit', k, 0);
+    k.armA = mix(t < 41.4 ? A(-2.4, 0.5, -0.3 - 0.3 * Math.sin(t * 10), 0) : A(-0.4, 0.3, -1.6, 0.6), A(-1.2, 0.3, -2.0, 0.6), how); k.armB = mix(t < 41.4 ? A(-2.4, 0.5, -0.3 - 0.3 * Math.sin(t * 10 + 1), 0) : A(-0.4, 0.3, -1.6, -0.6), A(-1.2, 0.3, -2.0, -0.6), how); putKid('kit', k, hop);
     ears.visible = true;
     // Dad at the table laughing with his coffee
     const d = basePose(); Object.assign(d, { x: KD.table[0] - 0.2, z: KD.table[1] + 0.62, rotY: PI - 0.3 + 0.5 * sstep(41.4, 41.9, t), footFwd: 0.42, headPitch: -0.05 }); d.eyes = blink(t, 1); d.mouth = 'smile';
     void d;
-    dog.g.visible = true; dog.g.position.copy(W('kit', 1.55, 0, 0.45)); dog.g.rotation.y = -2.2; dog.update(t, 0); dog.setWag?.(1.6);
+    dog.g.visible = true; dog.g.position.copy(W('kit', 1.55, 0.12 * Math.abs(Math.sin(t * 5)) * (t > 42.3 && t < 43.2 ? 1 : 0), 0.45)); dog.g.rotation.y = -2.2; dog.update(t, 0); dog.setWag?.(1.6); dog.bark?.(t > 42.6 && t < 42.9 ? 1 : 0);
   }
 
   // ================================================================ SPACE (Earth + Moon to scale)
@@ -419,7 +427,7 @@ export async function build(studio, story) {
     // ---- per-set state
     if (S === 'town') {
       town.update(t);
-      if (cam === 'title' || cam === 'rise' || cam === 'faces') {
+      if (cam === 'title' || cam === 'rise' || cam === 'faces' || cam === 'look') {
         town.setMode('dusk'); const k = 1 + 3 * sstep(SW, GROWN, t); town.setMoon(moonDirRise, k); town.setTide(0.6, t); town.rideBoats(t, 0.6); resetCars();
         moonDir = moonDirRise; moonAng = angAt(t); town.aimAt(1, 4, 30);
         if (cam !== 'rise') townCrowd(t, cam, k);
@@ -463,8 +471,8 @@ export async function build(studio, story) {
     if (cam === 'orbit') {   // behind the (sunlit) Moon, Earth beyond it — both to scale; the Moon slides along its new orbit
       const S3 = new THREE.Vector3(1000, 250, 300).normalize(), th = Math.atan2(S3.z, S3.x) - 0.1 + (t - 43.6) * 0.05;
       const M = new THREE.Vector3(Math.cos(th) * RN, 0, Math.sin(th) * RN), out = M.clone().normalize(), tan = new THREE.Vector3(-out.z, 0, out.x);
-      const Pp = M.clone().addScaledVector(out, lerp(2500, 2050, e)).addScaledVector(tan, lerp(-70, 50, e)).add(new THREE.Vector3(0, lerp(-300, -260, e), 0));
-      const aimV = M.clone().lerp(new THREE.Vector3(), 0.16).addScaledVector(tan, 60);
+      const U = lerp(-20, 300, sstep(0.04, 0.8, u)), Pp = M.clone().addScaledVector(out, lerp(2250, 1950, e)).addScaledVector(tan, lerp(-60, 60, e)).add(new THREE.Vector3(0, U, 0));   // v2: Earth rises over the limb
+      const dM = M.clone().sub(Pp).normalize(), dE = Pp.clone().negate().normalize(), aimV = Pp.clone().addScaledVector(dM.clone().multiplyScalar(0.6).add(dE.clone().multiplyScalar(0.4)).normalize(), 1000);
       P = [Pp.x + o[0], Pp.y + o[1], Pp.z + o[2]]; Aim = [aimV.x + o[0], aimV.y + o[1], aimV.z + o[2]];
       moonBody.position.copy(M); moonBody.faceToward(W('space', 0, 0, 0));
       ringNew.visible = false; ringOld.visible = false; mGlow.material.opacity = 0; eGlow.material.opacity = 0;
@@ -479,7 +487,7 @@ export async function build(studio, story) {
     if (moonDir) {
       const dist = S === 'town' ? 1500 : S === 'fundy' ? 1100 : 640;
       skyMoon.setSky(studio.camera, moonDir, moonAng, dist); skyMoon.g.visible = true; skyMoon.setPhase(null);
-      if (cam === 'title' || cam === 'rise' || cam === 'faces') { skyMoon.setTint(new THREE.Color(1.0, 0.86, 0.66)); skyMoon.setGain(1.5); skyMoon.setGlow(0.28 + 0.2 * sstep(SW, GROWN, t), 0xffd8a8); }
+      if (cam === 'title' || cam === 'rise' || cam === 'faces' || cam === 'look') { skyMoon.setTint(new THREE.Color(1.0, 0.86, 0.66)); skyMoon.setGain(1.5); skyMoon.setGlow(0.28 + 0.2 * sstep(SW, GROWN, t), 0xffd8a8); }
       else if (S === 'fundy') { skyMoon.setTint(new THREE.Color(0.8, 0.86, 0.95)); skyMoon.setGain(0.55); skyMoon.setGlow(0.0); }
       else { skyMoon.setTint(new THREE.Color(1, 0.98, 0.94)); skyMoon.setGain(1.45); skyMoon.setGlow(0.35, 0xdfe6ff); }
       // telephoto shots: a few gulls fly across the Moon (silhouettes = motion in a long-lens frame)
