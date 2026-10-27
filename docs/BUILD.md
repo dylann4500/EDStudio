@@ -255,8 +255,10 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - **Dramatic delivery (user, Oct 27): Eleven v3 + inline audio tags, used TASTEFULLY.** The user A/B'd three reads of one line
   and picked v3 with tags: Adam gets loud / near-yelling on the big moments ("in the vids i watch… Adam sounds so crazy or
   exaggerated… almost like he's yelling"), but "not too often or else its too oversaturated". script.json `voice`:
-  `{"model": "eleven_v3", "settings": {"stability": 0.0, "similarity_boost": 0.8}}` (v3 ignores `speed`/`style`; keep
-  `tempo` ≈ 1.15–1.2 — calm v3 reads ~14.8 chars/s, same as v2 at speed 1.12; tagged lines run slower).
+  `{"model": "eleven_v3", "settings": {"stability": 0.0, "similarity_boost": 0.8}}` (v3 ignores `speed`/`style`). Over a
+  whole script v3 Adam reads ~19 % slower than v2 (+0.6–0.9 s before each yell): use **`tempo` ≈ 1.30** (026: 1.15 → 129.6 s,
+  1.30 → 114.9 s). Not 1.35+ — atempo that hard sounds rushed and flattens the yells. Duration bar for v3 reads: ≤ 118 s
+  (the reference's reels run 98–118 s).
   - Tags go inline in `say`: `[shouting]` / `[excited]` (tested), sparingly `[whispers]` (a hushed setup before a yell),
     `[sarcastic]`, `[sighs]`. ONE CAPS word per tagged line for the peak ("Gary is NOT!").
   - **Budget per reel: ~4–6 `[shouting]` + ~3–4 `[excited]`, i.e. ~1 tagged sentence in 3–4.** Tag the payoffs (the failure
