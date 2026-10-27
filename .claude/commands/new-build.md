@@ -30,7 +30,8 @@ or effect on almost every phrase.
    {"stability": 0.0, "similarity_boost": 0.8}}`, `"tempo": 1.3`; ~4–6 `[shouting]` + ~3–4 `[excited]` on payoffs only, one CAPS
    word each, every tag at the END of its beat (split the beat after a mid-beat yell so it can't bleed into calm lines).
    Check the character budget first (`/v1/user/subscription`; ~2,100 chars per reel). Read the printed beat table; fix any
-   "callout anchor not found".
+   "callout anchor not found". Verify the takes with `tools/check_voice.py NNN-slug` (local whisper transcript + yell levels),
+   then re-sync: `--qc`, the `[rail]` lines, stills at every payoff (032's real voice ran 11 % shorter than the scratch one).
 6. **Set**: a cutaway diorama built on `engine/build/cutaway.js` (strata canvas + runtime hole mask) + the props the story
    needs. Reuse `engine/build/*` (toon, fx, anim) and `subway.js` props; new sets go in `engine/build/<name>.js`.
    Test the set alone first with a throwaway video folder and 4–6 camera views (fix seams, voids, blocking props).

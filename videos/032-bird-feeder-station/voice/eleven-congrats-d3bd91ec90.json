@@ -1,0 +1,56 @@
+{
+ "text": "Congratulations, you've built a squirrel restaurant. [excited] It got FIVE stars!",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Congratulations,",
+   "t0": 0.0,
+   "t1": 1.2
+  },
+  {
+   "w": "you've",
+   "t0": 1.22,
+   "t1": 1.44
+  },
+  {
+   "w": "built",
+   "t0": 1.467,
+   "t1": 1.6
+  },
+  {
+   "w": "a",
+   "t0": 1.68,
+   "t1": 1.76
+  },
+  {
+   "w": "squirrel",
+   "t0": 1.796,
+   "t1": 2.08
+  },
+  {
+   "w": "restaurant.",
+   "t0": 2.138,
+   "t1": 2.88
+  },
+  {
+   "w": "It",
+   "t0": 3.427,
+   "t1": 3.44
+  },
+  {
+   "w": "got",
+   "t0": 3.52,
+   "t1": 3.76
+  },
+  {
+   "w": "FIVE",
+   "t0": 3.92,
+   "t1": 4.32
+  },
+  {
+   "w": "stars!",
+   "t0": 4.48,
+   "t1": 5.84
+  }
+ ]
+}

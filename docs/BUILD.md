@@ -229,6 +229,7 @@ v4 (plug reads stuck in the wall, helmeted birds on "feed the birds", foil unrol
 → stop rule met (manager): no 5th round; the camera reviewer's framings (cupola framed as a window before the lens goes in,
 backing straight out of the open side, the seed picked up at the LAB edge) + a fix pass shipped as v5. The scratch final is not
 rendered: the Eleven v3 voicing re-times everything, so G3-pre = scores + a 30 fps phone preview + the tagged script, then hold.
+v6 = the Eleven v3 voicing (one take, 1,871 chars, no retakes; 110.4 → 98.6 s) + one re-sync pass (below), no review round.
 Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
 lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
 picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out
@@ -290,6 +291,9 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 1. Put `ELEVENLABS_API_KEY=…` in `~/.config/edstudio/.env` (outside the repo, so it can never be committed; a git-ignored `.env` at the repo root also works). `python3 -I tools/narrate.py --voices` → pick a
    funny, energetic male narrator; optionally A/B with `--sample "Congratulations, you've built a subway." <id1> <id2>`.
 2. Set `voice.voice_id` in script.json (`speed` ≈ 1.05–1.1 for ~3.1 words/s), run `python3 -I tools/narrate.py NNN-slug`.
+   Then `tools/check_voice.py NNN-slug` (faster-whisper in a scratch venv): every beat said verbatim, yells not clipped. A bad
+   beat costs only its own characters to redo (clips are cached per beat: delete its `voice/eleven-<beat>-*` pair and re-run).
+   The real voice re-times the reel (032: −11 %, unevenly): re-run `--qc` + read the `[rail]` lines before any stills.
 3. `python3 -I videos/NNN-slug/make_cues.py && python3 -I audio/synth.py NNN-slug`, re-render stills at a few word-synced gags
    (shots are keyed to words, so they follow), then the full render. Commit `voice/eleven-*` + words.json + story.json.
 
@@ -384,3 +388,16 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - Duplicate keys in an fx options object: the LAST wins (`size` twice made the vapor puff a big white ball).
 - Zero-g particles: `fx.burst(kind, t, { g: 0, drag ≈ 0.3–1.5 })` = drift-and-hover (seeds, confetti, money, coffee drops);
   new fx kind `seed` (sunflower seeds). In zero-g, liquids are blobs or sealed bags — never a half-full tank.
+- **The real voice is shorter than the scratch voice, and unevenly** (Eleven v3 Adam at tempo 1.3 = 2.8 words/s: 110.4 → 98.6 s;
+  the hook −34 %, the orbit beat −25 %, the end −20 %). Word-keyed timing carried almost everything; the re-sync pass was
+  2 `[rail]` speed warnings + 4 QC runs + one sync miss. Plan for it: leave the camera ~15 % slack in long beats.
+- **Key a serial animation chain to the word it must LAND on, not only the word it starts from**: Gary's pop-out → rocket rights
+  itself → he jumps in → launch hung off "So" and fired 0.7 s after "sideways" on the faster voice. `POPOUT = min(So + 0.12,
+  sideways − 0.55)` (mirrored in make_cues.py) puts the launch back on the word with either voice.
+- **Build every rail with planRail, the ending too**: 032's end rail was raw `makeRail` keys (no lint) and needed ~10 s of moves
+  in 6.4 s on the real voice. Through planRail it printed the problem; the fix was a closer, lower station wide (24 m from the
+  cupola instead of 34 m) that still holds all five rooms, the wings' truss and the passing birds.
+- **Check the takes, don't guess** (`tools/check_voice.py`): local faster-whisper transcripts vs each beat's line + per-yell
+  loudness/brightness. 032: all 18 beats verbatim, yells +1.2…+3.7 dB over the calm half, peaks ≤ −0.4 dBFS, no clipping.
+- **Measure the music stem against the voice**: the walk-style score at vel 0.3 sat at −31.8 LUFS under a narrator speaking 93 %
+  of the time (house −24); music `gain_db +7` → −25.3, master still −14.05 LUFS.

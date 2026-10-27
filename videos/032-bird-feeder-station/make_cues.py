@@ -51,7 +51,7 @@ SLID = BONK + 0.45; ZIP0 = t['baffle'] + 0.45; ON_BRANCH = t['not_'] - 0.05
 LEAP, FACE, STEP = t['tree'], t['face'], t['step']
 GRAB, TAPED, IGN1 = t['rfeed'] - 0.05, t['rocket'] + 0.1, t['goes'] - 0.1
 APEX = t['up'] + 0.55; FALL0 = APEX + 0.25; IMPACT = t['rgary']
-POPOUT = t['oso'] + 0.12; UPRIGHT = POPOUT + 0.45; INCOCKPIT = UPRIGHT + 0.25; IGN2 = max(t['sideways'], INCOCKPIT + 0.2); ORBIT_IN = t['n17'] + 0.4
+POPOUT = min(t['oso'] + 0.12, t['sideways'] - 0.55); UPRIGHT = POPOUT + 0.45; INCOCKPIT = UPRIGHT + 0.25; IGN2 = max(t['sideways'], INCOCKPIT + 0.2); ORBIT_IN = t['n17'] + 0.4
 EXIT = t['fgary'] - 0.05
 PUSH, M1_IN0, M1_IN1, BOLT1, BOLT2 = t['tiny'] + 0.2, t['launch'] - 0.35, t['rooms'] + 0.45, t['bolt'], t['don']
 DIVE, M2_IN0, M2_CAP, LATCH = t['don'] + 0.35, t['docking'] - 1.1, t['docking'], t['doorway']
@@ -96,7 +96,7 @@ pad = [{"t0": IN, "t1": D - 0.2, "notes": [38, 50, 57, 62, 66], "level": 0.36, "
 booms = [IN, IMPACT, IGN2, M1_IN1, LATCH, WHOOSH, AL_DOCK, SWAT, HIT, PLUG, t['e0'], LAND]
 drums = [[round(b, 3), 0.4, "boom"] for b in booms]
 drum_patterns = [{"t0": IN + 0.02, "t1": D - 1.0, "step": BEAT, "pattern": [1, 0, 0.5, 0], "vel": 0.1, "kind": "taiko"}]
-music = {"gain_db": 0.0, "reverb_db": -11.0, "pad_db": -2.5, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -9.0, "instrument": "piano",
+music = {"gain_db": 7.0, "reverb_db": -11.0, "pad_db": -2.5, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -9.0, "instrument": "piano",
          "leveler": {"thr_rel_db": 4.0, "ratio": 2.0, "tau": 0.3}, "end": D, "chords": chords, "sections": sections, "melody": [],
          "mallet_melody": sorted(mallet), "pad": pad, "drums": drums, "drum_patterns": drum_patterns}
 

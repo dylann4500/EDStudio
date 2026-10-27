@@ -70,7 +70,7 @@ export async function build(studio, story) {
   const CONE = t.cone - 0.05, BONK = t.bthis + 0.1, SLID = BONK + 0.45, ZIP0 = t.baffle + 0.45, ON_BRANCH = t.not - 0.05;   // dazed under the TERM, then the zip to the oak
   const LEAP = t.tree, FACE = t.face, STEP = t.step, ON_FEEDER = STEP + 0.45;
   const GRAB = t.rfeed - 0.05, TAPED = t.rocket + 0.1, IGN1 = t.goes - 0.1, APEX = t.up + 0.55, FLIP0 = APEX - 0.1, FALL0 = APEX + 0.25, IMPACT = t.rgary;
-  const POPOUT = t.oso + 0.12, UPRIGHT = POPOUT + 0.45, INCOCKPIT = UPRIGHT + 0.25, IGN2 = Math.max(t.sideways, INCOCKPIT + 0.2), ORBIT_IN = t.n17 + 0.4, COAST1 = t.fgary - 0.1;
+  const POPOUT = Math.min(t.oso + 0.12, t.sideways - 0.55), UPRIGHT = POPOUT + 0.45, INCOCKPIT = UPRIGHT + 0.25, IGN2 = Math.max(t.sideways, INCOCKPIT + 0.2), ORBIT_IN = t.n17 + 0.4, COAST1 = t.fgary - 0.1;
   const EXIT = t.fgary - 0.05, SQ_LET = t.fsq - 0.35;   // the squirrel pops out of the feeder on "so is the SQUIRREL"
   const DOCK_T = [0, t.docking, t.docking + 0.32, t.docking + 0.64, t.docking + 0.96];   // M2..M5 arrive one after another (each a CLUNK)
   const PUSH = t.tiny + 0.2, M1_IN0 = t.launch - 0.35, M1_IN1 = t.rooms + 0.45, BOLT1 = t.bolt, BOLT2 = t.don, DIVE = t.don + 0.35, M2_IN0 = t.docking - 1.1, M2_CAP = t.docking, LATCH = t.doorway;
@@ -287,7 +287,6 @@ export async function build(studio, story) {
   Fk(F1, POLE_UP + 0.2, [0.7, 2.0, 6.4], [0.15, 1.85, -1.6], 44, POLE_UP + 0.5);     // the pole shoots up (squirrel above the caption, Gary below)
   F(F1, t.c0 + 0.2, [0.9, 2.05, 7.0], [0.25, 1.6, -1.4], 44);                         // confetti, Gary's ta-da
   Fk(F1, t.five - 0.4, [0.3, 2.62, 3.4], [0.05, 2.45, -1.6], 36, t.stars + 0.35);    // the 5-star card
-  F(F1, t.bso + 0.25, [0.6, 1.45, 5.2], [0.15, 1.0, -1.6], 42);                      // Gary shoos the squirrel, the cone
   Fk(F1, CONE - 0.15, [0.4, 1.5, 4.0], [0.05, 1.05, -1.6], 38, t.baffle + 0.35);   // the cone pops on; the squirrel bonks it, slides down, sits dazed under SQUIRREL BAFFLE
   Fk(F1, t.not, [-2.55, 2.75, 1.4], [-2.9, 2.45, -2.3], 38, t.baffled + 0.4);       // NOT BAFFLED on the branch tip
   F(F1, t.tree - 0.1, [-1.6, 2.8, 7.6], [-1.65, 2.35, -1.9], 44);     // a straight dolly back: the 10-ft arc grows, the leap
@@ -298,7 +297,6 @@ export async function build(studio, story) {
   Fk(F1, POPOUT + 0.1, [1.8, 2.0, 7.2], [2.0, 1.55, -1.1], 44);                      // he pops out, the rocket rights itself, he climbs in
   const WIDE_ORBIT = { pos: [10, 85, 21], look: [23, 66.0, -20], fov: 50 };
   Fk(F2, C1, WIDE_ORBIT.pos, WIDE_ORBIT.look, WIDE_ORBIT.fov, t.earth + 0.25);       // the orbit: the arrows fall around the planet
-  F(F2, t.ocalled - 0.25, [17.5, 79.1, 7.6], [17.7, 77.75, 0.3], 46);                 // back in on the rocket (ORBIT)
   F(F2, t.floats - 0.25, [18.3, 79.5, 6.3], [18.2, 78.9, 0.5], 44);                  // Gary floats out, seeds drift
   Fk(F2, t.falling, [20.0, 79.4, 6.3], [20.0, 78.85, 0.5], 44, t.too - 0.1);          // FREE FALL: Gary fully in frame as he drifts right
   Fk(F2, t.fso + 0.15, [18.05, 79.0, 4.3], [17.8, 78.6, 0.9], 42, t.fsq + 0.3);        // SO IS THE SQUIRREL: it bursts out of the feeder taped to the rocket
@@ -307,7 +305,7 @@ export async function build(studio, story) {
   Fk(F2, LATCH - 0.45, [22.05, 73.7, 5.6], [22.0, 73.3, 0], 38, LATCH + 0.15);        // Gary in the doorway: CLUNK
   Fk(F2, t.sixteen - 0.2, [24.2, 76.6, 10.5], [21.6, 72.8, -3.0], 46, t.day + 0.1); // dark: the terminator sweeps the planet below
   Fk(F2, t.opens - 0.15, [20.2, 75.9, 5.6], [23.5, 75.4, 0], 44, WHOOSH);             // from the left: the door's inner face swings open, Gary at the wheel
-  Fk(F2, t.him + 0.1, [25.4, 76.0, 6.4], [25.6, 75.6, 0], 40, AL_DOCK + 0.2);        // the pan trails his blowout; the airlock flies in
+  Fk(F2, t.him + 0.1, [25.4, 76.0, 6.4], [25.6, 75.2, 0], 40, AL_DOCK + 0.2);        // the pan trails his blowout; the airlock flies in
   Fk(F2, t.airlock - 0.35, [25.3, 76.0, 6.0], [25.3, 75.6, 0], 46, t.mudroom + 0.35);   // the mudroom
   F(F2, t.blue - 0.35, [22.0, 71.7, 6.4], [21.95, 70.55, 0], 42);                    // M2 LIFE SUPPORT (green): Gary turns blue, the squirrel isn't
   Fk(F2, t.machines - 0.2, [21.85, 72.0, 5.4], [21.8, 70.75, 0], 40, t.iair + 0.2);   // the scrubber eats the haze
@@ -325,16 +323,20 @@ export async function build(studio, story) {
   Fk(F2, t.n23 + 0.6, [22.5, 58.55, 6.2], [22.6, 57.95, 0], 42, t.toilet + 0.3); // M5 W.C.: the $23M toilet
   Fk(F2, t.treadmill, [21.4, 60.9, 5.2], [21.2, 60.65, 0.1], 42, t.cords - 0.3);                   // the treadmill on its LAB shelf (+ bungees), under the plugged Gary
   F(F2, t.window - 0.12, [22.2, 58.2, 3.9], [21.7, 55.3, 0], 52, true);                          // the cupola, framed as a window
-  F(F2, t.window + 0.7, [22.35, 56.7, 1.6], [21.4, 53.8, -0.1], 62, true);
   Fk(F2, t.backyard + 0.42, [22.4, 55.98, 0.12], [21.25, 53.3, -0.05], 72);   // inside the cupola: the backyard through the struts
   const LAST = { pos: [0.32, 1.36, 0.95], look: [0.05, 0.93, -1.55], fov: 36 };   // the bird + the seed at ~41 % (above the caption)
   F2.push({ t: END, pos: LAST.pos, look: LAST.look, fov: LAST.fov, stop: true });
   planRail.verbose = true;
   const rail1 = makeRail(planRail(F1, { shortHoldPass: true })), rail2 = makeRail(planRail(F2.slice(0, -1), { shortHoldPass: true }));
-  const E0 = t.backyard + 0.55, WIDE_END = { pos: [15.2, 73.5, 28], look: [22, 70.8, 0], fov: 56 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
-  // back out of the cupola through the glass looking up, up and away to the whole station (on "birds"), then down to the LAB
-  const endRail = makeRail([{ t: E0, ...rail2.at(E0) }, { t: t.e0 + 1.13, pos: [22.4, 55.6, 3.6], look: [21.6, 53.6, -0.8], fov: 62, pass: true }, { t: t.est + 0.5, pos: [20.6, 58.3, 12.5], look: [22.0, 60.8, 0], fov: 55, pass: true }, { t: t.ebirds + 0.8, ...WIDE_END },
-    { t: t.runs - 0.15, ...RUNS, pass: true }, { t: t.egary, pos: [21.5, 62.85, 5.5], look: [21.45, 62.45, -0.4], fov: 42, pass: true }, { t: SEED_OUT + 0.15, pos: [21.5, 62.9, 4.85], look: [21.45, 62.5, -0.4], fov: 40 }, { t: SEED0 + 0.25, pos: [19.2, 63.3, 5.6], look: [19.0, 62.6, 0.9], fov: 44 }]);
+  const E0 = t.backyard + 0.55, WIDE_END = { pos: [16.6, 64.0, 22.0], look: [22, 68.4, 0], fov: 64 }, RUNS = { pos: [21.5, 62.75, 6.0], look: [21.4, 62.35, -0.3], fov: 44 };
+  // back out of the cupola through the glass, up and away to the whole station (on "birds"), then in to the LAB
+  const e0 = rail2.at(E0), F3 = [{ t: E0, pos: e0.pos, look: e0.look, fov: e0.fov, keep: true }];
+  Fk(F3, t.ebirds + 0.3, WIDE_END.pos, WIDE_END.look, WIDE_END.fov);
+  F(F3, t.runs - 0.15, RUNS.pos, RUNS.look, RUNS.fov, true);
+  F(F3, t.egary, [21.5, 62.85, 5.5], [21.45, 62.45, -0.4], 42, true);
+  F(F3, SEED_OUT, [21.5, 62.9, 4.85], [21.45, 62.5, -0.4], 40);
+  F3.push({ t: SEED0 + 0.3, pos: [19.2, 63.3, 5.6], look: [19.0, 62.6, 0.9], fov: 44, stop: true });
+  const endRail = makeRail(planRail(F3, { shortHoldPass: true }));
   // the chase: from the yard frame to the rocket, up through the clouds, then out to the wide orbit frame
   const rocketCenter = (tt) => { const st = rocketAt(tt); return [st.p[0] + st.dir[0] * 1.6, st.p[1] + st.dir[1] * 1.6, st.p[2] + st.dir[2] * 1.6]; };
   function chaseAt(tt) {
@@ -502,7 +504,7 @@ export async function build(studio, story) {
     else if (tt < OUT0 + 0.5) { const inn = smooth(u01(tt, INTO_AL, INTO_AL + 0.5)), pos = LP(P(1.1, -2.15, 0.35), P(3.7, -3.42, 0.05), inn), wipe = tt > WIPE + 0.15; p = { ...p, pose: wipe ? 'sit' : 'float', x: pos[0], y: pos[1], z: pos[2], rotY: wipe ? -0.3 : 0.3, helmet: true, eyes: wipe ? 'half' : 'open', ph: tt * 30, squash: wipe ? [1, 1 + 0.06 * Math.sin(tt * 30)] : [1, 1] }; }
     else if (tt < t.inside + 0.4) { p = { ...p, pose: 'sit', x: P(3.7)[0], y: P(0, -3.42)[1], z: 0.05, rotY: 0.4, helmet: true, eyes: 'half', cheeks: 0.8, chew: 1, hold: true }; }
     else if (tt < HIT) {   // beside Gary in each room: life support (the only one not blue: helmet on, eating), the PEE bag, then the galley
-      const u = smooth(u01(tt, t.inside + 0.4, t.blue - 0.1)), M2S = P(-0.9, MT[1] - 1.85, 0.55), pos = LP(P(1.4, -3.42, 0.05), M2S, u), bag = smooth(u01(tt, t.even - 0.4, PEE_IN)), BAG = P(0.72, MT[1] - 2.6, 0.25);
+      const u = smooth(u01(tt, t.inside + 0.4, t.blue - 0.1)), M2S = P(-0.9, MT[1] - 2.2, 0.55), pos = LP(P(1.4, -3.42, 0.05), M2S, u), bag = smooth(u01(tt, t.even - 0.4, PEE_IN)), BAG = P(0.72, MT[1] - 2.6, 0.25);
       const back = smooth(u01(tt, PEE_IN + 0.3, t.n98 + 0.3)), down = smooth(u01(tt, t.wback, t.yesterdays)), M3S = P(0.55, MT[2] - 2.55, 0.5);
       const pos2 = down > 0 ? LP(LP(BAG, M2S, back), M3S, down) : LP(LP(pos, BAG, bag), M2S, back);
       p = { ...p, pose: 'float', x: pos2[0], y: pos2[1], z: pos2[2], rotY: 0.25, helmet: true, cheeks: bag > 0 && back < 1 ? 0.2 : 1, chew: bag > 0 && back < 1 ? 0 : 1, eyes: tt > t.blue && tt < t.iso ? 'half' : 'open', hold: !(bag > 0 && back < 1), armsUp: bag > 0.2 && tt < PEE_IN + 0.3 ? 1 : 0, look: [0.2, -0.3], tailWag: 0.6 }; }
