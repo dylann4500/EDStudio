@@ -47,7 +47,7 @@ t = {k: W(b, w, n) for k, (b, w, n) in {
 }.items()}
 
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
-THROW = t['closed'] + 0.32; LANDK = max(t['creek'] - 0.05, THROW + 0.9)
+THROW = t['shove'] - 0.1; LANDK = max(t['congrats'] - 0.1, THROW + 0.9)
 FLOAT0 = t['floats'] - 0.15; FLOAT1 = max(t['flip'] + 0.55, FLOAT0 + 1.6)
 DIG0, DIG1 = t['dig'] - 0.05, t['diversion']
 RUN0 = t['dig'] + 0.35; RUN1 = max(t['four'], RUN0 + 2.6)
@@ -139,6 +139,7 @@ for k2 in range(3): e(t['already'] + 0.05 + k2 * 0.22, "knock", -19, 0.4, pitch=
 e(t["lake"] - 0.1, "low_swell", -20, -0.3, dur=1.4, pitch=0.8)
 e(SLIDE0, "metal_groan", -16, 0.0, dur=1.3, pitch=0.6); e(SLIDE0 + 0.05, "crumble", -15, 0.0, dur=1.3, size=1.0)
 e(CRUMB, "crumble", -9, 0.0, dur=1.6, size=1.5); e(CRUMB + 0.05, "splash", -12, 0.2, size=1.6)
+e(CRUMB1 + 0.2, "splash", -14, 0.3, size=1.0); e(t['pour'] + 0.5, "splash", -18, 0.3, size=0.6)   # Gary into the pond, and back up
 # the concrete columns rise in lifts; 660 ft; the lake slams it on "bully"
 for i in range(NCOLS):
     for l in range(3): e(COL0 + i * COLDT + (l + 1) / 3 * COLDUR, "clunk", -20 + (l == 2) * 4, -0.5 + 0.2 * i, size=1.1, metal=0.15)
@@ -171,7 +172,7 @@ e(t['drowned'] - 0.2, "low_swell", -18, -0.3, dur=1.8, pitch=0.7)
 e(DRY0, "slurp", -17, -0.3, dur=1.0); e(WET0, "slurp", -18, -0.3, dur=1.0)
 for k2 in range(3): e(t['lakefront'] - 0.35 + k2 * 0.16, "knock", -17, -0.3, pitch=1.2)   # the FOR SALE sign hammered in
 # finish: the road, the visitor center, the gift shop, the sign
-e(t['road'] - 0.12, "pop", -14, -0.3, pitch=0.9); e(t['visitor'] - 0.1, "pop", -14, 0.2, pitch=1.1); e(t['gift'] - 0.1, "pop", -14, 0.3, pitch=1.3); e(t['sign'] - 0.1, "knock", -15, 0.3, pitch=1.0)
+e(t['road'] - 0.12, "pop", -14, -0.3, pitch=0.9); e(W('finish', 'center') + 0.25, "pop", -14, 0.2, pitch=1.1); e(t['gift'] - 0.1, "pop", -14, 0.3, pitch=1.3); e(t['sign'] - 0.1, "knock", -15, 0.3, pitch=1.0)
 # the end: confetti + cheer, money, the sign wobble, the bestseller pop, the pool deflates
 e(t['end'], "pop", -12, 0.0); e(t['end'] + 0.1, "pop", -15, 0.3, pitch=1.3); e(t['end'] + 0.15, "blanket_rustle", -22, 0.0, dur=1.6, intensity=0.6)
 for k2 in range(4): e(t['n49'] + 0.2 + k2 * 0.6, "blanket_rustle", -24, -0.3 + 0.2 * k2, dur=0.7, intensity=0.5)
