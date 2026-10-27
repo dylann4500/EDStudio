@@ -178,6 +178,9 @@ last fire). Each tick, in order:
    An account with ≥ 2 is covered and gets nothing new. For each uncovered account, while fewer than 4 producers are
    `building`, assign its next concept (most-behind account first) and start a producer (§4). Ticks right after midnight
    see the new "tomorrow", so production restarts every day on its own. Never produce further ahead than tomorrow.
+   **But an automated tick can't start sessions** (the app only starts them on the user's own words, Oct 27): the tick
+   reserves the numbers and marks the rows `queued`; the user's next message ("go" works) starts every `queued` producer
+   in that turn, together with scheduling every `approved` post.
 4. **Views:** fill 24 h / 48 h views that are due.
 5. Quiet ticks change nothing and say nothing. Producer reports don't need the tick — the app wakes the manager when one ends.
 
