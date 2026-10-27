@@ -2,7 +2,8 @@
   "name": "edstudio",
   "version": "1.0.0",
   "private": true,
-  "description": "EDStudio — procedural 3D short-form story videos (Three.js + headless Chrome + ffmpeg).",
+  "description": "EDStudio — a 3D animation studio run by Claude Code: procedural short-form videos (Three.js + headless Chrome + ffmpeg).",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
   "scripts": {
     "setup": "node tools/doctor.mjs",

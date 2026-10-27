@@ -146,12 +146,52 @@ videos/NNN-slug/
   (`setGlobeLight`) and a launch capsule (`buildCapsule`, `setPanel(lit)`). Playbook: **docs/WORLD-WHATIF.md** (reference: 005).
 - `audio/synth.py` voices: piano (default), `mallet` (`ostinato` style), cinematic `strings` style, `drums`/`drum_patterns`
   (taiko, tom, boom), pad `notes` + `hp` for sub drones/braams. 005's `make_cues.py` uses all of the dramatic ones.
+- **Talking pets (016):** `engine/props.js` `makeSpeechBubble({lines, accent, width, maxChars, offX, soft, tail, name})` = a
+  camera-facing speech bubble (`setRows(n)` reveals lines chat-style, `setPop(k)` boing; `tail` px lengthens the pointer so a
+  card can float above a crowd and still point at a goldfish). Size it from the camera distance EVERY frame (016 `say()`:
+  `pop = k · frac · frameW(d)`, frac ≈ 0.45–0.6) so every bubble reads the same on screen whatever the lens. Pets:
+  `makeCat()` (sitting; `talk/paw/squint`, tail swish), `makeParrot()` + `makePerch(h)`, `makeFishBowl({r})` (`update(t, face)`
+  swims the fish / brings it to the glass, `talk`), `makeHamster()` (`stand(k)` rears up, `paws[]` attach points) +
+  `makeHamsterWheel()` (`spin(a)`), `makeDog` gained `setLie(k)` (lying in a bed) + `setWag(rate)`. Scale hamsters ×1.5 to read.
+  New sets: `engine/sets/livingroom.js` (apartment + dining area; armchair group pivots at its back edge so it tips over
+  backward; `setMode('evening'|'dinner'|'night')`), `engine/sets/petshop.js` (`buildPetShop`: fish-tank wall, hamster table,
+  food-bag shelves, bird cages; `buildVet`: waiting chairs, EXAM 1 `examDoor` hinge, EXIT, posters). Synth: `walk` section
+  style (walking bass + off-beat comps = "gossip jazz") and soft pet voices `cat_meow`, `parrot_chirp`, `fish_blub`,
+  `hamster_squeak` (audio/README.md).
+- **Pip, lane 3's recurring hero (021, `engine/pip.js`; full API + rules in `docs/lanes/lane3.md`):** `makePip({size, fur, white,
+  cream, earStyle:'up'|'flop', name})` → `{g, R, T, H, update(t, state), anchors:{hat, mouth, back, tag}}`. Every frame
+  `pip.update(t, {walk|run + dist, wag, wagRate, ears 0..1, sit, lie, beg, sleep, roll, hop, whimper, howl, headPitch/Yaw, tilt,
+  mouth:'smile'|'open'|'pant'|'o', open, tongue, lick, eyes:'open'|'closed'|'happy'|'wide'|'sad'|'sleepy', lids, sad, lookX/Y,
+  sniff, shiver, tailDown})` — he breathes, blinks, flicks an ear and sways his tail on an empty state (pass `still:true` for a
+  lineup). Legs are stretched cylinders between the torso and planted paws, so every pose stays grounded; the head's rotation
+  is absolute (posing never fights the body pitch). `pulseAt(t, times)` turns event times into 0→1→0 pulses — put the times
+  in story.json (`"pip": {whimpers, ring, …}`) so `make_cues.py` reads the SAME numbers for the foley. Size 0.92 next to Mia.
+  `makeCrate()` = the big wire crate (door +z, `setDoor(θ)`, `floorY`, `panels.{left,right,back,top,door}` to hide per shot).
+  Family: `makeMia({outfit:'pajamas'|'day'})` (kid rig ×0.68, pigtails, bunny slippers), `makeMom({outfit:'robe'})` (robe =
+  `dress` — hide `mom.dress` when she sits), `makeDad()` (glasses: pass `glasses:true` in every pose, applyPose resets it);
+  `poseScaled(rig, pose, rootY)` poses the scaled kid. Home base: `buildLivingRoom(studio, {home:true})` = stairs up the left
+  wall (`DIMS.home`, `stairY(z)`), `setUpstairs(v)`, `setConsole(v)` lamp, `setNightlight(v)` (moon plug-in), Pip's corner
+  (bowls, toy basket, paw rug — the crate goes at `DIMS.home.crate`), photos up the stairs, `setClock(h, m)` with real hands,
+  and a sunrise: `setDawn(0..1)` / `setMode('morning')` (window view crossfades, the sun patch sweeps the floor = a time-lapse).
+  021 `shots.js` helpers: `sideLie()` (a rig lying on its side/back/tummy via a carrier basis: x = up × face; root = feet),
+  the towel "ghost" drape that follows Pip's head (`drapeGhost`), steam sprites, a twin-bell alarm clock.
 - 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
   (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
   jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
   money fountain, kid **two-sided signs** (two planes back to back = readable from the teacher's AND the camera's side), a
   tic-tac-toe hologram replacing the war-room globe, a press-room bell-curve screen, a leash (`TubeGeometry` on a bezier rebuilt
   per frame), a boomerang rocket (up → hover → lands back on its pad).
+- **Tails (015):** `addTail(rig, {color, tip, len, r, seed})` (rig.js) → `rig.tail.update(t, wag 0..1, {rate, sprout, lift, side, curl,
+  spin, still})`: a bushy fur chain on the pelvis that idles with a lazy sway (motion in every frame), whips side to side on `wag`,
+  pops in with `sprout` (boing it), points out past a high chair back with `side` (±1.3), and `lift ≈ 1.05` + `curl` + `spin`
+  turns it into a helicopter rotor (015 car lot). Tail color = hair (bald → a fur color); kids get `len 0.95, r 0.13`.
+- **New sets (015):** `restaurant.js` (evening bistro: brick wall + night-city window, string lights, 6 two-top tables with
+  `tables[i] = {g, cloth, dishes, flame, chairs}`, low-backed chairs, bar, `update(t)` candles), `carlot.js` (used-car lot: two rows
+  of `makeCar`s with price stickers + balloons, pennant strings, HONEST BOB'S sign, sales trailer, a flailing inflatable tube man
+  `tube` — `update(t)` animates both; `aimSun`, own `fog`, far ≥ 330), `casino.js` (poker room laid out for a vertical frame: shoot
+  down the table's long axis from +x, high; slot wall + neon POKER behind the dealer; `stacks[i]`, `pot`, `table`, `update(t)`),
+  `courtroom.js` (judge's bench + `gavel` (pivot at the handle: `rotation.x` slams it), seal, flags, witness stand, counsel tables,
+  jury box, bar rail, gallery benches, daylight windows).
 - `engine/sets/frontier.js` (009, early-1800s America): `buildCabin` (log cabin inside + snowy night outside, fire `update(t)`,
   `setExterior(v)` window glow), `buildWoods` (`setMode('summer'|'autumn'|'night')`, chopping stump + `chips`, half-built cabin,
   grave knoll `DIMS.woods.grave`, dirt road z=9 to a far lit cabin), `buildRiver` (sunset river, flatboat `boat` + `sweep`,
@@ -180,6 +220,40 @@ videos/NNN-slug/
   (parade ground, 30 `soldiers`, hangar, 4 `tanks`), `buildBorder` (dusk border post, barrier, one `guard`, tank row on a ridge
   `setTanksAdvance`), `buildPlant` (cooling towers + steam, `update(t, day)` time-lapse), `makeTank`, `makeSoldier`, `makeSkyDome`.
   Each builder returns its own `root` at the origin; the video shows one per shot and sets `scene.fog` per shot (city only).
+- **New sets (018):** `engine/sets/subway.js` (elevated subway car: steel poles `DIMS.poles`, overhead grab bars, orange bench
+  seats `DIMS.seatY/seatX`, doors, silly ad cards, `update(t, speed)` scrolls a sunny skyline past the windows), `mri.js` (MRI
+  suite: scanner with a glowing bore `DIMS.bore/boreFront/boreR`, sliding `table`, control window, MAGNET warnings, `iv`, `cart`,
+  `chair` groups that can fly, `setGlow(k)`), `paris.js` (72 m toy Eiffel Tower of instanced iron beams + Champ de Mars lawn,
+  kiosks, Haussmann ring, `legPoint(leg, y, u)` / `shaftPoint` = spots on the tower to stick things to, `aimSun`, own `fog`;
+  `camera.far` ≈ 700). `audio/synth.py` `metal_clang` (size, pitch): a soft low-passed "CLONG" for anything hitting steel.
+- **018 `shots.js` helpers worth copying:** `showC(rig, key, pose, center, yaw, tilt, roll)` poses a rig by its BODY CENTER with a
+  whole-body orientation (flying, stuck to a wall, a pile of people; legs dangle) — needs `rig.root.rotation.order = 'YXZ'`;
+  `showQ` + `basisQ(up, front)` for any orientation (heads radiating from a point); `flight()` = magnetic pull (u³: slow start,
+  slam); `impact(t, m, key, pos, size)` = cartoon starburst sprite + dust puffs (pair it with a camera jolt); `flyProp()` = a prop
+  flying onto a moving rig part (spine/head) and staying there (no reparenting); props `makeCart` (wire basket), `makeCompass`
+  (`needle.rotation.y`), `makeFork(spoon)`, `makeToaster` (toast pops), `makePan`, `makeMic`, `makeBackpack`; an instanced
+  crowd of 1,800 capsule "tourists" that fly in and stick (cheap swarm).
+- **New sets (019):** `library.js` (sunny reading room: 3 tall windows, ~1,500 instanced books, two reading tables with green
+  banker's lamps `lampShades[]`, 16 `chairs` (index = table·8 + seat·2 + side>0), librarian's desk at the far end, a tipping
+  QUIET PLEASE `sign` (pivot at its foot), a book `cart` + `cartBooks[]`, globe, ladder, card catalog), `surgery.js` (operating
+  room: OR table along x with a draped patient whose `feet`/`footL`/`footR` kick, a ceiling `lamp` pivot + `lampLight`, an ECG
+  `monitor` you redraw per frame `setECG(t, bpm, wild)`, instrument `tray`/`trayTop`, X-ray box, OR 3 sign), `cemetery.js`
+  (sunny funeral: lawn + hills, instanced headstones, oaks, chapel, iron fence, white canopy over the grave, folding chairs
+  `DIMS.rows × seats`, `wreaths[]`, a black `hearse`; own fog), `stadium.js` (dusk concert bowl: one LatheGeometry two-deck
+  bowl, ~16k instanced fans `updateFans(t, f)` where `f(info) → {y, arms, sway}` per fan (jumps, the wave, arms up), stage +
+  LED wall `setScreen(t, beat)`, `beams[]`, floodlight towers, jumbotrons; camera on the stage looking +x sees every face;
+  `camera.far` ≈ 600).
+- **019 `shots.js` = the dance kit:** one beat clock (`M1`, `BEAT` = 0.5 s at 120 bpm; make_cues.py uses the same grid) and
+  `MOVES` — groove, disco point, robot, jump (arms up), YMCA, twist, shimmy, sprinkler, body roll — each mutates a pose and
+  returns `{sz, sy, legs}` (side bend, shoulder twist, PER-LEG IK `{fz, lift, splay}` via a local `legIK` copy: step-touch,
+  knee pops, conga side kicks, a moonwalk). `dancer(rig, key, t, o)` = pose + move + `then(p, q, b)` override + per-leg legs.
+  Tested arm presets at the top: `GOAL` A(−1.57, 1.57, −1.57) = upper arm out, forearm UP; `FWD`, `PT_UP/PT_DN` (disco),
+  `HIP_A/B`, `HEAD_A/B`, `C_A/C_B`, `TOP_A/B` (YMCA letters), `SPR_A/B` (sprinkler), `CONGA_A/B`, `SLOW_A/B`, `FLEX_A/B`,
+  `PUSH_A/B` (the worm: showC-style body tilt). Also `makeMini(parent, n)` = a cheap instanced crowd (body + head + raised-arm V,
+  seated or standing), `burst(t, t0, center, …)` = one instanced confetti/petal/cereal burst per shot, `note()` = a gold ♪ that
+  pops over a head, accessories built once per crowd rig and toggled per beat (`wear(rig, {cap, mask, gloves, shades})`,
+  `outfit(rig, top, pants)` recolors; `hideAll` restores), props `makeCoffin`, `makeBowl`, `makeSpoon`, `makeCerealBox`,
+  `makeSheet(text)` (a stamped paper: HIRED).
 - **Fog + far plane per set:** street and city each set `scene.fog` + `camera.far`: save each set's fog right after building it
   and swap fog/far/exposure per shot (006 `useSet`). Call `city.setTime/setPower` and `street.setSeason` only while their fog is active.
 
@@ -310,6 +384,19 @@ videos/NNN-slug/
   with a negative `i` → `arr[-1]`. Use `((i % n) + n) % n`. To identify any mystery pixel, serve the repo
   (`python3 -m http.server`), open the page in the browser pane, expose `window.__studio = studio` temporarily, and raycast
   from `studio.camera` at that pixel (prints geometry, world point, material).
+- **Frame every camera with `python3 -I tools/bearing.py checks.py` BEFORE the first still** (015: half the first sheet missed its
+  subjects — a court with nobody in it, a poker table showing only the dealer). It prints each named point's x%/y% in the 9:16 frame
+  and flags OUT / under-the-HUD. Two people side by side need the camera ≥ 2.9 m away at fov 54 for ±0.5 m; a 3.5 m poker table
+  only fits shot down its long axis; an over-the-shoulder two-shot in a vertical frame hides the far person behind the near head.
+- **Hiding set pieces by position? Filter `o.isMesh`.** Lights are children of the set root too: 015 hid street.js's hemisphere
+  light (it sits at (0,1,0)) with a "hide the lamp posts near z≈0" rule, and every shadow in the shot went pitch black.
+- **Shooting a pet in a crate/cage (021):** people outside it have their faces ABOVE the crate's top (0.68 m), so a lens inside
+  the crate sees them through the top bars — hide `crate.panels.top` for those shots (and the panel between the lens and Pip
+  for his close-ups). Wires across a face read as noise; the remaining bars still say "crate". From inside, keep the hero
+  low (lying) so only his ears sit in the bottom of the frame and the human face carries the shot.
+- **Pose lineup at t ≥ 200 must hide `#ui`** (`document.getElementById('ui').style.display = 'none'`) — past `duration` the
+  end card + final fade cover every lineup frame (021's first lineup sheet was 18 black end cards).
+- **`bearing.py` is meaningless for near-straight-down cameras** (yaw is undefined): check overhead shots with a still.
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
   offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.
@@ -325,10 +412,48 @@ videos/NNN-slug/
   off-frame; and park the destination prop (hydrant) where the leader actually stops (compute it from the walk), not a guess.
 - **Check every still for the HUD (top-left, y≈470–640 at full size) covering a face** — 009's theatre box and riverA put a
   face exactly there; fix by re-aiming (raise the aim point so faces drop, or shift them right), never by moving the HUD.
+- **Speech bubbles / cards in a vertical frame (016): aim the camera AT the bubble height, not at the speaker.** Put the
+  speaker's head at ≈ 60–65 % of the frame so its bubble lands in the 38–60 % band; first sheet aimed at the pets and 5 of 11
+  bubbles sat at 25–35 % on top of the HUD. A bubble that rises above ~37 % must stay right of x ≈ 55 %. In a crowd, pop the
+  bubbles one after another (each ~1.1 s) instead of three at once, keep floor pets' bubbles under the owners' faces, and never
+  anchor one on a lap pet (it lands on the owner's face). A topple that drops out of frame: keyframe the camera's aim down with
+  it (CAMS `ay`/`y`, 016 press beat) — v1 left an empty backdrop.
+  **Pets have faces too:** small animals live at 60–80 % of the frame — exactly the subtitle band (≈ 70 %). 016 v1 had the
+  subtitle across the goldfish, the vet's dogs and Biscuit; scan every subtitle moment for a pet face and move the pet (raise the
+  bowl on books, re-aim) so it sits above ≈ 64 % or below ≈ 76 %.
 - **Vertical frames are only ±15° wide**: before placing people for a shot, check the bearing from the camera to each one vs
   the aim direction (009's road + war shots had the hero 19–25° off-axis = out of frame).
+- **Things that stick to a surface must face the lens: put the surface BEHIND them relative to the camera** (018 v1 stuck people
+  to parked-car doors seen edge-on from the sidewalk = unreadable profiles; v2 put the camera in the street looking at a bus
+  shelter + a steel shutter, so everyone is yanked backward and lands back-first, facing us).
+- **Bodies radiating from a point (heads in an MRI bore) don't fit under a 2.8 m ceiling:** tilt them ~50° toward the camera —
+  foreshortening keeps the flower shape (018). Same for any "human sunflower".
+- **A pointing prop must not be ambiguous:** a compass whose N already points at the target can't show "it points at him" —
+  rotate the dial so N points elsewhere, then swing the needle (018). Keep such props above the subtitle band and off the HUD.
+- **Sync foley to physics computed in shots.js by mirroring the formula in make_cues.py** (018's cart pile-up times `TK` are
+  solved the same way in both) — and keep collisions inside the beat (v1's carts arrived 2 s after the cut).
+- **Beat-timed events: compute them from the beat index, `t = M1 + n·BEAT`, the same way in shots.js and make_cues.py** (019's
+  can pyramid was keyed to "bar 38" instead of beat 39 → scheduled at 83 s, the cans never fell in the first stills).
+- **Arm presets: check the math before "fixing" one** — a cropped still made 019's robot goal post look wrong; a 10-line node
+  script of the shoulder → elbow → hand chain (`rotation.set(sx, twist, s·sz)`, `elbow.rotation.x = el`) proved it right.
+  The t ≥ 200 pose lineup must hide `#ui` (019: the end card + finalFade covered it); show ≤ 5 figures per lineup frame.
+- **Additive light cones (stage beams) that pass near the camera wash out the whole frame** (019 stadium): hide the beams
+  over the camera path, keep the rest at opacity ≈ 0.09.
+- **city.js rooftop props** — stairwell box at (−14.6, 15.6) 2.6 × 2.4, water tower at (−11.2, 16) with legs ±1 m, AC units at
+  x ≈ −15.5, a vent at (−12.8, 12.8). Keep dancers + camera cranes clear of them (019's first crane flew through the tower).
+  A crane that stays above the roof footprint is safe; the neighbors are taller.
+- **street.js generic storefronts have an awning at y 2.75** that hides any sign you hang above the window — hide it
+  (019 IRON GYM). Canvas text wider than its canvas is silently clipped ("LOSED FOREVE") — shrink the font or measure it.
+- **LatheGeometry profiles: no two consecutive equal points** (zero-length segment → NaN normals → black blocks).
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
+
+## The operation (manager + producers, Oct 26 2026)
+EDStudio now runs as a daily operation: a **manager** Claude assigns numbered concepts from `ops/ideas.md`, starts one **producer**
+session per video (own worktree, commits on its branch, never merges/pushes/posts), gates each video through QC + TRIBE, emails
+the user a phone preview, and schedules approved posts in TikTok Studio (1 PM + 6 PM PT, three accounts, one lane each:
+`docs/lanes/`). A daily research task feeds the backlogs. Playbook: **`docs/OPERATION.md`**; entry point: **`/operation`**.
+If a brief from the manager conflicts with this file's merge/push habits, the brief wins.
 
 ## Brain-response check (TRIBE v2 experiment, Oct 2026)
 `tribe-experiment/` runs Meta's TRIBE v2 (predicted fMRI response, CC BY-NC → personal use only) on our `final.mp4`s, locally
@@ -339,12 +464,34 @@ rank in upload order (TikTok suppresses copies), so don't cross-post. Useful as 
 encoders only accept cuda/cpu (set `mps` after load), torch 2.6 MPS attention needs 6 GB per V-JEPA layer (chunk queries),
 `num_workers: 20` spawns 20 slow processes on macOS (set 0), run it under `nohup` (quitting the app killed a 3 h batch), and
 our videos have no speech, so the Llama text stream is empty (no HuggingFace token needed).
-**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
-`nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
-`.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead
-zones. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
+**Keep TRIBE-gated reels ≤ 70 s** (019): the w2v-BERT audio encoder attends over the WHOLE clip (memory ∝ length²); at
+the 0.5 MPS watermark a 71.5 s reel ran out of GPU memory in the audio step (`MPS backend out of memory … Tried to allocate
+780 MB`), while 70.0 s (015-v2) and 69 s (018) passed. Trim the ending rather than touch the TRIBE setup.
+Re-scoring under the same tag used to reuse the old extracted `$NAME.wav` (the extractor skips an existing WAV), so 019's
+trimmed cut failed again with the identical 780 MB request; `tools/tribe-score.sh` now deletes `$NAME.wav/.tsv` first.
+**Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `sh tools/tribe-score.sh videos/NNN-slug cutN` (in the
+background; it holds a global lock so only ONE TRIBE run happens at a time across all sessions — two at once swap the Mac;
+~20 min idle, ~60 min when the Mac swaps) → `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut, not a TRIBE version): headline metrics vs the best posted video, a
+per-beat table and dead zones. **In the operation (docs/OPERATION.md) the user made it the gate (Oct 26)**, reach still unproven:
+`study.py` keeps testing it per account from `ops/ledger.csv`. Target: beat 013 on whole-brain + first-60-s mean, no dead zone. What scores: bright places, crowds of faces, motion in
 every frame, a steady mix (LRA ≈ 4). What sags: anything that stands still (014 v1's staring plane cabin: motion network −0.19).
 One fix pass is enough — edits ripple into neighboring beats (v2: targeted beats +8…+46 %, untouched beats −4…−11 %, net +1 %).
+**015 (tail-lies) confirmed it: faces + motion lift the weak beats.** v1 met the target (0.056) but a kitchen two-shot and a court
+seen from behind the defendant sat at 0.015 (busy face-filled beats: 0.08–0.10). v2 moved the kitchen camera closer, added the family
+dog and fidgets (0.031), and cut the court to a reverse angle on the defendant's face + a gallery of reacting onlookers + the gavel
+slamming in the foreground (0.040/0.043). Net: whole-brain +1 %, first 60 s +7 %; the untouched ending dipped (0.050 → 0.035).
+**021 (Pip ep. 1, a NIGHT reel) met the target on cut1 (wc 0.064, first 60 s 0.065):** dark doesn't sag when every shot is a
+close face in constant motion — the crate close-ups, the stairs and the 3 AM shots scored 0.09–0.11. The weakest beats were the
+BRIGHT wide ones with small faces (9 PM family + zoomies 0.035, the morning discovery 0.044): get close, not bright.
+**Keep TRIBE videos ≤ 70 s (016):** with the lowered MPS cap the audio encoder (w2v-BERT relative-position attention, whole
+soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out of memory … max allowed 8.88 GB`) while 70.0 s
+(015) passed. Trim the video rather than raising the shared watermark. (`tribe-score.sh` used to copy `final.mp4` before waiting
+for the lock, so a re-render while queued scored the old file; it now copies after it takes the lock.)
+It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
+`tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
+**019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
+robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
+0.002. Close faces in motion beat spectacle at a distance.
 
 ## QC checklist (all must pass before committing final.mp4)
 - [ ] Opening is ONLY the main question, centered, ~3 s; no tag/subtext anywhere; first subtitle starts after title.out.

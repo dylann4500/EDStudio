@@ -9,7 +9,7 @@ Follow `CLAUDE.md` exactly. Steps:
 
 1. Read `CLAUDE.md`, `docs/FORMAT.md`, `docs/TONES.md`, and the reference video for the tone:
    `videos/001-bedroom-door/` (emotional) or `videos/002-everyone-pregnant/` (funny) — story.json + shots.js + cues.json.
-2. Pick the concept + tone: if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md` (emotional);
+2. Pick the concept + tone (a Pip episode for lane 3 → `docs/lanes/lane3.md` + `engine/pip.js`, reference `videos/021-pip-first-night`): if $ARGUMENTS is a day number, take that day from `schedule/30-day-plan.md` (emotional);
    otherwise develop $ARGUMENTS into a concept that follows the format bible (opening question alone + centered with one gold
    keyword, NO 'told by' tag/subtext, a HUD number that changes across a time skip, 2–4 eras, a strong ending, hyper-specific
    details). Montage (the premise in many places, 007) or Funny → the TONES.md rules (named everyman, crowd in sync, deadpan lines, picture delivers the punch, music never cuts out, warm last beat).
@@ -31,8 +31,9 @@ Follow `CLAUDE.md` exactly. Steps:
    **Lean on drama:** every beat should end in something big and physical (collapse, crush, snap, time-lapse) — CLAUDE.md.
    **New places:** if the story goes somewhere the existing sets don't cover (or a set was used in the last videos), build a new
    `engine/sets/<name>.js` and new props. **Dress every scene** — never ship a bare still (CLAUDE.md → No bare scenes).
-5. Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
-   build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup
+5. Before the first still, frame every camera with `python3 -I tools/bearing.py checks.py` (subjects' x%/y% in the 9:16 frame; flags OUT + under-the-HUD).
+   Stills loop until every shot looks right: render 10–18 stills covering every shot, every gag beat and every prop handoff,
+   build the sheet, **view the sheet image**, fix, repeat. Use `--cam top` for blocking/light problems and a t ≥ 200 pose lineup (hide `#ui` in it, or the end card covers it)
    for arm poses. Check that no text sits over a face or a sign. If the premise is a readable prop (cards, signs, screens), check that
    every one you mean to be read is actually legible in the still at half size — compute frame width from distance + fov (CLAUDE.md). Do not full-render before the sheet looks good;
    a `--preview` render is a cheap motion check.
@@ -41,9 +42,11 @@ Follow `CLAUDE.md` exactly. Steps:
    it must report `music dropouts: none`.
 7. Full render: `node tools/render.mjs NNN-slug`. Spot-check 6 frames of `final.mp4` (ffmpeg -ss) for black blocks/flicker.
 8. Run the QC checklist in CLAUDE.md; fix anything failing.
-   Optional **TRIBE pass** (CLAUDE.md → Brain-response check): score the render with `tribe-experiment/score.py`, fix the beats it
-   flags as sagging (usually: add motion), re-render, re-score once. It's a quality signal, not a reach predictor.
-9. Write `caption.md` (format: docs/FORMAT.md §9 — incl. the course line `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q` before the hashtags). Commit the video folder (not out/ or stills/) with a message like `video NNN: <title>` and push.
+   **TRIBE pass** (CLAUDE.md → Brain-response check; required in the operation): `sh tools/tribe-score.sh videos/NNN-slug cut1` in the
+   background (one run at a time across all sessions — never call run_tribe.py directly), fix the beats it flags as sagging
+   (usually: add motion), re-render, re-score as `cut2` (cutN = the video's Nth cut; the model is always TRIBE v2). It's a quality signal, not a reach predictor.
+9. Write `caption.md` (format: docs/FORMAT.md §9 — incl. the course line `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q` before the hashtags; `python3 -I tools/caption.py videos/NNN-slug` must pass). Commit the video folder (not out/ or stills/) with a message like `video NNN: <title>` and push.
+   **Producer in the operation (docs/OPERATION.md):** commit on your branch only — the manager merges, pushes and posts.
 10. **Update the harness:** anything you learned, any new engine feature, any user steering → CLAUDE.md / docs / this command.
 11. Report: title, duration, file path, **the full caption text pasted in the message (paste-ready, every first cut and every revision —
     user rule)**, and anything you couldn't finish.

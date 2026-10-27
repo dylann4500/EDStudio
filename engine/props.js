@@ -308,14 +308,19 @@ export function makeDog({ color = 0xc98e4a, patch = 0xf2e6cf } = {}) {
   const legs = [];
   for (const [x, z] of [[-0.06, 0.14], [0.06, 0.14], [-0.06, -0.14], [0.06, -0.14]]) { const L = new THREE.Group(); L.position.set(x, 0.22, z); g.add(L); mk(new THREE.CapsuleGeometry(0.028, 0.14, 4, 8), m, L, 0, -0.1, 0); legs.push(L); }
   const tail = new THREE.Group(); tail.position.set(0, 0.33, -0.24); g.add(tail); const tm = mk(new THREE.CapsuleGeometry(0.02, 0.12, 4, 8), m, tail, 0, 0.07, -0.02); tm.rotation.x = -0.5;
+  // 016: lying down (setLie 0..1 — body + head sink, front legs forward, back legs back) and a wag speed (setWag)
+  const chest = g.children[1], base = [body, chest, head, tail].map((o) => o.position.y);
+  let lie = 0, wag = 14;
   const update = (t, speed = 0) => {
     const ph = t * (8 + speed * 6);
-    legs.forEach((L, i) => (L.rotation.x = Math.sin(ph + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.7 * Math.min(1, speed)));
-    g.children[0].position.y = 0.27 + Math.abs(Math.sin(ph)) * 0.02 * Math.min(1, speed);
-    tail.rotation.z = Math.sin(t * 14) * 0.6;
+    legs.forEach((L, i) => (L.rotation.x = Math.sin(ph + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.7 * Math.min(1, speed) * (1 - lie) + (i < 2 ? -1.45 : 1.45) * lie));
+    g.children[0].position.y = 0.27 + Math.abs(Math.sin(ph)) * 0.02 * Math.min(1, speed) - 0.17 * lie;
+    tail.rotation.z = Math.sin(t * wag) * 0.6;
   };
+  const setLie = (k) => { lie = k; [body, chest, head, tail].forEach((o, i) => (o.position.y = base[i] - 0.17 * k)); legs.forEach((L) => (L.position.y = 0.22 - 0.15 * k)); };
+  const setWag = (w) => { wag = w; };
   const bark = (k) => { jaw.position.y = -0.07 - 0.03 * k; head.rotation.x = -0.3 * k; };
-  return { g, head, update, bark };
+  return { g, head, jaw, update, bark, setLie, setWag };
 }
 /** Ceiling fan (mount at the ceiling, hangs down 0.35 m). update(t, wobble) spins the blades; wobble 0..1 shakes it (after a bonk). */
 export function makeCeilingFan() {
@@ -334,4 +339,192 @@ export function makeMug(color = 0xd2483f) {
   mk(new THREE.CircleGeometry(0.036, 16), mat(0x3a2414, 0.2), g, 0, 0.075, 0).rotation.x = -Math.PI / 2;
   mk(new THREE.TorusGeometry(0.022, 0.007, 6, 12, Math.PI), mat(color, 0.4), g, 0.045, 0.045, 0).rotation.z = -Math.PI / 2;
   return g;
+}
+
+// ---------------------------------------------------------------- talking pets (016; reusable)
+/**
+ * makeSpeechBubble({ lines, name, accent, width, maxChars, offX, soft })
+ *   A camera-facing speech bubble: rounded white card, a thin accent outline, an optional small name tag, bold lines below,
+ *   and a tail pointing down at the speaker. Bottom-anchored like makeSearchBubble: put `sprite.position` just above the mouth.
+ *   setRows(n) reveals lines 1..n (one prebuilt texture per count — the card grows upward, chat-style), setPop(k) scales it
+ *   (0 = hidden; drive it with a boing). `soft: true` = a warm, quiet line (no shouting) for tender beats. `tail` (px, default 42)
+ *   lengthens the tail so the card can float above a crowd and still point down at a small speaker (a goldfish).
+ *   Unlit, slightly off-white so it never trips the bloom threshold (house rule for screens/cards).
+ */
+export function makeSpeechBubble(o = {}) {
+  const W = 1024, PAD = 26, TAIL = o.tail ?? 42, R = 52;
+  const lines = o.lines || [o.text || ''], width = o.width ?? 0.9, maxChars = o.maxChars ?? 20, accent = o.accent || '#e8553f';
+  const soft = !!o.soft, FS = soft ? 74 : 72, LH = Math.round(FS * 1.16), GAP = 16, NAMEH = o.name ? 62 : 0;
+  const font = `${soft ? '600' : '800'} ${FS}px Helvetica, Arial, sans-serif`;
+  const wrap = (s) => { const out = []; let line = ''; for (const w of s.split(' ')) { if ((line + ' ' + w).trim().length > maxChars && line) { out.push(line); line = w; } else line = (line + ' ' + w).trim(); } if (line) out.push(line); return out; };
+  const rows = lines.map(wrap);
+  const texFor = (n) => {
+    const nl = rows.slice(0, n).reduce((a, r) => a + r.length, 0);
+    const cardH = 40 + NAMEH + nl * LH + Math.max(0, n - 1) * GAP + 30, H = cardH + PAD * 2 + TAIL;
+    const tex = canvasTex(W, H, (g) => {
+      const x0 = PAD, y0 = PAD, w = W - PAD * 2, tx = Math.min(W - PAD - 110, Math.max(PAD + 110, (0.5 + (o.offX ?? 0)) * W));
+      const shape = () => { g.beginPath(); g.roundRect(x0, y0, w, cardH, R); g.moveTo(tx - 34, y0 + cardH - 2); g.lineTo(tx - 6, y0 + cardH + TAIL - 4); g.lineTo(tx + 30, y0 + cardH - 2); };
+      g.save(); g.shadowColor = 'rgba(0,0,0,.38)'; g.shadowBlur = 20; g.shadowOffsetY = 7;
+      g.fillStyle = soft ? '#fffaf0' : '#ffffff'; shape(); g.fill(); g.restore();
+      g.lineWidth = 9; g.strokeStyle = accent; g.beginPath(); g.roundRect(x0 + 5, y0 + 5, w - 10, cardH - 10, R - 5); g.stroke();
+      g.fillStyle = soft ? '#fffaf0' : '#ffffff'; g.beginPath(); g.moveTo(tx - 28, y0 + cardH - 14); g.lineTo(tx - 6, y0 + cardH + TAIL - 12); g.lineTo(tx + 24, y0 + cardH - 14); g.fill();
+      let y = y0 + 34;
+      if (o.name) { g.font = '800 36px Helvetica, Arial, sans-serif'; const nw = g.measureText(o.name).width + 44; g.fillStyle = accent; g.beginPath(); g.roundRect(x0 + 40, y - 6, nw, 48, 24); g.fill(); g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(o.name, x0 + 62, y + 19); y += NAMEH; }
+      g.font = font; g.fillStyle = soft ? '#3a2a1e' : '#1d1e22'; g.textBaseline = 'middle'; g.textAlign = 'center';
+      rows.slice(0, n).forEach((r, k) => { r.forEach((l, i) => g.fillText(l, W / 2, y + LH / 2 + i * LH)); y += r.length * LH + GAP; });
+    });
+    return { tex, aspect: H / W };
+  };
+  const texs = [null, ...rows.map((_, i) => texFor(i + 1))];
+  const material = new THREE.SpriteMaterial({ map: texs[1].tex, color: 0xf0f0f0, transparent: true, depthWrite: false, depthTest: false, toneMapped: false, fog: false });
+  const sprite = new THREE.Sprite(material); sprite.center.set(0.5 + (o.offX ?? 0), 0); sprite.renderOrder = 10;
+  let shown = 1, pop = 1;
+  const resize = () => { const a = texs[shown].aspect; sprite.scale.set(width * pop, width * a * pop, 1); sprite.visible = pop > 0.001; };
+  const setRows = (n) => { n = Math.max(1, Math.min(rows.length, Math.floor(n))); if (n !== shown) { shown = n; material.map = texs[n].tex; } resize(); };
+  const setPop = (k) => { pop = Math.max(0, k); resize(); };
+  resize();
+  return { sprite, material, setRows, setPop, width, rows: rows.length };
+}
+
+/** Sitting toy cat (faces +z, head top ~0.42 m). update(t) sways the tail; talk(k) opens the mouth; paw(k) raises the right
+ *  front paw forward (0 → 1 = reaching out at chest height, for pushing a mug off a counter); squint(k) = the unimpressed look. */
+export function makeCat({ color = 0xe08a3a, belly = 0xf6e7d2, stripe = 0xb4602a, nose = 0xe88a9a } = {}) {
+  const g = new THREE.Group(), m = mat(color, 0.85), b = mat(belly, 0.85), dark = mat(0x1b1310, 0.35), st = mat(stripe, 0.85), pink = mat(nose, 0.6);
+  mk(new THREE.SphereGeometry(0.1, 16, 12), m, g, 0, 0.1, -0.02).scale.set(0.95, 1.0, 1.1);              // seat / lower body
+  for (const s of [-1, 1]) mk(new THREE.SphereGeometry(0.07, 12, 10), m, g, s * 0.07, 0.065, -0.03).scale.set(0.8, 0.9, 1.25);   // haunches
+  const chest = mk(new THREE.CapsuleGeometry(0.07, 0.1, 6, 12), m, g, 0, 0.21, 0.025); chest.rotation.x = 0.3;
+  mk(new THREE.SphereGeometry(0.055, 12, 10), b, g, 0, 0.19, 0.075).scale.set(1, 1.3, 0.7);             // white bib
+  for (let k = 0; k < 3; k++) mk(new THREE.BoxGeometry(0.15, 0.02, 0.05), st, g, 0, 0.12 + k * 0.055, -0.1 + k * 0.025).rotation.x = 0.3;
+  const legs = [];
+  for (const s of [-1, 1]) {
+    const L = new THREE.Group(); L.position.set(s * 0.04, 0.21, 0.07); g.add(L);
+    mk(new THREE.CapsuleGeometry(0.022, 0.15, 4, 8), m, L, 0, -0.1, 0.0);
+    mk(new THREE.SphereGeometry(0.027, 10, 8), b, L, 0, -0.195, 0.012).scale.set(1, 0.7, 1.2);
+    legs.push(L);
+  }
+  const head = new THREE.Group(); head.position.set(0, 0.34, 0.05); g.add(head);
+  mk(new THREE.SphereGeometry(0.085, 18, 14), m, head).scale.set(1.12, 0.95, 1.0);
+  mk(new THREE.SphereGeometry(0.036, 12, 10), b, head, 0, -0.03, 0.068).scale.set(1.35, 0.8, 0.8);
+  mk(new THREE.SphereGeometry(0.012, 8, 6), pink, head, 0, -0.008, 0.09);
+  const eyes = [];
+  for (const s of [-1, 1]) {
+    eyes.push(mk(new THREE.SphereGeometry(0.016, 10, 8), dark, head, s * 0.036, 0.015, 0.074));
+    const ear = mk(new THREE.ConeGeometry(0.034, 0.075, 4), m, head, s * 0.056, 0.08, 0.0); ear.rotation.z = -s * 0.35; ear.rotation.y = Math.PI / 4;
+    const inner = mk(new THREE.ConeGeometry(0.02, 0.05, 4), pink, head, s * 0.054, 0.074, 0.012); inner.rotation.z = -s * 0.35; inner.rotation.y = Math.PI / 4;
+    for (let k = -1; k <= 1; k++) { const w = mk(new THREE.CylinderGeometry(0.0016, 0.0016, 0.09, 4), mat(0xffffff, 0.5), head, s * 0.07, -0.028 + k * 0.009, 0.07); w.rotation.z = Math.PI / 2 + k * 0.15 * s; w.castShadow = false; }
+    mk(new THREE.BoxGeometry(0.035, 0.008, 0.01), st, head, s * 0.03, 0.065, 0.06).rotation.z = s * 0.3;   // brow stripes
+  }
+  const jaw = mk(new THREE.BoxGeometry(0.03, 0.008, 0.02), mat(0x8a2f3b, 0.6), head, 0, -0.05, 0.074);
+  const tail = []; let prev = g;
+  for (let k = 0; k < 5; k++) { const s = new THREE.Group(); s.position.set(0, k ? 0.07 : 0.03, k ? 0 : -0.12); prev.add(s); mk(new THREE.CapsuleGeometry(0.018, 0.06, 4, 8), k === 4 ? st : m, s, 0, 0.035, 0); tail.push(s); prev = s; }
+  const update = (t, swish = 1) => tail.forEach((s, k) => { s.rotation.x = k === 0 ? -1.2 : 0.32; s.rotation.z = Math.sin(t * 2.2 - k * 0.6) * 0.22 * swish; });
+  const talk = (k) => { jaw.position.y = -0.05 - 0.016 * k; jaw.scale.set(1, 1 + 2.5 * k, 1); };
+  const paw = (k) => { legs[1].rotation.x = -1.35 * k; };
+  const squint = (k) => eyes.forEach((e) => e.scale.set(1.15, 1 - 0.65 * k, 1));
+  update(0);
+  return { g, head, legs, update, talk, paw, squint };
+}
+
+/** Toy macaw on a perch (faces +z; feet at y=0, head top ~0.31 m, tail hangs ~0.2 m below the feet).
+ *  talk(k) opens the beak; update(t, flap) bobs the head and flaps the wings (flap 0..1). */
+export function makeParrot({ body = 0xd8352a, wingA = 0xf2c230, wingB = 0x2f6fd0, face = 0xfaf6ee } = {}) {
+  const g = new THREE.Group(), m = mat(body, 0.7), dark = mat(0x161616, 0.3);
+  const torso = mk(new THREE.CapsuleGeometry(0.06, 0.12, 6, 12), m, g, 0, 0.12, 0); torso.rotation.x = 0.22;
+  const head = new THREE.Group(); head.position.set(0, 0.25, 0.035); g.add(head);
+  mk(new THREE.SphereGeometry(0.058, 16, 12), m, head);
+  for (const s of [-1, 1]) { mk(new THREE.SphereGeometry(0.03, 10, 8), mat(face, 0.7), head, s * 0.032, -0.005, 0.035).scale.set(0.6, 1.1, 0.8); mk(new THREE.SphereGeometry(0.0105, 8, 6), dark, head, s * 0.036, 0.012, 0.052); }
+  const beak = mk(new THREE.ConeGeometry(0.026, 0.065, 12), mat(0xefe6d2, 0.4), head, 0, -0.012, 0.064); beak.rotation.x = Math.PI * 0.62;
+  const jaw = mk(new THREE.ConeGeometry(0.016, 0.03, 10), mat(0x2a2a2a, 0.5), head, 0, -0.042, 0.05); jaw.rotation.x = Math.PI * 0.42;
+  const wings = [-1, 1].map((s) => { const w = new THREE.Group(); w.position.set(s * 0.055, 0.17, 0.0); g.add(w); mk(new THREE.SphereGeometry(0.055, 12, 10), mat(wingA, 0.7), w, s * 0.012, -0.02, 0).scale.set(0.35, 1.0, 0.95); mk(new THREE.SphereGeometry(0.05, 12, 10), mat(wingB, 0.7), w, s * 0.014, -0.085, -0.012).scale.set(0.33, 1.25, 0.85); return w; });
+  const tail = mk(new THREE.CapsuleGeometry(0.018, 0.2, 4, 8), m, g, 0, -0.05, -0.07); tail.rotation.x = -0.35;
+  mk(new THREE.CapsuleGeometry(0.014, 0.08, 4, 8), mat(wingB, 0.7), g, 0, -0.16, -0.11).rotation.x = -0.35;
+  for (const s of [-1, 1]) mk(new THREE.CapsuleGeometry(0.012, 0.03, 4, 6), mat(0x5a5a5a, 0.6), g, s * 0.025, 0.012, 0.012).rotation.x = Math.PI / 2;
+  const talk = (k) => { jaw.rotation.x = Math.PI * 0.42 + 0.6 * k; jaw.position.y = -0.042 - 0.012 * k; };
+  const update = (t, flap = 0) => {
+    head.rotation.z = 0.12 * Math.sin(t * 1.7); head.rotation.x = 0.05 * Math.sin(t * 2.3);
+    wings.forEach((w, i) => (w.rotation.z = (i ? -1 : 1) * (0.05 + flap * (0.5 + 0.7 * Math.sin(t * 22)))));
+  };
+  return { g, head, wings, talk, update };
+}
+/** A T-perch stand (base disc + pole + crossbar). The bird's feet go at y = h. */
+export function makePerch(h = 1.2) {
+  const g = new THREE.Group(), wood = mat(0x8a5a36, 0.7);
+  mk(new THREE.CylinderGeometry(0.2, 0.22, 0.04, 20), mat(0x5a4a3e, 0.7), g, 0, 0.02, 0);
+  mk(new THREE.CylinderGeometry(0.018, 0.022, h, 10), wood, g, 0, h / 2, 0);
+  mk(new THREE.CylinderGeometry(0.016, 0.016, 0.42, 10), wood, g, 0, h - 0.015, 0).rotation.z = Math.PI / 2;
+  mk(new THREE.CylinderGeometry(0.035, 0.03, 0.04, 12), mat(0xd9d4c8, 0.4), g, 0.17, h + 0.005, 0);   // a little food cup
+  return { g, h };
+}
+
+/** Goldfish bowl (bottom at y=0, radius r) with gravel, a plant and one goldfish. update(t, face) swims the fish in a circle;
+ *  face 0..1 brings it to the front glass looking at +z (to "talk"); talk(k) opens its mouth. Glass + water are see-through. */
+export function makeFishBowl({ r = 0.16, fishColor = 0xf28a2a } = {}) {
+  const g = new THREE.Group(), cy = r * 0.92;
+  const glass = mk(new THREE.SphereGeometry(r, 32, 22, 0, Math.PI * 2, Math.PI * 0.2, Math.PI * 0.72), new THREE.MeshStandardMaterial({ color: 0xe6f6ff, roughness: 0.05, transparent: true, opacity: 0.2, side: THREE.DoubleSide, depthWrite: false }), g, 0, cy, 0);
+  glass.renderOrder = 3; glass.castShadow = false;
+  const water = mk(new THREE.SphereGeometry(r * 0.97, 28, 18, 0, Math.PI * 2, Math.PI * 0.3, Math.PI * 0.62), new THREE.MeshStandardMaterial({ color: 0x6fc0ea, roughness: 0.1, transparent: true, opacity: 0.28, side: THREE.DoubleSide, depthWrite: false }), g, 0, cy, 0);
+  water.renderOrder = 2; water.castShadow = false;
+  const wy = cy + r * 0.97 * Math.cos(Math.PI * 0.3), wr = r * 0.97 * Math.sin(Math.PI * 0.3);
+  const surf = mk(new THREE.CircleGeometry(wr, 28), new THREE.MeshStandardMaterial({ color: 0x9fd8f2, roughness: 0.05, transparent: true, opacity: 0.35, side: THREE.DoubleSide, depthWrite: false }), g, 0, wy, 0); surf.rotation.x = -Math.PI / 2; surf.renderOrder = 2; surf.castShadow = false;
+  const rimY = cy + r * Math.cos(Math.PI * 0.2), rimR = r * Math.sin(Math.PI * 0.2);
+  mk(new THREE.TorusGeometry(rimR, 0.006, 6, 28), new THREE.MeshStandardMaterial({ color: 0xe6f6ff, roughness: 0.1, transparent: true, opacity: 0.5 }), g, 0, rimY, 0).rotation.x = Math.PI / 2;
+  const R2 = rng(7);
+  for (let k = 0; k < 26; k++) { const a = R2() * Math.PI * 2, d = Math.sqrt(R2()) * r * 0.62; mk(new THREE.SphereGeometry(0.014, 6, 5), mat([0xe2574c, 0x4f9bd9, 0xf2c14e, 0xf2efe8, 0x6fa84f][k % 5], 0.6), g, Math.cos(a) * d, 0.035 + R2() * 0.012, Math.sin(a) * d); }
+  for (let k = 0; k < 3; k++) { const p = mk(new THREE.CapsuleGeometry(0.008, 0.09 + k * 0.03, 4, 6), mat(0x3f9a4a, 0.7), g, -r * 0.35 + k * 0.025, 0.1 + k * 0.015, -r * 0.3); p.rotation.z = (k - 1) * 0.25; }
+  const fish = new THREE.Group(); g.add(fish);
+  const fm = mat(fishColor, 0.5);
+  mk(new THREE.SphereGeometry(0.034, 14, 10), fm, fish).scale.set(0.72, 0.85, 1.25);
+  const tail = new THREE.Group(); tail.position.set(0, 0, -0.04); fish.add(tail);
+  const tf = mk(new THREE.ConeGeometry(0.03, 0.05, 3), fm, tail, 0, 0, -0.02); tf.rotation.x = -Math.PI / 2; tf.scale.set(0.25, 1, 1.3);
+  mk(new THREE.ConeGeometry(0.014, 0.03, 3), fm, fish, 0, 0.032, -0.005).scale.set(0.25, 1, 1.4);
+  for (const s of [-1, 1]) { mk(new THREE.SphereGeometry(0.011, 8, 6), mat(0xffffff, 0.3), fish, s * 0.018, 0.012, 0.028); mk(new THREE.SphereGeometry(0.0065, 8, 6), mat(0x111111, 0.3), fish, s * 0.022, 0.013, 0.034); }
+  const mouth = mk(new THREE.TorusGeometry(0.006, 0.0025, 6, 12), mat(0xb8452a, 0.5), fish, 0, -0.004, 0.042);
+  const swimY = cy - r * 0.05;
+  const update = (t, face = 0) => {
+    const a = t * 1.1, rr = r * 0.42, x = Math.cos(a) * rr, z = Math.sin(a) * rr, head = Math.atan2(-Math.sin(a), Math.cos(a));
+    fish.position.set(x * (1 - face), swimY + 0.012 * Math.sin(t * 2.3), z * (1 - face) + face * r * 0.45);
+    fish.rotation.y = head + (0 - head) * face;
+    tail.rotation.y = Math.sin(t * (10 - 6 * face)) * 0.45;
+  };
+  const talk = (k) => mouth.scale.setScalar(1 + 1.4 * k);
+  update(0);
+  return { g, fish, update, talk, top: rimY };
+}
+
+/** Toy hamster (faces +z, ~0.11 m long). update(t, run) bobs it (run 0..1 = scurrying); stand(k) rears up on its hind legs with
+ *  its front paws raised (for holding a tiny sign; `paws` are attach points); talk(k) opens the mouth. */
+export function makeHamster({ color = 0xe2a65e, belly = 0xf7ecdc } = {}) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const m = mat(color, 0.9), b = mat(belly, 0.9), pink = mat(0xf0a8b0, 0.6), dark = mat(0x111111, 0.3);
+  mk(new THREE.SphereGeometry(0.045, 14, 12), m, body, 0, 0.042, -0.005).scale.set(1.0, 0.88, 1.2);
+  mk(new THREE.SphereGeometry(0.036, 12, 10), b, body, 0, 0.03, 0.012).scale.set(0.95, 0.75, 1.15);
+  const head = new THREE.Group(); head.position.set(0, 0.052, 0.04); body.add(head);
+  mk(new THREE.SphereGeometry(0.034, 14, 12), m, head);
+  for (const s of [-1, 1]) { mk(new THREE.SphereGeometry(0.019, 10, 8), b, head, s * 0.02, -0.012, 0.016); mk(new THREE.SphereGeometry(0.012, 8, 6), pink, head, s * 0.02, 0.03, -0.004).scale.set(1, 1, 0.5); mk(new THREE.SphereGeometry(0.0068, 8, 6), dark, head, s * 0.017, 0.01, 0.029); }
+  mk(new THREE.SphereGeometry(0.0055, 8, 6), pink, head, 0, -0.002, 0.034);
+  const jaw = mk(new THREE.BoxGeometry(0.012, 0.004, 0.006), mat(0x8a2f3b, 0.6), head, 0, -0.016, 0.03);
+  const paws = [-1, 1].map((s) => { const p = new THREE.Group(); p.position.set(s * 0.022, 0.03, 0.045); body.add(p); mk(new THREE.SphereGeometry(0.009, 8, 6), pink, p); return p; });
+  const feet = [-1, 1].map((s) => mk(new THREE.SphereGeometry(0.01, 8, 6), pink, g, s * 0.025, 0.006, -0.03));
+  let st = 0;
+  const update = (t, run = 0) => {
+    body.position.y = run * 0.006 * Math.abs(Math.sin(t * 28)); body.position.z = 0;
+    if (st < 0.01) paws.forEach((p, i) => (p.position.y = 0.012 + 0.008 * run * Math.max(0, Math.sin(t * 28 + i * Math.PI))));
+    feet.forEach((f, i) => (f.position.z = -0.03 + 0.012 * run * Math.sin(t * 28 + i * Math.PI)));
+  };
+  const stand = (k) => { st = k; body.rotation.x = -1.15 * k; body.position.y = 0.0; paws.forEach((p, i) => { p.position.set((i ? 1 : -1) * (0.022 + 0.012 * k), 0.03 + 0.03 * k, 0.045 + 0.01 * k); }); };
+  const talk = (k) => jaw.scale.set(1, 1 + 3 * k, 1);
+  return { g, body, head, paws, update, stand, talk };
+}
+/** Hamster wheel on an A-frame stand: wheel radius r, axis along z (the camera sees its face). spin(angle) turns it.
+ *  The runner stands at the wheel's bottom: (0, axleY − r + 0.008, 0) local, facing ±x. */
+export function makeHamsterWheel({ r = 0.1, color = 0x3d9be0 } = {}) {
+  const g = new THREE.Group(), axleY = r + 0.03, wheel = new THREE.Group(); wheel.position.y = axleY; g.add(wheel);
+  const pm = mat(color, 0.4), metal = mat(0xd9dde2, 0.3, { metalness: 0.5 });
+  for (const z of [-0.035, 0.035]) mk(new THREE.TorusGeometry(r, 0.006, 6, 32), pm, wheel, 0, 0, z);
+  for (let k = 0; k < 20; k++) { const a = (k / 20) * Math.PI * 2, c = mk(new THREE.CylinderGeometry(0.0025, 0.0025, 0.07, 4), metal, wheel, Math.cos(a) * r, Math.sin(a) * r, 0); c.rotation.x = Math.PI / 2; }
+  for (let k = 0; k < 4; k++) { const sp = mk(new THREE.BoxGeometry(r * 2, 0.006, 0.006), pm, wheel, 0, 0, -0.035); sp.rotation.z = (k / 4) * Math.PI; }
+  mk(new THREE.CylinderGeometry(0.014, 0.014, 0.012, 12), pm, wheel, 0, 0, -0.04).rotation.x = Math.PI / 2;
+  for (const s of [-1, 1]) { const leg = mk(new THREE.BoxGeometry(0.012, axleY * 1.08, 0.012), pm, g, s * 0.03, axleY / 2, -0.05); leg.rotation.z = s * 0.3; }
+  mk(new THREE.BoxGeometry(0.14, 0.012, 0.06), pm, g, 0, 0.006, -0.05);
+  return { g, wheel, r, axleY, spin: (a) => (wheel.rotation.z = a) };
 }

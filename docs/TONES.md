@@ -139,3 +139,52 @@ Full rulebook: **docs/BUILD.md** (+ `/new-build`, reference account `docs/refere
 (ElevenLabs) roast of a humble object upgrading into a giant machine — fail → "So…" → "This is called [TERM]" → joke, 6–8×,
 Gary gets hurt every time, ONE word on screen at a time, one cutaway diorama, a marimba "ta-da" on every TERM, the callback
 ending with the money. No title card / HUD / end card. Densest tone we make: a new prop, failure or effect on almost every phrase.
+
+## Physical-premise montage (`videos/018-magnetic`) — "What if every human became magnetic?"
+One invisible force, 11 places, every beat ends in a pile-up: commuters yanked back onto a bus shelter, Gary's breakfast (forks,
+toaster, a pan hat) flies at him and he slams onto the fridge, a snake of shopping carts scoops a shopper and stacks up, two
+strangers on a subway snap into a hug and the whole car joins in, the press slides into the President's stage, a 3 T MRI pulls
+in the whole hospital (a "human sunflower" of heads in the bore), the bride and groom repel (same poles) until he turns around,
+1,800 tourists cover the Eiffel Tower, compasses lead hikers into a four-person knot, the world is rebuilt in wood, and hugs
+last four hours (time-lapse to dusk).
+- **Show the force, not the person:** the cyan shimmer at the premise, bodies tilted toward the target in flight (u³ pull), a
+  starburst + dust + camera jolt + a soft clang on landing. Synchrony = the joke (every row of press chairs slides at once).
+- **Real number per beat in the HUD stat line** (MRI 3 T = 60,000× Earth's field, Eiffel Tower 7,300 t of iron, 49 press seats,
+  1.9 B t of steel a year, a hug lasts 3 s) — and the premise defined by one (each human = 1.5 T, an MRI's strength).
+- Warm ending from the premise's one upside (you can't let go of a hug), staged as a time-lapse so the last beat still moves.
+
+## Lie-detector body part (`videos/015-tail-lies`) — "What if every human grew a tail that wags when they lie?"
+An unhinged montage where the premise is a visible, always-moving body part (every human has a tail → motion in every frame).
+- **One lie per place, and the tail's wag causes the beat's big physical effect**: a kid's "I didn't eat the cookie" sweeps the
+  (empty) jar off the counter; Mom's "I'm not mad" launches a chair; "I work too hard" spins the swivel chair three times; "I'm six
+  feet tall" kicks his own chair out; "We LOVE it!" pops every balloon; the car salesman's tail becomes a helicopter rotor;
+  "All in." — six tails, the chips erupt; the President's "I'll be brief" knocks both flags over; "No." — three gavel bangs.
+- Picture-first jokes: the subtitle is the lie in quotes, the tail is the punch; a non-wag is a joke too (grandma's tail stays still
+  — she really did knit it). Escalate personal → work → love → family → commerce → gambling → politics → courts.
+- HUD number = the premise in real time (TAILS WAGGING RIGHT NOW ≈ 470,000, derived from 1.65 lies/day × 8.2 B × 3 s); the stat
+  line carries the sourced fact per beat; the number rolls to 0 at +1 YEAR and to 1 when the dog wags (gold).
+- Warm end: honesty wins — "I love you, Dad." "Love you more." with both tails perfectly still; "The only tail still wagging is the dog's."
+
+## Dance montage (`videos/019-cant-stop-dancing`) — "What if everyone on Earth couldn't stop dancing?"
+Motion IS the premise: every person in every frame dances to one shared 120-bpm beat, so the picture never stands still (what
+TRIBE rewards). 11 places, each a new dance gag that ends physically: a silent library erupts (chairs tip, the book cart
+explodes, QUIET PLEASE falls), surgeons do the robot while the ECG reads 120, a plane cabin waves its arms as the oxygen masks
+drop, a supermarket conga line kicks the shelves empty, the President moonwalks and the press does the robot back (chairs
+domino), Ghana-style pallbearers toss the coffin, Gary's cereal never reaches his mouth, a stadium jump registers as an
+earthquake, a job interview becomes a dance-off (the worm → HIRED), a fit-year time-lapse closes the gym, and a dusk rooftop
+slow dance cranes up to a city that is one street party.
+- **Show the premise on the beat:** gold ♪ notes pop over every head at the moment, everyone's first beat is a shocked 'o'
+  face (they can't stop), then smiles. A small library of readable moves (disco point, robot, YMCA, jump, twist, shimmy,
+  sprinkler, body roll, conga kick, slow dance, moonwalk, the worm) shared by every crowd, tiny per-person lag.
+- **The real number per beat** (1518 Strasbourg ~400 "reportedly", ~850,000 surgeries a day, 153,359 flights on the busiest
+  day, the 119,986-person conga record, 193 UN leaders, Ghana's dancing pallbearers, 462 kcal an hour, the magnitude-2.3 Swift
+  Quake, 7.1 M job openings, 890 M adults with obesity) — the subtitle is the gag, the HUD is the fact.
+- **End card = an answer everyone has:** "What song would you be stuck dancing to?" (comment bait that needs no knowledge).
+- Sound: soft piano house locked to the picture (audio/README.md → Dance tone).
+
+## Pip series: good-ending pet sims (`videos/021-pip-first-night`, lane 3 @ed._.sims)
+A recurring hero, not a one-off premise: **follow `docs/lanes/lane3.md`** (Pip, his family, the episode types, the never-list).
+Storybook narrator in short third-person lines ("So Pip fixed that."), Pip's logic is the joke, the HUD counter is the plot
+(HOURS UNTIL MORNING 10 → 0), rule of three (clock → towel → bunny), a low point at ~60 %, the turn, a warm button and a
+next-episode end card ("What should Pip try next?"). Pet's-eye camera (0.3–0.5 m), at least 3 close-ups of his face reacting,
+humans mostly from his height. Sound = the cozy lullaby (audio/README.md). Never sad at the end; Pip is never hurt.

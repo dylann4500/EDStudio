@@ -270,3 +270,63 @@ export function addWetPatch(P, o = {}) {
   setWet(0);
   return setWet;
 }
+
+// ---------------------------------------------------------------- fluffy tail (015) — wags when its owner lies
+/**
+ * addTail(rig, { color, tip, len, r, n, seed }) → tail handle (also stored as rig.tail):
+ *   tail.update(t, wag 0..1, { rate, sprout 0..1, lift, side, curl, spin, still })
+ * A bushy chain of n lumpy segments on the back of the pelvis: rests pointing back + up with a husky curl, idles with a lazy sway
+ * (so it is never still) and whips side to side with `wag` (rate in Hz, ~4.5 = frantic). `lift` raises it, `side` swings the root
+ * (seated figures: point it out past a chair back), `curl` adds per-joint curl, `still` stops the idle sway (truth), `spin` (rad) turns the whole tail around the
+ * body's vertical axis (straight up + curled + spinning = a helicopter rotor). Color = the owner's hair, lighter tip.
+ */
+export function addTail(P, o = {}) {
+  const len = o.len ?? 0.8, N = o.n ?? 13, R = o.r ?? 0.105, segL = len / N;
+  const col = new THREE.Color(o.color ?? 0x8a5a32), tipC = new THREE.Color(o.tip ?? 0xf3ece2);
+  const base = new THREE.Group(); base.position.set(0, -0.01, -0.105); base.rotation.order = 'YXZ'; P.pelvis.add(base);
+  const sprout = new THREE.Group(); base.add(sprout);
+  const r0 = rngT(o.seed ?? 1), joints = [];
+  const fur = furTexture();
+  let parent = sprout;
+  for (let i = 0; i < N; i++) {
+    const j = new THREE.Group(); j.position.z = i ? -segL : 0; parent.add(j); joints.push(j); parent = j;
+    const u = i / (N - 1), r = R * (0.3 + 0.7 * Math.sin(Math.PI * Math.min(1, Math.pow(u, 0.7) * 0.9 + 0.05)));
+    const c = col.clone().lerp(tipC, clamp((u - 0.8) / 0.15)).offsetHSL(0, 0, (r0() - 0.5) * 0.03);
+    const m = new THREE.MeshStandardMaterial({ color: c, roughness: 1, map: fur });
+    const geo = new THREE.SphereGeometry(r, 16, 12); geo.rotateX(Math.PI / 2);   // poles along the tail → fur streaks run along it
+    const s = mk(geo, m, j, 0, 0, -segL * 0.5); s.scale.set(1, 1, (segL * 1.7) / r + 0.55); s.rotation.z = r0() * 6;
+    for (let k = 0; k < 2; k++) { // tufts: smaller fur balls poking out at random angles = a fluffy, lumpy silhouette
+      const a = r0() * Math.PI * 2, rr = r * (0.55 + r0() * 0.2);
+      const tg = new THREE.SphereGeometry(rr, 12, 9); tg.rotateX(Math.PI / 2);
+      const tf = mk(tg, m, j, Math.cos(a) * r * 0.42, Math.sin(a) * r * 0.42, -segL * (0.1 + r0() * 0.8)); tf.scale.z = 1.25; tf.rotation.z = r0() * 6;
+    }
+  }
+  const tail = {
+    base, sprout, joints,
+    update(t, wag = 0, q = {}) {
+      const rate = q.rate ?? 4.5, sp = q.sprout ?? 1, ph = (o.seed ?? 1) * 1.7;
+      sprout.visible = sp > 0.01; sprout.scale.setScalar(Math.max(0.001, sp));
+      const w = clamp(wag), idle = (q.still ? 0.012 : 0.12) * (1 - w);
+      base.rotation.set(0.32 + 0.25 * w + (q.lift ?? 0), (q.side ?? 0) + (q.spin ?? 0), 0);
+      joints.forEach((j, i) => {
+        const curl = i ? 0.064 + (q.curl ?? 0) - 0.017 * w : 0;
+        const amp = w * (i ? 0.085 + 0.008 * i : 0.75) + idle * (i ? 0.25 : 1);
+        const f = w > 0.02 ? rate : 0.7;
+        j.rotation.set(curl, amp * Math.sin((t * f + ph) * Math.PI * 2 - i * (w > 0.02 ? 0.33 : 0.22)), 0);
+      });
+    },
+  };
+  tail.update(0, 0);
+  P.tail = tail;
+  return tail;
+}
+let _fur = null;
+function furTexture() { // soft streaks along v (the tail axis): light + dark strands
+  if (_fur) return _fur;
+  const c = document.createElement('canvas'); c.width = 128; c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#e6e6e6'; g.fillRect(0, 0, 128, 256); const r = rngT(7);
+  for (let i = 0; i < 500; i++) { const x = r() * 128, y = r() * 256, l = 10 + r() * 26; g.strokeStyle = r() < 0.5 ? `rgba(255,255,255,${0.1 + r() * 0.15})` : `rgba(60,50,40,${0.08 + r() * 0.12})`; g.lineWidth = 1 + r() * 1.5; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (r() - 0.5) * 4, y + l); g.stroke(); }
+  _fur = new THREE.CanvasTexture(c); _fur.colorSpace = THREE.SRGBColorSpace; _fur.wrapS = _fur.wrapT = THREE.RepeatWrapping; _fur.repeat.set(3, 1);
+  return _fur;
+}
+function rngT(seed) { let s = seed >>> 0 || 1; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }

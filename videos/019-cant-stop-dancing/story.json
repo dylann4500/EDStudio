@@ -1,0 +1,69 @@
+{
+  "tone": "montage",
+  "look": {
+    "exposure": 1.04,
+    "fill": 0.45,
+    "vignette": 0.26,
+    "bloom": 0.24,
+    "bloomThreshold": 0.92
+  },
+  "fps": 30,
+  "duration": 69.5,
+  "title": {
+    "html": "What if everyone on Earth couldn't stop <em>dancing</em>?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [3.8, 5.3, "Tuesday. 2:14 PM. The library."],
+    [5.7, 7.6, "Every human on Earth starts dancing."],
+    [7.8, 9.2, "Nobody can stop."],
+    [9.6, 11.9, "+1 minute. A surgeon, mid-operation."],
+    [12.2, 14.6, "Even the patient keeps the beat."],
+    [15.0, 17.2, "+10 minutes. 35,000 feet."],
+    [17.5, 20.0, "Seatbelts stay on. Arms go up."],
+    [20.4, 22.8, "+1 hour. Grocery shopping is a conga line now."],
+    [23.1, 25.4, "Every kick clears a shelf."],
+    [25.8, 28.1, "+2 hours. The President addresses the nation."],
+    [28.4, 30.8, "The nation does the robot back."],
+    [31.2, 33.4, "+6 hours. A funeral."],
+    [33.7, 36.2, "The pallbearers were born for this."],
+    [36.6, 39.0, "+1 day. Gary hasn't finished a meal since Tuesday."],
+    [39.2, 41.6, "Every spoonful takes eleven tries."],
+    [42.0, 44.4, "+1 week. 70,000 people. One beat."],
+    [44.7, 47.0, "The ground registers an earthquake."],
+    [47.4, 49.6, "+1 month. Job interviews are dance-offs now."],
+    [49.9, 52.4, "Gary has never been more hireable."],
+    [52.8, 55.2, "+1 year. The fittest year in human history."],
+    [55.5, 57.8, "Gyms go out of business."],
+    [58.3, 60.4, "Turns out, everybody wanted to dance."],
+    [60.6, 63.3, "They were just waiting for someone else to start."],
+    [63.5, 65.3, "Nobody has tried to stop since."]
+  ],
+  "hudLabel": "HUMANS DANCING",
+  "hud": [
+    { "t0": 0.0, "t1": 9.4, "from": 0, "to": 8200000000, "r0": 5.5, "r1": 6.9, "time": "TUESDAY · 2:14 PM",
+      "ageFrom": "LIBRARY RULE · WHISPERS ONLY", "age": "STRASBOURG, 1518 · ~400 REPORTEDLY DANCED" },
+    { "t0": 9.4, "t1": 14.8, "from": 8200000000, "to": 8200000000, "time": "+1 MINUTE", "age": "SURGERIES WORLDWIDE · ~850,000 A DAY" },
+    { "t0": 14.8, "t1": 20.2, "from": 8200000000, "to": 8200000000, "time": "+10 MINUTES", "age": "BUSIEST DAY IN THE SKY · 153,359 FLIGHTS" },
+    { "t0": 20.2, "t1": 25.6, "from": 8200000000, "to": 8200000000, "time": "+1 HOUR", "age": "LONGEST CONGA LINE · 119,986 PEOPLE (1988)" },
+    { "t0": 25.6, "t1": 31.0, "from": 8200000000, "to": 8200000000, "time": "+2 HOURS", "age": "UN MEMBER STATES 193 · LEADERS DANCING 193" },
+    { "t0": 31.0, "t1": 36.4, "from": 8200000000, "to": 8200000000, "time": "+6 HOURS", "age": "GHANA'S DANCING PALLBEARERS · A REAL JOB" },
+    { "t0": 36.4, "t1": 41.8, "from": 8200000000, "to": 8200000000, "time": "+1 DAY", "age": "GARY · 185 LB · BURNS 462 CALORIES AN HOUR" },
+    { "t0": 41.8, "t1": 47.2, "from": 8200000000, "to": 8200000000, "time": "+1 WEEK", "age": "SWIFT QUAKE, SEATTLE 2023 · MAGNITUDE 2.3" },
+    { "t0": 47.2, "t1": 52.6, "from": 8200000000, "to": 8200000000, "time": "+1 MONTH", "age": "U.S. JOB OPENINGS · 7.1 MILLION" },
+    { "t0": 52.6, "t1": 58.0, "from": 8200000000, "to": 8200000000, "time": "+1 YEAR", "age": "ADULTS WITH OBESITY BEFORE · 890 MILLION" },
+    { "t0": 58.0, "t1": 69.5, "from": 8200000000, "to": 8200000000, "time": "+1 YEAR", "age": "HUMANS WHO WANT IT TO STOP · 0", "ageGoldAt": 63.5 }
+  ],
+  "end": {
+    "in": 65.5,
+    "html": "What song would you be stuck <em>dancing</em> to?",
+    "small": "TELL US BELOW"
+  },
+  "dips": [],
+  "finalFade": [64.9, 65.5],
+  "debugView": {
+    "center": [0, 0, 0],
+    "height": 14
+  }
+}

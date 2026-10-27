@@ -837,8 +837,18 @@ def drum_hit(kind="taiko", vel=0.6):
     key = ("drum", kind, round(float(vel), 2))
     if key in _PIANO_CACHE:
         return _PIANO_CACHE[key]
+    if kind == "clap":   # (019) a soft, low-passed dance clap: three quick noise bursts + a short tail, band-limited (no crack)
+        n = nsamp(0.35)
+        t = tvec(n)
+        env = sum(np.exp(-np.clip(t - d, 0, None) / 0.006) * (t >= d) for d in (0.0, 0.011, 0.023)) + 0.55 * np.exp(-np.clip(t - 0.03, 0, None) / 0.085) * (t >= 0.03)
+        y = bp(seeded("drum", kind).standard_normal(n), 700, 2300) * env
+        y = np.tanh(1.4 * y / (np.max(np.abs(y)) + 1e-9)) / np.tanh(1.4)
+        y = fades(lp(y, 2600), 0.0, 0.05) * vel
+        _PIANO_CACHE[key] = y
+        return y
     f0, f1, sw, dec, nz, nzf, dur = {"taiko": (150, 62, 0.08, 0.7, 0.45, 450, 1.6), "tom": (170, 95, 0.06, 0.32, 0.3, 600, 0.8),
-                                     "boom": (75, 34, 0.35, 2.4, 0.25, 180, 4.0), "tick": (900, 700, 0.01, 0.05, 0.6, 2500, 0.2)}[kind]
+                                     "boom": (75, 34, 0.35, 2.4, 0.25, 180, 4.0), "tick": (900, 700, 0.01, 0.05, 0.6, 2500, 0.2),
+                                     "kick": (120, 48, 0.035, 0.2, 0.12, 300, 0.5)}[kind]   # kick (019): a short, round four-on-the-floor thump
     n = nsamp(dur)
     t = tvec(n)
     f = f1 + (f0 - f1) * np.exp(-t / sw)
@@ -1032,6 +1042,64 @@ def sfx_crow_caw(rng, pitch=1.0):
     return Sound(norm(fades(lp(v * env, 2800), 0.002, 0.05)), onsets=[(0.0, "soft")])
 
 
+def sfx_cat_meow(rng, pitch=1.0, dur=0.55):
+    """A soft cat "mrrow" (016): a harmonic voice whose pitch rises then falls while the mouth opens (a formant sweeping
+    up from 'ee' to 'ow'), purry onset, low-passed. Never a shrill yowl."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = 430 * pitch * (1 + 0.35 * np.sin(np.pi * np.clip(u * 1.1, 0, 1)) - 0.12 * u)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    saw = sum(np.sin(k * ph) / k for k in range(1, 10))
+    fc = 650 + 700 * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.7
+    v = sweep_filter(saw, fc, q=1.4, kind="bp") + 0.25 * bp(saw, 1800, 2600)
+    purr = 1 + 0.35 * np.sin(2 * np.pi * 26 * t) * np.exp(-t / 0.08)
+    env = (1 - np.exp(-t / 0.03)) * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.5
+    return Sound(norm(fades(lp(v * env * purr, 2600), 0.003, 0.06)), onsets=[(0.0, "soft")])
+
+
+def sfx_parrot_chirp(rng, pitch=1.0, dur=0.32):
+    """A parrot's "rrawk" (016), kept round: a buzzy tone with a fast warble and a quick pitch flip, two soft formants,
+    low-passed hard so it reads as a bird without any squawk-shriek."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = 780 * pitch * (1.0 + 0.18 * np.sin(np.pi * u) - 0.1 * u) * (1 + 0.04 * np.sin(2 * np.pi * 32 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    saw = sum(np.sin(k * ph) / k for k in range(1, 7))
+    v = 0.7 * bp(saw, 800, 1700) + 0.35 * bp(saw, 2000, 2700)
+    env = (1 - np.exp(-t / 0.01)) * np.sin(np.pi * np.clip(u, 0, 1)) ** 0.7 * (0.75 + 0.25 * np.sin(2 * np.pi * 30 * t))
+    return Sound(norm(fades(lp(v * env, 2900), 0.002, 0.04)), onsets=[(0.0, "soft")])
+
+
+def sfx_fish_blub(rng, n_bub=3, dur=0.5):
+    """A goldfish "talking" (016): a few soft underwater bubble plops (sine chirps that rise as they pop), low-passed."""
+    n = nsamp(dur)
+    y = np.zeros(n)
+    tk = 0.0
+    for _ in range(int(n_bub)):
+        m = nsamp(0.09)
+        tt = tvec(m)
+        f0 = rng.uniform(260, 420)
+        b = np.sin(2 * np.pi * np.cumsum(f0 * (1 + 2.2 * tt / 0.09)) / SR) * np.exp(-tt / 0.03) * (1 - np.exp(-tt / 0.003))
+        i0 = nsamp(tk)
+        k = min(m, n - i0)
+        if k > 0:
+            y[i0:i0 + k] += rng.uniform(0.6, 1.0) * b[:k]
+        tk += rng.uniform(0.08, 0.14)
+    return Sound(norm(fades(lp(y, 2200), 0.001, 0.03)), onsets=[(0.0, "soft")])
+
+
+def sfx_hamster_squeak(rng, pitch=1.0, dur=0.13):
+    """A tiny hamster squeak (016): a short sine chirp with a little bend, round and low-passed (no whistle)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 1050 * pitch * (1 + 0.25 * np.sin(np.pi * np.clip(t / dur, 0, 1)))
+    v = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.25 * np.sin(4 * np.pi * np.cumsum(f) / SR)
+    env = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.2
+    return Sound(norm(fades(lp(v * env, 3000), 0.002, 0.02)), onsets=[(0.0, "soft")])
+
+
 def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
     """A vehicle's suspension bottoming out (010 bus): a low metallic groan + a clunk at the start."""
     n = nsamp(dur)
@@ -1042,6 +1110,20 @@ def sfx_metal_groan(rng, dur=1.4, pitch=1.0):
     clunk = norm(modal([rng.uniform(90, 110), rng.uniform(260, 300)], [0.06, 0.03], [1.0, 0.5], dur, contact=0.006))
     y = 0.7 * norm(lp(groan, 900)) + 0.8 * clunk
     return Sound(norm(fades(y, 0.001, 0.1)), onsets=[(0.0, "transient")])
+
+
+def sfx_metal_clang(rng, size=1.0, pitch=1.0, dur=1.1):
+    """A body (or a cart, a chair) slamming onto steel (018 magnetic): a soft low "CLONG" — inharmonic steel modes with
+    a padded thump in front, low-passed hard so it lands as weight, never as a bright ping. size > 1 = bigger + darker."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f0 = 190 * pitch / size ** 0.5
+    ring = modal([f0, f0 * 2.71, f0 * 4.43, f0 * 6.9], [0.55 * size, 0.32 * size, 0.18, 0.1], [1.0, 0.55, 0.3, 0.14], dur, contact=0.004)
+    thump = np.sin(2 * np.pi * (70 + 60 * np.exp(-t / 0.03)) * t) * np.exp(-t / (0.07 * size))
+    rattle = bp(white(n, rng), 400, 2200) * np.exp(-t / 0.04) * 0.25
+    x = 0.75 * norm(ring) + 0.9 * thump * size ** 0.3 + rattle
+    x = lp(x, 2600 / size ** 0.25, 2)
+    return Sound(norm(fades(x, 0.0008, 0.15)), onsets=[(0.0, "transient")])
 
 
 def sfx_car_crash(rng, dur=1.2, weight=1.0):
@@ -1074,6 +1156,71 @@ def sfx_distant_boom(rng, dur=3.5, size=1.0):
     x = unit_rms(body) * 0.8 + sub
     x = x + 2.5 * convolve(x, outdoor_ir())          # (2, n)
     return Sound(norm(fades(x, 0.002, 0.5), 0.9), anchor=0.0, onsets=[0.0])
+
+
+# ---------------------------------------------------------------- Pip the puppy (021): soft puppy voices + a muffled alarm
+def sfx_whimper(rng, pitch=1.0, dur=0.45):
+    """A puppy's soft whimper (021): a breathy, rounded "hnn" that rises then sags. Low-passed hard so it never pierces —
+    keep it at or under the bed (≈ −28…−32 dB)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = 560 * pitch * (1 + 0.18 * np.sin(np.pi * np.clip(u * 1.2, 0, 1)) - 0.12 * u) * (1 + 0.012 * np.sin(2 * np.pi * 11 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    v = np.sin(ph) + 0.35 * np.sin(2 * ph) + 0.1 * np.sin(3 * ph)
+    breath = bp(pink(n, rng), 700, 2600) * 0.35
+    env = np.sin(np.pi * np.clip(u, 0, 1)) ** 1.5
+    y = lp((v + breath) * env, 1900, 2)
+    return Sound(norm(fades(y, 0.01, 0.06)), onsets=[(0.0, "soft")])
+
+
+def sfx_puppy_howl(rng, dur=1.3, pitch=1.0):
+    """A tiny puppy "awoo" (021): rises, holds with a wobble, falls; nasal but round (low-passed)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    f = pitch * (430 + 260 * np.sin(np.pi * np.clip(u * 1.6, 0, 1)) ** 0.7 - 140 * np.clip((u - 0.62) / 0.38, 0, 1))
+    f *= 1 + 0.02 * np.sin(2 * np.pi * 6.5 * t) * np.clip(u * 3, 0, 1)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    v = np.sin(ph) + 0.45 * np.sin(2 * ph) + 0.18 * np.sin(3 * ph)
+    v = v + 0.25 * bp(v, 900, 1600)
+    env = np.clip(u / 0.12, 0, 1) * np.clip((1 - u) / 0.25, 0, 1)
+    y = lp(v * env + 0.1 * bp(pink(n, rng), 600, 2000) * env, 2300, 2)
+    return Sound(norm(fades(y, 0.02, 0.08)), onsets=[(0.0, "soft")])
+
+
+def sfx_alarm_muffled(rng, dur=1.8):
+    """A twin-bell wind-up alarm clock ringing under a towel (021): fast hammer strikes on two bells, dulled to a soft
+    rattle (low-passed ~1.5 kHz) — the joke is the panic, not the noise. Keep it ≈ −24 dB."""
+    n = nsamp(dur)
+    t = tvec(n)
+    y = np.zeros(n)
+    k, rate = 0, 17.0
+    while k / rate < dur - 0.05:
+        f = 1180 if k % 2 else 1420
+        st = nsamp(k / rate)
+        m = nsamp(0.18)
+        tt = tvec(m)
+        hit = (np.sin(2 * np.pi * f * tt) + 0.5 * np.sin(2 * np.pi * f * 2.7 * tt)) * np.exp(-tt / 0.05)
+        y[st:st + m] += hit[: max(0, min(m, n - st))] * rng.uniform(0.8, 1.0)
+        k += 1
+    y += 0.4 * bp(white(n, rng), 300, 1800) * (0.5 + 0.5 * np.sin(2 * np.pi * rate * t))
+    y = lp(y, 1500, 2) * np.clip(t / 0.03, 0, 1) * np.clip((dur - t) / 0.12, 0, 1)
+    return Sound(norm(fades(y, 0.002, 0.05)), onsets=[(0.0, "transient")])
+
+
+def sfx_heartbeat(rng, size=1.0):
+    """A soft "lub-dub" (021: the ticking clock that's meant to sound like Mom's heartbeat). Two round low thumps."""
+    n = nsamp(0.6)
+    t = tvec(n)
+    y = np.zeros(n)
+    for off, a in ((0.0, 1.0), (0.21, 0.7)):
+        k = nsamp(off)
+        tt = t[: n - k]
+        th = (np.sin(2 * np.pi * 70 * size * tt) + 0.5 * np.sin(2 * np.pi * 140 * size * tt)) * np.exp(-tt / 0.06) * (1 - np.exp(-tt / 0.006))
+        y[k:] += a * th
+    y = lp(y + 0.15 * lp(white(n, rng), 300) * np.exp(-t / 0.05), 900)
+    return Sound(norm(fades(y, 0.001, 0.05)), onsets=[(0.0, "soft")])
 
 
 def amb_room_tone(dur, rng):
@@ -1615,6 +1762,35 @@ def compose(M, mallet=None, strings=None):
                 else:
                     for j, m in enumerate(V["rh"][:3]):
                         add(tk + 0.008 * j, m, vk * 0.5, hold=stp * S.get("stab_hold", 0.8))
+        elif st == "walk":
+            # 016 "gossip jazz": a walking bass in quarter notes (root, two chord tones, a chromatic step into the next
+            # chord's root) + soft piano comps on beats 2 and 4, pushed a little late (`swing`, in steps) for a lazy shuffle.
+            step = S.get("step", 0.5)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            nb = voicing(chords[i + 1][1])["bass"] if i + 1 < len(chords) else V["bass"]
+            line = [V["bass"], V["lh"][1], V["lh"][2] if V["lh"][2] < 58 else V["lh"][2] - 12, nb - 1 if nb > V["bass"] else nb + 1]
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.25), tk)
+                bm = line[k % 4] if k < nst - 1 or nst < 4 else line[3]
+                add(tk, bm, vk * S.get("bass_vel", 0.9), hold=stp * S.get("bass_hold", 0.95))
+                if k % 2 == 1:
+                    for j, m in enumerate(V["rh"][:3]):
+                        add(tk + stp * S.get("swing", 0.12) + 0.01 * j, m, vk * S.get("comp_vel", 0.42), hold=stp * S.get("stab_hold", 0.75))
+        elif st == "disco":
+            # dance tone (019, "piano house"): an octave-bouncing bass in 8ths (low, high, low, high …) + soft chord stabs on
+            # every off-beat "and". step = one 8th (0.25 s at 120 bpm). stab_vel/stab_hold/bass_hold shape it; stabs: false = bass only.
+            step = S.get("step", 0.25)
+            nst = max(1, int(round(span / step)))
+            stp = span / nst
+            for k in range(nst):
+                tk = t0 + k * stp
+                vk = interp_bp(S.get("vel", 0.3), tk)
+                add(tk, V["bass"] + (12 if k % 2 else 0), vk * (0.95 if k % 2 == 0 else 0.72), hold=stp * S.get("bass_hold", 0.9))
+                if k % 2 == 1 and S.get("stabs", True):
+                    for j, m in enumerate(V["rh"][:3]):
+                        add(tk + 0.006 * j, m, vk * S.get("stab_vel", 0.45), hold=stp * S.get("stab_hold", 0.75))
         elif st == "strings":
             # dramatic tone: low spiccato string ostinato on the chord (tones = [bass, chord tones...] + `octave`*12),
             # `accent` = per-step velocity multipliers; `sustain` adds a held upper string chord per chord change.
@@ -1725,6 +1901,12 @@ def render_music(M, n_total, log=print):
             place(md, pan2(mallet_note(m, v, h), float(np.clip((m - 70) / 30.0, -0.3, 0.3)) * (1 if k % 2 else -1)), nsamp(t))
         dry += db2lin(M.get("mallet_db", -4.0)) * md
         log(f"  mallet: {len(mallet)} notes")
+    if M.get("bell_melody"):            # 021: a music-box line (celesta voice) over the piano: [[t, midi, vel, dur], ...]
+        bd = np.zeros((2, n_total))
+        for k, b in enumerate(M["bell_melody"]):
+            place(bd, pan2(celesta_note(int(b[1]), float(b[2]), float(b[3]) if len(b) > 3 else 1.8, M.get("bell_decay", 1.0)), 0.12 * (1 if k % 2 else -1)), nsamp(b[0]))
+        dry += db2lin(M.get("bell_db", -4.0)) * lp(bd, M.get("bell_lp", 5000))
+        log(f"  music box: {len(M['bell_melody'])} notes")
     if strs:
         sd = np.zeros((2, n_total))
         for k, (t, m, v, h) in enumerate(strs):
@@ -1985,9 +2167,18 @@ SFX = {
     "wood_snap": (sfx_wood_snap, "prop"),
     "bonk": (sfx_bonk, "prop"),
     "metal_groan": (sfx_metal_groan, "prop"),
+    "metal_clang": (sfx_metal_clang, "prop"),
     "keyboard_type": (sfx_keyboard_type, "prop"),
     "crow_caw": (sfx_crow_caw, "prop"),
+    "cat_meow": (sfx_cat_meow, "prop"),
+    "parrot_chirp": (sfx_parrot_chirp, "prop"),
+    "fish_blub": (sfx_fish_blub, "prop"),
+    "hamster_squeak": (sfx_hamster_squeak, "prop"),
     "distant_boom": (sfx_distant_boom, "prop"),
+    "whimper": (sfx_whimper, "prop"),
+    "puppy_howl": (sfx_puppy_howl, "prop"),
+    "alarm_muffled": (sfx_alarm_muffled, "prop"),
+    "heartbeat": (sfx_heartbeat, "prop"),
 }
 
 # =============================================================================
