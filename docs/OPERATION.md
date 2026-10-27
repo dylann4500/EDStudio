@@ -26,8 +26,8 @@ built-in browser, logged out, for research.
 | Account | Lane (`docs/lanes/`) | Slots (Pacific) | Status |
 |---|---|---|---|
 | @ed._.studios (main) | `unhinged.md` — unhinged funny what-ifs | 1:00 PM + 6:00 PM | live |
-| @ed_.studios | `science.md` — science what-ifs | 1:00 PM + 6:00 PM | videos queue; posting starts when the user signs it in to Chrome |
-| @ed._.sims | `lane3.md` — chosen by the lane scout | 1:00 PM + 6:00 PM | same |
+| @ed_.studios | `science.md` — science what-ifs | 1:00 PM + 6:00 PM | live (Oct 26) |
+| @ed._.sims | `lane3.md` — good-ending pet sims, Pip the corgi series | 1:00 PM + 6:00 PM | live (Oct 26) |
 
 Never post one video on two accounts: TikTok holds back copies (twice as smart: 117K original → 205 → 8 views).
 
@@ -119,7 +119,18 @@ their answer. So approval is an email loop:
 
 ## 7. Posting (TikTok Studio scheduler, Claude in Chrome)
 
-Tested Oct 26 on 014. Before each post: the right account is active (avatar menu top-right → switch account), and
+Tested Oct 26 on 014 and 018. **One Chrome profile per account** — TikTok web has no account switcher in this UI, so each
+account lives in its own Chrome profile with its own Claude in Chrome connection (a separate "browser" to the extension):
+
+| Account | Claude in Chrome browser (deviceId) |
+|---|---|
+| @ed._.studios | `8ca3d408-e98b-4f60-a4c0-fd3907baae2c` (also has the user's Gmail — review emails go from here) |
+| @ed_.studios | `1a3a5f2f-72d9-4fb0-ba5c-2e16aad83720` |
+| @ed._.sims | `5abccb91-893d-45b8-9bc3-da8bd73c1027` |
+
+Display names ("Browser 2", "Dylans MacBook Pro") can change; the deviceIds are what to select. Re-check with
+`list_connected_browsers` if a select fails. Before each post: `select_browser` the account's deviceId, open
+`tiktok.com/tiktokstudio/content` and confirm the post list is that account's (never trust the browser name alone), and
 `python3 -I tools/caption.py videos/NNN-slug` passes — its output is the exact caption.
 
 1. `tiktok.com/tiktokstudio/upload` → `find` the file input → `file_upload` `videos/NNN-slug/out/upload.mp4`.
