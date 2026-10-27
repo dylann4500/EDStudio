@@ -369,6 +369,11 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 
 026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5;
 v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
+**USER VERDICT (Oct 27): the cuts were rejected** — "i dont really like [the cuts] i liked our older continuous style it was much
+easier to follow". Build reels stay ONE continuous take. 026 shipped with `const CUTS = false` (the list stays in shots.js for
+reference), the kicks kept at ~60 % (`makeKick(…, { amp: 0.022 })`), every cut-only cheat gated on CUTS, and soft rail push-ins
+(`Fk(…, until)`) wherever a gag had relied on a close-up (the jaw drop, the face in the heap, flat on "not"). What follows is kept
+as a record of what the cut style needs, if it is ever tried again.
 **026's cuts pass (the newer cut-heavy style on top of the finished one-take, 45 cuts / 84 shots / avg 1.29 s):**
 - **Face shots on the 1.1 m toon: `{ dist: 2.9, faceY: 0.36 }`** — the default faceY 0.40 put the one-word caption across the
   MOUTH (52 %) in most close-ups; 0.36 lands it on the chin, the hat top at ≈ 4 %. Spread one `GF` object into every face cut.
