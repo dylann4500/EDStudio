@@ -30,7 +30,7 @@ t = dict(
     now=W('queue', 'now'), everyone=W('queue', 'everyone'), builds=W('queue', 'builds'), alone=W('queue', 'alone'), roll=W('line', 'roll'), stations=W('line', 'stations'),
     n12=W('line', '12'), minutes=W('line', 'minutes'), pulls=W('line', 'pulls'), rope=W('line', 'rope'), promoted=W('line', 'promoted'),
     but=W('fits', 'but'), fits=W('fits', 'fits'), hammering=W('fits', 'hammering'), soP=W('parts', 'so'), make=W('parts', 'make'), exactly=W('parts', 'exactly'), alike=W('parts', 'alike'), inter=W('parts', 'interchangeable'), partsW=W('parts', 'parts'),
-    mixed=W('parts', 'mixed'), pile=W('parts', 'pile'), rebuilt=W('parts', 'rebuilt'), three2=W('parts', 'three', 2), pile2=W('parts', 'pile', 2), hood=W('parts', 'hood'),
+    mixed=W('parts', 'mixed'), pile=W('parts', 'pile'), rebuilt=W('parts', 'rebuilt'), three2=W('parts', 'three', 2), pile2=W('parts', 'pile', 2), hood=W('ornament', 'hood'),
     garys=W('robots', 'garys'), bolt=W('robots', 'bolt'), day=W('robots', 'day'), asleep=W('robots', 'asleep'), up=W('robots', 'up'), robot=W('robots', 'robot'), arms=W('robots', 'arms'), buy=W('robots', 'buy'), soR=W('robots', 'so'), never=W('robots', 'never'),
     welded=W('robots', 'welded'), garyW=W('robots', 'gary'), doorW=W('robots', 'door'),
     thenE=W('ecoat', 'then'), carsE=W('ecoat', 'cars'), rusts=W('ecoat', 'rusting'), rain=W('ecoat', 'rain'), soE=W('ecoat', 'so'), dip=W('ecoat', 'dip'), body=W('ecoat', 'body'), electrified=W('ecoat', 'electrified'), seals=W('ecoat', 'seals'),

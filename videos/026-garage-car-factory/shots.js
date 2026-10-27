@@ -56,7 +56,7 @@ export async function build(studio, story) {
     yourR: W('line', 'your'), roomba: W('line', 'roomba'), pulls: W('line', 'pulls'), rope: W('line', 'rope'), promoted: W('line', 'promoted'),
     but: W('fits', 'but'), fits: W('fits', 'fits'), garyP: W('fits', 'gary'), hammering: W('fits', 'hammering'), doorP: W('fits', 'door'), sunroof: W('fits', 'sunroof'),
     soP: W('parts', 'so'), make: W('parts', 'make'), exactly: W('parts', 'exactly'), alike: W('parts', 'alike'), inter: W('parts', 'interchangeable'), partsW: W('parts', 'parts'), n1908: W('parts', '1908'), cadillac: W('parts', 'cadillac'), mixed: W('parts', 'mixed'),
-    pile: W('parts', 'pile'), rebuilt: W('parts', 'rebuilt'), three2: W('parts', 'three', 2), garyP2: W('parts', 'gary'), pile2: W('parts', 'pile', 2), hood: W('parts', 'hood'), ornament: W('parts', 'ornament'),
+    pile: W('parts', 'pile'), rebuilt: W('parts', 'rebuilt'), three2: W('parts', 'three', 2), garyP2: W('parts', 'gary'), pile2: W('parts', 'pile', 2), hood: W('ornament', 'hood'), ornament: W('ornament', 'ornament'),
     called: W('robots', 'called'), garys: W('robots', 'garys'), bolt: W('robots', 'bolt'), day: W('robots', 'day'), falls: W('robots', 'falls'), asleep: W('robots', 'asleep'), up: W('robots', 'up'), soR: W('robots', 'so'), buy: W('robots', 'buy'), robot: W('robots', 'robot'), arms: W('robots', 'arms'),
     never: W('robots', 'never'), sleep: W('robots', 'sleep'), industrial: W('robots', 'industrial'), just: W('robots', 'just'), welded: W('robots', 'welded'), garyW: W('robots', 'gary'), doorW: W('robots', 'door'),
     thenE: W('ecoat', 'then'), carsE: W('ecoat', 'cars'), rusts: W('ecoat', 'rusting'), rain: W('ecoat', 'rain'), soE: W('ecoat', 'so'), dip: W('ecoat', 'dip'), body: W('ecoat', 'body'), electrified: W('ecoat', 'electrified'), seals: W('ecoat', 'seals'), crack: W('ecoat', 'crack'),
@@ -314,11 +314,11 @@ export async function build(studio, story) {
   F(t.bolt, [23.6, 1.5, 6.8], [23.5, 0.75, -2.6], 42);                // the bolt station
   Fk(t.asleep, [23.4, 1.3, 5.2], [23.4, 0.85, -2.3], 40);
   Fk(t.arms, [24.3, 2.0, 10.6], [24.2, 0.35, -3.6], 44);              // Gary wakes, rips the crate open, bolts his own robot down
-  Fk(t.welded - 0.15, [23.7, 1.3, 5.4], [23.6, 0.55, -2.4], 40, t.doorW - 0.3);   // welded to the door, held while the car carries him off
-  Fk(t.carsE, [27.4, 2.4, 11.0], [27.6, 0.35, -3.0], 44, t.rain);     // the rain cloud, the rust (held through "rain")
-  Fk(t.dip, [29.75, 0.2, 9.6], [29.75, -2.0, -1.6], 44);             // the floor opens; the hoist dips the body
+  Fk(t.welded - 0.15, [23.7, 1.3, 5.4], [23.6, 0.55, -2.4], 40, t.doorW + 0.2);   // welded to the door, held through the yelled DOOR (v3 read: "Then the cars" follows 0.6 s later)
+  F(t.rain - 0.1, [27.4, 2.4, 11.0], [27.6, 0.35, -3.0], 44, true);  // the rain cloud, the rust: passed on "rain" while following his car to the dip
+  Fk(t.dip, [29.75, 0.2, 9.6], [29.75, -2.3, -1.6], 44);   // the floor opens; the hoist dips the body (look lowered: his face in the bath sits above the caption, the dunk lifts him away)
   Fk(t.ecoating - 0.2, [29.75, -1.1, 6.4], [29.75, -2.4, -1.4], 42); // in the bath, in section
-  F(t.weldedE - 0.25, [29.7, 1.2, 7.6], [29.7, -0.3, -1.8], 44);
+  F(t.weldedE - 0.25, [29.7, 1.2, 7.6], [29.7, -0.9, -1.8], 44);   // low look: he rises out of the bath above the caption
   Fk(t.rustproof - 0.1, [29.6, 1.3, 5.6], [29.6, 0.85, -2.2], 40);
   Fk(t.nowE + 0.4, [32.0, 1.45, 6.4], [32.3, 0.7, -2.2], 42);         // follows the spring off the door to the tank's far rim
   F(t.n30000 + 0.9, [34.6, 2.0, 11.0], [35.0, 0.35, -5.5], 44);       // the dock: 30,000 parts behind the door
@@ -914,7 +914,7 @@ export async function build(studio, story) {
         rig.root.updateMatrixWorld(true); rig.head.getWorldPosition(v); v.project(studio.camera);
         const hx = (v.x + 1) / 2, hy = (1 - v.y) / 2; if (v.z > 1 || hx < 0.05 || hx > 0.95 || hy < 0 || hy > 1) continue;
         const bands = [];
-        if (story.words.some((w) => tt >= w.t0 && tt < w.t1)) bands.push(['caption', 1000 / 1920]);
+        const cw = story.words.find((w) => tt >= w.t0 && tt < w.t1); if (cw && Math.abs(hx - 0.5) < 0.016 * cw.w.length + 0.06) bands.push(['caption', 1000 / 1920]);   // centered caption ≈ 3.2 % of the width per letter
         for (const c of story.callouts) if (tt >= c.t0 && tt <= c.t1) { const x = c.style === 'sfx' ? c.pos[0] : c.x; if (x == null || Math.abs(hx - x) < 0.3) bands.push([c.style + ' ' + c.text, c.style === 'sfx' ? c.pos[1] : c.y ?? BAND_Y[c.style] / 1920, 0.065]); }
         for (const [name, y, m = 0.045] of bands) if (Math.abs(hy - y) < m) out.push(`${tt.toFixed(2)}s ${who}'s face (y ${(hy * 100).toFixed(0)}%) under ${name}`); }
     }

@@ -63,6 +63,13 @@ def decode(path, tempo=1.0):
 
 # ---- words ----------------------------------------------------------------------------------------------------------
 
+TAG = re.compile(r'\[[^\]]*\]')   # Eleven v3 audio tags ("[shouting]", "[excited]") steer the delivery; never shown, timed or sent as context
+
+
+def untag(s):
+    return re.sub(r'\s{2,}', ' ', TAG.sub(' ', s or '')).strip()
+
+
 def display(tok):
     """Caption form of a spoken token: no edge punctuation (keeps $ % and inner apostrophes), first letter capitalized."""
     t = re.sub(r"^[^\w$]+|[^\w%]+$", '', tok)
@@ -86,10 +93,14 @@ def syllables(tok):
 
 
 def words_from_alignment(al):
-    """ElevenLabs alignment (per character) -> [{w, t0, t1}] for each whitespace-separated token."""
-    out, cur, t0, t1 = [], '', None, None
+    """ElevenLabs alignment (per character) -> [{w, t0, t1}] for each whitespace-separated token; [audio tags] are skipped."""
+    out, cur, t0, t1, depth = [], '', None, None, 0
     for ch, a, b in zip(al['characters'], al['character_start_times_seconds'], al['character_end_times_seconds']):
-        if ch.isspace():
+        if ch == '[':
+            depth += 1
+        if depth or ch.isspace():
+            if ch == ']':
+                depth = max(0, depth - 1)
             if cur:
                 out.append({'w': cur, 't0': t0, 't1': t1})
             cur, t0 = '', None
@@ -193,10 +204,11 @@ def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
     if provider == 'eleven':
         v = cfg['voice']
         body = {'text': text, 'model_id': v.get('model', 'eleven_multilingual_v2'), 'voice_settings': v.get('settings', {})}
-        if prev_text:
-            body['previous_text'] = prev_text
-        if next_text:
-            body['next_text'] = next_text
+        if not body['model_id'].startswith('eleven_v3'):   # v3 rejects previous/next_text ("not yet supported")
+            if prev_text:
+                body['previous_text'] = untag(prev_text)
+            if next_text:
+                body['next_text'] = untag(next_text)
         r = http_json(f"{API}/text-to-speech/{v['voice_id']}/with-timestamps?output_format=mp3_44100_128", key, body)
         open(stem + '.mp3', 'wb').write(base64.b64decode(r['audio_base64']))
         words = words_from_alignment(r.get('alignment') or r['normalized_alignment'])
@@ -204,8 +216,8 @@ def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
     else:
         s = cfg.get('scratch', {})
         subprocess.run(['say', '-v', s.get('voice', 'Eddy (English (US))'), '-r', str(s.get('rate', 190)),
-                        '-o', stem + '.aiff', text], check=True)
-        words = estimate_words(text, decode(stem + '.aiff'))
+                        '-o', stem + '.aiff', untag(text)], check=True)
+        words = estimate_words(untag(text), decode(stem + '.aiff'))
         ext = '.aiff'
     json.dump({'text': text, 'ext': ext, 'words': words}, open(stem + '.json', 'w'), indent=1)
     return stem + ext, words, True
@@ -303,7 +315,7 @@ def layout(slug, cfg, wj):
             m = merged[-1]; m['w'] = m['w'] + ' ' + w['w']; m['t1'] = w['t1']; m.pop('_join'); continue
         merged.append(dict(w))
         nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
-        if nxt - w['t0'] < 0.12 and len(w['w']) <= 3 and k + 1 < len(words) and not w['p']: merged[-1]['_join'] = True
+        if nxt - w['t0'] < 0.12 and len(w['w']) <= cfg.get('joinLen', 3) and k + 1 < len(words) and not w['p']: merged[-1]['_join'] = True   # joinLen 4: a sped-up v3 read flashes "Then"/"want"
     for m in merged: m.pop('_join', None); m.pop('p', None)
     words = merged
     # a caption word stays up until the next one starts (no blank flicker inside a sentence), max 0.35 s past its end

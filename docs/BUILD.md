@@ -367,6 +367,23 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - **Moving the subject fixes framing faster than moving the camera**: a price board cut by a lift post from every camera x was
   fixed by sliding the board 0.35 m along the wall (and scaling it 0.87), not by another camera key.
 
+**026's v3 re-voice (Eleven v3 + tags, user's pick, Oct 27; 2,050 chars, 6 `[shouting]` + 2 `[excited]`, all at a beat's end):**
+- **v3 reads ~19 % slower than v2, even the untagged lines** (congrats 5.0 → 6.2 s), and each yell brings a 0.6–0.9 s
+  pause before it: 129.6 s at tempo 1.15 against v2's 108.3 s. Tempo is free (cached clips): 1.2 → 124 s, 1.3 → 115 s,
+  **1.35 → 110.7 s = v2's words per second**. Budget the length before voicing: expect v3 ≈ v2 × 1.2 at the same tempo.
+- **A deadpan button after a yell gets its own beat** ("[shouting] Gary was IN the pile!" | "He's a hood ornament now."):
+  a tag colours the rest of its clip, a beat boundary resets it. Move the button's `W(beat, word)` anchors to the new beat.
+- **A faster tempo makes 4-letter words flash** ("Then", "want" < 0.1 s): script.json `"joinLen": 4` (narrate.py, default 3)
+  joins them to the next word like "a"/"to".
+- **Re-check every `until` after a re-voice**: the yelled DOOR now came 0.6 s before the next beat's first word, so the camera
+  left before it (`[rail] until … clamped`). Hold the punch framing through the yelled word and turn the next framing into a
+  pass that follows the car.
+- **A face that moves inside one framing** (the e-coat dunk): aim so the motion carries it AWAY from the caption band.
+  Raising the look pushed the resting face INTO the band (0.5 → 1.5 s); lowering it put the face above the band, and the
+  dunk lifted it further away.
+- The QC hook's caption test is now x-aware (a centered caption ≈ 3.2 % of the width per letter): a face at the frame
+  edge beside a short word is no longer flagged.
+
 026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5;
 v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
 **USER VERDICT (Oct 27): the cuts were rejected** — "i dont really like [the cuts] i liked our older continuous style it was much
