@@ -63,28 +63,29 @@ import { buildPlaza, DIMS as QD } from '@engine/sets/plaza.js';
 import { buildSpace, makeISS, makeSpritePool } from '@engine/sets/tech.js';
 import { makeCar } from '@engine/sets/city.js';
 
-const PI = Math.PI, G = 9.81, SW = 8.2, BACK = 53.0;
+const PI = Math.PI, G = 9.81, SW = 8.2, BACK = 48.6;
 const DRIFT_LON = 0.0131, DRIFT_EQ = 0.0339;        // vertical spin "lift" (m/s²): London, the equator
 const OFF = { stad: [0, 0, 0], kit: [6000, 0, 0], pool: [9000, 0, 0], hwy: [14000, 0, 0], coast: [20000, 0, 0], gorge: [26000, 0, 0], plaza: [32000, 0, 0], space: [40000, 0, 0] };
 
 export const SHOTS = [
   { t0: 0, t1: 3.4, cam: 'aerial', set: 'stad' },
   { t0: 3.4, t1: 9.4, cam: 'goal', set: 'stad' },
-  { t0: 9.4, t1: 14.2, cam: 'fans', set: 'stad' },
-  { t0: 14.2, t1: 19.0, cam: 'coffee', set: 'kit' },
-  { t0: 19.0, t1: 23.8, cam: 'diver', set: 'pool' },
-  { t0: 23.8, t1: 28.6, cam: 'hwy', set: 'hwy' },
-  { t0: 28.6, t1: 33.4, cam: 'coast', set: 'coast' },
-  { t0: 33.4, t1: 38.2, cam: 'bungee', set: 'gorge' },
-  { t0: 38.2, t1: 43.0, cam: 'quito', set: 'plaza' },
-  { t0: 43.0, t1: 47.8, cam: 'iss', set: 'space' },
-  { t0: 47.8, t1: 53.0, cam: 'peak', set: 'stad' },
-  { t0: 53.0, t1: 55.6, cam: 'fall', set: 'stad' },
-  { t0: 55.6, t1: 58.0, cam: 'hwyR', set: 'hwy' },
-  { t0: 58.0, t1: 60.4, cam: 'coastR', set: 'coast' },
-  { t0: 60.4, t1: 62.2, cam: 'kitR', set: 'kit' },
-  { t0: 62.2, t1: 65.6, cam: 'poolR', set: 'pool' },
-  { t0: 65.6, t1: 73.8, cam: 'judges', set: 'pool' },
+  { t0: 9.4, t1: 13.2, cam: 'fans', set: 'stad' },
+  { t0: 13.2, t1: 16.4, cam: 'coffee', set: 'kit' },
+  { t0: 16.4, t1: 18.0, cam: 'diver', set: 'pool' },
+  { t0: 18.0, t1: 19.4, cam: 'judgesUp', set: 'pool' },
+  { t0: 19.4, t1: 24.2, cam: 'hwy', set: 'hwy' },
+  { t0: 24.2, t1: 29.0, cam: 'coast', set: 'coast' },
+  { t0: 29.0, t1: 33.8, cam: 'bungee', set: 'gorge' },
+  { t0: 33.8, t1: 38.6, cam: 'quito', set: 'plaza' },
+  { t0: 38.6, t1: 43.4, cam: 'iss', set: 'space' },
+  { t0: 43.4, t1: 48.6, cam: 'peak', set: 'stad' },
+  { t0: 48.6, t1: 51.2, cam: 'fall', set: 'stad' },
+  { t0: 51.2, t1: 53.6, cam: 'hwyR', set: 'hwy' },
+  { t0: 53.6, t1: 56.0, cam: 'coastR', set: 'coast' },
+  { t0: 56.0, t1: 57.8, cam: 'kitR', set: 'kit' },
+  { t0: 57.8, t1: 61.2, cam: 'poolR', set: 'pool' },
+  { t0: 61.2, t1: 69.4, cam: 'judges', set: 'pool' },
 ];
 // return shots run physics time from τ = 5 at this rate (1 = real time)
 const RATE = { fall: 1.0, hwyR: 0.8, coastR: 1.3, kitR: 0.9, poolR: 1.0, judges: 1.0 };
@@ -105,8 +106,9 @@ export const CAMS = {
   fall:   { p: [[53.5, 9.5, 4.5], [52.6, 7.8, 5.4]], a: [[63, 12, -1.5], [63, 3.2, -1.5]], fov: 56, amp: 0.004 },   // they fall past the lens
   hwyR:   { p: [[-3, 1.8, -214], [-3.4, 1.6, -215]], a: [[6, 4.0, -180], [6, 1.4, -190]], fov: 50, amp: 0.006 },
   coastR: { p: [[4, 40.8, 15], [4, 40.8, 15]], a: [[-6, 26, -80], [-6, 6, -80]], fov: 50, amp: 0.008 },
-  kitR:   { p: [[-0.85, 1.55, -0.42], [-0.9, 1.5, -0.3]], a: [[-0.5, 2.1, -1.5], [-0.5, 1.55, -1.5]], fov: 50, amp: 0.003 },
+  kitR:   { p: [[-0.45, 1.6, 1.3], [-0.35, 1.5, 1.2]], a: [[0.4, 2.2, -0.9], [0.4, 0.95, -0.9]], fov: 52, amp: 0.003 },
   poolR:  { p: [[-1.4, 0.95, 7.6], [-1.7, 1.0, 7.3]], a: [[-8.0, 20, 2.5], [-6.0, 1.0, 2.5]], fov: 30, amp: 0.004 },
+  judgesUp: { p: [[-6.0, 1.7, 5.75], [-6.15, 1.66, 6.1]], a: [[-6.2, 1.22, 8.15], [-6.2, 1.28, 8.15]], fov: 66, amp: 0.004 },   // v4: the judges' faces, looking up
   judges: { p: [[-9.0, 0.55, -0.6], [-9.3, 0.6, -1.2]], a: [[-6.2, 0.9, 7.4], [-6.2, 0.95, 7.4]], fov: 50, amp: 0.003 },
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -203,14 +205,16 @@ export async function build(studio, story) {
   // kitchen
   const dad = person({ skin: 0xe2ad8c, top: 0x7a5aa8, collar: 0xf2e6cf, pants: 0x45607a, shoes: 0x8a6a48, hair: 0x5a3a24, hairStyle: 'messy', mustache: 0x4a2e1c });
   const mom = person({ skin: 0xc98e6a, top: 0x4fb3a8, pants: 0x2f3a4a, hair: 0x1a1a1a, hairStyle: 'bob', glasses: true });
+  const grandpa = person({ skin: 0xf1c3a1, top: 0x6a8a5a, collar: 0xf2f2f2, pants: 0x6b5a48, hair: 0xd9d9d9, hairStyle: 'short', glasses: true, mustache: 0xd9d9d9 });
   const mug = makeMug(0xf2f2f2); mug.scale.setScalar(1.15); dad.arms.find((a) => a.s === 1).hand.add(mug); mug.position.set(0, -0.06, 0.05);
   const mugCoffee = mug.children[1];
   const coffeeM = new THREE.MeshStandardMaterial({ color: 0x4a2a14, roughness: 0.08, metalness: 0.1, emissive: 0x1a0c04 });
   const coffee = new THREE.Mesh(blobGeo, coffeeM); coffee.castShadow = true; scene.add(coffee);
   const toast = [0, 1].map(() => { const g = new THREE.Group(); mk(new THREE.BoxGeometry(0.11, 0.12, 0.015), mat(0xd9a45a, 0.9), g, 0, 0, 0); mk(new THREE.BoxGeometry(0.115, 0.125, 0.012), mat(0x9a6a2a, 0.9), g, 0, 0.002, 0); kit.root.add(g); return g; });
-  mk(new THREE.BoxGeometry(0.26, 0.16, 0.15), mat(0xd8dce0, 0.3, { metalness: 0.5 }), kit.root, -0.42, 0.95, KD.room.z0 + 0.24); mk(new THREE.BoxGeometry(0.03, 0.03, 0.03), mat(0x2a2d31, 0.4), kit.root, -0.28, 0.93, KD.room.z0 + 0.24);   // a toaster in shot
+  mk(new THREE.BoxGeometry(0.26, 0.16, 0.15), mat(0xd8dce0, 0.3, { metalness: 0.5 }), kit.root, KD.table[0] + 0.45, KD.tableTop + 0.08, KD.table[1] - 0.15); mk(new THREE.BoxGeometry(0.03, 0.03, 0.03), mat(0x2a2d31, 0.4), kit.root, KD.table[0] + 0.59, KD.tableTop + 0.06, KD.table[1] - 0.15);   // a toaster in shot
   const dog = makeDog(); kit.root.add(dog.g);
-  const fan = makeCeilingFan(); kit.root.add(fan.g); fan.g.position.set(KD.table[0], KD.room.h, KD.table[1]);
+  const fan = makeCeilingFan(); kit.root.add(fan.g); fan.g.position.set(-1.7, KD.room.h, 1.2);
+  kit.root.children.filter((o) => o.isMesh && Math.abs(o.position.x - KD.table[0]) < 0.01 && Math.abs(o.position.z - KD.table[1]) < 0.01 && o.position.y > 1.6).forEach((o) => (o.visible = false));   // pendant shade + cord
   // pool
   const diver = person({ skin: 0xe2ad8c, top: 0xe2ad8c, pants: 0x2f5fb3, shoes: 0xe2ad8c, hair: 0x2a1d16, hairStyle: 'short' });
   const swimmers = [0, 1, 2, 3].map((k) => person({ skin: pick(SKINS), top: pick(SKINS), pants: pick([0xd2483f, 0x2f5fb3, 0x1a1a1a]), hair: pick(HAIRS), hairStyle: k % 2 ? 'bob' : 'short' }));
@@ -391,46 +395,52 @@ export async function build(studio, story) {
   void MUG1;
   function kitchen(t, tau, cam) {
     fan.update(t, 0);
-    const k = (v) => v;   // local helper for readability
-    // dad at the counter facing −x, mug in his right hand (camera side)
-    const p = basePose(); p.eyes = blink(t, 3); Object.assign(p, { x: -0.35, z: -1.45, rotY: -PI / 2 + 0.35 });
+    // v3: a family breakfast table (three faces looking up). Dad sits at the back chair facing the camera, mug in his right hand.
+    kit.chairs[3].visible = false;   // the front chair would sit between the orbiting camera and the table
+    const [TX, TZ] = KD.table;
+    const p = basePose(); p.eyes = blink(t, 3); Object.assign(p, { x: TX, z: TZ - 0.7, rotY: 0, footFwd: 0.42 });
     const my = mugY(t, tau), lift = clamp((my - MUG0) / 0.3);
-    p.armB = MUG_B(lift); p.armA = A(-0.3, 0.2, -0.9, 0.4); p.headPitch = -0.15 - 0.25 * clamp(tau / 1.5);
-    p.mouth = tau > 0.4 ? 'o' : 'flat';
-    const coffeeTop = 2.52;
+    p.armB = A(lerp(-0.5, -0.75, lift), lerp(0.55, 0.75, lift), lerp(-1.25, -1.45, lift), -0.25); p.armA = A(-0.75, 0.15, -1.2, 0.5);
+    p.headPitch = -0.1 - 0.45 * clamp(tau / 2.0); p.mouth = tau > 0.4 ? 'o' : 'smile';
+    const coffeeTop = 2.52, tableY = KD.tableTop + 0.02;
     let cy, splat = 0;
-    const handY = () => { applyPose(dad, { ...p, x: p.x + OFF.kit[0], z: p.z + OFF.kit[2], y: 0, floor: 0 }); dad.root.updateMatrixWorld(true); return mug.getWorldPosition(new THREE.Vector3()); };
+    const handY = () => { applyPose(dad, { ...p, x: p.x + OFF.kit[0], z: p.z + OFF.kit[2], y: -0.325, floor: 0 }); dad.root.updateMatrixWorld(true); return mug.getWorldPosition(new THREE.Vector3()); };
     const mw = handY();
     const yS = mw.y + 0.07;
     if (t < SW) cy = yS; else cy = Math.min(coffeeTop, yS + VCUP * Math.max(0, Math.min(tau, 5)));
-    if (t >= BACK) { // gravity back: the puddle on the ceiling drips/falls onto dad
-      const d = tau - 5; cy = Math.max(1.78, coffeeTop - 0.5 * G * d * d); splat = cy <= 1.781 ? clamp((tau - 5 - Math.sqrt(2 * (coffeeTop - 1.78) / G)) / 0.25) : 0;
-      p.headPitch = -0.6; p.mouth = 'o'; if (splat > 0) { p.eyes = 'closed'; p.mouth = 'flat'; }
+    if (t >= BACK) { // gravity back: the puddle on the ceiling falls onto the table in front of him
+      const d = tau - 5; cy = Math.max(tableY, coffeeTop - 0.5 * G * d * d); splat = cy <= tableY + 0.001 ? clamp((tau - 5 - Math.sqrt(2 * (coffeeTop - tableY) / G)) / 0.25) : 0;
+      p.headPitch = splat > 0 ? 0.35 : -0.55; p.mouth = 'o'; if (splat > 0) p.eyes = 'closed';
     }
-    put(dad, 'kit', p);
+    put(dad, 'kit', p, -0.325, 0);
     mugCoffee.visible = t < SW || tau < 0.25;
     const sep = t < SW ? 0 : clamp((tau - 0.05) / 0.4), atCeil = cy >= coffeeTop - 0.001;
     coffee.visible = sep > 0.01 || t >= BACK; coffee.position.set(mw.x, cy, mw.z);
     const w = 0.12 * Math.sin(t * 4.2);
-    if (t >= BACK && splat > 0) coffee.scale.set(0.16 + 0.06 * splat, 0.03, 0.16 + 0.06 * splat), coffee.position.y = 1.76 + 0.02;
+    if (t >= BACK && splat > 0) coffee.scale.set(0.16 + 0.07 * splat, 0.02, 0.16 + 0.07 * splat), coffee.position.y = tableY + 0.01;
     else if (atCeil) coffee.scale.set(0.11, 0.025, 0.11), coffee.position.y = coffeeTop + 0.05;
     else coffee.scale.set(0.055 * (1 + w), 0.055 * (1 - w) * (1 + 0.6 * (1 - sep)), 0.055 * (1 + w * 0.5));
-    // toast: popped just before the switch; keeps rising to the ceiling, tumbling slowly; falls at the return onto the dog
+    // toast: popped from the toaster on the table just before the switch; keeps rising to the ceiling; drops back on the table
     toast.forEach((g, i) => {
-      const x = -0.42 + (i - 0.5) * 0.06, z = KD.room.z0 + 0.24, popT = SW - 0.05 + i * 0.02, v0 = 1.25;
-      let y = 0.98, rx = 0;
-      if (t >= popT && t < SW) { const a = t - popT; y = 0.98 + v0 * a - 0.5 * G * a * a; }
-      if (t >= SW) { const a = SW - popT, ys = 0.98 + v0 * a - 0.5 * G * a * a, vs = v0 - G * a; y = Math.min(2.5, ys + vs * Math.min(tau, 5)); rx = 0.4 * Math.min(tau, 5) * (i ? 1 : -1); }
-      if (t >= BACK) { const d = tau - 5, yy = 2.5 - 0.5 * G * d * d; y = Math.max(0.975 + i * 0.012, yy); rx = yy > 0.98 ? 1.2 + i : PI / 2; }
-      g.position.set(x, y, z); g.rotation.set(rx, 0.3 * i, 0.2 * rx);
+      const x = TX + 0.45 + (i - 0.5) * 0.06, z = TZ - 0.15, y0 = tableY + 0.08, popT = SW - 0.05 + i * 0.02, v0 = 1.25;
+      let y = y0, rx = 0;
+      if (t >= popT && t < SW) { const a = t - popT; y = y0 + v0 * a - 0.5 * G * a * a; }
+      if (t >= SW) { const a = SW - popT, ys = y0 + v0 * a - 0.5 * G * a * a, vs = v0 - G * a; y = Math.min(2.5, ys + vs * Math.min(tau, 5)); rx = 0.4 * Math.min(tau, 5) * (i ? 1 : -1); }
+      if (t >= BACK) { const d = tau - 5, yy = 2.5 - 0.5 * G * d * d; y = Math.max(tableY + 0.01 + i * 0.012, yy); rx = yy > tableY + 0.02 ? 1.2 + i : PI / 2; }
+      g.position.set(x + (i ? 0.1 : 0) * (t >= BACK ? 1 : 0), y, z); g.rotation.set(rx, 0.3 * i, 0.2 * rx);
     });
-    // the dog looks up at the toast (sits by the counter)
-    dog.g.visible = false; dog.g.position.set(-0.5, 0, -0.7); dog.g.rotation.y = PI * 0.85; dog.update(t, 0); dog.head.rotation.x = -0.7; dog.bark(t >= BACK ? clamp((tau - 5.5) * 3) : 0);
-    // mom at the table, looking up at the floating coffee
-    const m = basePose(); m.eyes = blink(t, 6); Object.assign(m, { x: KD.table[0] - 0.95, z: KD.table[1] + 0.05, rotY: PI / 2 + 0.6, footFwd: 0.42 });
-    m.armA = A(-0.75, 0.15, -1.2, 0.5); m.armB = A(-0.75, 0.15, -1.2, -0.5); m.headPitch = -0.35 * clamp(tau / 0.8); m.headYaw = -0.4; m.mouth = tau > 0.5 ? 'o' : 'smile';
+    // mom (right) and grandpa (left) look up at the floating coffee; the dog under the table looks up too
+    const look = (k0) => clamp((tau - k0) / 0.6);
+    const m = basePose(); m.eyes = blink(t, 6); Object.assign(m, { x: TX + 0.9, z: TZ, rotY: -PI / 2 + 0.45, footFwd: 0.42 });
+    m.armA = A(-0.75, 0.15, -1.2, 0.5); m.armB = mixArm(A(-0.75, 0.15, -1.2, -0.5), A(-1.0, 0.3, -2.2, -0.7), look(0.6)); m.headPitch = -0.55 * look(0.2); m.headYaw = -0.3; m.mouth = tau > 0.4 ? 'o' : 'smile';
+    if (t >= BACK) { m.mouth = 'smile'; m.headPitch = 0.2; }
     put(mom, 'kit', m, -0.325, 0);
-    void k; void cam;
+    const g2 = basePose(); g2.eyes = blink(t, 8); Object.assign(g2, { x: TX - 0.9, z: TZ, rotY: PI / 2 - 0.45, footFwd: 0.42 });
+    g2.armA = A(-0.8, 0.15, -1.3, 0.5); g2.armB = A(-0.8, 0.15, -1.3, -0.5); g2.headPitch = -0.5 * look(0.4); g2.headYaw = 0.3; g2.mouth = tau > 0.6 ? 'o' : 'flat';
+    if (t >= BACK) { g2.mouth = 'smile'; g2.headPitch = 0.15; }
+    put(grandpa, 'kit', g2, -0.325, 0);
+    dog.g.visible = true; dog.g.position.set(TX - 0.25, 0, TZ + 0.75); dog.g.rotation.y = PI * 0.95; dog.update(t, 0); dog.head.rotation.x = -0.75; dog.bark(t >= BACK ? clamp((tau - 5.7) * 3) : 0);
+    void cam;
   }
 
   // ---------------------------------------------------------------- POOL
@@ -455,14 +465,15 @@ export async function build(studio, story) {
     splashSeeds.forEach((s) => {
       const tt = Math.max(0, Math.min(tau, 5)), x = -6.8 + Math.cos(s.a) * (s.r + s.out * tt), z = 3.8 + Math.sin(s.a) * (s.r + s.out * tt);
       let y = PD.water + 0.15 + s.v * tt; if (tau > 5) { const d = tau - 5; y = Math.max(PD.water - 0.2, y + s.v * d - 0.5 * G * d * d); }
-      if (t >= SW && y > PD.water - 0.1) blob(W('pool', x, y, z), s.s * (1 + 0.4 * Math.min(1, tt)), t, s.ph);
+      if (t >= SW && y > PD.water - 0.1 && !(cam === 'judgesUp' && z > 4.4)) blob(W('pool', x, y, z), s.s * (1 + 0.4 * Math.min(1, tt)), t, s.ph);
     });
     // the entry splash
     if (tau > ENTRY - 0.05) { const age = tau - ENTRY; if (age < 2.5) for (let k = 0; k < 70; k++) { const a = k * 0.9, vr = 1 + (k % 6) * 0.6, vy = 3 + (k % 8) * 1.4, x = EX + Math.cos(a) * vr * age, z = DZ + Math.sin(a) * vr * age, y = PD.water + vy * age - 0.5 * G * age * age; if (y > PD.water - 0.1 && !(cam === 'judges' && z < 1.2)) blob(W('pool', x, y, z), 0.05 + (k % 3) * 0.035, t, k); } for (let k = 0; k < 6; k++) { const a = k; if (age < 1.6) puffs.set(k, W('pool', EX + Math.cos(a) * (0.4 + age), PD.water + 0.6 + age * 2.2, DZ + Math.sin(a) * (0.4 + age)), 1.6 + age * 2.4, 0.8 * (1 - age / 1.6), spray); } jolt(tau, ENTRY, 0.02); }
     // judges: watching, then the cards go up
     if (cam !== 'diver') judges.forEach((j, k) => { const q = basePose(); q.eyes = blink(t, k + 4); Object.assign(q, { x: -7.2 + k, z: 7.6 + 0.55, rotY: PI + 0.3, footFwd: 0.42 });
-      const raise = cam === 'judges' ? clamp((t - 66.5 - k * 0.25) / 0.45) : 0;
-      q.armA = mixArm(A(-0.75, 0.15, -1.2, 0.5), CARD_A, raise); q.armB = mixArm(A(-0.75, 0.15, -1.2, -0.5), CARD_B, raise); q.headPitch = cam === 'diver' ? -0.5 : -0.05; q.mouth = cam === 'diver' ? 'o' : 'smile';
+      const raise = cam === 'judges' ? clamp((t - 62.1 - k * 0.25) / 0.45) : 0;
+      q.armA = mixArm(A(-0.75, 0.15, -1.2, 0.5), CARD_A, raise); q.armB = mixArm(A(-0.75, 0.15, -1.2, -0.5), CARD_B, raise); q.headPitch = cam === 'judgesUp' ? -0.6 + 0.05 * Math.sin(t * 2 + k) : -0.05; q.mouth = cam === 'judgesUp' ? 'o' : 'smile';
+      if (cam === 'judgesUp') { q.headYaw = 0.12 + 0.12 * k; if (k === 1) q.armB = A(-2.6, 0.35, -0.2, 0); if (k === 2) { q.armA = A(-1.3, 0.2, -2.3, 0.6); q.armB = A(-1.3, 0.2, -2.3, -0.6); } }
       put(j, 'pool', q, -0.325, 0);
       const c = cards[k]; c.visible = raise > 0.05; if (c.visible) { j.root.updateMatrixWorld(true); const a = j.arms[0].hand.getWorldPosition(new THREE.Vector3()), b = j.arms[1].hand.getWorldPosition(new THREE.Vector3()); c.position.copy(a).add(b).multiplyScalar(0.5).add(new THREE.Vector3(0, 0.14, 0)); c.rotation.set(0, PI + 0.3, 0); } });
     // spectators on the deck pointing up
@@ -609,7 +620,7 @@ export async function build(studio, story) {
       Aim[0] = 60 + o[0]; Aim[1] = K(t, [[GOAL, 3.4], [GOAL + 0.8, 4.6]]) + o[1]; Aim[2] = 0.5 + o[2];
     }
     if (cam === 'fans') ORB(60.0, 2.6, 4.3, -2.05, -1.05, 1.5, 2.8, 3.0, 4.6);
-    if (cam === 'coffee') ORB(-0.55, -1.35, 1.35, -0.4, 0.35, 1.5, 1.66, 1.62, 1.8);
+    if (cam === 'coffee') { ORB(KD.table[0], KD.table[1] - 0.2, 2.5, 0.5, -0.45, 1.45, 1.55, 1.3, 1.55); Aim[0] = lerp(1.0, -0.2, e) + o[0]; Aim[2] = -0.75 + o[2]; }   // pans mom → dad → grandpa
     if (cam === 'iss') ORB(-0.6, -1.0, 1.7, 0.75, -0.25, ISSY + 1.1, ISSY + 0.9, ISSY - 0.55, ISSY - 0.5);
     P[0] += shake[0]; P[1] += shake[1];
     if (cam === 'goal' && t > GOAL && t < GOAL + 0.5) { const k = 0.015 * Math.exp(-(t - GOAL) * 6); P[1] += k * Math.sin(t * 60); }

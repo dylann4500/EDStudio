@@ -341,10 +341,10 @@ a family table (pan across three faces: that beat +0.005 → +0.016) but filmed 
 the frame mostly sky — that beat fell to −0.029 and dragged its neighbours, so v3 scored 0.0414 and **v2 shipped**. Lessons:
 one edit can sink a whole stretch (TRIBE smooths over ~5 s); a title over people's BACKS scored −0.05 vs −0.02 over a wide bright
 crowd; keep every version's sources recoverable (commit each scored version) so you can ship the best one, not the last one.
-**Cuts longer than ~70 s OOM in the audio encoder (017):** w2v-BERT's relative-position attention grows with clip length²;
-69–70 s fit under the default MPS cap (`PYTORCH_MPS_HIGH_WATERMARK_RATIO` 0.5 = 8.88 GB), 73.8 s needed ~9.5 GB and crashed in
-"Preparing extractor: audio" within a minute. Fix: `PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.6 sh tools/tribe-score.sh videos/NNN-slug vK`
-(run_tribe.py only sets the ratio if unset; the peak lasts ~10 s, the video step stays ~5 GB). Or keep reels ≤ 70 s.
+**Keep reels ≤ 69.5 s for TRIBE — trim, don't raise the memory cap (017, manager rule):** w2v-BERT's relative-position attention
+grows with clip length²; 69–70 s fit under the shared MPS cap (`PYTORCH_MPS_HIGH_WATERMARK_RATIO` 0.5 = 8.88 GB), a 73.8 s cut
+needed ~9.5 GB and crashed in "Preparing extractor: audio" within a minute. Never raise the cap to get a run through (it can swap
+the Mac while other producers render): tighten the slowest stretch until the cut is ≤ 69.5 s and score that.
 **Optimization loop (014, `tribe-experiment/results/014-optimization.md`):** `cp final.mp4 tribe-experiment/videos/NNN-vK.mp4`,
 `nohup caffeinate -i .venv/bin/python -u run_tribe.py videos/NNN-vK.mp4 &` (~20 min idle, ~60 min when the Mac swaps), then
 `.venv/bin/python score.py results/NNN-vK.npy <shots.js>` → headline metrics vs the best posted video, a per-beat table and dead

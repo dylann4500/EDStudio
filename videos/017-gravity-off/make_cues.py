@@ -122,7 +122,7 @@ e(7.62, "blanket_rustle", -27, 0.15, {"dur": 0.35, "softness": 0.3, "intensity":
 e(8.2, "pressure_drop", -12, 0.0, {"dur": 2.4}, hall=-12)
 # kitchen: the coffee leaves the mug (a soft low bloop), toast hits the ceiling much later (off screen)
 e(14.55, "plush_squeak", -32, 0.1, {"pitch": 0.55})
-e(16.9, "plush_squeak", -34, 0.1, {"pitch": 0.6})
+e(17.3, "plush_squeak", -34, 0.1, {"pitch": 0.6})
 # pool: the springboard still shivering
 e(19.15, "metal_groan", -34, -0.2, {"pitch": 2.2, "dur": 0.8})
 # highway: suspensions creak as they let go
@@ -148,9 +148,10 @@ for tt in (57.75, 58.0):
     pass
 # the ocean lands (screen ≈ 59.78)
 e(59.78, "water_splash", -8, 0.0, {"size": 3.0})
-# kitchen: coffee on dad (60.83), toast on the counter (61.02)
-e(60.83, "water_splash", -22, 0.1, {"size": 0.2})
-e(61.02, "plush_place", -26, 0.3)
+# kitchen: the coffee puddle drops off the ceiling onto the table (61.06), the toast lands next to it, the dog boofs
+e(61.06, "water_splash", -20, 0.0, {"size": 0.25})
+e(61.12, "plush_place", -26, 0.25)
+e(61.75, "dog_bark", -28, -0.2, {"pitch": 1.0})
 # pool: the kid's cannonball lands (63.98), the 27 m dive (65.03)
 e(63.98, "water_splash", -16, -0.25, {"size": 0.6})
 e(65.03, "water_splash", -6, 0.0, {"size": 1.6})
@@ -172,6 +173,41 @@ cues = {
               "ducks": [], "auto_duck": {"db": -3.0, "categories": ["prop"], "lookahead": 0.04, "hold": 0.4, "smooth": 0.15, "max_len": 0.8},
               "eq": [{"f": 2800, "q": 0.8, "db": -2.0}, {"f": 6500, "q": 0.6, "db": -4.0}]},
 }
+# ---- v4 (TRIBE pass at ≤ 69.5 s): the sheet above is written on the 73.8 s timeline; M() maps it onto the 69.4 s cut
+# (fans 4.8 → 3.8 s, coffee 4.8 → 3.2 s, pool 4.8 → 3.0 s; everything after 23.8 s moves 4.4 s earlier).
+def M(t):
+    if t <= 9.4:
+        return t
+    for a0, a1, b0, b1 in ((9.4, 14.2, 9.4, 13.2), (14.2, 19.0, 13.2, 16.4), (19.0, 23.8, 16.4, 19.4)):
+        if t <= a1:
+            return round(b0 + (t - a0) * (b1 - b0) / (a1 - a0), 3)
+    return round(t - 4.4, 3)
+def Mv(v):  # a velocity breakpoint list [[t, v], ...] or a plain number
+    return [[M(a), b] for a, b in v] if isinstance(v, list) else v
+def remap(c):
+    c["duration"] = M(c["duration"]); c["end_fade"] = [M(x) for x in c["end_fade"]]; c["shots"] = [M(x) for x in c["shots"]]
+    for a in c["ambience"]:
+        a["t0"], a["t1"] = M(a["t0"]), M(a["t1"])
+    for e_ in c["events"]:
+        for k in ("t", "t0", "t1"):
+            if k in e_:
+                e_[k] = M(e_[k])
+    m = c["music"]; m["end"] = M(m["end"])
+    m["chords"] = [[M(t), sym] for t, sym in m["chords"]]
+    for key in ("sections", "layers"):
+        for S in m.get(key, []):
+            S["t0"], S["t1"] = M(S["t0"]), M(S["t1"]); S["vel"] = Mv(S["vel"])
+    m["drums"] = [[M(t), v, k] for t, v, k in m["drums"]]
+    for P in m["drum_patterns"]:
+        P["t0"], P["t1"] = M(P["t0"]), M(P["t1"]); P["vel"] = Mv(P["vel"])
+    m["melody"] = [[M(x[0])] + x[1:] for x in m["melody"]]
+    for r in m["pad"]:
+        r["t0"], r["t1"] = M(r["t0"]), M(r["t1"])
+    for st in m["stings"]:
+        st["t"] = M(st["t"])
+    return c
+cues = remap(cues)
+cues["title"] = cues["title"].replace("(science:", "(69.4 s cut, science:")
 out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "cues.json")
 json.dump(cues, open(out, "w"), indent=1)
 print("wrote", out, len(ev), "events")
