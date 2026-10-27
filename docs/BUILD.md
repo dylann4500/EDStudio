@@ -471,3 +471,131 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   - Re-check what was timed to a word GAP, not a word: 025's water-slide hop ran from a fixed slide end to "ONCE", so a longer
     pause turned a 1 s ski-jump into a 1.9 s float; key both ends to words (`SLD1 = max(SLD0 + 1, t.once − 1.05)`). New word
     times also shifted 4 rail moves + 2 caption overlaps: run `--qc` and the gag-word stills after every re-voice.
+
+## Lessons from 026 (garage → car factory; each cost a stills round)
+- **A building cutaway works like the ground one**: slice every FRONT wall at z = 0 (light "section" colour on the cut ends),
+  keep the roofs/ceilings, and still cut the floor slab + ground below (`engine/build/factory.js`). A pit (the e-coat tank) needs
+  holes in FOUR layers: the hall floor, the lawn under it, the slab strip in front of the face, and the cut face itself
+  (`setPit(k)`), else a plane shows through.
+- **A long horizontal build in a vertical frame: march the story +x and put the ending's callback place at the FAR end** —
+  the first layout had the mechanic's shop at the start, so the ending needed a 50 m fly-back. The hook's tow truck now drives
+  your car off to the right and the last shot finds it on the lift in the shop at the end of the factory.
+- **One line of cars, one offset:** slot k sits at `x0 + s(t) − k·pitch`; s(t) is a list of eased segments with stops placed so
+  the gag cars sit at their stations (the three Cadillac cars, Gary's bolt car, the dip). Station crossing times are solved from
+  s(t) for puffs/sparks AND mirrored in make_cues.py for the clunks. Parts pop on by distance past the station (easeOutBack).
+- **Instanced meshes that travel far need `frustumCulled = false`** — the parts avalanche vanished: its bounding sphere was
+  computed once (with the parts packed in the dock door) and went stale.
+- **Overlay textures need a transparent background** — a rust overlay drawn on white turned every car into white camo.
+- **A character who faces the prop shows his back.** Stage the gag so he faces the lens: on the car's seat beside the door he
+  hammers in (sunroof), leaning back on the door to nap (welded), behind the line like the crew.
+- **Two crash cars on one lane drive through each other** — use ONE car: winched back, new striped crumple nose pops on.
+- **A roof test track can't be seen from below the roof edge**: stand a TEST TRACK sign + a racing car on the front straight
+  (they read over the edge); the high ending wide (camera y ≈ 11) shows the whole oval.
+- **Faces under the one-word caption (52 %): aim ≈ 10 % of the frame height below the head** (≈ 0.6 m at d 8, 1.3 m at d 16,
+  fov 44). The first QC pass had 18 runs; lowering the look points (not the camera) fixed all but one in-move run.
+- **Lifts: four posts at the corners** — a two-post lift puts a post between the lens and the car.
+- **Music: synth.py's "walk" style leaves 50–100 ms gaps under the ducked voice** (the dropout check failed); the "disco"
+  style (8th-note octave bass + off-beat stabs) is continuous. Skip the callout stings before the music enters — a money sting
+  in the hook made the checker count the music-free hook as dropouts.
+- `makeRobotArm().reach(point)` (factory.js) = 2-link IK with the weld gun pointing down; robots weld a bobbing target on each
+  car and one swings over to weld Gary to the door.
+- The mid-line `//` hazard bit again: a replacement that ended mid-line got a comment appended and silently commented out
+  `heapW.visible = …` (the heap never hid). Run the CLAUDE.md grep after every scripted batch.
+- **Punch words land after the camera left** (026 round 1: Promoted, Manager, Twice, Meatloaf, CEO — comedy 6.5, camera 5.5).
+  Root cause: `planRail` clamps a framing's `until` to `next.t − 0.8·need` when the next framing is far, silently. rail.js now
+  prints `[rail] until … clamped to …` — treat it like a speed warning. The real fix is LAYOUT: put each punch's prop next to
+  the next gag (the vending machine beside the QC gate; Gary's sunroof car = the lead car the Roomba pulls), so the move after
+  the punch is short. `planRail(frames, { shortHoldPass: true })` (opt-in) turns ≤ 0.25 s holds into pass keys instead of
+  zero-speed stops (the camera review found three dead stops followed by 8 m/s moves).
+- **A tighter mid-line-comment lint**: the CLAUDE.md grep misses a comment that swallows code without a `;` before it
+  (`…);   // deflates airbag.g.position.set(…)`, `// no cap … scene.add(mech.root);`, both 026). After every scripted batch
+  also flag any line whose `//` part contains `{`, `}` or `);` — two real bugs in 026 round 1.
+- **Lay the gag out so the important side faces the lens**: a door "into a sunroof" stuck upright in the cockpit was a blank
+  slab — laid flat across the cockpit like a roof (blue, with a window + handle) it reads; plain black tori read as tyres —
+  spokes + tan/red/steel rims make "steering wheels"; the Roomba at r 0.3 m vanished under the crew's legs — ×1.7 in its gags.
+- **The Cadillac-style "three cars → one pile" needs a down-the-line view** (cars 4.6 m apart side by side don't fit 9:16):
+  a three-quarter from the front-left, high (camera (7, 4.6, 3.5) → look (19.5, 0.6, −3.4)) shows all three + the pile.
+- **The builder rule (user, Oct 26): Gary does what the narration says "you" do** — he builds the junk car, yanks the start
+  lever, slams the press buttons, rips open the robot's crate and bolts it down (then it welds him), drives the JIT tugger,
+  slaps on the crumple nose. Passive only when the line makes him the victim (welded → dipped).
+
+- **Path keys must stay in time order after a re-voice** (026 round 2): a route keyed to `pay + 0.6` then `dollars − 0.3` was in
+  order with the scratch voice and swapped with ElevenLabs (the words came 0.6 s closer) → `endPath` skipped a segment and
+  teleported Gary onto the stairs. After every narration change assert `ROUTE[i][0] < ROUTE[i+1][0]` (or key on later words).
+- **The scripted-edit comment trap, third flavour**: a replacement whose match ends MID-LINE and appends `// note` comments out
+  the rest of that line (026 round 2, three times: `looseDoor.scale…`, a closing `}`, the tail of the ROUTE array). Only append a
+  comment when the match runs to the end of the line; `node --check` (a `.mjs` copy) after every batch caught all three.
+- **Anything built in the y–z plane is edge-on to the cutaway lens** (it looks down −z): the QC gate (posts at z ±1.2, a bar along z)
+  read as one black pole, a horizontal scanner strip at eye height as a faint line. Give such props a camera-facing face — a
+  green-lit portal BEHIND the car (posts at x ±1.9) so nobody walks into it, and a vertical additive light curtain in front.
+- **`--qc` gives sfx callouts a wider margin (±6.5 %) than the caption (±4.5 %)**: put SZZT!/HELP! ≥ 7 % of the frame height
+  away from the face they belong to, beside it, not on it.
+- **Some caption crossings can't be framed away**: a move from a frame where the face sits below the caption to one where it
+  sits above crosses the band (026's crane-down to the office). Make it quick — time the subject's own rise (Gary climbing
+  the stairs) to overlap the camera's descent so the face moves through the band twice as fast (one 0.25 s sample).
+- **One framing for "start → impact"**: "You crash one into a wall" framed only the wall, so the viewer saw a parked line car
+  and the crash car rushed in from off-frame. Frame the start position AND the wall (fov 46 at ~10 m), then push in on the
+  aftermath; the move from the previous punch (MANAGER) must fit, so trim its `until` rather than skip the start.
+
+- **`python3 -I tools/lint_comments.py <files>`** flags a `//` that swallowed code (the three flavours above, plus a ✓ that lost its
+  pop-in scale in 026 round 3). Run it with `node --check` after EVERY scripted batch; it found a real bug every round of 026.
+- **Sample `--qc` at 0.1 s, not 0.25 s** (026's hook steps 0.1): two 0.25 s hits can be anything from 0.25 to 0.75 s. At 0.1 s a
+  crossing during a crane-down measured 0.5 s; a pause at the foot of the stairs + a 0.7 s dash up (his own rise adding to the
+  camera's descent) cut it to 0.3 s.
+- **Anything that appears inside the cutaway section should GROW, not pop**: the e-coat tank's walls appeared full height in one
+  frame and blanked the basement behind it (look review: a "blank grey box"). It now rises out of the basement floor with the
+  pit (`tank.position.y = y0·(1 − ease(k))`), basement grey + a hazard rim.
+- **Thin lines don't exist at 1080×1920**: lightning as zig-zag BOXES (0.1 m, additive yellow, rebuilt per frame from two end
+  points + jitter), not `THREE.Line` (always 1 px) and not cyan on a cyan bath. Same for small props: a flat tie on top of the
+  Roomba read as a red sliver → a big bow tie standing on its front rim, and the Roomba turned to the lens on "manager".
+- **Props that hide the person using them**: the vending machine popped in exactly where the inspector walked (he vanished
+  behind it). Stand the user beside the prop's front, on the lens side, and hand them the result (the meatloaf in his hand).
+- **Moving the subject fixes framing faster than moving the camera**: a price board cut by a lift post from every camera x was
+  fixed by sliding the board 0.35 m along the wall (and scaling it 0.87), not by another camera key.
+
+**026's v3 re-voice (Eleven v3 + tags, user's pick, Oct 27; 2,050 chars, 6 `[shouting]` + 2 `[excited]`, all at a beat's end):**
+- **v3 reads ~19 % slower than v2, even the untagged lines** (congrats 5.0 → 6.2 s), and each yell brings a 0.6–0.9 s
+  pause before it: 129.6 s at tempo 1.15 against v2's 108.3 s. Tempo is free (cached clips): 1.2 → 124 s, 1.3 → 115 s,
+  1.35 → 110.7 s (= v2's words per second). **026 shipped at 1.30 (114.9 s)** — the manager's call: the yells are the point,
+  and +35 % atempo starts to sound rushed and flattens the punch; the reference's reels run 98–118 s, so the build bar is
+  ≤ 118 s for v3 reads. Keep the pre-yell pauses (the beat before a yell sells it); cap one at ~0.4 s only if it sounds dead.
+  Budget the length before voicing: expect v3 ≈ v2 × 1.2 at the same tempo.
+- **A deadpan button after a yell gets its own beat** ("[shouting] Gary was IN the pile!" | "He's a hood ornament now."):
+  a tag colours the rest of its clip, a beat boundary resets it. Move the button's `W(beat, word)` anchors to the new beat.
+- **A faster tempo makes 4-letter words flash** ("Then", "want" < 0.1 s): script.json `"joinLen": 4` (narrate.py, default 3)
+  joins them to the next word like "a"/"to".
+- **Re-check every `until` after a re-voice**: the yelled DOOR now came 0.6 s before the next beat's first word, so the camera
+  left before it (`[rail] until … clamped`). Hold the punch framing through the yelled word and turn the next framing into a
+  pass that follows the car.
+- **A face that moves inside one framing** (the e-coat dunk): aim so the motion carries it AWAY from the caption band.
+  Raising the look pushed the resting face INTO the band (0.5 → 1.5 s); lowering it put the face above the band, and the
+  dunk lifted it further away.
+- The QC hook's caption test is now x-aware (a centered caption ≈ 3.2 % of the width per letter): a face at the frame
+  edge beside a short word is no longer flagged.
+
+026's scores (logic · look · pacing · camera · comedy): v1 (scratch voice) 7 · 6 · 7 · 5.5 · 6.5; v2 (Adam) 7.5 · 6.5 · 8 · 6.5 · 7.5;
+v3 8 · 7 · 8 · 7 · 8 (logic/pacing/comedy folded into one reviewer, per the manager) → finalized (camera ≥ 7 = 024's best).
+**USER VERDICT (Oct 27): the cuts were rejected** — "i dont really like [the cuts] i liked our older continuous style it was much
+easier to follow". Build reels stay ONE continuous take. 026 shipped with `const CUTS = false` (the list stays in shots.js for
+reference), the kicks kept at FULL strength (user: "the new effects / density / screen shakes are good its just the cuts that make it weird"), every cut-only cheat gated on CUTS, and soft rail push-ins
+(`Fk(…, until)`) wherever a gag had relied on a close-up (the jaw drop, the face in the heap, flat on "not"). What follows is kept
+as a record of what the cut style needs, if it is ever tried again.
+**026's cuts pass (the newer cut-heavy style on top of the finished one-take, 45 cuts / 84 shots / avg 1.29 s):**
+- **Face shots on the 1.1 m toon: `{ dist: 2.9, faceY: 0.36 }`** — the default faceY 0.40 put the one-word caption across the
+  MOUTH (52 %) in most close-ups; 0.36 lands it on the chin, the hat top at ≈ 4 %. Spread one `GF` object into every face cut.
+- **Join gaps < 0.35 s between consecutive cuts** (a `tight(list, 0.35)` pass before `makeCuts`): 1–3 frames of the master
+  between two cuts read as stutters (five of them in the first pass); either butt them or leave ≥ 0.35 s of master.
+- **Never put a face cut where something is held in front of the face** (the tugger's steering wheel, the Roomba carried in his
+  arms — no yaw/pitch fixed either; drop the cut) and **never let a face cut replace the gag's own wide** (the airbag burst, the
+  soda-can squeeze): cut to the face AFTER the physical gag lands. Inside a pile (buried in wheels) clear the instanced debris
+  on the lens→head line for that cut only (`inLens()` scales them to 0) — a film cheat nobody sees.
+- **`facing: true` swings the lens with the character**: when he turns (the shipping car rounding the end door) the lens went
+  behind a wall → 4 grey frames. End the cut before the turn.
+- **Close-ups into a transparent volume wash out** (the e-coat bath at opacity 0.55 filled the frame blue): shoot it from higher
+  and wider, draw effects inside it after it (`renderOrder 5`, `depthTest false` for the additive bolts).
+- **Cold open:** `const update = (tq) => update0(tq < 0.35 ? END - 0.8 : tq, tq)` + an insert for t < 0.3 — the scene renders
+  the finished factory while the real time drives the cuts/captions.
+- **A film-cheat window (a hidden wall) tied to a cut must end with the cut's REAL end**: `tight()` stretched the end-door insert
+  by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
+  final's last-8-s check). Key the window to the next cut's start.
+026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).

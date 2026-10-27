@@ -315,7 +315,7 @@ def layout(slug, cfg, wj):
             m = merged[-1]; m['w'] = m['w'] + ' ' + w['w']; m['t1'] = w['t1']; m.pop('_join'); continue
         merged.append(dict(w))
         nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
-        if nxt - w['t0'] < 0.12 and len(w['w']) <= 3 and k + 1 < len(words) and not w['p']: merged[-1]['_join'] = True
+        if nxt - w['t0'] < 0.12 and len(w['w']) <= cfg.get('joinLen', 3) and k + 1 < len(words) and not w['p']: merged[-1]['_join'] = True   # joinLen 4: a sped-up v3 read flashes "Then"/"want"
     for m in merged: m.pop('_join', None); m.pop('p', None)
     words = merged
     # a caption word stays up until the next one starts (no blank flicker inside a sentence), max 0.35 s past its end
