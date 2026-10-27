@@ -441,7 +441,7 @@ Fk(t.sells - 0.35, [-10.6, 3.2, 6.4], [-11.2, 1.8, -4.0], 40, t.lakefront + 0.4)
   const kick = makeKick([[LANDK, 0.9], [t.inF + 0.05, 0.5], [FLOAT1 - 0.2, 0.6], [DIG1, 0.8], [OUT, 0.6], [ONPILE, 0.6], [DUMPS[0], 0.6], [DUMPS[1], 0.6], [DUMPS[2], 1.0],
     [POPC, 0.9], [SLAM, 1.2], [HAM[0], 0.8], [HAM[1], 0.9], [HAM[2], 1.1], [SLIDE0, 1.2], [SLIDE0 + SLD / 3, 1.2], [SLIDE0 + (2 * SLD) / 3, 1.3], [CRUMB, 1.5], [BKIN, 0.8],
     ...S.damCols.map((_, i) => [COL0 + i * COLDT + 0.1, 0.4]), [BKOUT + 0.5, 0.5], [t.bully, 1.0], [FILL1, 1.5], [SIT + 0.15, 0.5], [LEAP, 0.7], [OVER + 0.3, 1.5], [HSP, 0.8],
-    [SPLASH, 1.0], [SPIT, 0.7], [SPLAT, 0.8], [SLAP, 0.9], [SLAP + 0.5, 0.6], [GAG0 + 0.6, 0.5], [t.road, 0.4], [W('finish', 'center') + 0.25, 0.4], [t.gift, 0.4], [t.end, 0.6], [t.closedE, 0.6]], { amp: 0.022 });   // one-take strength (≈ 60 %): easy to follow
+    [SPLASH, 1.0], [SPIT, 0.7], [SPLAT, 0.8], [SLAP, 0.9], [SLAP + 0.5, 0.6], [GAG0 + 0.6, 0.5], [t.road, 0.4], [W('finish', 'center') + 0.25, 0.4], [t.gift, 0.4], [t.end, 0.6], [t.closedE, 0.6]]);   // full strength (user: "the new effects / density / screen shakes are good, it's just the cuts")
 
   // ---------------------------------------------------------------- helpers
   const hop = (tt, a, b, p0, p1, h) => { const u = clamp((tt - a) / (b - a)); return [lerp(p0[0], p1[0], u), lerp(p0[1], p1[1], u) + 4 * h * u * (1 - u), lerp(p0[2], p1[2], u)]; };

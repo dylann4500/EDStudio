@@ -378,7 +378,8 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   "hot", the drowned church on "drowned", the bills on "dollars"). **Callback the cold open:** cut back to the same finished-dam
   wide on the ending's "Congratulations". A tumbling head-first dive reads better as an INSERT of the legs sticking out of the water.
 - **User verdict on the cuts pass (Oct 26): "i dont really like [the cuts] i liked our older continuous style it was much easier to
-  follow."** 025 went back to ONE take (`const CUTS = false` keeps the cut list for reference; kicks kept at `amp: 0.022`, ≈ 60 %).
+  follow."** 025 went back to ONE take (`const CUTS = false` keeps the cut list for reference). The user kept everything else: "the new
+  effects / density / screen shakes are good its just the cuts that make it weird" — the frame-relative kicks stay at FULL strength.
   The take then has to carry every gag alone: push the rail in on each one (025: the yardstick on "six", Gary shovelling + buried on
   the pile, a two-pass ride with the concrete bucket, the overtop on the crest, the ending in his pool at ~3–4 m) and make held
   cards big enough for a wide (`card: 2.3–2.6`, lifted 0.8 m above the head). The engine's `cuts.js` stays available.
