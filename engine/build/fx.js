@@ -13,6 +13,7 @@ const KINDS = {
   rock:     { geo: 'chunk', max: 200, colors: [0x8a8a86, 0x6f6f6c, 0xa3a29c], size: [0.06, 0.16], life: [1.0, 1.6], g: 9.8, drag: 0.2, spin: 7 },
   crumb:    { geo: 'chunk', max: 200, colors: [0xd9a04e, 0xc78a3a, 0xe8b868], size: [0.03, 0.07], life: [0.9, 1.5], g: 9.8, drag: 0.4, spin: 10 },
   drops:    { geo: 'drop', max: 900, colors: [0x5ec3ef, 0x8fd8f7, 0x3fa9dd], size: [0.025, 0.06], life: [0.5, 1.1], g: 9.8, drag: 0.4 },
+  rain:     { geo: 'drop', max: 1400, colors: [0xcfe9ff, 0xb4dcf7, 0xe6f4ff], size: [0.012, 0.02], life: [0.6, 0.9], g: 14, drag: 0.1, stretch: 9 },   // 025: thin streaks (a drop stretched along y)
   bill:     { geo: 'flake', max: 500, colors: [0xffffff], size: [0.26, 0.34], life: [3.5, 4.5], g: 1.6, drag: 2.0, spin: 7, map: 'bill' },   // printed banknotes (money rain)
   confetti: { geo: 'flake', max: 700, colors: [0xff4d5e, 0xffd23f, 0x3ec7ff, 0x58d36b, 0xb36bff, 0xff8a3d], size: [0.05, 0.09], life: [2.2, 3.4], g: 2.2, drag: 2.2, spin: 13 },
   dust:     { geo: 'sprite', max: 260, colors: [0xc9a57c, 0xb8946a], size: [0.5, 1.2], grow: 2.4, life: [0.9, 1.7], g: -0.25, drag: 2.6, alpha: 0.7 },
@@ -103,7 +104,7 @@ export function makeFX(parent) {
           q.setFromAxisAngle(P.axis, P.spin * a + P.ph); s.setScalar(P.size * Math.min(1, fade * 3));
         } else {
           q.setFromAxisAngle(P.axis, p.y <= P.floor + 1e-3 ? P.spin * 0.3 : P.spin * a); s.setScalar(P.size * Math.min(1, fade * 2.5));
-          if (Pl.K.geo === 'drop') s.y *= 1.35;
+          if (Pl.K.geo === 'drop') s.y *= Pl.K.stretch ?? 1.35;
         }
         m4.compose(p, q, s); Pl.mesh.setMatrixAt(Pl.live, m4); Pl.mesh.setColorAt(Pl.live, P.col);
         Pl.live++;
