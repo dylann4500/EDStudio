@@ -496,9 +496,11 @@ export function makeYardCat() {
   }
   const tail = []; let prev = hips;
   for (let k = 0; k < 7; k++) { const s = new THREE.Group(); s.position.set(0, k ? 0.07 : 0.02, k ? 0 : -0.06); prev.add(s); mk(new THREE.CapsuleGeometry(0.03 - k * 0.002, 0.06, 4, 8), k > 4 ? stp : o, s, 0, 0.035, 0); tail.push(s); prev = s; }
+  const O0 = o.color.clone(), C0 = cr.color.clone(), WET = new THREE.Color(0x9a4f1c), WETC = new THREE.Color(0xb9a58a);
   function set(p = {}) {
-    const t = p.t ?? 0, sit = clamp(p.sit ?? 0), wk = p.walk, wa = p.walkAmt ?? 1;
-    root.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0); root.rotation.y = p.rotY ?? 0; root.scale.setScalar(p.scale ?? 1);
+    const t = p.t ?? 0, sit = clamp(p.sit ?? 0), wk = p.walk, wa = p.walkAmt ?? 1, wet = clamp(p.wet ?? 0), shake = clamp(p.shake ?? 0);
+    o.color.copy(O0).lerp(WET, wet); cr.color.copy(C0).lerp(WETC, wet); o.roughness = 0.8 - 0.6 * wet;
+    root.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0); root.rotation.y = (p.rotY ?? 0) + shake * 0.35 * Math.sin(t * 40); root.scale.setScalar(p.scale ?? 1);
     root.rotation.x = p.pitch ?? 0;
     hips.rotation.x = -0.95 * sit; body.position.y = 0.24 - 0.11 * sit;
     const sw = wk == null ? 0 : Math.sin(wk) * 0.6 * wa;
@@ -842,7 +844,7 @@ export async function buildYard(studio) {
   const leafA = new THREE.MeshStandardMaterial({ color: 0x4f9a3f, roughness: 0.9, flatShading: true }), leafB = new THREE.MeshStandardMaterial({ color: 0x3f8535, roughness: 0.9, flatShading: true }), leafC = new THREE.MeshStandardMaterial({ color: 0x67ad4a, roughness: 0.9, flatShading: true });
   const canopy = new THREE.Group(); tree.add(canopy);
   const cat = new THREE.Vector3(...D.cat), R = rng(17), leafBlobs = [];
-  for (let i = 0; i < 46; i++) { const th = R() * PI * 2, ph = Math.acos(2 * R() - 1), rr = 2.7 * Math.cbrt(R()); const p = new THREE.Vector3(T.x - 0.5 + Math.sin(ph) * Math.cos(th) * rr * 1.15, 7.7 + Math.cos(ph) * rr * 0.75, T.z - 0.9 + Math.sin(ph) * Math.sin(th) * rr * 0.9); if (p.distanceTo(cat) < 1.45 || p.z > cat.z + 0.2 && p.y < 7.2) continue; const s = 0.7 + R() * 0.75; const m = mk(new THREE.IcosahedronGeometry(s, 1), [leafA, leafB, leafC][i % 3], canopy, p.x, p.y, p.z); leafBlobs.push(m); }
+  for (let i = 0; i < 46; i++) { const th = R() * PI * 2, ph = Math.acos(2 * R() - 1), rr = 2.7 * Math.cbrt(R()); const p = new THREE.Vector3(T.x - 0.5 + Math.sin(ph) * Math.cos(th) * rr * 1.15, 7.7 + Math.cos(ph) * rr * 0.75, T.z - 0.9 + Math.sin(ph) * Math.sin(th) * rr * 0.9); if (p.distanceTo(cat) < 1.45 || p.z > cat.z - 0.35) continue; const s = 0.7 + R() * 0.75; const m = mk(new THREE.IcosahedronGeometry(s, 1), [leafA, leafB, leafC][i % 3], canopy, p.x, p.y, p.z); leafBlobs.push(m); }
   for (let i = 0; i < 6; i++) { const u = 0.35 + i * 0.09, p = new THREE.Vector3().lerpVectors(new THREE.Vector3(...BS), new THREE.Vector3(...BE), u); if (p.distanceTo(cat) < 0.55) continue; mk(new THREE.IcosahedronGeometry(0.28 + 0.1 * (i % 2), 1), leafC, canopy, p.x + 0.05, p.y + 0.22, p.z - 0.2); }
   mk(new THREE.IcosahedronGeometry(0.26, 1), leafA, canopy, BE[0] + 0.12, BE[1] + 0.1, BE[2] - 0.05);
 

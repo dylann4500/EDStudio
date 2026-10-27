@@ -1,0 +1,31 @@
+{
+ "text": "Gary squirts the grease. [shouting] FIREBALL!",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Gary",
+   "t0": 0.0,
+   "t1": 0.32
+  },
+  {
+   "w": "squirts",
+   "t0": 0.36,
+   "t1": 0.72
+  },
+  {
+   "w": "the",
+   "t0": 0.74,
+   "t1": 0.8
+  },
+  {
+   "w": "grease.",
+   "t0": 0.869,
+   "t1": 1.6
+  },
+  {
+   "w": "FIREBALL!",
+   "t0": 2.304,
+   "t1": 3.28
+  }
+ ]
+}

@@ -35,9 +35,10 @@ t = dict(
     bye=max(W('tank', 'bye'), W('tank', 'wagon')),
     soK=W('truck', 'so'), bolt=W('truck', 'bolt'), truckW=W('truck', 'truck'), booster=W('truck', 'booster'), then=W('truck', 'then'), brake=W('truck', 'brake'), going=W('truck', 'going'), so2=W('truck', 'so', 2), garyK=W('truck', 'gary'),
     split=W('baffles', 'split'), walls=W('baffles', 'walls'), holes=W('baffles', 'holes'), baffles=W('baffles', 'baffles'), garys=W('baffles', 'garys'), pants=W('baffles', 'pants'), fireB=W('baffles', 'fire'),
-    nowP=W('pump', 'now'), dribbles=W('pump', 'dribbles'), soP=W('pump', 'so'), addP=W('pump', 'add'), wheel=W('pump', 'wheel'), spins=W('pump', 'spins'), flings=W('pump', 'flings'), centrifugal=W('pump', 'centrifugal'), n1500=W('pump', '1500'),
+    nowP=W('pump', 'but'), dribbles=W('pump', 'dribbles'), soP=W('pump', 'so'), addP=W('pump', 'add'), wheel=W('pump', 'wheel'), spins=W('pump', 'that'), flings=W('pump', 'flings'), centrifugal=W('pump', 'centrifugal'), n1500=W('pump', '1500'),
     minute=W('pump', 'minute'), garyP=W('pump', 'gary'), garyP2=W('pump', 'gary', 2),
     crew=W('deckgun', 'crew'), soD=W('deckgun', 'so'), boltD=W('deckgun', 'bolt'), nozzle=W('deckgun', 'nozzle'), roof=W('deckgun', 'roof'), deck=W('deckgun', 'deck'),
+    hits=W('deckgun', 'hits'), blink=W('deckgun', 'blink'),
     empties=W('hydrant', 'empties'), n30=W('hydrant', '30'), seconds=W('hydrant', 'seconds'), tap=W('hydrant', 'tap'), main=W('hydrant', 'main'), hydrant=W('hydrant', 'hydrant'), five=W('hydrant', 'five'), random=W('hydrant', 'random'), cant=W('hydrant', 'cant'), person=W('hydrant', 'person'),
     withW=W('fireout', 'with'), wrench=W('fireout', 'wrench'), fires=W('fireout', 'fires'), out=W('fireout', 'out'),
     but=W('ladder', 'but'), cats=W('ladder', 'cats'), addL=W('ladder', 'add'), ladder1=W('ladder', 'ladder'), reaches=W('ladder', 'reaches'), feet=W('ladder', 'feet'), aerial=W('ladder2', 'aerial'), twenty=W('ladder2', 'twenty'),
@@ -165,6 +166,9 @@ for k in range(2): e(t['boltD'] + k * 0.4, "metal_clang", -15, 0.1, size=0.6, pi
 e(DECK0 + 0.1, "pop", -14, 0.1, pitch=0.8)
 e(t['deck'] - 0.03, "pop", -12, 0.1, pitch=0.5)
 for k in range(4): e(t['deck'] + 0.9 + k * 0.35, "sizzle", -16 - k, -0.6 + 0.1 * k, dur=0.8)
+e(t['hits'], "splash", -11, -0.5, size=1.0); e(t['hits'] + 0.1, "cat_meow", -26, -0.5, pitch=0.5)
+for k in range(6): e(t['hits'] + 0.5 + k * 0.28, "plip", -23, -0.5, pitch=1.2)
+e(t['blink'] + 0.5, "blanket_rustle", -18, -0.5, dur=0.5, intensity=1.0); e(t['blink'] + 0.55, "splash", -20, -0.5, size=0.4)   # the wet-cat shake
 for k in range(6): e(t['empties'] + k * 0.25, "plip", -21, 0.1, pitch=1.4 - 0.12 * k)
 e(t['seconds'] + 0.2, "slurp", -15, 0.1, dur=0.5)   # the tank sucks dry
 for k in range(3): e(EMPTY1 + 0.3 + k * 0.2, "fireball", -17, -0.6 + 0.2 * k, size=0.5)   # the fire flares back
@@ -199,8 +203,8 @@ e(SQUISH - 0.15, "metal_groan", -20, 0.4, dur=0.2, pitch=1.8); e(SQUISH, "clunk"
 # finish: the siren, the light bar, the fire pole, the Dalmatian slides down, runs ahead, looks for horses
 e(SIR0 + 0.05, "pop", -15, -0.4, pitch=1.0); e(t['siren'], "siren", -16, -0.4, dur=1.6)
 e(t['pole'] - 0.05, "pop", -14, 0.0, pitch=1.2); e(t['pole'], "metal_clang", -18, 0.0, size=0.5, pitch=1.9)
-e(t['dalmatian'] - 0.05, "pop", -14, 0.0, pitch=1.4); e(t['dalmatian'] + 0.2, "grate", -20, 0.0, dur=0.5)
-e(t['dalmatians'] - 0.12, "knock", -16, 0.0, pitch=0.9); e(t['dalmatians'], "dog_bark", -15, 0.0)
+e(t['dalmatian'] - 0.05, "pop", -14, 0.0, pitch=1.4); e(t['dalmatian'] + 0.1, "grate", -20, 0.0, dur=0.25)   # a 0.3 s slide down a three-foot pole
+e(t['dalmatian'] + 0.4, "knock", -16, 0.0, pitch=0.9); e(t['dalmatians'], "dog_bark", -15, 0.0)
 steps(t['run'] - 0.25, t['horses'], 10.0, -24, 0.0, -0.5)
 e(t['horses'] + 0.1, "dog_bark", -18, -0.5); e(t['horses2'] + 0.1, "whimper", -20, -0.5)
 e(t['dalmatians'] + 0.12, "plush_squeak", -14, 0.4, pitch=1.8)   # Gary pops back into shape

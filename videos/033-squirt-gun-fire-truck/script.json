@@ -52,13 +52,13 @@
     },
     {
       "id": "congrats",
-      "say": "Congratulations, you've built a fire engine. It holds one cup of water, and the cat in that tree is not impressed.",
+      "say": "Congratulations, you've built a fire engine. It holds one cup, and the cat in that tree is not impressed.",
       "callouts": [
         {
           "at": "one",
           "text": "1 CUP",
           "style": "label",
-          "until": "water"
+          "until": "cup"
         },
         {
           "at": "impressed",
@@ -147,7 +147,7 @@
     },
     {
       "id": "truck",
-      "say": "So you bolt it onto a truck. This is called a booster tank. Then you brake, and the water keeps going. [shouting] So does GARY!",
+      "say": "So you bolt it onto a truck. This is called a booster tank. Then you brake, and the water keeps going. So does Gary.",
       "callouts": [
         {
           "at": "booster",
@@ -191,7 +191,7 @@
     },
     {
       "id": "pump",
-      "say": "Now it just dribbles. So you add a wheel that spins and flings the water out. This is called a centrifugal pump. 1,500 gallons a minute. Gary holds the hose alone. [shouting] The hose holds GARY!",
+      "say": "But with no pump, it just dribbles. So you add a wheel that flings the water out. This is called a centrifugal pump. 1,500 gallons a minute. Gary holds the hose alone. [shouting] The hose holds GARY!",
       "callouts": [
         {
           "at": "dribbles",
@@ -230,13 +230,23 @@
     },
     {
       "id": "deckgun",
-      "say": "A real hose takes a crew. Your crew is Gary. So you bolt the nozzle to the roof. This is called a deck gun.",
+      "say": "A real hose takes a crew. Your crew is Gary. So you bolt the nozzle to the roof. This is called a deck gun. It hits the cat. The cat doesn't blink.",
       "callouts": [
         {
           "at": "deck",
           "text": "DECK GUN",
           "style": "term",
           "hold": 1.8
+        },
+        {
+          "at": "hits",
+          "text": "SPLOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.3
+          ],
+          "hold": 0.8
         }
       ]
     },
@@ -340,7 +350,7 @@
     },
     {
       "id": "outriggers",
-      "say": "So you add legs that brace the truck against the ground. These are called outriggers. Gary is under one.",
+      "say": "So you add legs that brace it against the ground. These are called outriggers. Gary is under one.",
       "callouts": [
         {
           "at": "outriggers",
@@ -362,7 +372,7 @@
     },
     {
       "id": "finish",
-      "say": "Add a siren, a fire pole, and a Dalmatian. Dalmatians used to run ahead of the horses. You don't have horses.",
+      "say": "Add a siren, a three-foot fire pole, and a Dalmatian. Dalmatians used to run ahead of the horses. You don't have horses.",
       "callouts": [
         {
           "at": "siren",
@@ -394,7 +404,7 @@
     },
     {
       "id": "end",
-      "say": "Congratulations, you've built a fire truck. You just wanted burgers. Now you've spent 2.2 million dollars, the hedge is charcoal, and Gary is the one stuck in the tree.",
+      "say": "Congratulations, you've built a fire truck. You just wanted burgers. Now you've spent 2.2 million dollars, the hedge is charcoal, and Gary is stuck in the tree.",
       "callouts": [
         {
           "at": "truck",

@@ -47,14 +47,15 @@ export async function build(studio, story) {
   // ---------------------------------------------------------------- key times (all from the narration)
   const t = {
     grill: W('hook', 'grill'), fireH: W('hook', 'fire'), squirt: W('hook', 'squirt'), gun: W('hook', 'gun'),
-    congrats: W('congrats', 'congratulations'), built: W('congrats', 'built'), engine: W('congrats', 'engine'), holds: W('congrats', 'holds'), one: W('congrats', 'one'), cup: W('congrats', 'cup'), waterC: W('congrats', 'water'), catC: W('congrats', 'cat'), tree: W('congrats', 'tree'), impressed: W('congrats', 'impressed'),
+    congrats: W('congrats', 'congratulations'), built: W('congrats', 'built'), engine: W('congrats', 'engine'), holds: W('congrats', 'holds'), one: W('congrats', 'one'), cup: W('congrats', 'cup'), waterC: W('congrats', 'cup'), catC: W('congrats', 'cat'), tree: W('congrats', 'tree'), impressed: W('congrats', 'impressed'),
     garyG: W('grease', 'gary'), squirts: W('grease', 'squirts'), grease: W('grease', 'grease'), fireball: W('grease', 'fireball'),
     waterT: W('triangle', 'water'), explode: W('triangle', 'explode'), needs: W('triangle', 'needs'), heat: W('triangle', 'heat'), fuel: W('triangle', 'fuel'), air: W('triangle', 'air'), slam: W('triangle', 'slam'), lid: W('triangle', 'lid'), calledT: W('triangle', 'called'), triangle: W('triangle', 'triangle'), nowT: W('triangle', 'now'), hedge: W('triangle', 'hedge'), fireT: W('triangle', 'fire', 3),
     waterK0: W('tank', 'water'), works: W('tank', 'works'), hedges: W('tank', 'hedges'), need: W('tank', 'need'), more: W('tank', 'more'), real: W('tank', 'real'), carries: W('tank', 'carries'), n750: W('tank', '750'), gallons: W('tank', 'gallons'), three: W('tank', 'three'), tons: W('tank', 'tons'), bye: Math.max(W('tank', 'bye'), W('tank', 'wagon')),
     soK: W('truck', 'so'), bolt: W('truck', 'bolt'), truckW: W('truck', 'truck'), thisK: W('truck', 'this'), booster: W('truck', 'booster'), tankK: W('truck', 'tank'), then: W('truck', 'then'), brake: W('truck', 'brake'), waterK: W('truck', 'water'), going: W('truck', 'going'), so2: W('truck', 'so', 2), garyK: W('truck', 'gary'),
     split: W('baffles', 'split'), walls: W('baffles', 'walls'), holes: W('baffles', 'holes'), baffles: W('baffles', 'baffles'), garys: W('baffles', 'garys'), pants: W('baffles', 'pants'), fireB: W('baffles', 'fire'),
-    nowP: W('pump', 'now'), dribbles: W('pump', 'dribbles'), soP: W('pump', 'so'), addP: W('pump', 'add'), wheel: W('pump', 'wheel'), spins: W('pump', 'spins'), flings: W('pump', 'flings'), outP: W('pump', 'out'), centrifugal: W('pump', 'centrifugal'), n1500: W('pump', '1500'), minute: W('pump', 'minute'), garyP: W('pump', 'gary'), alone: W('pump', 'alone'), hose2: W('pump', 'hose', 2), garyP2: W('pump', 'gary', 2),
+    nowP: W('pump', 'but'), dribbles: W('pump', 'dribbles'), soP: W('pump', 'so'), addP: W('pump', 'add'), wheel: W('pump', 'wheel'), spins: W('pump', 'that'), flings: W('pump', 'flings'), outP: W('pump', 'out'), centrifugal: W('pump', 'centrifugal'), n1500: W('pump', '1500'), minute: W('pump', 'minute'), garyP: W('pump', 'gary'), alone: W('pump', 'alone'), hose2: W('pump', 'hose', 2), garyP2: W('pump', 'gary', 2),
     realD: W('deckgun', 'real'), crew: W('deckgun', 'crew'), soD: W('deckgun', 'so'), boltD: W('deckgun', 'bolt'), nozzle: W('deckgun', 'nozzle'), roof: W('deckgun', 'roof'), deck: W('deckgun', 'deck'), gunD: W('deckgun', 'gun'),
+    hits: W('deckgun', 'hits'), catD: W('deckgun', 'cat'), blink: W('deckgun', 'blink'), threefoot: W('finish', 'threefoot'),
     empties: W('hydrant', 'empties'), n30: W('hydrant', '30'), seconds: W('hydrant', 'seconds'), tap: W('hydrant', 'tap'), city: W('hydrant', 'city'), main: W('hydrant', 'main'), fireHy: W('hydrant', 'fire'), hydrant: W('hydrant', 'hydrant'), nut: W('hydrant', 'nut'), five: W('hydrant', 'five'), sides: W('hydrant', 'sides'), random: W('hydrant', 'random'), cant: W('hydrant', 'cant'), garyH: W('hydrant', 'gary'), person: W('hydrant', 'person'),
     withW: W('fireout', 'with'), right: W('fireout', 'right'), wrench: W('fireout', 'wrench'), fires: W('fireout', 'fires'), out: W('fireout', 'out'), secondsO: W('fireout', 'seconds'),
     but: W('ladder', 'but'), cats: W('ladder', 'cats'), there: W('ladder', 'there'), addL: W('ladder', 'add'), ladder1: W('ladder', 'ladder'), reaches: W('ladder', 'reaches'), n100: W('ladder', '100'), feet: W('ladder', 'feet'), aerial: W('ladder2', 'aerial'), catL: W('ladder2', 'cat'), twenty: W('ladder2', 'twenty'),
@@ -126,8 +127,8 @@ export async function build(studio, story) {
   const ladderAt = (tt) => {
     if (tt < t.ladder1) return [0, 0, -0.03];
     if (tt < t.reaches) { const u = u01(tt, t.ladder1, t.reaches); return [0, PI * smooth(clamp(u * 1.6 - 0.45)) - 0.07 * smooth(clamp(u * 1.6 - 0.45)), lerp(-0.03, 0.62, smooth(clamp(u * 2.2)))]; }
-    if (tt < t.reachesT) { const u = u01(tt, t.reaches, t.feet); return [easeOutBack(u, 1.2), PI - 0.07, lerp(0.62, 1.0, smooth(u))]; }
-    if (tt < t.addF) return [1, PI - 0.07, lerp(1.0, 0.62, smooth(u01(tt, t.reachesT, t.tips)))];
+    if (tt < t.reachesT) { const u = u01(tt, t.reaches, t.feet); return [easeOutBack(u, 1.2), PI - 0.07, lerp(0.62, 1.15, smooth(u))]; }
+    if (tt < t.addF) return [1, PI - 0.07, lerp(1.15, 0.62, smooth(u01(tt, t.reachesT, t.tips)))];
     if (tt < RET0) { const u = smooth(u01(tt, t.addF, t.horses)); return [lerp(1, REST_EXT, u), lerp(PI - 0.07, REST_YAW, u), lerp(0.62, REST_EL, u)]; }
     const u = smooth(u01(tt, RET0, RET0 + 1.6)); return [lerp(REST_EXT, 0, clamp(u * 3)), lerp(REST_YAW, 0.0, u), lerp(REST_EL, -0.03, u)];
   };
@@ -202,6 +203,10 @@ export async function build(studio, story) {
   for (let k = 0; k < 2; k++) fx.burst('spark', t.boltD + k * 0.4, { pos: [TX1 - 1.6, 2.5, TZ + 0.72], n: 24, dir: [0, 1, 0.4], spread: 1.1, speed: [1.5, 3.2], seed: 76 + k });
   fx.burst('glow', t.deck, { pos: [TX1 - 2.3, 2.7, TZ + 0.72], n: 2, speed: [0, 0.01], size: [0.6, 0.9], seed: 78 });
   for (let k = 0; k < 4; k++) fx.burst('mist', t.deck + 0.9 + k * 0.35, { pos: [lerp(-7, -3, k / 3), 1.6, D.hedge.z + 0.4], n: 6, speed: [0.6, 1.4], spread: 0.7, size: [0.4, 0.8], color: steamCol, seed: 79 + k });
+  fx.burst('drops', t.hits, { pos: [CATP.x, CATP.y + 0.4, CATP.z + 0.1], n: 70, dir: [0.4, 1, 0.5], spread: 1.1, speed: [1.5, 3.5], size: [0.03, 0.05], seed: 160 });   // SPLOOSH on the cat
+  fx.burst('mist', t.hits + 0.05, { pos: [CATP.x, CATP.y + 0.4, CATP.z + 0.2], n: 8, speed: [0.5, 1.2], spread: 1.0, size: [0.3, 0.6], color: steamCol, seed: 161 });
+  fx.stream('drops', t.hits + 0.3, t.blink + 2.5, { pos: [CATP.x, CATP.y - 0.05, CATP.z + 0.1], box: [0.4, 0.05, 0.3], rate: 8, dir: [0, -1, 0], spread: 0.1, speed: [0.1, 0.3], size: [0.02, 0.035], floor: 0.02, seed: 162 });   // drip, drip
+  fx.burst('drops', t.blink + 0.5, { pos: [CATP.x, CATP.y + 0.35, CATP.z + 0.1], n: 40, dir: [0, 0.4, 1], spread: 1.4, speed: [1.5, 3], size: [0.025, 0.04], seed: 163 });   // the wet-cat shake
   fx.burst('spark', t.main, { pos: [-1.3, 0.42, -0.42], n: 18, speed: [1, 2], spread: 1.2, seed: 83 });   // the supply hose couples on
   for (const w of [t.five, W('hydrant', 'sides')]) fx.burst('spark', w, { pos: [D.hyd.x, 0.82, D.hyd.z], n: 16, speed: [1, 2], spread: 1.3, seed: 152 + Math.round(w) });
   fx.burst('spark', t.cant, { pos: [D.hyd.x, 0.82, D.hyd.z], n: 22, speed: [1.2, 2.4], spread: 1.3, seed: 84 });   // the hex wrench skids round the pentagon
@@ -225,8 +230,8 @@ export async function build(studio, story) {
   fx.burst('dust', SQUISH, { pos: [TX1 - 0.35, 0.1, -2.05], n: 14, speed: [0.6, 1.5], spread: 1.3, size: [0.3, 0.5], seed: 119 });
   fx.burst('spark', SQUISH, { pos: [TX1 - 0.35, 0.25, -2.0], n: 30, dir: [0, 1, 0.4], spread: 1.2, speed: [1.5, 3], seed: 120 });
   fx.burst('glow', t.siren, { pos: [TX1 - 5.75, 2.9, TZ + 0.6], n: 2, speed: [0, 0.01], size: [0.7, 1.0], seed: 121 });
-  fx.burst('spark', t.pole, { pos: [TX1 - 3.65, 2.9, -2.75], n: 22, speed: [1, 2.2], spread: 1.3, seed: 122 });
-  fx.burst('dust', t.dalmatians - 0.12, { pos: [TX1 - 3.65, 0.1, -2.75], n: 8, speed: [0.4, 1.0], spread: 1.3, size: [0.2, 0.35], seed: 123 });
+  fx.burst('spark', t.pole, { pos: [TX1 - 3.65, 1.0, -2.75], n: 22, speed: [1, 2.2], spread: 1.3, seed: 122 });
+  fx.burst('dust', t.dalmatian + 0.4, { pos: [TX1 - 3.65, 0.1, -2.75], n: 8, speed: [0.4, 1.0], spread: 1.3, size: [0.2, 0.35], seed: 123 });
   fx.stream('dust', t.run - 0.1, t.horses + 0.1, { pos: [lerp(TX1 - 3.65, -3.6, 0.5), 0.08, -2.5], box: [3.5, 0.05, 0.4], rate: 10, speed: [0.3, 0.7], spread: 1.2, size: [0.15, 0.25], seed: 124 });
   fx.burst('dust', t.dalmatians + 0.1, { pos: [TX1 - 0.35, 0.1, -2.05], n: 8, speed: [0.4, 1.0], spread: 1.3, size: [0.2, 0.35], seed: 125 });   // Gary peels off the lawn
   fx.stream('crumb', t.never, t.treeR, { pos: [D.tree.x + 0.05, 3.0, D.tree.z + 0.45], box: [0.3, 4.5, 0.1], rate: 22, dir: [0, -1, 0.5], spread: 0.6, speed: [0.5, 1.2], color: 0x6b4a32, floor: 0.02, size: [0.02, 0.04], seed: 126 });   // bark scratched off as the cat backs down
@@ -256,19 +261,18 @@ export async function build(studio, story) {
   Fk(t.real - 0.25, [6.5, 1.95, 4.8], [6.6, 0.95, -2.6], 44);                // the wagon + tote + the garden hose
   Fk(t.three - 0.25, [6.55, 1.1, 5.6], [6.6, 0.75, -2.3], 44, t.bye + 0.45);   // it creaks… CRUNCH
   Fk(t.bolt - 0.2, [6.9, 1.95, 5.0], [6.9, 1.2, -3.2], 44, t.truckW + 0.7);   // the pancaked wagon springs the tote onto the bed; three bolts
-  F(t.booster - 0.05, [6.8, 2.5, 6.6], [6.7, 1.7, -4.3], 46);                // the flatbed grows into a red engine (tank in frame)
-  F(t.brake - 0.35, [3.4, 2.5, 6.6], [3.3, 1.7, -4.3], 46, true);            // follow it 4 m to the brake
-  Fk(t.going - 0.35, [3.2, 2.3, 4.9], [3.0, 1.75, -3.6], 46, t.going + 0.3);   // the surge in section
+  Fk(t.booster - 0.1, [9.5, 3.4, 8.0], [1.0, 2.4, -5.0], 50, t.brake + 0.15);   // one 3/4 frame down the truck toward the fire (the cat in the tree ahead): it grows red, drives, brakes, the surge
   F(t.garyK, [1.5, 2.2, 4.6], [1.3, 1.7, -3.6], 48);                         // pan with Gary: the splat on the cab's back wall
   Fk(t.walls - 0.1, [2.6, 1.9, 4.4], [2.6, 1.5, -3.5], 48, t.baffles + 0.5);   // all three cells + Gary hammering
   F(t.pants - 0.15, [2.1, 1.3, 1.6], [1.85, 0.85, -2.6], 38);                // his pants are still on fire
   Fk(t.dribbles - 0.3, [1.85, 1.3, 1.9], [1.65, 0.8, -2.4], 38);             // the dribble puts them out
   F(t.wheel - 0.2, [1.35, 1.85, 2.9], [1.1, 1.45, -3.6], 40);                // the pump drops into the bay
-  Fk(t.centrifugal - 0.25, [1.25, 1.75, 2.0], [1.2, 1.5, -3.2], 38, t.minute - 0.2);   // the impeller in section, Gary's face below it
-  F(t.garyP - 0.3, [1.0, 1.7, 4.6], [1.3, 0.95, -3.0], 46);                  // 1,500 gpm over the cab, Gary braced
+  Fk(t.centrifugal - 0.25, [1.25, 1.75, 2.0], [1.2, 1.5, -3.2], 38, t.n1500 - 0.1);   // the impeller in section, Gary's face below it
+  Fk(t.garyP, [6.5, 3.0, 9.0], [-2.0, 3.0, -5.0], 52, t.alone + 0.2);       // 1,500 gpm: Gary braced, the arc over the cab onto the hedge, the cat watching
   Fk(t.garyP2 - 0.25, [1.3, 3.0, 6.8], [1.25, 2.95, -2.3], 52, t.crew + 0.35);   // the hose holds Gary
   F(t.roof - 0.2, [3.4, 3.25, 3.0], [3.0, 2.4, -3.8], 40);                   // the deck gun bolts on
-  Fk(t.deck - 0.2, [2.4, 3.5, 4.4], [2.2, 2.9, -3.8], 46, t.gunD + 0.4);     // DECK GUN: the gun + its arc leaving
+  Fk(t.deck - 0.2, [0.5, 4.2, 6.0], [1.0, 3.2, -3.8], 48, t.deck + 0.15);     // DECK GUN: the gun + its arc leaving
+  Fk(t.catD - 0.2, [-4.2, 5.4, 4.5], [-6.0, 5.6, -5.0], 44, t.blink + 0.6);  // it hits the cat; the cat doesn't blink
   F(t.seconds, [2.9, 2.6, 5.4], [2.9, 1.9, -3.4], 46);                       // the tank empties, the stream dies
   F(t.city, [-0.1, 0.65, 5.0], [-0.2, -0.15, -1.5], 50);                     // down to the cut: the main, the barrel, the hose dragged over
   Fk(t.nut - 0.2, [-1.45, 2.15, 1.7], [-1.6, 0.8, -0.7], 36, t.person + 0.25);   // from above: the pentagon nut + Gary's face; BONK
@@ -462,25 +466,26 @@ export async function build(studio, story) {
       const D0 = toWorld(-3.85, 1.0, 1.3), hand = hR.clone().lerp(hL, 0.5);
       let dir;
       if (tt < t.n1500) dir = V(-0.25, -0.9, -0.35).normalize();
-      else if (tt < t.garyP2 - 0.05) dir = aimV(hand, [-5.2, 1.3, D.hedge.z + 0.4], 1.5).normalize();
+      else if (tt < t.garyP2 - 0.05) dir = aimV(hand, [-5.2, 1.3, D.hedge.z + 0.4], 1.25).normalize();
       else { const a = -PI / 2 + (tt - (t.garyP2 - 0.05)) * 7.5; dir = V(Math.sin(a), -Math.cos(a), 0.12).normalize(); }   // the spout kicks back against its own jet
       noz.g.position.copy(hand); noz.g.quaternion.setFromUnitVectors(V(1, 0, 0), dir);
       const mid = D0.clone().lerp(hand, 0.5); lHose.set([[D0.x, D0.y, D0.z], [D0.x + 0.1, 0.2, D0.z + 0.35], [mid.x, 0.06, mid.z + 0.2], [hand.x - dir.x * 0.6, Math.max(0.06, hand.y - 0.5), hand.z - dir.z * 0.6], [hand.x, hand.y, hand.z]], tt > t.n1500 ? 0.062 : 0.048);
       const p0 = wpos(noz.tip, v4);
       if (tt > t.dribbles - 0.15 && tt < t.soP) lineJet.set(tt, p0, dir.clone().multiplyScalar(0.6), { k: 0.35, age: tt - (t.dribbles - 0.15), floor: 0.05, r: 0.03, spray: 0.2 });
-      else if (tt > t.n1500 - 0.05 && tt < t.garyP2 - 0.05) lineJet.set(tt, p0, aimV(p0, [-5.2, 1.3, D.hedge.z + 0.4], 1.5), { k: 1, age: tt - (t.n1500 - 0.05), floor: 0.05, stop: (q) => hedgeStop(q) || cabStop(q), r: 0.08 });
+      else if (tt > t.n1500 - 0.05 && tt < t.garyP2 - 0.05) lineJet.set(tt, p0, aimV(p0, [-5.2, 1.3, D.hedge.z + 0.4], 1.25), { k: 1, age: tt - (t.n1500 - 0.05), floor: 0.05, stop: (q) => hedgeStop(q) || cabStop(q), r: 0.08 });
       else if (tt >= t.garyP2 - 0.05) lineJet.set(tt, p0, dir.clone().multiplyScalar(9), { k: 1, age: tt - (t.garyP2 - 0.05), floor: 0.05, stop: (q) => hedgeStop(q) || cabStop(q), r: 0.08 });
     }
     // the deck gun: aim at the hedge, blast on "deck gun"; the tank empties; the mega blast on "out"
     const dOn = tt > t.deck - 0.05 && tt < MEGA + 2.6;
-    const tgt = [lerp(-3.5, -7.5, 0.5 + 0.5 * Math.sin(tt * 1.3)), 1.3, D.hedge.z + 0.3], TF2 = tt > MEGA - 0.1 ? 0.55 : 1.15;
+    const toCat = tt > t.hits - 0.55 && tt < t.blink + 0.9 ? smooth(u01(tt, t.hits - 0.55, t.hits - 0.1)) * (1 - smooth(u01(tt, t.blink + 0.35, t.blink + 0.9))) : 0;
+    const tgt = [lerp(lerp(-3.5, -7.5, 0.5 + 0.5 * Math.sin(tt * 1.3)), CATP.x + 0.1, toCat), lerp(1.3, CATP.y + 0.35, toCat), lerp(D.hedge.z + 0.3, CATP.z + 0.1, toCat)], TF2 = tt > MEGA - 0.1 ? 0.55 : lerp(1.15, 0.85, toCat);
     truck.g.updateMatrixWorld(true); const base0 = wpos(truck.deckGun, v3), vA = aimV(base0, tgt, TF2);
     const yaw = Math.atan2(-vA.z, vA.x), pitch = Math.atan2(vA.y, Math.hypot(vA.x, vA.z));
     if (tt > DECK0) { truck.dgYaw.rotation.y = yaw + 0; truck.dgPitch.rotation.z = pitch; }
     deckJet.set(tt, v4, v4, { k: 0 });
     if (dOn) { const p0 = wpos(truck.dgTip, v4), v0 = aimV(p0, tgt, TF2); const weak = tt < EMPTY1 ? 1 - 0.8 * smooth(u01(tt, EMPTY0, EMPTY1)) : 0; const mega = tt > MEGA ? clamp(1 - Math.max(0, tt - (MEGA + 2.2)) / 0.4) : 0;
       if (mega > 0) deckJet.set(tt, p0, v0, { k: Math.max(0.25, mega), age: tt - MEGA, floor: 0.05, stop: hedgeStop, r: 0.18, spray: 2 });
-      else if (weak > 0.02) deckJet.set(tt, p0, v0.multiplyScalar(0.55 + 0.45 * weak), { k: Math.max(0.25, weak), age: tt - (t.deck - 0.05), floor: 0.05, stop: hedgeStop, r: 0.13 });
+      else if (weak > 0.02) deckJet.set(tt, p0, toCat > 0.5 ? v0 : v0.multiplyScalar(0.55 + 0.45 * weak), { k: Math.max(0.25, weak), age: tt - (t.deck - 0.05), floor: 0.05, stop: (q) => hedgeStop(q) || (toCat > 0.5 && q.distanceTo(CATP) < 0.45), r: 0.13 });
       else if (tt < EMPTY1 + 0.9) deckJet.set(tt, p0, v0.multiplyScalar(0.12), { k: 0.18, age: tt - EMPTY1, floor: 2.0, r: 0.05, spray: 0.2 }); }   // one last dribble off the nozzle
     // the supply hose (yellow LDH): truck intake → (dragged by Gary) → the hydrant; it swells when the hydrant opens
     const sOn = tt > t.tap - 0.15; sHose.mesh.visible = sOn;
@@ -508,7 +513,8 @@ export async function build(studio, story) {
       const yawn = tt > t.impressed - 0.25 ? Math.sin(PI * u01(tt, t.impressed - 0.25, t.impressed + 0.8)) : 0;
       const startle = tt > FB && tt < FB + 0.7 ? 1 - u01(tt, FB, FB + 0.7) : 0, up = tt > t.reaches && tt < t.aerial ? smooth(u01(tt, t.reaches, t.n100)) : 0;
       let lx = 0.5, ly = -0.5; if (tt > t.hedges && tt < t.ladder1) { lx = 0.9; ly = -0.6; } if (up) { lx = 0.6; ly = 1; } if (tt > t.climbs) { lx = 0.8; ly = -0.3; }
-      return c.set({ x: CATP.x, y: CATP.y, z: CATP.z, rotY: 0.55, sit: 1, scale: CS, lids: Math.max(blink, lerp(0.58, 0.05, startle)), look: [lx, ly], yawn, t: tt, headYaw: tt > t.twenty - 0.3 && tt < t.twenty + 1 ? -0.3 : 0, headPitch: up ? -0.5 * up : 0, tail: 1 });
+      const wet = tt > t.hits ? 1 - 0.6 * smooth(u01(tt, t.blink + 1.5, t.blink + 6)) : 0, shake = tt > t.blink + 0.45 && tt < t.blink + 1.0 ? 1 : 0;
+      return c.set({ x: CATP.x, y: CATP.y, z: CATP.z, rotY: 0.55, sit: 1, scale: CS, wet, shake, lids: tt > t.hits - 0.2 && tt < t.blink + 0.45 ? 0.55 : Math.max(blink, lerp(0.58, 0.05, startle)), look: [lx, ly], yawn, t: tt, headYaw: tt > t.twenty - 0.3 && tt < t.twenty + 1 ? -0.3 : 0, headPitch: up ? -0.5 * up : 0, tail: 1 });
     }
     if (tt < t.never) { const st = smooth(u01(tt, t.firefighters, t.firefighters + 0.3)), u = lerp(0.83, 0.05, smooth(u01(tt, t.firefighters + 0.25, t.never))), p = bpt(u); return c.set({ x: p.x, y: p.y - 0.03, z: p.z, rotY: lerp(0.55, -2.35, st), sit: 1 - st, walk: tt * 14, walkAmt: st, scale: CS, lids: 0.6, t: tt }); }
     if (tt < t.treeR + 0.1) { const u = smooth(u01(tt, t.never + 0.25, t.treeR)), y = lerp(5.1, 0.25, u), b = smooth(u01(tt, t.never, t.never + 0.25)), p0 = bpt(0.05); c.set({ x: lerp(p0.x, TRUNK.x, b), y: lerp(p0.y, y, b), z: lerp(p0.z, TRUNK.z, b), rotY: -2.35, scale: CS, sit: 0, walk: tt * 16, lids: 0.5, t: tt }); q1.setFromEuler(new THREE.Euler(0, -2.35, 0)); c.root.quaternion.copy(q1).slerp(qBack, b); return; }
@@ -522,9 +528,9 @@ export async function build(studio, story) {
   const POLE = [TX1 - 3.65, -2.75], DOGRUN = [-3.6, -2.45];
   function dogAt(tt) {
     const d = dog; d.root.visible = tt > t.dalmatian - 0.05; pole.visible = tt > t.pole - 0.1; qMark.visible = false;
-    pole.position.set(POLE[0], 0, POLE[1]); pole.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, t.pole - 0.1, t.pole + 0.2), 2)));
+    pole.position.set(POLE[0], 0, POLE[1]); { const k = Math.max(0.01, easeOutBack(u01(tt, t.pole - 0.1, t.pole + 0.2), 2)); pole.scale.set(k, 0.3 * k, k); }
     if (!d.root.visible) return;
-    if (tt < t.dalmatians - 0.12) { const y = lerp(2.55, 0.05, easeInQuad(u01(tt, t.dalmatian + 0.15, t.dalmatians - 0.12))); return d.set({ x: POLE[0] + 0.22, y, z: POLE[1] + 0.12, rotY: -PI / 2, pole: 1, scale: easeOutBack(u01(tt, t.dalmatian - 0.05, t.dalmatian + 0.2), 2.4), t: tt, tongue: 1 }); }
+    if (tt < t.dalmatians - 0.12) { const y = lerp(0.62, 0.0, easeInQuad(u01(tt, t.dalmatian + 0.1, t.dalmatian + 0.4))); return d.set({ x: POLE[0] + 0.22, y, z: POLE[1] + 0.12, rotY: -PI / 2, pole: 1, scale: easeOutBack(u01(tt, t.dalmatian - 0.05, t.dalmatian + 0.2), 2.4), t: tt, tongue: 1 }); }
     if (tt < t.horses + 0.05) { const [x, , z] = path(tt, t.run - 0.25, t.horses, [[POLE[0] + 0.3, 0, POLE[1] + 0.3], [DOGRUN[0], 0, DOGRUN[1]]]); return d.set({ x, y: 0, z, rotY: -PI / 2, run: tt * 16, t: tt, tongue: 1 }); }
     if (tt < t.end) { const look = tt > t.dont - 0.1 && tt < t.horses2 + 0.6 ? Math.sin((tt - t.dont) * 5) * 0.8 : 0; qMark.visible = tt > t.horses2 - 0.05 && tt < t.firefighters; if (qMark.visible) { qMark.position.set(DOGRUN[0], 1.15, DOGRUN[1]); qMark.scale.setScalar(0.5 * easeOutBack(u01(tt, t.horses2 - 0.05, t.horses2 + 0.2), 2.5)); }
       return d.set({ x: DOGRUN[0], y: 0, z: DOGRUN[1], rotY: 0.3, sit: tt > t.horses2 - 0.1 ? 1 : 0, headYaw: look, headPitch: tt > t.firefighters ? -0.5 : 0, t: tt, tongue: tt < t.dont ? 1 : 0 }); }

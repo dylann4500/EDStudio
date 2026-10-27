@@ -619,3 +619,12 @@ as a record of what the cut style needs, if it is ever tried again.
   on fire") until the pump's useless dribble puts them out — one prop, three lines shown.
 - **Three items of a finishing list far apart (cab siren, mid-truck pole, tail) = one whole-truck frame, then push in**; a close-up
   per item broke the speed rule four times in the scratch read.
+- **033 round 1 (v1, scratch voice): logic 6.5 · look 6 · pacing 7 · camera 5 · comedy 6.5.** Wins for v2: the camera reviewer's
+  projected framings (every subject in frame ON its word; a tall two-shot instead of a whip to the cat and back); a framing keyed to
+  an undefined `t.say` made its `until` NaN, so the camera left 0.3 s after arriving — planRail now warns on non-numeric times;
+  jets as an UNLIT near-white core + a 1.7× soft sheath + mist sprites (a lit glossy tube read as a glass rod / fishing line);
+  thin silver ladder rails vanished against the sky (red rails, 1.5× thicker, aluminium only for the rungs); an end-on mailbox
+  capsule read as a black lollipop in front of the truck for 15 s; "charcoal" needs near-black + embers (lerping a green
+  texture's colour multiplier stays dark green); baffles seen in section are edge-on lines, so draw their cut edge DASHED (the
+  holes); clear every canopy blob in front of the side character's plane or a high wide hides it; give the useless gadget one
+  last useless squirt on "Water works on hedges"; the cat sits sniffing the plate and only eats on "The cat ate the BURGERS".
