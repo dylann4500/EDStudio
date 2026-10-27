@@ -20,6 +20,7 @@ const KINDS = {
   stink:    { geo: 'sprite', max: 220, colors: [0x9fcf4a, 0x86b83c, 0xb8d65a], size: [0.5, 1.0], grow: 1.6, life: [2.4, 3.6], g: -0.08, drag: 1.2, alpha: 0.42 },
   mist:     { geo: 'sprite', max: 200, colors: [0xd8f0ff, 0xbfe6fb], size: [0.3, 0.7], grow: 1.8, life: [0.6, 1.2], g: 2.0, drag: 2.0, alpha: 0.55 },
   spark:    { geo: 'sprite', max: 260, colors: [0xfff1a8, 0xffd23f, 0x9fe8ff], size: [0.05, 0.13], grow: 0.2, life: [0.14, 0.38], g: 5.0, drag: 1.0, alpha: 1, additive: true },
+  seed:     { geo: 'seed', max: 700, colors: [0x2e2b28, 0x3b3631, 0x4a443c, 0xe2dccb], size: [0.03, 0.045], life: [2.0, 3.0], g: 9.8, drag: 0.3, spin: 6 },   // sunflower seeds (032; g: 0 = zero-g drift)
   glow:     { geo: 'sprite', max: 60, colors: [0xffffff], size: [0.6, 1.0], grow: 0.4, life: [0.2, 0.35], g: 0, drag: 0, alpha: 0.9, additive: true },
 };
 
@@ -45,6 +46,7 @@ export function makeFX(parent) {
     if (pools[kind]) return pools[kind];
     const K = KINDS[kind]; let geo, m;
     if (K.geo === 'chunk') { geo = new THREE.IcosahedronGeometry(1, 0); m = new THREE.MeshStandardMaterial({ roughness: 0.95, flatShading: true }); }
+    else if (K.geo === 'seed') { geo = new THREE.SphereGeometry(1, 8, 6); geo.scale(0.5, 0.3, 1); m = new THREE.MeshStandardMaterial({ roughness: 0.6 }); }
     else if (K.geo === 'drop') { geo = new THREE.SphereGeometry(1, 8, 6); m = new THREE.MeshStandardMaterial({ roughness: 0.08, transparent: true, opacity: 0.88 }); }
     else if (K.geo === 'flake') { geo = new THREE.PlaneGeometry(1, 0.55); m = new THREE.MeshStandardMaterial({ roughness: 0.6, side: THREE.DoubleSide, map: K.map === 'bill' ? billTex() : null }); }
     else {

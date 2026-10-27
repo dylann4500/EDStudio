@@ -1,0 +1,399 @@
+{
+  "title": "How a Bird Feeder Becomes a Space Station",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 205
+  },
+  "lead": 0.06,
+  "gap": 0.04,
+  "tail": 1.4,
+  "tempo": 1.3,
+  "joinLen": 4,
+  "fps": 60,
+  "motionBlur": 2,
+  "look": {
+    "exposure": 1.15,
+    "bloom": 0.14,
+    "fill": 0.45,
+    "toneMapping": "neutral",
+    "vignette": 0.12,
+    "grain": 0.012,
+    "warm": 0.25,
+    "saturation": 1.08,
+    "lift": 0.01
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "Squirrels keep robbing your bird feeder, so you hang it higher.",
+      "callouts": [
+        {
+          "at": "robbing",
+          "text": "CHOMP!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.36
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "higher",
+          "text": "THUNK!",
+          "style": "sfx",
+          "pos": [
+            0.78,
+            0.45
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built a space station. [excited] The squirrel gave it FIVE stars!",
+      "callouts": [
+        {
+          "at": "five",
+          "text": "5 STARS",
+          "style": "stamp",
+          "hold": 1.4,
+          "y": 0.64
+        }
+      ]
+    },
+    {
+      "id": "baffle",
+      "say": "So you put a metal cone on the pole. This is called a squirrel baffle. The squirrel is not baffled.",
+      "callouts": [
+        {
+          "at": "baffle",
+          "text": "SQUIRREL BAFFLE",
+          "style": "term",
+          "until": "baffled"
+        },
+        {
+          "at": "baffled",
+          "text": "NOT BAFFLED",
+          "style": "stamp",
+          "hold": 1.2,
+          "y": 0.64
+        }
+      ]
+    },
+    {
+      "id": "jump",
+      "say": "It jumps ten feet off the tree, using Gary's face as a step.",
+      "callouts": [
+        {
+          "at": "ten",
+          "text": "10 FEET",
+          "style": "label",
+          "until": "face"
+        },
+        {
+          "at": "step",
+          "text": "BOING!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.4
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "rocket",
+      "say": "So you strap the feeder to a rocket. It goes straight up, [shouting] and straight back down onto GARY!",
+      "callouts": [
+        {
+          "at": "up",
+          "text": "WHOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.3
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "gary",
+          "text": "THOOM!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.64
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "orbit",
+      "say": "So you go sideways, really fast. 17,500 miles an hour. It falls, but it keeps missing the Earth. This is called an orbit.",
+      "callouts": [
+        {
+          "at": "17500",
+          "text": "17,500 MPH",
+          "style": "label",
+          "until": "missing",
+          "y": 0.7
+        },
+        {
+          "at": "orbit",
+          "text": "ORBIT",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "float",
+      "say": "Gary floats, because he's falling too. [excited] So is the SQUIRREL!",
+      "callouts": [
+        {
+          "at": "falling",
+          "text": "FREE FALL",
+          "style": "label",
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "dock",
+      "say": "A feeder is tiny, so you launch more rooms and bolt them on. This is called docking. [shouting] Gary was IN the doorway!",
+      "callouts": [
+        {
+          "at": "docking",
+          "text": "DOCKING",
+          "style": "term",
+          "until": "doorway"
+        },
+        {
+          "at": "doorway",
+          "text": "CLUNK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "dark",
+      "say": "Then it gets dark. Sixteen sunsets a day, no power. Gary opens the hatch to go fix it, [shouting] and the AIR leaves with him!",
+      "callouts": [
+        {
+          "at": "sixteen",
+          "text": "16 SUNSETS A DAY",
+          "style": "label",
+          "until": "power",
+          "y": 0.7
+        },
+        {
+          "at": "air",
+          "text": "WHOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.3
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "airlock",
+      "say": "So you add a room that empties first. This is called an airlock. A mudroom, for space.",
+      "callouts": [
+        {
+          "at": "airlock",
+          "text": "AIRLOCK",
+          "style": "term",
+          "until": "space"
+        },
+        {
+          "at": "mudroom",
+          "text": "MUDROOM",
+          "style": "stamp",
+          "hold": 1.2
+        }
+      ]
+    },
+    {
+      "id": "solar",
+      "say": "Outside, he unfolds solar wings one yard short of a football field. This is called a solar array. [shouting] It SWATTED him!",
+      "callouts": [
+        {
+          "at": "football",
+          "text": "356 FEET",
+          "style": "label",
+          "until": "array"
+        },
+        {
+          "at": "solar",
+          "nth": 2,
+          "text": "SOLAR ARRAY",
+          "style": "term",
+          "until": "swatted"
+        },
+        {
+          "at": "swatted",
+          "text": "THWACK!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.34
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "air",
+      "say": "Inside, Gary turns blue from his own breath. So you add machines that clean the air and recycle the water. This is called life support.",
+      "callouts": [
+        {
+          "at": "blue",
+          "text": "GASP!",
+          "style": "sfx",
+          "pos": [
+            0.75,
+            0.24
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "life",
+          "text": "LIFE SUPPORT",
+          "style": "term"
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "say": "Sweat, breath, even pee. 98 percent comes back. [excited] Yesterday's coffee is TODAY'S coffee!",
+      "callouts": [
+        {
+          "at": "98",
+          "text": "98% RECYCLED",
+          "style": "label",
+          "until": "back"
+        },
+        {
+          "at": "coffee",
+          "nth": 2,
+          "text": "GULP!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.62
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "hit",
+      "say": "Then a fleck of paint hits at ten kilometers a second. [shouting] Gary is now the PLUG!",
+      "callouts": [
+        {
+          "at": "ten",
+          "text": "10 KM / SECOND",
+          "style": "label",
+          "until": "second"
+        },
+        {
+          "at": "plug",
+          "text": "PLUG",
+          "style": "stamp",
+          "hold": 1.2,
+          "y": 0.64
+        }
+      ]
+    },
+    {
+      "id": "whipple",
+      "say": "So you hang a thin metal sheet outside the wall that blows hits into vapor. This is called a Whipple shield. A bulletproof vest made of tinfoil.",
+      "callouts": [
+        {
+          "at": "vapor",
+          "text": "POOF!",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.36
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "whipple",
+          "text": "WHIPPLE SHIELD",
+          "style": "term",
+          "until": "tinfoil"
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a 23 million dollar toilet, a treadmill with bungee cords, and a window over your backyard.",
+      "callouts": [
+        {
+          "at": "23",
+          "text": "$23,000,000",
+          "style": "money",
+          "until": "toilet"
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a space station. You just wanted to feed the birds. Now you've spent over a hundred billion dollars, the squirrel runs the place, and Gary is still the plug.",
+      "callouts": [
+        {
+          "at": "hundred",
+          "text": "$100,000,000,000+",
+          "style": "money",
+          "until": "place"
+        },
+        {
+          "at": "runs",
+          "text": "CAPTAIN",
+          "style": "stamp",
+          "hold": 1.2,
+          "y": 0.52,
+          "x": 0.78
+        }
+      ]
+    },
+    {
+      "id": "end2",
+      "say": "The birds got one seed. [shouting] It was on FIRE!",
+      "callouts": [
+        {
+          "at": "fire",
+          "text": "SIZZLE!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.4
+          ],
+          "hold": 1.2
+        }
+      ]
+    }
+  ]
+}
