@@ -68,6 +68,7 @@ export async function build(studio, story) {
     car2Q: W('qc', 'car', 2), inspector: W('qc', 'inspector'), rejects: W('qc', 'rejects'), garyQ2: W('qc', 'gary', 2), twice: W('qc', 'twice'),
     add: W('finish', 'add'), vending: W('finish', 'vending'), meatloaf: W('finish', 'meatloaf'), test: W('finish', 'test'), track: W('finish', 'track'), roofF: W('finish', 'roof'), parking: W('finish', 'parking'), lot: W('finish', 'lot'), town: W('finish', 'town'),
     end: W('end', 'congratulations'), factory: W('end', 'factory'), didnt: W('end', 'didnt'), pay: W('end', 'pay'), n900E: W('end', '900'), spent: W('end', 'spent'), n76: W('end', '76'), billion: W('end', 'billion'),
+    line2: W('line', 'line', 2), then2: W('crumple', 'then'),
     makeE: W('end', 'make'), n53: W('end', '53'), seconds: W('end', 'seconds'), garyEnd: W('end', 'gary'), works: W('end', 'works'), roombaE: W('end', 'roomba'), still2: W('end', 'still'), shop: W('end', 'shop'), mechanicE: W('end', 'mechanic'), n1400: W('end', '1400'), nowEnd: W('end', 'now'),
   };
 
@@ -87,7 +88,7 @@ export async function build(studio, story) {
     SEG.push([t.carQ - 0.3, t.inside + 0.4, s5, sQ]);
     let best = 0; for (let k = 0; k < 60; k++) { const x = L.x0 + sQ - k * P; if (x < xg && x > best) best = x; }
     const s7 = sQ + (xg - best); SEG.push([t.check - 0.1, t.endQ + 0.3, sQ, s7]);
-    SEG.push([t.n53 - 0.8, END + 1, s7, s7 + 40]);
+    SEG.push([t.dollars2 + 0.05, END + 1, s7, s7 + 46]);   // the time-lapse starts once Gary has crossed the line (t.pay + 0.6)
     SEG.qcEnd = s7;
   }
   const lineS = (tt) => { let s = 0; for (const [a, b, s0, s1_] of SEG) { if (tt <= a) return s; s = s1_; if (tt < b) { const u = (tt - a) / (b - a); return lerp(s0, s1_, a === SEG[SEG.length - 1][0] ? u * u * 0.4 + u * 0.6 : smooth(u)); } } return s; };
@@ -148,14 +149,14 @@ export async function build(studio, story) {
   const sparkle = sprite('✦', 0.6, '#fff8c8'); sparkle.material.blending = THREE.AdditiveBlending;
   const qMark = sprite('?', 0.5, '#ffd43b');
   // the door that doesn't fit (Gary hammers it into the cockpit) + the press's three identical doors
-  const looseDoor = new THREE.Group(); scene.add(looseDoor); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), mat(0x2f8fd0, 0.4), looseDoor, 0, 0, 0); mk(new THREE.PlaneGeometry(0.5, 0.2), mat(0xbfe6ff, 0.1), looseDoor, -0.15, 0.08, 0.052); mk(new THREE.BoxGeometry(0.16, 0.035, 0.04), mat(0xd5d9de, 0.3), looseDoor, 0.3, -0.05, 0.06);
+  const looseDoor = new THREE.Group(); scene.add(looseDoor); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), mat(0xd12f3a, 0.4), looseDoor, 0, 0, 0); mk(new THREE.PlaneGeometry(0.5, 0.2), mat(0xbfe6ff, 0.1), looseDoor, -0.15, 0.08, 0.052); mk(new THREE.BoxGeometry(0.16, 0.035, 0.04), mat(0xd5d9de, 0.3), looseDoor, 0.3, -0.05, 0.06);
   const pressDoors = [0, 1, 2].map(() => { const d = new THREE.Group(); scene.add(d); mk(new RoundedBoxGeometry(1.14, 0.46, 0.1, 2, 0.04), new THREE.MeshStandardMaterial({ color: 0xa9b0b7, roughness: 0.4, metalness: 0.55 }), d); return d; });
   const stool = new THREE.Group(); scene.add(stool); mk(new THREE.BoxGeometry(0.5, 0.05, 0.4), mat(0xd12f3a, 0.5), stool, 0, 0.55, 0); for (const [x, z] of [[-0.2, -0.15], [0.2, -0.15], [-0.2, 0.15], [0.2, 0.15]]) mk(new THREE.CylinderGeometry(0.02, 0.02, 0.55, 6), mat(0x555555), stool, x, 0.27, z);
   // the rope the Roomba pulls (Ford's 1913 line was a chassis pulled by a rope + windlass)
-  const rope = mk(new THREE.CylinderGeometry(0.015, 0.015, 1, 6), mat(0xc9a06b, 0.8), scene, 0, 0, 0);
+  const rope = mk(new THREE.CylinderGeometry(0.035, 0.035, 1, 8), mat(0xffd23f, 0.6), scene, 0, 0, 0);
   // JIT: the parts avalanche (instanced steering wheels + tires) + the tugger's two deliveries
-  const wheelGeo = mergeGeometries([new THREE.TorusGeometry(0.17, 0.035, 6, 18), ...[0, 1, 2].map((k) => new THREE.BoxGeometry(0.17, 0.035, 0.025).translate(0.085, 0, 0).rotateZ((k * 2 * PI) / 3 - PI / 2)), new THREE.CylinderGeometry(0.05, 0.05, 0.05, 10).rotateX(PI / 2)]);
-  const NW = 420, NT = 120, heapW = new THREE.InstancedMesh(wheelGeo, new THREE.MeshStandardMaterial({ roughness: 0.5 }), NW), heapT = new THREE.InstancedMesh(new THREE.TorusGeometry(0.24, 0.1, 8, 16), mat(0x1c1c1e, 0.8), NT);
+  const wheelGeo = mergeGeometries([new THREE.TorusGeometry(0.17, 0.035, 6, 18), ...[0, 1, 2].map((k) => new THREE.BoxGeometry(0.17, 0.035, 0.025).translate(0.085, 0, 0).rotateZ((k * 2 * PI) / 3 - PI / 2)), new THREE.CylinderGeometry(0.05, 0.05, 0.05, 10).rotateX(PI / 2)]).scale(1.3, 1.3, 1.3);   // coloured wheels 1.3× (the black tyres dominated)
+  const NW = 420, NT = 60, heapW = new THREE.InstancedMesh(wheelGeo, new THREE.MeshStandardMaterial({ roughness: 0.5 }), NW), heapT = new THREE.InstancedMesh(new THREE.TorusGeometry(0.24, 0.1, 8, 16), mat(0x1c1c1e, 0.8), NT);
   heapW.castShadow = heapT.castShadow = true; heapW.frustumCulled = heapT.frustumCulled = false; scene.add(heapW, heapT);
   const HEAP = { x: D.jit, z: -2.1, R: 3.1, Hh: 3.2 }, GBUR = [D.jit - 0.4, -1.25], TUG0 = [D.jit - 0.35, -1.25], TUG1 = [D.jit + 2.6, -1.25];
   const heapPts = (n, seed) => { let s = seed; const r = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; return Array.from({ length: n }, () => { const a = r() * PI * 2, d = Math.sqrt(r()) * HEAP.R, x = HEAP.x + Math.cos(a) * d * 1.15, z = clamp(HEAP.z + Math.sin(a) * d * 0.9, -5.6, -0.25), h = HEAP.Hh * (1 - (d / HEAP.R) ** 2) * (0.35 + 0.65 * r()); return { to: [x, Math.max(0.08, h), z], from: [D.dock.x0 + 0.3 + r() * (D.dock.x1 - D.dock.x0 - 0.6), 0.25 + r() * 3.2, D.hall.back + 0.12 + r() * 0.25], dl: r() * 0.55, rot: [r() * 6, r() * 6, r() * 6] }; }); };
@@ -166,10 +167,13 @@ export async function build(studio, story) {
   const tallyC = document.createElement('canvas'); tallyC.width = 256; tallyC.height = 110; const tallyT = new THREE.CanvasTexture(tallyC); tallyT.colorSpace = THREE.SRGBColorSpace; let tallyN = -1;
   const tally = mk(new THREE.PlaneGeometry(1.3, 0.56), new THREE.MeshBasicMaterial({ map: tallyT, toneMapped: false }), scene, D.robot - 1.2, 2.5, -4.8); tally.castShadow = false;   // BOLTS TODAY over Gary's station
   const setTally = (n) => { if (n === tallyN) return; tallyN = n; const g = tallyC.getContext('2d'); g.fillStyle = '#111'; g.fillRect(0, 0, 256, 110); g.fillStyle = '#ffd23f'; g.font = font(30); g.textAlign = 'center'; g.fillText('BOLTS TODAY', 128, 34); g.fillStyle = '#7cf05f'; g.font = font(58); g.fillText(n.toLocaleString('en-US'), 128, 94); tallyT.needsUpdate = true; };
-  const scanner = mk(new THREE.PlaneGeometry(0.08, 2.0), new THREE.MeshBasicMaterial({ color: 0x7cf05f, transparent: true, opacity: 0.8, toneMapped: false, depthWrite: false }), scene, 0, 0, 0); scanner.rotation.x = -PI / 2; scanner.castShadow = false;   // QC: a light sweeping over the car at the gate
-  const spider = new THREE.Group(); scene.add(spider); mk(new THREE.SphereGeometry(0.05, 10, 8), mat(0x111111, 0.6), spider); const thread = mk(new THREE.CylinderGeometry(0.003, 0.003, 1, 4), new THREE.MeshBasicMaterial({ color: 0xffffff }), spider, 0, 0.5, 0);
+  const passMark = sprite('✓', 0.9, '#7cf05f');
+  const scanner = mk(new THREE.PlaneGeometry(0.45, 1.7), new THREE.MeshBasicMaterial({ color: 0x7cf05f, transparent: true, opacity: 0.8, toneMapped: false, depthWrite: false }), scene, 0, 0, 0); scanner.castShadow = false;   // a vertical green curtain facing the lens, just in front of the car
+  const spider = new THREE.Group(); scene.add(spider); mk(new THREE.SphereGeometry(0.14, 12, 10), mat(0x111111, 0.6), spider); const thread = mk(new THREE.CylinderGeometry(0.003, 0.003, 1, 4), new THREE.MeshBasicMaterial({ color: 0xffffff }), spider, 0, 0.5, 0);
   const cloud = new THREE.Group(); scene.add(cloud);   // a cartoon storm cloud indoors, over the line (soft puffs)
-  { const cm = new THREE.MeshStandardMaterial({ color: 0x8b939c, roughness: 1 }); [[0, 0, 0, 1.0], [-1.1, -0.15, 0.1, 0.8], [1.1, -0.1, -0.1, 0.85], [-0.5, 0.45, 0, 0.75], [0.6, 0.4, 0.1, 0.7], [-1.9, -0.3, 0, 0.55], [1.9, -0.25, 0, 0.6]].forEach(([x, y, z, r]) => mk(new THREE.SphereGeometry(r, 18, 14), cm, cloud, x, y, z).castShadow = false); }
+  { const pc = document.createElement('canvas'); pc.width = pc.height = 128; const g2 = pc.getContext('2d'), gr = g2.createRadialGradient(64, 64, 4, 64, 64, 62); gr.addColorStop(0, 'rgba(150,158,168,1)'); gr.addColorStop(0.55, 'rgba(128,136,146,.92)'); gr.addColorStop(1, 'rgba(120,128,138,0)'); g2.fillStyle = gr; g2.fillRect(0, 0, 128, 128);
+    const pt = new THREE.CanvasTexture(pc); pt.colorSpace = THREE.SRGBColorSpace; const cm = new THREE.SpriteMaterial({ map: pt, depthWrite: false, transparent: true });
+    [[0, 0, 0, 1.0], [-1.1, -0.15, 0.1, 0.8], [1.1, -0.1, -0.1, 0.85], [-0.5, 0.45, 0.05, 0.75], [0.6, 0.4, 0.1, 0.7], [-1.9, -0.3, 0, 0.55], [1.9, -0.25, 0, 0.6], [0.1, -0.35, 0.2, 0.8]].forEach(([x, y, z, r]) => { const sp = new THREE.Sprite(cm); sp.scale.setScalar(r * 2.6); sp.position.set(x, y, z); cloud.add(sp); }); }   // soft puffs (stacked spheres read as balls)
   const meat = mk(new RoundedBoxGeometry(0.22, 0.12, 0.14, 2, 0.04), mat(0x8a4a24, 0.8), scene, 0, 0, 0);   // the meatloaf drops into the tray
   const shoe = mk(new RoundedBoxGeometry(0.16, 0.1, 0.3, 2, 0.04), mat(0xd12f3a, 0.6), scene, 0, 0, 0);   // Gary's shoe, left in the Cadillac pile
   const cushion = mk(new RoundedBoxGeometry(1.05, 0.24, 1.05, 3, 0.08), mat(0xd12f3a, 0.7), S.office.desk, 0.2, 0.88, 0.1);   // the CEO sits up on a cushion (else the desk hides it)
@@ -183,7 +187,7 @@ export async function build(studio, story) {
   const AVA0 = t.all ?? W('jit', 'all'), AVA1 = AVA0 + 0.75, DRAIN0 = t.soJ + 0.05, DRAIN1 = t.needed - 0.2;   // the avalanche + the drain
   const C = D.crash, CAR_X0 = C.x0 + 0.9, HIT_X = C.wall - 1.66;  // crash car centre at the start / when its bumper hits the wall
   const L1 = t.crashW, HIT1 = t.wall, L2 = Math.max(t.can + 0.7, t.crumple - 0.5), HIT2 = Math.max(t.crumple + 0.05, L2 + 0.35), BAG = t.off - 0.08;
-  const LANDQ = t.ships + 0.25, HOPQ = t.soQ - 0.1, GQ = [D.qc.x + 0.5, D.qc.z], STAMP = t.rejects, STAMP2 = t.twice;   // Gary falls into a shipping car, hops out on the road, is stamped at the QC gate
+  const LANDQ = t.ships + 0.25, HOPQ = t.inside + 0.15, GQ = [D.qc.x + 0.5, D.qc.z], STAMP = t.rejects, STAMP2 = t.twice;   // Gary falls into a shipping car, hops out on the road, is stamped at the QC gate
   // the crash cars' x: launched (x ∝ t²), stopped by the wall; car 1 bounces back off it (rigid), car 2 crumples (decelerates)
   const crashX = (tt, t0, t1, crum) => { if (tt < t0) return CAR_X0; if (tt < t1) { const u = (tt - t0) / (t1 - t0); return lerp(CAR_X0, HIT_X, u * u); } const a = tt - t1; return crum ? HIT_X + 0.78 * smooth(clamp(a / 0.45)) : HIT_X - 0.35 * Math.sin(Math.min(1, a / 0.35) * PI / 2) * Math.exp(-a * 1.5); };   // the crumple run keeps going while the nose folds
 
@@ -196,6 +200,7 @@ export async function build(studio, story) {
   for (let i = 0; i < 8; i++) fx.burst('dust', t.roll - 0.25 + i * 0.12, { pos: [D.hall.x0 + 3 + i * 6.2, 0.2, -4.6], box: [5, 0.3, 6], n: 5, speed: [0.5, 1.4], spread: 1.3, size: [0.6, 1.1], seed: 20 + i });   // the hall slams up bay by bay
   fx.burst('dust', t.rope + 0.1, { pos: [slotX(0, t.rope) + 2.6, 0.2, L.z], n: 4, speed: [0.3, 0.7], spread: 1.2, size: [0.15, 0.3], seed: 30 });
   fx.burst('spark', t.fits, { pos: [SUN, 0.7, -2.4], n: 16, speed: [1, 2], spread: 1.2, color: 0xffffff, seed: 31 });
+  for (let k = 0; k < 4; k++) fx.burst('dust', t.hammering + 0.12 + k * 0.3, { pos: [SUN - 0.1, 1.2, -2.9], n: 3, speed: [0.2, 0.6], spread: 1.2, size: [0.12, 0.25], seed: 130 + k });
   for (let k = 0; k < 4; k++) fx.burst('spark', t.hammering + 0.1 + k * 0.3, { pos: [SUN - 0.1, 1.15, -3.2], n: 10, speed: [1, 2.5], spread: 1.1, seed: 32 + k });
   for (let k = 0; k < 3; k++) { const tk = t.make + k * 0.42; fx.burst('dust', tk + 0.08, { pos: [D.press, 1.0, -6.6], box: [1.6, 0.2, 0.5], n: 4, speed: [0.4, 0.9], spread: 1.3, size: [0.25, 0.45], seed: 40 + k }); }
   fx.burst('dust', PILE_AT, { pos: [PILE.x, 0.4, PILE.z], box: [2.2, 0.4, 0.8], n: 12, speed: [0.5, 1.4], spread: 1.3, size: [0.35, 0.7], seed: 44 });
@@ -205,6 +210,8 @@ export async function build(studio, story) {
   fx.burst('dust', t.buy + 0.05, { pos: [CR[0], 0.2, CR[1]], n: 8, speed: [0.5, 1.3], spread: 1.3, size: [0.3, 0.6], seed: 123 });
   fx.burst('crumb', t.arms, { pos: [CR[0], 0.9, CR[1]], box: [1.2, 1.2, 1.2], n: 50, dir: [0, 1, 0.3], spread: 1.2, speed: [2, 4], color: 0xc49158, floor: 0.03, seed: 124 });
   fx.burst('spark', WELD, { pos: [D.robot, 0.95, -2.25], n: 120, dir: [0, 1, 0.5], spread: 1.3, speed: [1.5, 4], seed: 55 });
+  fx.stream('spark', WELD - 0.05, WELD + 0.5, { pos: [D.robot + 0.1, 0.95, -2.2], rate: 220, dir: [0.3, 1, 0.6], spread: 1.0, speed: [2, 4.5], seed: 126 });
+  fx.burst('glow', WELD, { pos: [D.robot + 0.1, 0.95, -2.15], n: 3, speed: [0, 0.01], size: [0.7, 1.1], seed: 127 });
   fx.burst('smoke', WELD + 0.3, { pos: [D.robot, 1.0, -2.0], n: 5, speed: [0.3, 0.6], spread: 0.6, size: [0.2, 0.35], seed: 56 });
   fx.stream('drops', t.carsE - 0.1, t.dip + 0.4, { pos: [27.2, 3.5, L.z + 0.1], box: [4.6, 0.1, 1.6], dir: [0, -1, 0], spread: 0.06, speed: [3, 4.5], rate: 160, floor: 0.06, size: [0.025, 0.05], seed: 60 });   // rain from the indoor cloud
   fx.burst('drops', t.rusts + 0.1, { pos: [S.crack.position.x, 1.0, -3.0], box: [3, 0.2, 1.4], n: 30, dir: [0, 1, 0.2], spread: 0.8, speed: [0.5, 1.4], size: [0.03, 0.05], seed: 61 });
@@ -212,6 +219,7 @@ export async function build(studio, story) {
   fx.burst('dust', PIT0 + 0.1, { pos: [29.75, 0.2, -1.2], box: [4.6, 0.3, 2.4], n: 12, speed: [0.5, 1.4], spread: 1.3, size: [0.4, 0.8], seed: 63 });
   fx.burst('rock', PIT0 + 0.05, { pos: [29.75, -0.6, -0.4], box: [4.4, 1.2, 0.6], n: 40, dir: [0, 0.4, 1], spread: 1.1, speed: [1, 3], floor: D.tank.y0, life: [0.5, 0.8], seed: 64 });
   fx.burst('drops', DIP0 + 0.3, { pos: [29.75, D.tank.level + 0.05, D.tank.dipZ], box: [3.6, 0.1, 1.6], n: 80, dir: [0, 1, 0.3], spread: 0.8, speed: [1.5, 3.5], color: 0x6f8aa0, seed: 65 });
+  for (const a of [t.electrified, t.crack]) { fx.burst('glow', a, { pos: [29.75, D.tank.level, -1.3], box: [3, 0.1, 1.5], n: 6, speed: [0, 0.01], size: [0.8, 1.3], seed: 128 + Math.round(a) }); fx.burst('spark', a, { pos: [29.75, D.tank.level + 0.1, -1.0], box: [4, 0.1, 1.6], n: 80, dir: [0, 1, 0.3], spread: 1.3, speed: [1, 3], color: 0x9fe8ff, seed: 129 + Math.round(a) }); }
   fx.stream('spark', t.electrified - 0.05, t.crack + 0.3, { pos: [29.75, D.tank.level + 0.06, -1.3], box: [4.0, 0.02, 2.0], rate: 60, dir: [0, 1, 0], spread: 1.4, speed: [0.4, 1.2], color: 0x9fe8ff, seed: 66 });
   fx.stream('drops', t.seals - 0.2, OUT0, { pos: [29.75, D.tank.y0 + 0.6, -1.0], box: [2.4, 0.6, 0.8], rate: 26, dir: [0, 1, 0], spread: 0.3, speed: [0.5, 0.9], g: -2.5, size: [0.03, 0.06], color: 0xbfe6ff, seed: 67 });   // bubbles
   fx.stream('drops', OUT0 + 0.2, SET1 + 0.3, { pos: [29.75, 0.6, D.tank.dipZ], box: [3.0, 0.1, 1.4], rate: 70, dir: [0, -1, 0], spread: 0.15, speed: [0.3, 0.8], floor: D.tank.level, size: [0.03, 0.05], color: 0x6f8aa0, seed: 68 });   // drips off the body
@@ -264,6 +272,7 @@ export async function build(studio, story) {
   fx.stream('dust', t.n53 + 0.4, t.shop + 0.4, { pos: [S.office.desk.position.x - 1.0, OF.y + 0.1, S.office.desk.position.z + 1.1], box: [0.6, 0.1, 0.3], rate: 8, speed: [0.1, 0.3], spread: 1.2, size: [0.08, 0.16], seed: 120 });   // the vacuum
   fx.burst('dust', t.shop - 0.3, { pos: [D.shop.x0 + 3.7, 3.0, -2.9], box: [3, 0.2, 1.2], n: 8, speed: [0.2, 0.5], spread: 1.3, size: [0.2, 0.4], color: 0xddd6c8, seed: 121 });   // dust on your old car
   fx.stream('mist', t.roll + 2, END, { pos: [(D.booth.x0 + D.booth.x1) / 2, 1.2, -7.4], box: [3.0, 1.2, 1.8], rate: 10, speed: [0.2, 0.6], spread: 1.3, size: [0.3, 0.6], color: 0xff8fc1, seed: 79 });
+  fx.burst('confetti', t.end, { pos: [44, 9, 6], box: [10, 1.5, 6], n: 500, dir: [0, 1, 0.2], spread: 0.8, speed: [3, 6], seed: 131 });   // near the high camera
   fx.burst('confetti', t.end, { pos: [24, 3.0, -2.5], box: [44, 1.0, 3], n: 600, dir: [0, 1, 0.2], spread: 0.7, speed: [3, 6], seed: 80 });
   fx.stream('bill', t.n76 - 0.2, t.makeE + 0.6, { pos: [32, 9.0, -2.2], box: [26, 0.4, 3.0], rate: 220, dir: [0, -1, 0], spread: 0.4, speed: [0.5, 1.5], life: [3.8, 4.8], seed: 81 });
   fx.burst('dust', t.n1400 - 0.1, { pos: [D.shop.x0 + 1.1, 2.3, D.shop.back + 0.3], n: 4, speed: [0.2, 0.5], spread: 1.3, size: [0.15, 0.3], seed: 82 });
@@ -279,49 +288,49 @@ export async function build(studio, story) {
   F(0, [2.3, 1.5, 7.4], [2.3, 0.75, -2.0], 42);                       // the yard: the mechanic, the invoice, your car on the tow hook
   Fk(t.dollars, [2.6, 1.4, 6.6], [2.8, 0.7, -2.2], 42);               // the truck pulls away with your car (and the mechanic on its bed)
   F(t.garage, [-4.1, 1.4, 6.8], [-4.2, 0.55, -2.0], 42);              // into the garage: the junk car pops together
-  Fk(t.builtC, [-4.3, 1.3, 5.8], [-4.3, 0.5, -1.6], 42);
-  Fk(t.mower, [-4.8, 1.2, 4.6], [-4.8, 0.6, -1.4], 40);               // the pull cord
-  Fk(t.horn, [-3.95, 1.25, 4.2], [-3.95, 0.8, -1.4], 38, t.garyC + 0.35);   // the horn is Gary
-  F(t.wantsL + 0.05, [-0.6, 1.6, 7.6], [0.2, 0.75, -2.6], 44);       // the queue at the roll-up door
-  Fk(t.alone - 0.3, [-3.4, 1.8, 6.2], [-3.5, 0.3, -2.6], 42);        // Gary alone: hammer, thumb
+  F(t.builtC, [-4.3, 1.3, 5.8], [-4.3, 0.5, -1.6], 42, true);
+  F(t.mower, [-4.8, 1.2, 4.6], [-4.8, 0.6, -1.4], 40, true);         // one slow push to the pull cord
+  Fk(t.horn, [-3.95, 1.25, 4.2], [-3.95, 0.8, -1.4], 38, t.garyC + 0.2);   // the horn is Gary
+  Fk(t.now + 0.85, [-1.5, 1.8, 8.8], [-1.35, 0.3, -2.6], 48, t.alone + 0.25);   // Gary alone (left) + the queue at the roll-up door (right), one frame
   Fk(t.stations - 0.2, [3.0, 2.4, 15.5], [3.2, 0.4, -3.5], 46);       // the hall slams up bay by bay
-  F(t.assembly, [4.0, 1.4, 9.0], [4.2, -0.05, -3.6], 42);             // one job each, the line rolling
-  Fk(t.n12 - 0.3, [16.0, 3.2, 10.0], [16.4, 3.0, -4.0], 46, t.minutes - 0.75);   // Ford: the clock spins (clear of the label band)
-  Fk(t.rope - 0.3, [25.9, 1.05, 4.6], [25.9, 0.35, -3.0], 38, t.promoted + 0.25);   // the Roomba pulls the rope; the hard hat pops IN frame
-  F(t.fits - 0.1, [23.9, 1.7, 6.6], [23.6, 0.85, -2.8], 42);          // Gary's car: nothing fits
-  Fk(t.sunroof - 0.2, [23.3, 1.9, 5.8], [23.0, 1.2, -2.8], 40);
+  F(t.assembly, [3.6, 1.9, 8.2], [3.6, 1.0, -3.4], 44, true);        // track Gary riding the lead car down the line …
+  F(t.line2 + 0.2, [10.4, 2.1, 8.8], [10.4, 1.05, -3.4], 46, true);
+  F(t.n93, [16.6, 2.4, 9.6], [16.8, 1.3, -3.6], 48, true);           // … the clock spins at 25–30 % (clear of the text bands)
+  Fk(t.rope - 0.3, [25.5, 1.2, 3.8], [25.5, 1.0, -3.2], 38, t.promoted + 0.15);   // the Roomba pulls the rope; the hard hat pops IN frame (below the caption)
+  F(t.fits - 0.1, [23.9, 1.7, 6.6], [23.6, 0.25, -2.8], 42);          // Gary's car: nothing fits
+  Fk(t.sunroof - 0.2, [23.3, 2.4, 5.8], [23.0, 1.5, -2.8], 40);   // raised: the cockpit drops below the caption
   F(t.exactly - 0.1, [20.9, 1.9, 7.2], [21.0, 0.35, -5.0], 44);        // the stamping press (Gary on its buttons)
-  F(t.inter, [22.5, 1.5, 7.4], [22.8, 0.35, -2.8], 42);               // the press door clicks onto his car
+  F(t.inter, [18.4, 2.2, 6.6], [21.7, 0.05, -3.0], 44);               // the press door clicks onto his car (from the left: a gentler swing into the Cadillac view)
   Fk(t.mixed - 0.25, [7.0, 4.2, 3.5], [19.5, -0.5, -3.4], 46, t.three2 + 0.15);   // down the line: three cars → one pile → three cars
   Fk(t.ornament + 0.2, [19.6, 1.6, 5.8], [19.9, 1.1, -2.6], 38);      // the push lands on the hood ornament
   F(t.bolt, [23.6, 1.5, 6.8], [23.5, 0.75, -2.6], 42);                // the bolt station
   Fk(t.asleep, [23.4, 1.3, 5.2], [23.4, 0.85, -2.3], 40);
   Fk(t.arms, [24.3, 2.0, 10.6], [24.2, 0.35, -3.6], 44);              // Gary wakes, rips the crate open, bolts his own robot down
   Fk(t.welded - 0.15, [23.7, 1.3, 5.4], [23.6, 0.55, -2.4], 40, t.doorW - 0.3);   // welded to the door, held while the car carries him off
-  F(t.carsE, [27.4, 2.4, 11.0], [27.6, 1.4, -3.0], 44);               // the rain cloud, the rust
+  Fk(t.carsE, [27.4, 2.4, 11.0], [27.6, 0.35, -3.0], 44, t.rain);     // the rain cloud, the rust (held through "rain")
   Fk(t.dip, [29.75, 0.2, 9.6], [29.75, -2.0, -1.6], 44);             // the floor opens; the hoist dips the body
   Fk(t.ecoating - 0.2, [29.75, -1.1, 6.4], [29.75, -2.4, -1.4], 42); // in the bath, in section
-  F(t.weldedE, [29.7, 0.5, 7.4], [29.7, -0.7, -1.8], 42);
+  F(t.weldedE - 0.25, [29.7, 1.2, 7.6], [29.7, -0.3, -1.8], 44);
   Fk(t.rustproof, [29.6, 1.3, 5.6], [29.6, 0.85, -2.2], 40, t.rustproof + 0.45);
   F(t.n30000 + 0.9, [34.6, 2.0, 11.0], [35.0, 0.35, -5.5], 44);       // the dock: 30,000 parts behind the door
   Fk(t.once - 0.2, [35.1, 1.7, 9.0], [35.2, 0.45, -2.2], 44);          // the avalanche + Gary's hand out of the heap
   F(t.needed, [36.4, 1.5, 8.6], [36.6, 0.1, -2.6], 44);               // Gary drives the tugger, tossing parts in just in time
-  Fk(t.credit - 0.2, [39.9, 1.05, 4.8], [39.8, 0.4, -1.1], 38, t.manager - 0.15);   // the Roomba took credit; the tie IN frame
-  F(t.safe, [43.6, 1.5, 7.0], [43.6, 0.7, -1.2], 42);               // Gary, the dummy, in the car
-  Fk(t.wall, [46.0, 1.4, 8.4], [46.1, -0.3, -1.2], 44, t.not + 0.3);   // crash 1 + the splat, held
+  Fk(t.credit - 0.2, [39.95, 0.95, 4.5], [39.85, 0.95, -1.1], 38, t.manager + 0.05);   // the Roomba took credit; the tie IN frame (Roomba at ~68 %)
+  Fk(t.crashW - 0.05, [44.6, 1.5, 9.0], [44.9, 0.25, -1.2], 46);   // the crash car at its start AND the wall in one frame             // Gary, the dummy, in the car
+  Fk(t.fine - 0.3, [46.0, 1.4, 8.4], [46.1, -0.3, -1.2], 44, t.not + 0.3);   // push in for the sparkle + Gary flat   // crash 1 + the splat, held
   F(t.fold, [44.4, 1.5, 8.2], [44.4, 0.3, -1.3], 44);
   Fk(t.crumple - 0.3, [45.9, 1.5, 8.2], [46.0, 0.3, -1.2], 44, t.fine2 + 0.2);   // crash 2: the crumple zone
   Fk(t.off - 0.2, [45.2, 2.3, 11.0], [45.0, 0.6, -1.4], 44);          // the airbag launches him up out of the frame
-  Fk(t.garyQ, [50.8, 2.6, 9.0], [49.6, 0.8, -3.6], 44, t.inside + 0.3);   // from outside the end wall: he rides out on the road
+  Fk(t.garyQ, [50.8, 4.4, 9.0], [49.6, 1.0, -3.6], 44, t.inside + 0.3);   // raised: it squeezed past the end wall's cut edge   // from outside the end wall: he rides out on the road
   Fk(t.car2Q, [45.6, 1.7, 8.0], [45.6, 0.5, -2.4], 42);               // back in; the QC gate scans a car
-  Fk(t.rejects - 0.1, [45.3, 1.55, 6.6], [45.3, 0.55, -2.1], 40, t.twice + 0.35);   // REJECTED. Twice.
-  Fk(t.meatloaf - 0.1, [43.6, 1.6, 6.2], [43.3, 0.75, -1.0], 40, t.meatloaf + 0.1);   // the meatloaf drops
-  F(t.roofF + 0.15, [42.0, 6.0, 13.0], [40.8, 6.4, -1.5], 44, true);  // the crane rises past the TEST TRACK sign …
-  Fk(t.factory + 0.2, [50.0, 20.0, 26.0], [36.0, 0.5, -20.0], 48);    // … to the town that's now a parking lot, and the whole factory
-  F(t.n53 - 0.3, [47.4, 3.2, 10.5], [47.6, 1.2, -3.0], 44);           // descend through the money rain: a car every 53 seconds out of the end door
+  Fk(t.rejects - 0.1, [44.5, 1.5, 6.4], [44.35, 0.65, -1.4], 44, t.twice + 0.2);   // REJECTED. Twice. (the machine's spot left empty at frame-left)
+  Fk(t.vending, [44.0, 1.5, 6.0], [43.8, 0.7, -1.0], 42, t.meatloaf + 0.3);   // the meatloaf machine pops in; the loaf drops
+  F(t.roofF + 0.5, [42.0, 6.0, 13.0], [40.8, 6.4, -1.5], 44, true);  // the crane rises past the TEST TRACK sign …
+  Fk(t.factory + 0.2, [50.0, 20.0, 26.0], [36.0, 7.0, -20.0], 48);   // aimed up: more parking lot, the stairs below the caption    // … to the town that's now a parking lot, and the whole factory
+  F(t.n53 - 0.3, [47.4, 6.6, 9.8], [47.3, 2.6, -3.0], 44, true);   // the descent keeps going one way: the end door + the office together
   Fk(t.garyEnd, [46.0, 6.2, 6.0], [46.0, 3.3, -4.0], 40, t.roombaE + 0.6);   // the corner office: Gary works for the Roomba (CEO stamp in frame)
-  Fk(t.mechanicE + 0.1, [51.8, 1.7, 9.8], [54.6, 0.3, -3.0], 46);    // QUIK FIX AUTO: your car still on the lift, the board clear of the posts
-  Fr.push({ t: END, pos: [52.0, 1.65, 8.8], look: [54.6, 0.3, -3.0], fov: 46, stop: true });   // a slow push to the last frame
+  Fk(t.mechanicE + 0.1, [52.75, 1.6, 7.8], [53.85, 0.5, -2.9], 47);    // QUIK FIX AUTO: your car still on the lift, the board clear of the posts (closer)
+  Fr.push({ t: END, pos: [52.95, 1.55, 7.0], look: [53.85, 0.5, -2.9], fov: 46, stop: true });   // a slow push to the last frame
   planRail.verbose = true;
   const rail = makeRail(planRail(Fr, { shortHoldPass: true }));
   const hits = [[t.newH + 0.1, 0.04, 0.4], [t.roll - 0.1, 0.12, 0.9], [t.roll + 0.5, 0.08, 0.6], [t.hammering + 0.1, 0.03, 0.3], [t.make + 0.1, 0.08, 0.4], [t.make + 0.52, 0.08, 0.4], [t.make + 0.94, 0.08, 0.4],
@@ -424,12 +433,13 @@ export async function build(studio, story) {
     if (looseDoor.visible) { const gx = SUN;
       if (tt < t.fits + 0.25) { const u = smooth(u01(tt, t.but - 0.2, t.fits)), b = tt > t.fits ? wobble(tt, t.fits, 0.25, 22, 6) : 0; looseDoor.position.set(gx + 0.2, 0.75, lerp(-1.4, -2.38, u) + Math.abs(b)); looseDoor.rotation.set(0, 0, b); looseDoor.scale.set(1.25, 1.15, 1); }
       else if (tt < t.hammering) { const u = smooth(u01(tt, t.fits + 0.25, t.hammering)); looseDoor.position.set(lerp(gx + 0.2, gx - 0.1, u), lerp(0.75, 1.12, u), lerp(-2.0, L.z, u)); looseDoor.rotation.set(-PI / 2 * u, 0, 0); looseDoor.scale.set(1.25, 2.6, 1); }   // laid flat across the cockpit like a roof
-      else if (tt < t.inter - 0.05) { const hits2 = Math.floor(clamp((tt - t.hammering) / 0.3, 0, 4)); looseDoor.position.set(gx - 0.1, 1.12 - hits2 * 0.03, L.z); looseDoor.rotation.set(-PI / 2 + wobble(tt, t.hammering + hits2 * 0.3, 0.05, 30, 8), 0, 0); looseDoor.scale.set(1.25, 2.6, 1); }
+      else if (tt < t.inter - 0.05) { const hits2 = Math.floor(clamp((tt - t.hammering) / 0.3, 0, 4)); looseDoor.position.set(gx - 0.1, 1.14 - hits2 * 0.03, L.z); looseDoor.rotation.set(-PI / 2 + 0.25 - hits2 * 0.07 + wobble(tt, t.hammering + hits2 * 0.3, 0.05, 30, 8), 0, 0); looseDoor.scale.set(1.25, 2.6, 1); }   // one edge tilted up, nailed down hit by hit
       else { const [x, y, z] = hop(tt, t.inter - 0.05, t.inter + 0.4, [gx - 0.1, 1.12, L.z], [gx - 1.6, 0.05, -1.0], 1.0); looseDoor.position.set(x, y, z); looseDoor.rotation.set(-PI / 2 + tt * 8, 0, 0); looseDoor.scale.set(1.25, 2.6, 1); } }
     stool.visible = false;
     lineCarsAt(tt);
-    scanner.visible = tt > t.check && tt < t.quality; if (scanner.visible) { const u = (tt - t.check) * 1.6 % 1; scanner.position.set(D.qc.x - 1.6 + 3.2 * u, 1.25, L.z); }
-    tally.visible = tt > t.garys + 0.8 && tt < t.soR; setTally(Math.round(9999 * smooth(u01(tt, t.bolt, t.up))));
+    scanner.visible = tt > t.check && tt < t.control + 0.2; scanner.material.blending = THREE.AdditiveBlending; scanner.material.opacity = 0.6; if (scanner.visible) { const u = (tt - t.check) * 1.1 % 1; scanner.position.set(D.qc.x - 1.8 + 3.6 * u, 1.0, L.z + 0.95); }
+    passMark.visible = tt > t.endQ && tt < t.inspector; passMark.position.set(D.qc.x + 0.75, 2.15, L.z + 1.6);   // clear of the gate's front post passMark.scale.setScalar(0.9 * pop(tt, t.endQ, 0.25));
+    tally.visible = tt > t.garys + 0.8 && tt < t.soR; setTally(Math.round(9999 * smooth(u01(tt, t.bolt, t.falls))));
     // ---- robots: drop in on "robot arms", weld cars ("never sleep"), then one turns and welds Gary to the door
     robots.forEach((r, i) => {
       const at = i ? t.arms : t.robot - 0.1; r.g.visible = tt > at; if (!r.g.visible) return;
@@ -446,13 +456,14 @@ export async function build(studio, story) {
     // weld sparks while busy (the tips are only known at runtime: a small analytic stream is cheap to fake with sprites)
     // ---- the e-coat tank: the floor opens, the bath fills, glows blue while it's electrified
     const pit = smooth(u01(tt, PIT0, PIT1)); S.setPit(pit); S.tank.setBath(lerp(D.tank.y0, D.tank.level, smooth(u01(tt, PIT1 - 0.2, t.body))));
-    S.tank.bath.material.emissive = S.tank.bath.material.emissive || new THREE.Color(); S.tank.bath.material.emissive.setHex(0x3a8fd0); S.tank.bath.material.emissiveIntensity = 0.5 * smooth(u01(tt, t.electrified - 0.1, t.electrified + 0.2)) * (1 - smooth(u01(tt, t.crack + 0.3, t.ecoating)));
+    S.tank.bath.material.emissive = S.tank.bath.material.emissive || new THREE.Color(); S.tank.bath.material.emissive.setHex(0x3a8fd0); S.tank.bath.material.emissiveIntensity = 0.35 + 1.2 * (Math.exp(-Math.max(0, tt - t.electrified) * 4) * (tt > t.electrified ? 1 : 0) + Math.exp(-Math.max(0, tt - t.crack) * 4) * (tt > t.crack ? 1 : 0));   // a pulse on each zap
     S.crack.visible = false;
     // the rain cloud: forms over the line on "then the cars", rains through "rusting in the rain", then drifts up and away
     const cl = smooth(u01(tt, t.thenE - 0.2, t.carsE + 0.1)) * (1 - smooth(u01(tt, t.dip + 0.2, t.dip + 0.9)));
     cloud.visible = cl > 0.01; cloud.position.set(27.2 + 0.4 * Math.sin(tt * 0.7), 4.0 + 1.5 * smooth(u01(tt, t.dip + 0.2, t.dip + 0.9)), L.z + 0.1); cloud.scale.setScalar(Math.max(0.01, cl));
     // ---- the dock (avalanche), the paint booth, the roof test track, the office
     S.dock.setDock(smooth(u01(tt, t.n30000 + 0.2, t.n30000 + 0.9)) * (1 - smooth(u01(tt, DRAIN1, DRAIN1 + 0.5))));
+    S.vendLabel.visible = tt > t.meatloaf - 0.05; S.vendLabel.scale.setScalar(Math.max(0.001, easeOutBack(u01(tt, t.meatloaf - 0.05, t.meatloaf + 0.2), 2.4)));
     S.vend.visible = tt > t.vending - 0.15; S.vend.scale.setScalar(Math.max(0.001, easeOutBack(u01(tt, t.vending - 0.15, t.vending + 0.2), 2)));
     meat.visible = tt > t.meatloaf - 0.1; if (meat.visible) { const u = u01(tt, t.meatloaf - 0.1, t.meatloaf + 0.25); meat.position.set(D.vend[0] - 0.1, 0.9 - 0.62 * u * u + (u >= 1 ? wobble(tt, t.meatloaf + 0.25, 0.04, 20, 6) : 0), D.vend[1] - 0.05); }
     S.setLot(smooth(u01(tt, t.parking - 0.2, t.factory)));
@@ -460,11 +471,11 @@ export async function build(studio, story) {
     const pb = [t.make, t.exactly, t.alike].some((a) => tt > a - 0.05 && tt < a + 0.15); S.pButtons.forEach((b) => (b.position.y = pb ? 1.07 : 1.1));
     S.booth.userData.arm.pose(0.6 + 0.4 * Math.sin(tt * 2), 0.5, 1.3 + 0.15 * Math.sin(tt * 3), 0.9);
     S.boothMist.forEach((m, i) => { const a = ((tt * 0.6 + i / 10) % 1); m.position.set(-1.2 + a * 2.4, 0.6 + 0.8 * Math.sin(i * 1.7 + tt), 0.3 * Math.sin(i * 2.3)); m.scale.setScalar(0.6 + a); m.material.opacity = 0.22 * (1 - a); });
-    S.roofTrack.visible = tt > t.test - 0.15; S.roofTrack.scale.set(1, Math.max(0.001, easeOutBack(u01(tt, t.test - 0.15, t.test + 0.2), 2)), 1);
+    S.roofTrack.visible = tt > t.test - 0.15; S.roofTrack.position.y = drop(tt, t.test - 0.15, 6, 0.35);   // drops onto the roof (a y-scale read as a flat pop)
     racer.g.visible = tt > t.test; if (racer.g.visible) { const [a, b] = D.roof.track, Rr = 2.4, zc = -4.8, zh = 3.0, Ls = (b - a - 2 * Rr), per = 2 * Ls + 2 * PI * Rr, d = ((tt - t.test) * 9 + 14.8) % per;   // an oval centre-line, 9 m/s, along the front straight first
       let x, z, ry; if (d < Ls) { x = a + Rr + d; z = zc + zh; ry = 0; } else if (d < Ls + PI * Rr) { const th = (d - Ls) / Rr; x = b - Rr + Rr * Math.sin(th) * 0.0 + Rr * Math.sin(th); z = zc + zh * Math.cos(th); ry = th; } else if (d < 2 * Ls + PI * Rr) { x = b - Rr - (d - Ls - PI * Rr); z = zc - zh; ry = PI; } else { const th = (d - 2 * Ls - PI * Rr) / Rr; x = a + Rr - Rr * Math.sin(th); z = zc - zh * Math.cos(th); ry = PI + th; }
       racer.g.position.set(x, D.roof.top, z); racer.g.rotation.set(0, ry, 0); racer.set({ stage: 4, color: 0xffd23f, spin: -tt * 28 }); }
-    const officeOn = tt > t.end - 0.5; S.office.g.visible = officeOn; S.stairs.visible = tt > t.roll;
+    const officeOn = tt > t.end - 0.5; S.office.g.visible = officeOn; S.officeSign.visible = tt > t.garyEnd - 0.3; S.stairs.visible = tt > t.roll;
     S.office.g.scale.setScalar(1);
     // ---- the parts avalanche (instanced): out of the dock into a heap over Gary, then back out (just-in-time)
     const heapOn = tt > t.n30000 + 0.2 && tt < DRAIN1 + 0.2; heapW.visible = heapT.visible = heapOn;   // packed in the open dock door, then the avalanche
@@ -479,8 +490,8 @@ export async function build(studio, story) {
     // ---- your car + the tow truck (hook), then on the lift at the end (cobwebs, still in the shop)
     tow.g.visible = towX(tt) < 22; tow.g.position.set(towX(tt), 0, -3.3); tow.beacon.visible = Math.floor(tt * 3) % 2 === 0;
     if (tow.g.visible) { const hx = towX(tt) + tow.hook.x; myCar.g.position.set(hx - 1.3, 0.34, -3.3); myCar.g.rotation.set(0, 0, 0.32 + 0.03 * Math.sin(tt * 5)); myCar.g.visible = true; myCar.set({ stage: 4, color: 0x3d7bd9, doorOff: 0 }); }
-    else { myCar.g.visible = tt > t.end; myCar.g.rotation.set(0, 0, 0); myCar.g.position.set(D.shop.x0 + 3.7, 2.0, -2.9); myCar.set({ stage: 4, color: 0x3d7bd9, rust: 0.25 }); }
-    const sag = tt > t.n1400 ? 0.12 * smooth(u01(tt, t.n1400, t.n1400 + 0.3)) - wobble(tt, t.n1400 + 0.3, 0.05, 16, 5) : 0; S.shop.liftArms.position.y = 2.0 - sag; if (tt > t.end) myCar.g.position.y = 2.0 - sag; S.shop.cobwebs.forEach((w) => (w.visible = true));
+    else { myCar.g.visible = tt > t.end; myCar.g.rotation.set(0, 0, 0); myCar.g.position.set(D.shop.x0 + 3.7, 2.0, -2.9); myCar.set({ stage: 4, color: 0x3d7bd9, rust: 0 }); }   // the hook's blue (rust read as purple)
+    const sag = tt > t.n1400 ? 0.22 * smooth(u01(tt, t.n1400, t.n1400 + 0.3)) - wobble(tt, t.n1400 + 0.3, 0.05, 16, 5) : 0; S.shop.liftArms.position.y = 2.0 - sag; if (tt > t.end) myCar.g.position.y = 2.0 - sag; S.shop.cobwebs.forEach((w) => (w.visible = true));
     S.shop.priceBoard.material.map = tt > t.n1400 - 0.05 ? S.shop.prices['$1,400'] : S.shop.prices['$900']; S.shop.priceBoard.rotation.y = tt > t.n1400 - 0.3 && tt < t.n1400 + 0.2 ? PI * 2 * smooth(u01(tt, t.n1400 - 0.3, t.n1400 + 0.2)) : 0;
     spider.visible = tt > t.shop; if (spider.visible) { const dn = 1.1 * smooth(u01(tt, t.n1400 + 0.4, t.n1400 + 1.4)) + 0.05 * Math.sin(tt * 3); spider.position.set(D.shop.x0 + 1.75, 2.8 - dn, -1.85); thread.scale.y = Math.max(0.01, dn); thread.position.y = dn / 2; }
     // ---- the crash cars
@@ -516,7 +527,7 @@ export async function build(studio, story) {
     if (tt > t.front - 0.05 && tt < t.front + 0.35) crash1.nose.scale.setScalar(Math.max(0.001, easeOutBack(u01(tt, t.front - 0.05, t.front + 0.25), 2.4)));   // the striped nose pops on as he slaps it
     crash1.g.rotation.z = tt > HIT1 && tt < L2 ? wobble(tt, HIT1, 0.06, 18, 6) : tt > HIT2 ? wobble(tt, HIT2, 0.04, 16, 6) : 0;
     // the car is fine: a sparkle on its polish
-    sparkle.visible = tt > t.fine - 0.15 && tt < t.fine + 0.6; if (sparkle.visible) { sparkle.position.set(x + 0.6, 1.0, z + 0.85); sparkle.scale.setScalar(0.5 * pop(tt, t.fine - 0.15, 0.2) * (1 - u01(tt, t.fine + 0.3, t.fine + 0.6))); sparkle.material.rotation = tt * 4; }
+    sparkle.visible = tt > t.fine - 0.15 && tt < t.fine + 0.6; if (sparkle.visible) { sparkle.position.set(x + 0.6, 1.0, z + 0.85); sparkle.scale.setScalar(1.1 * pop(tt, t.fine - 0.15, 0.2) * (1 - u01(tt, t.fine + 0.3, t.fine + 0.6))); sparkle.material.rotation = tt * 4; }
     // the airbag: bursts out of the cockpit on "off" and launches Gary
     airbag.set(tt > BAG ? 1.7 * easeOutBack(u01(tt, BAG, BAG + 0.14), 2.5) * (1 - smooth(u01(tt, BAG + 0.5, BAG + 1.6))) : 0);
     airbag.g.position.set(x - 0.2, 1.0, z + 0.5);   // it balloons out of the cockpit, then deflates
@@ -531,8 +542,8 @@ export async function build(studio, story) {
     dizzy.update(tt, 0, [0, 0, 0]); glowLight.intensity = 0;
     const base = { t: tt, eyes: 'open', mouth: 'smile', brows: 0 };
     const gold = tt > ORN && tt < t.garys + 0.9 ? [0xf2c418, 0.75] : null;
-    const grey = tt > OUT0 ? [0x7d858e, 0.55 * smooth(u01(tt, OUT0, OUT0 + 0.4))] : null;   // the e-coat stays on him
-    const dummy = tt > t.toyota && tt < t.add;
+    const grey = tt > OUT0 ? [0x7d858e, 0.75 * smooth(u01(tt, OUT0, OUT0 + 0.4))] : null;   // the e-coat stays on him
+    const dummy = tt > t.safe - 0.35 && tt < t.add;   // slapped on as he hops into the crash car
     if (dummy) targets.forEach((d) => (d.visible = true));
     if (tt > STAMP) { rejDecal.visible = true; rejDecal.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, STAMP, STAMP + 0.15), 2.4))); }
     rejDecal2.visible = tt > STAMP2; if (rejDecal2.visible) rejDecal2.scale.setScalar(Math.max(0.01, easeOutBack(u01(tt, STAMP2, STAMP2 + 0.15), 2.4)));
@@ -553,14 +564,14 @@ export async function build(studio, story) {
     if (tt < t.mower - 0.25) { // ta-da
       return g.set({ ...base, x: -2.9, y: 0, z: -1.4, rotY: -0.2, eyes: 'open', mouth: 'grin', squash: squash(tt, t.congrats, 0.2), armL: { x: -0.5, z: 1.2, el: 0.2 }, armR: { x: -0.5, z: 1.2, el: 0.2 }, look: [-0.3, 0] });
     }
-    if (tt < t.engine + 0.3) { // walks to the back of the crate and yanks the pull cord
+    if (tt < t.engine + 0.05) { // walks to the back of the crate and yanks the pull cord
       const u = u01(tt, t.mower - 0.25, t.mower), x = lerp(-2.9, JX - 1.35, u), yank = tt > t.mower && tt < t.engine ? Math.sin(PI * u01(tt, t.mower, t.engine)) : 0;
       return g.set({ ...base, x, y: 0, z: JZ + 0.55, rotY: u < 1 ? -PI / 2 : 0.6, walk: u < 1 ? tt * 12 : undefined, eyes: tt > t.engine ? 'wide' : 'open', mouth: tt > t.engine ? 'o' : 'grin', armR: { x: -1.2 + 1.2 * yank, z: 0.3, el: 0.3 + yank }, lean: -0.15 * yank });
     }
     if (tt < t.horn - 0.15) { // hops into the crate (in through the seat), sinks out of sight
-      const u = u01(tt, t.engine + 0.3, t.horn - 0.15), [x, y, z] = hop(tt, t.engine + 0.3, t.horn - 0.35, [JX - 1.35, 0, JZ + 0.55], [JX - 0.2, 0.95, JZ], 0.6);
-      const sink = smooth(u01(tt, t.horn - 0.45, t.horn - 0.15));
-      return g.set({ ...base, x, y: y - 0.9 * sink, z, rotY: 0.3, eyes: 'open', mouth: 'grin', squash: [1, 1 - 0.3 * sink] });
+      const [x, y, z] = hop(tt, t.engine + 0.05, t.horn - 0.3, [JX - 1.35, 0, JZ + 0.55], [JX - 0.2, 0.95, JZ], 0.6);
+      const sink = smooth(u01(tt, t.horn - 0.32, t.horn - 0.15)), fold = tt > t.horn - 0.4;
+      return g.set({ ...base, x, y: y - 0.9 * sink, z, rotY: 0.3, eyes: 'open', mouth: 'grin', squash: [1, 1 - 0.3 * sink], legL: fold ? { x: -1.5, kn: 1.4 } : undefined, legR: fold ? { x: -1.5, kn: 1.4 } : undefined });   // a real hop in, legs tucked (feet poked out under the crate)
     }
     if (tt < t.now + 0.15) { // the horn: his head pops out of the hood hole and yells HONK
       const hx = JX + 0.62, up = easeOutBack(u01(tt, t.horn - 0.15, t.horn + 0.1), 2.6), honk = tt > t.garyC - 0.05 && tt < t.garyC + 0.6;
@@ -589,7 +600,7 @@ export async function build(studio, story) {
       if (tt < t.but + 0.1) return g.set({ ...base, x: hd[0], y: hd[1], z: hd[2], rotY: 0.4, eyes: 'open', mouth: 'smile' });
       return g.set({ ...base, x: onStool ? cx : SPOT[0] + 0.5, y: onStool ? cy : 0, z: onStool ? cz : lerp(-1.6, -1.95, shoved), rotY: onStool ? -0.5 : 0.9,
         eyes: tt > t.fits && tt < t.fits + 0.4 ? 'wide' : hamm ? 'half' : 'open', mouth: hamm ? 'teeth' : tt > t.fits ? 'o' : 'flat', brows: hamm ? -1 : 0.5, squash: squash(tt, t.fits, 0.25),
-        armR: hamm ? { x: -2.6 + 1.0 * Math.max(0, Math.sin(ph)), z: 0.2, el: 0.4 } : { x: -1.2, z: 0.2, el: 0.4 }, armL: onStool ? { x: -0.6, z: 1.0, el: 0.6 } : { x: -1.2, z: 0.25, el: 0.4 } }); }
+        armR: hamm ? { x: -1.9 + 1.2 * Math.max(0, Math.sin(ph)), z: 0.15, el: 0.2 + 0.6 * Math.max(0, Math.sin(ph)) } : { x: -1.2, z: 0.2, el: 0.4 }, armL: onStool ? { x: -0.9, z: 0.4, el: 0.4 } : { x: -1.2, z: 0.25, el: 0.4 }, lean: hamm ? 0.55 : 0, legL: hamm ? { x: -1.2, kn: 1.4 } : undefined, legR: hamm ? { x: -0.4, kn: 1.6 } : undefined }); }   // kneels and hammers DOWN
     const PED = [D.press - 1.1, -2.15];   // behind the press's two-hand pedestal, facing the lens
     if (tt < t.inter - 0.1) { // "So you make every part exactly alike": hops off, slams both press buttons three times
       const [x, y, z] = hop(tt, t.soP - 0.1, t.make - 0.12, [SUN - 1.15, L.y + 0.88, L.z + 0.15], [PED[0], 0, PED[1]], 0.5), slam = [t.make, t.exactly, t.alike].some((a) => tt > a - 0.08 && tt < a + 0.12);
@@ -612,7 +623,7 @@ export async function build(studio, story) {
     }
     const BS = [D.robot - 0.1, -1.95];   // the bolt spot in front of the hero car's near door
     if (tt < t.falls - 0.1) { // hops off, wrench, one bolt all day (the cars rush past)
-      wrench.visible = tt > t.garys + 1.2; const [x, y, z] = hop(tt, t.garys + 0.95, t.garys + 1.3, [HOODX(), HOODY, L.z], [BS[0], 0, BS[1]], 0.4); const ph = tt * 20;
+      wrench.visible = tt > t.garys + 1.2; const hu = clamp((tt - t.garys - 0.95) / 0.45), x = lerp(HOODX(), BS[0], hu), y = lerp(HOODY, 0, hu) + 1.6 * hu * (1 - hu), z = lerp(L.z, BS[1], 1 - (1 - hu) ** 3); const ph = tt * 20;   // out past the car's side first, then down
       return g.set({ ...base, x, y, z, rotY: 1.15, eyes: 'half', mouth: 'flat', brows: -0.4, lean: 0.25, armR: { x: -1.5, z: 0.15 + 0.3 * Math.sin(ph), el: 0.8 + 0.3 * Math.cos(ph) } });
     }
     const CS = [CR[0] - 0.75, CR[1] - 0.05];
@@ -639,11 +650,13 @@ export async function build(studio, story) {
         legL: { x: 0.3 * drag, kn: 0.2 }, legR: { x: -0.3 * drag, kn: 0.2 }, armL: { x: -2.4 + 0.5 * Math.sin(tt * 11), z: 0.8 }, armR: { x: -2.4 + 0.5 * Math.sin(tt * 11 + 2), z: 0.8 }, faceTint: under ? [0x6fb7ff, 0.25] : undefined });
     }
     if (tt < AVA0 + 0.25) { // pops off the door (grey, rustproof), walks to the dock to see the parts
-      const p0 = [29.65, -1.9 + 0.0], u = smooth(u01(tt, UNWELD, t.arrive)), x = lerp(p0[0], GBUR[0], u), z = lerp(-2.12, GBUR[1], u);
-      return g.set({ ...base, x, y: 0, z, rotY: u < 1 ? PI / 2 : 0.4, walk: u > 0 && u < 1 ? tt * 11 : undefined, tint, squash: squash(tt, UNWELD, 0.3), eyes: tt > t.once - 0.2 ? 'wide' : 'open', mouth: tt > t.once - 0.2 ? 'scream' : 'smile', look: [0.5, 0.4] });
+      const hc = lineCars[HERO % NPOOL].g.position, J1 = UNWELD + 0.5;
+      if (tt < J1) { const [x, y, z] = hop(tt, UNWELD, J1, [hc.x - 0.1, hc.y - L.y, hc.z + 0.98], [32.7, 0, -2.12], 0.9); return g.set({ ...base, x, y, z, rotY: PI / 2, tint, eyes: 'wide', mouth: 'grin', armL: { x: -2.8, z: 0.5 }, armR: { x: -2.8, z: 0.5 }, squash: squash(tt, J1, 0.25) }); }   // springs off the door over the open tank to its far rim
+      const p0 = [32.7, -2.12], u = smooth(u01(tt, J1, t.arrive)), x = lerp(p0[0], GBUR[0], u), z = lerp(p0[1], GBUR[1], u);
+      return g.set({ ...base, x, y: 0, z, rotY: u < 1 ? PI / 2 : 0.4, walk: u > 0 && u < 1 ? tt * 11 : undefined, tint, eyes: tt > t.once - 0.2 ? 'wide' : 'open', mouth: tt > t.once - 0.2 ? 'scream' : 'smile', look: [0.5, 0.4] });
     }
     if (tt < DRAIN0 + 0.5) { // buried: only his hand (and a hard hat) out of the heap, waving
-      return g.set({ ...base, x: GBUR[0], y: -0.15, z: GBUR[1], rotY: 0.2, tint, eyes: 'wide', mouth: 'o', armR: { x: -3.0, z: 0.25 + 0.25 * Math.sin(tt * 10), el: 0.2 }, armL: { x: 0, z: 0.3 } });
+      return g.set({ ...base, x: GBUR[0], y: 0.9 * smooth(u01(tt, t.once, t.buried)), z: GBUR[1], rotY: 0.2, tint, eyes: 'wide', mouth: 'o', armR: { x: -3.0, z: 0.25 + 0.35 * Math.sin(tt * 12), el: 0.2 }, armL: { x: -2.6, z: 0.6 + 0.3 * Math.sin(tt * 9 + 1), el: 0.3 } });   // hat + flailing hands out of the heap top
     }
     if (tt < t.toyota + 0.3) { // revealed sitting on the buried tugger, dizzy; then drives it along the line, steering with the loose wheel, and tosses parts in just in time
       handWheel.visible = tt < t.jitW; dizzy.update(tt, 1 - u01(tt, DRAIN1 + 0.6, t.needed - 0.3), [tug.g.position.x - 0.05, 1.75, tug.g.position.z]);
@@ -654,7 +667,7 @@ export async function build(studio, story) {
     // to crash car 1 (the dummy: targets on his temples) and in
     const SEAT = () => { const p = crash1.g.position; return [p.x - 0.28, p.y + 0.17, p.z + 0.34]; };
     if (tt < t.safe - 0.35) { const u = smooth(u01(tt, t.toyota + 0.3, t.safe - 0.7)), [sx, sy, sz] = SEAT(), [tx0, tz0] = [TUG1[0] + 0.3, TUG1[1] + 0.5];
-      if (u < 1) return g.set({ ...base, x: lerp(tx0, sx - 0.2, u), y: 0, z: lerp(tz0 - 0.45, sz + 1.0, u), rotY: PI / 2, walk: tt * 12, tint, eyes: 'open', mouth: 'flat' });
+      if (u < 1) return g.set({ ...base, x: lerp(tx0, sx - 0.2, u), y: 0, z: Math.min(-1.6, lerp(tz0 - 0.45, sz + 1.0, u)), rotY: PI / 2, walk: tt * 12, tint, eyes: 'open', mouth: 'flat' });
       const [x, y, z] = hop(tt, t.safe - 0.7, t.safe - 0.35, [sx - 0.2, 0, sz + 1.0], [sx, sy, sz], 0.6); return g.set({ ...base, x, y, z, rotY: PI / 2, tint, eyes: 'open', mouth: 'flat' }); }
     if (tt < HIT1) { const [sx, sy, sz] = SEAT(); return g.set({ ...base, x: sx, y: sy, z: sz, rotY: PI / 2 - 0.4, tint, eyes: tt > L1 ? 'wide' : 'open', mouth: tt > L1 ? 'scream' : 'grin', brows: tt > L1 ? 1 : 0, legL: { x: -1.5, kn: 1.4 }, legR: { x: -1.5, kn: 1.4 }, armR: tt < L1 ? { x: -2.6, z: 0.3, el: 0.6 } : { x: -1.3, z: 0.1, el: 0.4 }, hairUp: tt > L1 ? 0.5 : 0 }); }
     const WALLX = C.wall - 0.12, SPL = HIT1 + 0.22;
@@ -676,8 +689,8 @@ export async function build(studio, story) {
       return g.set({ ...base, x: sx + jolt, y: sy, z: sz, rotY: PI / 2 - 0.4, lean: jolt, tint, eyes: tt > L2 ? 'wide' : 'half', mouth: tt > HIT2 + 0.3 ? 'o' : 'scream', brows: 1, legL: { x: -1.5, kn: 1.4 }, legR: { x: -1.5, kn: 1.4 }, armL: { x: -1.3, z: 0.1, el: 0.4 }, armR: { x: -1.3, z: 0.1, el: 0.4 } }); }
     const OUTP = [HIT_X - 0.55, 0, C.z + 1.05];
     if (tt < BAG) { // climbs out fine, a thumbs-up to the lens, then leans in over the door to pat the steering wheel …
-      const [sx, sy, sz] = SEAT2(), [x, y, z] = hop(tt, t.garyX3 - 0.1, t.walks + 0.1, [sx, sy, sz], OUTP, 0.5), pat = tt > BAG - 0.45;
-      return g.set({ ...base, x, y, z, rotY: pat ? PI - 0.6 : 0.25, lean: pat ? 0.55 : 0, tint, eyes: 'open', mouth: 'grin', armR: pat ? { x: -1.9, z: 0.2, el: 0.3 + 0.3 * Math.sin(tt * 18) } : tt > t.away ? { x: -1.4, z: 0.6, el: 1.8 } : undefined, squash: squash(tt, t.walks + 0.1, 0.2) }); }
+      const [sx, sy, sz] = SEAT2(), [x0, y, z] = hop(tt, t.garyX3 - 0.1, t.walks + 0.1, [sx, sy, sz], OUTP, 0.5), pat = tt > BAG - 0.45, stroll = smooth(u01(tt, t.walks + 0.1, t.fine2 + 0.2)) * (1 - smooth(u01(tt, t.then2 - 0.1, BAG - 0.45))), x = x0 - 1.0 * stroll;
+      return g.set({ ...base, x, y, z, rotY: pat ? PI - 0.6 : stroll > 0.05 && stroll < 0.95 ? -PI / 2 + 0.6 : 0.25, walk: stroll > 0.05 && stroll < 0.95 ? tt * 9 : undefined, lean: pat ? 0.55 : 0, tint, eyes: 'open', mouth: 'grin', armR: pat ? { x: -1.9, z: 0.2, el: 0.3 + 0.3 * Math.sin(tt * 18) } : tt > t.away ? { x: -1.4, z: 0.6, el: 1.8 } : undefined, squash: squash(tt, t.walks + 0.1, 0.2) }); }
     const shipSeat = () => { const c = lineCars[KSHIP % NPOOL]; c.g.updateMatrixWorld(true); return c.g.localToWorld(v3.set(-0.28, 0.17, 0.34)).clone(); };
     if (tt < LANDQ) { // the airbag goes off: launched straight up out of the frame … and down into a car on its way out
       const up = u01(tt, BAG, BAG + 0.6), ss = shipSeat();
@@ -687,7 +700,7 @@ export async function build(studio, story) {
     if (tt < HOPQ) { const ss = shipSeat(), c = lineCars[KSHIP % NPOOL]; // rides out of the end door, waving for help
       return g.set({ ...base, x: ss.x, y: ss.y, z: ss.z, rotY: PI / 2 + c.g.rotation.y - 0.7, squash: squash(tt, LANDQ, 0.35), tint, eyes: 'wide', mouth: 'scream', brows: 1, hatLift: 1 - smooth(u01(tt, LANDQ, LANDQ + 0.5)), legL: { x: -1.5, kn: 1.3 }, legR: { x: -1.5, kn: 1.3 }, armR: { x: -2.9, z: 0.4 + 0.3 * Math.sin(tt * 12), el: 0.2 } }); }
     if (tt < STAMP2 + 0.9) { // hops out on the road, walks back in through the end door to the QC gate: REJECTED. Twice.
-      const [x0, y0, z0] = SHIPOUT, inT = t.inspector - 0.15, door = [D.hall.x1 + 0.5, -2.1];
+      const [x0, y0, z0] = SHIPOUT, inT = t.inspector - 0.15, door = [D.hall.x1 + 0.5, -2.2];
       if (tt < HOPQ + 0.35) { const [x, y, z] = hop(tt, HOPQ, HOPQ + 0.35, [x0, y0, z0], [x0 - 0.6, 0, z0], 0.5); return g.set({ ...base, x, y, z, rotY: -PI / 2, tint, eyes: 'open', mouth: 'flat' }); }
       if (tt < inT) { const u = u01(tt, HOPQ + 0.35, inT), m = u < 0.55 ? 0 : 1, v = m ? (u - 0.55) / 0.45 : u / 0.55, a = m ? door : [x0 - 0.6, z0], b = m ? GQ : door;
         return g.set({ ...base, x: lerp(a[0], b[0], v), y: 0, z: lerp(a[1], b[1], v), rotY: Math.atan2(b[0] - a[0], b[1] - a[1]), walk: tt * 11, tint, eyes: 'open', mouth: 'smile' }); }
@@ -704,8 +717,8 @@ export async function build(studio, story) {
   }
   // the ending route (waypoints [t, x, y, z]); the stairs climb +x from (OF.x0 − 2.6, −5.3) to the office floor
   const EP = { leave: t.end + 0.5, pick: t.end + 1.2, desk: t.n53 + 0.1, vac: [S.office.desk.position.x - 0.9, OF.y, S.office.desk.position.z + 1.05] };
-  const ROUTE = [[EP.leave, GQ[0], 0, GQ[1]], [EP.pick, D.qc.x - 1.15, 0, D.qc.z], [EP.pick + 0.25, D.qc.x - 1.15, 0, D.qc.z], [t.didnt + 0.2, GAPX, 0, -2.05], [t.pay + 0.6, GAPX, 0, -4.55],
-    [t.dollars2 - 0.3, OF.x0 - 2.75, 0, -5.3], [t.n76 - 0.1, OF.x0 + 0.1, OF.y, -5.3], [EP.desk - 0.35, EP.vac[0] + 0.3, OF.y, EP.vac[2] - 0.15], [EP.desk, EP.vac[0] + 0.3, OF.y, EP.vac[2] - 0.15]];
+  const ROUTE = [[EP.leave, GQ[0], 0, GQ[1]], [EP.pick, D.qc.x - 1.15, 0, D.qc.z], [EP.pick + 0.25, D.qc.x - 1.15, 0, D.qc.z], [t.didnt + 0.2, GAPX, 0, -2.05], [t.pay + 0.3, GAPX, 0, -4.55],
+    [t.dollars2 + 0.1, OF.x0 - 2.75, 0, -5.3], [t.billion + 0.25, OF.x0 + 0.1, OF.y, -5.3], [EP.desk - 0.35, EP.vac[0] + 0.3, OF.y, EP.vac[2] - 0.15], [EP.desk, EP.vac[0] + 0.3, OF.y, EP.vac[2] - 0.15]];   // keys in time order (pay + 0.6 > dollars − 0.3 teleported him onto the stairs); the climb overlaps the camera's descent
   function endPath(tt) {
     let i = 0; while (i < ROUTE.length - 2 && tt > ROUTE[i + 1][0]) i++;
     const [a0, x0, y0, z0] = ROUTE[i], [a1, x1, y1, z1] = ROUTE[i + 1], u = u01(tt, a0, a1), moving = u > 0 && u < 1 && Math.hypot(x1 - x0, z1 - z0) > 0.1;
@@ -737,19 +750,20 @@ export async function build(studio, story) {
       if (!c.root.visible) return;
       const base = { t: tt, eyes: 'open', mouth: 'smile' };
       if (tt < t.roll) { const wave = Math.sin(tt * 10 + i), tap = tt > t.alone - 0.2; return c.set({ ...base, x: Q[i][0], y: 0, z: Q[i][1], rotY: -PI / 2 + 0.5, mouth: tap ? 'frown' : 'grin', brows: tap ? -0.7 : 0, armR: tap ? { x: -1.5, z: 0.2, el: 1.6 } : { x: -2.6 + 0.3 * wave, z: 0.4, el: 0.5 }, armL: tap ? { x: -1.6, z: -0.3, el: 1.5 } : { x: 0, z: 0.2 }, squash: [1, 1 + 0.03 * Math.abs(wave)] }); }
-      const walkEnd = t.roll + 0.8 + Math.abs(STN[i][0] - Q[i][0]) / 2.8;
+      const walkEnd = t.roll + 0.8 + Math.abs(STN[i][0] - Q[i][0]) / (i >= 3 ? 4.5 : 2.8);
       if (tt < walkEnd && i !== 4) { const u = smooth(u01(tt, t.roll + 0.2, walkEnd)), far = i >= 3, AISLE = -6.3; const z = far ? (u < 0.1 ? lerp(Q[i][1], AISLE, u / 0.1) : u > 0.92 ? lerp(AISLE, STN[i][1], (u - 0.92) / 0.08) : AISLE) : lerp(Q[i][1], STN[i][1], smooth(clamp(u * 3)));
         return c.set({ ...base, x: lerp(Q[i][0], STN[i][0], u), y: 0, z, rotY: STN[i][0] > Q[i][0] ? PI / 2 : -PI / 2, walk: tt * 12 }); }
       const [x, z] = STN[i];
       if (i === 4 && tt < t.thenQ) { // off down the back aisle and out of the end door (he's out on the road until the QC)
         const AIS = -6.3, D0 = [D.hall.x1 - 0.8, AIS], D1 = [D.hall.x1 + 0.6, -3.4], D2 = [D.road, -14];
-        const tA = t.roll + 0.8 + (D0[0] - Q[i][0]) / 2.8, u = u01(tt, t.roll + 0.2, tA);
+        const tA = t.roll + 0.8 + (D0[0] - Q[i][0]) / 4.5, u = u01(tt, t.roll + 0.2, tA);
         if (tt < tA) return c.set({ ...base, x: lerp(Q[i][0], D0[0], u), y: 0, z: u < 0.06 ? lerp(Q[i][1], AIS, u / 0.06) : AIS, rotY: PI / 2, walk: tt * 12 });
         const v = u01(tt, tA, tA + 4.5), pts = v < 0.3 ? [D0, D1, v / 0.3] : [D1, D2, (v - 0.3) / 0.7];
         if (v >= 1) return hide(c);
         return c.set({ ...base, x: lerp(pts[0][0], pts[1][0], pts[2]), y: 0, z: lerp(pts[0][1], pts[1][1], pts[2]), rotY: Math.atan2(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]), walk: tt * 12 }); }
       if (i === 4 && tt < t.check - 0.2) { const u = smooth(u01(tt, t.thenQ, t.check - 0.2)), door = [D.hall.x1 + 0.6, -2.1];   // back in through the end door to the QC gate
         return c.set({ ...base, x: lerp(door[0], x, u), y: 0, z: lerp(door[1], z, u), rotY: -PI / 2, walk: tt * 11, mouth: 'flat' }); }
+      if (i === 4 && tt > t.twice + 0.5) { const u = smooth(u01(tt, t.twice + 0.5, t.vending + 0.1)), V = [D.vend[0] - 0.05, D.vend[1] - 0.85]; return c.set({ ...base, x: lerp(x, V[0], u), y: 0, z: lerp(z, V[1], u), rotY: u < 1 ? -PI / 2 : PI, walk: u > 0 && u < 1 ? tt * 10 : undefined, mouth: tt > t.meatloaf + 0.3 ? 'grin' : 'flat', armR: tt > t.meatloaf + 0.3 ? { x: -1.7, z: 0.2, el: 1.4 } : undefined }); }   // off to buy a meatloaf
       if (i === 4) { // the inspector: clipboard, looks Gary over, stamps him
         const stamp = (tt > STAMP - 0.25 && tt < STAMP + 0.25) || (tt > STAMP2 - 0.25 && tt < STAMP2 + 0.25), look = tt > t.check && tt < t.end;
         return c.set({ ...base, x, y: 0, z, rotY: look ? 1.0 : 0.3, eyes: look ? 'half' : 'open', mouth: look ? 'flat' : 'smile', brows: look ? -0.6 : 0, armL: { x: -1.5, z: 0.2, el: 1.3 }, armR: stamp ? { x: -1.9 + 0.7 * Math.sin(PI * u01(tt, (tt < STAMP2 - 0.25 ? STAMP : STAMP2) - 0.25, (tt < STAMP2 - 0.25 ? STAMP : STAMP2) + 0.25)), z: -0.1, el: 0.9 } : { x: -0.6, z: 0.2, el: 0.6 } });

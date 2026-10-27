@@ -233,7 +233,7 @@ export function makeRoomba() {
   const badge = new THREE.Group(); acc.add(badge); badge.position.set(R * 0.35, 0.13, 0);
   mk(new THREE.CylinderGeometry(0.17, 0.2, 0.09, 18), mat(0xffc21a, 0.35), badge, 0, 0.05, 0); mk(new THREE.CylinderGeometry(0.21, 0.21, 0.012, 18), mat(0xffc21a, 0.35), badge, 0.03, 0.006, 0);   // a tiny supervisor hard hat
   const tie = new THREE.Group(); acc.add(tie); tie.position.set(R * 0.72, 0.125, 0);
-  { const s = new THREE.Shape(); s.moveTo(0, 0.05); s.lineTo(0.035, 0.03); s.lineTo(0.05, -0.12); s.lineTo(0, -0.17); s.lineTo(-0.05, -0.12); s.lineTo(-0.035, 0.03); s.closePath(); const t = mk(new THREE.ExtrudeGeometry(s, { depth: 0.014, bevelEnabled: false }), mat(0xd12f3a, 0.5), tie); t.rotation.set(-PI / 2, 0, -PI / 2); t.scale.setScalar(1.6); }   // lies flat on top, knot at the front
+  { const s = new THREE.Shape(); s.moveTo(0, 0.05); s.lineTo(0.035, 0.03); s.lineTo(0.05, -0.12); s.lineTo(0, -0.17); s.lineTo(-0.05, -0.12); s.lineTo(-0.035, 0.03); s.closePath(); const t = mk(new THREE.ExtrudeGeometry(s, { depth: 0.014, bevelEnabled: false }), mat(0xd12f3a, 0.5), tie); t.rotation.set(-PI / 2, 0, -PI / 2); t.scale.setScalar(2.1); }   // lies flat on top, knot at the front
   const hat = new THREE.Group(); acc.add(hat); hat.position.set(0, 0.13, 0);
   mk(new THREE.CylinderGeometry(0.16, 0.16, 0.012, 24), mat(0x141414, 0.4), hat, 0, 0.006, 0); mk(new THREE.CylinderGeometry(0.1, 0.1, 0.2, 20), mat(0x141414, 0.4), hat, 0, 0.11, 0); mk(new THREE.CylinderGeometry(0.102, 0.102, 0.03, 20), mat(0xb3202b, 0.5), hat, 0, 0.03, 0);
   const flag = new THREE.Group(); acc.add(flag); flag.position.set(-R * 0.5, 0.12, 0);
@@ -426,7 +426,7 @@ export async function buildFactory(studio) {
 
   // ---- the hall (pops up bay by bay)
   const hall = new THREE.Group(); root.add(hall);
-  const floorT = tex(512, 512, (g, w, h) => { g.fillStyle = '#c4c9cc'; g.fillRect(0, 0, w, h); const R2 = rng(5); for (let i = 0; i < 800; i++) { g.fillStyle = `rgba(${R2() > 0.5 ? '255,255,255' : '0,0,0'},.04)`; g.fillRect(R2() * w, R2() * h, 3, 3); } g.strokeStyle = 'rgba(0,0,0,.08)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h); });
+  const floorT = tex(512, 512, (g, w, h) => { g.fillStyle = '#a9aeb2'; g.fillRect(0, 0, w, h); const R2 = rng(5); for (let i = 0; i < 800; i++) { g.fillStyle = `rgba(${R2() > 0.5 ? '255,255,255' : '0,0,0'},.04)`; g.fillRect(R2() * w, R2() * h, 3, 3); } g.strokeStyle = 'rgba(0,0,0,.08)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h); });
   floorT.wrapS = floorT.wrapT = THREE.RepeatWrapping; floorT.repeat.set((H.x1 - H.x0) / 4, -H.back / 4);
   const hallFloor = maskedPlane(H.x1 - H.x0, -H.back, new THREE.MeshStandardMaterial({ map: floorT, roughness: 0.32, metalness: 0.05 }), 40);
   hallFloor.mesh.rotation.x = -PI / 2; hallFloor.mesh.position.set((H.x0 + H.x1) / 2, 0.006, H.back / 2); hall.add(hallFloor.mesh);
@@ -443,7 +443,7 @@ export async function buildFactory(studio) {
   for (const m of conveyor.material) m.clippingPlanes = [floorClip];
   const setLine = (s) => { slatT.offset.x = -s / 2; };
   // the bays: back wall panel, back column, roof slab, a truss, two light panels
-  const wallT = tex(512, 512, (g, w, h) => { g.fillStyle = '#d7dee3'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 24) { g.fillStyle = 'rgba(0,0,0,.06)'; g.fillRect(x, 0, 6, h); g.fillStyle = 'rgba(255,255,255,.25)'; g.fillRect(x + 8, 0, 3, h); } g.fillStyle = '#2f6fd6'; g.fillRect(0, h * 0.86, w, h * 0.14); g.fillStyle = '#9fd3f5'; for (let x = 20; x < w; x += 128) g.fillRect(x, 26, 88, 60); g.fillStyle = 'rgba(255,255,255,.5)'; for (let x = 20; x < w; x += 128) g.fillRect(x, 26, 88, 8); });
+  const wallT = tex(512, 512, (g, w, h) => { g.fillStyle = '#b9c3cc'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 24) { g.fillStyle = 'rgba(0,0,0,.06)'; g.fillRect(x, 0, 6, h); g.fillStyle = 'rgba(255,255,255,.25)'; g.fillRect(x + 8, 0, 3, h); } g.fillStyle = '#2f6fd6'; g.fillRect(0, h * 0.86, w, h * 0.14); g.fillStyle = '#9fd3f5'; for (let x = 20; x < w; x += 128) g.fillRect(x, 26, 88, 60); g.fillStyle = 'rgba(255,255,255,.5)'; for (let x = 20; x < w; x += 128) g.fillRect(x, 26, 88, 8); });
   const bays = [], nB = Math.ceil((H.x1 - H.x0) / H.bay);
   const roofM = mat(0x9aa1a8, 0.7), trussM = steel(0x5d656e, 0.5), colM = steel(0x2f6fd6, 0.45), panelM = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xf4f8ff, emissiveIntensity: 1.5, roughness: 0.4 });
   for (let i = 0; i < nB; i++) {
@@ -499,7 +499,7 @@ export async function buildFactory(studio) {
   for (const x of [T.x0, T.x1]) { const p = mk(new THREE.PlaneGeometry(-T.z0, -T.y0), pitM, tank, x, T.y0 / 2, T.z0 / 2); p.rotation.y = x === T.x0 ? PI / 2 : -PI / 2; }
   const pitFloor = mk(new THREE.PlaneGeometry(T.x1 - T.x0, -T.z0), pitM, tank, (T.x0 + T.x1) / 2, T.y0, T.z0 / 2); pitFloor.rotation.x = -PI / 2;
   const bathM = new THREE.MeshStandardMaterial({ color: 0x2f8fe0, emissive: 0x1f5fa0, emissiveIntensity: 0.35, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.55, depthWrite: false, side: THREE.FrontSide });
-  const bath = mk(new THREE.BoxGeometry(T.x1 - T.x0 - 0.04, 1, -T.z0 - 0.08), bathM, tank, (T.x0 + T.x1) / 2, 0, T.z0 / 2 - 0.04);   // 4 cm behind the cut face (it z-fought the face) bath.castShadow = false; bath.renderOrder = 3;
+  const bath = mk(new THREE.BoxGeometry(T.x1 - T.x0 - 0.04, 1, -T.z0 - 0.08), bathM, tank, (T.x0 + T.x1) / 2, 0, T.z0 / 2 - 0.04); bath.castShadow = false; bath.renderOrder = 3;   // 4 cm behind the cut face (it z-fought the face)
   const setBath = (level) => { const hh = Math.max(0.001, level - T.y0); bath.scale.y = hh; bath.position.y = T.y0 + hh / 2; bath.visible = level > T.y0 + 0.01; };
   setBath(T.y0);
   const tankRail = new THREE.Group(); tank.add(tankRail);
@@ -524,7 +524,8 @@ export async function buildFactory(studio) {
   // ---- loading dock (back wall roll-up door) + the QC gate + crash lane + crash wall + shipping door + the roof test track
   const dock = new THREE.Group(); root.add(dock); dock.position.set((D.dock.x0 + D.dock.x1) / 2, 0, H.back + 0.06);
   const dockDoor = mk(new THREE.PlaneGeometry(D.dock.x1 - D.dock.x0, 3.6), new THREE.MeshStandardMaterial({ map: rollT.clone(), roughness: 0.6, color: 0xcfd6db }), dock, 0, 1.8, 0.01);
-  mk(new THREE.PlaneGeometry(D.dock.x1 - D.dock.x0, 3.6), mat(0x22262b, 1), dock, 0, 1.8, 0.0);
+  { const bayT = tex(256, 220, (g, w, h) => { g.fillStyle = '#56616c'; g.fillRect(0, 0, w, h); g.fillStyle = '#3d4650'; g.fillRect(18, 30, w - 36, h - 30); g.fillStyle = '#e8eef2'; g.fillRect(18, 22, w - 36, 6); const R3 = rng(9); for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) if (R3() > 0.2) { g.fillStyle = R3() > 0.5 ? '#c9a06b' : '#b58b55'; g.fillRect(26 + c * 34, h - 34 - r * 30, 30, 27); g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(26 + c * 34, h - 34 - r * 30 + 12, 30, 3); } });   // a lit trailer full of boxes (pure black read as a hole)
+    mk(new THREE.PlaneGeometry(D.dock.x1 - D.dock.x0, 3.6), new THREE.MeshStandardMaterial({ map: bayT, roughness: 0.9, emissive: 0xffffff, emissiveMap: bayT, emissiveIntensity: 0.25 }), dock, 0, 1.8, 0.0); }
   const dockSign = sign(dock, 'DOCK 1', 1.4, 0.4, { bg: '#ffd23f', fg: '#222' }); dockSign.position.set(0, 3.95, 0.02);
   for (const s of [-1, 1]) { const st = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 3.6), new THREE.MeshStandardMaterial({ map: tex(32, 256, (g) => { for (let i = 0; i < 16; i++) { g.fillStyle = i % 2 ? '#111' : '#ffd23f'; g.fillRect(0, i * 16, 32, 16); } }) })); st.position.set(s * ((D.dock.x1 - D.dock.x0) / 2 + 0.12), 1.8, 0.01); dock.add(st); }
   const setDock = (k) => { dockDoor.scale.y = Math.max(0.02, 1 - k); dockDoor.position.y = 3.6 - (3.6 * dockDoor.scale.y) / 2; };
@@ -533,12 +534,17 @@ export async function buildFactory(studio) {
   const tubeM = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1.6 });
   for (const z of [-1.2, 1.2]) mk(new THREE.BoxGeometry(0.12, 2.6, 0.12), steel(0x3a3e44), qcGate, 0, 1.3, z);
   mk(new THREE.BoxGeometry(0.12, 0.12, 2.5), steel(0x3a3e44), qcGate, 0, 2.6, 0); for (let i = 0; i < 4; i++) mk(new THREE.BoxGeometry(0.05, 0.05, 2.2), tubeM, qcGate, 0.08, 2.48 - i * 0.12, 0);
+  { // a portal that faces the lens (the gate alone read edge-on as one black pole): green-lit posts + a header across x
+    const gM = new THREE.MeshStandardMaterial({ color: 0x7cf05f, emissive: 0x4fd040, emissiveIntensity: 1.2 });
+    for (const x of [-1.9, 1.9]) { mk(new THREE.BoxGeometry(0.16, 2.7, 0.16), steel(0x3a3e44), qcGate, x, 1.35, -1.25); mk(new THREE.BoxGeometry(0.05, 2.5, 0.03), gM, qcGate, x, 1.3, -1.155); }   // behind the car: nobody walks into it
+    mk(new THREE.BoxGeometry(3.96, 0.22, 0.2), steel(0x3a3e44), qcGate, 0, 2.75, -1.25); mk(new THREE.BoxGeometry(3.6, 0.04, 0.03), gM, qcGate, 0, 2.66, -1.14);
+    const qs = sign(qcGate, 'QC', 0.7, 0.3, { bg: '#1f6f3a', fg: '#fff' }); qs.position.set(0, 3.03, -1.14); }
   const crash = new THREE.Group(); root.add(crash);
   const C = D.crash;
   const laneT = tex(512, 64, (g, w, h) => { g.fillStyle = '#3d4248'; g.fillRect(0, 0, w, h); g.fillStyle = '#f2c418'; g.fillRect(0, 4, w, 5); g.fillRect(0, h - 9, w, 5); g.fillStyle = '#ddd'; for (let x = 0; x < w; x += 48) g.fillRect(x, h / 2 - 2, 26, 4); });
   const lane = mk(new THREE.PlaneGeometry(C.wall - C.x0, 2.2), new THREE.MeshStandardMaterial({ map: laneT, roughness: 0.6 }), crash, (C.x0 + C.wall) / 2, 0.014, C.z); lane.rotation.x = -PI / 2;
   const wallTex = tex(256, 256, (g, w, h) => { g.fillStyle = '#bdb8ae'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(0,0,0,.12)'; g.lineWidth = 3; for (let y = 0; y < h; y += 42) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); } for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? '#111' : '#ffd23f'; g.fillRect(i * 32, h - 36, 32, 36); } });
-  const crashWall = mk(new THREE.BoxGeometry(1.2, 2.3, 2.2), new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.9 }), crash, C.wall + 0.6, 1.15, -1.1);   // z −2.2…0: the line cars pass behind it
+  const crashWall = mk(new THREE.BoxGeometry(1.2, 2.3, 1.8), new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.9 }), crash, C.wall + 0.6, 1.15, -0.9);   // z −1.8…0: the line cars (and Gary's walk at z −2.15) pass behind it
   const target = new THREE.Mesh(new THREE.CircleGeometry(0.5, 32), new THREE.MeshStandardMaterial({ map: tex(128, 128, (g, w) => { for (let k = 0; k < 4; k++) { g.fillStyle = k % 2 ? '#111' : '#ffd23f'; g.beginPath(); g.moveTo(w / 2, w / 2); g.arc(w / 2, w / 2, w / 2, (k * PI) / 2, ((k + 1) * PI) / 2); g.fill(); } }) }));
   target.position.set(C.wall - 0.005, 1.25, C.z); target.rotation.y = -PI / 2; crash.add(target);
   const crashSign = sign(crash, 'CRASH TEST', 1.2, 0.36, { bg: '#111', fg: '#ffd23f' }); crashSign.position.set(C.wall + 0.6, 1.9, 0.012);
@@ -630,9 +636,9 @@ export async function buildFactory(studio) {
   mk(new THREE.CylinderGeometry(0.06, 0.08, 0.66, 10), steel(0x3a3e44), pedal, 0, 0.33, 0); mk(new RoundedBoxGeometry(0.62, 0.14, 0.3, 2, 0.04), mat(0xf2c418, 0.5), pedal, 0, 0.7, 0);   // waist height (it hid Gary's face)
   const pButtons = [-0.18, 0.18].map((x) => mk(new THREE.CylinderGeometry(0.075, 0.075, 0.07, 16), mat(0xd12f3a, 0.35), pedal, x, 0.8, 0));
   const vend = new THREE.Group(); root.add(vend); vend.position.set(D.vend[0], 0, D.vend[1] - 0.45);
-  { const vT = tex(256, 128, (g, w, h) => { g.fillStyle = '#7a3b1e'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffd23f'; g.font = font(54); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('MEATLOAF', w / 2, h / 2 + 4); });
+  let vendLabel; { const vT = tex(256, 128, (g, w, h) => { g.fillStyle = '#7a3b1e'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffd23f'; g.font = font(54); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('MEATLOAF', w / 2, h / 2 + 4); });
     mk(new RoundedBoxGeometry(1.0, 1.95, 0.8, 3, 0.06), mat(0xd12f3a, 0.45), vend, 0, 0.98, 0);
-    mk(new THREE.PlaneGeometry(0.9, 0.36), new THREE.MeshStandardMaterial({ map: vT, roughness: 0.5 }), vend, 0, 1.74, 0.405);
+    vendLabel = mk(new THREE.PlaneGeometry(0.9, 0.36), new THREE.MeshStandardMaterial({ map: vT, roughness: 0.5 }), vend, 0, 1.74, 0.41);   // blank red until "meatloaf"
     mk(new THREE.PlaneGeometry(0.62, 0.95), new THREE.MeshStandardMaterial({ color: 0xcfefff, roughness: 0.05, transparent: true, opacity: 0.35 }), vend, -0.1, 1.05, 0.41);
     for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) mk(new RoundedBoxGeometry(0.15, 0.08, 0.1, 2, 0.03), mat(0x8a4a24, 0.8), vend, -0.3 + c * 0.2, 0.7 + r * 0.22, 0.3);
     mk(new THREE.BoxGeometry(0.5, 0.14, 0.05), mat(0x111111, 0.6), vend, -0.1, 0.3, 0.405); }
@@ -670,16 +676,16 @@ export async function buildFactory(studio) {
   // signs, the Roomba's charging dock. It shows through the cut face below the floor and fills the band that was plain soil.
   const BS = D.base, basement = new THREE.Group(); root.add(basement);
   const bLen = H.x1 - H.x0, bcx = (H.x0 + H.x1) / 2, bH = BS.y1 - BS.y0;
-  const bWallT = tex(512, 256, (g, w, h) => { g.fillStyle = '#9a9891'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 64) { g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x, 0, 3, h); } g.fillStyle = '#f2c418'; g.fillRect(0, h - 26, w, 12); g.fillStyle = '#222'; for (let x = 0; x < w; x += 36) { g.beginPath(); g.moveTo(x, h - 26); g.lineTo(x + 14, h - 26); g.lineTo(x + 2, h - 14); g.lineTo(x - 12, h - 14); g.fill(); } });
+  const bWallT = tex(512, 256, (g, w, h) => { g.fillStyle = '#6b7078'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 64) { g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x, 0, 3, h); } g.fillStyle = '#f2c418'; g.fillRect(0, h - 26, w, 12); g.fillStyle = '#222'; for (let x = 0; x < w; x += 36) { g.beginPath(); g.moveTo(x, h - 26); g.lineTo(x + 14, h - 26); g.lineTo(x + 2, h - 14); g.lineTo(x - 12, h - 14); g.fill(); } });
   bWallT.wrapS = THREE.RepeatWrapping; bWallT.repeat.set(bLen / 6, 1);
   const bMats = [];
   const bm = (m) => { bMats.push(m); return m; };
   mk(new THREE.PlaneGeometry(bLen, bH), bm(new THREE.MeshStandardMaterial({ map: bWallT, roughness: 0.9 })), basement, bcx, (BS.y0 + BS.y1) / 2, BS.z1);
-  const bFloorT = tex(256, 256, (g, w, h) => { g.fillStyle = '#8c8a84'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(0,0,0,.12)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h); }); bFloorT.wrapS = bFloorT.wrapT = THREE.RepeatWrapping; bFloorT.repeat.set(bLen / 3, 1.4);
+  const bFloorT = tex(256, 256, (g, w, h) => { g.fillStyle = '#5d6168'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(0,0,0,.12)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h); }); bFloorT.wrapS = bFloorT.wrapT = THREE.RepeatWrapping; bFloorT.repeat.set(bLen / 3, 1.4);
   mk(new THREE.PlaneGeometry(bLen, -BS.z1), bm(new THREE.MeshStandardMaterial({ map: bFloorT, roughness: 0.85 })), basement, bcx, BS.y0 + 0.002, BS.z1 / 2).rotation.x = -PI / 2;
-  const ceil2 = maskedPlane(bLen, -BS.z1, bm(new THREE.MeshStandardMaterial({ color: 0xb8b4ab, roughness: 0.9, side: THREE.DoubleSide })), 30); ceil2.mesh.rotation.x = PI / 2; ceil2.mesh.position.set(bcx, BS.y1, BS.z1 / 2); basement.add(ceil2.mesh);
+  const ceil2 = maskedPlane(bLen, -BS.z1, bm(new THREE.MeshStandardMaterial({ color: 0x8a8f96, roughness: 0.9, side: THREE.DoubleSide })), 30); ceil2.mesh.rotation.x = PI / 2; ceil2.mesh.position.set(bcx, BS.y1, BS.z1 / 2); basement.add(ceil2.mesh);
   const ceilHoles = (shapes) => ceil2.setHoles(shapes, (x, z) => [x - bcx, (z - BS.z1 / 2)]);
-  for (const x of [H.x0, H.x1]) { const sw = mk(new THREE.PlaneGeometry(-BS.z1, bH), bm(mat(0x9a9891, 0.9)), basement, x, (BS.y0 + BS.y1) / 2, BS.z1 / 2); sw.rotation.y = x === H.x0 ? PI / 2 : -PI / 2; }
+  for (const x of [H.x0, H.x1]) { const sw = mk(new THREE.PlaneGeometry(-BS.z1, bH), bm(mat(0x6b7078, 0.9)), basement, x, (BS.y0 + BS.y1) / 2, BS.z1 / 2); sw.rotation.y = x === H.x0 ? PI / 2 : -PI / 2; }
   // pipes + cable tray along the back, strip lights on the ceiling, columns
   [[0xf2c418, -0.6, BS.z1 + 0.25, 0.12], [0x2f6fd6, -0.9, BS.z1 + 0.3, 0.16], [0xd12f3a, -1.25, BS.z1 + 0.22, 0.1]].forEach(([c, y, z, r]) => mk(new THREE.CylinderGeometry(r, r, bLen, 14), bm(mat(c, 0.45)), basement, bcx, y, z).rotation.z = PI / 2);
   mk(new THREE.BoxGeometry(bLen, 0.06, 0.4), bm(steel(0x6b737b)), basement, bcx, -1.55, BS.z1 + 0.3);
@@ -700,8 +706,8 @@ export async function buildFactory(studio) {
     const plat = new THREE.Group(); g2.add(plat); mk(new THREE.BoxGeometry(0.76, 0.06, 0.76), bm(steel(0x5d656e)), plat); const part = mk(new RoundedBoxGeometry(0.42, 0.3, 0.42, 2, 0.04), bm(mat([0xc49158, 0xd12f3a, 0x2f6fd6][i % 3], 0.7)), plat, 0, 0.18, 0);
     return { g: g2, plat, part, ph: (i * 0.37) % 1 }; });
   const hatchHoles = BS.lifts.map((x) => ({ rect: [x - 0.42, LZ - 0.42, x + 0.42, LZ + 0.42] }));
-  const signB = sign(basement, 'B1 · PARTS EXPRESS', 3.2, 0.5, { bg: '#2f6fd6', fg: '#fff' }); signB.position.set(4.2, -1.0, BS.z1 + 0.02); bMats.push(signB.material);
-  const signB2 = sign(basement, 'WATCH YOUR HEAD', 2.4, 0.42, { bg: '#ffd23f', fg: '#222' }); signB2.position.set(16.5, -1.0, BS.z1 + 0.02); bMats.push(signB2.material);
+  const signB = sign(basement, 'B1 · PARTS EXPRESS', 3.2, 0.5, { bg: '#2f6fd6', fg: '#fff' }); signB.position.set(4.2, -1.75, BS.z1 + 0.02); bMats.push(signB.material);
+  const signB2 = sign(basement, 'WATCH YOUR HEAD', 2.4, 0.42, { bg: '#ffd23f', fg: '#222' }); signB2.position.set(16.5, -1.75, BS.z1 + 0.02); bMats.push(signB2.material);
   const dock2 = new THREE.Group(); basement.add(dock2); dock2.position.set(12.4, BS.y0, -2.9);   // the Roomba's charging dock (ROOMBA ONLY)
   mk(new RoundedBoxGeometry(0.7, 0.34, 0.3, 2, 0.05), bm(mat(0x2b2e33, 0.4)), dock2, 0, 0.17, 0); mk(new THREE.SphereGeometry(0.04, 10, 8), new THREE.MeshBasicMaterial({ color: 0x46e07a, toneMapped: false }), dock2, 0, 0.3, 0.16);
   const signB3 = sign(dock2, 'ROOMBA ONLY', 1.0, 0.24, { bg: '#2b2e33', fg: '#46e07a' }); signB3.position.set(0, 0.62, -0.12); bMats.push(signB3.material);
@@ -740,6 +746,6 @@ export async function buildFactory(studio) {
     root, cut, aimSun, setPit, setBasement, basement, lifts, sun, hemi, setHall, setLine, setFloorHoles, setFaceHoles: (shapes) => cut.setHoles(shapes),
     shop: { g: shop, lift, liftArms, priceBoard, prices, counter, cobwebs }, garage: { g: garage, setRollDoor, tools, lawnmower, lmEng, bulb, pegboard },
     yard, bays, conveyor, banner, daysSign, daysSign2, daysTex, safety, tpsSign, pressSign, clock, hands, press, ram, tank: { g: tank, setBath, bath, rail: tankRail }, hoist: { g: hoist, setHoist, trolley, hanger },
-    crack, dock: { g: dock, setDock }, qcGate, lever, lvArm, pedal, pButtons, vend, setLot, booth, boothMist, office: { g: office, desk: oDesk, glass: oGlass, invoice: framedBill }, stairs, garageLine, endWall, house, crash: { g: crash, wall: crashWall, target, camStands }, roofTrack, racks,
+    crack, dock: { g: dock, setDock }, qcGate, lever, lvArm, pedal, pButtons, vend, vendLabel, officeSign: osign, setLot, booth, boothMist, office: { g: office, desk: oDesk, glass: oGlass, invoice: framedBill }, stairs, garageLine, endWall, house, crash: { g: crash, wall: crashWall, target, camStands }, roofTrack, racks,
   };
 }

@@ -6,11 +6,11 @@
  "motionBlur": 2,
  "duration": 108.34,
  "look": {
-  "exposure": 1.2,
+  "exposure": 1.1,
   "bloom": 0.12,
   "fill": 0.45,
   "toneMapping": "neutral",
-  "vignette": 0.08,
+  "vignette": 0.14,
   "grain": 0.012,
   "warm": 0.3,
   "saturation": 1.08,
@@ -3650,7 +3650,7 @@
    "t1": 20.199
   },
   {
-   "text": "12 HOURS \u2192 93 MIN",
+   "text": "12 HOURS → 93 MIN",
    "style": "label",
    "t0": 18.032,
    "t1": 20.199
@@ -3684,7 +3684,7 @@
    "t1": 31.518
   },
   {
-   "text": "ZZZ\u2026",
+   "text": "ZZZ…",
    "style": "sfx",
    "t0": 39.193,
    "t1": 40.193,
@@ -3705,8 +3705,8 @@
    "t0": 44.806,
    "t1": 45.706,
    "pos": [
-    0.7,
-    0.62
+    0.75,
+    0.28
    ]
   },
   {
@@ -3726,6 +3726,16 @@
    "style": "label",
    "t0": 56.894,
    "t1": 59.535
+  },
+  {
+   "text": "HELP!",
+   "style": "sfx",
+   "t0": 59.851,
+   "t1": 60.851,
+   "pos": [
+    0.78,
+    0.42
+   ]
   },
   {
    "text": "JUST-IN-TIME",
