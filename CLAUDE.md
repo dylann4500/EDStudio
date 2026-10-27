@@ -101,6 +101,8 @@ videos/NNN-slug/
 - **Giants / scaled people (010):** `rig.root.scale.setScalar(2)` and pose them with a helper that passes the ground in LOCAL units:
   `p.y = 0; p.floor = (groundY − rootY) / s; applyPose(); root.position.y = rootY` (010 `putG`). Sitting on something at height h:
   `rootY = h − s·(HIP_H − 0.17)`. Walking: `dist/s`, `speed/s`. A doubled person under a 2.7 m ceiling needs `crouch ≈ 0.3, lean ≈ 0.5`.
+  **A kid on an adult bench (029):** that formula left the kid standing (legs too short to reach the ground → straight legs). Seat
+  the pelvis at `rootY = seat − s·(HIP_H − 0.07)` and dangle the feet with `p.floor = 0.42` (local) + `footFwd 0.42` (029 `putKid`).
 - `engine/sets/kitchen.js` (010): morning kitchen, fully dressed (counters, sink under a sunny window, stove + kettle, coffee maker, toaster,
   fruit bowl, fridge with magnets + a kid's drawing, table + 4 `chairs`, pendant lamp, wall clock `setClock(h,m)`, calendar, plants, rug).
 - `engine/sets/plane.js` (010): economy cabin, 12 rows × 6 seats (`seatPos(row, col)`; passengers face +z), bins, oval windows with
@@ -353,6 +355,23 @@ videos/NNN-slug/
   0..4, finish 'steel'|'ecoat'|'paint', mix [3 colours], rust, crumple, doorOff, stripes, spin})`), `makeJunkCar`,
   `makeRobotArm` (`pose()`, `reach(point)` IK), `makeRoomba` (badge/tie/hat/flag accessories, LED eyes), `makeTowTruck`,
   `makeSteeringWheel`, `makeTire`, `makeAirbag`, `makeTugger`, `makeVacuum`, `makeEasel`, `makeInvoice`.
+- **Moon kit (029, `engine/moon.js`):** `moonTexture()` (procedural near side: maria at real positions, Tycho/Copernicus rays),
+  `makeMoonBody({r})` (+ `faceToward(earth)`), `makeSkyMoon()` = the Moon in ANY set's sky at a TRUE angular size —
+  `setSky(camera, dir, angDeg, dist)` every frame after `setCamera` (keep `dist` inside the sky dome and the far plane), `setPhase(null|sunDir)`,
+  `setTint`, `setGain`, `setGlow`; `ANG0` 0.518° (today) / `ANG1` 1.036° (half the distance). 1° is SMALL: "giant moon" shots need a
+  long lens (fov 3.5–9°, like real moonrise photos) and the faces get their own shots. `makeEclipse()` → `setSky(camera, dir, angSun,
+  angMoon, dist, cover 0..1)` = Sun disc + streaky additive corona + a black Moon (totality at cover 1).
+- `engine/sets/tidetown.js` (029): a New England harbor built for tides — granite quay (top `DIMS.quayY` 2.2, edge z 0) with a painted
+  TIDE STAFF, bollards, lobster traps + buoys (they float off when the tide tops the quay), benches, lamp posts; a street of `cars[]`;
+  ten clapboard shops (LOBSTER SHACK … POST OFFICE, lit windows) with 3rd-floor balconies `DIMS.balconies` at `balconyY` 8.9; a hill of
+  houses + a white church; a breakwater out to a lighthouse whose beam sweeps; `boats[]` that float or keel over on the mud (`floorY`).
+  `setTide(level, t)` (y 0 = mean sea level; floods the street above 2.2), `rideBoats(t, level)`, `setMode('dusk'|'night'|'morning')`
+  (a shader sky dome: Belt of Venus over the eastern −z horizon at dusk), `setMoon(dir, k)` moonlight (k = ×brightness), `aimAt`, `update(t)`.
+- `engine/sets/fundy.js` (029): the Bay of Fundy ocean floor at low tide — red mud, five sandstone "flowerpot" stacks (noise-displaced
+  columns with a narrow waist and the old tide line baked into vertex colors, firs on top), a layered cliff + forest, a steel
+  staircase with a landing (`DIMS.stairFoot/landing/stairTop`), an OCEAN FLOOR sign, `setSea(level, t, frontZ)` (silty water + foam
+  rings at the stacks + an optional foam line). 029 clips the sea plane at an advancing z (`material.clippingPlanes` +
+  `renderer.localClippingEnabled`) so the tide front races over the floor before the bay rises.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
@@ -410,6 +429,14 @@ videos/NNN-slug/
 
 ## Hard-won rules (each one cost a debugging round)
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
+- **A sky dome that follows the camera in `onBeforeRender` must convert the camera into its root's LOCAL space** when the set is parked
+  at an offset (`root.worldToLocal`) — 029's harbor sky copied the world position into a child of a root at x = 6000 and rendered
+  pure black. city.js gets away with it only because it stays at the origin. Also set `frustumCulled = false` on it.
+- **Additive glows are drawn after every opaque mesh, whatever `renderOrder` says** (opaque and transparent lists sort separately):
+  029's black eclipse Moon (an opaque MeshBasic disc) was washed white by the additive corona sprite. Make the disc `transparent: true`
+  so `renderOrder` puts it on top.
+- **Ride the lens on a rising water level** (029 floodB: `P.y = level + 0.55`, aim fixed relative to it): the water fills the bottom of
+  the frame and the rise is felt; a fixed camera over a rising flat plane just looks like a blue floor coming up.
 - **The render log now shows page `console.warn`** (`[page] …`): Puppeteer reports it as type `'warn'`, and tools/render.mjs only
   printed `'warning'`/`'error'`, so every lint warning from page code (e.g. engine/build/rail.js speed checks) was silently lost.
 - **Real-world facts must be current and sourced** (web-search the latest edition: SIPRI/IISS/IAEA/UN…); cite in the shots.js header +
@@ -612,6 +639,9 @@ the weakest (besides the title) was the static look-up at the grumpy old man in 
 **019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
+**029 (Moon twice as close) cut2 = 0.0471, TARGET MET after one in-place fix pass:** the dead zone (static calendar wall, a
+near-static Earth + Moon, a static two-shot on a bench, a faceless telephoto) lifted by camera moves + body motion on the SAME
+timeline (027's rule held: no retiming, untouched beats barely moved). Faces in eclipse glasses as the daylight drains scored 0.145.
 **022 (ballsack doubling, logistics POV) = 0.0788, cut1 met the target:** the close, face-filled slapstick beats scored highest
 (wheelbarrow + staring neighbors 0.147, tailor 0.140, doctor faint 0.110–0.128), while the faceless planet-scale finale sagged
 (ZIP horizon 0.060, Earth 0.057) and the quiet elevator title open went negative (−0.013). Body-absurd ladders score best

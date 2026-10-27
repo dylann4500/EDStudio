@@ -1,0 +1,24 @@
+029-moon-twice-as-close-cut1: 62 s
+  wc_mean                  +0.0428   best existing +0.0447  below
+  wc_mean_first60          +0.0421   best existing +0.0421  BEATS
+  pct_above_thresh         +14.6906   best existing +15.7313  below
+  hook_0_3                 -0.0545
+  sustain_pooled_median    +62.9032
+  dead zones (≥8 s below 0.0185, after 4 s): 39–53 s
+  per beat (mean whole-cortex, min second):
+      0.0–  3.4 title     -0.0545  min -0.0596  
+      3.4–  7.6 rise      -0.0345  min -0.0608  ###
+      7.6– 12.2 faces     +0.0270  min -0.0003  ###############
+     12.2– 16.4 roof      +0.0413  min +0.0394  ##################
+     16.4– 19.6 flood     +0.0392  min +0.0320  #################
+     19.6– 22.4 floodB    +0.0732  min +0.0717  ########################
+     22.4– 26.4 low       +0.0799  min +0.0781  #########################
+     26.4– 32.4 fundy     +0.1006  min +0.0838  ##############################
+     32.4– 35.4 eclA      +0.1486  min +0.1403  #######################################
+     35.4– 39.0 eclB      +0.0937  min +0.0415  ############################
+     39.0– 43.6 cal       +0.0074  min -0.0015  ###########
+     43.6– 48.2 orbit     +0.0015  min -0.0062  ##########
+     48.2– 51.0 end1      -0.0100  min -0.0120  #######
+     51.0– 54.0 end2      +0.0069  min -0.0084  ###########
+     54.0– 61.4 end3      +0.0825  min +0.0417  ##########################
+  TARGET NOT MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

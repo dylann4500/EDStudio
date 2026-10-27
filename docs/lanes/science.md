@@ -81,3 +81,23 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   intro before SECOND 0 (−0.007) and the first slide beat (0.030) — early beats sag in every reel; the bright, busy, face-filled
   middle carried it. A bright DAY ladder with a free-frame camera (faces close, the world streaking past) beat both dark/space reels.
 
+## Fourth video: 029 "What if the Moon were twice as close?"
+- **Shape (61.4 s):** a Maine harbor at dusk, faces on the quay → a 9° lens on the full moonrise; SECOND 0 it doubles (HUD 384,400 →
+  192,200 km) → one consequence per place, a day-and-night ladder (Day 1 → Day 11): the faces (2× wide), a New York rooftop (4× the
+  moonlight: a reader holds up MOON MOVES CLOSER), the harbor at 1 AM (8× the tidal pull floods the street; HUD = sea level rolling
+  0 → 6 m), the harbor at dawn (−6 m, boats keeled over, faces peering 8 m down), the Bay of Fundy (a time-lapse tide front, then the
+  bay climbs the flowerpot stacks; 16 → ~130 m "rough estimate"), Quito (a half-hour total eclipse; glasses come off at totality,
+  crickets start), an Ohio kitchen (10-day months: 37 full moons a year, the kid howls), Earth + Moon to scale, back to the harbor on
+  Day 11 (craters by eye) → "Would you want the *bigger* Moon?".
+- **Honest size:** the Moon is drawn at its true angular size (engine/moon.js). Twice the Moon is still only ~1° — the "giant moon"
+  shots are long lenses (fov 3.5–9°), as in real moonrise photos; the faces get their own shots. Say so in the header.
+- **Uncertain numbers say so on screen:** tides scaled ×8 are a rough linear estimate (resonance, friction) → "Roughly 130 meters",
+  HUD "×8 · ROUGH ESTIMATE"; the eclipse count isn't printed ("far more often"), only the computed half-hour totality.
+- New engine pieces: `engine/moon.js`, `engine/sets/tidetown.js`, `engine/sets/fundy.js` (CLAUDE.md cheat sheet).
+- **TRIBE:** cut1 0.0428 / first 60 s 0.0421, dead zone 39–53 s: a static calendar wall (0.007), a near-static Earth + Moon
+  two-shot (0.002), a static Dad + kid two-shot on a bench (−0.01) and the faceless crater telephoto (0.007). cut2 = the SAME timeline
+  and audio, visual-only fixes: a push-in on a hopping kid, an Earthrise (the camera rises so Earth climbs over the Moon's limb), a
+  camera arc + the kid jumping on the bench with a couple behind, a 1.4 s close-up of the kid's awed face after the craters, a 1.1 s
+  faces insert before the doubling → 0.0471 / 0.0469, no dead zone, TARGET MET. Peaks: faces in eclipse glasses as the light drains
+  (0.145 — the best beat measured so far), the eclipse sky with the crowd silhouetted (0.10), Fundy's tide front chasing tourists
+  (0.095). Static two-shots sag even with close faces; give every face beat a camera move AND body motion.
