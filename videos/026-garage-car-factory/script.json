@@ -1,0 +1,271 @@
+{
+  "title": "How a Garage Becomes a Car Factory",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_multilingual_v2",
+    "settings": {
+      "stability": 0.35,
+      "similarity_boost": 0.8,
+      "style": 0.45,
+      "use_speaker_boost": true,
+      "speed": 1.12
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 255
+  },
+  "lead": 0.06,
+  "gap": 0.04,
+  "tail": 1.3,
+  "look": {
+    "exposure": 1.2,
+    "bloom": 0.12,
+    "fill": 0.45,
+    "toneMapping": "neutral",
+    "vignette": 0.08,
+    "grain": 0.012,
+    "warm": 0.3,
+    "saturation": 1.08,
+    "lift": 0.01
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "The mechanic wants 900 dollars to fix your car, so you build a new one in your garage.",
+      "callouts": [
+        {
+          "at": "900",
+          "text": "$900",
+          "style": "money",
+          "until": "car"
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built a car. It has three wheels, a lawnmower engine, and the horn is Gary.",
+      "callouts": [
+        {
+          "at": "gary",
+          "text": "HONK!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.34
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "line",
+      "say": "Now everyone wants one, and Gary builds them alone. So you roll each car past a row of stations, one job each. This is called an assembly line. Ford's line cut a car from 12 hours to 93 minutes. Your Roomba pulls the rope. Promoted.",
+      "callouts": [
+        {
+          "at": "assembly",
+          "text": "ASSEMBLY LINE",
+          "style": "term",
+          "until": "minutes"
+        },
+        {
+          "at": "12",
+          "text": "12 HOURS → 93 MIN",
+          "style": "label",
+          "until": "minutes"
+        },
+        {
+          "at": "promoted",
+          "text": "PROMOTED",
+          "style": "stamp",
+          "hold": 1.3
+        }
+      ]
+    },
+    {
+      "id": "parts",
+      "say": "But nothing fits. Gary is hammering a door into a sunroof. So you make every part exactly alike. This is called interchangeable parts. In 1908, Cadillac mixed three cars into one pile and rebuilt all three. Gary was in the pile. He's a hood ornament now.",
+      "callouts": [
+        {
+          "at": "sunroof",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.3
+          ],
+          "hold": 0.9
+        },
+        {
+          "at": "interchangeable",
+          "text": "INTERCHANGEABLE PARTS",
+          "style": "term",
+          "until": "three",
+          "nth": 1
+        },
+        {
+          "at": "1908",
+          "text": "CADILLAC, 1908",
+          "style": "label",
+          "until": "three",
+          "nth": 1
+        }
+      ]
+    },
+    {
+      "id": "robots",
+      "say": "Gary's new job is one bolt, all day. He falls asleep standing up. So you buy robot arms that never sleep. This is called an industrial robot. It just welded Gary to a door.",
+      "callouts": [
+        {
+          "at": "asleep",
+          "text": "ZZZ…",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.32
+          ],
+          "hold": 1.0
+        },
+        {
+          "at": "industrial",
+          "text": "INDUSTRIAL ROBOT",
+          "style": "term",
+          "until": "door"
+        },
+        {
+          "at": "welded",
+          "text": "SZZT!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "ecoat",
+      "say": "Then the roof leaks, and every car rusts. So you dip every body in electrified paint that seals every crack. This is called e-coating. Gary is still welded to that door. He's rustproof now.",
+      "callouts": [
+        {
+          "at": "ecoating",
+          "text": "E-COATING",
+          "style": "term",
+          "until": "still"
+        },
+        {
+          "at": "rustproof",
+          "text": "RUSTPROOF",
+          "style": "stamp",
+          "hold": 1.3
+        }
+      ]
+    },
+    {
+      "id": "jit",
+      "say": "A car has 30,000 parts, and they all arrive at once. Gary is buried in steering wheels. So each part arrives minutes before it's needed. This is called just-in-time. Toyota invented it. The Roomba took credit. Manager.",
+      "callouts": [
+        {
+          "at": "30000",
+          "text": "30,000 PARTS",
+          "style": "label",
+          "until": "once"
+        },
+        {
+          "at": "justintime",
+          "text": "JUST-IN-TIME",
+          "style": "term",
+          "until": "credit"
+        },
+        {
+          "at": "manager",
+          "text": "MANAGER",
+          "style": "stamp",
+          "hold": 1.3
+        }
+      ]
+    },
+    {
+      "id": "crash",
+      "say": "Is it safe? You crash one into a wall. Gary is the dummy. The car is fine. Gary is not. So you make the front fold like a soda can. This is called a crumple zone. Gary walks away fine. Then the airbag goes off.",
+      "callouts": [
+        {
+          "at": "wall",
+          "text": "CRUNCH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.26
+          ],
+          "hold": 0.9
+        },
+        {
+          "at": "crumple",
+          "text": "CRUMPLE ZONE",
+          "style": "term",
+          "until": "fine",
+          "nth": 1
+        },
+        {
+          "at": "off",
+          "text": "FWUMP!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.3
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a paint shop, a test track, and an inspector who rejects Gary.",
+      "callouts": [
+        {
+          "at": "rejects",
+          "text": "REJECTED",
+          "style": "stamp",
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a car factory. You just didn't want to pay 900 dollars. Now you've spent 7.6 billion, you make a car every 53 seconds, Gary works for the Roomba, and your car is still in the shop. The mechanic wants 1,400 now.",
+      "callouts": [
+        {
+          "at": "76",
+          "text": "$7,600,000,000",
+          "style": "money",
+          "until": "billion"
+        },
+        {
+          "at": "53",
+          "text": "1 CAR / 53 SECONDS",
+          "style": "label",
+          "until": "seconds"
+        },
+        {
+          "at": "roomba",
+          "text": "CEO",
+          "style": "stamp",
+          "hold": 1.2
+        },
+        {
+          "at": "1400",
+          "text": "$1,400",
+          "style": "money",
+          "hold": 1.6
+        }
+      ]
+    }
+  ],
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.15
+}
