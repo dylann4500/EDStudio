@@ -482,6 +482,9 @@ soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out o
 for the lock, so a re-render while queued scored the old file; it now copies after it takes the lock.)
 It also reused a stale `tribe-experiment/videos/NNN-vK.wav` from the earlier cut (the 70 s re-run failed with the 71.4 s audio);
 `tribe-score.sh` now deletes the tag's `.wav`/`.tsv` before each run.
+**023 (Pip ep. 2, Halloween at dusk) met the target on cut1 (wc 0.0625, first 60 s 0.0661):** the peaks were the busy close
+porch beats — the skeleton collapsing on Pip (0.117) and kids hurrying past the dark house four in the foreground (0.124);
+the weakest (besides the title) was the static look-up at the grumpy old man in his doorway (0.039) and the slow home ending.
 **019 (dance montage) = 0.0806, the best so far:** the top beats were close crowds of full-rig faces moving in sync (press corps
 robot 0.158, conga 0.141, coffin dance 0.142); a stadium of 16k tiny instanced fans scored half that (0.064) and the quiet open
 0.002. Close faces in motion beat spectacle at a distance.
