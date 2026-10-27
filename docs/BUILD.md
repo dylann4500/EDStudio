@@ -338,3 +338,136 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   the very end of a statement, and render one still after every scripted batch. (A 4th time in v6: a replacement that ended
   mid-line before `} }` got a comment appended → `Unexpected end of input`. Only add a comment when the replaced text ends
   its line.)
+
+## Lessons from 025 (kiddie pool → dam; each cost a stills round)
+- **A cut ALONG a river** reads a dam in section: the lake is a translucent box on one side, the river on the other, the dam's
+  profile (and its guts: cutoff wall, cooling pipes, penstock, tunnel) is the cut face. `engine/build/dam.js` `makeWaterBody`
+  generalizes 024's `setWater` (`set(x0, x1, level, t)`, z 0..−CW, a foam texture scrolls with the flow).
+- **`CatmullRomCurve3.getPoint(u)` is NOT arc-length**: equal `u` steps per control-point segment, so a character sent along a
+  path with uneven points zips through the long segment in a few frames (Gary "vanished" in the diversion tunnel). Use
+  `getPointAt(u)` for anything that travels, digs or reveals along a path.
+- **Groups whose children were placed in world coordinates scale around the world origin** — a popping powerhouse or fish-ladder
+  step flies across the set. `recenter(group, c)` (dam.js) moves the pivot first.
+- **A vertical frame can't hold two places > ~8 m apart.** Plan the ending's last three items (sign, gift shop, closed pool) inside
+  one 4–5 m frame; a finishing list that spans the set is a sweep (pass keys), not a hold. Check with `tools/bearing.py` first.
+- **A canyon wall behind the cut** dominates every low frame: fat strata bands read as bacon/curtains. Thin (1–3 % of its height),
+  low-contrast bands + a pale haze overlay, a wall only ~12 m tall (sky shows in the wides), greenery and boulders at its foot.
+- **A concrete section facing the sun washes out to white paper** — mid-grey base (≈ 0x86847e). "Red-hot" = an orange emissive
+  AND a darker base color (`color × (1 − 0.5·heat)`); orange emissive on grey reads pink.
+- **Never route a pipe across the front channel**: 025 v1's penstock feed crossed the creek and blocked every downstream gag
+  (salmon, the ladder slap). Draw it in section under the creek bed and let a riser come up behind the channel.
+- **Two faces at different heights (a toon sitting low, a beaver at a counter) straddle the 52 % caption band** — lower the look
+  point until BOTH sit above ~45 %; and give stamps a `y` (0.63) when their default band covers the sign they're about.
+- **Pluck "walk" music decays between notes**: the dropout check (12 dB under median per 50 ms) failed until the pad came up
+  (`pad_db` +4). Signature mallet notes on hook callouts BEFORE the music enters make the checker start early — skip them.
+- **025's review loop** (logic · look · pacing · camera · comedy): v1 6.5 · 6 · 7 · 6 · 7.5 (a much better first cut than 024's
+  4 · 4 · 6 · 3 · 5 — the 024 lessons above were applied up front). Round-1 wins: the camera reviewer's framings (it simulated
+  planRail against the word times: the named thing in frame ON its word, peak zoom 108 → 69 %/s, a town shot at yaw 21° not 33°);
+  "show what's said" fixes (the finger really stops the leak; the beaver's cards turned to the lens; the salmon bonk the dam
+  BEFORE they "blame Gary"; "Exactly once." = a head-first landing); a line for a beat that had no joke (the drowned town:
+  "The beaver sells it as lakefront."); water with an opaque deep-blue back face (a translucent box over an orange wall read lavender).
+- **`planRail.strict = true`** (rail.js, opt-in) also warns on crash zooms (> 50 %/s framed-size change) and fast pans (> 0.7 frame
+  widths/s) — the metre rule alone let a far-away push-in pass lint while reading as a cut.
+- **Turn a held card to the lens every frame** (`card.quaternion = parentWorldQuat⁻¹ · camera.quaternion`, after the camera is
+  set): a card in a toon's hand is edge-on in half the framings.
+- **Things a character "uses" should be where he already is**: Gary had to teleport for the water slide until the "week of rain"
+  became an on-screen climb up the dam face (a time skip the line already gives you).
+- 025 round 2: v2 7.3 · 6.4 · 7.5 · 7 · 7.8. Wins for v3: the camera reviewer's simulated rail again (the hook holds Gary through
+  the heave, then a follow-pan locked on the flying pool — ease the pool's x/z so it stays framed); the drowned town finally
+  underwater; Gary off the air above a slope; cards above heads; Gary shoulder-charging the dam on "too heavy to bully".
+- **An opaque back face for a translucent box needs `side: BackSide`**: the box's −z face points away from the lens and is culled,
+  so the "deep blue" never drew and the orange wall kept showing through the water. Keep that back face in front of any displaced
+  wall relief (025: lake depth 7.5 m in a 9 m canyon) or rock pokes through it.
+- **Lerping `material.color` only tints its `map`** — a brown rock texture can't turn concrete-grey that way; set `map = null`
+  (+ `needsUpdate`) when the surface changes what it is.
+- **A held prop in a toon's hand moves in the hand's rotated frame**: a "lift" offset pushed 025's cards down over the beaver's face.
+  Place such props in world space (`parent.worldToLocal(target)`) above the head, then billboard them.
+- **A camera move from a low framing to a high one carries every face across the 52 % caption band.** If `--qc` flags the transit,
+  move the face out of the move (025: the crumble dumps Gary in the pond; he surfaces once the camera has settled).
+- **Check where a character stands against the geometry's real profile**: 025 v2 had Gary 0.85 m above the earth dam's slope for
+  4.5 s because his x was past the crest edge; compute y from the slope when in doubt.
+- 025 round 3: v3 logic 7.9 · look 6.6 · pacing 7.6 · comedy 8.1 · camera 7.5. Wins for v4: **frames closer than ~4 m apart read as
+  one shot** (660 → bully → hot held one grey wedge for 10 s with Gary at 3 % of the frame) — replace the middle with one LOW
+  ground-level frame at the subject (Gary 2.3× larger; the egg + the hot slope in the same frame); **`until` can't hold a frame
+  the next move needs**: planRail leaves at `next.t − 0.8·moveTime`, so a 12 m crane after a 2 s line ate the whole LAKEFRONT
+  hold — bring the next framing closer (shorter move) instead of pushing `until`; **show the gag where the camera already is**
+  (the lake's shove now starts on "deeper" with push arrows on the upstream slope inside the frame, riding the dam's slide);
+  **backfill what you dug** (a plugged tunnel kept reading as a white pipe for 40 s — hide the bore, plug and holes once the
+  next set piece covers it); **submerged buildings need a tint, not just a see-through front**: lerp their colors toward the
+  water blue by depth; **a hand-held book in front of a face hides it** — hold it out beside the head.
+- 025 round 4: v5 logic 8.0 · look 6.7 · pacing 8.1 · camera 7.5 · comedy 8.2 (3 reviewers: logic+pacing+comedy folded, camera, look).
+  **Series rule (user, via the manager): Gary is THE BUILDER.** Every "you ___" line shows Gary doing it with a tool, then the
+  failure hits him — no build step happens by itself. 025's map: shove → he heaves the pool; dig → he digs the tunnel IN SECTION
+  from the outlet back to the inlet and breaks through into the river on the next line (the flush is then his own doing); pile up
+  dirt → three shovel throws, the last one comes back down on him; drive a wall → three overhead mallet hits, the wall sinks a third
+  per hit; pour → the crumble flings him into a cableway bucket and he trips it over every column; cooling pipes → a garden hose
+  on the toe; spillway → one mallet notch in the crest; penstock → he cranks a red valve wheel; fish ladder → he mallets each step
+  as it pops. Props live in the hand (`gary.hand(1).add(prop)`), visible only in their beat.
+  **A camera can't catch a gag that happens faster than the speed rule allows** — re-time the gag instead (the flush was shortened
+  to 1.5 s and started 0.2 s early so the follow pass keeps him in frame; the bucket's last stop sits lower so his face clears the
+  caption band). **Density bar (manager, = 024's):** ≥ 22 callouts, ≥ 70 `fx.burst|stream` call sites, ~45–50 framings, ≥ 250 cue
+  events, beaver/side character in ≥ 4 beats, no 2 s static run. Footsteps beds, per-stroke tool foley and drips are the cheap
+  way to the cue count; mirror every new time in make_cues.py.
+- **025 cuts pass (the first build reel cut in the new style): 31 face close-ups + 11 inserts = 42 cuts, 83 shots, average 1.29 s, 44
+  kicks.** What broke on the first stills (render one at the middle of every cut — 025's EDSTUDIO_QC prints `cutmids …` + the cut
+  stats, so `--stills $(… cutmids)` does them all in one command):
+  - **A close-up of a character facing away shows the back of a head.** Gary cranking a valve and walking to the ladder faced
+    −z/−x; turn the POSE toward the lens for his reaction beats (cheaper than hunting a yaw). For a side character whose facing
+    changes beat to beat (the beaver), use `facing: true` so the yaw is measured from its own front.
+  - **A side character holding a card/sign:** `scale ≈ 1.3, faceY ≈ 0.63` puts the card above the head, the face below the
+    caption and the caption between them; with nothing held, `faceY 0.42` (caption on the chin) like Gary.
+  - **Signs between the lens and the face** (LAKEFRONT, NO SWIMMING): pick the yaw side away from the sign (`facing: false`,
+    negative yaw).
+  - **Hold the reaction through the cut:** the frost-sit close-up showed his back because the climb started 0.1 s into it —
+    delay the next action (CL0 +0.5 s) rather than shrink the cut.
+  - Tumbling heads (cork pop, head-first splash) read as chaos — fine, keep those ≤ 0.6 s.
+  - Kicks: old metre-based `shake()` only on the rail (`if (cam.cut == null)`), `kick.apply` everywhere; the dam's shove and the
+    flood at 1.5, slams 1.0–1.2, landings 0.5–0.8, pops 0.4.
+- 025 round 5 (v6, first cut-heavy version): camera+cuts 7.3 (≈ 7.8 with `facing: true` on the side-on close-ups) · logic 7.9 ·
+  pacing 8.3 · comedy 8.4. Fix pass → 56 cuts, 105 shots, average 1.02 s (≈ "Bicycle → F1"). Lessons: **a 0.05–0.2 s gap
+  between two cuts is a FLASH FRAME of the master** — make cuts adjacent (`t1` of one = `t0` of the next) or ≥ 0.3 s apart; 025's
+  EDSTUDIO_QC prints `[cuts] … flash` for any gap < 0.3 s. **Two close-ups of the same face with 0.3 s of wide between = a jump
+  cut** — merge them into one medium shot. **Fill every 4+ s stretch with a cut on its own word** (the yardstick on "six", the egg on
+  "hot", the drowned church on "drowned", the bills on "dollars"). **Callback the cold open:** cut back to the same finished-dam
+  wide on the ending's "Congratulations". A tumbling head-first dive reads better as an INSERT of the legs sticking out of the water.
+- **User verdict on the cuts pass (Oct 26): "i dont really like [the cuts] i liked our older continuous style it was much easier to
+  follow."** 025 went back to ONE take (`const CUTS = false` keeps the cut list for reference). The user kept everything else: "the new
+  effects / density / screen shakes are good its just the cuts that make it weird" — the frame-relative kicks stay at FULL strength.
+  The take then has to carry every gag alone: push the rail in on each one (025: the yardstick on "six", Gary shovelling + buried on
+  the pile, a two-pass ride with the concrete bucket, the overtop on the crest, the ending in his pool at ~3–4 m) and make held
+  cards big enough for a wide (`card: 2.3–2.6`, lifted 0.8 m above the head). The engine's `cuts.js` stays available.
+- **Water volumes (user: "overlapping elements and weird water cutoff things"):** a `makeWaterBody` front face ends with a hard
+  vertical edge wherever its x-range ends — never end one in the open. Two bodies at a pool/dam: end BOTH at the obstacle's centre
+  (the pool sits in continuous water, the level step hides behind it), not at its walls (that left a dry strip under the pool).
+  Before a thrown prop lands, run the creek whole up to a real wall (the beaver's sticks). Keep a creek's surface BELOW the bank
+  top (the surface plane spans the whole canyon width: at level 0 it z-fights the floor and reads as water on the ground). When a
+  dam vanishes (the crumble), run the water's end on to the next body instead of leaving it standing in the air.
+- **Hook staging: one thing at a time.** A held prop sits IN the raised hands (the pool floated 0.3 m above them); the
+  thermometer, the CLOSED board and the see-through fence each get their own patch of frame (fence starts right of the gate).
+- **Water = its level ∩ its container (user, 025: "it doesn't fill in corners, clips… a triangle of empty space against the
+  wedge").** A box of water can only meet vertical walls. `makeWaterBody(...).setPoly(pts, xl, xr, level, t)` (dam.js) takes the
+  water's SECTION polygon; 025's `setWater(body, fL, fR, L)` builds it from two wall functions x(y) — up the left wall from the
+  bed to the level, along the flat level, down the right wall — so it rides every slope (the dirt dam's faces, the wedge's
+  downstream face, the beaver lodge's silhouette) and slides along it as the level moves. Walls per era live in one `walls(t)`.
+  A tunnel's water fills its bore (a thinner tube leaves an air ring). Review missed it twice on 360 px sheets: check water with
+  CLOSE stills on each contact line (025's `INSPECT` table of debug cameras keyed by time) and a reviewer on full-size frames.
+- **025 fluid review (full-size frames, explicit checklist) found what 360 px sheets hid:** a tunnel's top poking above the creek
+  bed at its inlet (clip the bore + its water with a plane at the bed); a dome-shaped obstacle drawn as if it were a ridge (make
+  obstacles uniform across the channel so their cut-face section = the wall function); a flood front racing ahead of a dam that
+  shrinks slower (follow the slope up to the CURRENT crest, then run over it); a pond leaning on a wedge that isn't poured yet (the
+  last poured column is the wall); two water bodies at different levels with nothing between them (one level once the pool floats);
+  an overflow sheet starting below the brink (a curtain from the lake level down the crest face); a translucent front showing the
+  sunken floor as a pale "air" layer (tint the submerged floor deep blue). Also: a water volume must be a CLOSED prism drawn from
+  inside with a small polygon offset (it lies exactly on dam faces; a lone back face let sight lines exit past sloped walls), and
+  ONE body per continuous level (an inner wall hides everything under the lake behind it).
+- **Eleven v3 re-voice (025, user steer Oct 27: "Adam sounds so crazy… use tastefully"):** 5 `[shouting]` + 3 `[excited]` + 1
+  `[whispers]` on 9 of ~48 sentences, payoffs only, ONE caps word each (the caps show in the captions = emphasis, kept). The
+  measured contrast: tagged lines −13.6…−11.9 dB vs calm −16…−17 dB; the whisper before "Medium RARE!" sits at −23 dB.
+  - **A tag colours the rest of its v3 request**, so a yell must END its beat: split the beat right after the tagged sentence
+    (025: `heat` → `heat` + `cool`, `town` → `town` + `lake`) and move the `W(beat, word)` anchors + callouts to the new beat.
+  - **v3 runs long:** the same words went 106.9 s (v2) → 121.1 s (v3 at tempo 1.15): v3 Adam reads ~19 % slower even on calm
+    lines, plus 0.4–0.8 s before each yell. `"tempo": 1.30` (manager, from 026; free, cached clips) → 107.4 s with every
+    pause kept: those pauses ARE the timing before the yell. Not 1.35 (rushed, flattens the yells). Bar for v3 reads: ≤ 118 s.
+  - Re-check what was timed to a word GAP, not a word: 025's water-slide hop ran from a fixed slide end to "ONCE", so a longer
+    pause turned a 1 s ski-jump into a 1.9 s float; key both ends to words (`SLD1 = max(SLD0 + 1, t.once − 1.05)`). New word
+    times also shifted 4 rail moves + 2 caption overlaps: run `--qc` and the gag-word stills after every re-voice.
