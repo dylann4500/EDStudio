@@ -293,9 +293,9 @@ export async function build(studio, story) {
   const Fk = (tt, pos, look, fov = 42, until) => Fr.push({ t: tt, pos, look, fov, keep: true, until });
   // look points sit ~1 m below a standing toon's head (head centre = root + 1.12) so faces stay above the caption band (52 %)
   F(0, [2.3, 1.5, 7.4], [2.3, 0.75, -2.0], 42);                       // the yard: the mechanic, the invoice, your car on the tow hook
-  Fk(t.dollars, [2.6, 1.4, 6.6], [2.8, 0.7, -2.2], 42);               // the truck pulls away with your car (and the mechanic on its bed)
+  Fk(t.n900 + 0.15, [2.2, 1.35, 4.6], [2.2, 0.85, -1.4], 40, t.carH);   // in on Gary's jaw drop + the mechanic's invoice (the one take carries the reaction)
   F(t.garage, [-4.1, 1.4, 6.8], [-4.2, 0.55, -2.0], 42);              // into the garage: the junk car pops together
-  F(t.builtC, [-4.3, 1.3, 5.8], [-4.3, 0.5, -1.6], 42, true);
+  F(t.builtC, [-3.7, 1.3, 5.8], [-3.7, 0.55, -1.6], 42, true);       // the crate car AND Gary's ta-da (he sat on the frame edge)
   F(t.mower, [-5.2, 1.2, 4.6], [-5.2, 0.6, -1.4], 40, true);         // one slow push to the pull cord (Gary was cut at the left edge)
   Fk(t.horn, [-3.95, 1.25, 4.2], [-3.95, 0.8, -1.4], 38, t.garyC + 0.2);   // the horn is Gary
   Fk(t.now + 0.85, [-1.5, 1.8, 8.8], [-1.35, 0.3, -2.6], 48, t.alone + 0.25);   // Gary alone (left) + the queue at the roll-up door (right), one frame
@@ -322,11 +322,13 @@ export async function build(studio, story) {
   Fk(t.rustproof - 0.1, [29.6, 1.3, 5.6], [29.6, 0.85, -2.2], 40);
   Fk(t.nowE + 0.4, [32.0, 1.45, 6.4], [32.3, 0.7, -2.2], 42);         // follows the spring off the door to the tank's far rim
   F(t.n30000 + 0.9, [34.6, 2.0, 11.0], [35.0, 0.35, -5.5], 44);       // the dock: 30,000 parts behind the door
-  Fk(t.once - 0.2, [35.1, 1.7, 9.0], [35.2, 0.45, -2.2], 44);          // the avalanche + Gary's hand out of the heap
+  Fk(t.once - 0.2, [35.1, 1.7, 9.0], [35.2, 0.45, -2.2], 44);          // the avalanche …
+  Fk(t.buried + 0.2, [35.25, 2.3, 2.8], [35.2, 1.25, -1.25], 40, t.steering + 0.35);   // … in on Gary's face in the heap: HELP!, the bonk
   F(t.needed, [36.4, 1.5, 8.6], [36.6, 0.1, -2.6], 44);               // Gary drives the tugger, tossing parts in just in time
   Fk(t.credit - 0.2, [39.8, 0.55, 4.0], [39.75, 0.62, -1.1], 36, t.manager + 0.25);   // low on the Roomba: the easel above the caption, the bow tie big
   Fk(t.crashW - 0.05, [36.6, 2.2, 10.2], [44.6, 0.6, -1.0], 46);   // a three-quarter from the left: the crash car's start AND the wall's face
-  Fk(t.fine - 0.3, [46.0, 1.4, 8.4], [46.1, -0.3, -1.2], 44, t.not + 0.3);   // push in for the sparkle + Gary flat   // crash 1 + the splat, held
+  Fk(t.fine - 0.3, [46.0, 1.4, 8.4], [46.1, -0.3, -1.2], 44);          // the sparkle
+  Fk(t.not - 0.15, [45.9, 1.2, 4.2], [45.85, 0.05, -0.4], 40, t.not + 0.15);   // down on Gary, flat: X eyes + stars on "not"
   F(t.fold, [44.4, 1.5, 8.2], [44.4, 0.3, -1.3], 44);
   Fk(t.crumple - 0.3, [45.4, 1.5, 8.4], [45.5, 0.3, -1.2], 46, t.fine2 + 0.2);   // crash 2: the crumple zone; the stroll stays in frame
   Fk(t.off - 0.2, [45.2, 2.3, 11.0], [45.0, 0.6, -1.4], 44);          // the airbag launches him up out of the frame
@@ -356,7 +358,8 @@ export async function build(studio, story) {
   const tight = (list, g = 0.3) => { const L2 = [...list].sort((a, b) => a.t0 - b.t0); for (let i = 0; i + 1 < L2.length; i++) { const d = L2[i + 1].t0 - L2[i].t1; if (d > 0 && d < g) L2[i].t1 = L2[i + 1].t0; } return L2; };   // no 1–3-frame flashes of the master between two cuts
   const GF = { dist: 2.9, faceY: 0.36 };   // the mouth at ≈ 46 %, the one-word caption (52 %) on the chin (faceY 0.40 put it on the mouth)
   const FB = S.office.invoice.getWorldPosition(new THREE.Vector3());   // the framed $900 bill on the CEO office wall
-  const cuts = makeCuts(tight([
+  const CUTS = false;   // user, Oct 27: "i liked our older continuous style it was much easier to follow" — the one take carries every gag
+  const cuts = makeCuts(!CUTS ? [] : tight([
     IN(0, 0.3, [50.0, 24.0, 26.0], [34.0, 2.0, -22.0], 52),                        // cold open: a flash of the finished factory (update renders END − 0.8)
     FC(0.3, 0.62, mech, { ...GF, yaw: -0.3 }),                                       // the mechanic, smug
     FC(0.62, t.n900 + 0.7, gary, { ...GF, yaw: 0.3 }),                                // Gary's jaw drops on "900" (inside the shot)
@@ -404,7 +407,7 @@ export async function build(studio, story) {
     FC(t.mechanicE - 0.05, t.wantsE + 0.15, mech, { ...GF, yaw: -0.3 }),               // the mechanic wakes (the master then shows the $1,400 flip, the sag, the spider)
   ], 0.35));
   const kick = makeKick([...hits.map(([h, a]) => [h, Math.min(1.5, 0.45 + a * 5)]), [t.garyC - 0.05, 0.6], [ORN + 0.3, 0.6], [HIT1 + 0.22, 1.0], [UNWELD + 0.5, 0.6],
-    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.buried + 0.35, 0.7], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]]);
+    [t.meatloaf + 0.25, 0.5], [t.test + 0.2, 0.8], [t.buried + 0.35, 0.7], [t.congrats, 0.5], [t.horn - 0.15, 0.5], [t.can, 0.6], [t.inter, 0.6]], { amp: 0.022 });   // softened (~60 %) for the one take
 
   // ---------------------------------------------------------------- helpers
   const hop = (tt, a, b, p0, p1, h) => { const u = clamp((tt - a) / (b - a)); return [lerp(p0[0], p1[0], u), lerp(p0[1], p1[1], u) + 4 * h * u * (1 - u), lerp(p0[2], p1[2], u)]; };
@@ -549,17 +552,18 @@ export async function build(studio, story) {
     racer.g.visible = tt > t.test; if (racer.g.visible) { const [a, b] = D.roof.track, Rr = 2.4, zc = -4.8, zh = 3.0, Ls = (b - a - 2 * Rr), per = 2 * Ls + 2 * PI * Rr, d = ((tt - t.test) * 9 + 14.8) % per;   // an oval centre-line, 9 m/s, along the front straight first
       let x, z, ry; if (d < Ls) { x = a + Rr + d; z = zc + zh; ry = 0; } else if (d < Ls + PI * Rr) { const th = (d - Ls) / Rr; x = b - Rr + Rr * Math.sin(th) * 0.0 + Rr * Math.sin(th); z = zc + zh * Math.cos(th); ry = th; } else if (d < 2 * Ls + PI * Rr) { x = b - Rr - (d - Ls - PI * Rr); z = zc - zh; ry = PI; } else { const th = (d - 2 * Ls - PI * Rr) / Rr; x = a + Rr - Rr * Math.sin(th); z = zc - zh * Math.cos(th); ry = PI + th; }
       racer.g.position.set(x, D.roof.top, z); racer.g.rotation.set(0, ry, 0); racer.set({ stage: 4, color: 0xffd23f, spin: -tt * 28 }); }
-    { const cheat = (tt > t.ships - 0.1 && tt < t.soQ + 0.4) || (tt > t.still2 - 0.6 && tt < t.shop + 0.5) || (tt > t.n53 - 0.05 && tt < t.garyEnd - 0.05); S.endWall.children[1].visible = S.endWall.children[4].visible = !cheat; S.crash.g.visible = !cheat; }   // a film cheat: the slabs filled half the frame on these two moves   // through the end-door insert, which tight() stretches to the next cut
+    { const cheat = (tt > t.ships - 0.1 && tt < t.soQ + 0.4) || (tt > t.still2 - 0.6 && tt < t.shop + 0.5) || (CUTS && tt > t.n53 - 0.05 && tt < t.garyEnd - 0.05); S.endWall.children[1].visible = S.endWall.children[4].visible = !cheat; S.crash.g.visible = !cheat; }   // a film cheat: the slabs filled half the frame on these two moves   // through the end-door insert, which tight() stretches to the next cut
     const officeOn = tt > t.end - 0.5; S.office.g.visible = officeOn; S.officeSign.visible = tt > t.works + 0.15; S.stairs.visible = tt > t.roll;   // after the 53 SECONDS label has gone (they overlapped)
     S.office.g.scale.setScalar(1);
     // ---- the parts avalanche (instanced): out of the dock into a heap over Gary, then back out (just-in-time)
     const heapOn = tt > t.n30000 + 0.2 && tt < DRAIN1 + 0.2; heapW.visible = heapT.visible = heapOn;   // packed in the open dock door, then the avalanche
-    const lensClear = tt > t.buried - 0.1 && tt < t.buried + 0.75, LH = [GBUR[0], 2.0, GBUR[1]], LD = [Math.sin(0.6) * Math.cos(0.4), Math.sin(0.4), Math.cos(0.6) * Math.cos(0.4)];   // the HELP! close-up: no wheel between the lens and his face
+    const lensK = CUTS ? (tt > t.buried - 0.1 && tt < t.buried + 0.75 ? 1 : 0) : smooth(u01(tt, t.buried - 0.25, t.buried + 0.05)) * (1 - smooth(u01(tt, DRAIN0 - 0.3, DRAIN0))), lensClear = lensK > 0, LH = [GBUR[0], 2.0, GBUR[1]],
+      LD = CUTS ? [Math.sin(0.6) * Math.cos(0.4), Math.sin(0.4), Math.cos(0.6) * Math.cos(0.4)] : [0.012, 0.074, 0.997];   // the one take: the heap push-in's lens; the in-lens wheels shrink away over 0.3 s   // the HELP! close-up: no wheel between the lens and his face
     const inLens = (v) => { const dx = v.x - LH[0], dy = v.y - LH[1], dz = v.z - LH[2], a = dx * LD[0] + dy * LD[1] + dz * LD[2]; if (a < 0.2 || a > 3.0) return false; return Math.hypot(dx - a * LD[0], dy - a * LD[1], dz - a * LD[2]) < 0.6; };
     if (heapOn) for (const [mesh, pts] of [[heapW, HW], [heapT, HT]]) { pts.forEach((p, i) => {
       const uin = smooth(u01(tt, AVA0 + p.dl, AVA0 + p.dl + 0.45)), uout = smooth(u01(tt, DRAIN0 + p.dl * 0.8, DRAIN0 + p.dl * 0.8 + 0.4)), u = uin * (1 - uout);
       v3.set(lerp(p.from[0], p.to[0], u), lerp(p.from[1], p.to[1], u) + 1.6 * Math.sin(u * PI) * (1 - uin * (1 - uout) > 0.5 ? 1 : 0.3), lerp(p.from[2], p.to[2], u));
-      e3.set(p.rot[0] + tt * 3 * (1 - u), p.rot[1], p.rot[2]); q.setFromEuler(e3); m4.compose(v3, q, one.set(1, 1, 1).multiplyScalar((u > 0.02 || uout < 1) && !(lensClear && inLens(v3)) ? 1 : 0.001)); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
+      e3.set(p.rot[0] + tt * 3 * (1 - u), p.rot[1], p.rot[2]); q.setFromEuler(e3); m4.compose(v3, q, one.set(1, 1, 1).multiplyScalar(!(u > 0.02 || uout < 1) ? 0.001 : lensClear && inLens(v3) ? Math.max(0.001, 1 - lensK) : 1)); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
     // the tugger: in from the dock with a steering wheel + a tire, one part per car, just as each car arrives
     tug.g.visible = tt > DRAIN0; const tu = smooth(u01(tt, Math.max(DRAIN1, t.needed - 0.6), t.toyota + 0.2)); tug.g.position.set(lerp(TUG0[0], TUG1[0], tu), 0, lerp(TUG0[1], TUG1[1], tu)); tug.g.rotation.y = 0;
     for (const [part, tt0] of [[jitWheel, t.needed - 0.1], [jitTire, t.jitW - 0.1]]) { const u = u01(tt, tt0, tt0 + 0.45); if (u <= 0) { part.parent !== tug.trailers[part === jitWheel ? 0 : 1] && tug.trailers[part === jitWheel ? 0 : 1].add(part); part.position.set(0, 0.5, 0); part.visible = tt > DRAIN0; continue; }
@@ -584,9 +588,9 @@ export async function build(studio, story) {
     // ---- the Roomba's rope + characters
     garyAt(tt); mechAt(tt); crewAt(tt); roombaAt(tt);
     bonkW.visible = tt > t.buried + 0.05 && tt < t.buried + 0.95;
-    if (bonkW.visible) { gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); const hit = t.buried + 0.35, a = tt - hit; if (a < 0) { const u = (tt - t.buried - 0.05) / 0.3; bonkW.position.set(v3.x, v3.y + 0.45 + 1.4 * (1 - u * u), v3.z + 0.05); bonkW.rotation.set(1.2, 0, tt * 3); } else { bonkW.position.set(v3.x + 1.6 * a, v3.y + 0.45 + 1.6 * a - 4.9 * a * a, v3.z + 0.3 * a); bonkW.rotation.set(1.2 + a * 9, 0, a * 6); } }
+    if (bonkW.visible) { gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); const hit = t.buried + 0.35, a = tt - hit; if (a < 0) { const u = (tt - t.buried - 0.05) / 0.3; bonkW.position.set(v3.x, v3.y + 0.45 + 1.4 * (1 - u * u), v3.z - 0.1); bonkW.rotation.set(1.2, 0, tt * 3); } else { bonkW.position.set(v3.x + 1.6 * a, v3.y + 0.45 + 1.6 * a - 4.9 * a * a, v3.z - 0.1 - 0.8 * a); bonkW.rotation.set(1.2 + a * 9, 0, a * 6); } }   // bounces off away from the lens
     if (tt > t.dummy + 0.4 && tt < t.not + 0.5) { gary.root.updateMatrixWorld(true); gary.head.getWorldPosition(v3); dizzy.update(tt, 1, [v3.x, v3.y + 0.3, v3.z + 0.15]); }   // the stars circle his head, not the floor
-    S.office.glass.visible = !(tt > t.garyEnd - 0.1 && tt < t.roombaE + 0.6);   // the office glass washed the close-ups grey
+    S.office.glass.visible = !(CUTS && tt > t.garyEnd - 0.1 && tt < t.roombaE + 0.6);   // the office glass washed the close-ups grey
     if (meat.visible && tt > t.meatloaf + 0.3) { insp.root.updateMatrixWorld(true); insp.hand(1).getWorldPosition(meat.position); meat.position.y += 0.08; }   // the inspector holds up his meatloaf
     // ---- camera (one take) + impact shake; the sun follows what we look at
     const cam = cuts.at(tr) || rail.at(tt);
@@ -901,7 +905,7 @@ export async function build(studio, story) {
   // QC (`node tools/render.mjs 026-garage-car-factory --qc`): every 0.25 s, project the tracked faces to the screen and list the
   // moments a caption/callout band covers them (copied from 024).
   const BAND_Y = { term: 390, label: 262, money: 318, stamp: 560 };
-  const update = (tq) => update0(tq < 0.35 ? END - 0.8 : tq, tq);   // the cold open flashes the finished factory
+  const update = (tq) => update0(CUTS && tq < 0.35 ? END - 0.8 : tq, tq);   // the cold open flashes the finished factory
   window.EDSTUDIO_QC = () => {
     const out = [], v = new THREE.Vector3();
     for (let tt = 0; tt < END; tt += 0.1) {
