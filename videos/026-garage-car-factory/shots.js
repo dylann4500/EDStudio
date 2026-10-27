@@ -300,8 +300,8 @@ export async function build(studio, story) {
   Fk(t.welded - 0.15, [23.7, 1.3, 5.4], [23.6, 0.55, -2.4], 40, t.doorW - 0.3);   // welded to the door, held while the car carries him off
   F(t.carsE, [27.4, 2.4, 11.0], [27.6, 1.4, -3.0], 44);               // the rain cloud, the rust
   Fk(t.dip, [29.75, 0.2, 9.6], [29.75, -2.0, -1.6], 44);             // the floor opens; the hoist dips the body
-  Fk(t.ecoating - 0.2, [29.75, -0.6, 6.4], [29.75, -1.7, -1.4], 42); // in the bath, in section
-  F(t.weldedE, [29.7, 1.0, 7.4], [29.7, 0.5, -1.8], 42);
+  Fk(t.ecoating - 0.2, [29.75, -1.1, 6.4], [29.75, -2.4, -1.4], 42); // in the bath, in section
+  F(t.weldedE, [29.7, 0.5, 7.4], [29.7, -0.7, -1.8], 42);
   Fk(t.rustproof, [29.6, 1.3, 5.6], [29.6, 0.85, -2.2], 40, t.rustproof + 0.45);
   F(t.n30000 + 0.9, [34.6, 2.0, 11.0], [35.0, 0.35, -5.5], 44);       // the dock: 30,000 parts behind the door
   Fk(t.once - 0.2, [35.1, 1.7, 9.0], [35.2, 0.45, -2.2], 44);          // the avalanche + Gary's hand out of the heap
