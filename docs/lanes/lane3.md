@@ -131,6 +131,9 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   the wide family shot (0.035) and the morning wides (0.044) were weakest. Frame tight on faces; keep Pip moving.
 - **TRIBE (023 cut1: TARGET MET, wc 0.0625, first 60 s 0.0661):** close porch gags with faces + motion scored 0.07–0.12; a
   still man in a doorway (0.039) and the sleepy ending (0.042) were weakest. Keep every beat busy, even the "quiet" ones.
+- **TRIBE (030 cut1: TARGET MET, wc 0.094, first 60 s 0.094 — the best of any video so far):** a bright park full of dog
+  faces in motion scored 0.11–0.13 on every gag beat (poodle frizz 0.134, zoomies 0.127–0.135); even the "alone by the fence"
+  low point held 0.087. Weakest: the title (−0.036) and the gate wide from behind Mia (0.027). Crowds of animal faces count.
 - **Ep. 2 (023, Halloween) added `engine/halloween.js`** (CLAUDE.md → Halloween kit): the suburb at dusk with porches you can
   walk up (steps, lanterns, jacks, a lit hallway behind any open door), Pip's pumpkin costume that doubles as his candy bucket,
   candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
