@@ -37,8 +37,9 @@ Never post one video on two accounts: TikTok holds back copies (twice as smart: 
 
 **Capacity (one 24 GB Mac):** sub-Claudes think in the cloud, but every render and every TRIBE run happens on this Mac.
 6 posts a day needs ~3–4 producers building at once around the clock, and ~6–12 h of TRIBE scoring a day (one run at a time,
-20–60 min each). The Mac must stay awake with the Claude app open. Keep a **2-day buffer** per account
-(approved + scheduled ≥ 4); TikTok's scheduler accepts posts 15 min to 10 days ahead and publishes even if the Mac is off.
+20–60 min each). The Mac must stay awake with the Claude app open. **Produce one day ahead (user rule, Oct 26):** a lane
+whose slots for **tomorrow** are already covered doesn't make more; when the date rolls over, its new "tomorrow" opens up and
+the tick starts producers for it. TikTok's scheduler accepts posts 15 min to 10 days ahead and publishes even if the Mac is off.
 
 ## 3. Files
 
@@ -172,8 +173,11 @@ The manager arms a recurring prompt in its own session (`CronCreate`, session-on
 last fire). Each tick, in order:
 1. **Approvals:** check every `review` row's code in Gmail (§6) → schedule approved ones.
 2. **Slots:** an `approved` row whose slot passed → next free slot. `scheduled` rows whose slot passed → `posted`.
-3. **Capacity:** if fewer than 4 producers are `building` and any account's buffer is under 2 days, assign the next concept
-   for the account most behind (lane-3 only once `docs/lanes/lane3.md` exists) and start a producer (§4).
+3. **Capacity (next-day coverage):** for each account, count what covers **tomorrow's** two slots: rows slotted tomorrow
+   (`review` / `approved` / `scheduled`) plus unslotted rows still in the pipeline (`building`, or made but not yet slotted).
+   An account with ≥ 2 is covered and gets nothing new. For each uncovered account, while fewer than 4 producers are
+   `building`, assign its next concept (most-behind account first) and start a producer (§4). Ticks right after midnight
+   see the new "tomorrow", so production restarts every day on its own. Never produce further ahead than tomorrow.
 4. **Views:** fill 24 h / 48 h views that are due.
 5. Quiet ticks change nothing and say nothing. Producer reports don't need the tick — the app wakes the manager when one ends.
 
