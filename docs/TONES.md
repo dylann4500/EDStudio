@@ -175,3 +175,10 @@ slow dance cranes up to a city that is one street party.
   Quake, 7.1 M job openings, 890 M adults with obesity) — the subtitle is the gag, the HUD is the fact.
 - **End card = an answer everyone has:** "What song would you be stuck dancing to?" (comment bait that needs no knowledge).
 - Sound: soft piano house locked to the picture (audio/README.md → Dance tone).
+
+## Pip series: good-ending pet sims (`videos/021-pip-first-night`, lane 3 @ed._.sims)
+A recurring hero, not a one-off premise: **follow `docs/lanes/lane3.md`** (Pip, his family, the episode types, the never-list).
+Storybook narrator in short third-person lines ("So Pip fixed that."), Pip's logic is the joke, the HUD counter is the plot
+(HOURS UNTIL MORNING 10 → 0), rule of three (clock → towel → bunny), a low point at ~60 %, the turn, a warm button and a
+next-episode end card ("What should Pip try next?"). Pet's-eye camera (0.3–0.5 m), at least 3 close-ups of his face reacting,
+humans mostly from his height. Sound = the cozy lullaby (audio/README.md). Never sad at the end; Pip is never hurt.

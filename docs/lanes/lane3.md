@@ -99,18 +99,35 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
 - Blank line, the course line, blank line.
 - 5 hashtags: `#animation #whatif #dogsoftiktok #corgi #<topic>`.
 
-## Engine needs (build before episode 1)
-1. **`makePet` hero rig** (new). Current `makeDog` is a 0.4 m background dog with dot eyes. The hero needs:
-   - Corgi proportions: puppy head, upright ears, stubby legs, fluffy tail.
-   - A face: eyes with highlights + `blink`, brows, `ears(perk 0..1)`, `headTilt`, `mouth: 'smile'|'open'|'pant'`, tongue.
-   - Poses: `stand`, `sit`, `loaf`, `sleep` (curled), `jump`, `beg`, `zoomies` (run cycle), plus `tail(speed)`.
-   - A collar tag and hat/costume anchors on the head.
-   - Breed params (golden, pug, dalmatian, husky) for the dog-park cast.
-2. **Home base set `livingroom.js`** (new): front door with a window (and the porch outside it), couch, rug, dog bed, TV,
-   family photos, a window that changes season. Pip's world uses it in every episode.
-3. **Small additions:**
-   - A flood plane (reuse the `pool.js` water shader).
-   - A lightning flash + soft thunder rumble.
-   - A soft whimper SFX (low-passed).
-   - Everything else exists: `city.setPower`, `makeFlashlight`, `suburb` porch-roof collapse, `supermarket.setStock`,
-     `wedding`, `playground`, sky weather.
+## Engine (built in ep. 1, video 021 — reuse it; additive changes only)
+- **Pip = `makePip()` in `engine/pip.js`.** Toy corgi puppy: orange fur with a soft fur map, white blaze/chest/paws/socks,
+  cream "corgi pants", big triangle ears (pink inside), big glossy eyes with two glints + fur lids, cream brows (inner ends
+  lift for puppy-dog eyes), a "w" mouth, jaw + tongue, a fluffy curled plume tail, a red collar with a gold **PIP** tag.
+  `pip.update(t, state)` every frame; state (all optional, 0..1 unless noted):
+  - body: `sit`, `lie`, `beg`, `sleep` (lie + eyes shut + slow breathing), `roll` (rad; π/2 ≈ on his side), `hop` (m),
+    `walk` / `run` (+ `dist` in m so paws match travel; `run` = zoomies gallop), `lean`, `shiver`
+  - face: `headPitch` (+ down), `headYaw` (+ toward +x), `tilt` (the head tilt), `ears` (1 perked, 0 drooped), `earL/earR`,
+    `earsBack`, `eyes: 'open'|'closed'|'happy'|'wide'|'sad'|'sleepy'`, `lids`, `sad` (brows + lids + ears + tail),
+    `lookX/lookY` (pupils), `mouth: 'smile'|'open'|'pant'|'o'|'flat'`, `open` (jaw), `tongue`, `lick`, `sniff`
+  - feelings in one knob: `whimper` (head up, "o" mouth, ears flat, sobbing body), `howl` (sits, head back, eyes shut)
+  - tail: `wag`, `wagRate` (Hz, 4 default, 5.5 = overjoyed), `tailDown`, `tailSide`
+  - idle life is automatic (breath, blinks, ear flicks, head drift, tail sway); `still: true` freezes it for pose lineups.
+  - `pip.anchors.hat` (costumes — the Halloween episode), `.mouth` (carry the bunny: `anchors.mouth.add(bunny)`, scale
+    1.25/size), `.back`, `.tag`. `pip.R` = his body frame (props that should roll with him, e.g. a hugged bunny).
+  - `makePip({fur, white, cream, earInner, collar, name, size, earStyle: 'flop'})` makes other dogs for the dog park.
+- **Crate:** `makeCrate()` (0.64 × 0.92 × 0.68 m, door at +z, `setDoor(θ)` 1.55 = open, `floorY` = cushion top, `panels`).
+- **Family:** `makeMia({outfit})` (≈ 8, kid rig ×0.68, dark pigtails, lavender dotted pajamas, pink bunny slippers),
+  `makeMom({outfit:'robe'|'day'})`, `makeDad({outfit:'pajamas'|'day'})` (messy hair, glasses). Pose Mia with
+  `poseScaled(mia, pose, rootY)`. Lying down: 021's `sideLie()` (carrier basis).
+- **Home base:** `buildLivingRoom(studio, { home: true })` — the 016 living room with the dining corner swapped for a stair
+  hall: stairs up the left wall with a banister, photos and a cupboard underneath, a switchable upstairs light, a console lamp,
+  Pip's corner (bowls, toy basket, paw-print rug, moon nightlight; crate spot `DIMS.home.crate`), a wall clock with hands,
+  and a night → sunrise blend `setDawn(k)`. Bedrooms: `buildBedroom` (021 dressed one instance as both Mia's room and the
+  parents' room, scaling `bed.bed.scale.x` 1.7 for the double bed and swapping the wall colour per shot).
+- **Sound:** `whimper`, `puppy_howl`, `heartbeat`, `alarm_muffled` in `audio/synth.py`, a music-box line (`bell_melody`) and
+  **Pip's theme** (F major, music box over a piano waltz — `videos/021-pip-first-night/make_cues.py` `THEME_A/THEME_B`). Reuse the
+  theme every episode; vary the arrangement per place.
+- **TRIBE (021 cut1: TARGET MET, wc 0.064):** Pip's face close-ups and the human faces at the crate door scored 0.09–0.11;
+  the wide family shot (0.035) and the morning wides (0.044) were weakest. Frame tight on faces; keep Pip moving.
+- **Still missing (build when an episode needs it):** a front door + porch on the home base (trick-or-treat!), breed
+  presets for the dog-park cast, a flood plane, a lightning flash + thunder.

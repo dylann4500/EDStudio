@@ -150,6 +150,23 @@ videos/NNN-slug/
   food-bag shelves, bird cages; `buildVet`: waiting chairs, EXAM 1 `examDoor` hinge, EXIT, posters). Synth: `walk` section
   style (walking bass + off-beat comps = "gossip jazz") and soft pet voices `cat_meow`, `parrot_chirp`, `fish_blub`,
   `hamster_squeak` (audio/README.md).
+- **Pip, lane 3's recurring hero (021, `engine/pip.js`; full API + rules in `docs/lanes/lane3.md`):** `makePip({size, fur, white,
+  cream, earStyle:'up'|'flop', name})` → `{g, R, T, H, update(t, state), anchors:{hat, mouth, back, tag}}`. Every frame
+  `pip.update(t, {walk|run + dist, wag, wagRate, ears 0..1, sit, lie, beg, sleep, roll, hop, whimper, howl, headPitch/Yaw, tilt,
+  mouth:'smile'|'open'|'pant'|'o', open, tongue, lick, eyes:'open'|'closed'|'happy'|'wide'|'sad'|'sleepy', lids, sad, lookX/Y,
+  sniff, shiver, tailDown})` — he breathes, blinks, flicks an ear and sways his tail on an empty state (pass `still:true` for a
+  lineup). Legs are stretched cylinders between the torso and planted paws, so every pose stays grounded; the head's rotation
+  is absolute (posing never fights the body pitch). `pulseAt(t, times)` turns event times into 0→1→0 pulses — put the times
+  in story.json (`"pip": {whimpers, ring, …}`) so `make_cues.py` reads the SAME numbers for the foley. Size 0.92 next to Mia.
+  `makeCrate()` = the big wire crate (door +z, `setDoor(θ)`, `floorY`, `panels.{left,right,back,top,door}` to hide per shot).
+  Family: `makeMia({outfit:'pajamas'|'day'})` (kid rig ×0.68, pigtails, bunny slippers), `makeMom({outfit:'robe'})` (robe =
+  `dress` — hide `mom.dress` when she sits), `makeDad()` (glasses: pass `glasses:true` in every pose, applyPose resets it);
+  `poseScaled(rig, pose, rootY)` poses the scaled kid. Home base: `buildLivingRoom(studio, {home:true})` = stairs up the left
+  wall (`DIMS.home`, `stairY(z)`), `setUpstairs(v)`, `setConsole(v)` lamp, `setNightlight(v)` (moon plug-in), Pip's corner
+  (bowls, toy basket, paw rug — the crate goes at `DIMS.home.crate`), photos up the stairs, `setClock(h, m)` with real hands,
+  and a sunrise: `setDawn(0..1)` / `setMode('morning')` (window view crossfades, the sun patch sweeps the floor = a time-lapse).
+  021 `shots.js` helpers: `sideLie()` (a rig lying on its side/back/tummy via a carrier basis: x = up × face; root = feet),
+  the towel "ghost" drape that follows Pip's head (`drapeGhost`), steam sprites, a twin-bell alarm clock.
 - 013 `shots.js` has reusable bits (copy them): `makeCrow(seed)` (`flap(k,t)`, hop/snatch/perch logic in `crowAt`), `makeJet()`
   (airliner, nose +z), **skywriting** (instanced contrail puffs revealed along a 2-D path in a vertical plane — a giant "?"), circling
   jets with trailing puffs, a desktop monitor whose screen swaps canvas textures (password field → scam popup) + an instanced
@@ -349,6 +366,13 @@ videos/NNN-slug/
   only fits shot down its long axis; an over-the-shoulder two-shot in a vertical frame hides the far person behind the near head.
 - **Hiding set pieces by position? Filter `o.isMesh`.** Lights are children of the set root too: 015 hid street.js's hemisphere
   light (it sits at (0,1,0)) with a "hide the lamp posts near z≈0" rule, and every shadow in the shot went pitch black.
+- **Shooting a pet in a crate/cage (021):** people outside it have their faces ABOVE the crate's top (0.68 m), so a lens inside
+  the crate sees them through the top bars — hide `crate.panels.top` for those shots (and the panel between the lens and Pip
+  for his close-ups). Wires across a face read as noise; the remaining bars still say "crate". From inside, keep the hero
+  low (lying) so only his ears sit in the bottom of the frame and the human face carries the shot.
+- **Pose lineup at t ≥ 200 must hide `#ui`** (`document.getElementById('ui').style.display = 'none'`) — past `duration` the
+  end card + final fade cover every lineup frame (021's first lineup sheet was 18 black end cards).
+- **`bearing.py` is meaningless for near-straight-down cameras** (yaw is undefined): check overhead shots with a still.
 - **Fire, smoke, steam and clouds = soft camera-facing sprites, never stacked spheres** (011: nested transparent spheres read
   as rings/bubbles). `makeSpritePool(parent, n, 'fire'|'smoke')` in tech.js: additive radial-gradient fire, soft alpha smoke;
   offset each puff from the center so they read as separate lumps. Same for planet clouds: radial-gradient puffs in a canvas.
@@ -432,6 +456,9 @@ One fix pass is enough — edits ripple into neighboring beats (v2: targeted bea
 seen from behind the defendant sat at 0.015 (busy face-filled beats: 0.08–0.10). v2 moved the kitchen camera closer, added the family
 dog and fidgets (0.031), and cut the court to a reverse angle on the defendant's face + a gallery of reacting onlookers + the gavel
 slamming in the foreground (0.040/0.043). Net: whole-brain +1 %, first 60 s +7 %; the untouched ending dipped (0.050 → 0.035).
+**021 (Pip ep. 1, a NIGHT reel) met the target on cut1 (wc 0.064, first 60 s 0.065):** dark doesn't sag when every shot is a
+close face in constant motion — the crate close-ups, the stairs and the 3 AM shots scored 0.09–0.11. The weakest beats were the
+BRIGHT wide ones with small faces (9 PM family + zoomies 0.035, the morning discovery 0.044): get close, not bright.
 **Keep TRIBE videos ≤ 70 s (016):** with the lowered MPS cap the audio encoder (w2v-BERT relative-position attention, whole
 soundtrack at once) ran out of GPU memory on a 71.4 s render (`MPS backend out of memory … max allowed 8.88 GB`) while 70.0 s
 (015) passed. Trim the video rather than raising the shared watermark. (`tribe-score.sh` used to copy `final.mp4` before waiting
