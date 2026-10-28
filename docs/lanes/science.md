@@ -101,3 +101,21 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   faces insert before the doubling → 0.0471 / 0.0469, no dead zone, TARGET MET. Peaks: faces in eclipse glasses as the light drains
   (0.145 — the best beat measured so far), the eclipse sky with the crowd silhouetted (0.10), Fundy's tide front chasing tourists
   (0.095). Static two-shots sag even with close faces; give every face beat a camera move AND body motion.
+
+## Fifth video: 036 "What if the Sun disappeared?"
+- **Shape (65.0 s):** title over a busy Phoenix pool → the Sun pops out of existence over a sunlit Earth (SECOND 0, 2.9 s, faceless)
+  → **8 min 19 s of borrowed daylight**: HUD `fmt: 'clock'` countdown LAST SUNLIGHT ARRIVES IN 8:19 → 0:00 across four bright places
+  (the pool: a dad tossing his kid; London: a goal + the home end erupting; Tuscany: a golden-hour wedding photo; the pool again: a kid
+  jumps off the diving board and it goes dark in mid-air) → LIGHTS OUT, everywhere at once: the wedding under a black sky full of
+  stars at 4 PM, lit by the photographer's flash → Bangkok (night side): a phone photo of the half Moon goes black at +1.3 s, Jupiter
+  at +70 min (HUD `fmt: 'dur'`) → dark Earth (city lights) leaves on a straight line (3 s, faceless) → the cold ladder (HUD
+  `fmt: 'temp'`): +1 DAY the same pool, frost + towels round a fire drum; +1 WEEK −18 °C Chicago fire barrels; +1 MONTH a frozen
+  Maine harbor, an ice fisherman pulls a fish out of the liquid water below; +1 YEAR −73 °C faces in Iceland's steaming geothermal
+  lagoon → a kid points up, the camera tilts to the Milky Way → "What would you do in the last 8 minutes?".
+- **Honest physics on screen:** the day side goes dark AT ONCE (sunlight stops arriving everywhere within ~0.02 s), not place by
+  place; the night side only notices through the Moon (a QUARTER Moon = +1.28 s; a full Moon would be ~2.6 s) and the planets.
+  Gravity's speed = c is the second half of the hook ("Earth keeps circling a Sun that isn't there", GW170817). Cooling numbers are
+  "scientists estimate"; the day-1 and month-1 HUD values are interpolations (said in the shots.js header + caption comment).
+- **Same place, before and after:** the pool appears bright (title, toss, dive) and again at +1 DAY with the same swimmers in towels
+  — the callback sells the change better than a new set would.
+- New engine pieces: `engine/sets/lagoon.js` (+ `nightSkyTexture()` for any day set), core.js HUD formats (CLAUDE.md cheat sheet).
