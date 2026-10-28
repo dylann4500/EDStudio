@@ -42,11 +42,14 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 033 | How a Squirt Gun Becomes a Fire Truck | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 034 | How a Go-Kart Becomes a Tank | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
+| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | queued Oct 28 (Thu 6 PM) |
+| 036 | What if the Sun disappeared? | science / @ed_.studios | queued Oct 28 (Thu 1 PM) |
+| 037 | What if the oxygen in the air doubled? | science / @ed_.studios | queued Oct 28 (Thu 6 PM) |
+| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | queued Oct 28 (Thu 1 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
-- What if your farts got 2× louder every time? (NEXT) (SFX-led: car alarms, a seismograph, a shockwave visible from space)
-- What if you sneezed 2× harder every time?
+- What if you sneezed 2× harder every time? (NEXT)
 - What if your nose hair grew a meter every minute?
 - What if your tongue doubled in length every 10 seconds?
 - What if your sweat doubled every minute? (cartoon flood)
@@ -64,15 +67,12 @@ Classic tier ("everyone on Earth…"):
 - What if everyone had to hold hands with a stranger for 24 hours?
 
 ## Backlog: science (@ed_.studios)
-- What if the Sun disappeared? (8 min 20 s of light still on its way)
-- What if the oxygen in the air doubled? (giant insects, fires)
 - What if Earth had rings like Saturn?
 - What if all the oceans drained at once?
 - What if you fell into a black hole?
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
-- What if the whole town lost power… and Pip was the only one not scared? (city.js `setPower` + `makeFlashlight`, HOMES WITH POWER; disaster-goes-right got 1.2–1.3M on @whatif.goodending)
 - What if a tornado hit while Pip was home alone? (suburb porch-roof collapse, Pip and the bunny ride it out in the bathtub, family comes home. Disaster that goes right)
 - What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
 - What if Pip saw snow for the first time? (first snow, SNOWFLAKES CAUGHT, a snowman that becomes his friend. Firsts are their best tier; seasonal for November)
