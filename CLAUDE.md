@@ -410,6 +410,15 @@ videos/NNN-slug/
   cover the face on the far side of the drum: keep flames low.
 - **A phone photo of the Moon (036 moonA):** make the camera ride the PHONE (hand world pos) but freeze that rig (no idle, no
   react) for the shot — when the camera rode a hand that moved at the reaction, it ended up inside the head.
+- **End card over a live scene (036 cut4, core.js additive):** `finalFade: [start, end, depth]` — `depth < 1` only dims the frame
+  (0.4 in 036), so the end card sits over the moving sky + shooting stars instead of black (the black end card was the lowest
+  TRIBE stretch of every reel). The HUD still fades out at `finalFade[0]`; default depth 1 = the old fade to black.
+- **A dark premise can still stay lit (036 cut4):** "the power still works" — after the blackout most beats went INSIDE (a
+  stadium whose floodlights bang on bank by bank, a supermarket rush, a laundromat crowd backed against the dryers); only the
+  must-show outdoor beats (stars at 4 PM, the Moon going dark, the ice) stayed dark, each ≤ 3.2 s. Each place = 2–3 quick
+  angles (≈1.5 s) instead of one 5 s shot. football.js in the dark: swap the sky dome to `nightSkyTexture`, hide the clouds, find
+  the roof floodlights (MeshBasic boxes 5 × 0.9) and reuse `lights.sun` as the far floodlight bank (036 `stadScene`).
+  A camera near a goal: the net spans x 52.5–54.5, |z| < 3.66 — 036's first close-up of the home end sat inside it.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every

@@ -264,7 +264,8 @@ export function createOverlay(story) {
     for (const [a, m, b] of story.dips || []) {
       if (t >= a && t <= b) f = Math.max(f, t < m ? (m === a ? 1 : smooth((t - a) / (m - a))) : (b === m ? 1 : 1 - smooth((t - m) / (b - m))));
     }
-    if (story.finalFade) f = Math.max(f, smooth((t - story.finalFade[0]) / (story.finalFade[1] - story.finalFade[0])));
+    // finalFade [start, end, depth?]: depth (036, default 1) < 1 only dims the frame, so the end card can sit over a live scene
+    if (story.finalFade) f = Math.max(f, (story.finalFade[2] ?? 1) * smooth((t - story.finalFade[0]) / (story.finalFade[1] - story.finalFade[0])));
     fade.style.opacity = f;
     if (story.end) end.style.opacity = smooth((t - story.end.in) / 0.5);
   }

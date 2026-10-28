@@ -8,123 +8,149 @@
     "bloomThreshold": 0.85
   },
   "fps": 30,
-  "duration": 65.0,
+  "duration": 56.2,
   "title": {
     "html": "What if the <em>Sun</em> disappeared?",
     "in": -0.4,
-    "out": 3.4
+    "out": 3.2
   },
   "hudLabel": "LAST SUNLIGHT ARRIVES IN",
   "hud": [
     {
-      "t0": 3.4,
-      "t1": 6.3,
+      "t0": 3.2,
+      "t1": 4.7,
       "from": 499,
-      "to": 431.251,
+      "to": 468.6,
       "time": "THE SUN · SECOND 0",
       "age": "150 MILLION km FROM EARTH",
       "label": "LAST SUNLIGHT ARRIVES IN",
-      "r0": 3.9,
-      "r1": 6.3,
+      "r0": 3.5,
+      "r1": 4.7,
       "ease": "linear",
       "fmt": "clock"
     },
     {
-      "t0": 6.3,
-      "t1": 11.4,
-      "from": 431.251,
-      "to": 287.286,
-      "time": "PHOENIX · 8:02 AM",
+      "t0": 4.7,
+      "t1": 9.6,
+      "from": 468.6,
+      "to": 344.467,
+      "time": "PHOENIX · 8:01 AM",
       "age": "LIGHT TAKES 8 min 19 s TO GET HERE",
       "label": "LAST SUNLIGHT ARRIVES IN",
-      "r0": 6.3,
-      "r1": 11.4,
+      "r0": 4.7,
+      "r1": 9.6,
       "ease": "linear",
       "fmt": "clock"
     },
     {
-      "t0": 11.4,
-      "t1": 16.6,
-      "from": 287.286,
-      "to": 140.497,
-      "time": "LONDON · 3:05 PM",
+      "t0": 9.6,
+      "t1": 14.6,
+      "from": 344.467,
+      "to": 217.8,
+      "time": "LONDON · 3:03 PM",
       "age": "GRAVITY ALSO MOVES AT LIGHT SPEED",
       "label": "LAST SUNLIGHT ARRIVES IN",
-      "r0": 11.4,
-      "r1": 16.6,
+      "r0": 9.6,
+      "r1": 14.6,
       "ease": "linear",
       "fmt": "clock"
     },
     {
-      "t0": 16.6,
-      "t1": 21.4,
-      "from": 140.497,
+      "t0": 14.6,
+      "t1": 19.0,
+      "from": 217.8,
+      "to": 106.333,
+      "time": "CHICAGO · 10:05 AM",
+      "age": "A NORMAL DAY",
+      "label": "LAST SUNLIGHT ARRIVES IN",
+      "r0": 14.6,
+      "r1": 19.0,
+      "ease": "linear",
+      "fmt": "clock"
+    },
+    {
+      "t0": 19.0,
+      "t1": 23.0,
+      "from": 106.333,
       "to": 5,
       "time": "TUSCANY · 4:07 PM",
       "age": "THE LAST SUNNY MINUTES",
       "label": "LAST SUNLIGHT ARRIVES IN",
-      "r0": 16.6,
-      "r1": 21.4,
+      "r0": 19.0,
+      "r1": 23.0,
       "ease": "linear",
       "fmt": "clock"
     },
     {
-      "t0": 21.4,
-      "t1": 24.4,
+      "t0": 23.0,
+      "t1": 26.2,
       "from": 5,
       "to": 0,
       "time": "PHOENIX · 8:08 AM",
       "age": "THE LAST SUNLIGHT",
       "label": "LAST SUNLIGHT ARRIVES IN",
-      "r0": 21.4,
-      "r1": 23.8,
+      "r0": 23.0,
+      "r1": 25.4,
       "ease": "linear",
       "fmt": "clock",
-      "ageGoldAt": 23.8
+      "ageGoldAt": 25.4
     },
     {
-      "t0": 24.4,
-      "t1": 29.0,
-      "from": 0.6,
-      "to": 5.2,
+      "t0": 26.2,
+      "t1": 28.8,
+      "from": 0.8,
+      "to": 3.4,
       "time": "TUSCANY · 4:08 PM",
       "age": "DAY SIDE · DARK ALL AT ONCE",
       "label": "SINCE THE LAST SUNLIGHT",
-      "r0": 24.4,
-      "r1": 29.0,
+      "r0": 26.2,
+      "r1": 28.8,
       "ease": "linear",
       "fmt": "dur"
     },
     {
-      "t0": 29.0,
-      "t1": 31.6,
+      "t0": 28.8,
+      "t1": 32.0,
+      "from": 3.4,
+      "to": 6.6,
+      "time": "LONDON · 3:08 PM",
+      "age": "THE POWER STILL WORKS",
+      "label": "SINCE THE LAST SUNLIGHT",
+      "r0": 28.8,
+      "r1": 32.0,
+      "ease": "linear",
+      "fmt": "dur"
+    },
+    {
+      "t0": 32.0,
+      "t1": 34.0,
       "from": 0.0,
-      "to": 2.6,
+      "to": 2.0,
       "time": "BANGKOK · 10:08 PM",
       "age": "NIGHT SIDE · HALF MOON",
       "label": "SINCE THE LAST SUNLIGHT",
-      "r0": 29.0,
-      "r1": 31.6,
+      "r0": 32.0,
+      "r1": 34.0,
       "ease": "linear",
       "fmt": "dur",
-      "ageGoldAt": 30.3
+      "ageGoldAt": 33.28
     },
     {
-      "t0": 31.6,
-      "t1": 34.0,
-      "from": 2.6,
+      "t0": 34.0,
+      "t1": 35.6,
+      "from": 2.0,
       "to": 4200,
       "time": "BANGKOK · 11:18 PM",
       "age": "JUPITER GOES DARK",
       "label": "SINCE THE LAST SUNLIGHT",
-      "r0": 31.6,
-      "r1": 33.0,
+      "r0": 34.0,
+      "r1": 35.0,
       "ease": "log",
       "fmt": "dur",
-      "ageGoldAt": 33.0
+      "ageGoldAt": 35.0
     },
     {
-      "t0": 34.0,
+      "t0": 35.6,
       "t1": 37.0,
       "from": 29.8,
       "to": 29.8,
@@ -136,182 +162,158 @@
     },
     {
       "t0": 37.0,
-      "t1": 41.6,
+      "t1": 40.4,
       "from": 15,
       "to": 11,
       "time": "+1 DAY · PHOENIX",
       "age": "FALLING",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 37.2,
-      "r1": 41.4,
+      "r0": 37.1,
+      "r1": 40.2,
       "fmt": "temp"
     },
     {
-      "t0": 41.6,
-      "t1": 46.2,
+      "t0": 40.4,
+      "t1": 43.6,
       "from": 11,
       "to": -18,
       "time": "+1 WEEK · CHICAGO",
       "age": "SCIENTISTS' ESTIMATE",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 41.7,
-      "r1": 43.6,
+      "r0": 40.5,
+      "r1": 42.2,
       "fmt": "temp",
-      "ageGoldAt": 43.6
+      "ageGoldAt": 42.2
     },
     {
-      "t0": 46.2,
-      "t1": 50.8,
+      "t0": 43.6,
+      "t1": 46.8,
       "from": -18,
       "to": -30,
       "time": "+1 MONTH · MAINE",
       "age": "SEA ICE ON TOP · LIQUID BELOW",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 46.3,
-      "r1": 50.6,
+      "r0": 43.7,
+      "r1": 46.6,
       "fmt": "temp"
     },
     {
-      "t0": 50.8,
-      "t1": 65.0,
+      "t0": 46.8,
+      "t1": 56.2,
       "from": -30,
       "to": -73,
       "time": "+1 YEAR · ICELAND",
       "age": "SCIENTISTS' ESTIMATE",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 50.9,
-      "r1": 52.6,
+      "r0": 46.9,
+      "r1": 48.4,
       "fmt": "temp",
-      "ageGoldAt": 52.6
+      "ageGoldAt": 48.4
     }
   ],
   "subs": [
     [
-      3.6,
-      6.1,
+      3.5,
+      5.0,
       "Second 0: the Sun vanishes."
     ],
     [
-      6.5,
-      8.6,
+      5.15,
+      6.85,
       "Nobody on Earth can tell."
     ],
     [
-      8.75,
-      11.2,
+      7.0,
+      9.45,
       "Its last light is still on the way."
     ],
     [
+      9.75,
       11.6,
-      13.7,
       "Gravity travels at light speed too."
     ],
     [
-      13.85,
-      16.4,
+      11.75,
+      14.45,
       "Earth keeps circling a Sun that isn't there."
     ],
     [
-      16.8,
-      19.2,
+      14.75,
+      17.2,
       "8 minutes, 19 seconds of a normal day."
     ],
     [
-      19.35,
-      21.2,
+      17.35,
+      18.85,
+      "Nobody knows it's coming."
+    ],
+    [
+      19.3,
+      22.8,
       "The last photo in sunlight."
     ],
     [
-      21.6,
-      23.7,
+      23.2,
+      25.2,
       "Then the light runs out."
     ],
     [
-      24.55,
-      27.25,
-      "Lights out. Everywhere at once."
+      26.35,
+      28.65,
+      "Lights out everywhere. Stars at 4 PM."
     ],
     [
-      27.35,
-      28.85,
-      "Stars at 4 PM."
-    ],
-    [
-      29.2,
-      32.1,
-      "Night side: the Moon shines 1.3 s longer."
-    ],
-    [
-      32.2,
-      33.95,
-      "Jupiter: 70 minutes. The stars stay."
-    ],
-    [
-      34.15,
-      36.85,
-      "Earth flies off in a straight line."
-    ],
-    [
-      37.2,
-      39.4,
-      "Day 1. Frost by a Phoenix pool."
-    ],
-    [
-      39.55,
-      41.4,
-      "Everyone huddles around a fire."
-    ],
-    [
-      41.8,
-      44.4,
-      "Week 1: −18 °C on average, scientists estimate."
-    ],
-    [
-      44.55,
-      46.0,
+      29.0,
+      31.85,
       "The power plants still run."
     ],
     [
-      46.4,
-      48.15,
-      "The ocean freezes over."
+      32.1,
+      33.95,
+      "The Moon shines 1.3 s longer."
     ],
     [
-      48.3,
-      50.65,
-      "Under the ice, the deep ocean stays liquid."
+      34.1,
+      35.5,
+      "Jupiter: 70 minutes."
     ],
     [
-      51.0,
-      53.6,
+      35.7,
+      37.85,
+      "Earth flies off in a straight line."
+    ],
+    [
+      38.0,
+      40.25,
+      "Day 1: every blanket sells out."
+    ],
+    [
+      40.55,
+      43.45,
+      "Week 1: −18 °C. Everyone hugs a dryer."
+    ],
+    [
+      43.75,
+      46.65,
+      "The ocean freezes over. Liquid underneath."
+    ],
+    [
+      46.95,
+      49.25,
       "Year 1: −73 °C. Except in Iceland."
     ],
     [
-      53.75,
-      55.4,
-      "Its heat comes from below."
-    ],
-    [
-      55.8,
-      57.9,
+      49.55,
+      51.95,
       "And the stars are all still there."
-    ],
-    [
-      58.05,
-      60.0,
-      "Brighter than you've ever seen them."
     ]
   ],
   "end": {
-    "in": 60.8,
+    "in": 52.2,
     "html": "What would you do in the last <em>8 minutes</em>?",
     "small": "TELL US BELOW"
   },
   "dips": [],
-  "finalFade": [
-    60.2,
-    60.8
-  ],
   "debugView": {
     "center": [
       0,
@@ -320,6 +322,11 @@
     ],
     "height": 40
   },
-  "sw": 3.9,
-  "out": 23.8
+  "sw": 3.5,
+  "out": 25.4,
+  "finalFade": [
+    51.9,
+    52.5,
+    0.4
+  ]
 }

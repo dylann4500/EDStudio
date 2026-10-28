@@ -33,24 +33,27 @@
 //   −100 °F within a year; ice on top keeps the deep ocean liquid for hundreds of thousands of years); How It Works; ScienceAlert
 //   Iceland geothermal heating ≈ 90 % of homes (Orkustofnun / National Energy Authority of Iceland)
 //
-// Shot list (seconds)                     | set    | what happens
-//  0.0– 3.4 title                         | pool   | crane down over a busy Phoenix pool at 8 AM
-//  3.4– 6.3 sun     SECOND 0 at 3.9       | space  | the Sun pops out of existence over a sunlit Earth — Earth stays lit
-//  6.3–11.4 pool    8:15 → 5:47           | pool   | low at the edge: a dad tosses his kid, a beach-ball rally, splashes
-// 11.4–16.6 goal    5:47 → 3:20           | stad   | London: the ball hits the net, the home end erupts, the striker runs to them
-// 16.6–21.4 wed     3:20 → 0:05           | wed    | Tuscany at golden hour: petals, a kiss, the photographer's flash
-// 21.4–24.4 dive    0:05 → 0:00 (23.8)    | pool   | a kid sprints down the diving board, jumps — it goes dark in mid-air
-// 24.4–29.0 wedDark +0.6 → +5.2 s          | wed    | the wedding party under a black sky full of stars at 4 PM, lit by the flash
-// 29.0–34.0 roof    Bangkok, night side   | city   | a phone photo of the half Moon: dark at +1.3 s; reverse on the faces (+70 min: Jupiter)
-// 34.0–37.0 orbit                         | space  | dark Earth (city lights) leaves the curve on a straight line
-// 37.0–41.6 frost   +1 DAY                | pool   | the same pool at night: frost, an ice skin, the swimmers in towels round a fire drum
-// 41.6–46.2 fires   +1 WEEK −18 °C        | city   | Chicago corner: fire barrels + a patio heater, lit shop windows, frost
-// 46.2–50.8 ice     +1 MONTH              | tide   | Maine harbor frozen; an ice fisherman pulls a fish out of the liquid water below
-// 50.8–55.6 soak    +1 YEAR −73 °C        | lagoon | Iceland: faces in the steaming geothermal lagoon, frost in their hair
-// 55.6–65.0 stars                         | lagoon | a kid points up; the camera tilts to the Milky Way. Fade 60.2, end card 60.8
+// Shot list — cut4 (56.2 s): the bright countdown gets 3 quick angles per place; the dark half is short beats, most of them in
+// places that still have electric light (the power plants still run): a stadium on its floodlights, a supermarket, a laundromat.
+//  0.0– 3.2 title          pool   low glide past the swimmers' faces (question card)
+//  3.2– 4.7 sun   SW 3.5   space  the Sun pops out of existence; Earth stays lit
+//  4.7– 9.6 poolA/B/C      pool   the dad tosses his kid · the beach-ball rally · the second toss from the side
+//  9.6–14.6 goalA/B/C      stad   London: the ball hits the net · the home end erupts (close) · the striker knee-slides
+// 14.6–19.0 playA/B/C      play   Chicago 10 AM: kids whizzing round the merry-go-round · a swing toward the lens · the seesaw
+// 19.0–23.0 wedA/B         wed    Tuscany at golden hour: petals · the kiss + the photographer's flash
+// 23.0–26.2 dive  OUT 25.4 pool   a kid sprints down the board, jumps — it goes dark in mid-air
+// 26.2–28.8 wedDark        wed    the wedding under a black sky full of stars at 4 PM, flashes + phone lights
+// 28.8–32.0 sdA/sdB        stad   London in the dark: phone torches, then the floodlights bang on bank by bank; the crowd roars
+// 32.0–35.6 moonA/moonB    city   Bangkok rooftop: the phone photo of the half Moon goes black at +1.3 s; Jupiter at +70 min
+// 35.6–37.0 orbit          space  dark Earth leaves the curve on a straight line
+// 37.0–40.4 mkA/mkB  +1 DAY      mkt  Phoenix supermarket: shoppers strip the shelves, carts race, blankets + heaters
+// 40.4–43.6 lnA/lnB  +1 WEEK     laun Chicago laundromat packed with people in coats hugging the dryers, frosted windows
+// 43.6–46.8 ice     +1 MONTH     tide Maine harbor frozen; ice cracks; a fisherman pulls a fish out of the liquid water below
+// 46.8–49.4 soak    +1 YEAR      lag  Iceland: faces gliding past in the steaming geothermal lagoon
+// 49.4–56.2 stars                lag  a kid points up; tilt to the Milky Way + shooting stars; end card 52.2 over the live sky
 import * as THREE from 'three';
 import { K, clamp, lerp, smooth, rng, mat, mk, canvasTex } from '@engine/core.js';
-import { makePerson, basePose, applyPose, blink } from '@engine/rig.js';
+import { makePerson, basePose, applyPose, blink, HIP_H } from '@engine/rig.js';
 import { makePhone, makeFlashlight } from '@engine/props.js';
 import { buildPool, DIMS as PD } from '@engine/sets/pool.js';
 import { buildStadium, DIMS as SD } from '@engine/sets/football.js';
@@ -59,42 +62,72 @@ import { buildCity, ROOF_Y, makeCar } from '@engine/sets/city.js';
 import { buildTidetown } from '@engine/sets/tidetown.js';
 import { buildLagoon, nightSkyTexture } from '@engine/sets/lagoon.js';
 import { buildSpace, makeSpritePool } from '@engine/sets/tech.js';
+import { buildPlayground, DIMS as PGD } from '@engine/sets/playground.js';
+import { buildSupermarket } from '@engine/sets/supermarket.js';
+import { buildLaundromat, DIMS as LD } from '@engine/sets/laundromat.js';
 import { makeSkyMoon, ANG0 } from '@engine/moon.js';
 
-const PI = Math.PI, SW = 3.9, OUT = 23.8, GOAL = 12.05, MOON_OUT = OUT + 1.28 + (29.0 - OUT), JUP_OUT = 33.0;
-const OFF = { city: [0, 0, 0], pool: [3000, 0, 0], stad: [6000, 0, 0], wed: [9000, 0, 0], tide: [12000, 0, 0], lag: [16000, 0, 0], space: [24000, 0, 0] };
+const PI = Math.PI, SW = 3.5, OUT = 25.4, GOAL = 10.25, MOON0 = 32.0, MOON_OUT = MOON0 + 1.28, JUP_OUT = 35.0;
+const J = OUT - 0.35;                   // the diver leaves the board 0.35 s before the light runs out
+const TOSS = [5.3, 8.6], KISS = [20.9, 21.9], PETALS = 19.5, WFLASH = 22.5, FLOOD = [29.05, 29.4, 29.75];
+const CATCH = 45.3, CRACK = 44.15, END_IN = 52.2;
+const OFF = { city: [0, 0, 0], pool: [3000, 0, 0], stad: [6000, 0, 0], wed: [9000, 0, 0], tide: [12000, 0, 0], lag: [16000, 0, 0], space: [24000, 0, 0], play: [30000, 0, 0], mkt: [33000, 0, 0], laun: [36000, 0, 0] };
 
 export const SHOTS = [
-  { t0: 0, t1: 3.4, cam: 'title', set: 'pool' },
-  { t0: 3.4, t1: 6.3, cam: 'sun', set: 'space' },
-  { t0: 6.3, t1: 11.4, cam: 'pool', set: 'pool' },
-  { t0: 11.4, t1: 16.6, cam: 'goal', set: 'stad' },
-  { t0: 16.6, t1: 21.4, cam: 'wed', set: 'wed' },
-  { t0: 21.4, t1: 24.4, cam: 'dive', set: 'pool' },
-  { t0: 24.4, t1: 29.0, cam: 'wedDark', set: 'wed' },
-  { t0: 29.0, t1: 30.7, cam: 'moonA', set: 'city' },
-  { t0: 30.7, t1: 34.0, cam: 'moonB', set: 'city' },
-  { t0: 34.0, t1: 37.0, cam: 'orbit', set: 'space' },
-  { t0: 37.0, t1: 41.6, cam: 'frost', set: 'pool' },
-  { t0: 41.6, t1: 46.2, cam: 'fires', set: 'city' },
-  { t0: 46.2, t1: 50.8, cam: 'ice', set: 'tide' },
-  { t0: 50.8, t1: 55.6, cam: 'soak', set: 'lag' },
-  { t0: 55.6, t1: 65.0, cam: 'stars', set: 'lag' },
+  { t0: 0, t1: 3.2, cam: 'title', set: 'pool' },
+  { t0: 3.2, t1: 4.7, cam: 'sun', set: 'space' },
+  { t0: 4.7, t1: 6.4, cam: 'poolA', set: 'pool' },
+  { t0: 6.4, t1: 8.0, cam: 'poolB', set: 'pool' },
+  { t0: 8.0, t1: 9.6, cam: 'poolC', set: 'pool' },
+  { t0: 9.6, t1: 11.2, cam: 'goalA', set: 'stad' },
+  { t0: 11.2, t1: 12.8, cam: 'goalB', set: 'stad' },
+  { t0: 12.8, t1: 14.6, cam: 'goalC', set: 'stad' },
+  { t0: 14.6, t1: 16.1, cam: 'playA', set: 'play' },
+  { t0: 16.1, t1: 17.5, cam: 'playB', set: 'play' },
+  { t0: 17.5, t1: 19.0, cam: 'playC', set: 'play' },
+  { t0: 19.0, t1: 20.7, cam: 'wedA', set: 'wed' },
+  { t0: 20.7, t1: 23.0, cam: 'wedB', set: 'wed' },
+  { t0: 23.0, t1: 26.2, cam: 'dive', set: 'pool' },
+  { t0: 26.2, t1: 28.8, cam: 'wedDark', set: 'wed' },
+  { t0: 28.8, t1: 30.4, cam: 'sdA', set: 'stad' },
+  { t0: 30.4, t1: 32.0, cam: 'sdB', set: 'stad' },
+  { t0: 32.0, t1: 34.0, cam: 'moonA', set: 'city' },
+  { t0: 34.0, t1: 35.6, cam: 'moonB', set: 'city' },
+  { t0: 35.6, t1: 37.0, cam: 'orbit', set: 'space' },
+  { t0: 37.0, t1: 38.8, cam: 'mkA', set: 'mkt' },
+  { t0: 38.8, t1: 40.4, cam: 'mkB', set: 'mkt' },
+  { t0: 40.4, t1: 42.0, cam: 'lnA', set: 'laun' },
+  { t0: 42.0, t1: 43.6, cam: 'lnB', set: 'laun' },
+  { t0: 43.6, t1: 46.8, cam: 'ice', set: 'tide' },
+  { t0: 46.8, t1: 49.4, cam: 'soak', set: 'lag' },
+  { t0: 49.4, t1: 56.2, cam: 'stars', set: 'lag' },
 ];
 // camera coords LOCAL to the shot's set: p/a = [start, end] (eased); fov; amp = handheld drift
 export const CAMS = {
-  title:   { p: [[4.5, 9.5, 15.5], [1.9, 1.5, 8.4]], a: [[0.2, -0.4, 0.6], [0.3, 0.15, 3.0]], fov: 50, amp: 0.008 },
-  sun:     { p: [[0, -100, 1700], [0, -70, 1560]], a: [[0, 330, 0], [0, 320, 0]], fov: 60, amp: 0.4 },
-  pool:    { p: [[1.7, 0.42, 6.6], [1.0, 0.38, 6.4]], a: [[0.35, 0.12, 2.4], [0.1, 0.15, 2.3]], fov: 48, amp: 0.004 },
-  goal:    { p: [[50.4, 1.3, 1.9], [51.2, 1.5, 1.4]], a: [[60.5, 2.3, -0.3], [60.5, 2.9, 0.0]], fov: 50, amp: 0.006 },
-  wed:     { p: [[1.35, 1.5, 3.4], [0.75, 1.45, 2.6]], a: [[0.05, 1.3, -3.0], [0.02, 1.32, -3.0]], fov: 50, amp: 0.004 },
+  title:   { p: [[-1.7, 0.55, 6.9], [0.5, 0.48, 6.4]], a: [[-0.5, 0.3, 2.6], [0.45, 0.3, 2.5]], fov: 50, amp: 0.006 },
+  sun:     { p: [[0, -100, 1700], [0, -80, 1600]], a: [[0, 330, 0], [0, 322, 0]], fov: 60, amp: 0.4 },
+  poolA:   { p: [[1.7, 0.42, 6.6], [1.1, 0.38, 6.3]], a: [[0.35, 0.3, 2.6], [0.15, 0.32, 2.5]], fov: 48, amp: 0.004 },
+  poolB:   { p: [[-1.7, 0.42, 1.5], [-1.3, 0.4, 1.8]], a: [[1.15, 0.5, 1.1], [1.2, 0.55, 1.0]], fov: 46, amp: 0.004 },
+  poolC:   { p: [[3.3, 0.4, 4.7], [2.9, 0.38, 4.35]], a: [[0.6, 0.75, 3.7], [0.6, 0.85, 3.8]], fov: 48, amp: 0.004 },
+  goalA:   { p: [[50.4, 1.3, 1.9], [51.0, 1.45, 1.5]], a: [[60.5, 2.3, -0.3], [60.5, 2.8, 0.0]], fov: 50, amp: 0.006 },
+  goalB:   { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 46, amp: 0.006 },   // close on the home end (custom)
+  goalC:   { p: [[54.0, 0.8, 6.8], [55.0, 0.75, 6.2]], a: [[55.6, 1.1, 0.5], [56.3, 1.0, 0.4]], fov: 46, amp: 0.006 },
+  playA:   { p: [[2.2, 0.9, 0.8], [1.5, 0.85, 1.0]], a: [[0.2, 0.75, -2.6], [0.0, 0.75, -2.6]], fov: 50, amp: 0.005 },
+  playB:   { p: [[2.4, 0.55, -3.7], [2.5, 0.6, -3.9]], a: [[2.4, 1.0, -7.0], [2.4, 1.05, -7.0]], fov: 52, amp: 0.005 },
+  playC:   { p: [[1.0, 1.3, 3.6], [0.0, 1.25, 3.8]], a: [[-1.9, 0.7, 0.5], [-2.0, 0.75, 0.4]], fov: 48, amp: 0.005 },
+  wedA:    { p: [[1.35, 1.5, 3.4], [1.0, 1.47, 2.9]], a: [[0.05, 1.3, -3.0], [0.03, 1.31, -3.0]], fov: 50, amp: 0.004 },
+  wedB:    { p: [[0.6, 1.45, 1.3], [0.35, 1.43, 0.9]], a: [[0.0, 1.38, -3.0], [0.0, 1.38, -3.0]], fov: 48, amp: 0.004 },
   dive:    { p: [[-7.3, 0.55, 2.8], [-7.6, 0.5, 3.1]], a: [[-12, 1.0, 5.5], [-12, 0.9, 3.4]], fov: 52, amp: 0.004 },   // aim tracks the kid (custom)
   wedDark: { p: [[1.45, 1.05, -0.55], [-0.55, 0.95, -0.95]], a: [[0.25, 1.95, -3.3], [-0.2, 2.0, -3.3]], fov: 58, amp: 0.005 },
+  sdA:     { p: [[34.0, 1.6, -2.0], [35.5, 1.7, 2.0]], a: [[60.0, 9.5, 0.0], [60.0, 10.0, 0.5]], fov: 56, amp: 0.008 },
+  sdB:     { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 48, amp: 0.006 },   // close on the floodlit fans (custom)
   moonA:   { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 30, amp: 0.003 },   // behind the phone (custom)
   moonB:   { p: [[-8.3, 17.0, 11.4], [-8.95, 17.05, 12.35]], a: [[-10.6, 17.5, 12.4], [-10.7, 17.55, 12.8]], fov: 50, amp: 0.005 },
   orbit:   { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 50, amp: 0.5 },   // trails Earth (custom)
-  frost:   { p: [[2.3, 1.35, 4.5], [1.4, 1.3, 4.85]], a: [[0.95, 1.25, 7.5], [0.85, 1.25, 7.5]], fov: 52, amp: 0.005 },
-  fires:   { p: [[3.0, 1.4, 1.5], [3.9, 1.35, 3.3]], a: [[5.95, 1.35, 3.4], [6.0, 1.35, 3.8]], fov: 50, amp: 0.005 },
+  mkA:     { p: [[0.15, 1.35, 3.6], [0.0, 1.3, 2.2]], a: [[0.0, 1.15, -6.0], [0.0, 1.1, -6.0]], fov: 50, amp: 0.006 },
+  mkB:     { p: [[0.9, 2.15, 5.3], [0.1, 2.1, 5.1]], a: [[-0.3, 1.15, 0.0], [-0.5, 1.15, -0.2]], fov: 48, amp: 0.006 },
+  lnA:     { p: [[3.0, 1.5, 0.75], [-0.6, 1.48, 0.65]], a: [[2.0, 1.35, -1.9], [-1.6, 1.35, -1.9]], fov: 52, amp: 0.006 },
+  lnB:     { p: [[-0.6, 1.5, 2.6], [0.4, 1.45, 2.4]], a: [[0.2, 1.3, -2.4], [0.3, 1.3, -2.4]], fov: 50, amp: 0.006 },
   ice:     { p: [[-2.1, 0.85, -9.9], [-2.6, 0.78, -9.5]], a: [[-3.25, 0.72, -6.6], [-3.3, 0.78, -6.6]], fov: 50, amp: 0.005 },
   soak:    { p: [[2.1, 0.6, 3.6], [-1.0, 0.5, 3.0]], a: [[1.2, 0.36, 1.2], [-0.5, 0.36, 1.2]], fov: 50, amp: 0.004 },
   stars:   { p: [[0.75, 0.35, 3.65], [0.6, 0.55, 3.45]], a: [[0.2, 0.3, 2.1], [0.2, 0.3, 2.1]], fov: 50, amp: 0.003 },   // tilts up (custom)
@@ -135,10 +168,13 @@ export async function build(studio, story) {
   const tide = buildTidetown(studio, {}); tide.root.position.set(...OFF.tide);
   const lag = buildLagoon(studio, {}); lag.root.position.set(...OFF.lag);
   const space = buildSpace(studio, {}); space.root.position.set(...OFF.space);
-  const ROOTS = { city: city.root, pool: pool.root, stad: stad.root, wed: wed.root, tide: tide.root, lag: lag.root, space: space.root };
-  const FOGS = { city: cityFog, pool: pool.fog, stad: stad.fog, wed: wed.fog, tide: tide.fog, lag: lag.fog, space: null };
-  const FAR = { city: 900, pool: 300, stad: 900, wed: 260, tide: 2200, lag: 460, space: 9000 };
-  const EXPO = { city: 1.2, pool: 1.05, stad: 1.05, wed: 1.05, tide: 1.25, lag: 1.25, space: 1.0 };
+  const play = buildPlayground(studio, { banner: 'RECESS ALL DAY' }); play.root.position.set(...OFF.play);
+  const mkt = buildSupermarket(studio, {}); mkt.root.position.set(...OFF.mkt); const mktFog = new THREE.Fog(0xf4f2ee, 30, 90);
+  const laun = buildLaundromat(studio, {}); laun.root.position.set(...OFF.laun); const launFog = new THREE.Fog(0x0a0f1a, 20, 60);
+  const ROOTS = { city: city.root, pool: pool.root, stad: stad.root, wed: wed.root, tide: tide.root, lag: lag.root, space: space.root, play: play.root, mkt: mkt.root, laun: laun.root };
+  const FOGS = { city: cityFog, pool: pool.fog, stad: stad.fog, wed: wed.fog, tide: tide.fog, lag: lag.fog, space: null, play: play.fog, mkt: mktFog, laun: launFog };
+  const FAR = { city: 900, pool: 300, stad: 900, wed: 260, tide: 2200, lag: 460, space: 9000, play: 400, mkt: 80, laun: 60 };
+  const EXPO = { city: 1.2, pool: 1.05, stad: 1.05, wed: 1.05, tide: 1.25, lag: 1.25, space: 1.0, play: 1.05, mkt: 1.05, laun: 1.1 };
 
   // day sets: their sky dome + clouds swap to the painted night sky when the light runs out
   const nightTex = nightSkyTexture(36);
@@ -254,15 +290,14 @@ export async function build(studio, story) {
     deckSlabs.forEach((m, i) => m.material.color.copy(cam === 'frost' ? new THREE.Color(0xd8e4f2) : deckDay[i]));
     if (cam === 'frost') return frostScene(t);
     // swimmers: shoulders at the surface (standing on the floor), bobbing; the dad tosses his kid twice; a beach-ball rally
-    const TOSS = [7.6, 9.7];
     SW_POS.forEach(([x, z, ry, role], i) => {
       const rig = swimmers[i], p = basePose(); idle(p, t, i, 0.8);
       Object.assign(p, { x: x + 0.08 * Math.sin(t * 0.7 + i), z, rotY: ry, mouth: 'smile' });
       let y = PD.floor + 0.02 * Math.sin(t * 2.1 + i * 1.3);
       if (role === 'dad') { const up = TOSS.reduce((m, a) => Math.max(m, K(t, [[a - 0.5, 0], [a - 0.15, 1], [a + 0.05, 1], [a + 0.25, 0]])), 0); p.armA = mixArm(A(-1.0, 0.25, -1.2, 0.3), A(-2.7, 0.2, -0.3, 0), up); p.armB = mixArm(A(-1.0, 0.25, -1.2, -0.3), A(-2.7, 0.2, -0.3, 0), up); p.headPitch = -0.35 * up; p.mouth = 'o'; y -= 0.1 * up; }
       else if (role === 'mom') { p.armA = splash(t, 0); p.armB = A(-1.2, 0.4, -1.3, -0.4); p.headYaw = 0.35; p.mouth = 'o'; }
-      else if (role === 'ballA' || role === 'ballB') { const hit = Math.abs(Math.sin((t - 6.3) * PI / 1.25 + (role === 'ballA' ? 0 : PI / 2))); p.armA = mixArm(A(-1.2, 0.3, -0.6), HIGH_A, hit); p.armB = mixArm(A(-1.2, 0.3, -0.6), HIGH_B, hit); p.headPitch = -0.4; }
-      else if (role === 'watch') { p.headPitch = -0.25; p.headYaw = -0.2; p.armA = A(-0.4, 0.3, -0.5); p.armB = A(-0.4, 0.3, -0.5); p.mouth = t > 23.0 ? 'o' : 'smile'; if (cam !== 'dive') return; }
+      else if (role === 'ballA' || role === 'ballB') { const hit = Math.abs(Math.sin((t - 4.7) * PI / 1.25 + (role === 'ballA' ? 0 : PI / 2))); p.armA = mixArm(A(-1.2, 0.3, -0.6), HIGH_A, hit); p.armB = mixArm(A(-1.2, 0.3, -0.6), HIGH_B, hit); p.headPitch = -0.4; }
+      else if (role === 'watch') { p.headPitch = -0.25; p.headYaw = -0.2; p.armA = A(-0.4, 0.3, -0.5); p.armB = A(-0.4, 0.3, -0.5); p.mouth = t > J - 0.4 ? 'o' : 'smile'; if (cam !== 'dive') return; }
       else { p.armA = splash(t, i); p.armB = splash(t, i + 1.3); }
       if (cam === 'dive' && role !== 'watch' && role !== 'swim') return;
       put(rig, 'pool', p, { y, floor: y });
@@ -274,16 +309,16 @@ export async function build(studio, story) {
       const p = basePose(); idle(p, t, 20); Object.assign(p, { x: dad[0] - 0.05, z: kz, rotY: 0.2, mouth: ph > 0 ? 'o' : 'smile', crouch: ph > 0 ? 0.3 : 0 }); p.armA = ph > 0 ? CHEER : splash(t, 4); p.armB = ph > 0 ? CHEER : splash(t, 5);
       put(poolKid, 'pool', p, { y: ky, floor: ky - 0.02, s: 0.62 });
       // beach ball between ballA and ballB
-      const [ax, az] = [SW_POS[2][0], SW_POS[2][1]], [bx, bz] = [SW_POS[3][0], SW_POS[3][1]], u = ((t - 6.3) / 1.25) % 2, f = u < 1 ? u : 2 - u;
+      const [ax, az] = [SW_POS[2][0], SW_POS[2][1]], [bx, bz] = [SW_POS[3][0], SW_POS[3][1]], u = ((t - 4.7) / 1.25) % 2, f = u < 1 ? u : 2 - u;
       ball.position.copy(W('pool', lerp(ax, bx, f), 0.55 + 1.3 * Math.sin(PI * (u % 1)), lerp(az, bz, f))); ball.rotation.set(t * 3, t * 2, 0); ball.visible = true;
       // the lifeguard + people on the deck
       { const p = basePose(); idle(p, t, 30); Object.assign(p, { x: PD.tower[0], z: PD.tower[1] - 0.05, rotY: PI + 0.3, footFwd: 0.42, headPitch: 0.25 }); p.armB = A(-1.6, 0.2, -1.6, -0.5); put(lifeguard, 'pool', p, { y: 2.04 - 0.42 - 0.375, floor: 2.04 - 0.42 }); }
       deckers.forEach((rig, i) => { const p = basePose(); idle(p, t, 40 + i); Object.assign(p, { x: [-6.4, 4.2, 7.4][i], z: 6.25, rotY: PI, footFwd: 0.42, headPitch: 0.25 }); p.armA = A(0.6, 0.3, -0.2); p.armB = A(0.6, 0.3, -0.2); put(rig, 'pool', p, { y: -0.795, floor: -0.42 }); });
-      splashAt('pool', SW_POS[1][0] - 0.3, PD.water, SW_POS[1][1] + 0.3, t, 6.9, 22, 1.8, 3); splashAt('pool', SW_POS[1][0] - 0.3, PD.water, SW_POS[1][1] + 0.3, t, 8.4, 22, 1.8, 4);
+      splashAt('pool', SW_POS[1][0] - 0.3, PD.water, SW_POS[1][1] + 0.3, t, 6.7, 22, 1.8, 3); splashAt('pool', SW_POS[1][0] - 0.3, PD.water, SW_POS[1][1] + 0.3, t, 7.5, 22, 1.8, 4);
     } else {
       // the dive: sprint down the board (−z), jump at 23.45, it goes dark at 23.8 in mid-air, splash at 24.29
-      const J = 23.45, bx = -12.0, p = basePose(); p.eyes = blink(t, 3);
-      if (t < J) { const u = clamp((t - 21.9) / (J - 21.9)), z = lerp(7.1, 4.15, u); Object.assign(p, { x: bx, z, rotY: PI, dist: (7.1 - z) / 0.62, speed: t > 21.9 ? 3 : 0, lean: 0.2, mouth: 'smile' }); p.armA = REST; p.armB = REST; put(diver, 'pool', p, { y: 0.6, floor: 0.6, s: 0.62 }); }
+      const bx = -12.0, p = basePose(); p.eyes = blink(t, 3);
+      if (t < J) { const u = clamp((t - (J - 1.55)) / 1.55), z = lerp(7.1, 4.15, u); Object.assign(p, { x: bx, z, rotY: PI, dist: (7.1 - z) / 0.62, speed: t > J - 1.55 ? 3 : 0, lean: 0.2, mouth: 'smile' }); p.armA = REST; p.armB = REST; put(diver, 'pool', p, { y: 0.6, floor: 0.6, s: 0.62 }); }
       else { const a = t - J, y = 0.6 + 3.2 * a - 4.9 * a * a; Object.assign(p, { x: bx, z: 4.15 - 1.5 * a, rotY: PI, crouch: 0.32, lean: 0.35, mouth: 'o', headPitch: -0.2 }); p.armA = HUG_A; p.armB = HUG_B; if (y > PD.water - 0.1) put(diver, 'pool', p, { y, floor: y + 0.15, s: 0.62 }); }
       splashAt('pool', bx, PD.water, 4.15 - 1.5 * 0.84, t, J + 0.84, 60, 3.0, 9);
       if (t > J + 0.84) for (let k = 0; k < 6; k++) puff(W('pool', bx + 0.2 * Math.sin(k), 0.1 + (t - J - 0.84) * 0.6, 2.9 + 0.2 * Math.cos(k)), 0.4 + (t - J - 0.84), 0.45 * clamp(1 - (t - J - 0.84) * 2), white);
@@ -321,27 +356,95 @@ export async function build(studio, story) {
   const keeper = person({ skin: 0xf1c3a1, top: 0x58b368, collar: 0x1a1a1a, pants: 0x1a1a1a, shoes: 0x1a1a1a, hair: 0x9a6a3a, hairStyle: 'messy' });
   const fball = mk(new THREE.SphereGeometry(0.11, 20, 14), new THREE.MeshStandardMaterial({ map: canvasTex(128, 64, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#1a1a1a'; for (let i = 0; i < 9; i++) { g.beginPath(); g.arc((i % 5) * 32 + (i > 4 ? 16 : 0), i > 4 ? 46 : 18, 8, 0, 7); g.fill(); } }), roughness: 0.5 }), scene);
   let lastScore = '';
-  function stadScene(t) {
-    stad.aimSun(54, 0, 18);
+  // London in the dark (+3 s): night sky dome, the roof floodlights bang on bank by bank (generators + the grid still run)
+  const stadSky = [stad.sky.mesh, stad.sky.mesh.material, nightM()];
+  const stadClouds = stad.root.children.filter((o) => o.isGroup && o.position.y > 100);
+  const floods = []; stad.root.traverse((o) => { if (o.isMesh && o.material.isMeshBasicMaterial && o.geometry.type === 'BoxGeometry' && o.geometry.parameters.width === 5 && o.geometry.parameters.height === 0.9) floods.push(o); });
+  const standOf = [...new Set(floods.map((f) => f.parent))]; floods.forEach((f) => { f.bank = standOf.indexOf(f.parent) % 3; f.material = f.material.clone(); });
+  const roofs = []; stad.root.traverse((o) => { if (o.isMesh && o.material.emissive && o.material.emissive.getHex() === 0x7a7c80) roofs.push(o); });
+  const SUN0 = [stad.lights.sun.intensity, stad.lights.hemi.intensity, stad.lights.sun.color.clone()];
+  const SEATC = seats.reduce((v, f) => v.add(new THREE.Vector3(f.x, f.y, f.z)), new THREE.Vector3()).multiplyScalar(1 / seats.length);
+  const stadTorch = [0, 1, 2, 3].map(() => { const f = makeFlashlight({ length: 10, radius: 1.1 }); scene.add(f.g); f.g.visible = false; return f; });
+  const floodK = (t) => FLOOD.reduce((m, at) => m + (t >= at ? 1 : 0), 0) / FLOOD.length;
+  function stadScene(t, cam) {
+    const dark = t >= OUT;
+    stad.aimSun(dark ? 60 : 54, 0, 18);
+    stadSky[0].material = dark ? stadSky[2] : stadSky[1]; stadClouds.forEach((c) => (c.visible = !dark));
+    stad.fog.color.set(dark ? 0x05070e : 0xdde8f0);
+    const fk = dark ? floodK(t) : 1, bang = dark ? FLOOD.reduce((m, at) => Math.max(m, t > at && t < at + 0.5 ? Math.exp(-(t - at) * 7) : 0), 0) : 0;
+    if (dark) {   // the sun light becomes the far floodlight banks: white, from high over the west stand
+      const L = stad.lights.sun; L.color.set(0xeef2ff); L.intensity = 3.0 * fk + 1.2 * bang; L.position.set(10, 48, -8); L.target.position.set(62, 0, 0);
+      stad.lights.hemi.intensity = 0.07 + 0.5 * fk;
+      floods.forEach((f) => f.material.color.setScalar(t >= FLOOD[f.bank] ? 1.6 + 2.5 * bang : 0.04));
+      roofs.forEach((r) => r.material.emissive.setScalar(0.03 + 0.3 * fk));
+      if (cam === 'sdA' || cam === 'sdB') FLOOD.forEach((at) => jolt(t, at, cam === 'sdA' ? 0.12 : 0.03));
+    } else {
+      stad.lights.sun.intensity = SUN0[0]; stad.lights.hemi.intensity = SUN0[1]; stad.lights.sun.color.copy(SUN0[2]);
+      floods.forEach((f) => f.material.color.setRGB(1.6, 1.55, 1.4)); roofs.forEach((r) => r.material.emissive.setHex(0x7a7c80));
+    }
     const sc = t > GOAL + 0.3 ? '2 – 1' : '1 – 1'; if (sc !== lastScore) { stad.setScore(sc, "CUP FINAL · 88'"); lastScore = sc; }
-    const g = t - GOAL;
+    const g = dark ? (fk > 0 ? t - FLOOD[0] : -1) : t - GOAL;
     for (let k = 0; k < east.fans.length; k++) { if (east.hidden.has(k)) continue; const ph = (k * 0.618) % 1 * 6; const y = g > 0 ? 0.28 * Math.abs(Math.sin(g * 5.5 + ph)) * Math.min(1, g * 3) : 0.03 * Math.abs(Math.sin(t * 2 + ph)); east.setFan(k, y, 0); }
     east.commit();
+    let nt = 0;
     fanRigs.forEach((rig, k) => {
       const f = rig.seat, p = basePose(); p.eyes = blink(t, k); const ph = k * 1.37;
       Object.assign(p, { x: f.x, z: f.z, rotY: -PI / 2 + ((k * 0.37) % 0.5 - 0.25) });
       let y = 0;
-      if (g < 0) { p.armA = k % 4 ? A(-0.5, 0.2, -1.6, 0.6) : REST; p.armB = k % 3 ? A(-0.5, 0.2, -1.6, -0.6) : REST; p.mouth = 'flat'; p.headYaw = 0.25 * Math.sin(t * 1.3 + k); p.lean = 0.15; }
-      else { y = 0.32 * Math.abs(Math.sin(g * 5.2 + ph)) * Math.min(1, g * 3); p.armA = k % 3 ? CHEER : OUTSTR; p.armB = k % 2 ? CHEER : A(-1.6, 0.4, -1.6, -0.6); p.mouth = 'o'; p.headPitch = -0.15; p.headYaw = 0.3 * Math.sin(g * 1.4 + k); }
+      if (dark && g < 0) {   // the dark: heads up, mouths open, phone torches
+        p.headPitch = -0.35 + 0.08 * Math.sin(t * 1.3 + k); p.headYaw = 0.5 * Math.sin(t * 0.9 + k * 2); p.mouth = 'o';
+        p.armA = k % 3 ? A(-1.6, 0.2, -2.1, 0.7) : REST; p.armB = k % 4 === 1 ? PHONE_UP : k % 2 ? A(-1.6, 0.2, -2.1, -0.7) : REST;
+        if (k % 4 === 1 && nt < stadTorch.length) { const tl = stadTorch[nt++]; put(rig, 'stad', p, { y: f.y, floor: f.y }); rig.root.updateMatrixWorld(true); const h = rig.arms.find((a) => a.s === 1).hand.getWorldPosition(new THREE.Vector3()); tl.aim(h, h.clone().add(new THREE.Vector3(-3 + 1.5 * Math.sin(t + k), 5, 2 * Math.cos(t * 0.8 + k)))); tl.setOn(1, 0.07); tl.g.visible = true; return; }
+      } else if (g < 0) { p.armA = k % 4 ? A(-0.5, 0.2, -1.6, 0.6) : REST; p.armB = k % 3 ? A(-0.5, 0.2, -1.6, -0.6) : REST; p.mouth = 'flat'; p.headYaw = 0.25 * Math.sin(t * 1.3 + k); p.lean = 0.15; }
+      else { y = 0.32 * Math.abs(Math.sin(g * 5.2 + ph)) * Math.min(1, g * 3); p.armA = k % 3 ? CHEER : OUTSTR; p.armB = k % 2 ? CHEER : A(-1.6, 0.4, -1.6, -0.6); p.mouth = 'o'; p.headPitch = dark ? -0.3 : -0.15; p.headYaw = 0.3 * Math.sin(g * 1.4 + k); }
       put(rig, 'stad', p, { y: f.y + y, floor: f.y + Math.max(0, y - 0.1) });
     });
+    if (dark) return;
     // the ball: struck from outside the frame (left), into the top corner; it drops into the net
-    { let x, y, z; if (t < GOAL) { const u = clamp((t - 11.45) / (GOAL - 11.45)); x = lerp(43.5, 54.2, u); y = lerp(0.35, 1.45, u) + 0.6 * Math.sin(PI * u); z = lerp(-4.5, 0.6, u); } else { const a = t - GOAL; x = 54.2 - 0.25 * Math.min(1, a * 3); y = Math.max(0.11, 1.45 - 4.9 * a * a); z = 0.6; } fball.position.copy(W('stad', x, y, z)); fball.visible = true; }
+    { let x, y, z; if (t < GOAL) { const u = clamp((t - (GOAL - 0.6)) / 0.6); x = lerp(43.5, 54.2, u); y = lerp(0.35, 1.45, u) + 0.6 * Math.sin(PI * u); z = lerp(-4.5, 0.6, u); } else { const a = t - GOAL; x = 54.2 - 0.25 * Math.min(1, a * 3); y = Math.max(0.11, 1.45 - 4.9 * a * a); z = 0.6; } fball.position.copy(W('stad', x, y, z)); fball.visible = true; }
     stad.setBulge(g > 0 ? 0.55 * Math.exp(-g * 3.5) * Math.min(1, g * 12) : 0, 1.45, 0.6);
-    // keeper: dives the wrong way, lies there; the striker runs past the lens to the fans, arms out, then knee-slides
-    { const p = basePose(); p.eyes = blink(t, 2); const d = smooth(clamp((t - 11.7) / 0.45)); Object.assign(p, { x: 52.0, z: lerp(0.2, -2.0, d), rotY: -PI / 2, headPitch: 0.2, mouth: 'o' }); p.armA = OUTSTR; p.armB = OUTSTR; put(keeper, 'stad', p, { y: 0.9 * Math.sin(PI * d) * (t < 12.5 ? 1 : 0) * 0 + (d > 0.5 ? 0.18 : 0), floor: d > 0.5 ? 0.1 : 0, rz: -1.35 * d }); }
-    { const p = basePose(); p.eyes = blink(t, 5); const u = clamp((t - 13.0) / 1.9), x = lerp(48.6, 55.6, u), z = lerp(-1.9, 0.8, u); Object.assign(p, { x, z, rotY: Math.atan2(7.0, 2.7), dist: u * 8.3, speed: t > 13 && u < 1 ? 6 : 0, mouth: 'o', headPitch: -0.2 }); p.armA = OUTSTR; p.armB = OUTSTR; const slide = clamp((t - 14.8) / 0.4); p.crouch = 0.5 * slide; p.lean = -0.35 * slide; p.footFwd = 0.3 * slide; if (slide > 0) { p.armA = CHEER; p.armB = CHEER; p.headPitch = -0.5; } if (t > 12.8) put(striker, 'stad', p, { y: -0.45 * slide, floor: -0.45 * slide }); }
-    jolt(t, GOAL, 0.025);
+    // keeper: dives the wrong way, lies there; the striker runs to the fans, arms out, then knee-slides
+    { const p = basePose(); p.eyes = blink(t, 2); const d = smooth(clamp((t - (GOAL - 0.35)) / 0.45)); Object.assign(p, { x: 52.0, z: lerp(0.2, -2.0, d), rotY: -PI / 2, headPitch: 0.2, mouth: 'o' }); p.armA = OUTSTR; p.armB = OUTSTR; put(keeper, 'stad', p, { y: d > 0.5 ? 0.18 : 0, floor: d > 0.5 ? 0.1 : 0, rz: -1.35 * d }); }
+    { const R0 = 12.55, R1 = 13.95; const p = basePose(); p.eyes = blink(t, 5); const u = clamp((t - R0) / (R1 - R0)), x = lerp(48.6, 55.6, u), z = lerp(-1.9, 0.8, u); Object.assign(p, { x, z, rotY: Math.atan2(7.0, 2.7), dist: u * 8.3, speed: t > R0 && u < 1 ? 6 : 0, mouth: 'o', headPitch: -0.2 }); p.armA = OUTSTR; p.armB = OUTSTR; const slide = clamp((t - R1) / 0.4); p.crouch = 0.5 * slide; p.lean = -0.35 * slide; p.footFwd = 0.3 * slide; if (slide > 0) { p.armA = CHEER; p.armB = CHEER; p.headPitch = -0.5; } if (t > R0 - 0.2) put(striker, 'stad', p, { y: -0.45 * slide, floor: -0.45 * slide }); }
+    jolt(t, GOAL, cam === 'goalA' ? 0.04 : 0.025);
+  }
+
+  // ================================================================ PLAYGROUND (Chicago, 10 AM): recess at full tilt
+  const KS = 0.62, sitK = (h) => h - KS * (HIP_H - 0.17);
+  const RIDE_A = A(-1.0, 0.12, -0.85, 0.35), RIDE_B = A(-1.0, 0.12, -0.85, -0.35);
+  const playKids = Array.from({ length: 12 }, (_, i) => person(kidO({ skin: SKINS[(i * 3 + 1) % 7], top: SWIM[i % 8], pants: [0x3d5a80, 0x2f3a4a, 0x6a4a7a, 0x3a3d42][i % 4], hair: HAIRS[i % 5], hairStyle: ['messy', 'bob', 'short', 'bob', 'messy', 'short'][i % 6] })));
+  const playAdults = [0, 1, 2].map((i) => person({ skin: SKINS[[2, 5, 4][i]], top: [0x4fb3a8, 0xe08a3a, 0x8f6fb8][i], pants: 0x34405c, hair: HAIRS[[0, 3, 1][i]], hairStyle: ['short', 'bob', 'short'][i], glasses: i === 2 }));
+  const playPhone = makePhone(); playAdults[1].arms.find((a) => a.s === 1).hand.add(playPhone.g); playPhone.g.position.set(0, -0.07, 0.05); playPhone.g.rotation.set(PI / 2, 0, 0);
+  function playScene(t, cam) {
+    play.aimSun(cam === 'playB' ? 2.4 : 0, cam === 'playB' ? -6 : -1, 10); play.update(t, 1.15);
+    play.riders.forEach((r) => (r.visible = cam !== 'playC'));
+    play.swings[1].rotation.x = 0.85 * Math.sin(t * 2.4 + 1.3);   // the middle swing goes HIGH (toward the lens in playB)
+    const PG = PGD, ang = play.carousel.rotation.y;
+    playKids.forEach((rig, i) => {
+      const p = basePose(); p.eyes = blink(t, i); p.mouth = i % 3 ? 'o' : 'smile';
+      if (i < 4) {   // merry-go-round
+        const a = -ang + i * (PI / 2), r = 1.2, x = PG.carousel[0] + Math.cos(a) * r, z = PG.carousel[1] + Math.sin(a) * r;
+        Object.assign(p, { x, z, rotY: Math.atan2(PG.carousel[0] - x, PG.carousel[1] - z) + PI / 2, footFwd: 0.4, headRoll: 0.18, headYaw: 0.4 }); p.armA = RIDE_A; p.armB = i % 2 ? CHEER : RIDE_B;
+        put(rig, 'play', p, { y: sitK(0.42), floor: 0.42, s: KS });
+      } else if (i < 6) {   // seesaw ends
+        const sd = i === 4 ? -1 : 1, rz = play.seesaw.rotation.z, x = PG.seesaw[0] + sd * 1.45 * Math.cos(rz), y = 0.48 + sd * 1.45 * Math.sin(rz) + 0.05;
+        Object.assign(p, { x, z: PG.seesaw[1], rotY: sd < 0 ? PI / 2 : -PI / 2, footFwd: 0.4, lean: 0.15 * Math.sin(t * 1.8 + sd) }); p.armA = RIDE_A; p.armB = (y > 0.7) ? CHEER : RIDE_B; p.mouth = 'o';
+        put(rig, 'play', p, { y: sitK(y), floor: Math.max(0, y - 0.45), s: KS });
+      } else if (i < 9) {   // swings
+        const k = i - 6, pv = play.swings[k], th = pv.rotation.x, L = PG.swingLen;
+        const sx = PG.swings[0] + pv.position.x, sy = PG.swingPivotY - L * Math.cos(th), sz = PG.swings[1] - L * Math.sin(th);
+        Object.assign(p, { x: sx, z: sz + 0.04, rotY: 0, footFwd: 0.35 + 0.2 * Math.sin(th * 3), lean: -th * 0.6, headPitch: th * 0.3 }); p.armA = A(-2.4, 0.15, -0.3, 0.2); p.armB = A(-2.4, 0.15, -0.3, -0.2); p.mouth = 'o';
+        put(rig, 'play', p, { y: sitK(sy + 0.03), floor: sy - 0.5, s: KS });
+      } else {   // tag: three kids chase round the sandbox + seesaw
+        const k = i - 9, v = 2.4, a = t * v / 1.9 + k * 2.1, cx = -1.0, cz = 1.8, x = cx + Math.cos(a) * 1.6, z = cz + Math.sin(a) * 0.8;
+        Object.assign(p, { x, z, rotY: Math.atan2(-Math.sin(a) * 1.6, Math.cos(a) * 0.8), dist: t * v / KS, speed: v / KS, lean: 0.2 }); p.armA = k % 2 ? CHEER : REST; p.armB = k === 1 ? CHEER : REST; p.mouth = 'o';
+        put(rig, 'play', p, { s: KS });
+      }
+    });
+    // a dad spinning the merry-go-round (runs at its rim), a mom filming, a dad cheering at the seesaw
+    { const a = -ang - 0.9, r = 1.95, x = PG.carousel[0] + Math.cos(a) * r, z = PG.carousel[1] + Math.sin(a) * r, p = basePose(); idle(p, t, 50); Object.assign(p, { x, z, rotY: Math.atan2(-Math.sin(a), Math.cos(a)) + PI, dist: t * 2.0, speed: 2.0, lean: 0.35, mouth: 'smile' }); p.armA = A(-1.4, 0.5, -0.4); p.armB = A(-1.4, 0.5, -0.4); put(playAdults[0], 'play', p); }
+    { const p = basePose(); idle(p, t, 51); Object.assign(p, { x: -1.25, z: -0.5, rotY: 0.45, mouth: 'smile', headPitch: 0.05 }); p.armB = A(-1.55, 0.15, -1.35, -0.3); p.armA = A(-0.4, 0.3, -1.2, 0.5); put(playAdults[1], 'play', p); }
+    { const p = basePose(); idle(p, t, 52); Object.assign(p, { x: -2.0, z: -0.9, rotY: 0.3, mouth: 'o' }); p.armA = CHEER; p.armB = Math.sin(t * 6) > 0 ? CHEER : OUTSTR; put(playAdults[2], 'play', p, { y: 0.08 * Math.abs(Math.sin(t * 6)) }); }
   }
 
   // ================================================================ WEDDING (Tuscany, 4 PM golden hour → black sky at 4:08 PM)
@@ -363,32 +466,32 @@ export async function build(studio, story) {
   function wedScene(t, cam) {
     const dark = t >= OUT; dayNight('wed', dark);
     stringL.forEach((L) => (L.intensity = dark ? 8 : 0));
-    const KISS = [18.9, 20.0], FLASH = dark ? [25.0, 26.9, 28.3] : [20.45];
+    const FLASH = dark ? [26.5, 27.4, 28.3] : [WFLASH];
     GROUP.forEach(([x, z], i) => {
       const rig = party[i], p = basePose(); idle(p, t, i, 0.6);
       Object.assign(p, { x, z, rotY: (i < 3 ? 0.12 : -0.12) * (i === 2 || i === 3 ? 0.5 : 1), mouth: 'smile' });
       if (!dark) {
         p.armA = i === 0 || i === 4 ? HUG_A : REST; p.armB = i === 1 || i === 5 ? HUG_B : REST;
         if (i === 2 || i === 3) { const k = K(t, [[KISS[0] - 0.4, 0], [KISS[0], 1], [KISS[1], 1], [KISS[1] + 0.4, 0]]); p.rotY = (i === 2 ? 1 : -1) * 1.25 * k; p.headPitch = 0.1 * k; p.lean = 0.12 * k; p.armA = i === 2 ? mixArm(REST, HUG_A, k) : REST; p.armB = i === 3 ? mixArm(REST, HUG_B, k) : REST; p.eyes = k > 0.6 ? 'closed' : p.eyes; }
-        if (t > 18.0 && t < 18.7 && (i === 0 || i === 5)) { p.armA = CHEER; p.armB = CHEER; }   // throw the petals
+        if (t > PETALS - 0.1 && t < PETALS + 0.6 && (i === 0 || i === 5)) { p.armA = CHEER; p.armB = CHEER; }   // throw the petals
       } else {
-        const look = smooth(clamp((t - 24.5) / 0.7));
+        const look = smooth(clamp((t - 26.25) / 0.6));
         p.headPitch = -0.28 * look + 0.06 * Math.sin(t * 0.8 + i); p.headYaw += 0.4 * Math.sin(t * 0.5 + i * 2) * look; p.mouth = 'o';
-        if (i === 4) { p.armB = mixArm(REST, POINT_UP, look); p.armA = mixArm(REST, PHONE_UP, smooth(clamp((t - 25.6) / 0.5))); }
+        if (i === 4) { p.armB = mixArm(REST, POINT_UP, look); p.armA = mixArm(REST, PHONE_UP, smooth(clamp((t - 26.9) / 0.5))); }
         if (i === 3) { p.armA = mixArm(REST, A(-0.6, 0.55, -1.2, 0.5), look); }   // the bride grabs the groom's arm
         if (i === 2) { p.armB = mixArm(REST, A(-0.3, 0.6, -0.9, -0.4), look); p.headYaw = -0.25 * look; }
-        if (i === 1) { const ph = smooth(clamp((t - 26.2) / 0.5)); p.armA = mixArm(REST, A(-1.6, 0.2, -2.1, 0.7), look * (1 - ph)); p.armB = mixArm(mixArm(REST, A(-1.6, 0.2, -2.1, -0.7), look), PHONE_UP, ph); }   // hands to mouth, then a phone light
+        if (i === 1) { const ph = smooth(clamp((t - 27.3) / 0.5)); p.armA = mixArm(REST, A(-1.6, 0.2, -2.1, 0.7), look * (1 - ph)); p.armB = mixArm(mixArm(REST, A(-1.6, 0.2, -2.1, -0.7), look), PHONE_UP, ph); }   // hands to mouth, then a phone light
       }
       put(rig, 'wed', p);
     });
     { const p = basePose(); idle(p, t, 9, 0.6); Object.assign(p, { x: 0.02, z: -2.5, rotY: 0, mouth: dark ? 'o' : 'smile' }); if (dark) { p.headPitch = -0.6; p.armB = A(-0.7, 0.3, -1.4, -0.3); } else { p.armA = A(-0.6, 0.3, -1.6, 0.6); p.armB = A(-0.6, 0.3, -1.6, -0.6); } if (!dark) put(flowerGirl, 'wed', p, { s: 0.62 }); }
-    if (dark) wedLights.forEach((f, k) => { const on = t > (k ? 25.9 : 26.5); if (!on) return; const rig = party[f.gi]; rig.root.updateMatrixWorld(true); const h = rig.arms.find((a) => a.s === (k ? -1 : 1)).hand.getWorldPosition(new THREE.Vector3()); f.aim(h, h.clone().add(new THREE.Vector3(2.5 * Math.sin(t * 0.9 + k * 2), 4, -3 + 1.5 * Math.cos(t * 0.7 + k)))); f.setOn(1, 0.07); f.g.visible = true; });
+    if (dark) wedLights.forEach((f, k) => { const on = t > (k ? 27.0 : 27.5); if (!on) return; const rig = party[f.gi]; rig.root.updateMatrixWorld(true); const h = rig.arms.find((a) => a.s === (k ? -1 : 1)).hand.getWorldPosition(new THREE.Vector3()); f.aim(h, h.clone().add(new THREE.Vector3(2.5 * Math.sin(t * 0.9 + k * 2), 4, -3 + 1.5 * Math.cos(t * 0.7 + k)))); f.setOn(1, 0.07); f.g.visible = true; });
     // the photographer: crouched in the aisle, camera to the eye
-    { const p = basePose(); p.eyes = 'closed'; Object.assign(p, { x: cam === 'wedDark' ? 0.55 : 2.0, z: cam === 'wedDark' ? 0.55 : 0.2, rotY: PI + (cam === 'wedDark' ? -0.1 : 0.4), crouch: 0.22, lean: 0.25, headPitch: 0.05 }); p.armA = CAM_A; p.armB = CAM_B; put(photog, 'wed', p); }
+    { const p = basePose(); p.eyes = 'closed'; Object.assign(p, { x: cam === 'wedDark' ? 0.55 : cam === 'wedB' ? 1.15 : 2.0, z: cam === 'wedDark' ? 0.55 : cam === 'wedB' ? -0.4 : 0.2, rotY: PI + (cam === 'wedDark' ? -0.1 : cam === 'wedB' ? 0.35 : 0.4), crouch: 0.22, lean: 0.25, headPitch: 0.05 }); p.armA = CAM_A; p.armB = CAM_B; put(photog, 'wed', p); }
     // flash: a white point light at the camera's flash head
     const fk = flashK(t, FLASH); photog.root.updateMatrixWorld(true); flashHead.getWorldPosition(flashL.position); flashL.intensity = (dark ? 16 : 8) * fk; flashHead.material.color.setScalar(1 + 8 * fk);
     // petals: thrown at 18.1 from both ends of the row, they arc over the couple and flutter down
-    const age = t - 18.1;
+    const age = t - PETALS;
     if (!dark && age > 0 && age < 3.3) {
       const r = rng(5);
       for (let i = 0; i < PETAL_N; i++) { const side = i % 2 ? 1 : -1, vx = -side * (0.55 + r() * 0.5), vy = 1.6 + r() * 1.0, vz = (r() - 0.5) * 0.6, ph = r() * 6; const fall = Math.max(0, vy * age - 4.9 * age * age * 0.28); M4.compose(W('wed', side * 1.35 + vx * age + 0.08 * Math.sin(age * 4 + ph), Math.max(0.02, 1.9 + fall - 0.35 * age), -3.0 + vz * age), Q4.setFromEuler(E3.set(age * 3 + ph, age * 2 + ph, 0)), S3.setScalar(1)); petals.setMatrixAt(i, M4); }
@@ -473,6 +576,74 @@ export async function build(studio, story) {
     });
   }
 
+  // ================================================================ SUPERMARKET (Phoenix, +1 DAY): everyone buys every blanket + heater
+  const wireM = new THREE.MeshStandardMaterial({ color: 0xc9ccd0, wireframe: true }), wireS = mat(0xc9ccd0, 0.3, { metalness: 0.6 });
+  const heaterTex = canvasTex(128, 128, (g, w, h) => { g.fillStyle = '#e8572f'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.font = 'bold 26px Helvetica, Arial'; g.textAlign = 'center'; g.fillText('HEATER', w / 2, h - 18); g.fillStyle = '#ffd04a'; g.beginPath(); g.moveTo(64, 18); g.quadraticCurveTo(92, 52, 64, 84); g.quadraticCurveTo(36, 52, 64, 18); g.fill(); });
+  const heaterM = new THREE.MeshStandardMaterial({ map: heaterTex, roughness: 0.6 });
+  const BLANK = [0xe58fa6, 0x8fb3d9, 0xf2c14e, 0x6fa84f, 0xf4f1ea, 0xa77bd1, 0xe08a3a];
+  const blanketStack = (n, seed) => { const g = new THREE.Group(); for (let k = 0; k < n; k++) { const b = mk(new THREE.BoxGeometry(0.5, 0.11, 0.36), mat(BLANK[(k + seed) % 7], 0.95), g, 0.02 * Math.sin(k * 2.1 + seed), 0.055 + k * 0.11, 0.015 * Math.cos(k * 1.7)); b.rotation.y = 0.06 * Math.sin(k * 3.3 + seed); } scene.add(g); g.visible = false; return g; };
+  const heaterBox = () => { const g = mk(new THREE.BoxGeometry(0.34, 0.42, 0.28), heaterM, scene); g.visible = false; return g; };
+  function makeCart(load) {
+    const c = new THREE.Group(); mk(new THREE.BoxGeometry(0.55, 0.45, 0.85), wireM, c, 0, 0.75, 0); mk(new THREE.BoxGeometry(0.55, 0.02, 0.85), wireS, c, 0, 0.53, 0); mk(new THREE.BoxGeometry(0.6, 0.03, 0.03), mat(0xd2483f, 0.5), c, 0, 1.05, -0.45);
+    for (const [wx, wz] of [[-0.22, 0.35], [0.22, 0.35], [-0.22, -0.35], [0.22, -0.35]]) mk(new THREE.CylinderGeometry(0.05, 0.05, 0.03, 10), mat(0x222222, 0.6), c, wx, 0.05, wz).rotation.z = PI / 2;
+    for (const k of [0, 1]) mk(new THREE.BoxGeometry(0.03, 0.5, 0.03), wireS, c, k ? 0.25 : -0.25, 0.28, -0.4);
+    for (let k = 0; k < load; k++) { const hb = k % 3 === 2; const b = mk(hb ? new THREE.BoxGeometry(0.3, 0.36, 0.26) : new THREE.BoxGeometry(0.46, 0.12, 0.34), hb ? heaterM : mat(BLANK[k % 7], 0.95), c, (k % 2 - 0.5) * 0.06, 0.62 + Math.floor(k / 2) * 0.13, ((k * 0.37) % 0.4) - 0.2); b.rotation.y = 0.15 * Math.sin(k * 2.7); }
+    scene.add(c); c.visible = false; return c;
+  }
+  const shoppers = Array.from({ length: 13 }, (_, i) => person({ skin: SKINS[(i * 5 + 2) % 7], top: [0xd2483f, 0x3d7bd9, 0xf1c24a, 0x6fa84f, 0x8f6fb8, 0xe58fa6, 0x4fb3a8, 0xe08a3a][i % 8], pants: [0x3d5a80, 0xc9b48a, 0x2f3a4a, 0x6a6f78][i % 4], hair: HAIRS[i % 6], hairStyle: STYLES[i % 5], glasses: i % 5 === 3, mustache: i === 6 ? 0x3a2a1c : null }));
+  const mktKid = person(kidO({ skin: 0xe2ad8c, top: 0xf1c24a, pants: 0x3d7bd9, hair: 0x3a2a1c, hairStyle: 'messy' }));
+  const carts = [6, 7, 5, 6].map((n) => makeCart(n));
+  const stacks = [7, 6, 5].map((n, k) => blanketStack(n, k * 2)), heaters = [0, 1, 2].map(() => heaterBox());
+  const carry = (rig, obj, fwd = 0.34, up = 1.0) => { rig.root.updateMatrixWorld(true); obj.position.copy(rig.root.localToWorld(new THREE.Vector3(0, up, fwd))); obj.rotation.set(0, rig.root.rotation.y, 0); obj.visible = true; };
+  const cartAt = (rig, c) => { rig.root.updateMatrixWorld(true); c.position.copy(rig.root.localToWorld(new THREE.Vector3(0, 0, 0.78))); c.position.y = OFF.mkt[1]; c.rotation.set(0, rig.root.rotation.y, 0); c.visible = true; };
+  const PUSH = A(-1.15, 0.12, -0.55, 0), CARRY_A = A(-0.9, 0.28, -1.35, 0.35), CARRY_B = A(-0.9, 0.28, -1.35, -0.35), GRAB = A(-1.7, 0.25, -0.2, 0);
+  function mktScene(t, cam) {
+    mkt.setStock(clamp(1 - (t - 37.0) / 3.0) * 0.85 + 0.12); mkt.setSoldOut(t > 38.0, 'BLANKETS SOLD OUT');
+    const mv = (z0, v, t0) => z0 + v * Math.max(0, t - t0);
+    if (cam === 'mkA') {   // down the aisle: carts race at the lens, people sweep the shelves
+      const RUN = [[-0.45, -7.0, 2.2, 0, 0], [0.55, -5.4, 2.0, 1, 1], [0.05, -9.0, 2.4, 2, -1]];   // x, z0, speed, cart, stack
+      RUN.forEach(([x, z0, v, ci, si], k) => { const rig = shoppers[k], p = basePose(); p.eyes = blink(t, k); const z = mv(z0, v, 37.0); Object.assign(p, { x: x + 0.1 * Math.sin(t * 2 + k), z, rotY: 0, dist: z / 1, speed: v, lean: 0.3, mouth: k === 1 ? 'o' : 'flat' }); p.armA = PUSH; p.armB = PUSH; put(rig, 'mkt', p); cartAt(rig, carts[ci]); if (k === 0) { mktKid.root.visible = false; } });
+      // a man running with a blanket stack up to his chin
+      { const rig = shoppers[3], p = basePose(); p.eyes = blink(t, 3); const z = mv(-3.6, 1.8, 37.3); Object.assign(p, { x: -0.9, z, rotY: 0.08, dist: z, speed: 1.8, lean: 0.15, headPitch: -0.15, mouth: 'o' }); p.armA = CARRY_A; p.armB = CARRY_B; put(rig, 'mkt', p); carry(rig, stacks[0], 0.36, 0.86); }
+      // grabbers at both shelves, arms sweeping products into baskets
+      [[-1.25, -2.0, -1], [1.25, -3.2, 1], [-1.25, -5.5, -1], [1.25, -7.4, 1], [-1.25, -9.0, -1]].forEach(([x, z, sd], k) => { const rig = shoppers[4 + k], p = basePose(); idle(p, t, 60 + k); const sw = Math.sin(t * 6 + k * 1.3); Object.assign(p, { x, z, rotY: sd * PI / 2 - sd * 0.5, lean: 0.15, mouth: 'o', headYaw: -sd * 0.6 }); p.armA = mixArm(GRAB, CARRY_A, 0.5 + 0.5 * sw); p.armB = mixArm(GRAB, CARRY_B, 0.5 - 0.5 * sw); put(rig, 'mkt', p); });
+      return;
+    }
+    // mkB: the checkout crush seen from behind the tills — everyone faces the lens with their haul
+    const Q = [[-0.4, 1.9, 0, 'cart'], [0.55, 1.2, 1, 'stack'], [-1.0, 0.6, 2, 'heater'], [0.25, 0.1, 3, 'cart'], [1.0, -0.6, 4, 'stack'], [-0.6, -1.0, 5, 'heater'], [0.5, -1.8, 6, 'cart'], [-0.3, -2.6, 7, 'stack'], [0.9, -3.2, 8, 'heater']];
+    let ci = 0, si = 0, hi = 0;
+    Q.forEach(([x, z, k, what]) => {
+      const rig = shoppers[k], p = basePose(); idle(p, t, 70 + k, 1.2); const shove = 0.12 * Math.sin(t * 3.1 + k * 1.7);
+      Object.assign(p, { x: x + shove, z: z + 0.25 * smooth(clamp((t - 38.8) / 1.6)), rotY: 0.1 * Math.sin(t + k), lean: 0.1 + 0.08 * Math.sin(t * 4 + k), mouth: k % 2 ? 'o' : 'flat', headYaw: 0.4 * Math.sin(t * 1.4 + k) });
+      if (what === 'cart' && ci < carts.length) { p.armA = PUSH; p.armB = PUSH; put(rig, 'mkt', p); cartAt(rig, carts[ci++]); }
+      else if (what === 'stack' && si < stacks.length) { p.armA = CARRY_A; p.armB = CARRY_B; p.headPitch = -0.12; put(rig, 'mkt', p); carry(rig, stacks[si++], 0.36, 0.86); }
+      else if (hi < heaters.length) { p.armA = CARRY_A; p.armB = CARRY_B; put(rig, 'mkt', p); carry(rig, heaters[hi++], 0.33, 1.02); }
+    });
+    // a kid riding in the front cart, arms up
+    { const c = carts[0], p = basePose(); p.eyes = blink(t, 77); Object.assign(p, { x: c.position.x - OFF.mkt[0], z: c.position.z - OFF.mkt[2] + 0.1, rotY: 0, footFwd: 0.4, mouth: 'o' }); p.armA = CHEER; p.armB = Math.sin(t * 5) > 0 ? CHEER : OUTSTR; put(mktKid, 'mkt', p, { y: sitK(0.62), floor: 0.55, s: KS }); }
+  }
+
+  // ================================================================ LAUNDROMAT (Chicago, +1 WEEK, −18 °C outside): backs to the warm dryers
+  const launChairs = laun.root.children.filter((o) => o.isGroup && Math.abs(o.position.z - LD.chairZ) < 0.01); launChairs.forEach((c) => (c.visible = false));
+  const launExtra = Array.from({ length: 6 }, (_, i) => { const r = person({ skin: SKINS[(i * 4 + 3) % 7], top: COATS[(i + 3) % 7], pants: 0x2f3438, hair: HAIRS[(i + 2) % 6], hairStyle: 'none', shoes: 0x2a2420 }); beanie(r, [0xf2f2f2, 0xd2483f, 0x6fa84f, 0x3d7bd9, 0xf1c24a, 0xe58fa6][i]); return r; });
+  const launKids = [0, 1].map((i) => { const r = person(kidO({ skin: SKINS[[1, 4][i]], top: [0xf1c24a, 0x58b368][i], pants: 0x3d5a80, hair: 0x3a2a1c, hairStyle: 'none' })); beanie(r, [0x3d7bd9, 0xd2483f][i]); return r; });
+  function launScene(t, cam) {
+    laun.update(t, 1.3);
+    const crowd = [...corner, ...launExtra];
+    // row 1: backs against the machines (z −2.0), row 2 just in front of them; everyone shuffles, rubs hands, bounces to keep warm
+    crowd.forEach((rig, k) => {
+      const row = k < 8 ? 0 : 1, x = row ? -3.4 + (k - 8) * 1.25 + 0.3 : -3.55 + k * 1.02, z = row ? -1.05 + 0.1 * Math.sin(k * 2.3) : -1.98;
+      const p = basePose(); idle(p, t, 80 + k, 1.2);
+      Object.assign(p, { x: x + 0.05 * Math.sin(t * 1.7 + k), z, rotY: 0.15 * Math.sin(k * 1.9) + 0.06 * Math.sin(t + k), lean: row ? 0.05 : -0.08, mouth: k % 3 === 0 ? 'smile' : k % 3 === 1 ? 'flat' : 'o', headYaw: 0.35 * Math.sin(t * 1.2 + k * 1.3) });
+      const rub = Math.sin(t * 9 + k); p.armA = k % 2 ? HUGSELF_A : A(-0.75, 0.12, -1.55 - 0.25 * rub, 0.75); p.armB = k % 2 ? HUGSELF_B : A(-0.75, 0.12, -1.55 + 0.25 * rub, -0.75);
+      const hop = (k % 4 === 1) ? 0.06 * Math.abs(Math.sin(t * 6.5 + k)) : 0;
+      put(rig, 'laun', p, { y: hop, floor: hop });
+    });
+    // one man hugs a dryer door, cheek on the warm glass; two kids sit on the folding table swinging their legs
+    { const rig = launExtra[5], p = basePose(); idle(p, t, 90); Object.assign(p, { x: 3.62, z: -1.92, rotY: PI, lean: 0.25, headRoll: 0.3, mouth: 'smile', eyes: 'closed' }); p.armA = A(-1.5, 0.75, -0.9, 0.4); p.armB = A(-1.5, 0.75, -0.9, -0.4); put(rig, 'laun', p); }
+    launKids.forEach((rig, k) => { const p = basePose(); p.eyes = blink(t, 91 + k); Object.assign(p, { x: -0.7 + k * 1.15, z: -0.25, rotY: 0.25 * (k ? -1 : 1), footFwd: 0.62, mouth: 'o', headYaw: 0.3 * Math.sin(t * 1.6 + k) }); p.armA = k ? A(-0.6, 0.3, -1.0, 0.4) : CHEER; p.armB = k ? CHEER : A(-0.6, 0.3, -1.0, -0.4); put(rig, 'laun', p, { y: sitK(0), floor: 0, s: KS }); });
+  }
+
   // ================================================================ HARBOR (Maine, +1 MONTH): the sea is ice; liquid water through a hole
   const iceTex = canvasTex(512, 512, (g, w, h) => { g.fillStyle = '#c9dbe8'; g.fillRect(0, 0, w, h); const r = rng(12); for (let i = 0; i < 2600; i++) { g.fillStyle = r() < 0.5 ? 'rgba(255,255,255,.22)' : 'rgba(120,150,180,.14)'; g.fillRect(r() * w, r() * h, 2 + r() * 8, 1 + r() * 2); } g.strokeStyle = 'rgba(90,120,150,.45)'; g.lineWidth = 1.5; for (let i = 0; i < 26; i++) { g.beginPath(); let x = r() * w, y = r() * h; g.moveTo(x, y); for (let k = 0; k < 6; k++) { x += (r() - 0.5) * 120; y += (r() - 0.5) * 120; g.lineTo(x, y); } g.stroke(); } }, [1, 1]);
   const iceM = new THREE.MeshStandardMaterial({ map: iceTex, color: 0xdfeaf4, roughness: 0.32, metalness: 0.05 });
@@ -489,12 +660,20 @@ export async function build(studio, story) {
   const fish = new THREE.Group(); { const b = mk(new THREE.SphereGeometry(0.1, 14, 10), mat(0xc9d2da, 0.3, { metalness: 0.4 }), fish); b.scale.set(0.45, 0.7, 1.7); const tl = mk(new THREE.ConeGeometry(0.07, 0.1, 4), mat(0xa9b4c0, 0.4), fish, 0, 0, -0.2); tl.rotation.x = -PI / 2; tl.scale.x = 0.3; mk(new THREE.SphereGeometry(0.012, 6, 6), mat(0x111111, 0.3), fish, 0.04, 0.02, 0.1); } fish.rotation.order = 'YXZ'; scene.add(fish); fish.visible = false;
   const lantern = new THREE.Group(); mk(new THREE.CylinderGeometry(0.08, 0.09, 0.22, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.9, 1.4, 0.8), toneMapped: false }), lantern, 0, 0.13, 0); mk(new THREE.CylinderGeometry(0.1, 0.1, 0.03, 10), mat(0x2a2a2a, 0.5), lantern, 0, 0.26, 0); const lanternL = new THREE.PointLight(0xffb870, 6, 7, 1.6); lanternL.position.y = 0.3; lantern.add(lanternL); scene.add(lantern); lantern.visible = false;
   const kidLight = makeFlashlight({ length: 3, radius: 0.5 }); scene.add(kidLight.g); kidLight.g.visible = false;
-  const HOLE = [-3.35, -7.15], CATCH = 48.7;
+  const HOLE = [-3.35, -7.15];
+  const crackPts = []; { let x = 0, z = 0; const r = rng(44); for (let i = 0; i < 26; i++) { crackPts.push(new THREE.Vector3(x, 0.012, z)); x += 0.18 + r() * 0.1; z += (r() - 0.5) * 0.22; } }
+  const crack = new THREE.Group(); scene.add(crack); crack.visible = false;   // a crack that races across the ice (segments revealed in order)
+  { const cm = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.3, 1.5, 1.7), toneMapped: false }); for (let i = 1; i < crackPts.length; i++) { const a0 = crackPts[i - 1], a1 = crackPts[i], d = a1.clone().sub(a0), m = mk(new THREE.BoxGeometry(d.length() + 0.02, 0.004, 0.022), cm, crack, (a0.x + a1.x) / 2, 0.012, (a0.z + a1.z) / 2); m.rotation.y = -Math.atan2(d.z, d.x); m.castShadow = false; } }
   function iceScene(t) {
     tide.setMode('night'); tide.setMoon(new THREE.Vector3(0, 1, 0), 0); tide.lights.hemi.intensity = 0.42;
     tide.setTide(0, 0); tide.rideBoats(0, 0); tide.update(t); tide.gulls.forEach((g) => (g.g.visible = false));
     tide.sea.material = iceM; tide.aimAt(-3, -6, 20);
     holeG.position.copy(W('tide', HOLE[0], 0, HOLE[1])); holeG.visible = true;
+    if (t > CRACK) {   // CRACK: a line races across the ice toward the hole, a puff of snow along it, the lens kicks
+      const n = Math.floor(crack.children.length * clamp((t - CRACK) / 0.3)); crack.children.forEach((m, i) => (m.visible = i < n));
+      crack.position.copy(W('tide', -2.3, 0, -8.6)); crack.rotation.set(0, -2.25, 0); crack.scale.setScalar(0.27); crack.visible = true; crack.updateMatrixWorld(true);
+      jolt(t, CRACK, 0.05); const a = t - CRACK; if (a < 1.0) for (let k = 0; k < 9; k++) { const q = crack.localToWorld(crackPts[k * 3].clone()); q.y += 0.05 + a * 0.4; puff(q, 0.12 + a * 0.5, 0.5 * (1 - a), white); }
+    }
     bucket.position.copy(W('tide', HOLE[0] + 0.05, 0.2, HOLE[1] + 0.72)); bucket.visible = true;
     lantern.position.copy(W('tide', HOLE[0] - 0.75, 0, HOLE[1] + 0.25)); lantern.visible = true;
     const pull = smooth(clamp((t - CATCH) / 0.5)), jig = t < CATCH ? 0.06 * Math.sin(t * 5.5) : 0;
@@ -507,7 +686,7 @@ export async function build(studio, story) {
     splashAt('tide', HOLE[0], 0, HOLE[1], t, CATCH + 0.05, 26, 1.8, 7);
     { const p = basePose(); p.eyes = blink(t, 4); const yay = smooth(clamp((t - CATCH - 0.3) / 0.4)); Object.assign(p, { x: HOLE[0] + 0.55, z: HOLE[1] + 0.4, rotY: -PI / 2 - 0.5 + 0.4 * yay, crouch: 0.3 * (1 - yay), lean: 0.45 * (1 - yay), headPitch: 0.5 - 0.7 * yay, mouth: yay > 0.2 ? 'o' : 'smile' }); p.armB = mixArm(A(-1.2, 0.15, -0.6, -0.2), CHEER, yay); p.armA = mixArm(A(-0.5, 0.3, -1.0), CHEER, yay); put(iceKid, 'tide', p, { s: 0.62 }); breath(iceKid, t, 0.55);
       iceKid.root.updateMatrixWorld(true); const kh = iceKid.arms.find((a) => a.s === 1).hand.getWorldPosition(new THREE.Vector3()); kidLight.aim(kh, yay > 0.5 ? kh.clone().add(new THREE.Vector3(0, 1, 0)) : W('tide', HOLE[0], 0, HOLE[1])); kidLight.setOn(1, 0.06); kidLight.g.visible = true; }
-    { const p = basePose(); p.eyes = blink(t, 6); const x = lerp(-9, 3.5, (t - 46.2) / 4.6); Object.assign(p, { x, z: -3.2, rotY: PI / 2, dist: x * 0.6, speed: 1.2, lean: 0.25, mouth: 'smile' }); p.armA = A(0.4, 0.3, -0.3); p.armB = A(-0.6, 0.4, -0.3); put(skater, 'tide', p); }
+    { const p = basePose(); p.eyes = blink(t, 6); const x = lerp(-9, 3.5, (t - 43.6) / 3.2); Object.assign(p, { x, z: -3.2, rotY: PI / 2, dist: x * 0.6, speed: 1.2, lean: 0.25, mouth: 'smile' }); p.armA = A(0.4, 0.3, -0.3); p.armB = A(-0.6, 0.4, -0.3); put(skater, 'tide', p); }
   }
 
   // ================================================================ LAGOON (Iceland, +1 YEAR): faces in the steaming water, then the stars
@@ -528,11 +707,11 @@ export async function build(studio, story) {
       if (i === 0) { p.rotY = 0.9; p.headYaw = -0.5; p.armB = HUG_B; }   // a couple: her arm round him
       if (i === 1) { p.rotY = -0.5; p.headYaw = 0.4; p.headRoll = 0.15; }
       if (i === 2) { p.armA = A(-1.5, 0.2, -2.0, 0.5); p.headPitch = -0.15; }   // the old man wipes frost off his beard
-      const dunk = i === 5 ? K(t, [[52.3, 0], [52.7, 1], [53.3, 1], [53.6, 0]]) : 0; if (dunk > 0.5) p.eyes = 'closed';
+      const dunk = i === 5 ? K(t, [[47.5, 0], [47.9, 1], [48.5, 1], [48.8, 0]]) : 0; if (dunk > 0.5) p.eyes = 'closed';
       put(soakers[i], 'lag', p, { y: sy + 0.03 * Math.sin(t * 1.3 + i) - 0.55 * dunk, floor: sy - 0.55 * dunk });
     });
     else {
-      const look = smooth(clamp((t - 56.2) / 0.8));
+      const look = smooth(clamp((t - 49.8) / 0.7));
       { const p = basePose(); idle(p, t, 11, 0.5); Object.assign(p, { x: 0.0, z: 1.6, rotY: 0.2, headPitch: -0.2 - 0.55 * look, mouth: 'smile' }); p.armA = A(-1.1, 0.35, -1.3, 0.5); p.armB = A(-0.5, 0.4, -0.6); put(lagDad, 'lag', p, { y: sy, floor: sy }); }
       { const p = basePose(); p.eyes = blink(t, 13); Object.assign(p, { x: 0.25, z: 2.15, rotY: 0.25 - 0.2 * look, headPitch: -0.15 - 0.75 * look, headYaw: 0.1 * Math.sin(t * 0.7), mouth: look > 0.4 ? 'o' : 'smile' }); p.armB = mixArm(A(-0.6, 0.4, -0.6), POINT_UP, look); p.armA = A(-0.5, 0.45, -0.5); const ky = -0.62 * 1.315 + 0.12; put(lagKid, 'lag', p, { y: ky + 0.02 * Math.sin(t * 1.4), floor: ky, s: 0.62 }); }
       SOAK.slice(3).forEach(([x, z, ry], i) => { const p = basePose(); idle(p, t, i + 3, 0.6); Object.assign(p, { x, z, rotY: ry, headPitch: -0.6 * look, mouth: 'o' }); p.armA = A(-0.6, 0.5, -0.6); p.armB = i === 0 ? mixArm(A(-0.6, 0.5, -0.6), POINT_UP, look) : A(-0.6, 0.5, -0.6); put(soakers[i + 3], 'lag', p, { y: sy, floor: sy }); });
@@ -568,7 +747,7 @@ export async function build(studio, story) {
     // orbit: dark Earth with its cities lit, gliding along the straight line while the orbit arc bends away
     sunDisc.visible = false; corona.visible = false; flare.visible = false;
     S.earth.material = earthDark; S.lights.material = cityLightsM; S.clouds.visible = false; S.atm.visible = false; S.sun.intensity = 0;
-    const u = clamp((t - 34.0) / 3.0), z = -5200 * u;
+    const u = clamp((t - 35.6) / 1.4), z = -5200 * u;
     S.spin.position.set(0, 0, z); S.setSpin(1.2 + t * 0.05); S.stars.position.set(0, 0, z);
     straight.visible = true; arc.visible = true;
     return z;
@@ -588,12 +767,16 @@ export async function build(studio, story) {
     skyMoon.g.visible = false; jup.visible = false; holeG.visible = false; bucket.visible = false; rod.visible = false; fline.visible = false; fish.visible = false; lantern.visible = false; kidLight.g.visible = false;
     towels.flat().forEach((m) => (m.visible = false)); kidWraps.flat().forEach((m) => (m.visible = false)); flakes.visible = false; streak.visible = false;
     wedLights.forEach((f) => (f.g.visible = false)); roofParty.visible = false; partyL.forEach((L) => (L.intensity = 0)); roofLights.forEach((f) => (f.g.visible = false));
+    carts.forEach((c) => (c.visible = false)); stacks.forEach((g) => (g.visible = false)); heaters.forEach((g) => (g.visible = false)); stadTorch.forEach((f) => (f.g.visible = false)); crack.visible = false;
     nb = 0; shake = [0, 0];
 
     let ez = 0;
     if (S === 'pool') poolScene(t, cam);
-    else if (S === 'stad') stadScene(t);
+    else if (S === 'stad') stadScene(t, cam);
     else if (S === 'wed') wedScene(t, cam);
+    else if (S === 'play') playScene(t, cam);
+    else if (S === 'mkt') mktScene(t, cam);
+    else if (S === 'laun') launScene(t, cam);
     else if (S === 'city') cityScene(t, cam);
     else if (S === 'tide') iceScene(t);
     else if (S === 'lag') lagScene(t, cam);
@@ -610,24 +793,33 @@ export async function build(studio, story) {
       const d1 = ph.clone().sub(cp).normalize(), aimDir = d1.multiplyScalar(0.5).add(moonDir.clone().multiplyScalar(0.5)).normalize();
       P[0] = cp.x; P[1] = cp.y; P[2] = cp.z; const ap = cp.clone().addScaledVector(aimDir, 10); Aim[0] = ap.x; Aim[1] = ap.y; Aim[2] = ap.z;
     }
+    if (cam === 'goalB' || cam === 'sdB') {   // close on the home end's front rows (they face −x)
+      const zz = cam === 'goalB' ? lerp(-1.3, 1.0, e) : lerp(1.4, -0.7, e), dx = cam === 'goalB' ? 4.4 : 3.7;
+      P[0] = o[0] + SEATC.x - dx; P[1] = o[1] + SEATC.y + (cam === 'goalB' ? 1.55 : 1.05); P[2] = o[2] + SEATC.z + zz; Aim[0] = o[0] + SEATC.x; Aim[1] = o[1] + SEATC.y + (cam === 'goalB' ? 1.25 : 1.75); Aim[2] = o[2] + SEATC.z + zz * 0.4;
+    }
+    if (cam === 'goalC') {   // track the striker's run to the fans and his knee slide (a fixed aim showed mostly empty pitch)
+      striker.root.updateMatrixWorld(true); const sp = striker.root.position;
+      Aim[0] = sp.x + 0.5; Aim[1] = o[1] + 1.0; Aim[2] = sp.z; P[0] = sp.x - 1.2; P[2] = o[2] + lerp(5.6, 4.6, e);
+    }
     if (cam === 'frost') {   // orbit round the fire drum: faces swing past, the kids run between us and them
       const th = lerp(150, 212, smooth(u)) * PI / 180, R2 = 2.4;
       P[0] = o[0] + DRUM[0] + Math.sin(th) * R2; P[1] = o[1] + 1.45; P[2] = o[2] + DRUM[1] + Math.cos(th) * R2; Aim[0] = o[0] + DRUM[0] - 0.15 * Math.sin(th); Aim[1] = o[1] + 1.25; Aim[2] = o[2] + DRUM[1] + 0.3;
     }
     if (cam === 'dive') {   // track the kid down the board and into the air
-      const kz = t < 23.45 ? lerp(7.1, 4.15, clamp((t - 21.9) / 1.55)) : 4.15 - 1.5 * (t - 23.45), ky = t < 23.45 ? 1.15 : Math.max(0.2, 1.15 + 3.2 * (t - 23.45) - 4.9 * (t - 23.45) ** 2);
+      const kz = t < J ? lerp(7.1, 4.15, clamp((t - (J - 1.55)) / 1.55)) : 4.15 - 1.5 * (t - J), ky = t < J ? 1.15 : Math.max(0.2, 1.15 + 3.2 * (t - J) - 4.9 * (t - J) ** 2);
       Aim[0] = o[0] - 12; Aim[1] = o[1] + lerp(ky, 0.9, 0.35); Aim[2] = o[2] + kz - 0.6;
     }
     if (cam === 'orbit') { const k = smooth(u); P[0] = o[0] + lerp(520, 1500, k); P[1] = o[1] + lerp(260, 1100, k); P[2] = o[2] + ez + lerp(820, 2900, k); Aim[0] = o[0] + lerp(0, -250, k); Aim[1] = o[1] + lerp(80, -50, k); Aim[2] = o[2] + ez + lerp(-300, -1600, k); }
     if (cam === 'stars') {   // on the kid's face, then a tilt + crane up to the Milky Way
-      const k = smooth(clamp((t - 57.9) / 2.0));
+      const k = smooth(clamp((t - 50.6) / 1.6));
       const a0 = new THREE.Vector3(0.22, 0.32, 2.15), a1 = new THREE.Vector3(-0.6, 5.2, -2.6), am = a0.lerp(a1, k);
       Aim[0] = am.x + o[0]; Aim[1] = am.y + o[1]; Aim[2] = am.z + o[2]; P[1] += 0.35 * k; P[2] += 0.35 * k;
     }
     P[0] += shake[0]; P[1] += shake[1];
     setCamera(P, Aim, c.fov, t, c.amp);
-    if (cam === 'stars' && t > 58.7 && t < 59.5) {   // a shooting star across the Milky Way
-      const a = (t - 58.7) / 0.8, cam3 = studio.camera, dir = new THREE.Vector3(-0.35 + 0.5 * a, 0.75 - 0.12 * a, -0.55).normalize();
+    const SHOOT = [51.2, 53.3, 54.8].find((a0) => t > a0 && t < a0 + 0.8);
+    if (cam === 'stars' && SHOOT) {   // shooting stars across the Milky Way (the end card sits over the live sky)
+      const a = (t - SHOOT) / 0.8, cam3 = studio.camera, sg = SHOOT > 52 ? (SHOOT > 54 ? 0.5 : -0.4) : 0, dir = new THREE.Vector3(-0.35 + 0.5 * a + sg, 0.75 - 0.12 * a, -0.55).normalize();
       streak.position.copy(cam3.position).addScaledVector(dir, 120); streak.quaternion.copy(cam3.quaternion); streak.rotateZ(-0.35); streak.scale.set(9, 0.35, 1);
       streak.material.opacity = Math.sin(PI * a); streak.visible = true;
     }
