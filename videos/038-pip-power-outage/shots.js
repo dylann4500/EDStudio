@@ -604,9 +604,9 @@ export async function build(studio, story) {
     const F = FORT, laugh = (i) => (Z ? 0 : pulseAt(t, EV.laughs.map((x) => x + i * 0.12), 0.5));
     const sitBack = (P, x, z, rotY, o, i) => put(P, 'liv', { x: F.x + x, z: F.z + z, rotY, y: -0.6, footFwd: 0.62, lean: 0.05, armA: LAP_A, armB: LAP_B, eyes: Z ? 'closed' : blink(t, i), mouth: Z ? 'flat' : laugh(i) > 0.3 ? 'o' : 'smile', headPitch: 0.15, headRoll: Z ? 0 : 0.12 * laugh(i) * Math.sin(t * 14), ...o });
     // back row: Dad, Mom, Rosa
-    sitBack(dad, -0.52, -0.45, 0.12, Z ? { headRoll: -0.35, headPitch: -0.25 - 0.05 * Math.sin(t * 2.2), mouth: 'o', lean: -0.05 } : { armB: mode === 'A' ? mixArm(LAP_B, HEART_B, 0.5) : LAP_B }, 4);
-    sitBack(mom, 0.0, -0.5, 0, Z ? { headRoll: -0.4, headPitch: 0.25, lean: 0.06 } : { armA: CHEEK_A, armB: CHEEK_B }, 6);
-    sitBack(rosa, 0.52, -0.45, -0.12, Z ? { headRoll: 0.3, headPitch: 0.35 } : { armA: mode === 'B' ? CHEEK_A : LAP_A }, 5);
+    sitBack(dad, -0.52, -0.45, 0.12, Z ? { headRoll: -0.35 + 0.06 * Math.sin(t * 1.3), headPitch: -0.25 - 0.12 * pulseAt(t, EV.snores, 0.9), mouth: 'o', lean: -0.05 } : { armB: mode === 'A' ? mixArm(LAP_B, HEART_B, 0.5) : LAP_B }, 4);
+    sitBack(mom, 0.0, -0.5, 0, Z ? { headRoll: -0.4 + 0.04 * Math.sin(t * 0.9), headPitch: 0.25, lean: 0.06 } : { armA: CHEEK_A, armB: CHEEK_B }, 6);
+    sitBack(rosa, 0.52, -0.45, -0.12, Z ? { headRoll: 0.3, headPitch: 0.3 + 0.12 * K(t, [[59.6, 0], [60.0, 0.6], [60.4, 0], [61.6, 0], [62.0, 0.7], [62.4, 0]]) } : { armA: mode === 'B' ? CHEEK_A : LAP_A }, 5);
     if (!Z) {
       // Mia in front, hugging both dogs; the bunny on her lap
       const hugK = mode === 'B' ? 1 : smooth((t - 51.2) / 0.5);
@@ -617,11 +617,13 @@ export async function build(studio, story) {
       dogAt(bean, 'liv', F.x + 0.26, F.z + 0.5, -0.5, { sit: 1, ears: 1, wag: 1, wagRate: 7, mouth: lick > 0.2 ? 'open' : 'pant', lick, headYaw: -0.3 * lick, eyes: 'open' }, t, 0.07);
     } else {
       // everyone asleep: Mia slumped against Mom with the bunny; Pip curled at her feet, Bean curled on Pip's back legs
-      put(mia, 'liv', { x: F.x + 0.02, z: F.z + 0.2, rotY: 0, ...FLOOR, lean: -0.05, armA: HUG_A, armB: HUG_B, headPitch: 0.3, headRoll: -0.35 + 0.02 * Math.sin(t * 1.1), eyes: 'closed', mouth: 'smile' });
+      const stir = K(t, [[58.4, 0], [59.2, 0], [59.7, 1], [60.5, 1], [61.0, 0]]);
+      put(mia, 'liv', { x: F.x + 0.02, z: F.z + 0.2, rotY: 0.12 * stir, ...FLOOR, lean: -0.05 + 0.08 * stir, armA: HUG_A, armB: HUG_B, headPitch: 0.3 - 0.1 * stir, headRoll: lerp(-0.35, -0.12, stir) + 0.02 * Math.sin(t * 1.1), eyes: 'closed', mouth: 'smile' });
       mia.root.updateMatrixWorld(true);
       dropBunny(handWorld(mia, 1).add(handWorld(mia, -1)).multiplyScalar(0.5).add(new THREE.Vector3(0, -0.06, 0.05)), 0.2, 0);
-      dogAt(pip, 'liv', F.x - 0.12, F.z + 0.62, PI / 2 + 0.3, { sleep: 1, wag: 0.15, wagRate: 2, earR: 0.15 * pulseAt(t, [60.9], 0.4) }, t, 0.07);
-      dogAt(bean, 'liv', F.x + 0.3, F.z + 0.66, -PI / 2 - 0.4, { sleep: 1 }, t, 0.07);
+      const up = K(t, [[60.6, 0], [61.0, 1], [62.0, 1], [62.5, 0]]), yawn = pulseAt(t, [61.25], 0.6);
+      dogAt(pip, 'liv', F.x - 0.2, F.z + 0.5, 0.35, { sleep: 1 - up, lie: up, headPitch: -0.15 * up, headYaw: 0.35 * up * Math.sin((t - 61.0) * 2.2), eyes: up > 0.5 ? (yawn > 0.3 ? 'closed' : 'sleepy') : undefined, mouth: yawn > 0.2 ? 'open' : 'smile', open: 0.3 * yawn, tongue: 0.6 * yawn, ears: lerp(0.5, 0.9, up), wag: 0.15 + 0.5 * up, wagRate: 2.5, earR: 0.15 * pulseAt(t, [59.9], 0.4) }, t, 0.07);
+      dogAt(bean, 'liv', F.x + 0.3, F.z + 0.66, -PI / 2 - 0.4, { sleep: 1, earL: 0.3 * pulseAt(t, [59.3, 61.9], 0.3), wag: 0.12, wagRate: 2 }, t, 0.07);
     }
   }
 
