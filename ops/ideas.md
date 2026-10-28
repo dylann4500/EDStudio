@@ -48,6 +48,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | made Oct 28, in review (Thu 1 PM) |
 | 039 | How a Flashlight Becomes a Lighthouse | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | queued Oct 28 (Thu 6 PM) |
+| 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
