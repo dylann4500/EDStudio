@@ -33,7 +33,7 @@
 //   −100 °F within a year; ice on top keeps the deep ocean liquid for hundreds of thousands of years); How It Works; ScienceAlert
 //   Iceland geothermal heating ≈ 90 % of homes (Orkustofnun / National Energy Authority of Iceland)
 //
-// Shot list — cut4 (56.2 s): the bright countdown gets 3 quick angles per place; the dark half is short beats, most of them in
+// Shot list — cut5 (51.8 s): the bright countdown gets 3 quick angles per place; the dark half is short beats, most of them in
 // places that still have electric light (the power plants still run): a stadium on its floodlights, a supermarket, a laundromat.
 //  0.0– 3.2 title          pool   low glide past the swimmers' faces (question card)
 //  3.2– 4.7 sun   SW 3.5   space  the Sun pops out of existence; Earth stays lit
@@ -46,11 +46,11 @@
 // 28.8–32.0 sdA/sdB        stad   London in the dark: phone torches, then the floodlights bang on bank by bank; the crowd roars
 // 32.0–35.6 moonA/moonB    city   Bangkok rooftop: the phone photo of the half Moon goes black at +1.3 s; Jupiter at +70 min
 // 35.6–37.0 orbit          space  dark Earth leaves the curve on a straight line
-// 37.0–40.4 mkA/mkB  +1 DAY      mkt  Phoenix supermarket: shoppers strip the shelves, carts race, blankets + heaters
-// 40.4–43.6 lnA/lnB  +1 WEEK     laun Chicago laundromat packed with people in coats hugging the dryers, frosted windows
-// 43.6–46.8 ice     +1 MONTH     tide Maine harbor frozen; ice cracks; a fisherman pulls a fish out of the liquid water below
-// 46.8–49.4 soak    +1 YEAR      lag  Iceland: faces gliding past in the steaming geothermal lagoon
-// 49.4–56.2 stars                lag  a kid points up; tilt to the Milky Way + shooting stars; end card 52.2 over the live sky
+// 37.0–38.9 mkA     +1 DAY      mkt  Phoenix supermarket: carts race at the lens, shoppers strip the shelves (BLANKETS SOLD OUT)
+// 38.9–41.2 lnA     +1 WEEK     laun Chicago laundromat: a glide along a crowd in coats backed against the warm dryers
+// 41.2–43.1 ice     +1 MONTH    tide Maine harbor frozen; a crack races across the ice; a fish comes up out of the liquid water
+// 43.1–45.2 soak    +1 YEAR     lag  Iceland: faces in the steaming geothermal lagoon
+// 45.2–51.8 stars               lag  a kid points up; crane back to every face under the Milky Way; end card 47.8 over the live scene
 import * as THREE from 'three';
 import { K, clamp, lerp, smooth, rng, mat, mk, canvasTex } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink, HIP_H } from '@engine/rig.js';
@@ -70,7 +70,7 @@ import { makeSkyMoon, ANG0 } from '@engine/moon.js';
 const PI = Math.PI, SW = 3.5, OUT = 25.4, GOAL = 10.25, MOON0 = 32.0, MOON_OUT = MOON0 + 1.28, JUP_OUT = 35.0;
 const J = OUT - 0.35;                   // the diver leaves the board 0.35 s before the light runs out
 const TOSS = [5.3, 8.6], KISS = [20.9, 21.9], PETALS = 19.5, WFLASH = 22.5, FLOOD = [29.05, 29.4, 29.75];
-const CATCH = 45.3, CRACK = 44.15, END_IN = 52.2;
+const CATCH = 42.35, CRACK = 41.45, END_IN = 47.8;
 const OFF = { city: [0, 0, 0], pool: [3000, 0, 0], stad: [6000, 0, 0], wed: [9000, 0, 0], tide: [12000, 0, 0], lag: [16000, 0, 0], space: [24000, 0, 0], play: [30000, 0, 0], mkt: [33000, 0, 0], laun: [36000, 0, 0] };
 
 export const SHOTS = [
@@ -94,13 +94,11 @@ export const SHOTS = [
   { t0: 32.0, t1: 34.0, cam: 'moonA', set: 'city' },
   { t0: 34.0, t1: 35.6, cam: 'moonB', set: 'city' },
   { t0: 35.6, t1: 37.0, cam: 'orbit', set: 'space' },
-  { t0: 37.0, t1: 38.8, cam: 'mkA', set: 'mkt' },
-  { t0: 38.8, t1: 40.4, cam: 'mkB', set: 'mkt' },
-  { t0: 40.4, t1: 42.0, cam: 'lnA', set: 'laun' },
-  { t0: 42.0, t1: 43.6, cam: 'lnB', set: 'laun' },
-  { t0: 43.6, t1: 46.8, cam: 'ice', set: 'tide' },
-  { t0: 46.8, t1: 49.4, cam: 'soak', set: 'lag' },
-  { t0: 49.4, t1: 56.2, cam: 'stars', set: 'lag' },
+  { t0: 37.0, t1: 38.9, cam: 'mkA', set: 'mkt' },
+  { t0: 38.9, t1: 41.2, cam: 'lnA', set: 'laun' },
+  { t0: 41.2, t1: 43.1, cam: 'ice', set: 'tide' },
+  { t0: 43.1, t1: 45.2, cam: 'soak', set: 'lag' },
+  { t0: 45.2, t1: 51.8, cam: 'stars', set: 'lag' },
 ];
 // camera coords LOCAL to the shot's set: p/a = [start, end] (eased); fov; amp = handheld drift
 export const CAMS = {
@@ -598,7 +596,7 @@ export async function build(studio, story) {
   const cartAt = (rig, c) => { rig.root.updateMatrixWorld(true); c.position.copy(rig.root.localToWorld(new THREE.Vector3(0, 0, 0.78))); c.position.y = OFF.mkt[1]; c.rotation.set(0, rig.root.rotation.y, 0); c.visible = true; };
   const PUSH = A(-1.15, 0.12, -0.55, 0), CARRY_A = A(-0.9, 0.28, -1.35, 0.35), CARRY_B = A(-0.9, 0.28, -1.35, -0.35), GRAB = A(-1.7, 0.25, -0.2, 0);
   function mktScene(t, cam) {
-    mkt.setStock(clamp(1 - (t - 37.0) / 3.0) * 0.85 + 0.12); mkt.setSoldOut(t > 38.0, 'BLANKETS SOLD OUT');
+    mkt.setStock(clamp(1 - (t - 37.0) / 1.9) * 0.85 + 0.12); mkt.setSoldOut(t > 38.0, 'BLANKETS SOLD OUT');
     const mv = (z0, v, t0) => z0 + v * Math.max(0, t - t0);
     if (cam === 'mkA') {   // down the aisle: carts race at the lens, people sweep the shelves
       const RUN = [[-0.45, -7.0, 2.2, 0, 0], [0.55, -5.4, 2.0, 1, 1], [0.05, -9.0, 2.4, 2, -1]];   // x, z0, speed, cart, stack
@@ -686,7 +684,7 @@ export async function build(studio, story) {
     splashAt('tide', HOLE[0], 0, HOLE[1], t, CATCH + 0.05, 26, 1.8, 7);
     { const p = basePose(); p.eyes = blink(t, 4); const yay = smooth(clamp((t - CATCH - 0.3) / 0.4)); Object.assign(p, { x: HOLE[0] + 0.55, z: HOLE[1] + 0.4, rotY: -PI / 2 - 0.5 + 0.4 * yay, crouch: 0.3 * (1 - yay), lean: 0.45 * (1 - yay), headPitch: 0.5 - 0.7 * yay, mouth: yay > 0.2 ? 'o' : 'smile' }); p.armB = mixArm(A(-1.2, 0.15, -0.6, -0.2), CHEER, yay); p.armA = mixArm(A(-0.5, 0.3, -1.0), CHEER, yay); put(iceKid, 'tide', p, { s: 0.62 }); breath(iceKid, t, 0.55);
       iceKid.root.updateMatrixWorld(true); const kh = iceKid.arms.find((a) => a.s === 1).hand.getWorldPosition(new THREE.Vector3()); kidLight.aim(kh, yay > 0.5 ? kh.clone().add(new THREE.Vector3(0, 1, 0)) : W('tide', HOLE[0], 0, HOLE[1])); kidLight.setOn(1, 0.06); kidLight.g.visible = true; }
-    { const p = basePose(); p.eyes = blink(t, 6); const x = lerp(-9, 3.5, (t - 43.6) / 3.2); Object.assign(p, { x, z: -3.2, rotY: PI / 2, dist: x * 0.6, speed: 1.2, lean: 0.25, mouth: 'smile' }); p.armA = A(0.4, 0.3, -0.3); p.armB = A(-0.6, 0.4, -0.3); put(skater, 'tide', p); }
+    { const p = basePose(); p.eyes = blink(t, 6); const x = lerp(-6, 3.5, (t - 41.2) / 1.9); Object.assign(p, { x, z: -3.2, rotY: PI / 2, dist: x * 0.6, speed: 1.2, lean: 0.25, mouth: 'smile' }); p.armA = A(0.4, 0.3, -0.3); p.armB = A(-0.6, 0.4, -0.3); put(skater, 'tide', p); }
   }
 
   // ================================================================ LAGOON (Iceland, +1 YEAR): faces in the steaming water, then the stars
@@ -707,13 +705,14 @@ export async function build(studio, story) {
       if (i === 0) { p.rotY = 0.9; p.headYaw = -0.5; p.armB = HUG_B; }   // a couple: her arm round him
       if (i === 1) { p.rotY = -0.5; p.headYaw = 0.4; p.headRoll = 0.15; }
       if (i === 2) { p.armA = A(-1.5, 0.2, -2.0, 0.5); p.headPitch = -0.15; }   // the old man wipes frost off his beard
-      const dunk = i === 5 ? K(t, [[47.5, 0], [47.9, 1], [48.5, 1], [48.8, 0]]) : 0; if (dunk > 0.5) p.eyes = 'closed';
+      const dunk = i === 5 ? K(t, [[43.6, 0], [44.0, 1], [44.5, 1], [44.8, 0]]) : 0; if (dunk > 0.5) p.eyes = 'closed';
       put(soakers[i], 'lag', p, { y: sy + 0.03 * Math.sin(t * 1.3 + i) - 0.55 * dunk, floor: sy - 0.55 * dunk });
     });
     else {
-      const look = smooth(clamp((t - 49.8) / 0.7));
+      const look = smooth(clamp((t - 45.6) / 0.6));
       { const p = basePose(); idle(p, t, 11, 0.5); Object.assign(p, { x: 0.0, z: 1.6, rotY: 0.2, headPitch: -0.2 - 0.55 * look, mouth: 'smile' }); p.armA = A(-1.1, 0.35, -1.3, 0.5); p.armB = A(-0.5, 0.4, -0.6); put(lagDad, 'lag', p, { y: sy, floor: sy }); }
       { const p = basePose(); p.eyes = blink(t, 13); Object.assign(p, { x: 0.25, z: 2.15, rotY: 0.25 - 0.2 * look, headPitch: -0.15 - 0.75 * look, headYaw: 0.1 * Math.sin(t * 0.7), mouth: look > 0.4 ? 'o' : 'smile' }); p.armB = mixArm(A(-0.6, 0.4, -0.6), POINT_UP, look); p.armA = A(-0.5, 0.45, -0.5); const ky = -0.62 * 1.315 + 0.12; put(lagKid, 'lag', p, { y: ky + 0.02 * Math.sin(t * 1.4), floor: ky, s: 0.62 }); }
+      [[-1.6, 1.0, 0.5], [1.5, 1.2, -0.4], [-0.6, 0.05, 0.2]].forEach(([x, z, ry], i) => { const p = basePose(); idle(p, t, i, 0.6); Object.assign(p, { x, z, rotY: ry, headPitch: -0.55 * look, mouth: look > 0.3 ? 'o' : 'smile' }); p.armA = A(-0.6, 0.5, -0.6); p.armB = i === 1 ? mixArm(A(-0.6, 0.5, -0.6), POINT_UP, look) : A(-0.6, 0.5, -0.6); put(soakers[i], 'lag', p, { y: sy + 0.03 * Math.sin(t * 1.3 + i), floor: sy }); });
       SOAK.slice(3).forEach(([x, z, ry], i) => { const p = basePose(); idle(p, t, i + 3, 0.6); Object.assign(p, { x, z, rotY: ry, headPitch: -0.6 * look, mouth: 'o' }); p.armA = A(-0.6, 0.5, -0.6); p.armB = i === 0 ? mixArm(A(-0.6, 0.5, -0.6), POINT_UP, look) : A(-0.6, 0.5, -0.6); put(soakers[i + 3], 'lag', p, { y: sy, floor: sy }); });
     }
   }
@@ -797,10 +796,6 @@ export async function build(studio, story) {
       const zz = cam === 'goalB' ? lerp(-1.3, 1.0, e) : lerp(1.4, -0.7, e), dx = cam === 'goalB' ? 4.4 : 3.7;
       P[0] = o[0] + SEATC.x - dx; P[1] = o[1] + SEATC.y + (cam === 'goalB' ? 1.55 : 1.05); P[2] = o[2] + SEATC.z + zz; Aim[0] = o[0] + SEATC.x; Aim[1] = o[1] + SEATC.y + (cam === 'goalB' ? 1.25 : 1.75); Aim[2] = o[2] + SEATC.z + zz * 0.4;
     }
-    if (cam === 'goalC') {   // track the striker's run to the fans and his knee slide (a fixed aim showed mostly empty pitch)
-      striker.root.updateMatrixWorld(true); const sp = striker.root.position;
-      Aim[0] = sp.x + 0.5; Aim[1] = o[1] + 1.0; Aim[2] = sp.z; P[0] = sp.x - 1.2; P[2] = o[2] + lerp(5.6, 4.6, e);
-    }
     if (cam === 'frost') {   // orbit round the fire drum: faces swing past, the kids run between us and them
       const th = lerp(150, 212, smooth(u)) * PI / 180, R2 = 2.4;
       P[0] = o[0] + DRUM[0] + Math.sin(th) * R2; P[1] = o[1] + 1.45; P[2] = o[2] + DRUM[1] + Math.cos(th) * R2; Aim[0] = o[0] + DRUM[0] - 0.15 * Math.sin(th); Aim[1] = o[1] + 1.25; Aim[2] = o[2] + DRUM[1] + 0.3;
@@ -811,15 +806,16 @@ export async function build(studio, story) {
     }
     if (cam === 'orbit') { const k = smooth(u); P[0] = o[0] + lerp(520, 1500, k); P[1] = o[1] + lerp(260, 1100, k); P[2] = o[2] + ez + lerp(820, 2900, k); Aim[0] = o[0] + lerp(0, -250, k); Aim[1] = o[1] + lerp(80, -50, k); Aim[2] = o[2] + ez + lerp(-300, -1600, k); }
     if (cam === 'stars') {   // on the kid's face, then a tilt + crane up to the Milky Way
-      const k = smooth(clamp((t - 50.6) / 1.6));
-      const a0 = new THREE.Vector3(0.22, 0.32, 2.15), a1 = new THREE.Vector3(-0.6, 5.2, -2.6), am = a0.lerp(a1, k);
-      Aim[0] = am.x + o[0]; Aim[1] = am.y + o[1]; Aim[2] = am.z + o[2]; P[1] += 0.35 * k; P[2] += 0.35 * k;
+      // crane back + up: the kid's face → every face in the water along the bottom, the Milky Way above (the end card sits there)
+      const k = smooth(clamp((t - 46.3) / 1.9)), p1 = new THREE.Vector3(0.8 + 0.15 * Math.sin(t * 0.4), 1.3, 5.2);
+      const a0 = new THREE.Vector3(0.22, 0.32, 2.15), a1 = new THREE.Vector3(0.3, 1.6, 0.5), am = a0.lerp(a1, k);
+      Aim[0] = am.x + o[0]; Aim[1] = am.y + o[1]; Aim[2] = am.z + o[2]; P[0] = lerp(P[0], p1.x + o[0], k); P[1] = lerp(P[1], p1.y + o[1], k); P[2] = lerp(P[2], p1.z + o[2], k);
     }
     P[0] += shake[0]; P[1] += shake[1];
     setCamera(P, Aim, c.fov, t, c.amp);
-    const SHOOT = [51.2, 53.3, 54.8].find((a0) => t > a0 && t < a0 + 0.8);
+    const SHOOTS = [46.6, 48.6, 50.2], si = SHOOTS.findIndex((a0) => t > a0 && t < a0 + 0.8), SHOOT = si >= 0 ? SHOOTS[si] : 0;
     if (cam === 'stars' && SHOOT) {   // shooting stars across the Milky Way (the end card sits over the live sky)
-      const a = (t - SHOOT) / 0.8, cam3 = studio.camera, sg = SHOOT > 52 ? (SHOOT > 54 ? 0.5 : -0.4) : 0, dir = new THREE.Vector3(-0.35 + 0.5 * a + sg, 0.75 - 0.12 * a, -0.55).normalize();
+      const a = (t - SHOOT) / 0.8, cam3 = studio.camera, sg = [0, -0.4, 0.5][si], dir = new THREE.Vector3(-0.35 + 0.5 * a + sg, 0.34 - 0.06 * a, -0.9).normalize();
       streak.position.copy(cam3.position).addScaledVector(dir, 120); streak.quaternion.copy(cam3.quaternion); streak.rotateZ(-0.35); streak.scale.set(9, 0.35, 1);
       streak.material.opacity = Math.sin(PI * a); streak.visible = true;
     }

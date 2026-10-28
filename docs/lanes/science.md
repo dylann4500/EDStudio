@@ -128,3 +128,6 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   bright, moving flame in the middle of the frame scored better than centered faces lit by it.** A premise whose second half
   is night everywhere is a structural handicap: next time give the dark half ≤ 1/3 of the runtime, or keep the payoff places
   bright (fires, lit interiors, a lit stadium crowd) instead of starlit.
+- **cut4 + cut5 (Oct 28, manager-approved retime):** cut4 0.0394 (bright 37 s at 0.06–0.11, tail dead zone); cut5 **0.0581, target
+  met** — same first 37 s, epilogue cut to ~2 s per rung with crowd voices under it, end card over the lagoon faces. Shipped cut5
+  (51.8 s). See CLAUDE.md → TRIBE notes for the lessons (crowd-voice beds, short epilogues, end card over a live scene).

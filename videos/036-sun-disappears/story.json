@@ -8,7 +8,7 @@
     "bloomThreshold": 0.85
   },
   "fps": 30,
-  "duration": 56.2,
+  "duration": 51.8,
   "title": {
     "html": "What if the <em>Sun</em> disappeared?",
     "in": -0.4,
@@ -162,53 +162,53 @@
     },
     {
       "t0": 37.0,
-      "t1": 40.4,
+      "t1": 38.9,
       "from": 15,
       "to": 11,
       "time": "+1 DAY · PHOENIX",
       "age": "FALLING",
       "label": "AVERAGE SURFACE TEMPERATURE",
       "r0": 37.1,
-      "r1": 40.2,
+      "r1": 38.8,
       "fmt": "temp"
     },
     {
-      "t0": 40.4,
-      "t1": 43.6,
+      "t0": 38.9,
+      "t1": 41.2,
       "from": 11,
       "to": -18,
       "time": "+1 WEEK · CHICAGO",
       "age": "SCIENTISTS' ESTIMATE",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 40.5,
-      "r1": 42.2,
+      "r0": 39.0,
+      "r1": 40.5,
       "fmt": "temp",
-      "ageGoldAt": 42.2
+      "ageGoldAt": 40.5
     },
     {
-      "t0": 43.6,
-      "t1": 46.8,
+      "t0": 41.2,
+      "t1": 43.1,
       "from": -18,
       "to": -30,
       "time": "+1 MONTH · MAINE",
       "age": "SEA ICE ON TOP · LIQUID BELOW",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 43.7,
-      "r1": 46.6,
+      "r0": 41.3,
+      "r1": 43.0,
       "fmt": "temp"
     },
     {
-      "t0": 46.8,
-      "t1": 56.2,
+      "t0": 43.1,
+      "t1": 51.8,
       "from": -30,
       "to": -73,
       "time": "+1 YEAR · ICELAND",
       "age": "SCIENTISTS' ESTIMATE",
       "label": "AVERAGE SURFACE TEMPERATURE",
-      "r0": 46.9,
-      "r1": 48.4,
+      "r0": 43.2,
+      "r1": 44.6,
       "fmt": "temp",
-      "ageGoldAt": 48.4
+      "ageGoldAt": 44.6
     }
   ],
   "subs": [
@@ -283,33 +283,33 @@
       "Earth flies off in a straight line."
     ],
     [
-      38.0,
-      40.25,
+      37.05,
+      38.85,
       "Day 1: every blanket sells out."
     ],
     [
-      40.55,
-      43.45,
+      38.95,
+      41.35,
       "Week 1: −18 °C. Everyone hugs a dryer."
     ],
     [
-      43.75,
-      46.65,
+      41.45,
+      43.25,
       "The ocean freezes over. Liquid underneath."
     ],
     [
-      46.95,
-      49.25,
+      43.35,
+      45.45,
       "Year 1: −73 °C. Except in Iceland."
     ],
     [
-      49.55,
-      51.95,
+      45.55,
+      47.65,
       "And the stars are all still there."
     ]
   ],
   "end": {
-    "in": 52.2,
+    "in": 47.8,
     "html": "What would you do in the last <em>8 minutes</em>?",
     "small": "TELL US BELOW"
   },
@@ -325,8 +325,8 @@
   "sw": 3.5,
   "out": 25.4,
   "finalFade": [
-    51.9,
-    52.5,
-    0.4
+    47.5,
+    48.1,
+    0.3
   ]
 }

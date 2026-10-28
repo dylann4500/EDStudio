@@ -730,6 +730,16 @@ half before LIGHTS OUT scored 0.04–0.07, the 40 s after it 0.01–0.04 however
 an orbiting camera = +3 %). cut3 centered the faces at the fire drums and pushed the flames to the bottom of the frame → those
 beats went negative (−0.009) and the cut fell to 0.029. In the dark, the big moving flame in mid-frame is what scores; and a
 premise that is night everywhere for half the reel caps the score — keep dark stretches ≤ 1/3 of the runtime.
+**036 cut4 → cut5 = TARGET MET (wc 0.0581 / first 60 s 0.0581, no dead zone) after the manager allowed a full retime:** cut4
+rebuilt it as ~1.5 s angles (the bright countdown across pool, London goal, a new Chicago playground, Tuscany; the dark half
+mostly lit interiors) and the first 37 s jumped to 0.06–0.11 — but everything after the faceless orbit shot fell to 0.00–0.03
+(wc 0.0394, dead zone 41–57 s), even the BRIGHT supermarket and laundromat full of faces. cut5 kept 0–37 s identical, cut the
+tail from 19 s to 9 s (one ~2 s shot per rung of the day ladder) and put CROWD VOICES under every tail beat (crowd_cheer
+murmur/cheer at −26…−28 dB, applause under the end card), and put the end card over the lagoon faces instead of empty sky: the
+tail rose to 0.03–0.044 and every early beat rose too (wc +47 %). Lessons: (1) the beats with a roaring crowd / applause in the
+mix scored highest all along — vocal crowd beds are a cheap lift for any beat (no speech needed); (2) a long low tail drags
+the mean and is where dead zones live: compress the epilogue to ~2 s per rung; (3) the end card over a live, face-filled
+scene (`finalFade` depth 0.3) beat black (−0.026 → +0.018 for the stars + card stretch).
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
