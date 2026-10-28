@@ -1,0 +1,24 @@
+036-sun-disappears-cut1: 65 s
+  wc_mean                  +0.0311   best existing +0.0447  below
+  wc_mean_first60          +0.0340   best existing +0.0421  below
+  pct_above_thresh         +13.2958   best existing +15.7313  below
+  hook_0_3                 +0.0086
+  sustain_pooled_median    +66.1538
+  dead zones (≥8 s below 0.0185, after 4 s): 32–44 s
+  per beat (mean whole-cortex, min second):
+      0.0–  3.4 title     +0.0086  min -0.0030  ###########
+      3.4–  6.3 sun       +0.0259  min +0.0164  ###############
+      6.3– 11.4 pool      +0.0412  min +0.0296  ##################
+     11.4– 16.6 goal      +0.0688  min +0.0609  #######################
+     16.6– 21.4 wed       +0.0572  min +0.0531  #####################
+     21.4– 24.4 dive      +0.0661  min +0.0599  #######################
+     24.4– 29.0 wedDark   +0.0294  min +0.0123  ###############
+     29.0– 31.3 moonA     +0.0186  min +0.0130  #############
+     31.3– 34.0 moonB     +0.0137  min +0.0087  ############
+     34.0– 37.0 orbit     +0.0085  min +0.0063  ###########
+     37.0– 41.6 frost     +0.0054  min +0.0022  ###########
+     41.6– 46.2 fires     +0.0195  min +0.0065  #############
+     46.2– 50.8 ice       +0.0535  min +0.0443  ####################
+     50.8– 55.6 soak      +0.0237  min +0.0146  ##############
+     55.6– 65.0 stars     +0.0148  min -0.0596  ############
+  TARGET NOT MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

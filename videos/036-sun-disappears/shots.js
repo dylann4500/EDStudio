@@ -72,8 +72,8 @@ export const SHOTS = [
   { t0: 16.6, t1: 21.4, cam: 'wed', set: 'wed' },
   { t0: 21.4, t1: 24.4, cam: 'dive', set: 'pool' },
   { t0: 24.4, t1: 29.0, cam: 'wedDark', set: 'wed' },
-  { t0: 29.0, t1: 31.3, cam: 'moonA', set: 'city' },
-  { t0: 31.3, t1: 34.0, cam: 'moonB', set: 'city' },
+  { t0: 29.0, t1: 30.7, cam: 'moonA', set: 'city' },
+  { t0: 30.7, t1: 34.0, cam: 'moonB', set: 'city' },
   { t0: 34.0, t1: 37.0, cam: 'orbit', set: 'space' },
   { t0: 37.0, t1: 41.6, cam: 'frost', set: 'pool' },
   { t0: 41.6, t1: 46.2, cam: 'fires', set: 'city' },
@@ -83,20 +83,20 @@ export const SHOTS = [
 ];
 // camera coords LOCAL to the shot's set: p/a = [start, end] (eased); fov; amp = handheld drift
 export const CAMS = {
-  title:   { p: [[4.5, 9.5, 15.5], [1.8, 2.3, 9.6]], a: [[0.2, -0.4, 0.6], [0.2, 0.05, 2.0]], fov: 50, amp: 0.008 },
+  title:   { p: [[4.5, 9.5, 15.5], [1.9, 1.5, 8.4]], a: [[0.2, -0.4, 0.6], [0.3, 0.15, 3.0]], fov: 50, amp: 0.008 },
   sun:     { p: [[0, -100, 1700], [0, -70, 1560]], a: [[0, 330, 0], [0, 320, 0]], fov: 60, amp: 0.4 },
   pool:    { p: [[1.7, 0.42, 6.6], [1.0, 0.38, 6.4]], a: [[0.35, 0.12, 2.4], [0.1, 0.15, 2.3]], fov: 48, amp: 0.004 },
   goal:    { p: [[50.4, 1.3, 1.9], [51.2, 1.5, 1.4]], a: [[60.5, 2.3, -0.3], [60.5, 2.9, 0.0]], fov: 50, amp: 0.006 },
   wed:     { p: [[1.35, 1.5, 3.4], [0.75, 1.45, 2.6]], a: [[0.05, 1.3, -3.0], [0.02, 1.32, -3.0]], fov: 50, amp: 0.004 },
   dive:    { p: [[-7.3, 0.55, 2.8], [-7.6, 0.5, 3.1]], a: [[-12, 1.0, 5.5], [-12, 0.9, 3.4]], fov: 52, amp: 0.004 },   // aim tracks the kid (custom)
-  wedDark: { p: [[0.8, 1.0, -0.8], [0.45, 0.92, -1.25]], a: [[0.0, 2.0, -3.4], [0.0, 2.05, -3.4]], fov: 54, amp: 0.004 },
+  wedDark: { p: [[1.45, 1.05, -0.55], [-0.55, 0.95, -0.95]], a: [[0.25, 1.95, -3.3], [-0.2, 2.0, -3.3]], fov: 58, amp: 0.005 },
   moonA:   { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 30, amp: 0.003 },   // behind the phone (custom)
-  moonB:   { p: [[-8.55, 17.05, 11.75], [-8.85, 17.0, 11.95]], a: [[-10.5, 17.55, 12.55], [-10.5, 17.6, 12.55]], fov: 50, amp: 0.004 },
+  moonB:   { p: [[-8.3, 17.0, 11.4], [-8.95, 17.05, 12.35]], a: [[-10.6, 17.5, 12.4], [-10.7, 17.55, 12.8]], fov: 50, amp: 0.005 },
   orbit:   { p: [[0, 0, 0], [0, 0, 0]], a: [[0, 0, 0], [0, 0, 0]], fov: 50, amp: 0.5 },   // trails Earth (custom)
   frost:   { p: [[2.3, 1.35, 4.5], [1.4, 1.3, 4.85]], a: [[0.95, 1.25, 7.5], [0.85, 1.25, 7.5]], fov: 52, amp: 0.005 },
-  fires:   { p: [[3.3, 1.4, 1.8], [3.6, 1.35, 2.7]], a: [[5.95, 1.35, 3.45], [5.95, 1.35, 3.7]], fov: 50, amp: 0.005 },
+  fires:   { p: [[3.0, 1.4, 1.5], [3.9, 1.35, 3.3]], a: [[5.95, 1.35, 3.4], [6.0, 1.35, 3.8]], fov: 50, amp: 0.005 },
   ice:     { p: [[-2.1, 0.85, -9.9], [-2.6, 0.78, -9.5]], a: [[-3.25, 0.72, -6.6], [-3.3, 0.78, -6.6]], fov: 50, amp: 0.005 },
-  soak:    { p: [[1.6, 0.58, 3.45], [-0.6, 0.52, 3.2]], a: [[1.2, 0.36, 1.2], [-0.5, 0.36, 1.2]], fov: 50, amp: 0.004 },
+  soak:    { p: [[2.1, 0.6, 3.6], [-1.0, 0.5, 3.0]], a: [[1.2, 0.36, 1.2], [-0.5, 0.36, 1.2]], fov: 50, amp: 0.004 },
   stars:   { p: [[0.75, 0.35, 3.65], [0.6, 0.55, 3.45]], a: [[0.2, 0.3, 2.1], [0.2, 0.3, 2.1]], fov: 50, amp: 0.003 },   // tilts up (custom)
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -190,6 +190,19 @@ export async function build(studio, story) {
   let shake = [0, 0];
   const jolt = (t, at, k0 = 0.03, rate = 7) => { if (t > at && t < at + 0.8) { const k = k0 * Math.exp(-(t - at) * rate); shake = [shake[0] + k * Math.sin(t * 71), shake[1] + k * Math.sin(t * 53)]; } };
   const flashL = new THREE.PointLight(0xf4f6ff, 0, 14, 1.2); scene.add(flashL);
+  // diamond dust: flakes falling through a box round a point (motion in every cold frame)
+  const FLK = 1400, flkPos = new Float32Array(FLK * 3), flkSeed = Array.from({ length: FLK }, () => [R0(), R0(), R0(), 0.4 + R0() * 0.6]);
+  function R0() { return (R0.s = (R0.s * 16807) % 2147483647) / 2147483647; } R0.s = 3601;
+  const flkTex = canvasTex(32, 32, (g) => { const r = g.createRadialGradient(16, 16, 0, 16, 16, 16); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); });
+  const flkGeo = new THREE.BufferGeometry(); flkGeo.setAttribute('position', new THREE.BufferAttribute(flkPos, 3));
+  const flakes = new THREE.Points(flkGeo, new THREE.PointsMaterial({ map: flkTex, size: 0.035, transparent: true, depthWrite: false, opacity: 0.85, color: 0xeef4ff }));
+  flakes.frustumCulled = false; scene.add(flakes); flakes.visible = false;
+  function snowAt(c, t, w = 7, h = 4.5, fall = 0.35) {
+    flkSeed.forEach(([a, b, d, sp], i) => { const y = (((b * h - t * fall * sp) % h) + h) % h; flkPos[i * 3] = c.x + (a - 0.5) * w + 0.15 * Math.sin(t * 0.8 + i); flkPos[i * 3 + 1] = c.y + y; flkPos[i * 3 + 2] = c.z + (d - 0.5) * w + 0.15 * Math.cos(t * 0.7 + i); });
+    flkGeo.attributes.position.needsUpdate = true; flakes.visible = true;
+  }
+  const streak = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: canvasTex(256, 16, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(0.85, 'rgba(255,250,235,.9)'); gr.addColorStop(1, 'rgba(255,255,255,1)'); g.fillStyle = gr; g.fillRect(0, h * 0.3, w, h * 0.4); }), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false, fog: false }));
+  streak.frustumCulled = false; scene.add(streak); streak.visible = false;
   const flashK = (t, times) => times.reduce((m, at) => Math.max(m, t >= at && t < at + 0.25 ? Math.exp(-(t - at) * 22) : 0), 0);
 
   // ---------------------------------------------------------------- cast helpers
@@ -276,8 +289,12 @@ export async function build(studio, story) {
       if (t > J + 0.84) for (let k = 0; k < 6; k++) puff(W('pool', bx + 0.2 * Math.sin(k), 0.1 + (t - J - 0.84) * 0.6, 2.9 + 0.2 * Math.cos(k)), 0.4 + (t - J - 0.84), 0.45 * clamp(1 - (t - J - 0.84) * 2), white);
     }
   }
+  const kidWraps = [wrap(poolKid, 0x58b368), wrap(diver, 0xf08a4b)]; kidWraps.flat().forEach((m) => (m.visible = false));
   function frostScene(t) {
-    towels.flat().forEach((m) => (m.visible = true));
+    towels.flat().forEach((m) => (m.visible = true)); kidWraps.flat().forEach((m) => (m.visible = true));
+    snowAt(W('pool', DRUM[0], 0, DRUM[1]), t);
+    // two kids in towels chase each other round the huddle
+    [poolKid, diver].forEach((rig, k) => { const a = t * 1.25 + k * PI, r = 1.75, p = basePose(); p.eyes = blink(t, 30 + k); Object.assign(p, { x: DRUM[0] + Math.sin(a) * r, z: DRUM[1] + Math.cos(a) * r, rotY: a + PI / 2, dist: t * 2.2 / 0.62, speed: 2.2, mouth: 'o', lean: 0.15 }); p.armA = HUGSELF_A; p.armB = HUGSELF_B; put(rig, 'pool', p, { s: 0.62 }); });
     drum.position.copy(W('pool', DRUM[0], 0, DRUM[1])); drum.visible = true;
     fireAt('pool', DRUM[0], 0.82, DRUM[1], t, 1.0, 0.3);
     // five swimmers in towels round the drum, shuffling, hands out to the fire, breath clouds
@@ -285,9 +302,11 @@ export async function build(studio, story) {
     huddle.forEach((rig, k) => {
       const [dx, dz] = RING[k], p = basePose(); idle(p, t, k, 0.7);
       Object.assign(p, { x: DRUM[0] + dx, z: DRUM[1] + dz, rotY: Math.atan2(-dx, -dz) + 0.1 * Math.sin(t * 0.6 + k), lean: 0.12, headPitch: 0.15, mouth: 'flat' });
-      p.armA = k % 2 ? WARM : HUGSELF_A; p.armB = k % 2 ? WARM_B : HUGSELF_B; p.crouch = 0.03 + 0.03 * Math.sin(t * 3.1 + k);   // shivering
+      p.armA = (k + Math.floor(t / 1.3)) % 2 ? WARM : HUGSELF_A; p.armB = (k + Math.floor(t / 1.6)) % 2 ? WARM_B : HUGSELF_B; p.crouch = 0.04 + 0.04 * Math.sin(t * 3.1 + k);   // shivering, swapping arms
+      p.armA = mixArm(p.armA, A(p.armA.sx, p.armA.sz, p.armA.el - 0.3 * Math.sin(t * 5 + k)), 0.6);
+      const hop = k === 4 || k === 1 ? Math.max(0, Math.sin(t * 7 + k)) * 0.09 : 0; p.headYaw += 0.35 * Math.sin(t * 0.9 + k * 2);
       p.headRoll += 0.03 * Math.sin(t * 23 + k);
-      put(rig, 'pool', p); breath(rig, t, k * 0.23);
+      put(rig, 'pool', p, { y: hop, floor: hop }); breath(rig, t, k * 0.23);
     });
     // a phone flashlight sweeping the frozen pool
     const f = poolFlash[0]; f.g.visible = true; const hp = W('pool', -0.6, 1.25, 7.9); f.aim(hp, W('pool', -2.5 + 2 * Math.sin(t * 0.5), -0.15, 3.0)); f.setOn(1, 0.06);
@@ -340,9 +359,10 @@ export async function build(studio, story) {
   const PETAL_N = 160, petals = new THREE.InstancedMesh(new THREE.CircleGeometry(0.025, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.8 }), PETAL_N);
   petals.frustumCulled = false; scene.add(petals); { const c = new THREE.Color(), pc = [0xe58fa6, 0xffffff, 0xf2b632, 0xf4c6d6]; for (let i = 0; i < PETAL_N; i++) petals.setColorAt(i, c.setHex(pc[i % 4])); }
   const stringL = [-1, 1].map((s) => { const L = new THREE.PointLight(0xffd59a, 0, 11, 1.5); L.position.copy(W('wed', s * 4.0, 2.7, -1.0)); scene.add(L); return L; });
+  const wedLights = [1, 4].map((gi) => { const f = makeFlashlight({ length: 9, radius: 1.0 }); scene.add(f.g); f.g.visible = false; f.gi = gi; return f; });
   function wedScene(t, cam) {
     const dark = t >= OUT; dayNight('wed', dark);
-    stringL.forEach((L) => (L.intensity = dark ? 5.5 : 0));
+    stringL.forEach((L) => (L.intensity = dark ? 8 : 0));
     const KISS = [18.9, 20.0], FLASH = dark ? [25.0, 26.9, 28.3] : [20.45];
     GROUP.forEach(([x, z], i) => {
       const rig = party[i], p = basePose(); idle(p, t, i, 0.6);
@@ -353,15 +373,16 @@ export async function build(studio, story) {
         if (t > 18.0 && t < 18.7 && (i === 0 || i === 5)) { p.armA = CHEER; p.armB = CHEER; }   // throw the petals
       } else {
         const look = smooth(clamp((t - 24.5) / 0.7));
-        p.headPitch = -0.55 * look + 0.05 * Math.sin(t * 0.8 + i); p.headYaw += 0.4 * Math.sin(t * 0.5 + i * 2) * look; p.mouth = 'o';
-        if (i === 4) { p.armB = mixArm(REST, POINT_UP, look); p.armA = REST; }
+        p.headPitch = -0.28 * look + 0.06 * Math.sin(t * 0.8 + i); p.headYaw += 0.4 * Math.sin(t * 0.5 + i * 2) * look; p.mouth = 'o';
+        if (i === 4) { p.armB = mixArm(REST, POINT_UP, look); p.armA = mixArm(REST, PHONE_UP, smooth(clamp((t - 25.6) / 0.5))); }
         if (i === 3) { p.armA = mixArm(REST, A(-0.6, 0.55, -1.2, 0.5), look); }   // the bride grabs the groom's arm
         if (i === 2) { p.armB = mixArm(REST, A(-0.3, 0.6, -0.9, -0.4), look); p.headYaw = -0.25 * look; }
-        if (i === 1) { p.armA = mixArm(REST, A(-1.6, 0.2, -2.1, 0.7), look); p.armB = mixArm(REST, A(-1.6, 0.2, -2.1, -0.7), look); }   // hands to mouth
+        if (i === 1) { const ph = smooth(clamp((t - 26.2) / 0.5)); p.armA = mixArm(REST, A(-1.6, 0.2, -2.1, 0.7), look * (1 - ph)); p.armB = mixArm(mixArm(REST, A(-1.6, 0.2, -2.1, -0.7), look), PHONE_UP, ph); }   // hands to mouth, then a phone light
       }
       put(rig, 'wed', p);
     });
     { const p = basePose(); idle(p, t, 9, 0.6); Object.assign(p, { x: 0.02, z: -2.5, rotY: 0, mouth: dark ? 'o' : 'smile' }); if (dark) { p.headPitch = -0.6; p.armB = A(-0.7, 0.3, -1.4, -0.3); } else { p.armA = A(-0.6, 0.3, -1.6, 0.6); p.armB = A(-0.6, 0.3, -1.6, -0.6); } if (!dark) put(flowerGirl, 'wed', p, { s: 0.62 }); }
+    if (dark) wedLights.forEach((f, k) => { const on = t > (k ? 25.9 : 26.5); if (!on) return; const rig = party[f.gi]; rig.root.updateMatrixWorld(true); const h = rig.arms.find((a) => a.s === (k ? -1 : 1)).hand.getWorldPosition(new THREE.Vector3()); f.aim(h, h.clone().add(new THREE.Vector3(2.5 * Math.sin(t * 0.9 + k * 2), 4, -3 + 1.5 * Math.cos(t * 0.7 + k)))); f.setOn(1, 0.07); f.g.visible = true; });
     // the photographer: crouched in the aisle, camera to the eye
     { const p = basePose(); p.eyes = 'closed'; Object.assign(p, { x: cam === 'wedDark' ? 0.55 : 2.0, z: cam === 'wedDark' ? 0.55 : 0.2, rotY: PI + (cam === 'wedDark' ? -0.1 : 0.4), crouch: 0.22, lean: 0.25, headPitch: 0.05 }); p.armA = CAM_A; p.armB = CAM_B; put(photog, 'wed', p); }
     // flash: a white point light at the camera's flash head
@@ -393,6 +414,12 @@ export async function build(studio, story) {
   const phones = roofers.map((r) => { const ph = makePhone(); r.arms.find((a) => a.s === 1).hand.add(ph.g); ph.g.position.set(0, -0.07, 0.05); ph.g.rotation.set(PI / 2, 0, 0); return ph; });
   const phoneShot = new THREE.Mesh(new THREE.PlaneGeometry(0.066, 0.138), new THREE.MeshBasicMaterial({ map: moonShot, toneMapped: false })); phones[0].g.add(phoneShot); phoneShot.rotation.x = -PI / 2; phoneShot.position.y = 0.0105;
   const ROOF = [[-10.25, 12.2], [-10.85, 12.75], [-10.7, 13.3]];
+  const roofParty = new THREE.Group(); scene.add(roofParty); roofParty.visible = false;
+  const partyBulb = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffd59a).multiplyScalar(1.8), toneMapped: false });
+  for (const [x0, z0, x1, z1] of [[-13.5, 10.8, -8.2, 11.2], [-13.2, 14.6, -8.0, 14.2]]) for (let i = 0; i <= 18; i++) { const u = i / 18; mk(new THREE.SphereGeometry(0.045, 8, 6), partyBulb, roofParty, lerp(x0, x1, u), ROOF_Y + 2.6 - 0.45 * Math.sin(PI * u), lerp(z0, z1, u)).castShadow = false; }
+  const partyL = [[-10.8, 11.0], [-10.6, 14.4]].map(([x, z]) => { const L = new THREE.PointLight(0xffc680, 0, 9, 1.6); L.position.set(x, ROOF_Y + 2.3, z); scene.add(L); return L; });
+  const extras = [[-11.85, 12.35, 0], [-12.05, 13.45, 1], [-11.3, 13.95, 2]].map(([x, z, k]) => { const r = person({ skin: SKINS[[4, 6, 2][k]], top: [0xf1c24a, 0x8f6fb8, 0xd2483f][k], pants: 0x2f3a4a, hair: 0x1a1a1a, hairStyle: ['bob', 'short', 'messy'][k] }); r.xz = [x, z]; const ph = makePhone(); r.arms.find((a) => a.s === 1).hand.add(ph.g); ph.g.position.set(0, -0.07, 0.05); ph.g.rotation.set(PI / 2, 0, 0); return r; });
+  const roofLights = [0, 1, 2].map(() => { const f = makeFlashlight({ length: 12, radius: 1.3 }); scene.add(f.g); f.g.visible = false; return f; });
   const roofYaw = Math.atan2(moonDir.x, moonDir.z);
   // Chicago corner, +1 WEEK: fire barrels, a patio heater, coats + beanies
   const corner = Array.from({ length: 8 }, (_, i) => { const r = person({ skin: SKINS[(i * 3) % 7], top: COATS[i % 7], pants: 0x2f3438, hair: pick(HAIRS), hairStyle: 'none', shoes: 0x2a2420 }); beanie(r, [0xd2483f, 0x3d7bd9, 0xf1c24a, 0x6fa84f, 0xf2f2f2, 0xe08a3a, 0x8f6fb8, 0x4fb3a8][i]); const sc = mk(new THREE.TorusGeometry(0.085, 0.035, 8, 16), mat([0xf1c24a, 0xd2483f, 0xf2f2f2, 0x3d7bd9][i % 4], 0.95), r.spine, 0, 0.54, 0.01); sc.rotation.x = PI / 2; return r; });
@@ -420,6 +447,10 @@ export async function build(studio, story) {
       if (i === 2) { p.armB = mixArm(PHONE_UP, A(-1.4, 0.15, -1.3, -0.4), react); }
       put(rig, 'city', p, { y: ROOF_Y, floor: ROOF_Y });
     });
+    roofParty.visible = cam === 'moonB'; partyL.forEach((L) => (L.intensity = 5));
+    extras.forEach((rig, k) => { const [x, z] = rig.xz, p = basePose(); idle(p, t, 20 + k, 0.8); Object.assign(p, { x, z, rotY: roofYaw + [0.4, -0.2, 0.7][k] - react * [0.6, 0.2, 1.1][k], headPitch: -0.45 + 0.2 * react, mouth: react > 0.3 ? 'o' : 'smile' }); p.armB = mixArm(PHONE_UP, A(-2.4, 0.2, -0.3, -0.2), react); p.armA = k === 1 ? mixArm(REST, POINT_UP, react) : REST; put(rig, 'city', p, { y: ROOF_Y, floor: ROOF_Y });
+      if (react > 0.5 && k !== 1) { const f = roofLights[k]; rig.root.updateMatrixWorld(true); const h = rig.arms.find((a) => a.s === 1).hand.getWorldPosition(new THREE.Vector3()); f.aim(h, h.clone().add(new THREE.Vector3(3 * Math.sin(t * 1.1 + k), 5, -2 + 2 * Math.cos(t * 0.8 + k)))); f.setOn(1, 0.06); f.g.visible = true; } });
+    if (react > 0.5) { const f = roofLights[1]; roofers[2].root.updateMatrixWorld(true); const h = roofers[2].arms.find((a) => a.s === 1).hand.getWorldPosition(new THREE.Vector3()); f.aim(h, h.clone().add(new THREE.Vector3(2 + 2 * Math.sin(t * 0.9), 5, -2))); f.setOn(1, 0.06); f.g.visible = true; }
     phoneShot.material.map = lit ? moonShot : blackShot;
     phones.forEach((ph) => (ph.screenMat.emissiveIntensity = 1.6));
   }
@@ -427,14 +458,17 @@ export async function build(studio, story) {
     city.setShadowFocus(5.5, 5, 12);
     BARREL.forEach(([x, z], k) => { barrels[k].position.set(x, 0.14, z); barrels[k].visible = true; fireAt('city', x, 0.14 + 0.82, z, t, k ? 0.8 : 1.0, k * 0.4); });
     heater.position.set(6.35, 0.14, 5.9); heater.visible = true; heatL.intensity = 3 + 0.3 * Math.sin(t * 9);
-    frostCar.g.visible = true;
+    frostCar.g.visible = true; snowAt(new THREE.Vector3(5.2, 0.1, 4.5), t);
+    { const a = t - 43.25; if (a > 0 && a < 1.4) for (let i = 0; i < 18; i++) { const r = Math.sin(i * 12.9898) * 43758.5453 % 1, vy = 2.2 + Math.abs(r) * 2, vx = 0.6 * Math.sin(i * 2.3), vz = 0.6 * Math.cos(i * 1.7), y = 0.96 + vy * a - 4.9 * a * a; if (y > 0.9) flame(W('city', 5.75 + vx * a, y, 3.55 + vz * a), 0.07, 0.9 * (1 - a / 1.4)); }
+      if (fireLights[0]) fireLights[0].intensity *= 1 + 1.2 * Math.max(0, 1 - Math.abs(a - 0.2) / 0.5); }
     const RING = [[0.9, 0.05], [0.5, 0.75], [0.45, -0.75], [-0.1, 0.9]];
     corner.forEach((rig, k) => {
       const [bx, bz] = BARREL[k < 4 ? 0 : 1], [dx, dz] = k < 4 ? RING[k] : [[0.8, 0.2], [0.1, 0.85], [0.55, -0.7], [-0.2, -0.85]][k - 4], p = basePose(); idle(p, t, k, 0.7);
       Object.assign(p, { x: bx + dx, z: bz + dz, rotY: Math.atan2(-dx, -dz) + 0.08 * Math.sin(t * 0.7 + k), lean: 0.1, headPitch: 0.12, mouth: k === 2 ? 'smile' : 'flat' });
       p.armA = (k + Math.floor(t / 1.7)) % 3 ? WARM : HUGSELF_A; p.armB = (k + Math.floor(t / 2.1)) % 3 ? WARM_B : HUGSELF_B;
       p.armA = mixArm(p.armA, A(p.armA.sx, p.armA.sz, p.armA.el - 0.25 * Math.sin(t * 4 + k)), 0.5);   // rubbing hands
-      p.crouch = 0.02 * Math.sin(t * 3.3 + k); p.headRoll += 0.025 * Math.sin(t * 21 + k);
+      p.crouch = 0.04 * Math.sin(t * 3.3 + k); p.headRoll += 0.025 * Math.sin(t * 21 + k); p.headYaw += 0.3 * Math.sin(t * 1.1 + k * 2.3);
+      if (k === 0) { const th = K(t, [[42.9, 0], [43.2, 1], [43.5, 0]]); p.armB = mixArm(p.armB, A(-1.6, 0.2, -0.3, 0), th); p.lean += 0.25 * th; }   // tosses a slat in: sparks
       put(rig, 'city', p, { y: 0.14, floor: 0.14 }); breath(rig, t, k * 0.31);
     });
   }
@@ -486,7 +520,7 @@ export async function build(studio, story) {
   if (lagDad.head.beard) lagDad.head.beard.material && lagDad.head.beard.material.color && lagDad.head.beard.material.color.lerp(frostHair, 0.5);
   function lagScene(t, cam) {
     lag.update(t, studio.camera.position.clone().sub(new THREE.Vector3(...OFF.lag)));
-    const sy = -1.22;
+    const sy = -1.22; snowAt(W('lag', 0.4, 0.0, 2.2), t, 8, 5, 0.25);
     if (cam === 'soak') SOAK.forEach(([x, z, ry], i) => {
       const p = basePose(); idle(p, t, i, 1);
       Object.assign(p, { x: x + 0.05 * Math.sin(t * 0.5 + i), z, rotY: ry + 0.15 * Math.sin(t * 0.4 + i), headPitch: 0.05 - 0.2 * (i % 2), mouth: i % 3 ? 'smile' : 'flat' });
@@ -494,7 +528,8 @@ export async function build(studio, story) {
       if (i === 0) { p.rotY = 0.9; p.headYaw = -0.5; p.armB = HUG_B; }   // a couple: her arm round him
       if (i === 1) { p.rotY = -0.5; p.headYaw = 0.4; p.headRoll = 0.15; }
       if (i === 2) { p.armA = A(-1.5, 0.2, -2.0, 0.5); p.headPitch = -0.15; }   // the old man wipes frost off his beard
-      put(soakers[i], 'lag', p, { y: sy + 0.03 * Math.sin(t * 1.3 + i), floor: sy });
+      const dunk = i === 5 ? K(t, [[52.3, 0], [52.7, 1], [53.3, 1], [53.6, 0]]) : 0; if (dunk > 0.5) p.eyes = 'closed';
+      put(soakers[i], 'lag', p, { y: sy + 0.03 * Math.sin(t * 1.3 + i) - 0.55 * dunk, floor: sy - 0.55 * dunk });
     });
     else {
       const look = smooth(clamp((t - 56.2) / 0.8));
@@ -551,7 +586,8 @@ export async function build(studio, story) {
     ball.visible = false; fball.visible = false; drum.visible = false; barrels.forEach((b) => (b.visible = false)); heater.visible = false; frostCar.g.visible = false;
     poolFlash.forEach((f) => (f.g.visible = false)); petals.visible = false; flashL.intensity = 0; stringL.forEach((L) => (L.intensity = 0));
     skyMoon.g.visible = false; jup.visible = false; holeG.visible = false; bucket.visible = false; rod.visible = false; fline.visible = false; fish.visible = false; lantern.visible = false; kidLight.g.visible = false;
-    towels.flat().forEach((m) => (m.visible = false));
+    towels.flat().forEach((m) => (m.visible = false)); kidWraps.flat().forEach((m) => (m.visible = false)); flakes.visible = false; streak.visible = false;
+    wedLights.forEach((f) => (f.g.visible = false)); roofParty.visible = false; partyL.forEach((L) => (L.intensity = 0)); roofLights.forEach((f) => (f.g.visible = false));
     nb = 0; shake = [0, 0];
 
     let ez = 0;
@@ -574,18 +610,27 @@ export async function build(studio, story) {
       const d1 = ph.clone().sub(cp).normalize(), aimDir = d1.multiplyScalar(0.5).add(moonDir.clone().multiplyScalar(0.5)).normalize();
       P[0] = cp.x; P[1] = cp.y; P[2] = cp.z; const ap = cp.clone().addScaledVector(aimDir, 10); Aim[0] = ap.x; Aim[1] = ap.y; Aim[2] = ap.z;
     }
+    if (cam === 'frost') {   // orbit round the fire drum: faces swing past, the kids run between us and them
+      const th = lerp(150, 212, smooth(u)) * PI / 180, R2 = 2.4;
+      P[0] = o[0] + DRUM[0] + Math.sin(th) * R2; P[1] = o[1] + 1.45; P[2] = o[2] + DRUM[1] + Math.cos(th) * R2; Aim[0] = o[0] + DRUM[0] - 0.15 * Math.sin(th); Aim[1] = o[1] + 1.25; Aim[2] = o[2] + DRUM[1] + 0.3;
+    }
     if (cam === 'dive') {   // track the kid down the board and into the air
       const kz = t < 23.45 ? lerp(7.1, 4.15, clamp((t - 21.9) / 1.55)) : 4.15 - 1.5 * (t - 23.45), ky = t < 23.45 ? 1.15 : Math.max(0.2, 1.15 + 3.2 * (t - 23.45) - 4.9 * (t - 23.45) ** 2);
       Aim[0] = o[0] - 12; Aim[1] = o[1] + lerp(ky, 0.9, 0.35); Aim[2] = o[2] + kz - 0.6;
     }
-    if (cam === 'orbit') { P[0] = o[0] + 1100; P[1] = o[1] + 650; P[2] = o[2] + ez + 2300; Aim[0] = o[0] - 250; Aim[1] = o[1] - 50; Aim[2] = o[2] + ez - 1400; }
+    if (cam === 'orbit') { const k = smooth(u); P[0] = o[0] + lerp(520, 1500, k); P[1] = o[1] + lerp(260, 1100, k); P[2] = o[2] + ez + lerp(820, 2900, k); Aim[0] = o[0] + lerp(0, -250, k); Aim[1] = o[1] + lerp(80, -50, k); Aim[2] = o[2] + ez + lerp(-300, -1600, k); }
     if (cam === 'stars') {   // on the kid's face, then a tilt + crane up to the Milky Way
-      const k = smooth(clamp((t - 57.4) / 2.4));
+      const k = smooth(clamp((t - 57.9) / 2.0));
       const a0 = new THREE.Vector3(0.22, 0.32, 2.15), a1 = new THREE.Vector3(-0.6, 5.2, -2.6), am = a0.lerp(a1, k);
       Aim[0] = am.x + o[0]; Aim[1] = am.y + o[1]; Aim[2] = am.z + o[2]; P[1] += 0.35 * k; P[2] += 0.35 * k;
     }
     P[0] += shake[0]; P[1] += shake[1];
     setCamera(P, Aim, c.fov, t, c.amp);
+    if (cam === 'stars' && t > 58.7 && t < 59.5) {   // a shooting star across the Milky Way
+      const a = (t - 58.7) / 0.8, cam3 = studio.camera, dir = new THREE.Vector3(-0.35 + 0.5 * a, 0.75 - 0.12 * a, -0.55).normalize();
+      streak.position.copy(cam3.position).addScaledVector(dir, 120); streak.quaternion.copy(cam3.quaternion); streak.rotateZ(-0.35); streak.scale.set(9, 0.35, 1);
+      streak.material.opacity = Math.sin(PI * a); streak.visible = true;
+    }
     // sky objects that need the final camera: the Moon at its true size + Jupiter
     if (S === 'city' && cam !== 'fires') {
       if (t < MOON_OUT) { skyMoon.setSky(studio.camera, moonDir, ANG0, 300); skyMoon.setGain(1.35); skyMoon.setGlow(0.35); skyMoon.g.visible = true; }
