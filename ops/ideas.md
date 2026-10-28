@@ -41,6 +41,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 031 | What if Pip worked at the supermarket for one day? (Pip ep. 4) | pip / @ed._.sims | made Oct 27, in review |
 | 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 033 | How a Squirt Gun Becomes a Fire Truck | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
+| 034 | How a Go-Kart Becomes a Tank | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
