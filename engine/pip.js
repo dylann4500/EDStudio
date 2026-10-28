@@ -3,7 +3,7 @@
 //
 //   const pip = makePip();  scene.add(pip.g);  pip.g.position/rotation.y place him (model faces +z, origin on the floor).
 //   pip.update(t, { walk, run, dist, wag, ears, sit, lie, beg, sleep, whimper, howl, hop, roll, headPitch, headYaw, tilt,
-//                   mouth, open, tongue, lick, eyes, lids, sad, lookX, lookY, sniff, shiver, tailDown, still }) — every frame.
+//                   mouth, open, tongue, lick, eyes, lids, sad, lookX, lookY, sniff, shiver, tailDown, shine (038 eyeshine), still }) — every frame.
 //   Motion is built in: he breathes, blinks, twitches an ear and sways his tail even with an empty state, so no frame is static.
 //   pip.anchors.hat / .mouth / .back / .tag — parent costumes and props to these (bunny in his mouth, a Halloween hat).
 //   makePip({ fur, white, cream, earInner, collar, tag, name, size, earStyle: 'up'|'flop' }) = other dogs for a dog park.
@@ -138,13 +138,16 @@ export function makePip(o = {}) {
     const E = new THREE.Group(); E.position.set(s * 0.047, 0.009, 0.083); E.rotation.y = s * 0.2; E.scale.set(1, 1.06, 0.62); H.add(E);
     const ball = mk(new THREE.SphereGeometry(0.027, 24, 18), mEye, E);
     const pupil = mk(new THREE.SphereGeometry(0.0185, 18, 14), mPupil, E, 0, 0, 0.0115);
+    // eyeshine (038): the tapetum lucidum glowing green-gold in the dark — state.shine 0..1 (additive, off by default)
+    const shine = new THREE.Mesh(new THREE.SphereGeometry(0.0188, 18, 14), new THREE.MeshBasicMaterial({ color: 0xc8f07a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+    shine.position.z = 0.0004; shine.visible = false; pupil.add(shine);
     const g1 = new THREE.Mesh(new THREE.SphereGeometry(0.0072, 10, 8), mGlint); g1.position.set(0.008, 0.0095, 0.0245); E.add(g1);
     const g2 = new THREE.Mesh(new THREE.SphereGeometry(0.0034, 8, 6), mGlint); g2.position.set(-0.0075, -0.0085, 0.0255); E.add(g2);
     const lid = mk(new THREE.SphereGeometry(0.0298, 22, 10, 0, PI * 2, 0, PI / 2), mFur, E); lid.rotation.x = -1.45;
     const lash = mk(new THREE.TorusGeometry(0.023, 0.0028, 6, 16, PI), mDark, E, 0, -0.002, 0.031); lash.rotation.z = PI; lash.visible = false;
     const happy = mk(new THREE.TorusGeometry(0.02, 0.0034, 6, 16, PI), mDark, E, 0, -0.004, 0.031); happy.visible = false;
     const brow = mk(new THREE.SphereGeometry(0.0125, 12, 8), mCream, H, s * 0.045, 0.052, 0.079); brow.scale.set(1.7, 0.7, 0.6);
-    return { s, E, ball, pupil, glints: [g1, g2], lid, lash, happy, brow };
+    return { s, E, ball, pupil, shine, glints: [g1, g2], lid, lash, happy, brow };
   });
   // ears: big triangles that perk and droop
   const earStyle = o.earStyle ?? 'up';
@@ -265,6 +268,7 @@ export function makePip(o = {}) {
       e.E.scale.set(wide, 1.06 * wide, 0.62);
       e.pupil.position.set(0.006 * (S.lookX ?? 0) * e.s * e.s, 0.005 * (S.lookY ?? 0), 0.0115);
       e.pupil.scale.setScalar(eyeMode === 'wide' ? 0.82 : 1);
+      const sh = clamp(S.shine ?? 0); e.shine.visible = sh > 0.01 && !happy; e.shine.material.opacity = 0.9 * sh;
       // brows: inner ends up = puppy-dog eyes
       const up = eyeMode === 'wide' ? 0.012 : 0;
       e.brow.position.y = 0.052 + up + 0.006 * sad; e.brow.rotation.z = -e.s * (0.1 + 0.55 * sad) + e.s * 0.25 * (S.angry ?? 0);

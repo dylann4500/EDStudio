@@ -203,6 +203,9 @@ videos/NNN-slug/
   (`setDeflate(k, t)` slow comic slump), `makeSkeleton()` (`setCollapse(k)`, `legBone` to steal, holds a `bowl`), `makeBone()`
   (a bone-shaped dog biscuit — never a real cooked bone on screen), `makeJackOLantern`, `makeStringLights`, `makeCobweb`,
   `makeSign(text, {lines})`, `costume(rig, 'witch'|'ghost'|'dino'|'hero'|'skeleton'|'pumpkin'|'vampire'|'catEars')`.
+- **Blackout kit (038, Pip ep. 5):** `pip.update(t, { shine })` = dog eyeshine (additive green-gold over the pupils). 038
+  shots.js has camera-following rain, window rain, a lit/dark storm window view, battery candles + box, a lantern, a blanket
+  fort, Pip's raincoat, an umbrella, a quilt hood. city.js at the origin + suburb/livingroom parked at offsets works in one scene.
 - **Dog park + breeds (030, Pip ep. 3):** `engine/sets/dogpark.js` `buildDogPark(studio)` = a sunny fenced BARK PARK (chain-link
   panels via an alpha-tested canvas texture — `fence.{front,back,left,right,vest}` groups to hide per shot), a double-gate
   vestibule (`gates.inner/outer` hinge groups, `rotation.y > 0` swings into the park), the arch sign (`setSign`), a big shade
@@ -511,7 +514,8 @@ videos/NNN-slug/
   Move the camera in (≈3 m for heroes) instead of only scaling the card. In crowds, **stagger card heights** (3 lifts) or they
   form one row that hides itself. `clamp(x)` is 0..1 — never use it for a row count (008's history rows never appeared).
 - **Props that live inside a set's root use the set's LOCAL space** (009: the muzzle flash was posed with world coordinates
-  inside the theatre root parked at x=7000 → rendered 7 km away). Convert with `set.root.worldToLocal(v)`. And call
+  inside the theatre root parked at x=7000 → rendered 7 km away). 038 hit it again: a prop posed with `W()` world coords but added to
+  `liv.root` simply never appeared (no error) — if a prop is missing from a still, check its parent before anything else. Convert with `set.root.worldToLocal(v)`. And call
   `rig.root.updateMatrixWorld(true)` before `localToWorld` on anything in a rig you just posed (matrices are a frame stale).
 - **To film into an enclosed space (a theatre box, a booth), hide one wall/post for that shot only** — a film cheat no viewer
   notices; better than a camera angle where the key action is hidden behind a head (009 theatre).
