@@ -291,8 +291,11 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - **Posting (user, Oct 27): build reels go to "Gary the Builder"** (Instagram gary.the.builder) at **at most two a day, 1:00 PM and
   6:00 PM PT** — a finished reel waits for the next free slot instead of going up on completion ("i dont want to be posting too
   many"). Only on the user's go-ahead. Instagram caption = caption.md minus the 🎬 course-link block (the link is in the bio) and
-  minus the sources comment. Upload = a 60 fps HEVC two-pass copy under 10 MB (Claude in Chrome's upload limit; the user
-  prefers the 60 fps copy even though Instagram plays it at 30 fps): `ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow
+  minus the sources comment. **Upload the full-quality final.mp4 (user, Oct 28):** 024, uploaded at full quality, looked
+  "the best and most pristine"; 025/026/032, posted from <10 MB HEVC copies (~0.6 Mbps), looked "a tiny bit grainy".
+  Claude in Chrome's file_upload caps a page at 10 MB in total (chunking around it is refused), so a full-quality post is
+  the user's upload (phone or desktop, Instagram's own scheduler for the slot) — the manager prepares the file + caption.
+  The old squeezed-copy recipe, for reference only (the user picked 60 fps over 30 fps when it was the only option): `ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow
   -b:v ${KBPS}k -x265-params pass=1 -an -f null /dev/null && ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow -b:v ${KBPS}k
   -x265-params pass=2 -tag:v hvc1 -c:a aac -b:a 96k -movflags +faststart out/upload60.mp4` with KBPS ≈ 9.6e6·8/duration/1000 − 96.
   instagram.com can't schedule (Meta Business Suite needs a login), so a slot is hit by a one-time local scheduled task
