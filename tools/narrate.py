@@ -173,15 +173,93 @@ def estimate_words(text, x):
     return out
 
 
-def squeeze(x, words, max_pause, fade=0.012):
+def squeeze(x, words, max_pause, fade=0.012, floor_db=None, guard=0.03):
     """Turbo pace (034, script.json "maxPause"): shorten every gap between two words to max_pause s by cutting the middle of
     the gap (short crossfade), and shift the word times to match. v3 reads ~0.3–0.9 s pauses at periods and before yells."""
-    cuts, F = [], int(fade * SR)
+    cuts = []
     for a, b in zip(words, words[1:]):
         g = b['t0'] - a['t1']
         if g > max_pause:
             c0 = a['t1'] + max_pause / 2
             cuts.append((c0, c0 + g - max_pause))
+    if floor_db is not None:   # 034 r2: the timestamps can be wrong (a shouted "Bye," began 150 ms before its stamp and lost its
+        safe = safe_blocks(x, floor_db, guard)   # attack) — keep each cut inside true silence (see squeeze_audio's guard)
+        cuts = [c for c in (clip_to_safe(c0, c1, safe) for c0, c1 in cuts) if c]
+    return cut_out(x, words, cuts, fade)
+
+
+def safe_blocks(x, floor_db, guard, hop=0.005):
+    """5 ms blocks of true silence: under floor_db and ≥ guard s from any trace of sound (a block above floor_db − 10)."""
+    H = int(hop * SR); n = len(x) // H
+    pk = np.abs(x[:n * H]).reshape(n, H).max(1)
+    G = int(round(guard / hop))
+    near = np.convolve((pk >= 10 ** ((floor_db - 10) / 20)).astype(float), np.ones(2 * G + 1), 'same') > 0
+    return (pk < 10 ** (floor_db / 20)) & ~near
+
+
+def clip_to_safe(c0, c1, safe, hop=0.005):
+    """The longest stretch of [c0, c1) made of safe blocks (or None if < 10 ms)."""
+    best, run = None, None
+    for k in range(int(c0 / hop), min(len(safe), int(np.ceil(c1 / hop)))):
+        if safe[k]:
+            run = (run[0], k + 1) if run else (k, k + 1)
+            if not best or run[1] - run[0] > best[1] - best[0]:
+                best = run
+        else:
+            run = None
+    if not best:
+        return None
+    a, b = max(c0, best[0] * hop), min(c1, best[1] * hop)
+    return (a, b) if b - a > 0.01 else None
+
+
+def squeeze_audio(x, words, max_pause, floor_db=-45, hop=0.005, fade=0.012, pad=0.04, guard=0.03, cuts_out=None):
+    """Turbo pace, measured on the AUDIO (034 r2, script.json "pauseFloor"): v3's word timestamps run past the real word ends, so
+    after squeeze() the voice still had 30 silences of 0.25–0.43 s. Find every run of 5 ms blocks whose peak is under floor_db and
+    cut it down to max_pause (middle cut, short crossfade); the clip's head and tail silences down to pad. Word times follow.
+    Guard (manager, r2): a cut never comes within `guard` s of any trace of sound (a block above floor_db − 10: a soft f/h/s/th
+    onset or a breathy tail), so it only lands in true silence. cuts_out (a list) collects the cuts for checking."""
+    H = int(hop * SR); n = len(x) // H
+    if n < 3:
+        return x, words
+    pk = np.abs(x[:n * H]).reshape(n, H).max(1)
+    quiet = pk < 10 ** (floor_db / 20)
+    soft = pk >= 10 ** ((floor_db - 10) / 20)   # any trace of sound
+    G = int(round(guard / hop))
+    near = np.convolve(soft.astype(float), np.ones(2 * G + 1), 'same') > 0   # within the guard of a trace of sound
+    cuts, i = [], 0
+    while i < n:
+        if not quiet[i]:
+            i += 1; continue
+        j = i
+        while j < n and quiet[j]:
+            j += 1
+        ok = [k for k in range(i, j) if not near[k]]   # blocks of true silence, ≥ guard from any sound
+        L = (j - i) * hop
+        if j == n and i > 0 and L > pad:   # the clip's tail: keep pad s (trim() measures single samples and can leave ~0.3 s)
+            last = max([k for k in range(i, j) if soft[k]], default=i - 1)   # the last trace of sound in the tail
+            end = min(len(x), int(max(i * hop + pad, (last + 1) * hop + guard) * SR))
+            x = x[:end]; words = [{**w, 't0': min(w['t0'], end / SR), 't1': min(w['t1'], end / SR)} for w in words]
+        elif i == 0 and L > pad:
+            first = min([k for k in range(i, j) if soft[k]], default=j)
+            c1 = min(L - pad, first * hop - guard)
+            if c1 > 0.01:
+                cuts.append((0.0, c1))
+        elif 0 < i and j < n and L > max_pause and ok:
+            a0, a1 = ok[0] * hop, (ok[-1] + 1) * hop   # the cut must stay inside [a0, a1]
+            Lc = min(L - max_pause, a1 - a0)
+            c0 = min(max(i * hop + max_pause / 2, a0), a1 - Lc)
+            if Lc > 0.01:
+                cuts.append((c0, c0 + Lc))
+        i = j
+    if cuts_out is not None:
+        cuts_out.extend(cuts)
+    return cut_out(x, words, cuts, fade)
+
+
+def cut_out(x, words, cuts, fade=0.012):
+    """Remove the [c0, c1) spans (s) from x with short fades at every join; remap the word times."""
+    F = int(fade * SR)
     if not cuts:
         return x, words
     parts, prev = [], 0
@@ -207,6 +285,25 @@ def squeeze(x, words, max_pause, fade=0.012):
                 return c0 - s
         return t - s
     return np.concatenate(parts), [{'w': w['w'], 't0': tm(w['t0']), 't1': tm(w['t1'])} for w in words]
+
+
+def shelf_tail(x, words, beat, db, hz, fade=0.03):
+    """High-shelf (ffmpeg `highshelf`) from the first word after the beat's first [shouting]/[excited] tag to the clip's end, with a
+    short crossfade in; the calm part before it is untouched (a whole-beat shelf would dull both and keep the difference)."""
+    m = re.search(r'\[(shouting|excited)\]', beat['say'])
+    if not m or not db:
+        return x
+    n = len(untag(beat['say'][:m.start()]).split())
+    if n >= len(words):
+        return x
+    i0 = max(0, int((words[n]['t0'] - fade) * SR))
+    seg = (np.clip(x[i0:], -1, 1) * 32767).astype('<i2').tobytes()
+    y = subprocess.run(['ffmpeg', '-v', 'error', '-f', 's16le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', f'highshelf=f={hz}:g={db}:width_type=q:width=0.7',
+                        '-f', 's16le', '-ar', str(SR), '-ac', '1', '-'], input=seg, capture_output=True, check=True).stdout
+    y = np.frombuffer(y, '<i2').astype(np.float32)[:len(x) - i0] / 32768
+    out = x.copy(); F = min(len(y), int(fade * SR)); w = np.linspace(0, 1, F)
+    out[i0:i0 + len(y)] = y; out[i0:i0 + F] = x[i0:i0 + F] * (1 - w) + y[:F] * w
+    return out
 
 
 def trim(x, words, pad=0.04):
@@ -281,7 +378,12 @@ def narrate(slug, provider, key):
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
-            x, words = squeeze(x, words, cfg['maxPause'])
+            x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
+            if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)
+                x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'])
+        ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
+        if ys and TAG.search(b['say']):
+            x = shelf_tail(x, words, b, b.get('shelf', ys.get('db', -4)), ys.get('hz', 5000))
         clips.append((b, x, words, os.path.relpath(path, vd)))
     # assemble: lead + clip + gap + clip … + tail
     t = cfg.get('lead', 0.15)

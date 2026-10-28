@@ -8,7 +8,7 @@
 // 'spiral'|'x', look [dx, dy] (-1..1), brows -1 angry … +1 worried, mouth 'smile'|'grin'|'o'|'scream'|'flat'|'frown'|'wavy'|
 // 'teeth', beard 0..1 (1 = to the floor), gray 0..1 (hair goes white), hairUp 0..1, xray (bool, skeleton flash), char 0..1,
 // soot 0..1 (patchy smudges on face, hat + clothes: a cartoon blast), mud 0..1 + mudColor (the same shells, any colour: pit mud,
-// pumpkin goo), noBrows (eyebrows singed off),
+// pumpkin goo), noBrows (eyebrows singed off). makeToon({ browScale }) thickens the brows (034).
 // tint [color, 0..1] (whole body, e.g. fossil stone), faceTint [color, k] (skin only: strain red, nausea green), hatLift 0..1
 // (the hard hat pops off; spikes show), noHat.
 import * as THREE from 'three';
@@ -136,6 +136,7 @@ export function makeToon(o = {}) {
     const lid = mk(new THREE.SphereGeometry(0.088, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), M.skin, eg); lid.scale.set(0.95, 1.16, 0.62); lid.castShadow = false;
     const fx = new THREE.Mesh(new THREE.CircleGeometry(0.07, 24), new THREE.MeshBasicMaterial({ map: E.spiral, transparent: true })); fx.position.z = 0.05; fx.visible = false; eg.add(fx);
     const brow = mk(new THREE.CapsuleGeometry(0.017, 0.075, 4, 8), M.hair, head, s * 0.1, 0.165, 0.226); brow.rotation.z = Math.PI / 2; brow.castShadow = false;
+    if (C.browScale) brow.scale.set(C.browScale, 1 + (C.browScale - 1) * 0.4, C.browScale);   // 034: bushy brows (their loss must read)
     eyes.push({ s, eg, white, pg, pupil, lid, fx, brow });
   }
   // mouth decal (follows the sphere's tilt below center)

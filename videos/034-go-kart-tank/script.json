@@ -16,12 +16,13 @@
     "rate": 300
   },
   "lead": 0.04,
-  "gap": 0.04,
-  "tail": 1.1,
+  "gap": 0.03,
+  "tail": 1.0,
   "maxPause": 0.18,
+  "pauseFloor": -45,
   "fps": 60,
   "motionBlur": 2,
-  "tempo": 1.4,
+  "tempo": 1.55,
   "joinLen": 4,
   "look": {
     "exposure": 1.06,
@@ -54,8 +55,8 @@
           "text": "SPLAT!",
           "style": "sfx",
           "pos": [
-            0.28,
-            0.36
+            0.74,
+            0.64
           ],
           "hold": 0.8
         }
@@ -191,7 +192,8 @@
           ],
           "hold": 1.0
         }
-      ]
+      ],
+      "shelf": -11
     },
     {
       "id": "armor",
@@ -212,8 +214,8 @@
           "text": "SPLAT!",
           "style": "sfx",
           "pos": [
-            0.3,
-            0.36
+            0.24,
+            0.27
           ],
           "hold": 0.6
         },
@@ -294,8 +296,8 @@
           "text": "BOOM!",
           "style": "sfx",
           "pos": [
-            0.28,
-            0.4
+            0.66,
+            0.36
           ],
           "hold": 0.6
         },
@@ -307,7 +309,7 @@
             0.3,
             0.6
           ],
-          "hold": 0.6
+          "hold": 0.4
         },
         {
           "at": "barn",
@@ -335,13 +337,15 @@
           "at": "twelve",
           "text": "GUN: 12 INCHES",
           "style": "label",
-          "until": "inches"
+          "until": "inches",
+          "y": 0.22
         },
         {
           "at": "put",
           "text": "TANK: 0",
           "style": "label",
-          "hold": 0.7
+          "hold": 0.7,
+          "y": 0.22
         },
         {
           "at": "chicken",
@@ -405,7 +409,7 @@
     },
     {
       "id": "turbine",
-      "say": "It's too heavy for a lawnmower engine. The goose is faster. So you drop in a jet engine. This is called a gas turbine. [excited] Fifteen hundred HORSEPOWER!",
+      "say": "It's too heavy for a lawnmower engine. The goose is faster. So you drop in a jet engine. This is called a gas turbine. Fifteen hundred horsepower.",
       "callouts": [
         {
           "at": "faster",
@@ -440,8 +444,8 @@
           "text": "FWOOSH!",
           "style": "sfx",
           "pos": [
-            0.3,
-            0.32
+            0.74,
+            0.3
           ],
           "hold": 0.8
         }
@@ -449,7 +453,7 @@
     },
     {
       "id": "bridge",
-      "say": "It weighs seventy tons. That little bridge holds three. [shouting] For about one SECOND!",
+      "say": "It weighs seventy tons. That little bridge holds three. [excited] For about one SECOND!",
       "callouts": [
         {
           "at": "seventy",
@@ -468,12 +472,13 @@
           "text": "SNAP!",
           "style": "sfx",
           "pos": [
-            0.7,
-            0.4
+            0.28,
+            0.66
           ],
           "hold": 0.8
         }
-      ]
+      ],
+      "shelf": -5
     },
     {
       "id": "mlc",
@@ -508,6 +513,16 @@
       "say": "Out of the creek, you shut the hatch, and now you're blind. So you add mirror tubes. These are called periscopes. Gary looks out. The goose looks in.",
       "callouts": [
         {
+          "at": "hatch",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.34
+          ],
+          "hold": 0.6
+        },
+        {
           "at": "blind",
           "text": "BLIND",
           "style": "stamp",
@@ -524,8 +539,8 @@
           "text": "HONK!",
           "style": "sfx",
           "pos": [
-            0.7,
-            0.36
+            0.76,
+            0.24
           ],
           "hold": 0.7
         }
@@ -552,8 +567,8 @@
           "text": "HONK!",
           "style": "sfx",
           "pos": [
-            0.7,
-            0.4
+            0.72,
+            0.68
           ],
           "hold": 0.7
         }
@@ -586,7 +601,8 @@
           ],
           "hold": 1.0
         }
-      ]
+      ],
+      "shelf": -6
     },
     {
       "id": "end2",
@@ -600,5 +616,9 @@
         }
       ]
     }
-  ]
+  ],
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  }
 }

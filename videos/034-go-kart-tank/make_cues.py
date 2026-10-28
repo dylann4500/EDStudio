@@ -35,7 +35,7 @@ t = dict(
     goose=W('goose', 'goose'), blocks=W('goose', 'blocks'), road=W('goose', 'road'), honk=W('goose', 'honk'), honks=W('goose', 'honks'), louder=W('goose', 'louder'), gets=W('goose', 'gets'), shoo=W('goose', 'shoo'), goose2=W('goose', 'goose', 2), garyG2=W('goose', 'gary', 2),
     opens=W('armor', 'cannon'), fireA=W('armor', 'cannon') + 0.35, bolt=W('armor', 'bolt'), steelA=W('armor', 'steel'), platesA=W('armor', 'plates'), take=W('armor', 'take'), headon=W('armor', 'headon'), tilt=W('armor', 'tilt'), them=W('armor', 'them'),
     sixty=W('armor', 'sixty'), twice=W('armor', 'twice'), pumpkins=W('armor', 'pumpkins'), bounce=W('armor', 'bounce'),
-    cannonT=W('turret', 'cannon'), aiming=W('turret', 'aiming'), whole=W('turret', 'whole'), tankT=W('turret', 'tank'), soR=W('turret', 'so'), ring=W('turret', 'ring'), target=W('turret', 'target'), fireT=W('turret', 'fire'), explodes=W('turret', 'explodes'), barn=W('turret', 'barn'),
+    cannonT=W('turret', 'cannon'), aiming=W('turret', 'aiming'), whole=W('turret', 'whole'), tankT=W('turret', 'tank'), soR=W('turret', 'so'), ring=W('turret', 'ring'), target=W('turret', 'target'), fireT=W('turret', 'fire'), explodes=W('turret', 'explodes'), flies=W('turret', 'flies'), barn=W('turret', 'barn'),
     soB=W('recoil', 'so'), shock=W('recoil', 'shock'), recoilW=W('recoil', 'recoil'), gun=W('recoil', 'gun'), put=W('recoil', 'put'), chicken=W('recoil', 'chicken'), head=W('recoil', 'head'),
     but=W('stab', 'every'), hit=W('stab', 'hit'), andS=W('stab', 'and'), cloud=W('stab', 'cloud'), gyros=W('stab', 'gyros'), full=W('stab', 'full'), glass=W('stab', 'glass'), fine=W('stab', 'fine'), isnt=W('stab', 'isnt'),
     heavy=W('turbine', 'heavy'), lawnmower=W('turbine', 'lawnmower'), faster=W('turbine', 'faster'), drop=W('turbine', 'drop'), jet=W('turbine', 'jet'), gas=W('turbine', 'gas'), fifteen=W('turbine', 'fifteen'),
@@ -50,21 +50,22 @@ t = dict(
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
 XS = 5.6
 TR0, TR1 = t['wrap'] - 0.05, t['platesT'] + 0.3
-OUT0, OUT1 = t['spreads'], t['horse'] + 0.1
+OUT0, OUT1 = t['continuous'], t['horse'] + 0.1
 SP0 = t['opposite'] + 0.1; SP1 = max(SP0 + 1.1, t['soDo'] + 0.15)
 JUMP0, JUMP1 = t['gets'] + 0.05, t['shoo'] - 0.05
 CH0 = max(t['goose2'], JUMP1 + 0.4); CH1 = CH0 + 1.5; BACK1 = min(t['fireA'] - 0.15, CH1 + 0.7)
-PK = [(t['opens'], 'gary'), (t['take'] - 1.1, 'flat'), (t['headon'] - 1.1, 'flat'), (t['pumpkins'] - 1.1, 'slope'), (t['bounce'] - 1.05, 'slope')]
+PK = [(t['opens'] - 0.1, 'gary'), (t['take'] - 1.1, 'flat'), (t['headon'] - 1.1, 'flat'), (t['pumpkins'] - 1.1, 'slope'), (t['bounce'] - 1.05, 'slope')]
 PK_T = 1.1
-PL = [t['bolt'], t['steelA'], t['platesA'], t['platesA'] + 0.22]
+PKF = lambda i: 0.65 if PK[i][1] == 'gary' else PK_T   # r2: the one on Gary is quick (shots.js PKF)
+PL = [t['steelA'], t['platesA'], t['platesA'] + 0.2, t['platesA'] + 0.4]
 TILT0, TILT1 = t['tilt'], t['them'] + 0.25
 HG = t['cannonT'] - 0.1
 PIV0, PIV1, RET1 = t['aiming'], t['tankT'] + 0.2, t['ring']
 TUR0 = t['soR'] + 0.15
-SHOT, HITM = t['explodes'] - 0.16, t['explodes'] - 0.02
-TAU, RCA, RCX = 1.6, 19.5, 22.4
-tAtX = lambda X: SHOT - TAU * math.log(1 - (X - XS) / RCA)
-RC1 = tAtX(RCX); IN0, IN1 = tAtX(12.5 - 2.75), tAtX(18.5 - 2.75)
+SHOT = t['fireT'] + 0.08; HITM = min(t['explodes'] - 0.03, SHOT + 0.5)   # fires on "fire"; a 0.5 s shell
+RCX = 22.4   # r4 (shots.js): a lurch on the shot, the flight on "flies", the barn, a braking slide
+FLY0 = t['flies'] - 0.3; INW = FLY0 + 0.42; OUTW = INW + 0.8; X_OUT = 18.5 - 2.75; VOUT = 6.0 / 0.8
+RC1 = OUTW + 2 * (RCX - X_OUT) / VOUT; IN0, IN1 = INW - 0.02, OUTW - 0.02
 TUR2, SHOT2 = t['soB'] + 0.1, t['gun']
 DRV0 = t['but'] - 0.1
 MISS1, MISS2 = t['hit'] - 0.12, t['andS'] - 0.05
@@ -80,10 +81,10 @@ SNAP = t['second'] - 0.05; LAND = SNAP + 0.62
 CL0, CL1 = t['climb'] - 0.1, t['blind']
 HATCH0, HATCH1 = t['shut'] - 0.05, t['hatch']
 PERI0 = t['mirror'] - 0.1
-GHOP0, GHOP1 = t['finds'] - 0.55, t['finds'] - 0.05
-POPUP = t['addF'] - 0.15
+GHOP0, GHOP1 = t['finds'] - 0.7, t['finds'] - 0.1
+POPUP = max(t['addF'] - 0.15, t['immediately'] + 0.38)   # r2: the periscope jerk-back gets 0.3 s
 OUTG, OUTG1 = t['creekE'] - 0.1, t['garyE'] - 0.1
-GOOSEIN, DRIVE = t['gooseE'] - 0.45, t['driving'] - 0.05
+GOOSEIN, DRIVE = t['gooseE'] - 0.45, t['driving'] + 0.45
 FALL1 = DRIVE + 0.55
 XB1 = 36.6
 
@@ -128,11 +129,11 @@ for c in story['callouts']:                                  # the build-genre s
     elif c['style'] == 'stamp':
         mallet += [[round(a, 3), 76, 0.3, 0.12], [round(a + 0.11, 3), 69, 0.3, 0.26]]
 pad = [{"t0": IN, "t1": D - 0.2, "notes": [33, 45, 52, 57, 61], "level": 0.5, "attack": 0.3, "release": 0.8, "cutoff": 900, "hp": 30}]
-booms = [IN, PK[0][0] + PK_T, SHOT, IN0, IN1, SHOT2, MISS1, BLAST, SNAP, LAND, CL1, t['end'], FALL1]
+booms = [IN, PK[0][0] + PKF(0), SHOT, IN0, IN1, SHOT2, MISS1, BLAST, SNAP, LAND, CL1, t['end'], FALL1]
 drums = [[round(b, 3), 0.45, "boom"] for b in booms]
 drum_patterns = [{"t0": IN + 0.02, "t1": D - 1.0, "step": BEAT, "pattern": [1, 0.55, 0.8, 0.55], "vel": 0.12, "kind": "tom"},
                  {"t0": IN + 0.02 + BEAT, "t1": D - 1.0, "step": 2 * BEAT, "pattern": [1], "vel": 0.12, "kind": "clap"}]
-music = {"gain_db": 2.0, "reverb_db": -13.0, "pad_db": 4.0, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -8.0, "instrument": "piano",
+music = {"gain_db": 5.0, "reverb_db": -13.0, "pad_db": 4.0, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -8.0, "instrument": "piano",
          "leveler": {"thr_rel_db": 4.0, "ratio": 2.0, "tau": 0.3}, "end": D, "chords": chords, "sections": sections, "melody": [],
          "mallet_melody": sorted(mallet), "pad": pad, "drums": drums, "drum_patterns": drum_patterns}
 
@@ -189,12 +190,12 @@ e(BACK1, "clunk", -15, 0.0, size=0.6, metal=0.7); e(BACK1 + 0.02, "plush_squeak"
 # ARMOR: FOOMP ×5, whistles, SPLATs, CLANG ×4, the tilt, the 60° pop, BOINGs
 for k, (f, what) in enumerate(PK):
     e(f, "distant_boom", -20, 0.5, size=0.4); e(f + 0.02, "pop", -14, 0.5, pitch=0.5)
-    e(f + 0.25, "flash_swish", -26, 0.3, dur=PK_T - 0.3, peak=0.5)
-    a = f + PK_T
+    e(f + 0.25 * PKF(k) / PK_T, "flash_swish", -26, 0.3, dur=PKF(k) - 0.3 * PKF(k) / PK_T, peak=0.5)
+    a = f + PKF(k)
     if what == 'gary': e(a, "splash", -9, 0.0, size=0.6); e(a + 0.02, "slurp", -14, 0.0, dur=0.45); e(a + 0.05, "plush_squeak", -16, 0.0, pitch=0.6)
     elif what == 'flat': e(a, "metal_clang", -9, 0.1, size=1.0, pitch=0.7); e(a + 0.02, "splash", -14, 0.1, size=0.5); e(a + 0.05, "plush_squeak", -18, 0.0, pitch=0.8)
     else: e(a, "metal_clang", -13, 0.1, size=0.6, pitch=1.3); e(a + 0.03, "plush_squeak", -12, 0.2, pitch=2.0); e(a + 0.08, "flash_swish", -24, 0.3, dur=0.5, peak=0.2)
-for k, p in enumerate(PL): e(p + 0.08, "metal_clang", -11, -0.3 + 0.2 * k, size=1.1, pitch=0.8 + 0.08 * k); e(p + 0.1, "clunk", -14, -0.3 + 0.2 * k, size=1.0, metal=1.0)
+for k, p in enumerate(PL): e(p + 0.08, "metal_clang", -11 - (3 if k else 0), -0.3 + 0.2 * k, size=1.1 if not k else 0.8, pitch=0.8 + 0.08 * k); e(p + 0.1, "clunk", -14 - (3 if k else 0), -0.3 + 0.2 * k, size=1.0, metal=1.0)
 e(TILT0, "metal_groan", -13, 0.2, dur=TILT1 - TILT0, pitch=0.8); e(TILT1 - 0.05, "clunk", -11, 0.2, size=1.2, metal=0.9)
 e(t['sixty'], "pop", -17, 0.2, pitch=1.6); e(t['twice'], "pop", -17, 0.2, pitch=1.9)
 honk(t['bounce'] + 0.25, -17, -0.5, 1.2)
@@ -207,7 +208,8 @@ e(t['target'], "scan_beep", -22, -0.4, pitch=1.4)
 e(t['fireT'], "knock", -18, 0.0, pitch=1.6)                  # the lanyard
 e(SHOT, "distant_boom", -5, -0.2, size=1.2); e(SHOT + 0.01, "car_crash", -14, -0.2, weight=0.5); e(SHOT + 0.02, "pop", -10, -0.4, pitch=0.4)
 e(HITM, "splash", -9, -0.6, size=0.8); e(HITM + 0.02, "slurp", -13, -0.6, dur=0.4); e(HITM + 0.05, "crumble", -18, -0.6, dur=0.5, size=0.4); honk(HITM + 0.25, -18, -0.7, 1.3)
-clanks(SHOT, RC1, 13.0, -20, 0.3); e(SHOT + 0.05, "metal_groan", -16, 0.3, dur=1.0, pitch=1.6)
+e(SHOT + 0.05, "metal_groan", -16, 0.3, dur=0.5, pitch=1.6); e(SHOT + 0.04, "crumble", -17, 0.2, dur=0.3, size=0.4)   # the lurch
+e(FLY0, "distant_boom", -10, 0.2, size=0.9); e(FLY0 + 0.02, "flash_swish", -18, 0.3, dur=0.4, peak=0.6); clanks(FLY0, RC1, 13.0, -20, 0.3)   # r4: the launch
 for k, w in enumerate((IN0, IN1)):
     e(w, "wood_snap", -7, 0.3 + 0.2 * k, size=1.3); e(w + 0.02, "car_crash", -12, 0.3 + 0.2 * k, weight=0.6); e(w + 0.05, "crumble", -15, 0.3, dur=0.8, size=0.7)
 for k in range(10): e(IN0 + 0.1 + k * 0.14, "parrot_chirp", -20, -0.4 + 0.1 * k, pitch=0.55 + 0.05 * (k % 3))   # chickens BAWK
@@ -216,6 +218,7 @@ e(RC1, "giant_step", -12, 0.5, size=0.8)
 # RECOIL: the springs glow (a low swell), the second shot (the barrel slides back), the bale explodes, BAWK
 e(t['shock'], "low_swell", -20, 0.2, dur=1.0, pitch=0.9)
 for k in range(3): e(t['shock'] + 0.15 + k * 0.18, "metal_groan", -24, 0.2, dur=0.15, pitch=2.2)   # spring boings
+for k, p in enumerate([t['shock'] + 0.02, t['shock'] + 0.45]): e(p + 0.02, "clunk", -15, 0.2, size=0.8, metal=0.9); e(p + 0.2, "plush_squeak", -20, 0.2, pitch=1.4 + 0.2 * k)   # r3: the barrel pumps (shots.js PUMPS)
 e(SHOT2, "distant_boom", -7, 0.3, size=1.0); e(SHOT2 + 0.02, "metal_clang", -14, 0.2, size=0.8, pitch=0.6); e(SHOT2 + 0.06, "metal_groan", -18, 0.2, dur=0.35, pitch=2.0)
 e(SHOT2 + 0.15, "crumble", -12, -0.3, dur=0.7, size=0.6); e(SHOT2 + 0.17, "pop", -14, -0.3, pitch=0.6)
 e(t['put'] - 0.1, "pop", -20, 0.0, pitch=1.8)
@@ -241,13 +244,14 @@ e(OFF1, "knock", -16, -0.4, pitch=0.9); e(OFF1 + 0.4, "plush_squeak", -24, -0.4,
 e(BLAST, "distant_boom", -6, -0.4, size=1.0); e(BLAST + 0.02, "flash_swish", -12, -0.4, dur=0.9, peak=0.3); e(BLAST + 0.05, "plush_squeak", -14, -0.4, pitch=0.5)
 e(BLAST + 0.35, "parrot_chirp", -14, -0.6, pitch=0.6); e(BLAST + 0.55, "parrot_chirp", -16, -0.7, pitch=0.5)   # the singed chicken flees
 # BRIDGE: Gary leaps aboard, the creaks, SNAP, the fall, SPLOOSH, the creek rises, blub
-e(AB1, "clunk", -16, 0.0, size=0.6, metal=0.7)
+e(AB1, "clunk", -12, 0.0, size=0.9, metal=0.7)   # r3: THUNK, Gary lands back in the hatch
 clanks(BR0, BR1, 13.0, -21)
 for k in range(4): e(t['little'] + 0.2 + k * 0.38, "floorboard_creak", -12 - k, 0.0, dur=0.42)
 e(SNAP, "wood_snap", -5, 0.0, size=1.5); e(SNAP + 0.03, "crumble", -14, 0.0, dur=0.6, size=0.7)
 e(LAND, "cartoon_splash", -6, 0.0, size=1.2); e(LAND + 0.02, "giant_step", -10, 0.0, size=1.4); e(LAND + 0.3, "water_splash", -14, 0.0, size=0.8)
 for k in range(6): e(t['garyM'] + k * 0.22, "fish_blub", -18, 0.2, n_bub=2)
-e(t['circle'], "pop", -16, -0.4, pitch=1.2); e(t['says'], "knock", -18, -0.4, pitch=1.6); e(t['eighty'], "pop", -14, 0.2, pitch=0.9)
+e(t['circle'], "pop", -16, -0.4, pitch=1.2); e(t['says'], "knock", -18, -0.4, pitch=1.6); e(t['eighty'] + 0.02, "metal_clang", -12, 0.2, size=0.9, pitch=1.1)   # r3: the 80 disc slams down
+e(W('mlc', 'three') + 0.82, "splash", -12, -0.3, size=0.7); e(W('mlc', 'number') + 0.05, "splash", -17, 0.1, size=0.3); e(W('mlc', 'three') - 0.05, "metal_groan", -17, -0.4, dur=0.5, pitch=1.3)   # r3: Gary spits water; the 3 sign creaks
 honk(t['submarine'] + 0.05, -18, 0.4, 1.2, 0.6)
 # PERI: the climb out (water pours off), the hatch clang, the blind CRUNCH, periscope pops, the goose hops on, HONK
 e(CL0, "metal_groan", -16, 0.0, dur=1.2, pitch=0.8); clanks(CL0, CL1, 12.0, -21)
@@ -292,7 +296,7 @@ ev = [x for x in ev if x is not None]
 cues = {
     "title": "034 - How a Go-Kart Becomes a Tank (build genre, TURBO: BARN-DANCE BOOGIE piano 140 bpm + farm/tank foley + narrator)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
-    "stem_gain_db": {"music": -8.0, "sfx": 5.0, "amb": 5.0, "voice": 0.0},
+    "stem_gain_db": {"music": -8.0, "sfx": 3.5, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -6.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},
                       "voice": {"comp_thr_dbfs": -10.0, "ratio": 3.0, "win": 0.006, "limit_dbfs": -2.5}},
     "sfx_lowpass_hz": 5200,

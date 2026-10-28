@@ -240,7 +240,7 @@ export function makeKartTank() {
     const wall = (a, b, m = olive) => { const L = Math.hypot(b[0] - a[0], b[1] - a[1]); const w = mk(new THREE.BoxGeometry(L, TH, 0.06), m, shell, (a[0] + b[0]) / 2, TH / 2, (a[1] + b[1]) / 2); w.rotation.y = -Math.atan2(b[1] - a[1], b[0] - a[0]); return w; };
     for (let i = 0; i < out.length; i++) { const a = out[i], b = out[(i + 1) % out.length]; if (i === 1) continue; wall(a, b); }   // skip the local +z side: the cutaway window (it faces the lens whenever the gun points forward-ish)
     mk(new THREE.BoxGeometry(1.5, 0.05, 0.065), SECTION, shell, -0.1, TH - 0.02, 0.9); mk(new THREE.BoxGeometry(1.5, 0.05, 0.065), SECTION, shell, -0.1, 0.02, 0.9);
-    mk(new THREE.PlaneGeometry(2.0, TH - 0.05), std(0x3c4148, 0.6), shell, -0.1, TH / 2, -0.84);   // dark back wall: the breech + springs read against it
+    mk(new THREE.PlaneGeometry(2.0, TH - 0.05), std(0x59606a, 0.6), shell, -0.1, TH / 2, -0.84);   // back wall (r2: lighter) : the breech + springs read against it
     const cupola = mk(new THREE.CylinderGeometry(0.26, 0.28, 0.16, 20), olive, shell, -0.55, TH + 0.08, 0.42);
   }
   // the gun: trunnion at the turret front; elevation group → recoil group (barrel + breech slide back together)
@@ -254,30 +254,37 @@ export function makeKartTank() {
   const glassSpot = new THREE.Object3D(); recoil.add(glassSpot); glassSpot.position.set(2.25, 0.085, 0);
   const breech = mk(new THREE.BoxGeometry(0.62, 0.3, 0.32), steel(0x6c7072, 0.4, 0.7), recoil, -0.42, 0, 0);
   const cyl = [], springs = [], springM = new THREE.MeshStandardMaterial({ color: 0xffc21a, roughness: 0.35, metalness: 0.3, emissive: 0x6a4a00, emissiveIntensity: 0.25 });
-  for (const z of [-0.26, 0.26]) { const c = mk(new THREE.CylinderGeometry(0.085, 0.085, 0.55, 18), steel(0xc9ced2, 0.25, 0.85), gunEl, -0.62, 0.12, z); c.rotation.z = PI / 2; const rod = mk(new THREE.CylinderGeometry(0.03, 0.03, 0.62, 10), steel(0xeeeeee, 0.2, 0.9), recoil, -0.05, 0.12, z); rod.rotation.z = PI / 2; cyl.push(c);
-    const pts = []; for (let k = 0; k <= 120; k++) { const a = k / 120 * PI * 2 * 7; pts.push(new THREE.Vector3(k / 120 * 0.5, Math.cos(a) * 0.06, Math.sin(a) * 0.06)); }
-    const sp = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 240, 0.013, 6), springM); sp.position.set(-0.32, 0.12, z); gunEl.add(sp); springs.push(sp); }
-  const gyro = new THREE.Group(); tur.add(gyro); gyro.position.set(-0.6, 0.32, -0.35);   // the stabilizer's gyro (seen through the window)
+  // the recoil springs (r2: big + inside the turret window, x −0.95…−0.25 = turret x 0…0.7): fixed rear plate on the cradle, front collar on
+  // the recoil group, so the coils squash as the barrel comes back
+  const SP0 = -0.95, SPL = 0.7, SPY = -0.13;   // below the barrel axis and the window's top rail
+  for (const z of [-0.3, 0.3]) { const c = mk(new THREE.CylinderGeometry(0.075, 0.075, 0.62, 18), steel(0xc9ced2, 0.25, 0.85), gunEl, -0.64, SPY, z); c.rotation.z = PI / 2; const rod = mk(new THREE.CylinderGeometry(0.03, 0.03, 0.62, 10), steel(0xeeeeee, 0.2, 0.9), recoil, -0.05, SPY, z); rod.rotation.z = PI / 2; cyl.push(c);
+    mk(new THREE.CylinderGeometry(0.15, 0.15, 0.04, 20), steel(0x2c3034, 0.5, 0.5), gunEl, SP0 - 0.02, SPY, z).rotation.z = PI / 2;   // rear plate
+    mk(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 20), steel(0x2c3034, 0.5, 0.5), recoil, SP0 + SPL + 0.025, SPY, z).rotation.z = PI / 2;   // front collar (slides with the barrel)
+    const pts = []; for (let k = 0; k <= 160; k++) { const a = k / 160 * PI * 2 * 6; pts.push(new THREE.Vector3(k / 160 * SPL, Math.cos(a) * 0.125, Math.sin(a) * 0.125)); }
+    const sp = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 320, 0.03, 8), springM); sp.position.set(SP0, SPY, z); gunEl.add(sp); springs.push(sp); }
+  const gyro = new THREE.Group(); tur.add(gyro); gyro.position.set(-0.47, 0.31, 0.12); gyro.userData.k = 1.15;   // the stabilizer's gyro (seen through the window; r2: bigger + nearer the window, clear of the springs at x ≥ 0)
   const gyroDisc = mk(new THREE.CylinderGeometry(0.2, 0.2, 0.06, 24), new THREE.MeshStandardMaterial({ color: 0xffc21a, roughness: 0.3, metalness: 0.6, emissive: 0x7a4a00, emissiveIntensity: 0.5 }), gyro); gyroDisc.rotation.x = PI / 2; for (let k = 0; k < 6; k++) { const sp = mk(new THREE.BoxGeometry(0.36, 0.03, 0.065), std(0xd42a22, 0.4), gyro, 0, 0, 0.0); sp.rotation.z = k * PI / 6; } mk(new THREE.TorusGeometry(0.26, 0.016, 6, 32), steel(0xc9ced2, 0.3, 0.8), gyro); const gyroRing2 = mk(new THREE.TorusGeometry(0.26, 0.016, 6, 32), steel(0xc9ced2, 0.3, 0.8), gyro); gyroRing2.rotation.y = PI / 2;
   // finishing kit: periscopes, antenna, smoke launchers, cup holder + cup, horn
-  const peris = []; for (const [x, z] of [[1.05, -0.5], [1.18, 0], [1.05, 0.5]]) { const p = new THREE.Group(); hull.add(p); p.position.set(x, HY1, z); mk(new THREE.BoxGeometry(0.17, 0.36, 0.15), oliveD, p, 0, 0.18, 0); mk(new THREE.BoxGeometry(0.19, 0.04, 0.17), std(0xffc21a, 0.4), p, 0, 0.37, 0); const gls = mk(new THREE.PlaneGeometry(0.13, 0.12), new THREE.MeshStandardMaterial({ color: 0x8fd8ff, roughness: 0.05, metalness: 0.3, emissive: 0x2d7ab0, emissiveIntensity: 0.6 }), p, 0.087, 0.27, 0); gls.rotation.y = PI / 2; p.scale.setScalar(0.01); peris.push(p); }   // tall mirror tubes, yellow caps (they must read from 5 m)
+  const peris = []; for (const [x, z] of [[1.05, -0.5], [1.18, 0], [1.22, 0.55]]) { const p = new THREE.Group(); hull.add(p); p.position.set(x, HY1, z); mk(new THREE.BoxGeometry(0.17, 0.36, 0.15), oliveD, p, 0, 0.18, 0); mk(new THREE.BoxGeometry(0.19, 0.04, 0.17), std(0xffc21a, 0.4), p, 0, 0.37, 0); const gls = mk(new THREE.PlaneGeometry(0.13, 0.12), new THREE.MeshStandardMaterial({ color: 0x8fd8ff, roughness: 0.05, metalness: 0.3, emissive: 0x2d7ab0, emissiveIntensity: 0.6 }), p, 0.087, 0.27, 0); gls.rotation.y = PI / 2; mk(new THREE.BoxGeometry(0.11, 0.2, 0.11), oliveD, p, 0, -0.1, 0); mk(new THREE.BoxGeometry(0.16, 0.12, 0.14), std(0x2b2d30, 0.6), p, -0.02, -0.25, 0); const eye = mk(new THREE.PlaneGeometry(0.09, 0.07), new THREE.MeshStandardMaterial({ color: 0x8fd8ff, roughness: 0.05, emissive: 0x2d7ab0, emissiveIntensity: 0.7 }), p, -0.101, -0.26, 0); eye.rotation.y = -PI / 2; p.scale.setScalar(0.01); peris.push(p); }   // tall mirror tubes, yellow caps (they must read from 5 m); r2: + an eyepiece under the roof (Gary looks out)
   const antenna = new THREE.Group(); tur.add(antenna); antenna.position.set(-0.95, 0.62, -0.45); mk(new THREE.CylinderGeometry(0.008, 0.014, 1.7, 6), std(0x1d1d1f, 0.5), antenna, 0, 0.85, 0); mk(new THREE.SphereGeometry(0.025, 8, 6), std(0xd42a22, 0.5), antenna, 0, 1.7, 0);
   const smokeL = []; for (const s of [-1, 1]) { const gg = new THREE.Group(); tur.add(gg); gg.position.set(0.55, 0.42, s * 0.9); gg.rotation.y = s * 0.5; for (let k = 0; k < 4; k++) { const c = mk(new THREE.CylinderGeometry(0.045, 0.045, 0.22, 10), oliveD, gg, 0.05 * (k % 2), 0.06 * Math.floor(k / 2), 0.1 * (k % 2) - 0.05); c.rotation.z = -1.1; } gg.scale.setScalar(0.01); smokeL.push(gg); }
-  const cup = new THREE.Group(); tur.add(cup); cup.position.set(-0.95, 0.35, -0.98);
+  const cup = new THREE.Group(); hull.add(cup); cup.position.set(0.42, 1.22, 1.46);   // r4: on the near side plate beside the hatch (on the turret it sat off-frame on "cup holder")
   mk(new THREE.TorusGeometry(0.16, 0.02, 8, 24), steel(0x8b9196), cup, 0, 0, 0).rotation.x = PI / 2;
   mk(new THREE.CylinderGeometry(0.15, 0.12, 0.5, 20), std(0xe94b3c, 0.5), cup, 0, 0.2, 0); mk(new THREE.CylinderGeometry(0.155, 0.155, 0.04, 20), std(0xffffff, 0.4), cup, 0, 0.46, 0); const straw = mk(new THREE.CylinderGeometry(0.012, 0.012, 0.35, 8), std(0xffffff, 0.4), cup, 0.03, 0.6, 0); straw.rotation.z = 0.25; cup.scale.setScalar(0.01);
-  const horn = new THREE.Group(); hull.add(horn); horn.position.set(2.35, 1.48, 1.0);
+  const horn = new THREE.Group(); hull.add(horn); horn.position.set(1.95, 1.25, 1.42);   // r2: on the near side plate, clear of the goose on the glacis
   const hornM = steel(0xd9a83a, 0.25, 0.85); mk(new THREE.CylinderGeometry(0.03, 0.03, 0.3, 10), hornM, horn, -0.1, 0.04, 0).rotation.z = PI / 2; mk(new THREE.ConeGeometry(0.12, 0.2, 18, 1, true), hornM, horn, 0.12, 0.04, 0).rotation.z = PI / 2; mk(new THREE.SphereGeometry(0.06, 12, 10), std(0x1b1b1b, 0.6), horn, -0.3, 0.04, 0); horn.scale.setScalar(0.01);
   // turbine (replaces the mower engine in the bay): housing + spinning compressor face + recuperator; exhaust grille in the rear plate
-  const turbine = new THREE.Group(); hull.add(turbine); turbine.position.set(-1.85, 0.98, 0.1);
-  const tbHouse = mk(new THREE.CylinderGeometry(0.3, 0.34, 0.85, 28, 1, true), steel(0xc9ccce, 0.25, 0.85), turbine, 0, 0, 0); tbHouse.rotation.z = PI / 2; tbHouse.material.side = THREE.DoubleSide;
+  const turbine = new THREE.Group(); hull.add(turbine); turbine.position.set(-1.85, 0.98, 0.1); turbine.rotation.y = -PI / 2;   // r4: axis across the hull, intake fan facing the lens (side-on it read as a box)
+  const tbHouse = mk(new THREE.CylinderGeometry(0.3, 0.34, 0.85, 28, 1, true, PI / 2, PI), steel(0xc9ccce, 0.25, 0.85), turbine, 0, 0, 0); tbHouse.rotation.z = PI / 2; tbHouse.material.side = THREE.DoubleSide;   // cut open on the lens side: the blades show
   const fan = new THREE.Group(); turbine.add(fan); fan.position.set(0.3, 0, 0);
+  const rotor = new THREE.Group(); turbine.add(rotor);   // three compressor/turbine stages on one shaft, seen in section
+  mk(new THREE.CylinderGeometry(0.035, 0.035, 0.85, 10), steel(0x8a9096, 0.3, 0.8), rotor).rotation.z = PI / 2;
+  for (const [x, r, c] of [[0.18, 0.26, 0xe8c46a], [0.0, 0.23, 0xd8a43a], [-0.2, 0.2, 0xff8a3a]]) { const st = new THREE.Group(); rotor.add(st); st.position.x = x; for (let k = 0; k < 12; k++) { const bl = mk(new THREE.BoxGeometry(0.025, r, 0.05), steel(c, 0.25, 0.85), st, 0, 0, 0); bl.position.set(0, Math.cos(k * 0.5236) * r / 2, Math.sin(k * 0.5236) * r / 2); bl.rotation.set(k * 0.5236, 0.45, 0); } }
   for (let k = 0; k < 14; k++) { const b = mk(new THREE.BoxGeometry(0.02, 0.27, 0.07), steel(0xe8c46a, 0.2, 0.9), fan, 0, 0.14, 0); b.geometry.translate(0, 0, 0); b.position.set(0, Math.cos(k * 0.449) * 0.14, Math.sin(k * 0.449) * 0.14); b.rotation.x = k * 0.449; b.rotation.y = 0.5; }
   mk(new THREE.SphereGeometry(0.07, 14, 10), steel(0xd8a43a, 0.2, 0.9), fan, 0.02, 0, 0);
   const glowM = new THREE.MeshBasicMaterial({ color: 0xff7a2a, transparent: true, opacity: 0, toneMapped: false });
   const burner = mk(new THREE.CylinderGeometry(0.22, 0.22, 0.3, 24, 1, true), glowM, turbine, -0.2, 0, 0); burner.rotation.z = PI / 2;
-  mk(new THREE.BoxGeometry(0.5, 0.4, 1.1), steel(0x9ba1a5, 0.35, 0.7), turbine, -0.15, 0.1, -0.75);   // recuperator
-  const tbLabel = mk(new THREE.PlaneGeometry(0.5, 0.13), new THREE.MeshStandardMaterial({ map: signTex('1,500 HP', { w: 384, h: 100, bg: '#1b1b1b', fg: '#ffd23f', px: 70 }), roughness: 0.5 }), turbine, 0, 0.36, 0.2); tbLabel.castShadow = false;
+  const tbLabel = mk(new THREE.PlaneGeometry(0.5, 0.13), new THREE.MeshStandardMaterial({ map: signTex('1,500 HP', { w: 384, h: 100, bg: '#1b1b1b', fg: '#ffd23f', px: 70 }), roughness: 0.5 }), turbine, 0, 0.36, 0); tbLabel.rotation.y = PI / 2; tbLabel.castShadow = false;
   turbine.scale.setScalar(0.01);
   const grille = new THREE.Group(); hull.add(grille); grille.position.set(HX0 - 0.035, 1.05, 0);
   mk(new THREE.BoxGeometry(0.02, 0.5, 1.6), std(0x4a4e52, 0.6, { metalness: 0.4 }), grille); for (let k = 0; k < 7; k++) mk(new THREE.BoxGeometry(0.035, 0.035, 1.6), std(0x8a9096, 0.4, { metalness: 0.6 }), grille, 0.012, -0.21 + k * 0.07, 0);
@@ -312,9 +319,9 @@ export function makeKartTank() {
     setPop(hullGun, ease(st.hullGun ?? 0));
     const tu = ease(st.tur ?? 0, 2); tur.visible = tu > 0.01; tur.scale.setScalar(Math.max(0.01, tu)); tur.position.y = HY1 + (1 - clamp(st.tur ?? 0)) * 1.5;
     tur.rotation.y = st.turYaw ?? 0; gunEl.rotation.z = st.gunEl ?? 0; recoil.position.x = -(st.rec ?? 0);
-    for (const sp of springs) { sp.scale.x = (0.5 - (st.rec ?? 0) * 0.8) / 0.5; } springM.emissiveIntensity = 0.25 + 1.2 * (st.springGlow ?? 0);   // the springs squash as the barrel comes back
-    gyro.visible = (st.gyro ?? 0) > 0.01; gyro.scale.setScalar(Math.max(0.01, ease(st.gyro ?? 0, 2.4))); gyro.rotation.z = (st.gyroSpin ?? 0);
-    setPop(turbine, ease(st.tb ?? 0, 2)); fan.rotation.x = st.fan ?? 0; glowM.opacity = 0.9 * clamp(st.glow ?? 0) * clamp(st.tb ?? 0); grilleGlow.material.opacity = 0.85 * clamp(st.glow ?? 0);
+    for (const sp of springs) { sp.scale.x = Math.max(0.2, (SPL - (st.rec ?? 0)) / SPL); } springM.emissiveIntensity = 0.25 + 1.2 * (st.springGlow ?? 0);   // the springs squash as the barrel comes back
+    gyro.visible = (st.gyro ?? 0) > 0.01; gyro.scale.setScalar(gyro.userData.k * Math.max(0.01, ease(st.gyro ?? 0, 2.4))); gyro.rotation.z = (st.gyroSpin ?? 0);
+    { const k = clamp(st.tb ?? 0); turbine.visible = k > 0.001; turbine.scale.setScalar(1); turbine.position.y = 0.98 + 2.6 * (1 - k * k); } fan.rotation.x = st.fan ?? 0; rotor.rotation.x = st.fan ?? 0; glowM.opacity = 0.9 * clamp(st.glow ?? 0) * clamp(st.tb ?? 0); grilleGlow.material.opacity = 0.85 * clamp(st.glow ?? 0);   // r2: the turbine is dropped in from above (lands at tb = 1)
     mower.g.visible = (st.mower ?? 0) > 0.01; mower.g.position.set(lerp(-0.66, -1.8, tr), lerp(0.13, HYL + 0.06, tr), lerp(0, 0.2, tr)); mower.g.scale.setScalar(lerp(0.8, 1, tr));   // on the kart's tail, then in the engine bay
     peris.forEach((p, i) => setPop(p, ease(clamp((st.peri ?? 0) * 3 - i * 0.6), 2.4)));
     const kit = st.kit || [0, 0, 0, 0];
@@ -327,7 +334,7 @@ export function makeKartTank() {
   }
   setStage({});
   /** add a pumpkin-goo splat on the flat glacis (its local frame: x out, y up the plate, z across) */
-  function addSplat(y, z, s = 1) { const gS = new THREE.Group(); splats.add(gS); const m = new THREE.MeshStandardMaterial({ color: 0xf08a2b, roughness: 0.35 }); const sp = mk(new THREE.CircleGeometry(0.22 * s, 16), m, gS, 0.05, y, z); sp.rotation.y = PI / 2; sp.scale.set(1, 0.8, 1); for (let k = 0; k < 6; k++) { const d = mk(new THREE.CircleGeometry(0.06 * s, 10), m, gS, 0.05, y + Math.cos(k * 1.1) * 0.26 * s, z + Math.sin(k * 1.1) * 0.28 * s); d.rotation.y = PI / 2; } for (let k = 0; k < 3; k++) { const dr = mk(new THREE.PlaneGeometry(0.05 * s, 0.22 * s), m, gS, 0.05, y - 0.2 * s - k * 0.03, z - 0.1 + k * 0.1); dr.rotation.y = PI / 2; } mk(new THREE.SphereGeometry(0.06 * s, 8, 6), std(0xd8b44a, 0.6), gS, 0.07, y + 0.04, z - 0.05);   // goo + drips + a seed
+  function addSplat(y, z, s = 1) { const gS = new THREE.Group(); splats.add(gS); const m = new THREE.MeshStandardMaterial({ color: 0xf08a2b, roughness: 0.35 }); const sp = mk(new THREE.CircleGeometry(0.22 * s, 16), m, gS, 0.05, y, z); sp.rotation.y = PI / 2; sp.scale.set(1, 0.8, 1); for (let k = 0; k < 6; k++) { const d = mk(new THREE.CircleGeometry(0.06 * s, 10), m, gS, 0.05, y + Math.cos(k * 1.1) * 0.26 * s, z + Math.sin(k * 1.1) * 0.28 * s); d.rotation.y = PI / 2; } for (let k = 0; k < 3; k++) { const dr = mk(new THREE.PlaneGeometry(0.05 * s, 0.22 * s), m, gS, 0.05, y - 0.2 * s - k * 0.03, z - 0.1 + k * 0.1); dr.rotation.y = PI / 2; } // goo + drips (r3: no seed — it read as a yellow marble)
     gS.visible = false; return gS; }
   return { g, body, kart, kWheels, engDeck, seat, seatAnchor, hull, tur, gunEl, recoil, muzzle, glassSpot, breech, cyl, hatch, glacis, turbine, fan, grille, mower, peris, antenna, horn, cup, smokeL, tracks, setTracks, setStage, addSplat, HY1, len: 4.9 };
 }
@@ -362,10 +369,11 @@ export function makeGoose() {
     const t = p.t ?? 0, wk = p.walk, run = p.run ?? 0, hk = clamp(p.honk ?? 0), sw = clamp(p.swim ?? 0), wg = clamp(Math.max(p.wings ?? 0, run * 0.7));
     const step = wk == null ? 0 : Math.sin(wk);
     body.position.y = wk == null ? 0 : Math.abs(Math.cos(wk)) * 0.025;
-    body.rotation.set(0.15 * run + 0.25 * hk, 0, wk == null ? 0 : step * 0.12);
+    const rc = clamp(p.reach ?? 0);   // reach (034 r2): body tips forward, neck straight out + down (peering into something low)
+    body.rotation.set(0.15 * run + 0.25 * hk + 0.15 * rc, 0, wk == null ? 0 : step * 0.12);
     legs.forEach((l, i) => { l.rotation.x = (i ? -1 : 1) * step * 0.7; l.visible = sw < 0.5; });
     // neck: S-curve resting, straight + forward when honking / running
-    neck.forEach((n, i) => { n.rotation.x = lerp(i === 0 ? -0.15 : i < 3 ? 0.18 : -0.12, i === 0 ? 0.95 : 0.12, Math.max(hk, run * 0.6)) + (p.nod ?? 0) * (i === NS - 1 ? 1 : 0); n.rotation.y = i === 1 ? (p.turn ?? 0) : 0; });
+    neck.forEach((n, i) => { n.rotation.x = lerp(i === 0 ? -0.15 : i < 3 ? 0.18 : -0.12, i === 0 ? 0.95 : 0.12, Math.max(hk, run * 0.6, rc)) + (p.nod ?? 0) * (i === NS - 1 ? 1 : 0); n.rotation.y = i === 1 ? (p.turn ?? 0) : 0; });
     head.rotation.set(lerp(-0.1, -0.8, Math.max(hk, run * 0.6)) + (p.headUp ?? 0), p.headTurn ?? 0, 0);
     beakU.rotation.x = -0.35 * hk; beakL.rotation.x = 0.45 * hk; tongue.visible = hk > 0.3;
     wings.forEach((w) => { w.rotation.z = w.userData.s * (wg * 1.3 + (wg > 0.1 ? 0.35 * Math.sin((p.flap ?? t * 22)) * wg : 0)); w.rotation.x = -0.25 * wg; });
@@ -520,7 +528,7 @@ export function makeBridge() {
   return {
     g, halves, tres,
     set(sag = 0, brk = 0) {
-      for (const h of halves) h.rotation.z = h.userData.s * (sag * 0.1 + clamp(brk) * (maxA - 0.1 * sag));   // the free ends drop toward the middle
+      for (const h of halves) h.rotation.z = h.userData.s * (sag * 0.15 + clamp(brk) * (maxA - 0.15 * sag));   // the free ends drop toward the middle
       tres.visible = brk < 0.02; tres.scale.y = 1 - 0.04 * sag;
     },
   };

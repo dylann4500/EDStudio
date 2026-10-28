@@ -306,7 +306,14 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 
 ## Turbo pace (034, opt-in variant — user: "faster pace, no moments of silence, continuous text… SUPER overstimulating")
 An experiment on top of the normal build rules (one continuous take, no cuts, Gary, kicks): the same ~100 s, ~30 % more words,
-no pauses, something new on screen every < 0.8 s. Measured numbers + what worked are filled in below as 034 ships.
+no pauses, something new on screen every < 0.8 s.
+- **034 as shipped (the measured turbo numbers):** 423 words in 99.0 s = 4.32 words/s over the speech span (033: 3.58), max real
+  silence between words 0.185 s (measured on the audio at −45 dB), 0 caption blanks, 17.7 s of inter-word silence in total; 77
+  framings, 91 kicks (13 full-strength, none inside a TERM line), 232 effect bursts + 21 streams, 59 callouts, 652 SFX cues, ≈ 4.8
+  new visual events per second (the @wemakebuild bridge reel: ≈ 0.5/s); mix −14.0 LUFS, music dropouts none. Five review rounds:
+  logic 6 → 7 → 7 → 7.5 → **8**, comedy 6.5 → 7 → 7.5 → 7.5 → **8**, pacing 7 → 7 → 7.5 → 8 → **8**, camera 6 → 6.5 → 7 → (7) →
+  **7.5**, look 6 → **6.5**. Every reviewer called it "readable, overstimulating but not nauseating" once the kicks obeyed the TERM
+  rule and no fast pan carried more than one full-strength kick.
 - **The bar:** ~420–440 words in 95–100 s (4.3–4.5 words/s over the speech span), no gap between words > 0.25 s anywhere (the
   one-word caption is never blank: narrate.py holds a word ≤ 0.35 s past its end), ≥ 45 callouts, ≥ 140 effect bursts, ≥ 60
   kicks, ≥ 400 SFX events, ~55–65 framings, no camera hold > 1.0 s. 033 for comparison: 374 words, 3.58 w/s, 7 gaps > 0.25 s
@@ -320,8 +327,34 @@ no pauses, something new on screen every < 0.8 s. Measured numbers + what worked
 - **Faster glides:** `planRail(frames, { move: [0.35, 13], minHold: 0.9 })` (rail.js, opt-in) — moves need ≥ 0.35 + d/13 s instead
   of 0.6 + d/8; motion blur keeps them smooth. Keep look points near the subject's distance (a far look point counts 0.7× its
   travel in the speed lint: 034's cannon-on-the-hill framing aimed 20 m away tripped a 14 m warning).
+- **Tempo on the real take, not one beat:** v3 Adam (stability 0) read this script slower than projected — the tracks beat gave
+  3.56 / 3.68 w/s at tempo 1.40 / 1.45, and the whole take 114 / 110.5 s. A free sweep over the cached clips (scratchpad
+  tempo_all.py: length, w/s, syllables/s, large-v3 Whisper match per beat) picked **1.55 = 103.4 s, 4.11 w/s, 5.9 syllables/s**
+  (1.60 = 6.05 syl/s starts to sound breathless; Whisper matched every beat verbatim at all four tempos). Spectrogram at 1.55 vs
+  1.0: harmonics + formants intact, only slight fragmentation of upper harmonics on long vowels (mild WSOLA phasiness).
+- **v3 [shouting] at stability 0.0 runs BRIGHT** (check_voice: +5.5…+8.8 dB above 4 kHz over the calm part of its beat on 3 of 7
+  tagged beats — the "shrill" risk). script.json `"yellShelf": {"db": -4, "hz": 5000}` (narrate.py, opt-in) puts a high-shelf on the
+  tagged part of each tagged beat only (from the first word after the tag; a whole-beat shelf dulls both and keeps the gap), with a
+  per-beat `"shelf"` override (034: goose −11, end −6, bridge −5) → every yell ≤ +2.6 dB over its calm part up there.
 - **Density fill:** after the first density report, add one small word-keyed burst/kick to every empty stretch (mud clods off the
   links, dust at each bump crest, a spring glow, the mud burping) — cheap, and it reads as constant motion.
+- **Measure silence on the AUDIO, not the timestamps (034 r2):** after maxPause the words.json said "max gap 0.18 s", but the
+  pacing reviewer measured the voice stem at −45 dB and found 30 real silences of 0.25–0.43 s — v3's word timestamps run past the
+  real word ends. script.json `"pauseFloor": -45` (narrate.py, opt-in, after maxPause) cuts every silent run of 5 ms blocks under
+  that floor down to maxPause, and each clip's head/tail silence down to 0.04 s (trim() looks at single samples and left ~0.3 s
+  tails). Rebuilt from the cached clips (0 voice spend): 104.3 → 98.9 s, 4.32 w/s, max real silence 0.185 s; Whisper large-v3
+  still 0.92–1.00 on every beat. Check it with a 5 ms-block silence scan of voice.wav, not with pace.py alone.
+  **And every cut must land in TRUE silence** (manager check, r3): the word-timestamp squeeze had cut the first 60 ms of a shouted
+  "Bye," — v3 starts a word 150 ms before its stamp right after a tag, Whisper still matched it 1.00, the attack was gone. narrate.py
+  now clips every cut (word-based too, when pauseFloor is set) to blocks under the floor AND ≥ 30 ms from anything above floor − 10 dB;
+  scratchpad cutcheck.py (034) rebuilds each beat in memory and prints the peak of the removed audio (must be ≤ −60 dBFS) + each
+  join's distance to Whisper word edges. A Whisper match proves the words are there, not that they sound natural.
+- **Kicks vs TERM lines, strictly:** "no shake during a TERM line" means none — drop every kick inside a TERM window and move a
+  real impact that lands in a TERM's last 0.3 s to just after it (034 shots.js prints `kicks dropped inside a TERM:` in the QC log).
+  Filler kicks ≤ 0.35; full strength only on real impacts. Readable-vs-nauseating was decided by stretches, not totals: a 2+ frame
+  widths/s pan WITH 3–4 kicks in the same second is the nauseating case (034 r2: the scarecrow → cloud tilt); either alone is fine.
+- **Holds that remain ≥ 0.9 s get a slow push-in** (fov −7 %, eased back over the next move; 034 shots.js `HOLDS`/`pushAt`, found by
+  sampling the rail at 30 fps) — the camera never sits dead still, without adding framings the planner would clamp.
 
 ## QC checklist (build)
 - [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
@@ -656,4 +689,35 @@ as a record of what the cut style needs, if it is ever tried again.
   from shots.js + story.json, print each subject's x/y % ON its word) and its tested framings; a density fill (tools/density.py →
   one word-keyed burst/kick per empty stretch: 40 → 18 holes); a goose neck as one tube (beads read as a caterpillar); splats + dents
   that stay on the plate; Gary's mess that accumulates (mud → goo → washed by the creek; soot + no brows stay).
+- **Round-2 scores (v2, real voice, 104.3 s): logic 7 · look 6.5 · pacing 7 · camera 6.5 · comedy 7.** What still failed and how
+  it was fixed:
+  - **A gag whose subject is off-screen on its word** (four of them): "you fire" fired 0.6 s late (now on the word, BOOM pinned at
+    the muzzle, a hot shell streak); "the tank flies backward" happened before the camera reached the barn (a slower recoil slide,
+    τ 1.6 → 2.0 s, so the far-wall burst lands on "flies"); "Gary looks out / the goose looks in" had no picture (an eyepiece under the
+    roof + a side-on close-up: Gary looking up, the goose's head at the mirror on "in", spiral eyes 0.3 s later — POPUP waits for it);
+    "the GOOSE is driving" was a speck (framing on its head, ×1.3, turned to the lens).
+  - **A prop that exists but was never wired**: the plate splats (`addSplat`) were built in tank.js and never called from shots.js —
+    "goo stays on the plate" was a round-1 claim nobody checked. Grep every set API you claim to use.
+  - **A side-on plate reads edge-on**: the flat front plate faced +x and the camera sat 72° off its normal; turn the framing to
+    ≈ 45° off the normal for the hits.
+  - **Mid-line comments in scripted edits bit 4× this round** (each one commented out code: a fall pose, a card position, the fan +
+    glow updates) — when a replacement appends `// …`, the old string must end its line. Run the CLAUDE.md grep after every batch.
+    That grep misses a swallowed `const x = …` (r3: `const b` vanished → `b is not defined` in the QC run); also run `--qc` after
+    every batch — a page error shows up there as a missing `counts:` line.
+- **Round-3 scores (v3, 98.9 s): logic 7 · comedy 7.5 · pacing 7.5 · camera 7 · look 6.5 (r2).** Camera's worst stretch was an
+  out-and-back orbit to a side subject (3.1 fw/s out, 2.7 back, two full kicks in between) — go out once and come back on the next
+  beat's subject instead. Logic's: a goose path that crossed the tank's volume after a scene change (it walked through the road wheels) —
+  check every walker's path against every vehicle's footprint at that time, or let the animal RIDE the vehicle.
+- **Round-4 scores (v4, 99.0 s): logic 7.5 · comedy 7.5 · pacing 8** (one combined reviewer once they plateaued). What was left were
+  the SHOUTED punchlines undersold in the picture — check each tagged line's word on a full-size frame before a round:
+  - **Physics vs the narration's order**: real recoil is instant, but "You fire. The melon explodes, and the tank flies backward" needs
+    the flight AFTER the pop. A cartoon double-take keeps both honest: a 0.8 m lurch + nose-up bob ON the shot (direction right), a
+    beat, then the launch (airborne, nose up) on "flies", through the barn, a braking slide to the same stop point (034 `recX`).
+  - **A part whose plane faces sideways reads as a box**: the turbine's fan spun about the track axis, edge-on to the lens, while the
+    turret window next to it showed the (round, spinning) gyro — the reviewer read the gyro as the turbine. Turn the hero part so its
+    signature face looks at the camera (turbine axis across the hull) and swing other look-alikes out of view for that beat.
+  - **A prop on the far corner of a turning part disappears from its own line**: the cup holder rode the turret's rear corner and sat
+    off-frame on "cup holder" in every framing; mount props a line names next to the subject the camera holds (the hatch).
+  - **An exit must be in frame**: Gary's ejection at "the GOOSE is driving" started before the camera turned — delay the action until
+    the glide is under way (he now lands ON "back").
 
