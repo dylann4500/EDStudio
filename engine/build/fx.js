@@ -38,15 +38,16 @@ function billTex() { // a cartoon banknote: green, pale border, a big $
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-export function makeFX(parent) {
+export function makeFX(parent, { max = {}, nearFade = null, unlit = [] } = {}) {   // 034, opt-in: max = per-kind pool sizes (e.g. { crumb: 700 }); nearFade [d0, d1] = sprites fade from d1 to d0 m off the lens
+  // 039, opt-in: unlit = drop kinds drawn unlit + unfogged (spray read as dark/tan pellets in shade and at sunset)
   const pools = {}, parts = [];
   let seedN = 1;
   const tex = softTex('255,255,255', 128);
   function pool(kind) {
     if (pools[kind]) return pools[kind];
-    const K = KINDS[kind]; let geo, m;
+    const K = { ...KINDS[kind], max: max[kind] ?? KINDS[kind].max }; let geo, m;
     if (K.geo === 'chunk') { geo = new THREE.IcosahedronGeometry(1, 0); m = new THREE.MeshStandardMaterial({ roughness: 0.95, flatShading: true }); }
-    else if (K.geo === 'drop') { geo = new THREE.SphereGeometry(1, 8, 6); m = new THREE.MeshStandardMaterial({ roughness: 0.08, transparent: true, opacity: 0.88 }); }
+    else if (K.geo === 'drop') { geo = new THREE.SphereGeometry(1, 8, 6); m = unlit.includes(kind) ? new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.85, fog: false }) : new THREE.MeshStandardMaterial({ roughness: 0.08, transparent: true, opacity: 0.88 }); }
     else if (K.geo === 'flake') { geo = new THREE.PlaneGeometry(1, 0.55); m = new THREE.MeshStandardMaterial({ roughness: 0.6, side: THREE.DoubleSide, map: K.map === 'bill' ? billTex() : null }); }
     else {
       geo = new THREE.PlaneGeometry(1, 1); geo.setAttribute('aAlpha', new THREE.InstancedBufferAttribute(new Float32Array(K.max), 1));
@@ -97,7 +98,7 @@ export function makeFX(parent) {
           const sz = P.size * (1 + P.grow * a / P.life);
           s.set(sz, sz, sz);
           // never let a puff fill the lens: sprites fade out as they get within ~2.5 m of the camera
-          const near = clamp((p.distanceTo(camera.position) - sz * 0.6 - 0.4) / 2.0);
+          const near = nearFade ? clamp((p.distanceTo(camera.position) - sz * 0.6 - nearFade[0]) / (nearFade[1] - nearFade[0])) : clamp((p.distanceTo(camera.position) - sz * 0.6 - 0.4) / 2.0);
           Pl.mesh.geometry.attributes.aAlpha.array[Pl.live] = P.alpha * fade * clamp(a / 0.08) * near;
         } else if (Pl.K.geo === 'flake') {
           p.x += Math.sin(a * 5 + P.ph) * 0.12 * clamp(a); p.z += Math.cos(a * 4 + P.ph) * 0.08 * clamp(a);

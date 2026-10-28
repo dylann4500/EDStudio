@@ -2514,7 +2514,40 @@ def amb_train(dur, rng, clack=2.2):
     return norm(np.vstack(out))
 
 
+def sfx_goose_honk(rng, pitch=1.0, dur=0.26, angry=1.0):
+    """034: a cartoon goose HONK — a nasal reedy buzz (odd harmonics through a ~1.1 kHz formant) that sags in pitch, with a
+    rough 38 Hz flutter; low-passed so it's funny, never shrill. angry > 1 = longer, rougher."""
+    dur = dur * (0.8 + 0.3 * angry)
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 330 * pitch * (1.18 - 0.28 * t / dur) * (1 + 0.04 * np.sin(2 * np.pi * 9 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    reed = np.tanh(2.6 * (np.sin(ph) + 0.5 * np.sin(3 * ph) + 0.25 * np.sin(5 * ph)))
+    flutter = 1 - 0.35 * angry * (0.5 + 0.5 * np.sin(2 * np.pi * 38 * t))
+    y = bp(reed * flutter, 380, 2600) + 0.6 * bp(reed, 900, 1400)
+    env = (1 - np.exp(-t / 0.012)) * np.clip((dur - t) / 0.05, 0, 1)
+    return Sound(norm(fades(lp(y * env, 2800), 0.002, 0.03)), onsets=[(0.0, "transient")])
+
+
+def sfx_foghorn(rng, dur=1.4, pitch=1.0, grunt=1.0):
+    """039: a lighthouse diaphone "BWAAAH-oh": a fat low reed (~160 Hz, odd harmonics, slow vibrato) that drops a fifth into a
+    short grunt at the end (the diaphone's signature), heavily low-passed + an outdoor tail so it's huge but never harsh."""
+    n = nsamp(dur)
+    t = tvec(n)
+    g0 = dur * (1 - 0.22 * grunt)
+    f = 158 * pitch * np.where(t < g0, 1.0, 0.68) * (1 + 0.012 * np.sin(2 * np.pi * 5 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    reed = np.tanh(1.8 * (np.sin(ph) + 0.45 * np.sin(3 * ph) + 0.2 * np.sin(5 * ph) + 0.3 * np.sin(2 * ph)))
+    env = (1 - np.exp(-t / 0.06)) * np.clip((dur - t) / 0.12, 0, 1) * np.where(t < g0, 1.0, 1.15)
+    y = lp(hp(reed * env, 70), 1300, 2)
+    y = with_tail(y, 1.6)
+    y = y + 2.2 * convolve(y, outdoor_ir())
+    return Sound(norm(y, 0.9), anchor=0.0, onsets=[0.0])
+
+
 SFX.update({
+    "goose_honk": (sfx_goose_honk, "prop"),   # 034
+    "foghorn": (sfx_foghorn, "prop"),   # 039
     "dig": (sfx_dig, "prop"), "crumble": (sfx_crumble, "prop"), "splash": (sfx_splash, "prop"), "clunk": (sfx_clunk, "prop"),
     "knock": (sfx_knock, "prop"), "pop": (sfx_pop, "prop"), "zap": (sfx_zap, "prop"), "plip": (sfx_plip, "prop"), "grate": (sfx_grate, "prop"),
 })

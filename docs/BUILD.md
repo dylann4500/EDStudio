@@ -83,6 +83,14 @@ node tools/render.mjs NNN-slug [--stills …]       same renderer as every video
 - `subway.js` — the 024 set (see its header): strata, street + traffic jam, bakery block that settles, TBM, lining rings,
   track + third rail, vent fans + grates, station, escalator, train, pumps + hose, shoring, water. Reusable props:
   `makeTBM`, `makeTrain`, `makeShovel`, `makeCroissant`, `makeTree`, `makeBuilding`, `makeHalfRing`, `makeFan`.
+- `lighthouse.js` (039) — an open sea + a cutaway rock lighthouse: displaced ocean grid dense at the rock with a JS mirror
+  (`seaH`, `floatPose`; curvature, storm, big wave), moods golden/day/dusk/night/storm/fog/dawn (`setMood`), the tower (`setGrow`
+  clip, `setLean`, `stairAt`, the weight shaft, clockwork, crank, cuckoo door, mercury trough, a hatch ladder to the lantern), the
+  lantern (`setLens` Fresnel panels, mirror, beams), Smeaton's skirt, daymark paint, boats (`makeTug` with a bow bulwark,
+  `makeSailboat`, `makeCruise`, `makeFreighter`, `makeBarge`), `makeGull`, `makeBigWave`, `makeSprayCrown` (foam), the far coast.
+- `rail.js` per-framing opt-ins (039): `lead`/`maxLead` (0 for a telephoto hold) and `swoop: true | m/s` (a fast one-way dolly
+  into a far framing). `captions.js` (039): a callout's `roll: [from, to]` + `rollDur` counts `{n}` up. `tools/scenes.py qc.log`
+  counts new places/looks from a `cams:` QC line (039 shots.js).
 
 ## Cuts: TRIED AND REJECTED — keep the one continuous take; keep the hard kicks
 **User verdict (Oct 27, after watching 025/026 with ~45–56 cuts each): "i dont really like [the cuts] i liked our older
@@ -291,11 +299,8 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 - **Posting (user, Oct 27): build reels go to "Gary the Builder"** (Instagram gary.the.builder) at **at most two a day, 1:00 PM and
   6:00 PM PT** — a finished reel waits for the next free slot instead of going up on completion ("i dont want to be posting too
   many"). Only on the user's go-ahead. Instagram caption = caption.md minus the 🎬 course-link block (the link is in the bio) and
-  minus the sources comment. **Upload the full-quality final.mp4 (user, Oct 28):** 024, uploaded at full quality, looked
-  "the best and most pristine"; 025/026/032, posted from <10 MB HEVC copies (~0.6 Mbps), looked "a tiny bit grainy".
-  Claude in Chrome's file_upload caps a page at 10 MB in total (chunking around it is refused), so a full-quality post is
-  the user's upload (phone or desktop, Instagram's own scheduler for the slot) — the manager prepares the file + caption.
-  The old squeezed-copy recipe, for reference only (the user picked 60 fps over 30 fps when it was the only option): `ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow
+  minus the sources comment. Upload = a 60 fps HEVC two-pass copy under 10 MB (Claude in Chrome's upload limit; the user
+  prefers the 60 fps copy even though Instagram plays it at 30 fps): `ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow
   -b:v ${KBPS}k -x265-params pass=1 -an -f null /dev/null && ffmpeg -i final.mp4 -r 60 -c:v libx265 -preset slow -b:v ${KBPS}k
   -x265-params pass=2 -tag:v hvc1 -c:a aac -b:a 96k -movflags +faststart out/upload60.mp4` with KBPS ≈ 9.6e6·8/duration/1000 − 96.
   instagram.com can't schedule (Meta Business Suite needs a login), so a slot is hit by a one-time local scheduled task
@@ -306,6 +311,58 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   default mode and sat on its very first `date` prompt for 5 h with nobody there to approve it. If the result says the mode
   wasn't saved, re-create the task in a user-typed turn, or post from the manager session at the slot (a background
   `sleep` until the slot re-invokes you).
+
+## Turbo pace (034, opt-in variant — user: "faster pace, no moments of silence, continuous text… SUPER overstimulating")
+An experiment on top of the normal build rules (one continuous take, no cuts, Gary, kicks): the same ~100 s, ~30 % more words,
+no pauses, something new on screen every < 0.8 s.
+- **034 as shipped (the measured turbo numbers):** 423 words in 99.0 s = 4.32 words/s over the speech span (033: 3.58), max real
+  silence between words 0.185 s (measured on the audio at −45 dB), 0 caption blanks, 17.7 s of inter-word silence in total; 77
+  framings, 91 kicks (13 full-strength, none inside a TERM line), 232 effect bursts + 21 streams, 59 callouts, 652 SFX cues, ≈ 4.8
+  new visual events per second (the @wemakebuild bridge reel: ≈ 0.5/s); mix −14.0 LUFS, music dropouts none. Five review rounds:
+  logic 6 → 7 → 7 → 7.5 → **8**, comedy 6.5 → 7 → 7.5 → 7.5 → **8**, pacing 7 → 7 → 7.5 → 8 → **8**, camera 6 → 6.5 → 7 → (7) →
+  **7.5**, look 6 → **6.5**. Every reviewer called it "readable, overstimulating but not nauseating" once the kicks obeyed the TERM
+  rule and no fast pan carried more than one full-strength kick.
+- **The bar:** ~420–440 words in 95–100 s (4.3–4.5 words/s over the speech span), no gap between words > 0.25 s anywhere (the
+  one-word caption is never blank: narrate.py holds a word ≤ 0.35 s past its end), ≥ 45 callouts, ≥ 140 effect bursts, ≥ 60
+  kicks, ≥ 400 SFX events, ~55–65 framings, no camera hold > 1.0 s. 033 for comparison: 374 words, 3.58 w/s, 7 gaps > 0.25 s
+  (3.7 s of them), max 0.74 s, 6 blank-caption moments.
+- **Pauses are cut, not read faster:** script.json `"maxPause": 0.18` (narrate.py, opt-in) cuts the middle of every word gap longer
+  than that (12 ms crossfades, word times shifted) — v3 reads 0.3–0.9 s at full stops and before every yell. `"gap": 0.04` between
+  beats, `"tail": 1.1`. Tempo raises the speech rate only a little more (v3 Adam ≈ 3.6 w/s at tempo 1.30 → ≈ 4.0 at 1.45).
+- **Measure it:** `python3 -I tools/pace.py NNN-slug [other slugs or words.json]` (w/s, max gap, gaps > 0.25 s, caption blanks);
+  `python3 -I tools/density.py NNN-slug qc.log` reads the video's EDSTUDIO_QC `counts:`/`events:` lines (034 shots.js wraps
+  fx.burst/stream with a counter) and lists every stretch > 0.8 s with no new callout/burst/kick/framing.
+- **Faster glides:** `planRail(frames, { move: [0.35, 13], minHold: 0.9 })` (rail.js, opt-in) — moves need ≥ 0.35 + d/13 s instead
+  of 0.6 + d/8; motion blur keeps them smooth. Keep look points near the subject's distance (a far look point counts 0.7× its
+  travel in the speed lint: 034's cannon-on-the-hill framing aimed 20 m away tripped a 14 m warning).
+- **Tempo on the real take, not one beat:** v3 Adam (stability 0) read this script slower than projected — the tracks beat gave
+  3.56 / 3.68 w/s at tempo 1.40 / 1.45, and the whole take 114 / 110.5 s. A free sweep over the cached clips (scratchpad
+  tempo_all.py: length, w/s, syllables/s, large-v3 Whisper match per beat) picked **1.55 = 103.4 s, 4.11 w/s, 5.9 syllables/s**
+  (1.60 = 6.05 syl/s starts to sound breathless; Whisper matched every beat verbatim at all four tempos). Spectrogram at 1.55 vs
+  1.0: harmonics + formants intact, only slight fragmentation of upper harmonics on long vowels (mild WSOLA phasiness).
+- **v3 [shouting] at stability 0.0 runs BRIGHT** (check_voice: +5.5…+8.8 dB above 4 kHz over the calm part of its beat on 3 of 7
+  tagged beats — the "shrill" risk). script.json `"yellShelf": {"db": -4, "hz": 5000}` (narrate.py, opt-in) puts a high-shelf on the
+  tagged part of each tagged beat only (from the first word after the tag; a whole-beat shelf dulls both and keeps the gap), with a
+  per-beat `"shelf"` override (034: goose −11, end −6, bridge −5) → every yell ≤ +2.6 dB over its calm part up there.
+- **Density fill:** after the first density report, add one small word-keyed burst/kick to every empty stretch (mud clods off the
+  links, dust at each bump crest, a spring glow, the mud burping) — cheap, and it reads as constant motion.
+- **Measure silence on the AUDIO, not the timestamps (034 r2):** after maxPause the words.json said "max gap 0.18 s", but the
+  pacing reviewer measured the voice stem at −45 dB and found 30 real silences of 0.25–0.43 s — v3's word timestamps run past the
+  real word ends. script.json `"pauseFloor": -45` (narrate.py, opt-in, after maxPause) cuts every silent run of 5 ms blocks under
+  that floor down to maxPause, and each clip's head/tail silence down to 0.04 s (trim() looks at single samples and left ~0.3 s
+  tails). Rebuilt from the cached clips (0 voice spend): 104.3 → 98.9 s, 4.32 w/s, max real silence 0.185 s; Whisper large-v3
+  still 0.92–1.00 on every beat. Check it with a 5 ms-block silence scan of voice.wav, not with pace.py alone.
+  **And every cut must land in TRUE silence** (manager check, r3): the word-timestamp squeeze had cut the first 60 ms of a shouted
+  "Bye," — v3 starts a word 150 ms before its stamp right after a tag, Whisper still matched it 1.00, the attack was gone. narrate.py
+  now clips every cut (word-based too, when pauseFloor is set) to blocks under the floor AND ≥ 30 ms from anything above floor − 10 dB;
+  scratchpad cutcheck.py (034) rebuilds each beat in memory and prints the peak of the removed audio (must be ≤ −60 dBFS) + each
+  join's distance to Whisper word edges. A Whisper match proves the words are there, not that they sound natural.
+- **Kicks vs TERM lines, strictly:** "no shake during a TERM line" means none — drop every kick inside a TERM window and move a
+  real impact that lands in a TERM's last 0.3 s to just after it (034 shots.js prints `kicks dropped inside a TERM:` in the QC log).
+  Filler kicks ≤ 0.35; full strength only on real impacts. Readable-vs-nauseating was decided by stretches, not totals: a 2+ frame
+  widths/s pan WITH 3–4 kicks in the same second is the nauseating case (034 r2: the scarecrow → cloud tilt); either alone is fine.
+- **Holds that remain ≥ 0.9 s get a slow push-in** (fov −7 %, eased back over the next move; 034 shots.js `HOLDS`/`pushAt`, found by
+  sampling the rail at 30 fps) — the camera never sits dead still, without adding framings the planner would clamp.
 
 ## QC checklist (build)
 - [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
@@ -617,3 +674,148 @@ as a record of what the cut style needs, if it is ever tried again.
   by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
   final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
+
+## Lessons from 034 (go-kart → tank, the first TURBO reel; each cost a stills round)
+- **A vehicle that upgrades in place = one rig with staged parts** (`engine/build/tank.js` `makeKartTank().setStage({...})`): the
+  kart rides up onto a tracked deck, plates pop on one by one, the glacis tilts about its bottom edge (its length = h / cos a so its
+  top always meets the roof), hull gun → turret, mower → turbine, periscopes, kit. Two traps: hull side plates must END where the
+  tilted glacis meets the roof (else they poke through it), and the turret's corner reach must clear the driver's head in every yaw
+  (a 1.7 m bustle swept Gary's face whenever the gun pointed back).
+- **Tracks:** links instanced along a convex-hull loop around the wheels, placed at `j·pitch − s` (s = distance driven ± half-track ×
+  yaw for skid steering) — the links touching the ground stay put. Build them on screen link by link (`setTracks(…, build)`, road
+  wheels pop as the chain reaches them); popping a whole tracked chassis in one frame read as a cut (logic review).
+- **Cut each part on the side that faces the lens in ITS beats**: the hull window on +z (the tank faces +x), but the turret window
+  on the side that faces the lens when the gun points at the recoil/stabilizer targets — a turret pointing back at the melon hides
+  its window, and that's fine for that beat.
+- **Things that hide until used must be hidden from frame 0**: `makeDizzy` starts visible at the origin — a stray yellow star sat on
+  the cut face for 15 s until the first `dizzy.update(t, 0, …)`. Call every helper's update every frame.
+- **Sign conventions**: bridge halves hinged at the banks rotate by `s·angle` (s = −1 left) to drop their free ends; v1 had them
+  rising like a drawbridge, which also hid the sag.
+- **Round-1 scores (v1, scratch, 99.9 s): logic 6 · look 6 · pacing 7 · camera 6 · comedy 6.5.** The narration met the turbo bar at
+  once (4.50 w/s, max gap 0.18 s); the PICTURE didn't keep up: 75 framings meant the planner clamped 33 holds, so the camera left the
+  TURRET, the melon explosion and the lemonade before their words. Fixes that worked: the camera reviewer's probe (rebuild the rail
+  from shots.js + story.json, print each subject's x/y % ON its word) and its tested framings; a density fill (tools/density.py →
+  one word-keyed burst/kick per empty stretch: 40 → 18 holes); a goose neck as one tube (beads read as a caterpillar); splats + dents
+  that stay on the plate; Gary's mess that accumulates (mud → goo → washed by the creek; soot + no brows stay).
+- **Round-2 scores (v2, real voice, 104.3 s): logic 7 · look 6.5 · pacing 7 · camera 6.5 · comedy 7.** What still failed and how
+  it was fixed:
+  - **A gag whose subject is off-screen on its word** (four of them): "you fire" fired 0.6 s late (now on the word, BOOM pinned at
+    the muzzle, a hot shell streak); "the tank flies backward" happened before the camera reached the barn (a slower recoil slide,
+    τ 1.6 → 2.0 s, so the far-wall burst lands on "flies"); "Gary looks out / the goose looks in" had no picture (an eyepiece under the
+    roof + a side-on close-up: Gary looking up, the goose's head at the mirror on "in", spiral eyes 0.3 s later — POPUP waits for it);
+    "the GOOSE is driving" was a speck (framing on its head, ×1.3, turned to the lens).
+  - **A prop that exists but was never wired**: the plate splats (`addSplat`) were built in tank.js and never called from shots.js —
+    "goo stays on the plate" was a round-1 claim nobody checked. Grep every set API you claim to use.
+  - **A side-on plate reads edge-on**: the flat front plate faced +x and the camera sat 72° off its normal; turn the framing to
+    ≈ 45° off the normal for the hits.
+  - **Mid-line comments in scripted edits bit 4× this round** (each one commented out code: a fall pose, a card position, the fan +
+    glow updates) — when a replacement appends `// …`, the old string must end its line. Run the CLAUDE.md grep after every batch.
+    That grep misses a swallowed `const x = …` (r3: `const b` vanished → `b is not defined` in the QC run); also run `--qc` after
+    every batch — a page error shows up there as a missing `counts:` line.
+- **Round-3 scores (v3, 98.9 s): logic 7 · comedy 7.5 · pacing 7.5 · camera 7 · look 6.5 (r2).** Camera's worst stretch was an
+  out-and-back orbit to a side subject (3.1 fw/s out, 2.7 back, two full kicks in between) — go out once and come back on the next
+  beat's subject instead. Logic's: a goose path that crossed the tank's volume after a scene change (it walked through the road wheels) —
+  check every walker's path against every vehicle's footprint at that time, or let the animal RIDE the vehicle.
+- **Round-4 scores (v4, 99.0 s): logic 7.5 · comedy 7.5 · pacing 8** (one combined reviewer once they plateaued). What was left were
+  the SHOUTED punchlines undersold in the picture — check each tagged line's word on a full-size frame before a round:
+  - **Physics vs the narration's order**: real recoil is instant, but "You fire. The melon explodes, and the tank flies backward" needs
+    the flight AFTER the pop. A cartoon double-take keeps both honest: a 0.8 m lurch + nose-up bob ON the shot (direction right), a
+    beat, then the launch (airborne, nose up) on "flies", through the barn, a braking slide to the same stop point (034 `recX`).
+  - **A part whose plane faces sideways reads as a box**: the turbine's fan spun about the track axis, edge-on to the lens, while the
+    turret window next to it showed the (round, spinning) gyro — the reviewer read the gyro as the turbine. Turn the hero part so its
+    signature face looks at the camera (turbine axis across the hull) and swing other look-alikes out of view for that beat.
+  - **A prop on the far corner of a turning part disappears from its own line**: the cup holder rode the turret's rear corner and sat
+    off-frame on "cup holder" in every framing; mount props a line names next to the subject the camera holds (the hatch).
+  - **An exit must be in frame**: Gary's ejection at "the GOOSE is driving" started before the camera turned — delay the action until
+    the glide is under way (he now lands ON "back").
+
+## Lessons from 039 (flashlight → lighthouse, TURBO+ with scene changes; each cost a stills round)
+- **An open-sea set = a displaced grid that is dense at the subject** (`engine/build/lighthouse.js` makeOcean: x = 64u + 560u³ → 0.34 m
+  cells at the rock, ~9 m at the 624 m edge) **with an exact JS mirror** (`seaH`, `floatPose`): boats, buoys and the rowboat ride the
+  same surface the shader draws. Roughness ≥ 0.3 and the wave normal ×0.6: at 0.16 every short ripple near the rock lit up into a white
+  "zebra/marble" pattern that read as foam (three stills rounds blamed the foam shader first).
+- **Cylinder, Lathe and Sphere cut halves use different angle conventions**: Cylinder/Lathe put θ = 0 on +z (x = r·sinθ, z = r·cosθ), so
+  the back half (z ≤ 0) is `thetaStart π/2, length π`; SphereGeometry's phi puts x = −r·cosφ, z = r·sinφ, so its back half is
+  `phiStart π, length π`; Circle/Ring geometries lie in x–y and flip with `rotation.x`. The first sheet had a dome, a skirt and three floor
+  discs on the wrong side. Interior parts (stairs, floors, the lens) stay whole; the shell, gallery, glass, dome and skirt are cut.
+- **"So you build up" = a world-space clip plane on every tower material** (`renderer.localClippingEnabled`, `clipShadows`) at the
+  growing height + a scaffold disc Gary rides + the camera craning up beside it. Sold in one shot what a pop-on never would.
+- **Physics shown, not diagrammed: exaggerate the real effect for one beat.** The sea's curvature (R = 150 m) only during "the horizon is
+  three miles away": over Gary's shoulder the tug is hull-down (cabin over the curve); the camera rises with the lamp and the whole tug
+  comes into view. The far coast is dropped by the same formula so nothing floats.
+- **Things a leaning tower carries ride its transform**: Gary and the gull are posed in tower-local space and pushed through
+  `tw.g.localToWorld` while it leans (else they float 2.5 m off the lantern at 7°).
+- **A big glass prop hides whoever stands behind it**: Gary vanished behind the 1.6 m lens in every lantern gag until he stood on the
+  open (cut) side of it, between the lens and the lens.
+- **A giant wave can't be the sea's displacement**: a 9 m Gaussian bump read as a grey hill. A dedicated extruded curl (vertex-coloured
+  deep → light → white lip), 26 m tall, rolling in from behind the tower toward a front camera, + spray bursts riding its lip, reads as a
+  wave. Weather moods with short fog distances hide anything far: the fog mood erased the incoming wave completely.
+- **Turbo camera on a 20 m tower**: top ↔ base is the expensive move (16–18 m = 1.3–1.5 s at move [0.28, 16]). Schedule those swoops only
+  on words with room (the banister slide down, the carry up the stairs, the gull's fall), and merge two gags > 15 m apart into one wide
+  (the beam pointing one way + the cruise ship sneaking in on the dark side). A telephoto push (fov 56 → 16 from the same spot) is a
+  "move" the speed rule barely charges for: the lens keeps turning.
+- **A "foam" bug that was a geometry bug**: the white zebra/pinwheel pattern around the rock survived three shader fixes. A still with
+  foam switched off proved it was foam; the reason it covered metres of sea was that the rock's side triangles were wound INWARD
+  (front faces culled from outside), so the lens saw through the slope to the foam ring under the rock. Check a custom
+  BufferGeometry's winding (normal = (b − a) × (c − a) must point out) before tuning its shader.
+- **GLSL `smoothstep(edge0, edge1, x)` with edge0 > edge1 is undefined** — write `1.0 - smoothstep(lo, hi, x)` (several reversed calls in
+  the sea / sky / daymark shaders).
+- **Telephoto holds (fov ≤ 12) need `lead: 0, maxLead: 0`** (rail.js, per-framing, opt-in): planRail's soft-hold drift toward the next
+  framing moved the aim 4°, which took the tug right out of an 11° lens.
+- **Night acts need light on faces, measured**: the look reviewer measured mean brightness 45–60/255 for the night (034: 130+) and Gary's
+  face went navy against the lit lens. Night mood exposure 1.38, a brighter hemisphere, the camera fill at 0.5 + 2.6 × (night amount),
+  and a warm point light in the lantern on the open (camera) side.
+- **Counters climb**: a callout can carry `roll: [from, to]` (+ `rollDur`) with `{n}` in its text (captions.js + narrate.py, opt-in):
+  CANDLEPOWER 5 → 2,000 → 80,000, RANGE 3 → 20 MILES, HEARD 0 → 8 MILES, $0 → $4,270,000.
+- **Pay the hook off in ONE readable image**: the first ending had the gull bonk the lantern glass in a 30 m wide (unseen). The comedy
+  reviewer's fix: on "DOESN'T" the gull dives into the DAYS WITHOUT A CRASH sign itself, the card flips 1 → 0 on the BONK and it lands
+  dazed at Gary's feet — the hook, the running counter and "birds really do fly into lighthouses" in one medium shot.
+- **"MrBeast" = scene changes, counted (manager, r1):** the user's ask is a new place or look every ~6–8 s and never > 10 s
+  without one, and every wide a travel move. `tools/scenes.py qc.log` counts it from a `cams:` line the video's EDSTUDIO_QC
+  prints (039 shots.js: pos, look, fov, mood every 0.1 s): a new look = aim turned > 35°, aim/lens moved > 0.6/0.8 of the
+  subject distance, fov ×2, or the weather changed. 039 v2: 55 new looks in 96 s (one per 1.8 s), longest 7.2 s.
+- **No planted open loops:** "He'll need it." (a setup paid off 40 s later) was cut — the pace is the hook, not a promise.
+- **Shorter lines re-time everything:** trimming the script to fit the ElevenLabs budget (≤ 2,450 chars incl. tags, keeping
+  ≥ 1,250 for retakes) removed words that gags were anchored to ('hides', 'deck', 'then', 'wide', 'lens', 'and', 'dark') —
+  anchor gags on words that survive edits, or on derived times (`W(...) + x`), and remap them in shots.js AND make_cues.py.
+  Shorter beats also made two camera moves illegal (`[rail] 10.1 m in 0.53 s`): rerun `--qc` after every script trim.
+- **A "new place" 55 m away in one take = a `swoop`** (rail.js, per framing, opt-in: the move INTO it is a fast one-way dolly,
+  0.4 + d/45 s): 039 flies from Gary's lamp out to the tug's deck in 1.3 s and back to the tower top in 1.6 s with the aim kept
+  on the destination (a dolly, not a pan — every reviewer called it readable). Two hull-down telephotos it replaced were
+  "a box on a brown hill" and the camera reviewer's two worst whips (17 frame widths/s).
+- **A camera on a boat: carry it, steady the boat, shake for the foreground.** Parent a mount to the boat body and lerp the rail
+  camera onto it; zero the boat's pitch/roll while the camera rides (gentle sines instead) or the lookout in the foreground swings
+  in and out of frame; pass `kickR.apply` the distance to the FOREGROUND (5 m), not to the 55 m subject, or every kick throws
+  the lookout out of frame. On a curved sea, drop the camera (and lower its aim) with the same formula as the sea.
+- **A hold whose next frame is far away drifts toward it**: planRail's lead (0.12 × hold, cap 0.25) moved the sunglasses close-up
+  2.5 m down toward the boulder 16 m below — Gary slid to the top edge. Give such holds `lead: 0.02, maxLead: 0.04`.
+- **Aim the gag into the frame**: "one beam points one way" showed no beam in two rounds — the lens angle at that word pointed
+  out of frame. Offset the whole lens-angle table so the beam points where the wide can see it (039 `ANG` offset).
+- **The mid-line `//` bit an ENGINE file:** `…); // emissive: … merc.rotation.x = -PI / 2;` left the mercury ring standing on
+  edge for two review rounds (reviewers: "a white rod", "a pile of white balls above the rim"). Run the CLAUDE.md grep on
+  engine/build/<set>.js too, not only shots.js.
+- **Plausible beats survive the logic reviewer**: a wave "taller than a 200 ft tower" doesn't exist (record waves ≈ 26–30 m);
+  rock lighthouses get swallowed by white water (La Jument 1989). An 11 m breaker + a crown of white water climbing the tower to
+  above the dome reads as bigger than the old 30 m slab, and the line got shorter.
+- **QC face-under-text doesn't test occlusion**: Gary hidden behind the curved sea was flagged "under caption" — check flags
+  against the still before re-aiming.
+- **Words/s is not speech speed:** 039's real take (Adam v3, tempo 1.58) ran 4.16 w/s vs 034's 4.32 — but 5.84 syllables/s vs
+  034's 5.81: the script's words are longer (1.38 vs 1.35 syl/word: geographic, parabolic, characteristic). Measure syl/s before
+  re-voicing for "pace". Cutting sentences spoken at the average rate shortens the reel but can't raise w/s (words and seconds go
+  in the same proportion); raising pauseFloor −45 → −32 dB bought only +0.07 w/s.
+- **Trim a v3 take for free by splicing the cached clip** (039 `splice.py` in the producer's notes): cut whole sentences from the
+  cached mp3, keep only the gap AFTER the cut sentence (no doubled breath), 15 ms crossfade, and save the result under the cache key
+  narrate.py computes for the NEW text (`sha1([voice_id, model, settings, text])[:10]`, `ext: .wav`) — narrate reuses it, 0 chars
+  billed. Cut where the word has DECAYED below −45 dBFS, not at its timestamp: v3's `t1` can end before the release ("everywhere."
+  lost its tail — the seam check caught it at z +4). Check each seam objectively: RMS + spectral centroid across ±40 ms vs the
+  take's natural sentence gaps, flagging only when one side is above −40 dBFS. Re-voice only mid-sentence cuts (the hold line: 47 chars).
+- **039's review rounds (logic · look · pacing · camera · comedy):** v1 5 · 5.5 · 6 · 5.5 · 6 → v2 (range telephotos, wave from the
+  side, the gull dives into the sign, night brightened) 6.5 · 6.5 · 7 · 6.5 · 7 → v3 (real Adam take, tug-deck swoop, beam into the
+  frame, mercury bug fixed, the plausible wave, dawn, acted stamps) 7 · 7.0 · 8 · 7.5 · 8 → v4 (hatch ladder instead of
+  teleports, the deck's bulwark in frame, foam white water, the wedge in frame, the reviewers' framings) — see the G3 report.
+  Biggest wins: a NEW PLACE per beat (the tug's deck, the helix seen from above, the freighter's bow, the sea side for "the boats
+  finally miss") and making each line's gag happen IN the frame on its word (the beam pointing one way, the rock wedge, the
+  hand at the ear). Reviewers counted 30–56 places/looks; the user's ask was a new one every 6–8 s.
+- **Teleports hide in wides**: Gary snapping from the lantern to the watch room (2 m down through a solid floor) was invisible in
+  stills and obvious at 2 fps to the logic reviewer. Give every floor change a route (039: a hatch + ladder on the cut side).
+

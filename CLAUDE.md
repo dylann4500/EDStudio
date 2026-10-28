@@ -369,6 +369,11 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Lighthouse kit (039, `engine/build/lighthouse.js`):** open sea (a JS mirror of the shader waves: `seaH`/`floatPose`, an
+  exaggerated curve `R`, a big wave), 7 moods, a cutaway rock lighthouse that grows (`setGrow` clip plane) and leans, a hatch ladder
+  to the lantern, Fresnel lens/mirror/beams, boats (tug/sailboat/cruise/freighter/barge), gull, foam spray crown, far coast. A camera
+  riding a boat: mount it on the boat body, steady the boat, shake for the foreground distance (039 tug deck). rail.js `swoop`
+  (fast one-way dolly to a far place) and `lead/maxLead`; `tools/scenes.py` counts new looks (docs/BUILD.md → Lessons from 039).
 - **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
   below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
   conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in
