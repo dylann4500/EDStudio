@@ -119,3 +119,12 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **Same place, before and after:** the pool appears bright (title, toss, dive) and again at +1 DAY with the same swimmers in towels
   — the callback sells the change better than a new set would.
 - New engine pieces: `engine/sets/lagoon.js` (+ `nightSkyTexture()` for any day set), core.js HUD formats (CLAUDE.md cheat sheet).
+- **TRIBE: target NOT met after 3 cuts; shipped cut2 (wc 0.0321 / first 60 s 0.0345, dead zone 37–45 s).** The bright first
+  half carried it (goal + home end 0.069, dive 0.062–0.066, wedding 0.057–0.059); everything after LIGHTS OUT sat at 0.01–0.04.
+  cut2 (same timeline + audio: rooftop party lights + extras, phone flashlights at the dark wedding, a frost orbit, kids running,
+  diamond dust) lifted wedDark/moonA/moonB/orbit/frost 30–110 % but the ripple dropped the ice beat 0.054 → 0.038: net +3 %.
+  cut3 re-framed frost + fires so the faces sat mid-frame and the fire drum dropped to the bottom (narrower lens, level gaze) —
+  both went NEGATIVE (−0.009) and the whole cut fell to 0.029. **Lesson: in a dark scene the fire IS the subject — a big,
+  bright, moving flame in the middle of the frame scored better than centered faces lit by it.** A premise whose second half
+  is night everywhere is a structural handicap: next time give the dark half ≤ 1/3 of the runtime, or keep the payoff places
+  bright (fires, lit interiors, a lit stadium crowd) instead of starlit.

@@ -716,6 +716,11 @@ even with an astronaut), and so does the sleeping title shot (−0.033). Keep th
 **028 (Earth stops spinning, science, 60.6 s) cut1: wc 0.0667 / first 60 s 0.0675 / 21.7 % above, no dead zone → TARGET MET first
 try,** the best science score: every beat a bright day place with faces close and the world streaking past a free-frame camera
 (Texas wind storm 0.115, NYC aftermath 0.111); the faceless/frozen early beats (Quito intro −0.007, first slide 0.030) were the low.
+**036 (Sun disappears, science, 65 s) = target NOT met in 3 cuts; shipped cut2 (wc 0.0321 / first 60 s 0.0345):** the bright
+half before LIGHTS OUT scored 0.04–0.07, the 40 s after it 0.01–0.04 however we lit it (party lights, flashlights, diamond dust,
+an orbiting camera = +3 %). cut3 centered the faces at the fire drums and pushed the flames to the bottom of the frame → those
+beats went negative (−0.009) and the cut fell to 0.029. In the dark, the big moving flame in mid-frame is what scores; and a
+premise that is night everywhere for half the reel caps the score — keep dark stretches ≤ 1/3 of the runtime.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
