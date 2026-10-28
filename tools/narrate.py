@@ -173,6 +173,42 @@ def estimate_words(text, x):
     return out
 
 
+def squeeze(x, words, max_pause, fade=0.012):
+    """Turbo pace (034, script.json "maxPause"): shorten every gap between two words to max_pause s by cutting the middle of
+    the gap (short crossfade), and shift the word times to match. v3 reads ~0.3–0.9 s pauses at periods and before yells."""
+    cuts, F = [], int(fade * SR)
+    for a, b in zip(words, words[1:]):
+        g = b['t0'] - a['t1']
+        if g > max_pause:
+            c0 = a['t1'] + max_pause / 2
+            cuts.append((c0, c0 + g - max_pause))
+    if not cuts:
+        return x, words
+    parts, prev = [], 0
+    for c0, c1 in cuts:
+        i0, i1 = int(c0 * SR), int(c1 * SR)
+        seg = x[prev:i0].copy()
+        if parts and F and len(seg) > F:   # fade the join in
+            seg[:F] *= np.linspace(0, 1, F)
+        if F and len(seg) > F:
+            seg[-F:] *= np.linspace(1, 0, F)
+        parts.append(seg); prev = i1
+    tail = x[prev:].copy()
+    if F and len(tail) > F:
+        tail[:F] *= np.linspace(0, 1, F)
+    parts.append(tail)
+
+    def tm(t):
+        s = 0.0
+        for c0, c1 in cuts:
+            if t >= c1:
+                s += c1 - c0
+            elif t > c0:
+                return c0 - s
+        return t - s
+    return np.concatenate(parts), [{'w': w['w'], 't0': tm(w['t0']), 't1': tm(w['t1'])} for w in words]
+
+
 def trim(x, words, pad=0.04):
     """Cut leading/trailing silence from a clip; shift its word times to match."""
     loud = np.nonzero(np.abs(x) > 10 ** (-46 / 20))[0]
@@ -244,6 +280,8 @@ def narrate(slug, provider, key):
         tempo = cfg.get('tempo', 1.0) if provider == 'eleven' else 1.0
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
+        if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
+            x, words = squeeze(x, words, cfg['maxPause'])
         clips.append((b, x, words, os.path.relpath(path, vd)))
     # assemble: lead + clip + gap + clip … + tail
     t = cfg.get('lead', 0.15)

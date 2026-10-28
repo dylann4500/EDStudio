@@ -7,6 +7,8 @@
 // z: out(+), el: elbow bend(+)}, legL/legR {x, kn}, head {x: nod, y: turn, z: tilt}, eyes 'open'|'wide'|'half'|'closed'|
 // 'spiral'|'x', look [dx, dy] (-1..1), brows -1 angry … +1 worried, mouth 'smile'|'grin'|'o'|'scream'|'flat'|'frown'|'wavy'|
 // 'teeth', beard 0..1 (1 = to the floor), gray 0..1 (hair goes white), hairUp 0..1, xray (bool, skeleton flash), char 0..1,
+// soot 0..1 (patchy smudges on face, hat + clothes: a cartoon blast), mud 0..1 + mudColor (the same shells, any colour: pit mud,
+// pumpkin goo), noBrows (eyebrows singed off),
 // tint [color, 0..1] (whole body, e.g. fossil stone), faceTint [color, k] (skin only: strain red, nausea green), hatLift 0..1
 // (the hard hat pops off; spikes show), noHat.
 import * as THREE from 'three';
@@ -18,6 +20,44 @@ const tex = (w, h, draw) => {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 };
 let MOUTHS = null, EYEFX = null;
+let SMUDGE = null;
+function smudgeTexture() {   // soot blotches with soft edges on a transparent canvas, wrapped across the u seam (seeded: deterministic)
+  if (SMUDGE) return SMUDGE;
+  let sd = 11; const r = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+  SMUDGE = tex(512, 256, (g, w, h) => {
+    // the face front of a sphere shell is u = 0.25: a forehead smear, both cheeks and the chin, then random patches
+    const face = [[0.2, 0.31, 20, 1.6, 0.7, 0.2], [0.33, 0.55, 17, 1.2, 0.8, 0.9], [0.16, 0.6, 15, 1.1, 0.9, -0.4], [0.27, 0.74, 13, 1.4, 0.6, 0.1]];
+    for (let i = 0; i < 46 + face.length; i++) {
+      const F = face[i];
+      const x = F ? F[0] * w : r() * w, y = F ? F[1] * h : h * (0.06 + r() * 0.88), R = F ? F[2] : 8 + r() * 22, ax = F ? F[3] : 1 + r() * 0.7, ay = F ? F[4] : 0.55 + r() * 0.45, rot = F ? F[5] : r() * Math.PI, a = F ? 0.85 : 0.6 + r() * 0.35;
+      for (const dx of [-w, 0, w]) {
+        const gr = g.createRadialGradient(x + dx, y, 0, x + dx, y, R * ax);
+        gr.addColorStop(0, `rgba(24,24,26,${a})`); gr.addColorStop(0.55, `rgba(30,30,33,${a * 0.85})`); gr.addColorStop(1, 'rgba(34,34,37,0)');
+        g.fillStyle = gr; g.beginPath(); g.ellipse(x + dx, y, R * ax, R * ay, rot, 0, Math.PI * 2); g.fill();
+      }
+    }
+  });
+  return SMUDGE;
+}
+let GOO = null;
+function gooTexture() {   // 034: white blotches + drips on a transparent canvas, tinted by the material colour (mud, pumpkin goo)
+  if (GOO) return GOO;
+  let sd = 29; const r = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+  GOO = tex(512, 256, (g, w, h) => {
+    const face = [[0.24, 0.42, 22, 1.5, 0.8, 0.3], [0.31, 0.62, 18, 1.2, 0.9, 0.7], [0.18, 0.66, 16, 1.0, 1.0, -0.3], [0.26, 0.3, 15, 1.3, 0.6, 0.1]];
+    for (let i = 0; i < 40 + face.length; i++) {
+      const F = face[i];
+      const x = F ? F[0] * w : r() * w, y = F ? F[1] * h : h * (0.08 + r() * 0.84), R = F ? F[2] : 9 + r() * 20, ax = F ? F[3] : 1 + r() * 0.6, ay = F ? F[4] : 0.6 + r() * 0.4, rot = F ? F[5] : r() * Math.PI, a = F ? 0.95 : 0.7 + r() * 0.3;
+      for (const dx of [-w, 0, w]) {
+        const gr = g.createRadialGradient(x + dx, y, 0, x + dx, y, R * ax);
+        gr.addColorStop(0, `rgba(255,255,255,${a})`); gr.addColorStop(0.7, `rgba(240,240,240,${a * 0.9})`); gr.addColorStop(1, 'rgba(230,230,230,0)');
+        g.fillStyle = gr; g.beginPath(); g.ellipse(x + dx, y, R * ax, R * ay, rot, 0, Math.PI * 2); g.fill();
+        if (i % 3 === 0) { g.fillStyle = `rgba(245,245,245,${a * 0.85})`; g.beginPath(); g.ellipse(x + dx, y + R * 0.9, R * 0.18, R * 0.7, 0, 0, Math.PI * 2); g.fill(); }   // a drip
+      }
+    }
+  });
+  return GOO;
+}
 function mouthTextures() {
   if (MOUTHS) return MOUTHS;
   const ink = '#3a1a14', lip = (g) => { g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = ink; g.lineWidth = 16; };
@@ -162,6 +202,21 @@ export function makeToon(o = {}) {
   };
   const armL = limb(-1, true), armR = limb(1, true), legL = limb(-1, false), legR = limb(1, false);
   root.traverse((m) => { if (m.isMesh && m.material === M.bone) m.castShadow = false; });
+  // soot (033): patchy smudge shells over the face, hard hat and clothes (opacity = p.soot), never a whole-body tint
+  const SM = new THREE.MeshStandardMaterial({ map: smudgeTexture(), transparent: true, opacity: 0, roughness: 1, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+  const SMH = SM.clone(), smudges = [], smudgeSrc = [];   // the hard hat gets a lighter dusting (full strength read as leopard print)
+  root.traverse((m) => { if (m.isMesh && (m === skull || m.material === M.shirt || m.material === M.pants || m.material === M.hat)) smudgeSrc.push(m); });
+  for (const src of smudgeSrc) {
+    const sh = new THREE.Mesh(src.geometry, src.material === M.hat ? SMH : SM); sh.position.copy(src.position); sh.rotation.copy(src.rotation); sh.scale.copy(src.scale).multiplyScalar(1.02);
+    sh.castShadow = false; sh.renderOrder = 1; sh.visible = false; src.parent.add(sh); smudges.push(sh);
+  }
+  // mud / goo (034): the same patchy shells in any colour (white blotches tinted by the material): pit mud, pumpkin goo
+  const MU = new THREE.MeshStandardMaterial({ map: gooTexture(), color: 0x5b3a1f, transparent: true, opacity: 0, roughness: 0.3, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
+  const goos = [];
+  for (const src of smudgeSrc) {
+    const sh = new THREE.Mesh(src.geometry, MU); sh.position.copy(src.position); sh.rotation.copy(src.rotation); sh.scale.copy(src.scale).multiplyScalar(1.03);
+    sh.castShadow = false; sh.renderOrder = 1; sh.visible = false; src.parent.add(sh); goos.push(sh);
+  }
 
   let mouthKey = 'smile';
   function set(p = {}) {
@@ -202,7 +257,7 @@ export function makeToon(o = {}) {
     const hb = C.hat === 'hardhat' ? [0.075, -0.035, -0.3] : [0, 0, 0];
     hat.position.set(0, hb[0] + lift * 0.55, hb[1] - lift * 0.15); hat.rotation.set(hb[2] - lift * 0.9, 0, lift * 0.5); hat.visible = !p.noHat;
     // x-ray zap + char
-    const xr = !!p.xray, ch = p.char ?? 0, [tc, ta] = p.tint || [0, 0], [fc, fa] = p.faceTint || [0, 0], [gc, ga] = p.glow || [0, 0]; // glow: emissive [color, intensity] (a character that IS the light)
+    const so = p.soot ?? 0, xr = !!p.xray, ch = p.char ?? 0, [tc, ta] = p.tint || [0, 0], [fc, fa] = p.faceTint || [0, 0], [gc, ga] = p.glow || [0, 0]; // glow: emissive [color, intensity] (a character that IS the light)
     for (const b of bones) b.visible = xr;
     for (const k of ['skin', 'shirt', 'pants', 'shoes', 'hair', 'hat']) {
       const m = M[k];
@@ -215,6 +270,10 @@ export function makeToon(o = {}) {
     }
     for (const e of eyes) { e.white.visible = !xr; e.pg.visible = e.pg.visible && !xr; }
     mouth.visible = !xr;
+    SM.opacity = clamp(so) * 0.95; SMH.opacity = clamp(so) * 0.4; for (const sh of smudges) sh.visible = so > 0.01 && !xr;
+    mouth.renderOrder = so > 0.01 || (p.mud ?? 0) > 0.01 ? 2 : 0;   // the mouth decal draws over the face shell
+    const mu = clamp(p.mud ?? 0); MU.opacity = mu; MU.color.setHex(p.mudColor ?? 0x5b3a1f); for (const sh of goos) sh.visible = mu > 0.01 && !xr;   // 034: mud: 0..1, mudColor
+    for (const e of eyes) e.brow.visible = !p.noBrows;   // 034: singed off
   }
   set({});
   return { root, set, armL, armR, legL, legR, head, hat, M, hand: (side) => (side < 0 ? armL.hand : armR.hand) };

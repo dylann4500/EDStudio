@@ -304,6 +304,25 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   wasn't saved, re-create the task in a user-typed turn, or post from the manager session at the slot (a background
   `sleep` until the slot re-invokes you).
 
+## Turbo pace (034, opt-in variant — user: "faster pace, no moments of silence, continuous text… SUPER overstimulating")
+An experiment on top of the normal build rules (one continuous take, no cuts, Gary, kicks): the same ~100 s, ~30 % more words,
+no pauses, something new on screen every < 0.8 s. Measured numbers + what worked are filled in below as 034 ships.
+- **The bar:** ~420–440 words in 95–100 s (4.3–4.5 words/s over the speech span), no gap between words > 0.25 s anywhere (the
+  one-word caption is never blank: narrate.py holds a word ≤ 0.35 s past its end), ≥ 45 callouts, ≥ 140 effect bursts, ≥ 60
+  kicks, ≥ 400 SFX events, ~55–65 framings, no camera hold > 1.0 s. 033 for comparison: 374 words, 3.58 w/s, 7 gaps > 0.25 s
+  (3.7 s of them), max 0.74 s, 6 blank-caption moments.
+- **Pauses are cut, not read faster:** script.json `"maxPause": 0.18` (narrate.py, opt-in) cuts the middle of every word gap longer
+  than that (12 ms crossfades, word times shifted) — v3 reads 0.3–0.9 s at full stops and before every yell. `"gap": 0.04` between
+  beats, `"tail": 1.1`. Tempo raises the speech rate only a little more (v3 Adam ≈ 3.6 w/s at tempo 1.30 → ≈ 4.0 at 1.45).
+- **Measure it:** `python3 -I tools/pace.py NNN-slug [other slugs or words.json]` (w/s, max gap, gaps > 0.25 s, caption blanks);
+  `python3 -I tools/density.py NNN-slug qc.log` reads the video's EDSTUDIO_QC `counts:`/`events:` lines (034 shots.js wraps
+  fx.burst/stream with a counter) and lists every stretch > 0.8 s with no new callout/burst/kick/framing.
+- **Faster glides:** `planRail(frames, { move: [0.35, 13], minHold: 0.9 })` (rail.js, opt-in) — moves need ≥ 0.35 + d/13 s instead
+  of 0.6 + d/8; motion blur keeps them smooth. Keep look points near the subject's distance (a far look point counts 0.7× its
+  travel in the speed lint: 034's cannon-on-the-hill framing aimed 20 m away tripped a 14 m warning).
+- **Density fill:** after the first density report, add one small word-keyed burst/kick to every empty stretch (mud clods off the
+  links, dust at each bump crest, a spring glow, the mud burping) — cheap, and it reads as constant motion.
+
 ## QC checklist (build)
 - [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
       ~4.5 s) · ≥ 70 scheduled `fx.burst|stream` (one per ~1.5 s) · ~45–50 framings in one take (one per ~2.2 s) · ≥ 250 SFX
@@ -614,3 +633,27 @@ as a record of what the cut style needs, if it is ever tried again.
   by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
   final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
+
+## Lessons from 034 (go-kart → tank, the first TURBO reel; each cost a stills round)
+- **A vehicle that upgrades in place = one rig with staged parts** (`engine/build/tank.js` `makeKartTank().setStage({...})`): the
+  kart rides up onto a tracked deck, plates pop on one by one, the glacis tilts about its bottom edge (its length = h / cos a so its
+  top always meets the roof), hull gun → turret, mower → turbine, periscopes, kit. Two traps: hull side plates must END where the
+  tilted glacis meets the roof (else they poke through it), and the turret's corner reach must clear the driver's head in every yaw
+  (a 1.7 m bustle swept Gary's face whenever the gun pointed back).
+- **Tracks:** links instanced along a convex-hull loop around the wheels, placed at `j·pitch − s` (s = distance driven ± half-track ×
+  yaw for skid steering) — the links touching the ground stay put. Build them on screen link by link (`setTracks(…, build)`, road
+  wheels pop as the chain reaches them); popping a whole tracked chassis in one frame read as a cut (logic review).
+- **Cut each part on the side that faces the lens in ITS beats**: the hull window on +z (the tank faces +x), but the turret window
+  on the side that faces the lens when the gun points at the recoil/stabilizer targets — a turret pointing back at the melon hides
+  its window, and that's fine for that beat.
+- **Things that hide until used must be hidden from frame 0**: `makeDizzy` starts visible at the origin — a stray yellow star sat on
+  the cut face for 15 s until the first `dizzy.update(t, 0, …)`. Call every helper's update every frame.
+- **Sign conventions**: bridge halves hinged at the banks rotate by `s·angle` (s = −1 left) to drop their free ends; v1 had them
+  rising like a drawbridge, which also hid the sag.
+- **Round-1 scores (v1, scratch, 99.9 s): logic 6 · look 6 · pacing 7 · camera 6 · comedy 6.5.** The narration met the turbo bar at
+  once (4.50 w/s, max gap 0.18 s); the PICTURE didn't keep up: 75 framings meant the planner clamped 33 holds, so the camera left the
+  TURRET, the melon explosion and the lemonade before their words. Fixes that worked: the camera reviewer's probe (rebuild the rail
+  from shots.js + story.json, print each subject's x/y % ON its word) and its tested framings; a density fill (tools/density.py →
+  one word-keyed burst/kick per empty stretch: 40 → 18 holes); a goose neck as one tube (beads read as a caterpillar); splats + dents
+  that stay on the plate; Gary's mess that accumulates (mud → goo → washed by the creek; soot + no brows stay).
+

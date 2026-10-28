@@ -9,6 +9,7 @@ import { clamp } from '../core.js';
 // Speed rule (v2 camera review: 11 "whips" of 9–26 m in < 1.3 s read as cuts): a move of d metres needs ≥ 0.6 + d/8 s.
 // The lint below warns (render log) on any segment faster than that; use planRail() to build keys that obey it.
 export const moveTime = (d) => 0.6 + d / 8;
+const moveTimeDefault = moveTime;
 const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
 /** Framings → rail keys. frames: [{t (arrive on the word), pos, look, fov, pass?, keep?, stop?, until?}].
@@ -19,8 +20,11 @@ const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
  *    in/out "pumping"; drifting toward the NEXT frame removes both). `stop: true` = a true zero-speed hold (the last frame).
  *  - `until: t` keeps a hold at least until t (a gag that must finish in frame), as long as the next move stays legal.
  *  - Every consecutive pair of keys (pass→pass too) is checked against moveTime; violations print `[rail]` warnings. */
-export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15, shortHoldPass = false } = {}) {   // shortHoldPass (026): a ≤ 0.25 s hold flows through as a pass key instead of a dead stop
+export function planRail(frames, { minHold = 1.3, lead = 0.06, maxLead = 0.15, shortHoldPass = false, move = null } = {}) {   // shortHoldPass (026): a ≤ 0.25 s hold flows through as a pass key instead of a dead stop
+  // move (034 turbo pace, opt-in): [a, b] = a faster speed rule a + d/b s (e.g. [0.35, 13]); motion blur keeps those glides smooth
+  const moveTime = move ? (d) => move[0] + d / move[1] : moveTimeDefault;
   const F = [...frames].sort((a, b) => a.t - b.t).map((f) => ({ ...f })), keys = [];
+  F.forEach((f) => { if (!Number.isFinite(f.t) || ('until' in f && f.until !== undefined && !Number.isFinite(f.until))) console.warn(`[rail] framing with a non-numeric time (t=${f.t}, until=${f.until}): an undefined word key?`); });   // 033: t.say was undefined → until NaN → the camera left 0.3 s after arriving
   const comps = (f) => [...f.pos, ...f.look, f.fov ?? 40], un = (v) => ({ pos: v.slice(0, 3), look: v.slice(3, 6), fov: v[6] });
   const need = (f, n) => moveTime(Math.max(dist3(f.pos, n.pos), dist3(f.look, n.look) * 0.7));
   F.forEach((f, i) => { const n = F[i + 1]; if (n && i > 0 && !f.pass && !f.keep && !f.stop && n.t - need(f, n) - f.t < minHold) { f.pass = true; if (planRail.verbose) console.warn(`[rail] framing at t=${f.t.toFixed(2)} becomes a pass (hold ${(n.t - need(f, n) - f.t).toFixed(2)} s)`); } });
