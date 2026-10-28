@@ -395,6 +395,18 @@ videos/NNN-slug/
   staircase with a landing (`DIMS.stairFoot/landing/stairTop`), an OCEAN FLOOR sign, `setSea(level, t, frontZ)` (silty water + foam
   rings at the stacks + an optional foam line). 029 clips the sea plane at an advancing z (`material.clippingPlanes` +
   `renderer.localClippingEnabled`) so the tide front races over the floor before the bay rises.
+- **Sound-led doubling kit (035, farts 2× louder):** `engine/sets/master.js` (`buildMaster`: a sunny grown-up bedroom at 7 AM —
+  double bed, a `duvet` group you can lift/fly, pillows, two nightstands + lamps, an alarm `clock` group that can hop off, window +
+  `curtains`, `art` over the bed, dresser, laundry chair, plants), `engine/sets/quakelab.js` (`buildQuakeLab`: seismology room —
+  a drum seismograph whose paper is a live canvas (`paper`), a pivoting `pen` arm, three wall monitors `screens[]` = live
+  canvases, rolling `chairs[]`, mugs, a swinging `lamp`; the ink at drum angle φ sits at u = 0.25 + φ/2π, canvas rows map to
+  world x along the drum: 035 `drawPaper`). synth.py (035): `toot` (size 0..1: a 380 Hz squeak → a tuba bwaaamp with a sub
+  thump; soft, low-passed — the cartoon fart), `car_alarm`, `wing_flutter` (a flock lifting off), `glass_crack`. 035 shots.js:
+  `ripple()` = the cartoon pressure ring (camera-facing ring sprites + floor rings) — the most a gross-out premise shows at its
+  source; `blow(rig, k)` sweeps the hair back + widens the eyes/raises the brows (reset every frame); `hat()` = hats posed on a
+  head that fly ballistic at a blast; `burst()` = analytic debris pools (papers, books, petals, glass, popcorn); `lie()` = a rig on
+  its back by its hip (tilt −π/2 flat → 0 sitting up; −1.2 = propped on pillows, the only way faces clear a duvet from the foot
+  of the bed); an apartment facade built from brick boxes around real window openings with neighbors leaning out.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
@@ -608,6 +620,13 @@ videos/NNN-slug/
 - **A toddler/kid sitting ON THE FLOOR = `y −0.68, footFwd 0.62`** (in the rig's own units); `y −0.22` is chair height (031).
 - **A close-up of a lying/sitting pet puts his face in the subtitle band** unless the aim is LOW (031 sob shot: aim y 0.13 for a
   head at 0.3 m); when he stands up mid-shot, dolly back + lift the aim in `update()` or the head leaves the top of the frame.
+- **Hiding a set's furniture by position also hides its FLOOR (035):** office.js's floor plane sits at the origin, so a "hide
+  everything near the desk" filter turned the bottom of every office still black. Exclude big PlaneGeometry meshes from such filters.
+- **A facade with alpha-cut window holes (`destination-out` + `alphaTest`) rendered solid in 035** — build a wall with openings
+  from boxes around the windows (UVs scaled per box) instead; and a room box behind an opening must not reach into the set's own
+  buildings (street.js front facades start at z = 10: hide them for that shot).
+- **A staccato pluck "bounce" fails the music-dropout check on its own (035):** the plucks decay 14 dB between stabs. A chord
+  pad per chord at level ≈ 3 under the bounce fixed it (level 1.1–1.6 wasn't enough).
 - **LatheGeometry profiles: no two consecutive equal points** (zero-length segment → NaN normals → black blocks).
 - **A prop you add can swallow the camera (022):** a press-room reverse shot rendered black because the camera sat behind a
   presentation screen just added to the set. Run bearing.py on new props as well as people. And never fade a cap mesh in by
