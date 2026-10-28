@@ -138,6 +138,11 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   faces in a bright store topped the chart (herding 0.130, the walk to Mom 0.120–0.132, reunion 0.125, cheer + balloons 0.121);
   even a 2 s register-screen insert scored 0.108 because it lands on a joke. Weakest: the title (−0.03), the badge two-shot
   where Mom's back fills the left half (0.037), the empty 4 PM aisle (0.053) and the short cart ending (0.051).
+- **TRIBE (038 cut1: TARGET MET by a hair, wc 0.0450, first 60 s 0.0488 — the lowest Pip score):** the first 17 s sagged
+  (family evening wide 0.011, dark room 0.020, rooftop blackout 0.024, Mia hides 0.027) and so did the sleeping ending (0.016,
+  incl. the end card); from the flashlight on, every beat with Pip doing something close held 0.07–0.10 (the rainy street in
+  the raincoat 0.100, the bunny 0.089, the candle box lighting Mom's face 0.084). Unlike 021, these dark shots framed faces
+  at 2–4 m: in a blackout episode get the lens close from the first beat and keep the faceless town wide short.
 - **Ep. 2 (023, Halloween) added `engine/halloween.js`** (CLAUDE.md → Halloween kit): the suburb at dusk with porches you can
   walk up (steps, lanterns, jacks, a lit hallway behind any open door), Pip's pumpkin costume that doubles as his candy bucket,
   candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
