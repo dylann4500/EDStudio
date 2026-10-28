@@ -396,6 +396,17 @@ videos/NNN-slug/
   rings at the stacks + an optional foam line). 029 clips the sea plane at an advancing z (`material.clippingPlanes` +
   `renderer.localClippingEnabled`) so the tide front races over the floor before the bay rises.
 
+- **Fire kit (037, `engine/oxygen.js`):** `makeFlames({n, r, seed})` = cartoon flames that read in DAYLIGHT (3 nested
+  teardrop tongues red → orange → yellow, unlit, transparent, `depthWrite:false`, renderOrder 5/6/7 so the inner bands draw
+  over the outer shell; additive glow sprites wash out to white on a bright sky). Call `update(t, h, {wind:[x,z], width, maxW,
+  spread})` every frame (h = height m, 0 hides it); **always cap `maxW`** for tall columns (a 4 m column at the default width was
+  2 m wide and hid every face). Props: `makeCake({candles})` (`wicks`), `makePartyHat`, `makeBalloon`, `makeGrill()` (`lid` hinge,
+  `patties[]`), `makeCampfire`, `makeTent`, `makeStick` (marshmallow), `makeFireTruck` (`setLights(t)`), `makeHelmet`,
+  `makeExtinguisher` (`nozzle`), `makeDragonfly({span})` (`update(t, rate)`), `makeCrow`, `makeFinishArch(text)` (`setTape(k)`
+  snaps the tape), `makeBarrier`, `makeBib(n)`. synth.py §6c: `fire` bed (size), `whoomp` (flames leaping), `siren` bed (far,
+  low-passed), `hiss` (steam/extinguisher), `breath` (inhale/exhale), `buzz` bed (big wings). 037 shots.js: `runLegs()` = a run
+  cycle (longer stride + knee lift than the walk; local legIK copy), `stream()` = a hose arc of water blobs, `sootify(rig)` /
+  `ageHair(rig)` tint a face / gray the hair, `seatKid()` / `seatAdult()`.
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with
@@ -612,6 +623,12 @@ videos/NNN-slug/
 - **A prop you add can swallow the camera (022):** a press-room reverse shot rendered black because the camera sat behind a
   presentation screen just added to the set. Run bearing.py on new props as well as people. And never fade a cap mesh in by
   `scale.y` (it sinks inside its parent and never shows); fade its opacity.
+- **A lens high over a city sidewalk sits inside the storefront awnings (037):** street.js awnings (y ≈ 2.75) and the hot-dog
+  cart's umbrella (y 2.45, r 0.95) rendered the whole downtown shot as one pink wall. Hide them for that shot (filter meshes by
+  position, restore them after) or keep the camera under 2.3 m there.
+- **A back-hinged lid opening toward the sky becomes a disc between the lens and the cook (037 grill):** slide it off to the side.
+- **A flying insect head-on is invisible (037):** 70 cm dragonfly wings seen edge-on read as nothing next to a crow; turn it
+  broadside (nose across the frame) and roll it ~0.8 rad so the wing surfaces face the lens, and give the wings ≥ 0.7 alpha.
 - GitHub rejects files > 100 MB: `final.mp4` is capped at 6 Mbps (≈45 MB / min) and, for reels longer than ~115 s, lower —
   `finalRateArgs(duration)` in tools/lib.mjs keeps it ≈ 90 MB (009's 2:19 cut hit 101 MB at a flat 6M). Don't commit `out/` or `stills/`.
 

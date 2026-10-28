@@ -2521,6 +2521,83 @@ SFX.update({
 AMBIENCE.update({"water_rush": amb_water_rush, "drill": amb_drill, "fan": amb_fan, "train": amb_train})
 
 
+
+# =============================================================================
+# 6c. fire + air (037 oxygen doubles): soft cartoon fire, a flame "whoomp", a far siren, steam hiss, breaths, big wings.
+#     Everything low-passed (no crackle above ~3 kHz, no siren above ~1.4 kHz) — fire must sound cozy, not harsh.
+# =============================================================================
+
+
+def amb_fire(dur, rng, size=1.0):
+    """A fire bed: a soft low roar (brown noise breathing) + wood crackle grains + rare pops. size 0.3 campfire … 2 blaze."""
+    n = nsamp(dur)
+    out = []
+    for ch in range(2):
+        roar = unit_rms(lp(brown(n, rng), 260 + 120 * size)) * (0.7 + 0.3 * smooth_rand(n, 1.2, rng))
+        crack = _grains(n, rng, 70 + 50 * size, 0.0012, 700, 2800)
+        pops = _grains(n, rng, 2.5, 0.006, 300, 1400)
+        out.append(roar * (0.25 + 0.35 * min(size, 2.0)) + 0.55 * crack + 0.5 * pops)
+    return norm(lp(np.vstack(out), 3000))
+
+
+def sfx_whoomp(rng, size=1.0):
+    """Flames leaping up: a rising air rush (0.2 s), a round low thump, then a crackling roar that fades. anchor = the thump."""
+    pre, n = nsamp(0.18), nsamp(0.18 + 0.6 + 0.9 * size)
+    t = tvec(n) - 0.18
+    rush = bp(pink(n, rng), 250, 1600) * np.clip((t + 0.18) / 0.18, 0, 1) ** 2 * np.exp(-np.clip(t, 0, None) / (0.25 + 0.2 * size))
+    f = 70 * size ** -0.25 * (1 + 0.6 * np.exp(-np.clip(t, 0, None) / 0.04))
+    thump = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-np.clip(t, 0, None) / (0.12 + 0.06 * size)) * (t > 0)
+    roar = lp(brown(n, rng), 500) * np.clip(t / 0.05, 0, 1) * np.exp(-np.clip(t, 0, None) / (0.35 + 0.4 * size))
+    crack = _grains(n, rng, 160, 0.001, 700, 2600) * (t > 0) * np.exp(-np.clip(t, 0, None) / (0.4 + 0.3 * size))
+    y = 0.55 * norm(rush) + (0.7 * min(size, 1.5)) * thump + 0.6 * norm(roar) + 0.3 * crack
+    return Sound(norm(fades(lp(y, 2600), 0.002, 0.15)), anchor=0.18, onsets=[(0.0, "transient")])
+
+
+def amb_siren(dur, rng, distance=1.0, rate=0.32):
+    """A far fire siren: a slow two-octave-less wail (600 ↔ 950 Hz), heavily low-passed with distance, gentle doppler sway."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = 620 + 330 * (0.5 - 0.5 * np.cos(2 * np.pi * rate * t)) + 6 * np.sin(2 * np.pi * 0.23 * t)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    y = np.sin(ph) + 0.35 * np.sin(2 * ph) + 0.12 * np.sin(3 * ph)
+    y = lp(y, 1400 / max(0.8, distance)) * (0.8 + 0.2 * smooth_rand(n, 0.4, rng))
+    return norm(np.vstack([y, lp(np.roll(y, nsamp(0.012)), 1200 / max(0.8, distance))]))
+
+
+def sfx_hiss(rng, dur=1.2):
+    """Steam / an extinguisher: a soft band-limited hiss that swells fast and tails off (low-passed, never sharp)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    y = bp(pink(n, rng), 700, 3400) * (1 - np.exp(-t / 0.04)) * np.exp(-t / (dur * 0.45)) * (0.8 + 0.2 * smooth_rand(n, 8, rng))
+    return Sound(norm(fades(lp(y, 3600), 0.003, 0.1)), onsets=[(0.0, "soft")])
+
+
+def sfx_breath(rng, dur=0.9, inhale=True):
+    """A big breath: airy formant noise that rises (inhale) or falls (exhale / blowing candles)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    env = np.sin(np.pi * np.clip(u, 0, 1)) ** (0.8 if inhale else 0.5) * (np.clip(u * 3, 0, 1) if inhale else np.exp(-u * 1.5))
+    lo = 300 + (900 * u if inhale else 900 * (1 - u))
+    y = sweep_filter(pink(n, rng), lo + 500, q=1.2) * env
+    return Sound(norm(fades(lp(y, 3000), 0.01, 0.08)), onsets=[(0.0, "soft")])
+
+
+def amb_buzz(dur, rng, rate=24.0):
+    """Big wings (a crow-sized dragonfly): a low papery drone at the wingbeat rate with slow wobble."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        am = 0.55 + 0.45 * np.sin(2 * np.pi * (rate + 1.5 * ch) * t + ch) ** 2
+        y = unit_rms(bp(pink(n, rng), 140, 900)) * am * (0.7 + 0.3 * smooth_rand(n, 0.8, rng))
+        out.append(y)
+    return norm(lp(np.vstack(out), 1600))
+
+
+SFX.update({"whoomp": (sfx_whoomp, "prop"), "hiss": (sfx_hiss, "prop"), "breath": (sfx_breath, "cloth")})
+AMBIENCE.update({"fire": amb_fire, "siren": amb_siren, "buzz": amb_buzz})
+
 def load_voice(V, N, log=print):
     """Narration stem (build genre): videos/<v>/<V['file']> (any rate, mono/stereo) -> centered stereo at SR, length N.
     Returns (voice, activity 0..1) — activity drives the music/ambience ducking."""
