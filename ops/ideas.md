@@ -35,17 +35,17 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 025 | How a Kiddie Pool Becomes a Dam | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 026 | How a Garage Becomes a Car Factory | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 027 | What if every electron disappeared? | science / @ed_.studios | made Oct 26, in review |
-| 028 | What if Earth stopped spinning for one second? | science / @ed_.studios | made Oct 27, in review |
-| 029 | What if the Moon were twice as close? | science / @ed_.studios | made Oct 27, in review |
-| 030 | What if nobody at the dog park wanted to play with Pip? (Pip ep. 3) | pip / @ed._.sims | made Oct 27, in review |
-| 031 | What if Pip worked at the supermarket for one day? (Pip ep. 4) | pip / @ed._.sims | made Oct 27, in review |
+| 028 | What if Earth stopped spinning for one second? | science / @ed_.studios | scheduled Wed Oct 28 |
+| 029 | What if the Moon were twice as close? | science / @ed_.studios | scheduled Wed Oct 28 |
+| 030 | What if nobody at the dog park wanted to play with Pip? (Pip ep. 3) | pip / @ed._.sims | scheduled Wed Oct 28 |
+| 031 | What if Pip worked at the supermarket for one day? (Pip ep. 4) | pip / @ed._.sims | scheduled Wed Oct 28 |
 | 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 033 | How a Squirt Gun Becomes a Fire Truck | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 034 | How a Go-Kart Becomes a Tank | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
-| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | queued Oct 28 (Thu 6 PM) |
-| 036 | What if the Sun disappeared? | science / @ed_.studios | queued Oct 28 (Thu 1 PM) |
-| 037 | What if the oxygen in the air doubled? | science / @ed_.studios | queued Oct 28 (Thu 6 PM) |
-| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | queued Oct 28 (Thu 1 PM) |
+| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | building Oct 28 (Thu 6 PM) |
+| 036 | What if the Sun disappeared? | science / @ed_.studios | building Oct 28 (Thu 1 PM) |
+| 037 | What if the oxygen in the air doubled? | science / @ed_.studios | building Oct 28 (Thu 6 PM) |
+| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | building Oct 28 (Thu 1 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
