@@ -42,11 +42,12 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 033 | How a Squirt Gun Becomes a Fire Truck | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 034 | How a Go-Kart Becomes a Tank | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
-| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | building Oct 28 (Thu 6 PM) |
+| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | made Oct 28, in review (Thu 6 PM) |
 | 036 | What if the Sun disappeared? | science / @ed_.studios | building Oct 28 (Thu 1 PM) |
 | 037 | What if the oxygen in the air doubled? | science / @ed_.studios | building Oct 28 (Thu 6 PM) |
-| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | building Oct 28 (Thu 1 PM) |
+| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | made Oct 28, in review (Thu 1 PM) |
 | 039 | How a Flashlight Becomes a Lighthouse | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
+| 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | queued Oct 28 (Thu 6 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -74,7 +75,6 @@ Classic tier ("everyone on Earth…"):
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
-- What if a tornado hit while Pip was home alone? (suburb porch-roof collapse, Pip and the bunny ride it out in the bathtub, family comes home. Disaster that goes right)
 - What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
 - What if Pip saw snow for the first time? (first snow, SNOWFLAKES CAUGHT, a snowman that becomes his friend. Firsts are their best tier; seasonal for November)
 - What if the street flooded and Pip went back for the ducklings? (flood plane from pool.js water, WATER LEVEL, the duck family follows him home. Source: tsunami episodes 0.9–1.3M)
