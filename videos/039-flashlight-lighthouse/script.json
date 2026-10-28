@@ -463,7 +463,7 @@
           "text": "1 FINGER",
           "style": "label",
           "hold": 0.9,
-          "y": 0.64
+          "y": 0.8
         },
         {
           "at": "carousel",
@@ -899,8 +899,8 @@
           "text": "BACK TO 0",
           "style": "stamp",
           "hold": 1.3,
-          "y": 0.27,
-          "x": 0.32
+          "y": 0.2,
+          "x": 0.26
         }
       ]
     }

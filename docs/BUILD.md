@@ -812,10 +812,21 @@ as a record of what the cut style needs, if it is ever tried again.
 - **039's review rounds (logic · look · pacing · camera · comedy):** v1 5 · 5.5 · 6 · 5.5 · 6 → v2 (range telephotos, wave from the
   side, the gull dives into the sign, night brightened) 6.5 · 6.5 · 7 · 6.5 · 7 → v3 (real Adam take, tug-deck swoop, beam into the
   frame, mercury bug fixed, the plausible wave, dawn, acted stamps) 7 · 7.0 · 8 · 7.5 · 8 → v4 (hatch ladder instead of
-  teleports, the deck's bulwark in frame, foam white water, the wedge in frame, the reviewers' framings) — see the G3 report.
+  teleports, the deck's bulwark in frame, foam white water, the wedge in frame, the reviewers' framings) 7.5 · 7.5 · 8.5 · 8 · 8 →
+  v5 (seated far lighthouses, the lens hoisted up the open front, the carousel as one move outside the lantern, the ending crane
+  that lands and rests) 7.5 · 7.5 · 8.5 · 8.5 · 8.5 → shipped after a post-r5 fix pass (the lookout restored — a comment had
+  swallowed his `add`, a slower lantern-to-sea swoop, the rest frame, WHAT? held on Gary) checked on the 60 fps final: logic 8,
+  camera 8.5. **Measure motion on the 60 fps final, tile phase correlation with the caption band masked** (the reviewer's
+  `tile60.py`): a 30 fps cut under-reads fast pans (the hook pan read ~2 fw/s at 30 fps, 3.4 at 60); global phase correlation is
+  steered by particles and kicks, and projecting the rail analytically over-reads cranes/dollies (the subject stays centred).
   Biggest wins: a NEW PLACE per beat (the tug's deck, the helix seen from above, the freighter's bow, the sea side for "the boats
   finally miss") and making each line's gag happen IN the frame on its word (the beam pointing one way, the rock wedge, the
   hand at the ear). Reviewers counted 30–56 places/looks; the user's ask was a new one every 6–8 s.
+- **Appending a comment to a line that already continues kills the rest of it (bit 039 three times):** `…}); // note tug.body.add(capt.root);`
+  deleted the tug's lookout for a whole review round (three reviewers "couldn't find" him), `… // note merc.rotation.x = -PI / 2;` stood
+  the mercury ring on edge for two, `… // note chunk.castShadow = true;` lost a shadow. The CLAUDE.md grep misses comments that end in a
+  call/assignment with no `;` before the code — also run `grep -nE "//.*[A-Za-z_]+(\.[A-Za-z_]+)*\([^)]*\);\s*$|//.*[A-Za-z_]+\.[A-Za-z_.]+ = [^;]+;\s*$"`
+  on every edited file and read each hit. Better: put new comments on their own line.
 - **Teleports hide in wides**: Gary snapping from the lantern to the watch room (2 m down through a solid floor) was invisible in
   stills and obvious at 2 fps to the logic reviewer. Give every floor change a route (039: a hatch + ladder on the cut side).
 

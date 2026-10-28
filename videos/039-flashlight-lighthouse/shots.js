@@ -109,7 +109,7 @@ export async function build(studio, story) {
   const shades = makeShades(0.075, 0.1); gary.head.add(shades); shades.position.set(0, 0.05, 0.3);
   const gull = makeGull(); scene.add(gull.root);
   const tug = makeTug(), sail = makeSailboat(), cruise = makeCruise(), barge = makeBarge(), freighter = makeFreighter(); [tug, sail, cruise, barge, freighter].forEach((b) => scene.add(b.g));
-  const capt = makeToon({ shirt: 0x1d3f7a, pants: 0x1b1b1b, hair: 0x9a9a9a, hairStyle: 'messy', hat: 'cap', hatColor: 0x23315c, mustache: 0xdddddd });   // r4 logic: a navy captain's cap (yellow read as Gary) tug.body.add(capt.root);
+  const capt = makeToon({ shirt: 0x1d3f7a, pants: 0x1b1b1b, hair: 0x9a9a9a, hairStyle: 'messy', hat: 'cap', hatColor: 0x23315c, mustache: 0xdddddd }); tug.body.add(capt.root);   // r4 logic: a navy captain's cap (yellow read as Gary)
   const scope = mk(new THREE.CylinderGeometry(0.03, 0.045, 0.32, 10), mat(0xc9a24a, 0.4), capt.hand(1), 0, -0.05, 0.12); scope.rotation.x = PI / 2;
   const tugCam = new THREE.Object3D(); tug.body.add(tugCam); tugCam.position.set(0.6, 1.6, 0.3);   // the camera mount on the tug's deck (behind the lookout on the foredeck)
   const TYAW = PI + 0.3, TUGCAM0 = [53 + 0.6 * Math.cos(TYAW) + 0.3 * Math.sin(TYAW), 3.2, -14.5 - 0.6 * Math.sin(TYAW) + 0.3 * Math.cos(TYAW)];
@@ -136,7 +136,7 @@ export async function build(studio, story) {
   const rays = new THREE.Group(); Lt.g.add(rays);   // "it shines everywhere": short soft rays in every direction (up, down to the sea, sideways)
   for (let i = 0; i < 10; i++) { const r = Lt.beams[0].clone(); r.material = Lt.beams[0].material.clone(); r.material.uniforms.uLen.value = 70; r.scale.set(16 / 70, 0.35, 0.35); const el = [1.2, 0.6, -0.5, -1.0, 0.1, 0.9, -0.3, 0.3, -1.2, 0.5][i], az = i * 2.4; r.rotation.set(0, az, el, 'YZX'); rays.add(r); }
   const dizzy = makeDizzy(scene);
-  const chunk = mk(new THREE.DodecahedronGeometry(0.75, 1), new THREE.MeshStandardMaterial({ color: 0x8c877f, roughness: 0.85 }), scene, 0, 0, 0); chunk.geometry.dispose(); chunk.geometry = new THREE.IcosahedronGeometry(0.75, 0); chunk.material.flatShading = true; chunk.material.color.set(0x7d776f); chunk.scale.set(2.2, 1.0, 1.6);   // r4 logic: an angular wedge of rock (the round one read as a boulder rolling off)   // r2: a real wedge of rock chunk.castShadow = true;
+  const chunk = mk(new THREE.DodecahedronGeometry(0.75, 1), new THREE.MeshStandardMaterial({ color: 0x8c877f, roughness: 0.85 }), scene, 0, 0, 0); chunk.geometry.dispose(); chunk.geometry = new THREE.IcosahedronGeometry(0.75, 0); chunk.material.flatShading = true; chunk.material.color.set(0x7d776f); chunk.scale.set(2.2, 1.0, 1.6); chunk.castShadow = true;   // r4 logic: an angular wedge of rock (the round one read as a boulder rolling off)
   const sticks = [[-35, 30, -300], [-10, 32, -300]].map((p) => { const c = S.coast.nd.clone(); c.position.set(...p); c.traverse((o) => { if (o.isMesh && o.material.uniforms) o.visible = false; }); S.coast.g.add(c); return c; });   // more white sticks on the coast: WHICH ONE?
   { // r4 logic: the far lighthouses floated 10–20 m above the cliff tops — seat each on the cliff ridge (raycast down onto the cliff mesh)
     S.coast.g.updateMatrixWorld(true); const cliffs = [S.coast.cliffs];
@@ -355,10 +355,9 @@ export async function build(studio, story) {
   Fk(t.mercury - 0.2, [-1.6, GY + 2.3, 3.4], [0.65, GY + 0.45, 0.25], 44, POUR1);   // r2: mercury macro at the trough rim: the pour, the silver ring rising, the lens lifting
   Fk(t.nowM - 0.1, [2.6, GY + 1.6, 6.0], [0.3, GY + 1.1, 0], 42, t.finger + 0.05);
   Fr.push({ t: t.spins + 0.35, pos: [6.6, 21.6, 4.2], look: [-0.6, 20.3, -0.4], fov: 46, swoop: 30 });   // r4 (manager): orbit OUT behind the lantern: the spinning beams sweep the night sea and flash across the incoming freighter
-  Fk(t.carousel - 0.3, [5.4, 21.4, 3.2], [0, 20.5, 0], 42, t.carousel + 0.3);   // …then push in to the back glass: the gull rides the lens like a carousel
+  Fk(t.carousel - 0.3, [5.4, 21.4, 3.2], [0, 20.5, 0], 42, t.carousel + 0.05);
   // CHAR: from the gallery, down-left to the confused sailboat (the light next door far behind it); the 2nd bullseye; from the sea: flash-flash; HELP blinks; the storm hits (same view)
-  Fr.push({ t: t.mistakes + 0.02, pos: [-3, 5.0, 15], look: [-15, 3.6, 5.5], fov: 50, swoop: true });   // r3 camera: the bow arrives on "mistakes"
-  Fk(W('char', 'lighthouse'), [-4, 4.8, 13], [-10, 3.6, 4.1], 50, SAIL_BONK + 0.35);   // r2 camera: the bow 35 %, the light next door 69 %
+  Fr.push({ t: t.mistakes + 0.5, pos: [-3.5, 4.9, 14], look: [-12, 3.6, 4.8], fov: 50, keep: true, until: SAIL_BONK + 0.35, swoop: 30 });   // post-r5: one slower one-way swoop onto the freighter's bow + the light next door (it ran 2.4–2.8 frame widths/s)   // r3 camera: the bow arrives on "mistakes"
   F(t.characteristic - 0.15, [4.2, 4.0, 27], [-2.9, 12.0, 3.8], 56); P(t.yours - 0.1, [3, 8.5, 22], [-2.9, 14, 3.8], 54);   // r4 camera: a crane-up with both lights in frame
   Fk(t.garys - 0.1, [3.0, GY + 1.3, 5.0], [1.0, GY + 1.0, 0.2], 40, t.help + 0.3);   // r2 pacing: push into the gallery: Gary flaps a board over the lens = HELP
   // STORM: the wave rips the bottom bricks (base close); pull back as the tower leans
@@ -373,11 +372,11 @@ export async function build(studio, story) {
   Fk(t.nobody + 0.1, [12, 5, 17], [8, 2, -1], 48, FBONK + 0.15);
   Fk(t.compressed + 0.05, [3.8, 4.4, 7.6], [3.2, 3.5, 1.2], 40, t.air + 0.15);
   Fk(t.foghorn - 0.15, [9.5, 4.6, 9.0], [5.0, 3.6, 1.0], 44, t.out + 0.1);
-  Fk(t.garyFg - 0.15, [5.6, 3.9, 5.4], [4.5, 3.25, 1.5], 36, t.what + 0.35);
+  Fk(t.garyFg - 0.15, [5.6, 3.9, 5.4], [4.5, 3.25, 1.5], 36, t.what + 0.25);
   // DAYMARK: our white stick + the one next door; the orbit round the back while Gary paints; polka dots; the big wave rolls in from the right
-  Fk(W('daymark', 'every') - 0.05, [8, 4.5, 24], [3.2, 10, 0], 40, t.stick + 0.25);   // r3 camera: our tower left third, the sticks right third   // r2 camera: our tower 27 %, three more white sticks 51/70/85 %
-  F(t.paint + 0.1, [7.0, 6.2, 6.4], [3.1, 5.0, -0.5], 44);   // r4 camera: Gary mid-frame on the swing
-  P(t.daymark + 0.3, [10.0, 9.0, -2.5], [1.2, 8.5, -1.0], 44);
+  Fr.push({ t: t.stick - 0.6, pos: [8, 4.5, 24], look: [3.2, 10, 0], fov: 40, keep: true, until: t.stick - 0.05, swoop: 45 });   // post-r5 comedy: hold Gary through WHAT?, then swoop to the white sticks
+  Fr.push({ t: t.paint + 0.05, pos: [7.4, 7.2, 5.2], look: [3.0, 5.4, -0.4], fov: 42, keep: true, until: t.daymark - 0.1, swoop: 45 });   // post-r5 camera: over the horn's bell, Gary mid-frame on the swing
+  P(t.daymark + 0.45, [10.0, 9.0, -2.5], [1.2, 8.5, -1.0], 44);
   Fk(t.spiral - 0.15, [14, 9, -16], [0.5, 12.3, -1], 54);   // r2 camera: the whole painted back of the tower
   Fk(t.polka - 0.05, [8.0, 12.6, -4.5], [0.6, 12.2, -0.8], 40, t.dots + 0.2);
   Fr.push({ t: t.waveW, pos: [23, 10, 8], look: [0, 11, -2.5], fov: 63, keep: true, until: IMPACT + 0.9, swoop: 35 });   // r2: pull back from the polka dots to the side: the 11 m breaker rolls in, hits, its white water swallows the whole tower
@@ -395,8 +394,8 @@ export async function build(studio, story) {
   Fk(t.miss - 0.1, [1.5, 6.2, 12.5], [-4.2, 3.0, 1.5], 52);   // r3 camera: rise — the boats sail past left of the oak, the sign + Gary on the left
   Fk(t.seagullE - 0.15, [-2.4, 4.4, 9.6], [-2.6, 3.2, 2.7], 46);   // push in for the gull's dive into the sign
   Fk(GLAND2 + 0.05, [-2.3, 4.6, 9.9], [-2.6, 4.0, 2.7], 44, END - 1.2);   // r2 camera: sign 7–45 %, Gary 70 %, the gull dazed at his feet
-  Fr.push({ t: END - 0.35, pos: [15, 12.5, 18], look: [-0.5, 11, 0], fov: 54, keep: true, swoop: true, lead: 0.02, maxLead: 0.04 });   // r4: crane back to the finished, painted lighthouse at sunset — lands early
-  Fr.push({ t: END, pos: [15.2, 12.6, 18.3], look: [-0.5, 11, 0], fov: 53.5, stop: true });   // …and rests (a tiny drift)
+  Fr.push({ t: END - 0.35, pos: [15, 12.5, 18], look: [-2.3, 12.6, 1.6], fov: 58, keep: true, swoop: true, lead: 0.02, maxLead: 0.04 });   // r4: crane back to the finished, painted lighthouse at sunset — lands early
+  Fr.push({ t: END, pos: [15.2, 12.6, 18.3], look: [-2.3, 12.6, 1.6], fov: 57.5, stop: true });   // …and rests (a tiny drift)
   // turbo creep: every hold longer than 1.8 s gets a mid-hold pass key that orbits ±11° round its own look point (same subject,
   // a slow arc instead of a parked lens); telephotos are left alone
   { Fr.sort((a, b) => a.t - b.t); const add = [];
@@ -493,7 +492,7 @@ export async function build(studio, story) {
       const atMouth = tt > t.garyFg - 0.6, blown = tt > HB2, wq = K(tt, [[t.garyFg - 0.6, [2.05, 1.9]], [t.garyFg, [5.05, 1.6]]]);
       p = { ...p, x: wq[0], y: RY, z: wq[1], walk: atMouth && tt < t.garyFg ? tt * 12 : undefined, rotY: atMouth ? (tt > t.what - 0.2 ? (() => { const c = rail.at(tt).pos; return Math.atan2(c[0] - 5.05, c[2] - 1.6); })() : -1.0) : 0.7, armR: tt < PUMP1 ? { x: -1.4 + Math.sin(tt * 18) * 0.5, z: 0.2, el: 0.5 } : tt > t.what - 0.1 ? { x: -1.2, z: 1.2, el: 2.2 } : { x: -0.2, z: 0.2 }, armL: { x: 0, z: 0.15 },
         mouth: blown ? (tt > t.what - 0.1 ? 'o' : 'scream') : 'grin', eyes: blown ? 'spiral' : blinkE(tt), hatLift: blown ? clamp(u01(tt, HB2, HB2 + 0.3)) * (1 - smooth(u01(tt, t.what + 0.45, t.what + 0.75))) : 0, hairUp: blown && tt < t.what + 0.6 ? 1 : 0, rz: blown ? 0.2 * Math.exp(-(tt - HB2) * 3) : 0 };
-      if (tt > t.by - 0.4) { const yC = paintY(CHAIR0 + 0.05), rr = tw.rAt(yC) + 0.55; p = { ...p, x: lerp(5.05, Math.cos(0.55) * rr, u01(tt, t.by - 0.4, CHAIR0)), z: lerp(1.6, -Math.sin(0.55) * rr, u01(tt, t.by - 0.4, CHAIR0)), rotY: -2.4, walk: tt * 11, eyes: blinkE(tt), mouth: 'smile', hatLift: 0, rz: 0 }; }
+      if (tt > t.by - 0.05) { const yC = paintY(CHAIR0 + 0.05), rr = tw.rAt(yC) + 0.55; p = { ...p, x: lerp(5.05, Math.cos(0.55) * rr, u01(tt, t.by - 0.05, CHAIR0)), z: lerp(1.6, -Math.sin(0.55) * rr, u01(tt, t.by - 0.05, CHAIR0)), rotY: -2.4, walk: tt * 11, eyes: blinkE(tt), mouth: 'smile', hatLift: 0, rz: 0 }; }
     }
     else if (tt < IMPACT) {
       const yC = paintY(tt); const ang = 0.55;   // the chair hangs on the +x/back side, visible to the orbit
@@ -667,7 +666,7 @@ export async function build(studio, story) {
     const ga = lensAng(tt); tw.gears.forEach((gm, i) => (gm.rotation.z = ga * (i === 1 ? -2.6 : i === 2 ? 1.8 : 1) * 3)); tw.fan.rotation.y = ga * 30; tw.crank.rotation.z = tt > CR0 && tt < t.night + 0.6 ? tt * (tt < CR1 ? -16 : -5) : 0;
     tw.cDoor.rotation.y = tt > CUCKOO - 0.15 && tt < CUCKOO + 0.9 ? -1.4 * Math.sin(clamp(u01(tt, CUCKOO - 0.15, CUCKOO + 0.9)) * PI) : 0;
     tw.pedestal.visible = tt > SET - 0.2; tw.trough.visible = tt > POUR0 - 0.3; tw.setFill(smooth(u01(tt, POUR0 + 0.15, POUR1)));
-    flask.rotation.z = tt > POUR0 && tt < POUR1 + 0.1 ? -2.1 * smooth(u01(tt, POUR0, POUR0 + 0.25)) : 0; stream.visible = tt > POUR0 + 0.1 && tt < POUR1; if (stream.visible) { flask.updateWorldMatrix(true, false); flask.localToWorld(v3.set(0, 0.13, 0)); const y0 = v3.y, y1 = GY + 0.26 + 0.17 * smooth(u01(tt, POUR0 + 0.15, POUR1)); stream.position.set(v3.x + 0.05, (y0 + y1) / 2, v3.z + 0.05); stream.scale.y = Math.max(0.05, y0 - y1); }
+    flask.rotation.z = tt > POUR0 && tt < POUR1 + 0.1 ? 2.1 * smooth(u01(tt, POUR0, POUR0 + 0.25)) : 0; stream.visible = tt > POUR0 + 0.1 && tt < POUR1; if (stream.visible) { flask.updateWorldMatrix(true, false); flask.localToWorld(v3.set(0, 0.13, 0)); const y0 = v3.y, y1 = GY + 0.26 + 0.17 * smooth(u01(tt, POUR0 + 0.15, POUR1)); stream.position.set(v3.x + 0.05, (y0 + y1) / 2, v3.z + 0.05); stream.scale.y = Math.max(0.05, y0 - y1); }
     Lt.bulls.forEach((b) => (b.visible = false));
     // wall clock (2.5 hours flick by; then all night)
     const hours = tt < TL0 ? 0 : tt < BOT ? 2.5 * u01(tt, TL0, BOT) : tt < NIGHT0 ? 2.5 : 2.5 + 6 * u01(tt, NIGHT0, t.twoM);

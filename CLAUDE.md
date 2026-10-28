@@ -477,6 +477,8 @@ videos/NNN-slug/
   placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
   `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
+  It misses `…}); // note foo.bar(x);` (no `;` inside the comment before the code): also run
+  `grep -nE "//.*[A-Za-z_]+(\.[A-Za-z_]+)*\([^)]*\);\s*$|//.*[A-Za-z_]+\.[A-Za-z_.]+ = [^;]+;\s*$"` and read each hit (039 lost a character to it).
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
   The classroom door swings flat against the inside wall instead, so the camera sees people come through the opening (003).
   Use `--cam top` to verify. People standing in the hallway stay at z > 0.25 (outside the door's swing arc).

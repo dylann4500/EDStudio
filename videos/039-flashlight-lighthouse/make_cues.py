@@ -250,7 +250,7 @@ e(GFALL0, "flash_swish", -18, -0.3, dur=GLAND2 - GFALL0, peak=0.5); e(GLAND2, "b
 e(CARD0, "knock", -14, -0.4, pitch=1.2); e(CARD0 + 0.15, "gold_chime", -18, -0.4, notes=[81, 77], spacing=0.12, vel=0.4)
 # ---------------------------------------------------------------- density fill (soft, low-passed: the turbo bar wants a sound on almost every frame)
 steps(CL1, CL1 + 0.35, 9.0, -24, 0.1, 0.0); steps(SLIDE1, THUD - 0.3, 10.0, -23, -0.2, 0.1); steps(LIFT + 0.3, HOP0, 9.0, -21, 0.1, -0.2)
-steps(t['by'] - 0.4, CHAIR0, 9.0, -24, 0.4, 0.2); steps(WASH1 + 0.5, FLIP - 0.35, 9.0, -23, -0.3, -0.4)
+steps(t['by'] - 0.05, CHAIR0, 9.0, -24, 0.4, 0.2); steps(WASH1 + 0.5, FLIP - 0.35, 9.0, -23, -0.3, -0.4)
 def flaps(a, b, gain=-26, pan=0.0):   # the gull's wingbeats
     k = 0
     while a + k * 0.16 < b: e(a + k * 0.16, "blanket_rustle", gain, pan, dur=0.1, intensity=0.9, softness=0.3); k += 1
