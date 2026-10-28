@@ -422,6 +422,30 @@ videos/NNN-slug/
   low-passed), `hiss` (steam/extinguisher), `breath` (inhale/exhale), `buzz` bed (big wings). 037 shots.js: `runLegs()` = a run
   cycle (longer stride + knee lift than the walk; local legIK copy), `stream()` = a hose arc of water blobs, `sootify(rig)` /
   `ageHair(rig)` tint a face / gray the hair, `seatKid()` / `seatAdult()`.
+- `engine/sets/lagoon.js` (036): an Icelandic geothermal lagoon at night — opaque milky-blue water glowing from below (swimmers
+  at rig y ≈ −1.22 show heads + shoulders only), steam sprites (`update(t, camLocal)` thins the puffs near the lens), lava rocks
+  with snow caps, a lit LAGOON BAR hut + boardwalk, lamp posts, a pink-lit geothermal greenhouse, a power plant with plumes,
+  mountains, Milky Way sky (r 400, far ≥ 460). **`nightSkyTexture()`** = the same 4096 px star sky as a texture: swap it onto ANY
+  day set's sky dome (`sky.material = new MeshBasicMaterial({map, side: BackSide, fog: false})`) + hemi ≈ 0.06, sun 0 for an
+  instant "stars at 4 PM" (036 `dayNight()` does pool.js + wedding.js).
+- **HUD formats (036, core.js, additive):** `fmt: 'clock'` = seconds as a m:ss countdown (rounded up, 0:00 only when it has run
+  out), `fmt: 'dur'` = elapsed "+1.3 s" / "+8 min 19 s" / "+1 h 10 min", `fmt: 'temp'` = "−18 °C" with a real minus sign.
+- **Day → instant night in one set (036):** lights to ~0, sky dome → `nightSkyTexture`, fog colour → near-black, clouds hidden, and
+  give faces something to be lit by (a flash `PointLight` ≤ 16 at ~1.7 m — 55 blew faces to white; string-light PointLights ~5;
+  a fire drum PointLight ≈ 3.6 at 0.8 m — 9 turned the face across the fire into a white blob). Fire sprites rising past y + 0.45
+  cover the face on the far side of the drum: keep flames low.
+- **A phone photo of the Moon (036 moonA):** make the camera ride the PHONE (hand world pos) but freeze that rig (no idle, no
+  react) for the shot — when the camera rode a hand that moved at the reaction, it ended up inside the head.
+- **End card over a live scene (036 cut4, core.js additive):** `finalFade: [start, end, depth]` — `depth < 1` only dims the frame
+  (0.4 in 036), so the end card sits over the moving sky + shooting stars instead of black (the black end card was the lowest
+  TRIBE stretch of every reel). The HUD still fades out at `finalFade[0]`; default depth 1 = the old fade to black.
+- **A dark premise can still stay lit (036 cut4):** "the power still works" — after the blackout most beats went INSIDE (a
+  stadium whose floodlights bang on bank by bank, a supermarket rush, a laundromat crowd backed against the dryers); only the
+  must-show outdoor beats (stars at 4 PM, the Moon going dark, the ice) stayed dark, each ≤ 3.2 s. Each place = 2–3 quick
+  angles (≈1.5 s) instead of one 5 s shot. football.js in the dark: swap the sky dome to `nightSkyTexture`, hide the clouds, find
+  the roof floodlights (MeshBasic boxes 5 × 0.9) and reuse `lights.sun` as the far floodlight bank (036 `stadScene`).
+  A camera near a goal: the net spans x 52.5–54.5, |z| < 3.66 — 036's first close-up of the home end sat inside it.
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with
@@ -752,6 +776,21 @@ the faceless orbit ring (0.015) and the dinner wide two-beat (0.015) — keep th
 The fire beats with faces right by the flames topped it (barbecue column 0.117, campfire leap 0.113); the weakest were the
 marathon before/at SECOND 0 (0.001: small runners side-on, the title over the pack) and the grandpa's bench (0.042). Open on a
 close face, not a crowd of small figures.
+**036 (Sun disappears, science, 65 s) = target NOT met in 3 cuts; shipped cut2 (wc 0.0321 / first 60 s 0.0345):** the bright
+half before LIGHTS OUT scored 0.04–0.07, the 40 s after it 0.01–0.04 however we lit it (party lights, flashlights, diamond dust,
+an orbiting camera = +3 %). cut3 centered the faces at the fire drums and pushed the flames to the bottom of the frame → those
+beats went negative (−0.009) and the cut fell to 0.029. In the dark, the big moving flame in mid-frame is what scores; and a
+premise that is night everywhere for half the reel caps the score — keep dark stretches ≤ 1/3 of the runtime.
+**036 cut4 → cut5 = TARGET MET (wc 0.0581 / first 60 s 0.0581, no dead zone) after the manager allowed a full retime:** cut4
+rebuilt it as ~1.5 s angles (the bright countdown across pool, London goal, a new Chicago playground, Tuscany; the dark half
+mostly lit interiors) and the first 37 s jumped to 0.06–0.11 — but everything after the faceless orbit shot fell to 0.00–0.03
+(wc 0.0394, dead zone 41–57 s), even the BRIGHT supermarket and laundromat full of faces. cut5 kept 0–37 s identical, cut the
+tail from 19 s to 9 s (one ~2 s shot per rung of the day ladder) and put CROWD VOICES under every tail beat (crowd_cheer
+murmur/cheer at −26…−28 dB, applause under the end card), and put the end card over the lagoon faces instead of empty sky: the
+tail rose to 0.03–0.044 and every early beat rose too (wc +47 %). Lessons: (1) the beats with a roaring crowd / applause in the
+mix scored highest all along — vocal crowd beds are a cheap lift for any beat (no speech needed); (2) a long low tail drags
+the mean and is where dead zones live: compress the epilogue to ~2 s per rung; (3) the end card over a live, face-filled
+scene (`finalFade` depth 0.3) beat black (−0.026 → +0.018 for the stars + card stretch).
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 

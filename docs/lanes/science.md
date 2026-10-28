@@ -121,3 +121,33 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **TRIBE cut1 = 0.0595 / first 60 s 0.0599, no dead zone → TARGET MET first try.** Fire beats with faces close topped it
   (bbq 0.117, campfire 0.113, truck 0.075); the marathon open was the low (race 0.001, title −0.042): small side-on runners.
   Next science reel: open on one close face reacting, not a pack.
+
+## Sixth video: 036 "What if the Sun disappeared?"
+- **Shape (65.0 s):** title over a busy Phoenix pool → the Sun pops out of existence over a sunlit Earth (SECOND 0, 2.9 s, faceless)
+  → **8 min 19 s of borrowed daylight**: HUD `fmt: 'clock'` countdown LAST SUNLIGHT ARRIVES IN 8:19 → 0:00 across four bright places
+  (the pool: a dad tossing his kid; London: a goal + the home end erupting; Tuscany: a golden-hour wedding photo; the pool again: a kid
+  jumps off the diving board and it goes dark in mid-air) → LIGHTS OUT, everywhere at once: the wedding under a black sky full of
+  stars at 4 PM, lit by the photographer's flash → Bangkok (night side): a phone photo of the half Moon goes black at +1.3 s, Jupiter
+  at +70 min (HUD `fmt: 'dur'`) → dark Earth (city lights) leaves on a straight line (3 s, faceless) → the cold ladder (HUD
+  `fmt: 'temp'`): +1 DAY the same pool, frost + towels round a fire drum; +1 WEEK −18 °C Chicago fire barrels; +1 MONTH a frozen
+  Maine harbor, an ice fisherman pulls a fish out of the liquid water below; +1 YEAR −73 °C faces in Iceland's steaming geothermal
+  lagoon → a kid points up, the camera tilts to the Milky Way → "What would you do in the last 8 minutes?".
+- **Honest physics on screen:** the day side goes dark AT ONCE (sunlight stops arriving everywhere within ~0.02 s), not place by
+  place; the night side only notices through the Moon (a QUARTER Moon = +1.28 s; a full Moon would be ~2.6 s) and the planets.
+  Gravity's speed = c is the second half of the hook ("Earth keeps circling a Sun that isn't there", GW170817). Cooling numbers are
+  "scientists estimate"; the day-1 and month-1 HUD values are interpolations (said in the shots.js header + caption comment).
+- **Same place, before and after:** the pool appears bright (title, toss, dive) and again at +1 DAY with the same swimmers in towels
+  — the callback sells the change better than a new set would.
+- New engine pieces: `engine/sets/lagoon.js` (+ `nightSkyTexture()` for any day set), core.js HUD formats (CLAUDE.md cheat sheet).
+- **TRIBE: target NOT met after 3 cuts; shipped cut2 (wc 0.0321 / first 60 s 0.0345, dead zone 37–45 s).** The bright first
+  half carried it (goal + home end 0.069, dive 0.062–0.066, wedding 0.057–0.059); everything after LIGHTS OUT sat at 0.01–0.04.
+  cut2 (same timeline + audio: rooftop party lights + extras, phone flashlights at the dark wedding, a frost orbit, kids running,
+  diamond dust) lifted wedDark/moonA/moonB/orbit/frost 30–110 % but the ripple dropped the ice beat 0.054 → 0.038: net +3 %.
+  cut3 re-framed frost + fires so the faces sat mid-frame and the fire drum dropped to the bottom (narrower lens, level gaze) —
+  both went NEGATIVE (−0.009) and the whole cut fell to 0.029. **Lesson: in a dark scene the fire IS the subject — a big,
+  bright, moving flame in the middle of the frame scored better than centered faces lit by it.** A premise whose second half
+  is night everywhere is a structural handicap: next time give the dark half ≤ 1/3 of the runtime, or keep the payoff places
+  bright (fires, lit interiors, a lit stadium crowd) instead of starlit.
+- **cut4 + cut5 (Oct 28, manager-approved retime):** cut4 0.0394 (bright 37 s at 0.06–0.11, tail dead zone); cut5 **0.0581, target
+  met** — same first 37 s, epilogue cut to ~2 s per rung with crowd voices under it, end card over the lagoon faces. Shipped cut5
+  (51.8 s). See CLAUDE.md → TRIBE notes for the lessons (crowd-voice beds, short epilogues, end card over a live scene).

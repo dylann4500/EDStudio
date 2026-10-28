@@ -197,6 +197,13 @@ export function fmtTime(v) {
   return `${str} ${U[k][1]}s`;
 }
 
+/** 036: seconds → a countdown "8:19" (rounded up, so it reads 0:00 only when it has run out). */
+const fmtClock = (v) => { const s = Math.max(0, Math.ceil(v - 1e-6)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+/** 036: seconds → elapsed "+1.3 s" / "+8 min 19 s" / "+1 h 10 min". */
+const fmtDur = (v) => { if (v < 60) return `+${v.toFixed(1)} s`; if (v < 3600) { const m = Math.floor(v / 60); return `+${m} min ${Math.floor(v - m * 60)} s`; } const h = Math.floor(v / 3600); return `+${h} h ${Math.floor((v - h * 3600) / 60)} min`; };
+/** 036: a temperature with a real minus sign ("−18 °C"). */
+const fmtTemp = (v) => { const r = Math.round(v); return `${r < 0 ? '−' : ''}${Math.abs(r)} °C`; };
+
 export function createOverlay(story) {
   const title = $('title'), hud = $('hud'), num = $('hudNum'), time = $('hudTime'), age = $('hudAge');
   const sub = $('sub'), fade = $('fade'), end = $('end');
@@ -234,7 +241,8 @@ export function createOverlay(story) {
         }
       }
       num.textContent = seg.text !== undefined ? seg.text : seg.timefmt ? fmtTime(n)
-        : seg.fmt === 'len' ? fmtLen(n) : (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
+        : seg.fmt === 'len' ? fmtLen(n) : seg.fmt === 'clock' ? fmtClock(n) : seg.fmt === 'dur' ? fmtDur(n) : seg.fmt === 'temp' ? fmtTemp(n)
+        : (seg.dec ? n.toFixed(seg.dec) : fmt(n)) + (seg.unit || '');
       if (seg.label !== undefined || story.hudLabel) $('hudLabel').textContent = seg.label ?? story.hudLabel ?? '';
       time.textContent = seg.time || '';
       age.textContent = seg.ageFrom && u < 0.5 ? seg.ageFrom : seg.age || '';
@@ -256,7 +264,8 @@ export function createOverlay(story) {
     for (const [a, m, b] of story.dips || []) {
       if (t >= a && t <= b) f = Math.max(f, t < m ? (m === a ? 1 : smooth((t - a) / (m - a))) : (b === m ? 1 : 1 - smooth((t - m) / (b - m))));
     }
-    if (story.finalFade) f = Math.max(f, smooth((t - story.finalFade[0]) / (story.finalFade[1] - story.finalFade[0])));
+    // finalFade [start, end, depth?]: depth (036, default 1) < 1 only dims the frame, so the end card can sit over a live scene
+    if (story.finalFade) f = Math.max(f, (story.finalFade[2] ?? 1) * smooth((t - story.finalFade[0]) / (story.finalFade[1] - story.finalFade[0])));
     fade.style.opacity = f;
     if (story.end) end.style.opacity = smooth((t - story.end.in) / 0.5);
   }
