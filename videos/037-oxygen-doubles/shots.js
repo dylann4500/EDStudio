@@ -5,6 +5,7 @@
 // → a birthday wish. NEW: engine/oxygen.js (cartoon flames that read in daylight, cake, grill, campfire, fire truck, helmet,
 // extinguisher, dragonfly, crow, finish arch, barriers, bibs). Reused: street.js, suburb.js, kitchen.js, frontier woods,
 // playground.js.
+// TRIBE cut1: wc 0.0595 / first 60 s 0.0599 / 20.0 % above, no dead zone → TARGET MET (bbq 0.117, camp 0.113; race 0.001).
 //
 // MODEL (stated so a reviewer can check every number): at SECOND 0 the extra oxygen REPLACES nitrogen; total air pressure stays
 // 1 atm. O₂ 20.95 % → 41.9 %, N₂ 78 % → ~57 %. So the oxygen partial pressure doubles: 0.21 → 0.42 atm (the number lungs and

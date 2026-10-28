@@ -1,0 +1,20 @@
+037-oxygen-doubles-cut1: 62 s
+  wc_mean                  +0.0595   best existing +0.0447  BEATS
+  wc_mean_first60          +0.0599   best existing +0.0421  BEATS
+  pct_above_thresh         +20.0331   best existing +15.7313  BEATS
+  hook_0_3                 -0.0418
+  sustain_pooled_median    +88.7097
+  dead zones (≥8 s below 0.0185, after 4 s): none
+  per beat (mean whole-cortex, min second):
+      0.0–  3.4 title     -0.0418  min -0.0444  #
+      3.4–  8.6 race      +0.0014  min -0.0346  ##########
+      8.6– 13.4 bench     +0.0424  min +0.0387  ##################
+     13.4– 18.6 cake      +0.0622  min +0.0465  ######################
+     18.6– 23.8 bbq       +0.1171  min +0.0881  #################################
+     23.8– 28.8 camp      +0.1131  min +0.0813  ################################
+     28.8– 33.8 forest    +0.0645  min +0.0545  ######################
+     33.8– 38.8 truck     +0.0745  min +0.0687  ########################
+     38.8– 43.8 rust      +0.0582  min +0.0566  #####################
+     43.8– 49.8 fly       +0.0511  min +0.0303  ####################
+     49.8– 62.0 wish      +0.0683  min +0.0194  #######################
+  TARGET MET (beat 013 on whole-brain mean + first 60 s, no dead zones)

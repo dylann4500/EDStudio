@@ -718,6 +718,10 @@ even with an astronaut), and so does the sleeping title shot (−0.033). Keep th
 **028 (Earth stops spinning, science, 60.6 s) cut1: wc 0.0667 / first 60 s 0.0675 / 21.7 % above, no dead zone → TARGET MET first
 try,** the best science score: every beat a bright day place with faces close and the world streaking past a free-frame camera
 (Texas wind storm 0.115, NYC aftermath 0.111); the faceless/frozen early beats (Quito intro −0.007, first slide 0.030) were the low.
+**037 (oxygen doubles, science, 62 s) cut1: wc 0.0595 / first 60 s 0.0599 / 20.0 % above, no dead zone → TARGET MET first try.**
+The fire beats with faces right by the flames topped it (barbecue column 0.117, campfire leap 0.113); the weakest were the
+marathon before/at SECOND 0 (0.001: small runners side-on, the title over the pack) and the grandpa's bench (0.042). Open on a
+close face, not a crowd of small figures.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
