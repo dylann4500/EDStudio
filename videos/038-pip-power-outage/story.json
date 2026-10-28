@@ -1,0 +1,317 @@
+{
+  "tone": "emotional",
+  "series": "pip",
+  "look": {
+    "exposure": 1.15,
+    "fill": 0.55,
+    "vignette": 0.22,
+    "bloom": 0.3,
+    "bloomThreshold": 0.85
+  },
+  "fps": 30,
+  "duration": 67.0,
+  "title": {
+    "html": "What if the whole town lost power… and only Pip wasn't <em>scared</em>?",
+    "in": -0.4,
+    "out": 3.4
+  },
+  "subs": [
+    [
+      3.7,
+      4.9,
+      "This is Pip."
+    ],
+    [
+      5.2,
+      7.6,
+      "Tonight, a big storm rolled in."
+    ],
+    [
+      8.8,
+      11.2,
+      "At 7:42, the whole town went dark."
+    ],
+    [
+      11.9,
+      13.9,
+      "Everyone was a little scared."
+    ],
+    [
+      14.5,
+      16.4,
+      "Mia hid."
+    ],
+    [
+      17.1,
+      19.0,
+      "Dad found the coffee table."
+    ],
+    [
+      19.7,
+      21.7,
+      "Mom couldn't find the candles."
+    ],
+    [
+      22.3,
+      25.1,
+      "Next door, Mrs. Rosa and Bean were all alone."
+    ],
+    [
+      25.7,
+      27.2,
+      "But Pip wasn't scared."
+    ],
+    [
+      27.4,
+      29.5,
+      "Dogs see much better in dim light."
+    ],
+    [
+      29.9,
+      31.7,
+      "He found the flashlight."
+    ],
+    [
+      33.7,
+      35.2,
+      "He found the candles."
+    ],
+    [
+      35.6,
+      37.1,
+      "The battery kind."
+    ],
+    [
+      37.7,
+      39.6,
+      "He brought Mia her bunny."
+    ],
+    [
+      41.7,
+      43.4,
+      "Then he remembered someone."
+    ],
+    [
+      43.7,
+      45.4,
+      "So he went next door."
+    ],
+    [
+      46.0,
+      48.0,
+      "Nobody should be scared alone."
+    ],
+    [
+      48.3,
+      49.6,
+      "Not even Bean."
+    ],
+    [
+      50.1,
+      52.3,
+      "A blanket fort. Everybody in."
+    ],
+    [
+      52.9,
+      55.1,
+      "Nobody was scared anymore."
+    ],
+    [
+      55.7,
+      58.1,
+      "At 11:58, the power came back."
+    ],
+    [
+      58.8,
+      60.4,
+      "Nobody noticed."
+    ],
+    [
+      60.8,
+      62.3,
+      "Not even Pip."
+    ]
+  ],
+  "hudLabel": "HOMES WITH POWER",
+  "hud": [
+    {
+      "t0": 0.0,
+      "t1": 8.4,
+      "from": 12400,
+      "to": 12400,
+      "time": "7:41 PM · MAPLE ST",
+      "age": "STORM · HEAVY RAIN"
+    },
+    {
+      "t0": 8.4,
+      "t1": 11.6,
+      "from": 12400,
+      "to": 0,
+      "r0": 8.7,
+      "r1": 11.7,
+      "time": "7:42 PM · THE WHOLE TOWN",
+      "age": "BLACKOUT"
+    },
+    {
+      "t0": 11.6,
+      "t1": 22.0,
+      "from": 0,
+      "to": 0,
+      "time": "7:43 PM · PIP'S HOUSE",
+      "age": "CANDLES FOUND · 0"
+    },
+    {
+      "t0": 22.0,
+      "t1": 25.4,
+      "from": 0,
+      "to": 0,
+      "time": "7:45 PM · NEXT DOOR",
+      "age": "MRS. ROSA + BEAN · ALONE"
+    },
+    {
+      "t0": 25.4,
+      "t1": 29.6,
+      "from": 0,
+      "to": 0,
+      "time": "7:46 PM · PIP'S HOUSE",
+      "age": "TAPETUM LUCIDUM · A MIRROR IN EACH EYE"
+    },
+    {
+      "t0": 29.6,
+      "t1": 33.4,
+      "from": 0,
+      "to": 0,
+      "time": "7:48 PM · PIP'S HOUSE",
+      "age": "FLASHLIGHTS FOUND · 1"
+    },
+    {
+      "t0": 33.4,
+      "t1": 41.4,
+      "from": 0,
+      "to": 0,
+      "time": "7:51 PM · PIP'S HOUSE",
+      "age": "BATTERY CANDLES · 6"
+    },
+    {
+      "t0": 41.4,
+      "t1": 49.8,
+      "from": 0,
+      "to": 0,
+      "time": "8:05 PM · MAPLE ST · RAIN",
+      "age": "NEIGHBORS CHECKED ON · 1"
+    },
+    {
+      "t0": 49.8,
+      "t1": 55.4,
+      "from": 0,
+      "to": 0,
+      "time": "8:30 PM · THE BLANKET FORT",
+      "age": "PEOPLE 5 · DOGS 2 · SCARED 0"
+    },
+    {
+      "t0": 55.4,
+      "t1": 58.4,
+      "from": 0,
+      "to": 12400,
+      "r0": 55.7,
+      "r1": 57.9,
+      "time": "11:58 PM · THE WHOLE TOWN",
+      "age": "POWER BACK"
+    },
+    {
+      "t0": 58.4,
+      "t1": 67.0,
+      "from": 12400,
+      "to": 12400,
+      "time": "12:00 AM · THE BLANKET FORT",
+      "age": "STILL IN THE FORT · 7",
+      "ageGoldAt": 58.8
+    }
+  ],
+  "end": {
+    "in": 63.0,
+    "html": "What should Pip try <em>next</em>?",
+    "small": "TELL US IN THE COMMENTS 👇"
+  },
+  "dips": [],
+  "finalFade": [
+    62.4,
+    63.0
+  ],
+  "pip": {
+    "thunder": [
+      1.3,
+      6.3,
+      12.6,
+      23.2,
+      42.6,
+      47.7
+    ],
+    "flicker": [
+      7.7,
+      8.25
+    ],
+    "blackout": [
+      8.7,
+      11.7
+    ],
+    "homeOut": 11.85,
+    "bump": 17.75,
+    "rummage": [
+      19.6,
+      20.2,
+      21.0
+    ],
+    "grab": 30.85,
+    "click": 31.3,
+    "tug": [
+      33.7,
+      34.3
+    ],
+    "lid": 34.6,
+    "candles": [
+      35.0,
+      35.25,
+      35.5,
+      35.75,
+      36.0,
+      36.25
+    ],
+    "pickBunny": 37.85,
+    "dropBunny": 39.25,
+    "peek": 39.55,
+    "hug": 40.2,
+    "knock": [
+      45.9,
+      46.15,
+      46.4
+    ],
+    "open": 46.6,
+    "beanWag": 47.9,
+    "laughs": [
+      50.6,
+      51.9,
+      53.4
+    ],
+    "powerBack": [
+      55.7,
+      57.9
+    ],
+    "snores": [
+      59.0,
+      60.6,
+      62.2
+    ],
+    "boofs": [
+      5.9
+    ]
+  },
+  "debugView": {
+    "center": [
+      3000,
+      0,
+      0
+    ],
+    "height": 9
+  }
+}

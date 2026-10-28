@@ -138,6 +138,11 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   faces in a bright store topped the chart (herding 0.130, the walk to Mom 0.120–0.132, reunion 0.125, cheer + balloons 0.121);
   even a 2 s register-screen insert scored 0.108 because it lands on a joke. Weakest: the title (−0.03), the badge two-shot
   where Mom's back fills the left half (0.037), the empty 4 PM aisle (0.053) and the short cart ending (0.051).
+- **TRIBE (038 cut1: TARGET MET by a hair, wc 0.0450, first 60 s 0.0488 — the lowest Pip score):** the first 17 s sagged
+  (family evening wide 0.011, dark room 0.020, rooftop blackout 0.024, Mia hides 0.027) and so did the sleeping ending (0.016,
+  incl. the end card); from the flashlight on, every beat with Pip doing something close held 0.07–0.10 (the rainy street in
+  the raincoat 0.100, the bunny 0.089, the candle box lighting Mom's face 0.084). Unlike 021, these dark shots framed faces
+  at 2–4 m: in a blackout episode get the lens close from the first beat and keep the faceless town wide short.
 - **Ep. 2 (023, Halloween) added `engine/halloween.js`** (CLAUDE.md → Halloween kit): the suburb at dusk with porches you can
   walk up (steps, lanterns, jacks, a lit hallway behind any open door), Pip's pumpkin costume that doubles as his candy bucket,
   candy heaps + flying candy, an inflatable cat, a collapsing skeleton, a dog-biscuit bone, costumes for any rig (Mia = witch).
@@ -158,4 +163,19 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   a lost toddler his bunny, sniffs out her mom (golden scent trail) → hug, the store claps, balloons → photo on the wall, paid
   in dog biscuits (never people food: onion/garlic in sausages are toxic — ASPCA). The bunny comes back to him at the cheer.
   The Mom of the family works there (green staff polo, JEN badge) and wheels him out asleep in a cart at sunset.
-- **Still missing (build when an episode needs it):** a flood plane, a lightning flash + thunder.
+- **Ep. 5 (038, blackout) = the first disaster episode** (storm → the whole town goes dark → Pip leads everyone → blanket fort →
+  the power comes back street by street). New: **eyeshine** `pip.update(t, { shine: 0..1 })` (engine/pip.js, additive: a
+  green-gold additive glow over each pupil — the tapetum lucidum, AKC fact); in 038 shots.js (copy them): rain that follows the
+  camera (`makeRain`), window rain (`makeWindowRain`), a storm view for the window (`stormView(lit)` — lit vs dark street = the
+  blackout seen through the glass), flameless battery candles (`makeLedCandle`) + their labelled box (`makeCandleBox`), a battery
+  lantern, a quilt blanket fort (`makeFort`: canopy over 4 posts, drapes, pillows, string lights), Pip's yellow raincoat
+  (`makeRaincoat`, rides `pip.T`), an umbrella, a quilt "hood" (a SphereGeometry with a phi gap at +z = a kid hiding with only
+  her face out). Places: liv home base + city.js rooftop (setPower 1→0 / 0→1) + suburb at an offset as a storm night
+  (sky dome colour ×0.2, street-lamp heads found by `emissive 0xffc070`, every `hw.houses[i].setLit(0)`) + a second
+  living room as Mrs. Rosa's. **Fire safety rule for the series: no real flame near Pip, ever** — blackout "candles" are battery
+  candles (NFPA/USFA: flashlights + battery lights in an outage), and the caption says so.
+  Staging lessons: a prop on the floor in a pet's-eye shot lands in the subtitle band (and Pip's body hides it) — have a human
+  lift it to chest height (the BATTERY CANDLES box lit Mom's face from below); a flashlight held between the lens and the
+  subject shows its beam cone from behind as a white blob — set the beam opacity to 0 and keep only the spot; split a
+  "find it → light it up" beat into a close grab + an over-the-shoulder beam shot (one wide made Pip a speck).
+- **Still missing (build when an episode needs it):** a flood plane, a lightning flash (038 kept thunder to a far `distant_boom` rumble on purpose).

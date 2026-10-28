@@ -203,6 +203,9 @@ videos/NNN-slug/
   (`setDeflate(k, t)` slow comic slump), `makeSkeleton()` (`setCollapse(k)`, `legBone` to steal, holds a `bowl`), `makeBone()`
   (a bone-shaped dog biscuit — never a real cooked bone on screen), `makeJackOLantern`, `makeStringLights`, `makeCobweb`,
   `makeSign(text, {lines})`, `costume(rig, 'witch'|'ghost'|'dino'|'hero'|'skeleton'|'pumpkin'|'vampire'|'catEars')`.
+- **Blackout kit (038, Pip ep. 5):** `pip.update(t, { shine })` = dog eyeshine (additive green-gold over the pupils). 038
+  shots.js has camera-following rain, window rain, a lit/dark storm window view, battery candles + box, a lantern, a blanket
+  fort, Pip's raincoat, an umbrella, a quilt hood. city.js at the origin + suburb/livingroom parked at offsets works in one scene.
 - **Dog park + breeds (030, Pip ep. 3):** `engine/sets/dogpark.js` `buildDogPark(studio)` = a sunny fenced BARK PARK (chain-link
   panels via an alpha-tested canvas texture — `fence.{front,back,left,right,vest}` groups to hide per shot), a double-gate
   vestibule (`gates.inner/outer` hinge groups, `rotation.y > 0` swings into the park), the arch sign (`setSign`), a big shade
@@ -523,7 +526,8 @@ videos/NNN-slug/
   Move the camera in (≈3 m for heroes) instead of only scaling the card. In crowds, **stagger card heights** (3 lifts) or they
   form one row that hides itself. `clamp(x)` is 0..1 — never use it for a row count (008's history rows never appeared).
 - **Props that live inside a set's root use the set's LOCAL space** (009: the muzzle flash was posed with world coordinates
-  inside the theatre root parked at x=7000 → rendered 7 km away). Convert with `set.root.worldToLocal(v)`. And call
+  inside the theatre root parked at x=7000 → rendered 7 km away). 038 hit it again: a prop posed with `W()` world coords but added to
+  `liv.root` simply never appeared (no error) — if a prop is missing from a still, check its parent before anything else. Convert with `set.root.worldToLocal(v)`. And call
   `rig.root.updateMatrixWorld(true)` before `localToWorld` on anything in a rig you just posed (matrices are a frame stale).
 - **To film into an enclosed space (a theatre box, a booth), hide one wall/post for that shot only** — a film cheat no viewer
   notices; better than a camera angle where the key action is hidden behind a head (009 theatre).
@@ -713,6 +717,9 @@ while they stay human-scale. Keep the cosmic end short, or put a face in it.
 in one sunny park, a new gag every ~4 s, faces in every shot; the gag beats sat at 0.11–0.13 (poodle frizz 0.134, zoomies
 0.135). The weakest were the title (−0.036) and the gate wide shot from behind Mia (0.027): open on a face, not a back.
 
+**038 (Pip ep. 5, blackout) cut1 = 0.0450 / first 60 s 0.0488 — met by a hair:** the dark first 17 s (wide family shots,
+faces 2–4 m away, a faceless rooftop) scored 0.01–0.03 and the sleeping ending 0.016; the close action beats after the flashlight
+scored 0.07–0.10. Dark only works when the faces are CLOSE (021); a dim wide is the weakest thing we make.
 **020 (butt doubling, 60 s) cut1: whole-brain 0.068, first 60 s 0.068, 20.9 % above, no dead zone → TARGET MET first try.** Per beat:
 faces + a physical gag in a bright place top the chart (the neighbors shoving a butt stuck in a doorway, then the cork pop: 0.147 — the
 best beat measured so far; bus 0.125; kitchen 0.104; traffic 0.101). Faceless spectacle sags (the Moon from space 0.019, the ISS 0.050
