@@ -101,3 +101,23 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
   faces insert before the doubling → 0.0471 / 0.0469, no dead zone, TARGET MET. Peaks: faces in eclipse glasses as the light drains
   (0.145 — the best beat measured so far), the eclipse sky with the crowd silhouetted (0.10), Fundy's tide front chasing tourists
   (0.095). Static two-shots sag even with close faces; give every face beat a camera move AND body motion.
+
+## Fifth video: 037 "What if the oxygen in the air doubled?"
+- **Shape (62.0 s):** mile 26 of a marathon (title over the pack) → SECOND 0 (HUD OXYGEN IN THE AIR 20.95 → 41.90 %) → a
+  time-stamped ladder, one place + one physical line per beat: the runners surge and the leader snaps the tape · +1 MIN a grandpa
+  on a park bench takes a huge breath and stands (pigeons explode up) · +10 MIN birthday candles flare, the kid blows, WHOOMP ·
+  +30 MIN a grill becomes a 4 m column (fire code 23.5 %) · +2 H a campfire leaps, marshmallows become torches · +1 DAY the forest
+  ("How much more? Scientists still argue.") · +1 DAY a hot-dog cart fire hosed out by a pumper crew · +10 YEARS rust time-lapse
+  (dad grays, the bumper falls) · + MILLIONS OF YEARS crow-sized dragonflies (70 cm) over a playground, one beside a crow →
+  the birthday wish: the candle roars, dad's extinguisher, laughs → "Would you breathe *double* the oxygen?".
+- **Model:** the extra O₂ replaces nitrogen at 1 atm, so the O₂ partial pressure doubles (0.21 → 0.42 atm). Adding it on top gives
+  1.21 atm and 34.6 % at the SAME 0.42 atm, so the effects are identical — say so in the header; partial pressure is what lungs
+  and flames respond to. Say what the evidence says, not more: 0.42 atm is *under* the ~0.5 atm pulmonary-toxicity line for long
+  exposure ("still under the level that hurts lungs"), wildfire escalation is DEBATED (25–35 % fire-window estimates), rust is
+  "faster" (no factor), giant insects take millions of years (one lab generation at 31 % = up to ~15 % bigger).
+- **Picture rule that made it read:** human-scale, bright DAY places with faces close, a physical gag per beat (flames are the
+  impact). Daylight fire = `engine/oxygen.js` `makeFlames` (layered unlit teardrops, width capped with `maxW`); additive glow
+  sprites wash out on a bright sky.
+- **TRIBE cut1 = 0.0595 / first 60 s 0.0599, no dead zone → TARGET MET first try.** Fire beats with faces close topped it
+  (bbq 0.117, campfire 0.113, truck 0.075); the marathon open was the low (race 0.001, title −0.042): small side-on runners.
+  Next science reel: open on one close face reacting, not a pack.
