@@ -2521,6 +2521,82 @@ SFX.update({
 AMBIENCE.update({"water_rush": amb_water_rush, "drill": amb_drill, "fan": amb_fan, "train": amb_train})
 
 
+# ---------------------------------------------------------------- 035 (fart doubling): soft comic toots + street/window foley
+def sfx_toot(rng, size=0.5, pitch=1.0, dur=None):
+    """A cartoon toot / soft brass "bwaap" (035) — never realistic, never harsh. size 0..1: 0 = a tiny high squeak
+    (~380 Hz, 0.2 s), 1 = a big tuba bwaaamp (~55 Hz, 1.3 s) with a sub thump. A buzzy saw tone through a closing low-pass,
+    a lip-flutter AM ("brrr"), a little upward scoop at the start and a sagging fall at the end. Low-passed under 2.4 kHz."""
+    s = float(np.clip(size, 0, 1))
+    d = dur if dur is not None else 0.2 + 1.1 * s
+    n = nsamp(d + 0.35)
+    t = tvec(n)
+    u = np.clip(t / d, 0, 1)
+    f0 = 380.0 * (55.0 / 380.0) ** s * pitch
+    contour = 1.0 + 0.12 * np.exp(-t / 0.04) - 0.16 * np.clip((u - 0.65) / 0.35, 0, 1) ** 2 + 0.015 * np.sin(2 * np.pi * 5.5 * t)
+    ph = np.cumsum(f0 * contour) / SR
+    saw = 2 * (ph % 1.0) - 1
+    tone = lp(saw, min(2400, f0 * (6 + 4 * (1 - s))), 2) + 0.5 * np.sin(2 * np.pi * ph)
+    rate = 34 - 14 * s + 3 * np.sin(2 * np.pi * 1.3 * t)
+    flutter = 0.62 + 0.38 * np.sin(2 * np.pi * np.cumsum(rate) / SR) ** 2
+    env = np.clip(t / 0.012, 0, 1) * np.clip((d - t) / 0.09 + 0.0, 0, 1) * (0.85 + 0.15 * np.sin(np.pi * u))
+    out = tone * flutter * env
+    if s > 0.45:
+        k = (s - 0.45) / 0.55
+        out += k * 1.1 * np.sin(2 * np.pi * 46 * t) * np.exp(-t / 0.22) * np.clip(t / 0.006, 0, 1)
+        out += k * 0.5 * lp(pink(n, rng), 220) * np.exp(-t / 0.5)
+    return Sound(norm(fades(lp(out, 2400), 0.004, 0.12)), onsets=[(0.0, "soft")])
+
+
+def sfx_car_alarm(rng, dur=2.4, pitch=1.0, rate=2.8):
+    """A car alarm far down the block (035): a rising whoop siren (two detuned square-ish tones) repeated `rate` times a
+    second, rounded and low-passed hard so it's comic background, never a piercing tone."""
+    n = nsamp(dur)
+    t = tvec(n)
+    cyc = (t * rate) % 1.0
+    f = (560 + 420 * cyc) * pitch
+    ph = np.cumsum(f) / SR
+    sq = np.tanh(3 * np.sin(2 * np.pi * ph)) + 0.6 * np.tanh(3 * np.sin(2 * np.pi * ph * 1.006))
+    env = np.clip(t / 0.05, 0, 1) * np.clip((dur - t) / 0.2, 0, 1)
+    return Sound(norm(fades(lp(sq, 1500, 2) * env, 0.01, 0.1)), onsets=[(0.0, "soft")])
+
+
+def sfx_wing_flutter(rng, dur=1.4, n_birds=10):
+    """A flock lifting off (035): many short wing-flap bursts (band-limited noise chopped at ~14 Hz per bird, staggered),
+    fading as they climb away. Soft and papery."""
+    n = nsamp(dur + 0.2)
+    t = tvec(n)
+    out = np.zeros(n)
+    for b in range(n_birds):
+        t0 = rng.uniform(0, 0.35)
+        r = rng.uniform(11, 17)
+        nz = bp(white(n, rng), 300, 1600)
+        gate = np.clip(np.sin(2 * np.pi * r * (t - t0)), 0, 1) ** 2 * (t > t0) * np.exp(-np.clip(t - t0, 0, None) / rng.uniform(0.4, 0.8))
+        out += nz * gate
+    return Sound(norm(fades(lp(out, 2600), 0.003, 0.1)), onsets=[(0.0, "soft")])
+
+
+def sfx_glass_crack(rng, dur=0.8, n_pings=4):
+    """Window panes cracking (035): a soft dry crackle + a few faint glassy pings, low-passed so nothing tinkles sharply."""
+    n = nsamp(dur + 0.3)
+    t = tvec(n)
+    crk = np.zeros(n)
+    for k in range(18):
+        i0 = nsamp(rng.uniform(0, 0.18))
+        m = nsamp(0.012)
+        if i0 + m < n:
+            crk[i0:i0 + m] += white(m, rng) * np.exp(-np.arange(m) / (m / 3)) * rng.uniform(0.4, 1.0)
+    pings = np.zeros(n)
+    for k in range(n_pings):
+        t0 = rng.uniform(0.02, 0.3)
+        f = rng.uniform(1500, 2300)
+        tt = np.clip(t - t0, 0, None)
+        pings += 0.35 * np.sin(2 * np.pi * f * tt) * np.exp(-tt / 0.12) * (t > t0)
+    return Sound(norm(fades(lp(lp(crk, 2800) + pings, 3000), 0.002, 0.1)), onsets=[(0.0, "soft")])
+
+
+SFX.update({"toot": (sfx_toot, "prop"), "car_alarm": (sfx_car_alarm, "prop"), "wing_flutter": (sfx_wing_flutter, "prop"), "glass_crack": (sfx_glass_crack, "prop")})
+
+
 def load_voice(V, N, log=print):
     """Narration stem (build genre): videos/<v>/<V['file']> (any rate, mono/stereo) -> centered stereo at SR, length N.
     Returns (voice, activity 0..1) — activity drives the music/ambience ducking."""
