@@ -298,6 +298,11 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   instagram.com can't schedule (Meta Business Suite needs a login), so a slot is hit by a one-time local scheduled task
   (`fireAt`) that posts through Claude in Chrome "Browser 2"; give it guards (too-late cutoff, duplicate check, and a
   rehearsal mode before the slot that never clicks Share, so "Run now" can pre-approve its tools).
+  **Check the permission mode the create call reports:** a task keeps this session's Bypass mode only when it's created in a
+  turn the user typed in the desktop app. 032's task (created in a turn started by another session's message) ran in
+  default mode and sat on its very first `date` prompt for 5 h with nobody there to approve it. If the result says the mode
+  wasn't saved, re-create the task in a user-typed turn, or post from the manager session at the slot (a background
+  `sleep` until the slot re-invokes you).
 
 ## QC checklist (build)
 - [ ] **Density bar (measured from 024; match or beat it):** ~300 words in 95–110 s, 12–14 beats · ≥ 22 callouts (one per
