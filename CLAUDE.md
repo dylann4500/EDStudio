@@ -720,6 +720,10 @@ even with an astronaut), and so does the sleeping title shot (−0.033). Keep th
 **028 (Earth stops spinning, science, 60.6 s) cut1: wc 0.0667 / first 60 s 0.0675 / 21.7 % above, no dead zone → TARGET MET first
 try,** the best science score: every beat a bright day place with faces close and the world streaking past a free-frame camera
 (Texas wind storm 0.115, NYC aftermath 0.111); the faceless/frozen early beats (Quito intro −0.007, first slide 0.030) were the low.
+**035 (farts 2× louder, sound-led doubling POV, 66 s) cut1: wc 0.0721 / first 60 s 0.0746 / 21.6 % above, no dead zone → TARGET MET
+first try.** The street beat (every car alarm flashing + pigeons bursting up + hats flying around a hot-dog cart, faces close) hit
+0.152, the best beat measured so far; the apartment windows 0.126, library 0.112. Sagging: the near-static sleeping title (0.011),
+the faceless orbit ring (0.015) and the dinner wide two-beat (0.015) — keep the quiet open short and give the finale a close face.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 

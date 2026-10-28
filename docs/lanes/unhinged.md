@@ -35,6 +35,10 @@ doubling, every scale gets its own place — chair, door, bus, intersection, poo
 with the dog). Clothed the whole way; the butt is always read from behind (pockets) or the side. TRIBE cut1: whole-brain 0.068, no dead zone;
 the door-stuck + cork-pop beat scored 0.147 (the best beat yet), the faceless Moon shot 0.019.
 
+`035-fart-doubling` (sound-led doubling: +10 dB per fart = perceived 2×, 20 dB in bed → 200 dB from orbit, Grandma's 210 dB at
+dinner; the source is only ever a cartoon pressure ring, the farts are soft synth toots that grow from a squeak to a tuba).
+TRIBE cut1: whole-brain 0.072, first 60 s 0.075, no dead zone; car alarms + pigeons 0.152 (best beat yet), orbit + dinner wide ~0.015.
+
 ## What scores (TRIBE + views)
 Bright places, crowds of big-headed faces, motion in every frame, a big physical effect ending every beat (collapse, crush,
 time-lapse + camera shake + boom), new sets instead of the old street, a steady mix (LRA ≈ 4). Anything static sags.
