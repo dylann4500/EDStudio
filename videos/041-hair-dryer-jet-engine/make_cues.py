@@ -67,10 +67,10 @@ BOOTH0, RUN, RATTLE, OUT0, HUB0 = t['works'] + 0.05, t['works'], t['rattle'] - 0
 DW0, SUCKD, THRU1 = t['waddles'] - 0.7, t['inD'] - 0.2, t['back']; DOUT = THRU1 + 0.45; RUN0, RUN1 = t['flings'] - 0.1, t['back'] - 0.15
 CAN0, CAN1, FIRE = t['engines'], t['birds'], W('duck2', 'test', 2) - 0.05; HOPJ = W('duck2', 'bird') - 0.35; JIN = FIRE + 0.4; JOUT = JIN + 0.55; SPLAT = max(JOUT + 0.2, t['behindJ'] + 0.02)   # mirrors shots.js (r3)
 STARTER, BOTTLES, SWIRL = t['starter'], t['bottles'], t['swirl']
-FORK0, LIFT0 = t['nowF'] - 0.05, t['hang']; DRIVE0 = LIFT0 + 0.2; DRIVE1 = max(DRIVE0 + 0.8, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT + 0.05, BOLT + 0.35
+FORK0, LIFT0 = t['nowF'] - 0.05, t['hang']; DRIVE0 = LIFT0 + 0.2; DRIVE1 = max(DRIVE0 + 0.8, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT - 0.15, BOLT + 0.35
 TO = max(t['takeoff'] - 0.05, WING1 + 0.02); LIFTOFF = TO + 0.55; CLOUD_IN = LIFTOFF + 0.45; ABOVE = CLOUD_IN + 0.25; DIVE = t['landing'] + 0.15; TELE = DIVE + 0.2; TOUCH = max(TELE + 0.8, t['stop'] + 0.05)
 FLIP, STOP = t['flip'] - 0.05, max(t['stops'], TEND('THRUST REVERSER') + 0.04); GFLY0 = t['doesnt'] - 0.08; GSPLAT = GFLY0 + 0.45
-MONEY, EGGBLOW, DFLY0, DLAND2, POOF = t['forty'], t['millionE'] + 0.1, t['duckE'] - 0.3, t['blowout2'] - 0.35, t['blowout2']
+MONEY, EGGBLOW, DFLY0, DLAND2, POOF = t['forty'], t['millionE'] + 0.1, t['duckE'] - 0.3, t['blowout2'] - 0.1, t['blowout2']
 
 # ---------------------------------------------------------------- music: 124 bpm bell disco, E major
 BPM = 124
@@ -180,7 +180,10 @@ for k in range(7): e(DRILL0 + k * (DRILL1 - DRILL0) / 7, "zap", -21, 0.2, dur=0.
 e(FILM0, "flash_swish", -18, 0.0, dur=1.2, peak=0.3); e(FILM0 + 0.2, "low_swell", -20, 0.0, dur=1.0, pitch=2.4)
 e(SLEEK, "blanket_rustle", -16, 0.3, dur=0.4, intensity=1.0); quack(SLEEK + 0.3, -18, 0.3, 1.2)
 for k in range(int((OUT0 - RUN) / 0.09)): e(RUN + k * 0.09, "knock", -27, 0.4, pitch=2.2 + 0.1 * (k % 3))   # the booth window rattling
-e(EGGBLOW, "candy_rattle", -14, -0.3, dur=0.9, density=24.0, size=1.0); e(EGGBLOW + 0.05, "flash_swish", -16, -0.3, dur=0.6, peak=0.6)
+e(EGGBLOW, "candy_rattle", -14, -0.3, dur=0.9, density=24.0, size=1.0); e(t['millionE'] + 0.15, "candy_rattle", -12, 0.2, dur=1.0, density=30.0, size=1.2)   # r5: the egg avalanche onto Gary
+for k in range(5): e(t['add'] - 0.3 + k * 0.22, "grate", -22, -0.4, dur=0.2)   # r5: HANGAR 1 rolls open
+e(t['engines'] + 2.6, "low_swell", -20, 0.5, dur=4.0, pitch=0.7)   # r5: GARY AIR taxis in
+e(EGGBLOW + 0.05, "flash_swish", -16, -0.3, dur=0.6, peak=0.6)
 # FAN: the scream (the jet whine bed swells), the fillings PING, the hub clunk, 16 blade clicks, 6 nacelle clanks, the turbofan hum, ahh quiet
 for k in range(4): e(RATTLE + k * 0.12, "knock", -15, 0.3, pitch=3.0 + 0.2 * k)
 e(HUB1, "clunk", -11, 0.3, size=1.0, metal=1.0)

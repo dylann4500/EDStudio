@@ -188,7 +188,7 @@ export function makeEngine() {
   for (let k = 0; k < 8; k++) mk(ringGeo(-0.02, 0.02, 1.74, 1.86, 1.74, 1.86, 48), casDk, cascade, -k * 0.08, 0, 0);
   const blockers = []; for (let k = 0; k < 8; k++) { const p = new THREE.Group(); g.add(p); p.position.x = 0.75; p.rotation.x = (k / 8) * TAU + PI / 8; const d = mk(new THREE.BoxGeometry(0.5, 0.04, 0.55), casDk, p, 0, 1.68, 0); d.geometry.translate(-0.25, 0, 0); blockers.push({ p, d }); }
   // pylon (on top, toward the wing) + the hair dryer-shaped sticker: GARY-DRY 1875 W on the nacelle
-  const pylon = mk(new RoundedBoxGeometry(2.6, 1.6, 0.36, 3, 0.08), steel(0xd5dade, 0.35, 0.4), g, 1.4, 2.55, -0.2);   // front face 2 cm behind the section plane (on it, the clip test flickered in blocks) pylon.material.clippingPlanes = [clip];
+  const pylon = mk(new RoundedBoxGeometry(2.6, 1.6, 0.36, 3, 0.08), steel(0xd5dade, 0.35, 0.4), g, 1.4, 2.55, -0.2);   /* front face 2 cm behind the section plane (on it, the clip test flickered in blocks) */ pylon.material.clippingPlanes = [clip];
   // accessories: the starter (a box on the core's underside), two red fire bottles, the stand's hoist lug
   const starter = new THREE.Group(); g.add(starter); starter.position.set(0.9, -0.58, -0.18); mk(new RoundedBoxGeometry(0.34, 0.24, 0.26, 2, 0.04), secMat(0x2f6fd6, { clip }), starter); mk(new THREE.CylinderGeometry(0.05, 0.05, 0.3, 12), steel(), starter, 0.12, 0.2, 0);
   const bottles = new THREE.Group(); g.add(bottles); bottles.position.set(0.4, 0.62, -0.25); for (const x of [-0.18, 0.18]) { mk(new THREE.SphereGeometry(0.13, 16, 12), secMat(0xd62f2f, { clip, rough: 0.35 }), bottles, x, 0, 0); mk(new THREE.CylinderGeometry(0.02, 0.02, 0.18, 8), steel(), bottles, x, 0.16, 0); }
@@ -234,7 +234,7 @@ export function makeEngine() {
     petals.forEach((pt, i) => { const q = clamp((S.petals ?? 0) - i); pt.p.visible = q > 0.001; pt.p.rotation.x = 0; pt.p.scale.setScalar(1); pt.m.position.set(0, 0, 0); pt.p.position.x = E.noz[0] - (1 - q) * 0.6; pt.m.scale.setScalar(lerp(1.3, 1, q)); });
     { const q = clamp(((S.petals ?? 0) - 5) / 5); plug.visible = q > 0.01; plug.position.x = -0.9 * (1 - q * q * (3 - 2 * q)); }   // r4: the tail cone slides in with the petals (r3: popped)
     // turbofan
-    { const nk = S.nacelle ?? 0; nacRings.forEach((r, i) => { const q = clamp(nk - i); r.visible = q > 0.001; r.position.set((1 - q) * (2.4 + i * 0.4), 0, 0); r.scale.setScalar(lerp(0.9, 1, q)); }); lipT.visible = nk > 0.4; lipT.position.set(E.nac[0] + clamp(1 - nk / 0.6) * 2.4, 0, 0);
+    { const nk = S.nacelle ?? 0; nacRings.forEach((r, i) => { const q = clamp(nk - i); r.visible = q > 0.001; r.position.set((1 - q) * (2.4 + i * 0.4), 0, 0); r.scale.setScalar(lerp(0.9, 1, q)); }); lipT.visible = nk > 5.3; lipT.position.set(E.nac[0] + clamp((6 - nk) / 0.7) * 2.4, 0, 0);   /* r5: the lip goes on LAST */
       const hk = S.fanHub ?? 0; fanG.visible = hk > 0.001; fanG.position.x = E.bigFanX + (1 - hk) * 1.5; fanG.rotation.x = S.fanSpin;
       fanBlades.forEach((p, i) => { const q = clamp((S.fan ?? 0) - i); p.visible = q > 0.001; p.children[0].position.y = (1 - q) * 1.3; p.children[0].scale.setScalar(Math.max(0.001, Math.min(1, q * 1.4))); });
       cowl.visible = (S.cowl ?? 0) > 0.01; cowl.scale.set(1, lerp(0.7, 1, S.cowl ?? 0), lerp(0.7, 1, S.cowl ?? 0)); ogv.visible = (S.cowl ?? 0) > 0.9;
@@ -312,7 +312,7 @@ export async function makeCardboardPlane() {
   // the engine mount: two cardboard cradles on the box's back + a skateboard + a tail caster under the overhang
   const board = mk(new RoundedBoxGeometry(1.9, 0.05, 0.42, 2, 0.02), std(0x2b6fd6, 0.6), body, 0.15, 0.13, 0);
   const wheels = []; for (const x of [-0.6, 0.85]) for (const z of [-0.16, 0.16]) { const w = mk(new THREE.CylinderGeometry(0.055, 0.055, 0.05, 14), std(0xffd23f, 0.5), body, x, 0.06, z); w.rotation.x = PI / 2; wheels.push(w); }
-  const caster = new THREE.Group(); body.add(caster); caster.position.set(-2.3, 0, -0.3); mk(new THREE.BoxGeometry(0.06, 0.6, 0.06), std(0x3a3e44, 0.6), caster, 0, 0.38, 0); mk(new THREE.BoxGeometry(0.3, 0.05, 0.2), std(0x3a3e44, 0.6), caster, 0, 0.1, 0); const cw = mk(new THREE.CylinderGeometry(0.05, 0.05, 0.04, 12), std(0x222222), caster, 0, 0.05, 0); cw.rotation.x = PI / 2; caster.visible = false;
+  const caster = new THREE.Group(); body.add(caster); caster.position.set(-2.3, 0, -0.3); mk(new THREE.BoxGeometry(0.06, 0.6, 0.06), std(0x3a3e44, 0.6), caster, 0, 0.38, 0); mk(new THREE.BoxGeometry(0.3, 0.05, 0.2), std(0x3a3e44, 0.6), caster, 0, 0.1, 0); const cw = mk(new THREE.CylinderGeometry(0.11, 0.11, 0.06, 16), std(0xffd23f, 0.5), caster, 0, 0.11, 0);   /* r5: a real tail wheel (v4 read as a display stand) */ cw.rotation.x = PI / 2; caster.visible = false;
   const seat = new THREE.Object3D(); body.add(seat); seat.position.set(0.62, 0.5, 0);   // Gary's seat (his pelvis sits here)
   const mount = new THREE.Object3D(); body.add(mount); mount.position.set(-1.45, 0.79, 0);  // the engine's local origin (axis height set per stage)
   // burnt / shredded state: char + falling panels
@@ -376,7 +376,7 @@ export async function makeAirliner() {
   g.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   function set(p = {}) { g.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0); g.rotation.set(p.roll ?? 0, p.yaw ?? 0, p.pitch ?? 0, 'YXZ'); const k = p.gear ?? 1; gear.forEach((gg) => { gg.rotation.z = (1 - k) * 1.5 * (gg.position.x > 0 ? -1 : 1); gg.visible = k > 0.02; }); }
   set({});
-  return { g, body, set, engineMount, seat, panes, cab, wings, gear };
+  return { g, body, set, engineMount, seat, panes, cab, wings, gear, farEng };
 }
 
 // ---------------------------------------------------------------- small props
@@ -390,7 +390,7 @@ export function makeBirdCannon() {  // a compressed-air "chicken gun": a long ba
   mk(new THREE.CylinderGeometry(0.22, 0.22, 3.4, 20), steel(0x6b737b), bar, 1.7, 0, 0).rotation.z = PI / 2; mk(new THREE.TorusGeometry(0.24, 0.04, 8, 24), steel(0x3a3e44), bar, 3.4, 0, 0).rotation.y = PI / 2;
   mk(new THREE.CylinderGeometry(0.42, 0.42, 1.2, 20), std(0xd62f2f, 0.4), bar, -0.2, 0, 0).rotation.z = PI / 2;
   for (const [x, z] of [[0.5, 0.6], [0.5, -0.6], [2.6, 0]]) mk(new THREE.CylinderGeometry(0.04, 0.05, 1.3, 8), steel(0x3a3e44), g, x - 1.6, 0.6, z);
-  const label = sign(bar, 'BIRD GUN', 1.4, 0.32, { bg: '#ffd23f', fg: '#222' }); label.position.set(1.2, 0.0, -0.225); label.rotation.y = PI;   // r3: faces the lens once it's turned to fire
+  const label = sign(bar, 'BIRD GUN', 1.4, 0.32, { bg: '#ffd23f', fg: '#222' }); label.position.set(1.2, -0.06, -0.225); label.rotation.set(-0.35, PI, 0);   // r3: faces the lens once it's turned to fire
   g.traverse((o) => { if (o.isMesh) o.castShadow = true; }); return { g, muzzle: new THREE.Vector3(1.8, 1.2, 0) };
 }
 export function makeJerryCan() { const g = new THREE.Group(); mk(new RoundedBoxGeometry(0.34, 0.46, 0.16, 3, 0.03), std(0xd62f2f, 0.4), g, 0, 0.23, 0); mk(new THREE.TorusGeometry(0.07, 0.02, 6, 12, PI), std(0xd62f2f, 0.4), g, 0, 0.5, 0); const sp = mk(new THREE.CylinderGeometry(0.02, 0.03, 0.18, 8), std(0x222222, 0.5), g, 0.14, 0.5, 0); sp.rotation.z = -0.8; g.traverse((o) => { if (o.isMesh) o.castShadow = true; }); return { g, spout: new THREE.Vector3(0.22, 0.56, 0) }; }
@@ -468,6 +468,8 @@ export async function buildJet(studio) {
   const apronT = tex(256, 256, (c, w, h) => { c.fillStyle = '#a7a49c'; c.fillRect(0, 0, w, h); c.strokeStyle = 'rgba(0,0,0,.12)'; c.lineWidth = 3; c.strokeRect(0, 0, w, h); for (let i = 0; i < 40; i++) { c.fillStyle = `rgba(60,60,55,${0.03 + h2(i) * 0.05})`; c.beginPath(); c.ellipse(h2(i, 1) * w, h2(i, 2) * h, 8 + h2(i, 3) * 30, 4 + h2(i, 4) * 14, h2(i, 5) * 3, 0, 7); c.fill(); } });
   apronT.wrapS = apronT.wrapT = THREE.RepeatWrapping; apronT.repeat.set(80 / 6, 48 / 6);
   const apron = mk(new THREE.PlaneGeometry(80, 48), std(0xffffff, 0.85, { map: apronT }), root, 34 + 40, 0.004, -10); apron.rotation.x = -PI / 2; apron.receiveShadow = true;
+  { const fT = tex(256, 8, (c, w, h) => { const g = c.createLinearGradient(0, 0, w, 0); g.addColorStop(0, 'rgba(167,164,156,0)'); g.addColorStop(0.35, 'rgba(167,164,156,0.85)'); g.addColorStop(1, 'rgba(167,164,156,0)'); c.fillStyle = g; c.fillRect(0, 0, w, h); });
+    const fe = mk(new THREE.PlaneGeometry(14, 48), new THREE.MeshStandardMaterial({ map: fT, transparent: true, depthWrite: false, roughness: 0.9 }), root, 112, 0.009, -10); fe.rotation.x = -PI / 2; fe.receiveShadow = true; }   // r5: a feathered apron → runway edge (it popped in one frame on the takeoff roll)
   const rwyT = tex(512, 512, (c, w, h) => { c.fillStyle = '#62656b'; c.fillRect(0, 0, w, h); for (let i = 0; i < 500; i++) { c.fillStyle = `rgba(${h2(i) > 0.5 ? 255 : 0},${h2(i) > 0.5 ? 255 : 0},${h2(i) > 0.5 ? 255 : 0},.05)`; c.fillRect(h2(i, 1) * w, h2(i, 2) * h, 3, 3); } c.fillStyle = '#f2f2ee'; c.fillRect(0, h / 2 - 6, w * 0.55, 12); c.fillRect(0, 10, w, 10); c.fillRect(0, h - 20, w, 10); });
   rwyT.wrapS = THREE.RepeatWrapping; rwyT.repeat.set((D.rwyX1 - D.rwyX0) / 60, 1); rwyT.anisotropy = 16;
   const rwy = mk(new THREE.PlaneGeometry(D.rwyX1 - D.rwyX0, 44), std(0xffffff, 0.9, { map: rwyT }), root, (D.rwyX0 + D.rwyX1) / 2, 0.006, D.rwyZ); rwy.rotation.x = -PI / 2; rwy.receiveShadow = true;
@@ -611,12 +613,12 @@ export async function buildJet(studio) {
   { const bs = sign(blast, 'JET BLAST · KEEP CLEAR', 2.6, 0.5, { bg: '#d62f2f', fg: '#fff', border: '#fff' }); bs.position.set(0.75, 2.6, 0.6); bs.rotation.y = PI / 2;
     const scorchT = tex(256, 256, (c, w, h) => { const gr = c.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, w / 2); gr.addColorStop(0, 'rgba(30,26,22,.75)'); gr.addColorStop(0.6, 'rgba(40,34,28,.35)'); gr.addColorStop(1, 'rgba(40,34,28,0)'); c.fillStyle = gr; c.fillRect(0, 0, w, h); });
     const sc = mk(new THREE.PlaneGeometry(7, 3.4), new THREE.MeshStandardMaterial({ map: scorchT, transparent: true, depthWrite: false, roughness: 1 }), stand, -5.5, 0.012, -0.6); sc.rotation.x = -PI / 2; sc.receiveShadow = true; } for (let i = 0; i < 9; i++) { const sl = mk(new THREE.BoxGeometry(0.12, 3.4, 1.2), steel(0x9aa3ad, 0.45), blast, 0, 1.7, -4 + i * 1.0); sl.rotation.z = 0.35; } mk(new THREE.BoxGeometry(0.3, 0.3, 9.4), dk, blast, 0.5, 3.3, 0);
-  const board = new THREE.Group(); stand.add(board); board.position.set(-5.8, 0, -5.2); mk(new THREE.BoxGeometry(0.15, 3.4, 0.15), dk, board, -1.0, 1.7, 0); mk(new THREE.BoxGeometry(0.15, 3.4, 0.15), dk, board, 1.0, 1.7, 0); const boardFace = mk(new THREE.PlaneGeometry(2.2, 1.0), std(0xffffff, 0.6, { map: signTex('THRUST TEST', { bg: '#1f5fbf', fg: '#ffffff' }) }), board, 0, 3.0, 0.08);
+  const board = new THREE.Group(); stand.add(board); board.position.set(9.6, 0, -5.6); /* r5: right of the booth, off the SPLAT + turbofan framings (it read as a cropped TERM) */ mk(new THREE.BoxGeometry(0.15, 3.4, 0.15), dk, board, -1.0, 1.7, 0); mk(new THREE.BoxGeometry(0.15, 3.4, 0.15), dk, board, 1.0, 1.7, 0); const boardFace = mk(new THREE.PlaneGeometry(2.2, 1.0), std(0xffffff, 0.6, { map: signTex('THRUST TEST', { bg: '#1f5fbf', fg: '#ffffff' }) }), board, 0, 3.0, 0.08);
   // the BIRD STRIKE range (r3: its own place): crates of jelly test birds, amber beacons, a range sign — by the cannon's firing spot
-  const range = new THREE.Group(); stand.add(range);
+  const range = new THREE.Group(); stand.add(range); const beaconM = new THREE.MeshStandardMaterial({ color: 0xffb020, emissive: 0xff9a10, emissiveIntensity: 1.6, roughness: 0.4 });
   { const crateT = signTex('TEST BIRDS · JELLY', { bg: '#c99a62', fg: '#5a2a10', border: '#5a2a10' }), crM = std(0xffffff, 0.8, { map: crateT }), woodM = std(0xc99a62, 0.85);
     for (const [x, y, z, r] of [[8.6, 0.35, 1.6, 0.1], [9.45, 0.35, 1.2, -0.2], [9.45, 1.05, 1.2, 0.15], [10.2, 0.35, 1.9, 0.3]]) { const cr = new THREE.Group(); range.add(cr); cr.position.set(x, y, z); cr.rotation.y = r; mk(new THREE.BoxGeometry(0.7, 0.7, 0.7), woodM, cr, 0, 0, 0); mk(new THREE.PlaneGeometry(0.62, 0.3), crM, cr, 0, 0.05, 0.352); }
-    const ambM = new THREE.MeshStandardMaterial({ color: 0xffb020, emissive: 0xff9a10, emissiveIntensity: 1.6, roughness: 0.4 });
+    const ambM = beaconM;
     for (const [x, z] of [[11.0, 2.6], [12.2, -1.8]]) { mk(new THREE.CylinderGeometry(0.05, 0.05, 2.2, 8), steel(0x8a9298), range, x, 1.1, z); mk(new THREE.SphereGeometry(0.16, 14, 10), ambM, range, x, 2.3, z); }
     const rs = sign(range, 'BIRD STRIKE RANGE', 2.4, 0.5, { bg: '#d62f2f', fg: '#ffffff', border: '#ffffff' }); rs.position.set(11.6, 1.6, 0.6); rs.rotation.y = -0.5; mk(new THREE.CylinderGeometry(0.05, 0.05, 1.4, 8), steel(0x8a9298), range, 11.6, 0.7, 0.55); }
   const booth = new THREE.Group(); stand.add(booth); booth.position.set(6.6, 0, -6.4);   // right of the stand's leg (at 4.2 it hid the window from the front)
@@ -633,9 +635,24 @@ export async function buildJet(studio) {
 
   // ---- HANGAR + TOWER (behind), the TERMINAL by the rollout end, a fuel truck, baggage carts, cones
   const back = new THREE.Group(); root.add(back);
-  const hangar = new THREE.Group(); back.add(hangar); hangar.position.set(98, 0, -62);
-  const hg = new THREE.CylinderGeometry(14, 14, 36, 40, 1, false, -PI / 2, PI); hg.rotateX(PI / 2); hg.rotateY(PI / 2); mk(hg, std(0xbfc6cc, 0.6, { metalness: 0.3 }), hangar, 0, 0, 0).scale.set(1, 0.85, 1);
-  mk(new THREE.PlaneGeometry(26, 10), std(0x5a6470, 0.9), hangar, 0, 5, 18.05); const hsign = sign(hangar, 'HANGAR 1', 8, 1.6, { bg: '#1f5fbf', fg: '#fff' }); hsign.position.set(0, 10.8, 18.1);
+  // HANGAR 1 (041 r5: its own place for the turbofan build): a box hangar right behind the test stand, its mouth 27 m back (z −28),
+  // two sliding doors that roll open (setHangarDoors 0..1) onto a warm, lit interior — the backdrop of every −z look from the stand
+  const hangar = new THREE.Group(); back.add(hangar); hangar.position.set(52, 0, -43);
+  { const wallM = std(0xbfc6cc, 0.6, { metalness: 0.3 }), trimM = std(0x8a949e, 0.5, { metalness: 0.4 });
+    mk(new THREE.BoxGeometry(30, 12, 0.4), wallM, hangar, 0, 6, -15); for (const x of [-15, 15]) mk(new THREE.BoxGeometry(0.4, 12, 30), wallM, hangar, x, 6, 0);
+    mk(new THREE.BoxGeometry(31, 0.6, 31), trimM, hangar, 0, 12.3, 0); mk(new THREE.BoxGeometry(30, 3, 0.6), wallM, hangar, 0, 10.5, 15); for (const x of [-13.5, 13.5]) mk(new THREE.BoxGeometry(3, 9, 0.6), wallM, hangar, x, 4.5, 15);
+    const warm = new THREE.MeshStandardMaterial({ color: 0xf6e2c4, roughness: 0.8, emissive: 0xd8963e, emissiveIntensity: 1.1 });
+    mk(new THREE.PlaneGeometry(29.2, 11.6), warm, hangar, 0, 5.9, -14.75);   // the lit back wall (inner face)
+    mk(new THREE.PlaneGeometry(29, 29), new THREE.MeshStandardMaterial({ color: 0xd8cdbd, roughness: 0.9, emissive: 0x8a6232, emissiveIntensity: 0.7 }), hangar, 0, 0.02, 0).rotation.x = -PI / 2;
+    const lampM = new THREE.MeshStandardMaterial({ color: 0xfff2d8, emissive: 0xffe2a8, emissiveIntensity: 2.2 });
+    for (const x of [-8, 0, 8]) for (const z of [-8, 4]) mk(new THREE.BoxGeometry(2.2, 0.25, 0.9), lampM, hangar, x, 11.6, z);
+    const hl = new THREE.PointLight(0xffd9a0, 4.0, 46, 1.4); hl.position.set(0, 9, 6); hangar.add(hl);
+    const banner = sign(hangar, 'GARY AERO · ENGINE SHOP', 14, 1.4, { bg: '#d62f2f', fg: '#fff' }); banner.position.set(0, 8.6, -14.5);
+    for (const [x, z, c] of [[-9, -9, 0xd62f2f], [7, -10, 0x2b6fd6], [10, -4, 0xf2b21e]]) mk(new RoundedBoxGeometry(1.6, 1.1, 0.9, 2, 0.08), std(c, 0.5), hangar, x, 0.55, z);
+    mk(new RoundedBoxGeometry(3.2, 1.4, 1.8, 2, 0.15), std(0xf2b21e, 0.5), hangar, -4, 0.7, -6); }
+  const hDoors = [-1, 1].map((sd) => { const d = mk(new THREE.BoxGeometry(12.2, 9, 0.3), std(0x5a6a80, 0.6, { metalness: 0.3 }), hangar, sd * 6, 4.5, 15.45); for (let k = 0; k < 4; k++) mk(new THREE.BoxGeometry(12.2, 0.12, 0.05), std(0x3c4652, 0.6), d, 0, -3.4 + k * 2.3, 0.17); return d; });
+  function setHangarDoors(k) { hDoors.forEach((d, i) => { d.position.x = (i ? 1 : -1) * (6 + 12.2 * k); }); }
+  const hsign = sign(hangar, 'HANGAR 1', 8, 1.6, { bg: '#1f5fbf', fg: '#fff' }); hsign.position.set(0, 10.8, 15.35);
   const tower = new THREE.Group(); back.add(tower); tower.position.set(150, 0, -70); mk(new THREE.CylinderGeometry(2.2, 3, 24, 16), std(0xe9ecee, 0.6), tower, 0, 12, 0); mk(new THREE.CylinderGeometry(4.2, 3.4, 4, 16), std(0x22303c, 0.15, { metalness: 0.5 }), tower, 0, 26, 0); mk(new THREE.CylinderGeometry(4.6, 4.6, 0.6, 16), std(0xe9ecee, 0.6), tower, 0, 28.3, 0);
   const term = new THREE.Group(); back.add(term); term.position.set(D.terminal - 156, 0, -60);   // r3: in the ending's sightline (down the runway, past the wing)
   mk(new THREE.BoxGeometry(120, 14, 26), std(0xe6e9ec, 0.6), term, 0, 7, -6); mk(new THREE.BoxGeometry(120, 6, 0.5), std(0x2a4a68, 0.1, { metalness: 0.6 }), term, 0, 8, 7.3); const tsign = sign(term, 'GARY INTERNATIONAL', 30, 3.6, { bg: '#1f5fbf', fg: '#ffffff' }); tsign.position.set(0, 16, 7.4);
@@ -670,7 +687,7 @@ export async function buildJet(studio) {
   setMood('day');
   function update(t) { sock.rotation.y = 0.15 * Math.sin(t * 1.3); sock.scale.set(1, 1 + 0.05 * Math.sin(t * 7), 1); }
   return { root, house, bath, hall, gar, yard, fence, stand, back, deck, puffs, sky, skyU, sun, hemi, aimSun, setMood, update, M,
-    tub, water, rubberDuck, mirror, outlet, booth, boothGlass, toilet, tpHolder, tpRoll, towels, boxFanFrame, setRollDoor, rollDoor, setFence, setHanger, hanger, cans, mailbox, lamps, boardFace, term, hangar, sock, gnome };
+    tub, water, rubberDuck, mirror, outlet, booth, boothGlass, toilet, tpHolder, tpRoll, towels, boxFanFrame, setRollDoor, rollDoor, setHangarDoors, beaconM, setFence, setHanger, hanger, cans, mailbox, lamps, boardFace, term, hangar, sock, gnome };
 }
 
 // a yellow forklift (origin = ground under its centre; forks point +x; set({x, z, lift (fork height m), wheel}))

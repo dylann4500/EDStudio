@@ -900,6 +900,18 @@ as a record of what the cut style needs, if it is ever tried again.
 - **A beat in one place needs one camera family, not a tour around the subject**: 041's turbine → nozzle stretch swung the yaw
   −12 → +28 → −9 → +32 → −23 … at 100–137°/s and scenes.py still counted only two new looks. One rear-¾ family (yaw +10…+50°) with
   lens/aim moves along the engine reads calmer AND counts more looks.
+- **Measure camera speed with FULL-WIDTH bands, not small blocks** (`tools/flow.py`, 041 r4): 60 px blocks lose the match on fast
+  pans (the shift leaves the block) and under-read the worst moves by ~2× — the block version said 1.71 max while the r4 camera
+  reviewer's wide search found 7 clusters over 2.2 (3.40 at the ending). Calibration: 039 tops out at 1.87 after its opener.
+  `node tools/render.mjs NNN --fps 30 --blur 1 --from A --to B` + flow.py on out/silent.mp4 checks a fix in ~1 min.
+- **What pushes a move over 2.2 fw/s, and the cheap cures**: a pan of the AIM point across a close subject (3–4 m in < 1 s at
+  fov ≤ 38). Give the move 0.8–1 s (end the previous hold earlier), and widen BOTH framings a little (fov 38–44) — the frame width
+  is the denominator. A chase after a fast subject (Gary flung 10 m off a wing) can't be legal: hold ONE wide that contains the
+  whole trajectory instead, then push in.
+- **A backdrop for a beat = a set behind the action, not a new location** (041 r5, the hangar): the turbofan build stays on the
+  stand, but HANGAR 1 sits 27 m behind it and rolls its doors open onto a lit interior on the beat's line; the airliner that used
+  to fill every apron background taxis in later (its "real plane" reveal). Keep the flight camera on the PARKED pose (`PARKINV`
+  from the parked pose, not `planePose(0)`, once the plane moves before takeoff).
 - **A walk the narration forces must fit the words**: Gary's dash to the booth was keyed "dripped on" + 0.25 → "works" (6 m in 0.2 s,
   a teleport). Key it from the line that motivates it ("works" → "fillings") and let the camera hold the previous payoff.
 - **A big flat prop near the lens eats the frame**: the cardboard plane's wings (1.15 m) and a fuel jug on its near side filled the
