@@ -912,6 +912,11 @@ as a record of what the cut style needs, if it is ever tried again.
   stand, but HANGAR 1 sits 27 m behind it and rolls its doors open onto a lit interior on the beat's line; the airliner that used
   to fill every apron background taxis in later (its "real plane" reveal). Keep the flight camera on the PARKED pose (`PARKINV`
   from the parked pose, not `planePose(0)`, once the plane moves before takeoff).
+- **A part that pops in can steal a slow build's credit**: 041's 24 fan stator vanes appeared in one frame when the cowl landed, and
+  two reviewers read that as "all 16 fan blades in 0.4 s" while the blades themselves took 2.5 s. Give every visible sub-part its
+  own count (`S.ogv`) and stage it AFTER the hero part.
+- **Python cue sheets have the same trailing-comment trap**: a `# note` inserted mid-line in make_cues.py silently dropped
+  `BOLT = …; WING0, WING1 = …` (NameError, and synth.py rendered the STALE cues.json). Put `# …` only at the very end of a line.
 - **A walk the narration forces must fit the words**: Gary's dash to the booth was keyed "dripped on" + 0.25 → "works" (6 m in 0.2 s,
   a teleport). Key it from the line that motivates it ("works" → "fillings") and let the camera hold the previous payoff.
 - **A big flat prop near the lens eats the frame**: the cardboard plane's wings (1.15 m) and a fuel jug on its near side filled the

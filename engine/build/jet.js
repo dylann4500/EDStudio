@@ -205,7 +205,7 @@ export function makeEngine() {
     // box fan: slides in from +x (0 → 1)
     { const k = S.boxFan ?? 0; boxFan.visible = k > 0.001; boxFan.position.x = E.fanX + (1 - k) * 0.6; boxFan.rotation.x = S.spin; boxFan.scale.setScalar(lerp(0.4, 1, Math.min(1, k * 1.4))); }
     // duct rings: count (continuous) — ring i slides in from the front (+x) over its own 0..1
-    ductRings.forEach((r, i) => { const k = clamp((S.duct ?? 0) - i); r.visible = k > 0.001; r.position.x = (1 - k) * 0.9; r.scale.setScalar(lerp(1.25, 1, k)); });
+    ductRings.forEach((r, i) => { const k = clamp((S.duct ?? 0) - i), e = 1 - (1 - k) * (1 - k); r.visible = k > 0.001; r.position.set(0, (1 - e) * 1.1, 0); r.scale.setScalar(lerp(1.15, 1, e)); });   // r5: each ring DROPS on from above (a slide along the axis hid behind Gary)
     stages.forEach((s, i) => { const k = clamp((S.stages ?? 0) - i); s.g.visible = k > 0.001; s.g.position.x = s.x - (1 - k) * 0.9; s.rot.rotation.x = S.spin; });   // slide in from behind
     compRings.forEach((r, i) => { const k = clamp((S.stages ?? 0) - i - 0.15); r.visible = k > 0.001; r.position.y = (1 - k) * 0.7; });   // casing ring drops on over its stage
     { const k = clamp((S.stages ?? 0) / 6); drum.visible = k > 0.01; const kd = Math.max(0.01, k); drum.scale.set(kd, 1, 1); drum.position.x = E.comp[0] * (1 - kd);   /* r4: grows from the front with the stages (r3: popped in) */ }
@@ -237,7 +237,7 @@ export function makeEngine() {
     { const nk = S.nacelle ?? 0; nacRings.forEach((r, i) => { const q = clamp(nk - i); r.visible = q > 0.001; r.position.set((1 - q) * (2.4 + i * 0.4), 0, 0); r.scale.setScalar(lerp(0.9, 1, q)); }); lipT.visible = nk > 5.3; lipT.position.set(E.nac[0] + clamp((6 - nk) / 0.7) * 2.4, 0, 0);   /* r5: the lip goes on LAST */
       const hk = S.fanHub ?? 0; fanG.visible = hk > 0.001; fanG.position.x = E.bigFanX + (1 - hk) * 1.5; fanG.rotation.x = S.fanSpin;
       fanBlades.forEach((p, i) => { const q = clamp((S.fan ?? 0) - i); p.visible = q > 0.001; p.children[0].position.y = (1 - q) * 1.3; p.children[0].scale.setScalar(Math.max(0.001, Math.min(1, q * 1.4))); });
-      cowl.visible = (S.cowl ?? 0) > 0.01; cowl.scale.set(1, lerp(0.7, 1, S.cowl ?? 0), lerp(0.7, 1, S.cowl ?? 0)); ogv.visible = (S.cowl ?? 0) > 0.9;
+      cowl.visible = (S.cowl ?? 0) > 0.01; cowl.scale.set(1, lerp(0.7, 1, S.cowl ?? 0), lerp(0.7, 1, S.cowl ?? 0)); ogv.visible = (S.cowl ?? 0) > 0.9; { const n = S.ogv ?? 24; ogv.children.forEach((p, k) => { const q = clamp(n - k); p.visible = q > 0.01; p.scale.setScalar(Math.max(0.01, q)); }); }   /* r5b: the 24 stator vanes go in one by one AFTER the fan (they all popped at once and read as the fan) */
       spinM.map = (S.swirl ?? 0) > 0.5 ? swirlT : spinnerT; spinM.needsUpdate = spinM.userData.sw !== (S.swirl > 0.5); spinM.userData.sw = S.swirl > 0.5; spinner.scale.setScalar(1);
       const rv = S.reverser ?? 0; [nacRings[4], nacRings[5]].forEach((r) => { if (r.visible) r.position.x = -rv * 0.55; }); cascade.visible = rv > 0.02 && nk > 5.5; blockers.forEach((b) => { b.p.visible = rv > 0.02 && nk > 5.5; b.d.rotation.z = -rv * 1.1; }); }
     pylon.visible = (S.pylon ?? 0) > 0.001; pylon.position.y = 2.55 + (1 - (S.pylon ?? 0)) * 1.5;
@@ -649,7 +649,13 @@ export async function buildJet(studio) {
     const hl = new THREE.PointLight(0xffd9a0, 4.0, 46, 1.4); hl.position.set(0, 9, 6); hangar.add(hl);
     const banner = sign(hangar, 'GARY AERO · ENGINE SHOP', 14, 1.4, { bg: '#d62f2f', fg: '#fff' }); banner.position.set(0, 8.6, -14.5);
     for (const [x, z, c] of [[-9, -9, 0xd62f2f], [7, -10, 0x2b6fd6], [10, -4, 0xf2b21e]]) mk(new RoundedBoxGeometry(1.6, 1.1, 0.9, 2, 0.08), std(c, 0.5), hangar, x, 0.55, z);
-    mk(new RoundedBoxGeometry(3.2, 1.4, 1.8, 2, 0.15), std(0xf2b21e, 0.5), hangar, -4, 0.7, -6); }
+    mk(new RoundedBoxGeometry(3.2, 1.4, 1.8, 2, 0.15), std(0xf2b21e, 0.5), hangar, -4, 0.7, -6);
+    // r5 dressing: an engine on a cradle, a hanging engine, parts racks, a red tool chest, pools of light on the floor
+    { const eM = std(0xd8dde2, 0.4, { metalness: 0.5 }), dkM = std(0x2a2d31, 0.6); const e1 = mk(new THREE.CylinderGeometry(1.4, 1.2, 3.6, 28), eM, hangar, 6, 2.2, -6); e1.rotation.z = PI / 2; mk(new THREE.CircleGeometry(1.3, 24), dkM, hangar, 7.81, 2.2, -6).rotation.y = PI / 2; mk(new THREE.BoxGeometry(3.0, 0.8, 2.0), std(0x3a6ad6, 0.5), hangar, 6, 0.4, -6);
+      const e2 = mk(new THREE.CylinderGeometry(1.1, 0.95, 2.8, 24), eM, hangar, -7, 7.2, -2); e2.rotation.z = PI / 2; mk(new THREE.CylinderGeometry(0.05, 0.05, 4.0, 6), dkM, hangar, -7, 10.2, -2);
+      for (const x of [-12.5, 12.5]) for (let k = 0; k < 3; k++) { mk(new THREE.BoxGeometry(1.2, 0.08, 6), dkM, hangar, x, 1.0 + k * 1.6, -6); for (let j = 0; j < 4; j++) mk(new RoundedBoxGeometry(0.7, 0.6, 0.9, 2, 0.06), std([0xd62f2f, 0x2b6fd6, 0xf2b21e, 0x6a7680][(j + k) % 4], 0.5), hangar, x, 1.35 + k * 1.6, -8.4 + j * 1.6); }
+      mk(new RoundedBoxGeometry(1.8, 1.3, 0.9, 2, 0.08), std(0xd62f2f, 0.4), hangar, -2, 0.65, -12);
+      const poolM = new THREE.MeshBasicMaterial({ color: 0xffe9c0, transparent: true, opacity: 0.35, depthWrite: false }); for (const x of [-8, 0, 8]) for (const z of [-8, 4]) mk(new THREE.CircleGeometry(2.6, 28), poolM, hangar, x, 0.04, z).rotation.x = -PI / 2; } }
   const hDoors = [-1, 1].map((sd) => { const d = mk(new THREE.BoxGeometry(12.2, 9, 0.3), std(0x5a6a80, 0.6, { metalness: 0.3 }), hangar, sd * 6, 4.5, 15.45); for (let k = 0; k < 4; k++) mk(new THREE.BoxGeometry(12.2, 0.12, 0.05), std(0x3c4652, 0.6), d, 0, -3.4 + k * 2.3, 0.17); return d; });
   function setHangarDoors(k) { hDoors.forEach((d, i) => { d.position.x = (i ? 1 : -1) * (6 + 12.2 * k); }); }
   const hsign = sign(hangar, 'HANGAR 1', 8, 1.6, { bg: '#1f5fbf', fg: '#fff' }); hsign.position.set(0, 10.8, 15.35);
@@ -687,7 +693,7 @@ export async function buildJet(studio) {
   setMood('day');
   function update(t) { sock.rotation.y = 0.15 * Math.sin(t * 1.3); sock.scale.set(1, 1 + 0.05 * Math.sin(t * 7), 1); }
   return { root, house, bath, hall, gar, yard, fence, stand, back, deck, puffs, sky, skyU, sun, hemi, aimSun, setMood, update, M,
-    tub, water, rubberDuck, mirror, outlet, booth, boothGlass, toilet, tpHolder, tpRoll, towels, boxFanFrame, setRollDoor, rollDoor, setHangarDoors, beaconM, setFence, setHanger, hanger, cans, mailbox, lamps, boardFace, term, hangar, sock, gnome };
+    tub, water, rubberDuck, mirror, outlet, booth, boothGlass, toilet, tpHolder, tpRoll, towels, boxFanFrame, setRollDoor, rollDoor, setHangarDoors, beaconM, heater, setFence, setHanger, hanger, cans, mailbox, lamps, boardFace, term, hangar, sock, gnome };
 }
 
 // a yellow forklift (origin = ground under its centre; forks point +x; set({x, z, lift (fork height m), wheel}))

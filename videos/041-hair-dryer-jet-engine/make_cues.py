@@ -52,14 +52,14 @@ mono(['thrustC', 'egg', 'weighs', 'thousand']); mono(['ducted', 'all', 'oneway',
 # ---- derived times: SAME formulas as shots.js (keep them in sync)
 ON, BLOW, EGG1, EGGS = t['gives'] - 0.08, t['blowout'], t['egg'], t['thousand']
 YANK = t['swap']; FANON = max(t['fanD'], YANK + 0.5); SPRAY, TP0, TP1 = t['air'], t['toilet'] - 0.3, t['mummifies'] + 0.45
-RING0 = t['soWrap'] - 0.05; RING1 = max(RING0 + 3.0, t['creeps'] - 0.35); ONEWAY, CREEP, DHOP = t['all'], t['creeps'] - 0.1, t['creeps'] - 0.55; SLEEK = t['stack'] - 0.75
+RING0 = t['soWrap'] - 0.05; RING1 = max(RING0 + 3.2, t['creeps'] - 0.35); ONEWAY, CREEP, DHOP = t['all'], t['creeps'] - 0.1, t['creeps'] - 0.55; SLEEK = t['stack'] - 0.75
 SQK, STG0 = t['squeezed'], t['stack'] - 0.05; STG1 = max(STG0 + 3.0, t['compressor'] + 0.3); SUCK0, SUCK1 = t['sucks'] - 0.25, t['garyS'] + 0.45
 COMB0, COMB1, COIL0, COIL1, POUR0, POUR1, IGN = SUCK1 - 0.3, t['flame'] - 0.1, t['heater'] - 0.1, t['coil'] + 0.45, t['fuel'] - 0.55, t['fuel'] + 0.25, t['flame'] + 0.05; LAVA = IGN + 0.55
 BEH0, BLAST = t['garyB'] - 0.75, t['behindB'] - 0.05
 DOOR0 = t['but'] - 0.2; DOOR1 = DOOR0 + 0.9; HOP0, HOP1, ROLL0, ROLL1, PLUG = t['but'], t['but'] + 0.75, t['rolls'] - 0.35, t['plug'], t['out'] + 0.04
 TC0 = t['soT'] + 0.3; TC1 = TC0 + 0.5; TD0, TD1 = TC1, TC1 + 0.3; TB0 = TD1; TB1 = max(TB0 + 2.0, t['fansT'] - 0.35); SH0, SH1 = t['shaft'] - 0.5, t['shaft'] + 0.1
 HAND0 = TB1 - 0.05; IGN2 = max(HAND0 + 0.45, t['fansT']); SNIP = t['cuts'] + 0.15
-BLOB, PET0 = t['blobs'] - 0.15, t['soN'] - 0.05; PET1 = max(PET0 + 2.6, t['nozzleW'] + 0.3); TINY, SEAT, GO = t['came'] - 0.35, t['now'] - 0.55, t['goes'] - 0.05
+BLOB, PET0 = t['blobs'] - 0.15, t['soN'] - 0.05; PET1 = max(PET0 + 3.2, t['nozzleW'] + 0.5); TINY, SEAT, GO = t['came'] - 0.35, t['now'] - 0.55, t['goes'] - 0.05
 FENCE, SHRED, CATCH = GO + 0.42, GO + 0.52, GO + 1.2; GLAND, DLAND = CATCH + 0.1, CATCH + 0.25
 MELT0 = max(t['melts'] + 0.05, CATCH + 0.15); DRILL0 = t['make']; DRILL1 = max(DRILL0 + 2.6, t['film'] - 0.3); FILM0 = t['blanket'] - 0.1
 TEND = lambda txt: next((c['t1'] for c in story['callouts'] if c['text'] == txt), 0)   # mirrors shots.js: a TERM line's end
@@ -67,7 +67,7 @@ BOOTH0, RUN, RATTLE, OUT0, HUB0 = t['works'] + 0.05, t['works'], t['rattle'] - 0
 DW0, SUCKD, THRU1 = t['waddles'] - 0.7, t['inD'] - 0.2, t['back']; DOUT = THRU1 + 0.45; RUN0, RUN1 = t['flings'] - 0.1, t['back'] - 0.15
 CAN0, CAN1, FIRE = t['engines'], t['birds'], W('duck2', 'test', 2) - 0.05; HOPJ = W('duck2', 'bird') - 0.35; JIN = FIRE + 0.4; JOUT = JIN + 0.55; SPLAT = max(JOUT + 0.2, t['behindJ'] + 0.02)   # mirrors shots.js (r3)
 STARTER, BOTTLES, SWIRL = t['starter'], t['bottles'], t['swirl']
-FORK0, LIFT0 = t['nowF'] - 0.05, t['hang']; DRIVE0 = LIFT0 + 0.2; DRIVE1 = max(DRIVE0 + 0.8, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT - 0.15, BOLT + 0.35
+FORK0, LIFT0 = t['nowF'] - 0.5, t['nowF'] + 0.05; DRIVE0 = LIFT0 + 0.3; DRIVE1 = max(DRIVE0 + 1.0, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT - 0.15, BOLT + 0.35   # mirrors shots.js (r5b)
 TO = max(t['takeoff'] - 0.05, WING1 + 0.02); LIFTOFF = TO + 0.55; CLOUD_IN = LIFTOFF + 0.45; ABOVE = CLOUD_IN + 0.25; DIVE = t['landing'] + 0.15; TELE = DIVE + 0.2; TOUCH = max(TELE + 0.8, t['stop'] + 0.05)
 FLIP, STOP = t['flip'] - 0.05, max(t['stops'], TEND('THRUST REVERSER') + 0.04); GFLY0 = t['doesnt'] - 0.08; GSPLAT = GFLY0 + 0.45
 MONEY, EGGBLOW, DFLY0, DLAND2, POOF = t['forty'], t['millionE'] + 0.1, t['duckE'] - 0.3, t['blowout2'] - 0.1, t['blowout2']
@@ -182,7 +182,7 @@ e(SLEEK, "blanket_rustle", -16, 0.3, dur=0.4, intensity=1.0); quack(SLEEK + 0.3,
 for k in range(int((OUT0 - RUN) / 0.09)): e(RUN + k * 0.09, "knock", -27, 0.4, pitch=2.2 + 0.1 * (k % 3))   # the booth window rattling
 e(EGGBLOW, "candy_rattle", -14, -0.3, dur=0.9, density=24.0, size=1.0); e(t['millionE'] + 0.15, "candy_rattle", -12, 0.2, dur=1.0, density=30.0, size=1.2)   # r5: the egg avalanche onto Gary
 for k in range(5): e(t['add'] - 0.3 + k * 0.22, "grate", -22, -0.4, dur=0.2)   # r5: HANGAR 1 rolls open
-e(t['engines'] + 2.6, "low_swell", -20, 0.5, dur=4.0, pitch=0.7)   # r5: GARY AIR taxis in
+e(W('finish', 'starter') - 0.6, "low_swell", -19, 0.5, dur=3.0, pitch=0.7)   # r5b: GARY AIR taxis in behind the finishing list
 e(EGGBLOW + 0.05, "flash_swish", -16, -0.3, dur=0.6, peak=0.6)
 # FAN: the scream (the jet whine bed swells), the fillings PING, the hub clunk, 16 blade clicks, 6 nacelle clanks, the turbofan hum, ahh quiet
 for k in range(4): e(RATTLE + k * 0.12, "knock", -15, 0.3, pitch=3.0 + 0.2 * k)

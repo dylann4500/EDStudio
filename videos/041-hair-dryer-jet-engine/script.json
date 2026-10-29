@@ -632,7 +632,7 @@
       "say": "Now you hang it on a real plane. Takeoff: a hundred thousand pounds of thrust. [excited] Gary finally FLIES!",
       "callouts": [
         {
-          "at": "hang",
+          "at": "plane",
           "text": "CLUNK!",
           "style": "sfx",
           "pos": [

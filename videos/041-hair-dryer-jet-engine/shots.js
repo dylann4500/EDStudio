@@ -53,7 +53,7 @@ export async function build(studio, story) {
     but: W('cord', 'but'), cord: W('cord', 'cord'), rolls: W('cord', 'rolls'), driveway: W('cord', 'driveway'), plug: W('cord', 'plug'), out: W('cord', 'out'),
     soT: W('turbine', 'so'), windmill: W('turbine', 'windmill'), exhaustT: W('turbine', 'exhaust'), shaft: W('turbine', 'shaft'), fire: W('turbine', 'fire'), spins: W('turbine', 'spins'), turbineW: W('turbine', 'turbine'),
     fansT: W('turbine', 'fans'), whittle: W('turbine', 'whittle'), afford: W('turbine', 'afford'), five: W('turbine', 'five'), renewal: W('turbine', 'renewal'), cuts: W('turbine', 'more'),
-    exhaustN: W('nozzle', 'exhaust'), blobs: W('nozzle', 'blobs'), soN: W('nozzle', 'so'), pinch: W('nozzle', 'pinch'), thumb: W('nozzle', 'thumb'), hose: W('nozzle', 'hose'), nozzleW: W('nozzle', 'nozzle'), slowly: W('nozzle', 'slowly'), oneN: W('nozzle', 'one'), goesD: W('duck', 'goes'), came: W('nozzle', 'came'), now: W('nozzle', 'now'), goes: W('nozzle', 'goes'),
+    exhaustN: W('nozzle', 'exhaust'), blobs: W('nozzle', 'blobs'), soN: W('nozzle', 'so'), pinch: W('nozzle', 'pinch'), thumb: W('nozzle', 'thumb'), hose: W('nozzle', 'hose'), nozzleW: W('nozzle', 'nozzle'), youveE: W('end', 'youve'), slowly: W('nozzle', 'slowly'), oneN: W('nozzle', 'one'), goesD: W('duck', 'goes'), came: W('nozzle', 'came'), now: W('nozzle', 'now'), goes: W('nozzle', 'goes'),
     melts: W('cool', 'melts'), gas: W('cool', 'gas'), sixteen: W('cool', 'sixteen'), thirteen: W('cool', 'thirteen'), make: W('cool', 'so'), hollow: W('cool', 'hollow'), drill: W('cool', 'drill'), holes: W('cool', 'holes'), blanket: W('cool', 'blankets'), film: W('cool', 'film'), drips: W('cool', 'dripped'),
     works: W('fan', 'works'), screams: W('fan', 'screams'), fillings: W('fan', 'fillings'), rattle: W('fan', 'rattle'), add: W('fan', 'add'), giant: W('fan', 'giant'), around: W('fan', 'around'), core: W('fan', 'core'), turbofan: W('fan', 'turbofan'), quieter: W('fan', 'quieter'),
     waddles: W('duck', 'waddles'), inD: W('duck', 'in', 2),
@@ -72,22 +72,22 @@ export async function build(studio, story) {
   const TEND = (txt) => (story.callouts.find((c) => c.text === txt) || { t1: 0 }).t1;   // a TERM line's end: impacts that finish a build land after it (no kick inside a TERM)
   const ON = t.gives - 0.08, BLOW = t.blowout, EGG1 = t.egg, EGGS = t.thousand;
   const YANK = t.swap, FANON = Math.max(t.fanD, YANK + 0.5), SPRAY = t.air, TP0 = t.toilet - 0.3, TP1 = t.mummifies + 0.45;
-  const RING0 = t.soWrap - 0.05, RING1 = Math.max(RING0 + 3.0, t.creeps - 0.35), ONEWAY = t.all, CREEP = t.creeps - 0.1, DHOP = t.creeps - 0.55, SLEEK = t.stack - 0.75;
+  const RING0 = t.soWrap - 0.05, RING1 = Math.max(RING0 + 3.2, t.creeps - 0.35), ONEWAY = t.all, CREEP = t.creeps - 0.1, DHOP = t.creeps - 0.55, SLEEK = t.stack - 0.75;
   const SQK = t.squeezed, STG0 = t.stack - 0.05, STG1 = Math.max(STG0 + 3.0, t.compressor + 0.3), SUCK0 = t.sucks - 0.25, SUCK1 = t.garyS + 0.45;
   const COMB0 = SUCK1 - 0.3, COMB1 = t.flame - 0.1, COIL0 = t.heater - 0.1, COIL1 = t.coil + 0.45, POUR0 = t.fuel - 0.55, POUR1 = t.fuel + 0.25, IGN = t.flame + 0.05, LAVA = IGN + 0.55;
   const BEH0 = t.garyB - 0.75, BLAST = t.behindB - 0.05;
   const DOOR0 = t.but - 0.2, DOOR1 = DOOR0 + 0.9, HOP0 = t.but, HOP1 = t.but + 0.75, ROLL0 = t.rolls - 0.35, ROLL1 = t.plug, PLUG = t.out + 0.04;
   const TC0 = t.soT + 0.3, TC1 = TC0 + 0.5, TD0 = TC1, TD1 = TD0 + 0.3, TB0 = TD1, TB1 = Math.max(TB0 + 2.0, t.fansT - 0.35), SH0 = t.shaft - 0.5, SH1 = t.shaft + 0.1;
   const HAND0 = TB1 - 0.05, IGN2 = Math.max(HAND0 + 0.45, t.fansT), SNIP = t.cuts + 0.15;
-  const BLOB = t.blobs - 0.15, PET0 = t.soN - 0.05, PET1 = Math.max(PET0 + 2.6, t.nozzleW + 0.3), TINY = t.came - 0.35, SEAT = t.now - 0.55, GO = t.goes - 0.05;
+  const BLOB = t.blobs - 0.15, PET0 = t.soN - 0.05, PET1 = Math.max(PET0 + 3.2, t.nozzleW + 0.5), TINY = t.came - 0.35, SEAT = t.now - 0.55, GO = t.goes - 0.05;
   const FENCE = GO + 0.42, SHRED = GO + 0.52, CATCH = GO + 1.2, GLAND = CATCH + 0.1, DLAND = CATCH + 0.25;
   const MELT0 = Math.max(t.melts + 0.05, CATCH + 0.15), DRILL0 = t.make, DRILL1 = Math.max(DRILL0 + 2.6, t.film - 0.3), FILM0 = t.blanket - 0.1, LAD0 = t.make - 0.6, STILL0 = MELT0 + 1.4, STILL1 = FILM0 + 1.0;
   const BOOTH0 = t.works + 0.05, RUN = t.works, RATTLE = t.rattle - 0.1, OUT0 = t.add - 0.45, HUB0 = t.add - 0.1, HUB1 = HUB0 + 0.45, BLD0 = HUB1, BLD1 = Math.max(BLD0 + 2.4, t.turbofan - 0.1), COWL0 = HUB0 + 0.2, NAC0 = BLD0 + 0.4, NAC1 = Math.max(NAC0 + 2.4, t.turbofan + 0.4, TEND('TURBOFAN') + 0.02), QUIET = t.quieter - 0.15;
   const DW0 = t.waddles - 0.7, SUCKD = t.inD - 0.2, THRU1 = t.back, DOUT = THRU1 + 0.45, RUN0 = t.flings - 0.1, RUN1 = t.back - 0.15;
   const CAN0 = t.engines, CAN1 = t.birds, HOPJ = t.bird - 0.35, FIRE = t.testB - 0.05, JIN = FIRE + 0.4, JOUT = JIN + 0.55, SPLAT = Math.max(JOUT + 0.2, t.behindJ + 0.02);   // r3: fired on Gary's 'test', slow enough to follow
   const STARTER = t.starter, BOTTLES = t.bottles, SWIRL = t.swirl;
-  const FORK0 = t.nowF - 0.05, LIFT0 = t.hang, DRIVE0 = LIFT0 + 0.2, DRIVE1 = Math.max(DRIVE0 + 0.8, t.planeF), BOLT = DRIVE1, WING0 = BOLT - 0.15, WING1 = BOLT + 0.35;
-  const TAXI0 = t.engines + 2.6, TAXI1 = Math.min(t.nowF - 0.6, TAXI0 + 4.5);   // r5: GARY AIR taxis in behind the bird test (not parked behind the stand all along)
+  const FORK0 = t.nowF - 0.5, LIFT0 = t.nowF + 0.05, DRIVE0 = LIFT0 + 0.3, DRIVE1 = Math.max(DRIVE0 + 1.0, t.planeF), BOLT = DRIVE1, WING0 = BOLT - 0.15, WING1 = BOLT + 0.35;
+  const TAXI0 = W('finish', 'starter') - 0.6, TAXI1 = t.nowF - 0.2;   // r5: GARY AIR taxis in behind the bird test (not parked behind the stand all along)
   const TO = Math.max(t.takeoff - 0.05, WING1 + 0.02), LIFTOFF = TO + 0.55, CLOUD_IN = LIFTOFF + 0.45, ABOVE = CLOUD_IN + 0.25, DIVE = t.landing + 0.15, TELE = DIVE + 0.2, TOUCH = Math.max(TELE + 0.8, t.stop + 0.05);   // r3: the runway rushes up for ≥ 0.8 s
   const FLIP = t.flip - 0.05, STOP = Math.max(t.stops, TEND('THRUST REVERSER') + 0.04), GFLY0 = t.doesnt - 0.08, GSPLAT = GFLY0 + 0.45;
   const MONEY = t.forty, EGGBLOW = t.millionE + 0.1, DFLY0 = t.duckE - 0.3, DLAND2 = t.blowout2 - 0.1, POOF = t.blowout2;
@@ -116,16 +116,17 @@ export async function build(studio, story) {
   const goggles = new THREE.Group(); gary.head.add(goggles); goggles.position.set(0, 0.2, 0.18); goggles.rotation.x = -0.5; for (const x of [-0.08, 0.08]) { mk(new THREE.TorusGeometry(0.055, 0.018, 8, 16), mat(0x5a3a22, 0.5), goggles, x, 0, 0); mk(new THREE.CircleGeometry(0.05, 16), new THREE.MeshStandardMaterial({ color: 0x6fb6d8, roughness: 0.1, metalness: 0.3 }), goggles, x, 0, 0.005); }
   const ladder = new THREE.Group(); scene.add(ladder); { const lm = mat(0xd6dade, 0.4); for (const x of [-0.22, 0.22]) mk(new THREE.BoxGeometry(0.05, 1.7, 0.05), lm, ladder, x, 0.85, 0); for (let i = 0; i < 5; i++) mk(new THREE.BoxGeometry(0.44, 0.04, 0.06), lm, ladder, 0, 0.3 + i * 0.32, 0); }
   // r5: "a million eggs" = an avalanche onto flat Gary (the egg unit's payoff); "blobs out slowly" = ONE fat exhaust blob
-  const AVAL = 220, aval = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 10, 8), mat(0xfff4e2, 0.4), AVAL); aval.frustumCulled = false; aval.castShadow = true; aval.visible = false; scene.add(aval);
-  const AV = Array.from({ length: AVAL }, (_, i) => { const a = (i * 2.399) % TAU, r = Math.sqrt(((i % 70) + 0.5) / 70), lay = Math.floor(i / 70); return { x: 0.35 + Math.cos(a) * r * 0.8, z: Math.sin(a) * r * 0.55, y: 0.08 + 0.15 * lay + 0.1 * (1 - r), d: ((i * 13) % 37) / 37 * 0.55 + lay * 0.1, h: 2.4 + ((i * 7) % 13) / 13 * 2.0, s: i * 1.7 }; });
+  const AVAL = 120, aval = new THREE.InstancedMesh(new THREE.SphereGeometry(0.12, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35, emissive: 0x3a3a3a }), AVAL); aval.frustumCulled = false; aval.castShadow = true; aval.visible = false; scene.add(aval);
+  const AV = Array.from({ length: AVAL }, (_, i) => { const a = (i * 2.399) % TAU, r = Math.sqrt(((i % 70) + 0.5) / 70), lay = Math.floor(i / 45); return { x: 0.35 + Math.cos(a) * r * 0.8, z: Math.sin(a) * r * 0.55, y: 0.11 + 0.2 * lay + 0.1 * (1 - r), d: ((i * 13) % 37) / 37 * 0.35 + lay * 0.08, h: 0.9 + ((i * 7) % 13) / 13 * 0.9, s: i * 1.7 }; });
   const _am = new THREE.Matrix4(), _aq = new THREE.Quaternion(), _ae = new THREE.Euler(), _ap = new THREE.Vector3(), _as = new THREE.Vector3(1, 1.3, 1);
-  const blob = mk(new THREE.SphereGeometry(0.3, 18, 12), mat(0xa9a9a9, 0.95), scene); blob.visible = false; blob.castShadow = true;
+  const blob = mk(new THREE.SphereGeometry(0.3, 18, 12), new THREE.MeshStandardMaterial({ color: 0x9ab0c8, roughness: 0.25, transparent: true, opacity: 0.85 }), scene); blob.visible = false;
+  const flame = new THREE.Group(); scene.add(flame); { const fo = new THREE.ConeGeometry(0.28, 1.6, 18, 1, true); fo.rotateZ(PI / 2); fo.translate(-0.8, 0, 0); mk(fo, new THREE.MeshBasicMaterial({ color: 0xff6a1a, side: THREE.DoubleSide }), flame); const fi = new THREE.ConeGeometry(0.15, 1.1, 14, 1, true); fi.rotateZ(PI / 2); fi.translate(-0.55, 0, 0); mk(fi, new THREE.MeshBasicMaterial({ color: 0xffe14a, side: THREE.DoubleSide }), flame); } flame.visible = false;   // r5b: the singe has a visible cause
   const eggs = Array.from({ length: 34 }, (_, i) => { const e = makeEgg(); scene.add(e); return e; });
   const eggOne = makeEgg(); scene.add(eggOne);
   const eggCart = new THREE.Group(); scene.add(eggCart); mk(new THREE.BoxGeometry(1.6, 0.12, 1.0), mat(0x3a7ad6, 0.5), eggCart, 0, 0.45, 0); for (const [x, z] of [[-0.6, -0.4], [0.6, -0.4], [-0.6, 0.4], [0.6, 0.4]]) mk(new THREE.CylinderGeometry(0.12, 0.12, 0.08, 12), mat(0x1b1b1d), eggCart, x, 0.12, z).rotation.x = PI / 2;
   const EGGPILE = []; { let k = 0; for (let lay = 0; lay < 3; lay++) for (let i = 0; i < 4 - lay; i++) for (let j = 0; j < 3 - lay; j++) if (k < 20) { EGGPILE.push([-0.45 + (i + lay * 0.5) * 0.3, 0.6 + lay * 0.16, -0.3 + (j + lay * 0.5) * 0.3]); k++; } }
   const fiver = mk(new THREE.PlaneGeometry(0.7, 0.35), new THREE.MeshStandardMaterial({ map: canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#f3ead2'; c.fillRect(0, 0, w, h); c.strokeStyle = '#2f7a5a'; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12); c.fillStyle = '#1f4a38'; c.font = 'bold 70px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('£5', w / 2, h / 2 + 4); }), side: THREE.DoubleSide, roughness: 0.7 }), scene);   // r3: Whittle's renewal fee, slurped by the intake
-  const fillings = Array.from({ length: 4 }, () => mk(new THREE.SphereGeometry(0.06, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffc23a, roughness: 0.25, metalness: 0.8, emissive: 0x6a4a00, emissiveIntensity: 0.4 }), scene));
+  const fillings = Array.from({ length: 4 }, () => mk(new THREE.SphereGeometry(0.035, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffc23a, roughness: 0.25, metalness: 0.8, emissive: 0x6a4a00, emissiveIntensity: 0.4 }), scene));
   const hatDrips = Array.from({ length: 5 }, (_, i) => mk(new THREE.SphereGeometry(0.035 + i * 0.006, 10, 8), new THREE.MeshStandardMaterial({ color: 0xc9ced3, metalness: 0.9, roughness: 0.25 }), gary.hat ?? gary.head, (i - 2) * 0.08, 0.33 - Math.abs(i - 2) * 0.03, 0.03 * i - 0.03));
   const jellyM = new THREE.MeshPhysicalMaterial({ color: 0xff6a3a, roughness: 0.12, transparent: true, opacity: 0.85, depthWrite: true, clearcoat: 1, emissive: 0x5a1a08, emissiveIntensity: 0.3 });
   const jellyGoo = mk(new THREE.SphereGeometry(0.33, 20, 14, 0, TAU, 0, PI * 0.62), jellyM, gary.head, 0, 0.05, 0); const jellyChest = mk(new THREE.SphereGeometry(0.24, 16, 12), jellyM, gary.root, 0, 0.82, 0.06); jellyChest.scale.set(1.2, 1.1, 0.9);
@@ -133,7 +134,7 @@ export async function build(studio, story) {
   const bypassArrows = makeArrows(eng.g, [[3.6, 1.15, -0.08], [2.4, 1.2, -0.08], [1.0, 1.25, -0.08], [0.0, 1.25, -0.08], [-1.0, 1.2, -0.08]], { color: 0x9fe8ff, count: 12, size: 0.28, speed: 3.2 });
   const coreArrows = makeArrows(eng.g, [[2.6, 0.3, -0.08], [1.8, 0.28, -0.08], [0.6, 0.24, -0.08], [-0.3, 0.24, -0.08], [-1.6, 0.18, -0.08]], { color: 0xffd23f, count: 7, size: 0.16, speed: 2.4 });
   const ductArrows = makeArrows(eng.g, [[2.6, 0.22, -0.08], [1.9, 0.22, -0.08], [1.2, 0.22, -0.08], [0.2, 0.22, -0.08], [-0.9, 0.2, -0.08]], { color: 0x9fe8ff, count: 6, size: 0.17, speed: 2.0 });
-  const revArrows = makeArrows(eng.g, [[0.8, 1.6, -0.1], [0.9, 2.3, -0.1], [1.9, 2.9, -0.1], [3.2, 3.1, -0.1]], { color: 0xff8a5a, count: 6, size: 0.3, speed: 3.0 });
+  const revArrows = makeArrows(eng.g, [[0.8, 1.6, -0.1], [0.9, 2.3, -0.1], [1.9, 2.9, -0.1], [3.2, 3.1, -0.1]], { color: 0x9fe8ff, count: 8, size: 0.55, speed: 3.0 }), revArrows2 = makeArrows(eng.g, [[0.8, -1.6, -0.1], [0.9, -2.3, -0.1], [1.9, -2.9, -0.1], [3.2, -3.1, -0.1]], { color: 0x9fe8ff, count: 8, size: 0.55, speed: 3.0 });
 
   // ---------------------------------------------------------------- paths (stateless functions of t)
   const K = (tt, keys) => { if (tt <= keys[0][0]) return keys[0][1]; for (let i = 0; i < keys.length - 1; i++) { const [a, va] = keys[i], [b, vb] = keys[i + 1]; if (tt <= b) { const u = smooth((tt - a) / (b - a)); return Array.isArray(va) ? va.map((v, k) => lerp(v, vb[k], u)) : lerp(va, vb, u); } } return keys[keys.length - 1][1]; };
@@ -148,7 +149,7 @@ export async function build(studio, story) {
   // the airliner: parked → forklift time → takeoff roll → climb → above the clouds → (inside a cloud: jump to the approach) → touchdown → rollout + reversers → stop
   const PARK = D.plane;
   function planePose(tt) {
-    if (tt < TO) return { x: PARK[0] + (tt < TAXI1 ? 70 * (1 - smooth(u01(tt, TAXI0, TAXI1))) : 0), y: 0, z: PARK[2], pitch: 0, gear: 1 };
+    if (tt < TO) return { x: PARK[0] + (tt < TAXI1 ? 70 * (1 - u01(tt, TAXI0, TAXI1)) ** 2 : 0), y: 0, z: PARK[2], pitch: 0, gear: 1 };
     if (tt < LIFTOFF) { const u = tt - TO, a = 2 * 140 / (LIFTOFF - TO) ** 2; return { x: PARK[0] + 0.5 * a * u * u, y: 0, z: PARK[2], pitch: 0.06 * smooth(u01(tt, LIFTOFF - 0.35, LIFTOFF)), gear: 1 }; }
     const vx = 2 * 140 / (LIFTOFF - TO);   // speed at liftoff
     if (tt < TELE) { const u = tt - LIFTOFF, y = Math.min(118, 210 * easeInQuad(Math.min(1, u / 1.0)) + Math.max(0, u - 1) * 30); return { x: PARK[0] + 140 + vx * u, y, z: PARK[2], pitch: 0.28 * smooth(u01(tt, LIFTOFF, LIFTOFF + 0.3)) * (1 - smooth(u01(tt, ABOVE, ABOVE + 0.4))) - 0.22 * smooth(u01(tt, DIVE, TELE)), gear: 1 - smooth(u01(tt, LIFTOFF + 0.1, LIFTOFF + 0.5)) }; }
@@ -192,7 +193,7 @@ export async function build(studio, story) {
     s.petals = 10 * u01(tt, PET0, PET1);
     s.tGlow = smooth(u01(tt, MELT0, MELT0 + 0.4)); s.melt = smooth(u01(tt, MELT0 + 0.2, MELT0 + 1.1));
     s.holes = 14 * u01(tt, DRILL0, DRILL1); s.holeRank = HOLE_RANK; s.film = smooth(u01(tt, FILM0, FILM0 + 0.6));
-    s.cowl = smooth(u01(tt, COWL0, COWL0 + 0.5)); s.fanHub = smooth(u01(tt, HUB0, HUB1)); s.fan = 16 * u01(tt, BLD0, BLD1); s.nacelle = 6 * u01(tt, NAC0, NAC1);
+    s.cowl = smooth(u01(tt, COWL0, COWL0 + 0.5)); s.fanHub = smooth(u01(tt, HUB0, HUB1)); s.fan = 16 * u01(tt, BLD0, BLD1); s.ogv = 24 * u01(tt, BLD1 - 0.6, NAC1); s.nacelle = 6 * u01(tt, NAC0, NAC1);
     s.starter = tt < STARTER ? 0 : easeOutBack(u01(tt, STARTER, STARTER + 0.3)); s.bottles = tt < BOTTLES ? 0 : easeOutBack(u01(tt, BOTTLES, BOTTLES + 0.3)); s.swirl = tt > SWIRL ? 1 : 0;
     s.pylon = smooth(u01(tt, BOLT - 0.3, BOLT)); s.reverser = smooth(u01(tt, FLIP, FLIP + 0.45)) * (1 - smooth(u01(tt, STOP + 0.4, STOP + 1.2)));
     return s;
@@ -324,8 +325,8 @@ export async function build(studio, story) {
   Fk(t.swap - 0.15, [3.6, 2.3, 4.9], [2.6, 0.75, -1.3], 42, FANON + 0.1);
   Fk(t.air - 0.1, [2.4, 2.2, 6.0], [2.0, 0.95, -1.3], 44);
   Fk(t.toilet - 0.25, [3.0, 1.6, 3.6], [2.6, 0.85, -1.0], 44, t.mummifies - 0.35);
-  Fk(t.mummifies + 0.05, [4.0, 1.35, 1.3], [2.55, 0.9, EZ], 46, TP1 + 0.2);   // r4: mummified Gary from the front (r3: from behind)
-  Fk(RING0 + 0.25, [-0.2, 1.55, 1.9], [1.8, 1.05, EZ], 44, t.all - 0.05);   // r5: from the tub side (a real new look, no zoom)
+  Fk(t.mummifies + 0.05, [4.0, 1.35, 1.3], [2.55, 0.9, EZ], 46, TP1 - 0.15);   // r4: mummified Gary from the front (r3: from behind)
+  Fk(RING0 + 0.8, [-0.2, 1.55, 1.9], [1.8, 1.05, EZ], 50, t.all - 0.05);   // r5b: the tub side (a real new look), reached by a 1.35 s orbit
   Fk(t.all + 0.2, [0.64, 2.48, 3.6], [1.3, 0.75, -1.3], 48, t.oneway + 0.2);
   Fk(t.creeps - 0.25, [3.14, 0.53, 2.44], [2.8, 0.55, -0.8], 40);
   // SQUEEZE: the rubber duck squeak; ride along the hallway while the six stages slot in (tele from across the hall); the term close; Gary spun free
@@ -335,10 +336,9 @@ export async function build(studio, story) {
   Fk(t.axial - 0.1, [cx(t.axial) - 0.54, 1.7, 3.01], [cx(t.axial) - 0.9, 1.1, EZ], 48, STG1 + 0.05);
   Fk(t.sucks - 0.15, [cx(t.sucks + 0.5) + 1.43, 1.7, 3.49], [cx(t.sucks + 0.5) + 0.62, 0.8, EZ], 48, SUCK1 + 0.15);
   // BURN: the combustor assembles in section (medium); the pour + the coil sliding back (one wide); FWOOSH close; Gary behind it
-  Fk(t.burns - 0.05, [cx(t.burns) - 1.4, 1.75, 3.2], [cx(t.burns) - 1.8, 1.05, EZ], 46, POUR0 - 0.2);
-  Fk(t.fuel - 0.3, [cx(t.fuel) + 0.2, 2.0, 4.6], [cx(t.fuel) - 0.55, 1.15, -0.3], 48, POUR1 - 0.35);
-  Fk(IGN + 0.1, [cx(IGN) - 3.6, 1.5, 1.6], [cx(IGN) - 1.9, 1.15, EZ], 44, t.combustion + 0.3);   // r5: the FWOOSH from the side
-  Fk(t.garyB - 0.25, [cx(t.garyB) - 2.0, 1.55, 3.6], [cx(t.garyB) - 2.8, 0.95, EZ], 48, BLAST + 0.7);
+  Fk(t.burns - 0.05, [cx(t.burns) - 1.4, 1.75, 3.2], [cx(t.burns) - 1.8, 1.05, EZ], 46, IGN - 0.6);   // r5b: the combustor builds in ONE held framing (the pour stays off-frame)
+  Fk(IGN + 0.1, [cx(IGN) - 3.6, 1.5, 1.6], [cx(IGN) - 1.9, 1.15, EZ], 44, t.combustion - 0.1);   // r5: the FWOOSH from the side
+  Fk(t.garyB - 0.1, [cx(t.garyB) - 2.0, 1.55, 3.6], [cx(t.garyB) - 2.8, 0.95, EZ], 48, BLAST + 0.7);
   // CORD: the handle + cord close; follow the plane out of the garage and down the driveway; hold on Gary for the plug BONK
   Fk(t.cord - 0.25, [cx(t.cord) + 0.9, 1.3, 2.2], [cx(t.cord) - 0.2, 0.72, EZ], 44);
   for (const tk of [ROLL0 + 0.25, ROLL0 + 0.7]) Pp(tk, [cpX(tk) + 0.4, 2.2, 5.2], [cpX(tk) + 0.3, 0.9, EZ], 50);
@@ -348,8 +348,8 @@ export async function build(studio, story) {
   Fk(t.soT + 0.8, [15.2, 1.75, 2.6], [17.0, 1.15, EZ], 34, IGN2 - 0.35);
   Fk(IGN2 - 0.05, [15.0, 2.0, 3.2], [16.6, 1.0, EZ], 44, t.patented - 0.1);
   Fk(t.patented + 0.1, [13.6, 1.6, 2.9], [15.85, 0.9, -0.4], 34, t.five - 1.05);
-  Fk(t.five, [14.8, 2.2, 3.9], [19.2, 1.0, 0.0], 44);   // r4: down the engine after Gary → he turns at the intake → SHLOOP
-  Fk(t.cuts - 0.2, [16.1, 1.75, 2.9], [19.8, 0.9, -0.5], 40, SNIP + 0.05);
+  Fk(t.five, [14.6, 2.2, 3.9], [18.2, 1.0, -0.2], 44);   // r4: down the engine after Gary → he turns at the intake → SHLOOP
+  Fk(t.cuts - 0.2, [15.6, 1.9, 3.3], [18.9, 0.9, -0.5], 42, SNIP + 0.05);
   // NOZZLE: the back (blobs, lens upstream of the plume); the petals close like an iris (rear ¾ tele); the term; the tiny dryer nozzle inside;
   // "Now" = the chase's start pose (the launch is a camera locked alongside the plane, camAt) → it lands at the stand
   Fk(t.blobs + 0.3, [14.3, 1.8, 3.4], [16.75, 1.1, EZ], 38, t.nozzleW + 0.5);
@@ -362,12 +362,12 @@ export async function build(studio, story) {
   Fk(t.thirteen - 0.2, [60.95, 3.35, 2.1], [60.35, 3.0, EZ], 36);
   Fk(DRILL0 + 0.05, [60.86, 3.12, 2.5], [60.33, 2.95, EZ], 34, FILM0 + 0.3);   // r4: the holes go in blade by blade IN this close
   Fk(FILM0 + 0.5, [60.85, 3.2, 1.65], [60.33, 3.0, EZ], 32, t.film + 0.35);   // the film holds through its TERM
-  Fk(t.drips - 0.15, [61.0, 1.85, 1.9], [60.15, 1.4, -0.2], 38, t.drips + 0.45);
+  Fk(t.drips - 0.15, [61.0, 1.85, 1.9], [60.15, 1.4, -0.2], 38, t.drips + 0.25);
   // FAN: the CONTROL booth (Gary behind the shaking window as it screams); his fillings, close; out to the front: the fan assembles
   // (front ¾, orbiting to the side as the blades + rings go in); under the fan for "around the core"; the term side-on; quieter
-  Fk(t.works + 0.45, [64.5, 2.6, 6.4], [64.4, 2.6, -3.0], 60);   // wide: the engine screams, Gary dashes to the booth
-  Fk(t.rattle - 0.15, [67.62, 1.45, -3.3], [67.6, 1.22, -5.6], 36, W('fan', 'out') - 0.1);
-  Pp(W('fan', 'out') + 0.35, [66.4, 2.4, 1.6], [63.6, 2.6, -1.2], 44);
+  Fk(t.works + 0.1, [63.4, 2.1, 3.4], [66.6, 1.7, -4.2], 46);   // r5b: follow Gary's dash one way (no fov-60 pump)   // wide: the engine screams, Gary dashes to the booth
+  Fk(t.rattle - 0.3, [67.4, 1.6, -2.4], [67.6, 1.22, -5.6], 38, W('fan', 'out') + 0.15);
+  Pp(W('fan', 'out') + 0.5, [67.5, 2.4, 2.2], [66.2, 2.2, -3.0], 50);
   Fk(t.giant + 0.25, [67.6, 3.6, 6.4], [62.6, 3.0, EZ], 40);
   Fk(t.around - 0.15, [63.2, 0.6, 3.6], [62.8, 2.6, EZ], 52);
   Fk(t.turbofan - 0.1, [63.0, 3.4, 9.5], [62.6, 3.0, EZ], 50);
@@ -376,11 +376,12 @@ export async function build(studio, story) {
   Fk(t.waddles - 0.2, [70.6, 2.6, 5.6], [65.4, 2.45, EZ], 50, t.goesD - 0.75);
   Fk(t.goesD - 0.2, [64.0, 1.6, 4.4], [65.0, 1.25, -0.9], 44, SUCKD + 0.45);   // r5: side-on through the cutaway, held still from "goes" to "IN"
   Fk(t.flings - 0.1, [61.7, 4.0, 7.6], [61.6, 3.7, EZ], 44, THRU1 - 0.1);
-  Fk(t.back + 0.05, [56.0, 2.2, 5.0], [58.0, 1.5, EZ], 46);
+  Fk(t.back + 0.05, [56.0, 2.2, 5.0], [59.0, 1.5, EZ], 46);   // the duck shoots out of the nozzle in frame
   Fk(t.fine - 0.2, [56.6, 1.6, 3.2], [58.0, 1.9, 0.0], 42);
   // BIRD TEST, one way: out to the cannon (+x); the jelly bird in the breech; FOLLOW it back through the engine to Gary (−x): SPLAT, AGAIN
-  Fr.push({ t: t.birds - 0.25, pos: [71.2, 2.6, 6.2], look: [66.5, 1.6, EZ], fov: 50, keep: true, swoop: 30 });
-  Fk(t.strike - 0.2, [69.4, 2.4, 6.4], [67.6, 1.4, EZ], 50, FIRE - 0.05);
+  Pp(t.engines + 0.3, [58.6, 2.4, 6.0], [59.6, 1.8, -0.4], 48);   // r5b: a parallel move along z≈6, not a 14 m swoop
+  Fk(t.birds, [71.2, 2.6, 6.2], [66.5, 1.6, EZ], 50);
+  Fk(t.strike - 0.2, [69.4, 2.4, 6.4], [67.6, 1.7, EZ], 50, FIRE - 0.05);
   Pp(FIRE + 0.4, [64.8, 2.6, 6.8], [63.8, 1.7, EZ], 52);
   Pp(JOUT, [60.6, 2.6, 6.8], [59.6, 1.7, EZ], 52);
   Fk(SPLAT + 0.1, [58.5, 2.3, 2.4], [57.9, 1.65, -0.35], 42, t.again + 0.55);
@@ -391,7 +392,7 @@ export async function build(studio, story) {
   // streaming runway; an exterior above the clouds with Gary on the wing ("finally FLIES")
   Fk(t.hang - 0.2, [67.5, 3.5, 8.6], [63.5, 2.4, EZ], 48);
   Fk(BOLT, [78.5, 4.4, 9.8], [75.0, 3.9, EZ], 52, TO - 0.3);
-  Fk(t.hundred - 0.15, [81.0, 1.8, 9.0], [76.0, 3.3, -2.5], 52);   // (a lens behind the engine crossed the wing on its way up to Gary)
+  Fk(t.hundred - 0.15, [81.0, 1.8, 9.0], [76.0, 3.9, -2.5], 52);   // (a lens behind the engine crossed the wing on its way up to Gary)
   Fk(t.garyF - 0.2, [79.4, 7.1, 4.4], [75.9, 5.95, -0.7], 44, t.landing - 0.1);   // Gary arms out against the sunset (a deck view needs the lens on the fuselage side: it can't reach the landing framing legally)
   Fk(t.landing + 0.1, [83.0, 9.0, 7.5], [76.5, 4.0, -0.2], 50, TOUCH - 0.05);   // the runway rushes up past the wing edge
   // LAND: the descent wide; the reverser close; the term; the stop: ride with Gary on the wing → he flies off → SPLAT on the runway
@@ -405,9 +406,9 @@ export async function build(studio, story) {
   Fk(t.forty - 0.2, [89.4, 1.8, 1.9], [82.6, 0.6, -0.7], 46);
   Fk(t.eggsE - 0.3, [88.6, 1.7, 1.8], [83.4, 0.8, -0.6], 46);
   Fk(t.singed - 0.2, [87.4, 1.4, 1.6], [85.4, 0.62, -0.45], 50, t.squished + 0.3);
-  Fk(t.whole - 0.3, [87.6, 2.9, 6.6], [84.8, 1.6, -0.6], 52, DFLY0 + 1.1);
-  Fk(t.blowout2 + 0.35, [78.2, 3.4, 8.6], [74.0, 3.0, EZ], 50);   // r5: wide enough to follow the duck to the exhaust at a legal speed
-  Fr.push({ t: END, pos: [77.9, 3.42, 8.8], look: [74.0, 3.0, EZ], fov: 50 });
+  Fk(t.whole - 0.3, [87.6, 2.9, 6.6], [84.8, 1.4, -0.6], 52, DFLY0 + 0.95);
+  Fk(t.blowout2 + 0.2, [79.0, 3.5, 9.8], [74.6, 2.8, EZ], 56);   // r5: wide enough to follow the duck to the exhaust at a legal speed
+  Fr.push({ t: END, pos: [78.7, 3.52, 10.0], look: [74.6, 2.8, EZ], fov: 56 });
   planRail.verbose = true;
   const rail = makeRail(planRail(Fr, { shortHoldPass: true, minHold: 0.9, move: [0.28, 16], lead: 0.12, maxLead: 0.25 }));
   const HOLDS = []; { let a = null; const dt = 1 / 30; let prev = rail.at(0);
@@ -455,7 +456,7 @@ export async function build(studio, story) {
       const route = [[SUCK1 + 0.9, s], [SUCK1 + 1.3, [cx0 + 0.9, 0, -0.1]], [POUR0 - 0.4, [cx0 + 1.0, 0, 0.75]], [POUR0, [cx0 + 0.85, 0, 0.5]], [POUR1 + 0.2, [cx0 + 0.85, 0, 0.5]], [BEH0, [cx0 - 0.4, 0, 0.6]], [BEH0 + 0.6, [cx0 - 3.3, 0, EZ + 0.05]]];
       const q = K(tt, route), walking = (tt > SUCK1 + 1.3 && tt < POUR0) || (tt > POUR1 + 0.2 && tt < BEH0 + 0.6), pouring = tt > POUR0 && tt < POUR1 + 0.2, blasted = tt > BLAST;
       p = { ...p, x: q[0] - (blasted ? 0.6 * smooth(u01(tt, BLAST, BLAST + 0.35)) : 0), y: 0, z: q[2], rotY: tt < POUR0 - 0.4 ? PI * 0.75 : pouring ? -PI / 2 - 0.4 : tt < BEH0 ? -PI / 2 : PI / 2, walk: walking ? tt * 12 : undefined, eyes: tt < SUCK1 + 1.6 ? 'spiral' : blasted ? 'wide' : blinkE(tt),
-        armR: pouring ? { x: -1.4, z: 0.3, el: 0.6 } : { x: -0.3, z: 0.2, el: 0.5 }, armL: pouring ? { x: -1.2, z: 0.2, el: 0.6 } : { x: -0.2, z: 0.2 }, mouth: blasted ? 'o' : tt > BEH0 + 0.6 ? 'grin' : 'smile', rx: blasted ? -0.25 * Math.exp(-(tt - BLAST) * 3) : 0, ...mess };
+        armR: pouring ? { x: -1.4, z: 0.3, el: 0.6 } : { x: -0.3, z: 0.2, el: 0.5 }, armL: pouring ? { x: -1.2, z: 0.2, el: 0.6 } : { x: -0.2, z: 0.2 }, mouth: blasted ? 'o' : tt > BEH0 + 0.6 ? 'grin' : 'smile', rx: blasted ? -0.25 * Math.exp(-(tt - BLAST) * 3) : 0, ...mess, hatLift: tt > BLAST && tt < BLAST + 0.7 ? 1 : 0 };
     } else if (tt < SEAT || tt < GO) {   // back in the seat for the roll (plug BONK), then out to build the turbine + nozzle, then back in
       const s = SEATP(tt), cx0 = cpX(tt);
       if (tt < HOP1) { const q = K(tt, [[HOP0, [cx0 - 2.7, 0, EZ + 0.05]], [HOP0 + 0.35, [cx0 - 1.0, 0, 0.6]], [HOP1, s]]); p = { ...p, x: q[0], y: q[1], z: q[2], walk: tt * 12, ...mess, eyes: 'half' }; }
@@ -497,7 +498,7 @@ export async function build(studio, story) {
     } else {   // flung off the wing at the stop → squished flat on the runway, face up, the roll call; sits up for the duck
       const land = [PARK[0] + 9.0 + dX, 0.02, EZ + 0.4];
       if (tt < GSPLAT) { const q = hop(tt, GFLY0, GSPLAT, rel(GFLY0, WINGP), land, 1.2), u = u01(tt, GFLY0, GSPLAT); p = { ...p, x: q[0], y: q[1], z: q[2], rx: -u * 1.7, mouth: 'scream', eyes: 'wide', armR: { x: -2.8, z: 0.8 }, armL: { x: -2.8, z: 0.8 } }; }
-      else { const sitUp = smooth(u01(tt, t.duckE - 0.3, t.duckE + 0.3)); const look = tt > DFLY0 && tt < DFLY0 + 1.5 ? 0.9 * Math.sin((tt - DFLY0) * 4.4) : 0; p = { ...p, x: land[0], y: land[1] - 0.35 * sitUp, z: land[2], rotY: lerp(PI * 0.62, 0.5, sitUp), rx: -PI / 2 * (1 - sitUp), pancake: 1 - sitUp, legL: { x: -1.5 * sitUp, kn: 0 }, legR: { x: -1.5 * sitUp, kn: 0 }, head: { y: look, x: -0.35 * sitUp }, mouth: tt > t.duckE ? 'o' : 'wavy', eyes: tt < GSPLAT + 0.6 ? 'spiral' : tt > t.duckE ? 'wide' : 'half', armR: sitUp > 0.5 ? { x: 0.25, z: 0.45, el: 0.3 } : { x: -0.2, z: 1.3 }, armL: sitUp > 0.5 ? { x: 0.25, z: 0.45, el: 0.3 } : { x: -0.2, z: 1.3 } }; }
+      else { const sitUp = smooth(u01(tt, t.duckE - 0.5, t.duckE + 0.3)); const look = tt > DFLY0 + 0.4 && tt < DFLY0 + 1.2 ? 0.9 * Math.sin((tt - DFLY0 - 0.45) * TAU / 0.6) : 0, wave = tt > t.youveE - 0.1 && tt < t.forty ? 0.5 * Math.max(0, Math.sin((tt - t.youveE) * 5)) : 0; p = { ...p, x: land[0], y: land[1] - 0.35 * sitUp, z: land[2], rotY: lerp(PI * 0.62, 0.5, sitUp), rx: -PI / 2 * (1 - sitUp), pancake: 1 - sitUp, legL: { x: -1.5 * sitUp, kn: 0 }, legR: { x: -1.5 * sitUp, kn: 0 }, head: { y: look, x: -0.35 * sitUp }, mouth: tt > t.duckE ? 'o' : 'wavy', eyes: tt < GSPLAT + 0.6 ? 'spiral' : tt > t.duckE ? 'wide' : 'half', armR: sitUp > 0.5 ? { x: 0.25, z: 0.45, el: 0.3 } : { x: -0.2 - wave, z: 1.3, el: wave }, armL: sitUp > 0.5 ? { x: 0.25, z: 0.45, el: 0.3 } : { x: -0.2, z: 1.3 } }; }
     }
     // the mess builds up: soot (singed) for good, jelly after the splat, the metal drips on his hat
     if (tt > BLAST) { p.soot = 0.75; p.noBrows = true; }
@@ -549,7 +550,7 @@ export async function build(studio, story) {
       if (tt > TO) p.y = -50;   // (off-screen once the plane leaves; it flies to the terminal by itself)
     } else {   // END: flies in from the sky, lands behind the engine, plants itself in the exhaust: the blowout
       const behind = [PARK[0] + dX - 4.2, 2.55, EZ + 0.25];
-      if (tt < DLAND2) { const u = u01(tt, DFLY0, DLAND2), A = [PARK[0] + dX + 15, 5.5, 3.0], M = [PARK[0] + dX + 9, 2.6, -0.2]; const O = [PARK[0] + dX + 0.5, 0.8, 2.0], G0 = PARK[0] + 9.0 + dX - 0.35, G2 = EZ + 0.4, q = K(tt, [[DFLY0, A], [DFLY0 + 0.35, [G0 + 0.6, 1.9, G2 + 0.7]], [DFLY0 + 0.7, [G0 - 0.5, 2.0, G2 + 0.3]], [DFLY0 + 1.05, [G0 - 0.1, 1.9, G2 - 0.7]], [DFLY0 + 1.5, O], [DLAND2, behind]]); /* r5: one loop round Gary's head on "the WHOLE TIME" */ p = { ...p, x: q[0], y: q[1], z: q[2], rotY: -PI / 2, flap: 1, fly: 1, eyes: 'happy', fluff: 0.5, quack: u > 0.4 && u < 0.5 ? 1 : 0 }; }
+      if (tt < DLAND2) { const u = u01(tt, DFLY0, DLAND2), A = [PARK[0] + dX + 15, 5.5, 3.0], M = [PARK[0] + dX + 9, 2.6, -0.2]; const O = [PARK[0] + dX + 0.5, 0.8, 1.4], G0 = PARK[0] + 9.0 + dX - 0.35, G2 = EZ + 0.4, q = K(tt, [[DFLY0, A], [DFLY0 + 0.45, [G0 + 0.2, 1.0, G2 + 0.45]], [DFLY0 + 0.6, [G0 + 0.45, 1.0, G2]], [DFLY0 + 0.75, [G0, 1.05, G2 - 0.45]], [DFLY0 + 0.9, [G0 - 0.45, 1.0, G2]], [DFLY0 + 1.05, [G0, 1.0, G2 + 0.45]], [DFLY0 + 1.5, [PARK[0] + dX + 4.5, 0.9, 1.0]], [DFLY0 + 1.75, O], [DLAND2, behind]]); /* r5: one loop round Gary's head on "the WHOLE TIME" */ p = { ...p, x: q[0], y: q[1], z: q[2], rotY: -PI / 2, flap: 1, fly: 1, scale: 1.3, eyes: 'happy', fluff: 0.5, quack: u > 0.4 && u < 0.5 ? 1 : 0 }; }
       else p = { ...p, x: behind[0] + 0.15 * Math.sin(tt * 3), y: behind[1] + 0.12 * Math.sin(tt * 5), z: behind[2], rotY: PI / 2, flap: 0.8, fly: 1, scale: 1.5, fluff: tt > POOF ? lerp(0.9, 1.5, easeOutBack(u01(tt, POOF, POOF + 0.3))) : 0.75 + 0.12 * Math.sin(tt * 20), eyes: 'happy' };
     }
     duck.set(p);
@@ -595,10 +596,11 @@ export async function build(studio, story) {
     // the spray storm: towels fly off the rail, the eggs blow away
     S.towels.forEach((tw, i) => { const a = tt - (SPRAY + 0.1 + i * 0.15); if (a < 0) { tw.position.set(0.85 + i * 0.5, 1.45, D.back + 0.06); tw.rotation.set(0, 0, 0); return; } const q = hop(Math.min(a, 1.1), 0, 1.1, [0.85 + i * 0.5, 1.45, D.back + 0.06], [2.3 + i * 0.6, 0.03, -1.6 - i * 0.6], 0.6); tw.position.set(...q); tw.rotation.set(Math.min(1, a) * (PI / 2), a * 2, 0); });
     eggOne.visible = tt > EGG1 && tt < SPRAY + 0.3; if (eggOne.visible) { const s0 = easeOutBack(u01(tt, EGG1, EGG1 + 0.25)); eggOne.scale.set(s0, 1.3 * s0, s0); eggOne.position.set(cpX(tt) + 0.42, 0.6, EZ + 0.62); if (tt > SPRAY) eggOne.position.x += (tt - SPRAY) * 3; }
-    { const C0 = [PARK[0] - 6.5 + dX, 0, EZ - 0.45]; eggCart.position.set(...C0); eggCart.scale.setScalar(2); eggCart.visible = tt > TOUCH - 0.5 && tt < t.whole; }
-    { aval.visible = tt > t.millionE - 0.2; if (aval.visible) { const L0 = [PARK[0] + 9.0 + dX, EZ + 0.4]; AV.forEach((e, i) => { const a = Math.max(0, tt - (t.millionE - 0.1 + e.d)), fall = Math.sqrt(2 * e.h / 9.8), landed = a >= fall, y = landed ? e.y + 0.12 * Math.abs(Math.sin((a - fall) * 14)) * Math.exp(-(a - fall) * 6) : e.y + e.h - 4.9 * a * a; _ap.set(L0[0] + e.x, a > 0 ? y : -5, L0[1] + e.z); _aq.setFromEuler(_ae.set(e.s + (landed ? 0 : a * 6), e.s * 0.7, 0)); _am.compose(_ap, _aq, _as); aval.setMatrixAt(i, _am); }); aval.instanceMatrix.needsUpdate = true; } }
+    { const C0 = [PARK[0] - 6.5 + dX, 0, EZ - 0.45]; eggCart.position.set(...C0); eggCart.scale.setScalar(2); eggCart.visible = false; }   // r5b: the avalanche IS the egg payoff (the cart appeared with no setup)
+    { aval.visible = tt > t.millionE - 0.2; if (aval.visible) { const L0 = [PARK[0] + 9.0 + dX, EZ + 0.4]; AV.forEach((e, i) => { const a = Math.max(0, tt - (t.millionE - 0.25 + e.d)), fall = Math.sqrt(2 * e.h / 9.8), landed = a >= fall, y = landed ? e.y + 0.12 * Math.abs(Math.sin((a - fall) * 14)) * Math.exp(-(a - fall) * 6) : e.y + e.h - 4.9 * a * a; _ap.set(L0[0] + e.x, a > 0 ? y : -5, L0[1] + e.z); _aq.setFromEuler(_ae.set(e.s + (landed ? 0 : a * 6), e.s * 0.7, 0)); _am.compose(_ap, _aq, _as); aval.setMatrixAt(i, _am); }); aval.instanceMatrix.needsUpdate = true; } }
+    { flame.visible = tt > BLAST - 0.08 && tt < BLAST + 0.32; if (flame.visible) { const p0 = at(tt, -1.45, 0, -0.05), u = u01(tt, BLAST - 0.08, BLAST + 0.05); flame.position.set(p0[0], p0[1], p0[2] + 0.05); flame.scale.set(0.2 + 0.8 * u, 1 + 0.15 * Math.sin(tt * 60), 1 + 0.15 * Math.cos(tt * 55)); } S.heater.visible = !(tt > t.garyB - 0.9 && tt < BLAST + 0.9); }
     { const s0 = BLOB, s1 = t.slowly + 0.1, s2 = s1 + 0.6; blob.visible = tt > s0 && tt < s2; if (blob.visible) { const ex0 = at(tt, -1.3, 0, 0); if (tt < s1) { const u = smooth(u01(tt, s0, s1)); blob.position.set(ex0[0] - 0.2 * u, ex0[1] - 0.2 * u, ex0[2] + 0.1); blob.scale.set(0.4 + 1.3 * u, 0.4 + 1.0 * u, 0.4 + 1.1 * u); } else { const u = u01(tt, s1, s2), y = Math.max(0.3, ex0[1] - 0.2 - 4.9 * (u * 0.6) ** 2), sq = y <= 0.31 ? 1 : 0; blob.position.set(ex0[0] - 0.2 - 0.1 * u, y, ex0[2] + 0.1); blob.scale.set(1.5 + 0.5 * sq, 1.2 - 0.6 * sq, 1.3 + 0.5 * sq); } } }
-    if (tt > TOUCH - 0.5) { eggs.forEach((e, i) => { const P0 = EGGPILE[i]; if (!P0) { e.visible = false; return; } e.visible = true; const a = Math.max(0, tt - EGGBLOW - (i % 5) * 0.03), base = [eggCart.position.x + 2 * P0[0], 2 * P0[1], eggCart.position.z + 2 * P0[2]]; e.position.set(base[0] - a * (6 + (i % 4)), Math.max(0.12, base[1] + a * (1.5 + (i % 3) * 0.5) - 4.9 * a * a), base[2] + a * ((i % 3) - 1) * 1.2); e.rotation.set(a * 9, 0, a * 7); e.scale.set(2, 2.6, 2); }); }
+    if (false) { eggs.forEach((e, i) => { const P0 = EGGPILE[i]; if (!P0) { e.visible = false; return; } e.visible = true; const a = Math.max(0, tt - EGGBLOW - (i % 5) * 0.03), base = [eggCart.position.x + 2 * P0[0], 2 * P0[1], eggCart.position.z + 2 * P0[2]]; e.position.set(base[0] - a * (6 + (i % 4)), Math.max(0.12, base[1] + a * (1.5 + (i % 3) * 0.5) - 4.9 * a * a), base[2] + a * ((i % 3) - 1) * 1.2); e.rotation.set(a * 9, 0, a * 7); e.scale.set(2, 2.6, 2); }); }
     else eggs.forEach((e, i) => { const sp = eggSpot(i), a = tt - (EGGS + i * 0.012); e.visible = a > 0 && tt < SPRAY + 1.2; if (!e.visible) return; const fl = tt > SPRAY ? tt - SPRAY : 0;
       if (a < 0.6) { const q = hop(a, 0, 0.6, [2.5, 1.0, EZ], sp, 0.6); e.position.set(...q); } else e.position.set(sp[0] + fl * (1.5 + (i % 3)), sp[1] + (fl > 0 ? 0.04 : 0), sp[2] + fl * (i % 2 ? 1 : -1) * 0.8); e.rotation.set(fl * 9, 0, fl * 6); });
 
@@ -637,7 +639,7 @@ export async function build(studio, story) {
     // airflow arrows (local): the open duct, the core, the bypass (10:1), the reverser
     const runCore = tt > ONEWAY && tt < PLUG ? 1 : tt > IGN2 + 0.4 && tt < GO ? 1 : 0;
     ductArrows.update(tt, tt > ONEWAY && tt < PLUG && tt < STG0 + 0.5 ? 0.9 : 0); coreArrows.update(tt, (tt > STG0 + 0.5 && tt < PLUG) || (tt > IGN2 + 0.4 && tt < GO) || (tt > t.around - 0.2 && tt < t.through + 0.6) ? 0.9 : 0);
-    bypassArrows.update(tt, tt > t.around - 0.3 && tt < t.quieter + 0.4 ? 0.95 : 0); revArrows.update(tt, tt > t.forward - 0.6 && tt < STOP ? 0.95 : 0);
+    bypassArrows.update(tt, tt > t.around - 0.3 && tt < t.quieter + 0.4 ? 0.95 : 0); revArrows.update(tt, tt > t.flip && tt < STOP ? 0.95 : 0); revArrows2.update(tt, tt > t.flip && tt < STOP ? 0.95 : 0);
     const pp = planePose(tt); air.set({ x: pp.x, y: pp.y, z: pp.z, pitch: pp.pitch, gear: pp.gear });
     pilot.set({ x: 0, y: -0.2, z: 0, rotY: PI / 2 - 0.95, legL: { x: -1.5, kn: 1.45 }, legR: { x: -1.5, kn: 1.45 }, armR: { x: -1.0, z: 0.2, el: 0.7 }, armL: { x: -1.0, z: 0.2, el: 0.7 }, mouth: tt > t.landing - 0.1 && tt < STOP + 1 ? 'scream' : 'smile', eyes: tt > t.landing - 0.1 && tt < STOP + 1 ? 'wide' : blinkE(tt + 1.3), armR: tt > t.landing && tt < STOP ? { x: -2.6, z: 0.6, el: 0.2 } : { x: -1.0, z: 0.2, el: 0.7 }, t: tt });
   }
@@ -653,9 +655,9 @@ export async function build(studio, story) {
     fiverAt(tt);
     const cam = camAt(tt);
     // inside the cloud layer: a white-out (fog) while the camera passes through
-    const cy = cam.pos[1], cwin = (a) => smooth(u01(tt, a - 0.35, a)) * (1 - smooth(u01(tt, a + 0.1, a + 0.45))), inCloud = S.deck.visible ? Math.max(0.6 * clamp(1 - Math.abs(cy - (D.cloudY + 8)) / 30), cwin(TELE), cwin(CLOUD_IN)) : 0;
+    const cy = cam.pos[1], cwin = (a) => smooth(u01(tt, a - 0.4, a)) * (1 - smooth(u01(tt, a + 0.1, a + 0.5))), inCloud = S.deck.visible ? Math.max(cwin(TELE), cwin(CLOUD_IN)) : 0;
     S.deck.visible = S.deck.visible && cy > D.cloudY - 25;
-    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', 0.8 * smooth(inCloud));
+    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', 0.72 * smooth(inCloud));
     S.hangar.visible = cy < 15; S.beaconM.emissiveIntensity = 0.9 + 1.4 * Math.max(0, Math.sin(tt * 9));   // r4: its door read as a black slab from the descent
     { const gp = gary.root.position; gary.root.visible = Math.hypot(cam.pos[0] - gp.x, cam.pos[1] - gp.y - 0.9, cam.pos[2] - gp.z) > 0.9; }   // r4: never through the lens (44.05)
     { const dl = Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]); studio.camera.near = clamp(0.02 * dl, 0.05, 0.5); }
