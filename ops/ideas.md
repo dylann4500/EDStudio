@@ -49,6 +49,9 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 039 | How a Flashlight Becomes a Lighthouse | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | queued Oct 28 (Thu 6 PM) |
 | 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
+| 042 | What if your belly button turned into a portal? | unhinged (weird tier) / @ed._.studios | queued Oct 29 (Fri 1 PM) |
+| 043 | What if Earth had rings like Saturn? | science / @ed_.studios | queued Oct 29 (Fri 1 PM) |
+| 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | queued Oct 29 (Fri 1 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -56,7 +59,6 @@ Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minu
 - What if your nose hair grew a meter every minute?
 - What if your tongue doubled in length every 10 seconds?
 - What if your sweat doubled every minute? (cartoon flood)
-- What if your belly button turned into a portal?
 - What if you burped out one random object every hour?
 - What if your skin went see-through for a day? (cartoon organs, everyone can see your lunch)
 - What if your toenails grew a meter a day?
@@ -70,13 +72,11 @@ Classic tier ("everyone on Earth…"):
 - What if everyone had to hold hands with a stranger for 24 hours?
 
 ## Backlog: science (@ed_.studios)
-- What if Earth had rings like Saturn?
 - What if all the oceans drained at once?
 - What if you fell into a black hole?
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
 - What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
-- What if Pip saw snow for the first time? (first snow, SNOWFLAKES CAUGHT, a snowman that becomes his friend. Firsts are their best tier; seasonal for November)
 - What if the street flooded and Pip went back for the ducklings? (flood plane from pool.js water, WATER LEVEL, the duck family follows him home. Source: tsunami episodes 0.9–1.3M)
 - What if Pip's kid left for college and he waited by the door every day? (DAYS WAITED 0 → 98, Thanksgiving reunion. 001's emotional format with a pet + "waited by the door" from the 1M birthday)
