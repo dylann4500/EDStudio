@@ -208,7 +208,7 @@ export function makeEngine() {
     ductRings.forEach((r, i) => { const k = clamp((S.duct ?? 0) - i); r.visible = k > 0.001; r.position.x = (1 - k) * 0.9; r.scale.setScalar(lerp(1.25, 1, k)); });
     stages.forEach((s, i) => { const k = clamp((S.stages ?? 0) - i); s.g.visible = k > 0.001; s.g.position.x = s.x - (1 - k) * 0.9; s.rot.rotation.x = S.spin; });   // slide in from behind
     compRings.forEach((r, i) => { const k = clamp((S.stages ?? 0) - i - 0.15); r.visible = k > 0.001; r.position.y = (1 - k) * 0.7; });   // casing ring drops on over its stage
-    { const k = clamp((S.stages ?? 0) / 6); drum.visible = k > 0.01; drum.scale.set(1, 1, 1); drum.position.x = 0; drum.scale.x = 1; }
+    { const k = clamp((S.stages ?? 0) / 6); drum.visible = k > 0.01; const kd = Math.max(0.01, k); drum.scale.set(kd, 1, 1); drum.position.x = E.comp[0] * (1 - kd);   /* r4: grows from the front with the stages (r3: popped in) */ }
     // shaft: S.shaft 0 → 1 = its back end runs from x 1.4 (the dryer's motor) to −0.84 (the turbine)
     { const a = clamp(S.shaftA ?? 0), b = clamp(S.shaft ?? 0), xb = b > 0 ? lerp(0.2, -0.86, b) : lerp(1.42, 0.2, a), x0 = 1.9; shaft.visible = a > 0; shaft.scale.x = Math.max(0.01, x0 - xb); shaft.position.x = x0; shaft.rotation.x = S.spin; }
     // combustor
@@ -232,9 +232,9 @@ export function makeEngine() {
     }
     // nozzle petals close in one by one (each swings from open-flat to its place)
     petals.forEach((pt, i) => { const q = clamp((S.petals ?? 0) - i); pt.p.visible = q > 0.001; pt.p.rotation.x = 0; pt.p.scale.setScalar(1); pt.m.position.set(0, 0, 0); pt.p.position.x = E.noz[0] - (1 - q) * 0.6; pt.m.scale.setScalar(lerp(1.3, 1, q)); });
-    plug.visible = (S.petals ?? 0) > 9;
+    { const q = clamp(((S.petals ?? 0) - 5) / 5); plug.visible = q > 0.01; plug.position.x = -0.9 * (1 - q * q * (3 - 2 * q)); }   // r4: the tail cone slides in with the petals (r3: popped)
     // turbofan
-    { const nk = S.nacelle ?? 0; nacRings.forEach((r, i) => { const q = clamp(nk - i); r.visible = q > 0.001; r.position.set((1 - q) * (2.4 + i * 0.4), 0, 0); r.scale.setScalar(lerp(0.9, 1, q)); }); lipT.visible = nk > 0.4; lipT.position.set(clamp(1 - nk / 0.6) * 2.4, 0, 0);
+    { const nk = S.nacelle ?? 0; nacRings.forEach((r, i) => { const q = clamp(nk - i); r.visible = q > 0.001; r.position.set((1 - q) * (2.4 + i * 0.4), 0, 0); r.scale.setScalar(lerp(0.9, 1, q)); }); lipT.visible = nk > 0.4; lipT.position.set(E.nac[0] + clamp(1 - nk / 0.6) * 2.4, 0, 0);
       const hk = S.fanHub ?? 0; fanG.visible = hk > 0.001; fanG.position.x = E.bigFanX + (1 - hk) * 1.5; fanG.rotation.x = S.fanSpin;
       fanBlades.forEach((p, i) => { const q = clamp((S.fan ?? 0) - i); p.visible = q > 0.001; p.children[0].position.y = (1 - q) * 1.3; p.children[0].scale.setScalar(Math.max(0.001, Math.min(1, q * 1.4))); });
       cowl.visible = (S.cowl ?? 0) > 0.01; cowl.scale.set(1, lerp(0.7, 1, S.cowl ?? 0), lerp(0.7, 1, S.cowl ?? 0)); ogv.visible = (S.cowl ?? 0) > 0.9;
@@ -425,7 +425,7 @@ export const MOODS = {
   day:    { top: C(0x3f8fdf), hor: C(0xd6ecf8), bot: C(0x8fb07a), sun: C(0xfff2dc), sunI: 2.8, dir: [-0.42, 0.78, 0.46], hs: C(0xe6f2ff), hg: C(0x8a7a62), hi: 1.15, fog: C(0xd6ecf8), fn: 120, ff: 900, glow: 0.6, exp: 1.0, room: 1.0 },
   golden: { top: C(0x4a7fd0), hor: C(0xffd9a8), bot: C(0x9a9a72), sun: C(0xffc98a), sunI: 2.7, dir: [-0.62, 0.42, 0.66], hs: C(0xffe6c8), hg: C(0x7a6650), hi: 0.92, fog: C(0xf2d8b8), fn: 140, ff: 1100, glow: 1.0, exp: 1.02, room: 1.0 },
   sunset: { top: C(0x3a4a8e), hor: C(0xff9a62), bot: C(0x7a5a6a), sun: C(0xffa868), sunI: 2.3, dir: [0.86, 0.2, 0.46], hs: C(0xffc6a8), hg: C(0x5a4a58), hi: 1.02, fog: C(0xf0b090), fn: 500, ff: 4200, glow: 1.4, exp: 1.06, room: 1.2 },
-  cloud:  { top: C(0xd8dde2), hor: C(0xeceff1), bot: C(0xe6e9ec), sun: C(0xffffff), sunI: 1.4, dir: [0.86, 0.3, 0.46], hs: C(0xf2f4f6), hg: C(0xd0d4d8), hi: 1.6, fog: C(0xeef0f2), fn: 2, ff: 38, glow: 0, exp: 1.0, room: 1.0 },
+  cloud:  { top: C(0xd8dde2), hor: C(0xeceff1), bot: C(0xe6e9ec), sun: C(0xffffff), sunI: 1.4, dir: [0.86, 0.3, 0.46], hs: C(0xf2f4f6), hg: C(0xd0d4d8), hi: 1.6, fog: C(0xeef0f2), fn: 2, ff: 70, glow: 0, exp: 1.0, room: 1.0 },
 };
 
 // ---------------------------------------------------------------- the world
@@ -617,7 +617,7 @@ export async function buildJet(studio) {
   { const crateT = signTex('TEST BIRDS · JELLY', { bg: '#c99a62', fg: '#5a2a10', border: '#5a2a10' }), crM = std(0xffffff, 0.8, { map: crateT }), woodM = std(0xc99a62, 0.85);
     for (const [x, y, z, r] of [[8.6, 0.35, 1.6, 0.1], [9.45, 0.35, 1.2, -0.2], [9.45, 1.05, 1.2, 0.15], [10.2, 0.35, 1.9, 0.3]]) { const cr = new THREE.Group(); range.add(cr); cr.position.set(x, y, z); cr.rotation.y = r; mk(new THREE.BoxGeometry(0.7, 0.7, 0.7), woodM, cr, 0, 0, 0); mk(new THREE.PlaneGeometry(0.62, 0.3), crM, cr, 0, 0.05, 0.352); }
     const ambM = new THREE.MeshStandardMaterial({ color: 0xffb020, emissive: 0xff9a10, emissiveIntensity: 1.6, roughness: 0.4 });
-    for (const [x, z] of [[11.0, 2.6], [5.4, 3.2]]) { mk(new THREE.CylinderGeometry(0.05, 0.05, 2.2, 8), steel(0x8a9298), range, x, 1.1, z); mk(new THREE.SphereGeometry(0.16, 14, 10), ambM, range, x, 2.3, z); }
+    for (const [x, z] of [[11.0, 2.6], [12.2, -1.8]]) { mk(new THREE.CylinderGeometry(0.05, 0.05, 2.2, 8), steel(0x8a9298), range, x, 1.1, z); mk(new THREE.SphereGeometry(0.16, 14, 10), ambM, range, x, 2.3, z); }
     const rs = sign(range, 'BIRD STRIKE RANGE', 2.4, 0.5, { bg: '#d62f2f', fg: '#ffffff', border: '#ffffff' }); rs.position.set(11.6, 1.6, 0.6); rs.rotation.y = -0.5; mk(new THREE.CylinderGeometry(0.05, 0.05, 1.4, 8), steel(0x8a9298), range, 11.6, 0.7, 0.55); }
   const booth = new THREE.Group(); stand.add(booth); booth.position.set(6.6, 0, -6.4);   // right of the stand's leg (at 4.2 it hid the window from the front)
   { const bm = std(0xd8d4cc, 0.8); mk(new THREE.BoxGeometry(3.2, 0.3, 2.4), bm, booth, 0, 0.15, 0); mk(new THREE.BoxGeometry(3.2, 0.3, 2.4), bm, booth, 0, 2.55, 0); mk(new THREE.BoxGeometry(3.2, 2.7, 0.15), bm, booth, 0, 1.35, -1.12); for (const x of [-1.52, 1.52]) mk(new THREE.BoxGeometry(0.16, 2.7, 2.4), bm, booth, x, 1.35, 0);
@@ -635,7 +635,7 @@ export async function buildJet(studio) {
   const back = new THREE.Group(); root.add(back);
   const hangar = new THREE.Group(); back.add(hangar); hangar.position.set(98, 0, -62);
   const hg = new THREE.CylinderGeometry(14, 14, 36, 40, 1, false, -PI / 2, PI); hg.rotateX(PI / 2); hg.rotateY(PI / 2); mk(hg, std(0xbfc6cc, 0.6, { metalness: 0.3 }), hangar, 0, 0, 0).scale.set(1, 0.85, 1);
-  mk(new THREE.PlaneGeometry(26, 10), std(0x20262c, 0.9), hangar, 0, 5, 18.05); const hsign = sign(hangar, 'HANGAR 1', 8, 1.6, { bg: '#1f5fbf', fg: '#fff' }); hsign.position.set(0, 10.8, 18.1);
+  mk(new THREE.PlaneGeometry(26, 10), std(0x5a6470, 0.9), hangar, 0, 5, 18.05); const hsign = sign(hangar, 'HANGAR 1', 8, 1.6, { bg: '#1f5fbf', fg: '#fff' }); hsign.position.set(0, 10.8, 18.1);
   const tower = new THREE.Group(); back.add(tower); tower.position.set(150, 0, -70); mk(new THREE.CylinderGeometry(2.2, 3, 24, 16), std(0xe9ecee, 0.6), tower, 0, 12, 0); mk(new THREE.CylinderGeometry(4.2, 3.4, 4, 16), std(0x22303c, 0.15, { metalness: 0.5 }), tower, 0, 26, 0); mk(new THREE.CylinderGeometry(4.6, 4.6, 0.6, 16), std(0xe9ecee, 0.6), tower, 0, 28.3, 0);
   const term = new THREE.Group(); back.add(term); term.position.set(D.terminal - 156, 0, -60);   // r3: in the ending's sightline (down the runway, past the wing)
   mk(new THREE.BoxGeometry(120, 14, 26), std(0xe6e9ec, 0.6), term, 0, 7, -6); mk(new THREE.BoxGeometry(120, 6, 0.5), std(0x2a4a68, 0.1, { metalness: 0.6 }), term, 0, 8, 7.3); const tsign = sign(term, 'GARY INTERNATIONAL', 30, 3.6, { bg: '#1f5fbf', fg: '#ffffff' }); tsign.position.set(0, 16, 7.4);

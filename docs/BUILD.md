@@ -892,6 +892,14 @@ as a record of what the cut style needs, if it is ever tried again.
   framings on the same side of any big plane-like part, or add a pass point outboard of its edge.
 - **Something "in" a cannon's breech is inside the barrel**: 041's jelly bird sat at the breech and never rendered; put the payload on
   top (the tank) until it fires.
+- **Lens floor: every framing at fov ≥ 32 — dolly in, never zoom (manager, 041 r3).** 041's tele framings (fov 20–26) passed
+  scenes.py through its "fov ×2" rule, but every one was a snap zoom on a phone (×4.7 in 0.4 s at 43.6) and the camera reviewer read
+  the cut as "twitchy". 039 never went below 36. Keep the subject size by moving the lens: d_new = d·tan(fov/2)/tan(fov_new/2).
+  New looks then have to be real: an aim turn > 35° or a lens move > 0.8·d — e.g. shoot the mummified gag from the FRONT, not the
+  same side closer.
+- **A beat in one place needs one camera family, not a tour around the subject**: 041's turbine → nozzle stretch swung the yaw
+  −12 → +28 → −9 → +32 → −23 … at 100–137°/s and scenes.py still counted only two new looks. One rear-¾ family (yaw +10…+50°) with
+  lens/aim moves along the engine reads calmer AND counts more looks.
 - **A walk the narration forces must fit the words**: Gary's dash to the booth was keyed "dripped on" + 0.25 → "works" (6 m in 0.2 s,
   a teleport). Key it from the line that motivates it ("works" → "fillings") and let the camera hold the previous payoff.
 - **A big flat prop near the lens eats the frame**: the cardboard plane's wings (1.15 m) and a fuel jug on its near side filled the

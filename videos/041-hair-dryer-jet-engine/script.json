@@ -158,8 +158,8 @@
           "text": "QUACK.",
           "style": "sfx",
           "pos": [
-            0.62,
-            0.68
+            0.3,
+            0.76
           ],
           "hold": 0.7
         }
@@ -507,7 +507,7 @@
           "until": "core"
         },
         {
-          "at": "quieter",
+          "at": "way",
           "text": "16 BLADES, 11 FT ACROSS",
           "style": "label",
           "hold": 1.4,
@@ -524,8 +524,8 @@
           "text": "QUACK?",
           "style": "sfx",
           "pos": [
-            0.72,
-            0.32
+            0.74,
+            0.62
           ],
           "hold": 0.7
         },
@@ -560,7 +560,7 @@
           "at": "fine",
           "text": "FLUFFED",
           "style": "stamp",
-          "hold": 0.9
+          "hold": 0.6
         },
         {
           "at": "birds",
@@ -620,7 +620,7 @@
           "hold": 0.8
         },
         {
-          "at": "swirl",
+          "at": "spinner",
           "text": "SPINNER SWIRL",
           "style": "label",
           "hold": 1.0

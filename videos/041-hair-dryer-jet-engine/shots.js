@@ -104,8 +104,9 @@ export async function build(studio, story) {
   const cannon = makeBirdCannon(); scene.add(cannon.g);
   const jelly = makeJellyBird(); scene.add(jelly.g); jelly.g.scale.setScalar(1.5);   // r3: readable in the wide
   const fork = makeForklift(); scene.add(fork.g);
+  const cradle = mk(new THREE.BoxGeometry(1.65, 1.25, 0.8), mat(0xf2b21e, 0.5), fork.car, 0.93, 0.7, 0); cradle.castShadow = true;   // r4: the engine visibly rides on it
   const tpStrip = makeRibbon(140), tpWrap = makeRibbon(220); scene.add(tpStrip.m, tpWrap.m);
-  const cord = makeCord(0xff7a1a, 0.024); scene.add(cord.m, cord.plug);
+  const cord = makeCord(0xff7a1a, 0.024); cord.plug.scale.setScalar(3); cord.plug.children[0].material = mat(0xf4f4f4, 0.5); scene.add(cord.m, cord.plug);
   const rubber = mk(new THREE.SphereGeometry(0.07, 14, 10), mat(0xffd23f, 0.4), gary.hand(1), 0, -0.1, 0.1); mk(new THREE.SphereGeometry(0.045, 12, 8), mat(0xffd23f, 0.4), rubber, 0, 0.07, 0.03); mk(new THREE.ConeGeometry(0.02, 0.05, 8), mat(0xff8a2a, 0.5), rubber, 0, 0.065, 0.08).rotation.x = PI / 2;
   const fanBlade = new THREE.Group(); gary.hand(1).add(fanBlade); fanBlade.position.set(0, -0.12, 0.12); for (let i = 0; i < 5; i++) { const p = new THREE.Group(); fanBlade.add(p); p.rotation.z = (i / 5) * TAU; mk(new THREE.BoxGeometry(0.06, 0.28, 0.01), mat(0x58a8e8, 0.4), p, 0, 0.17, 0); }
   const mallet = new THREE.Group(); mk(new THREE.CylinderGeometry(0.025, 0.025, 0.45, 8), mat(0x8a6a44, 0.7), mallet, 0, 0.12, 0); mk(new THREE.CylinderGeometry(0.08, 0.08, 0.2, 12), mat(0x7a5232, 0.8), mallet, 0, 0.35, 0).rotation.z = PI / 2; gary.hand(1).add(mallet); mallet.position.set(0, -0.08, 0.05); mallet.rotation.x = 1.3;
@@ -117,8 +118,8 @@ export async function build(studio, story) {
   const eggOne = makeEgg(); scene.add(eggOne);
   const eggCart = new THREE.Group(); scene.add(eggCart); mk(new THREE.BoxGeometry(1.6, 0.12, 1.0), mat(0x3a7ad6, 0.5), eggCart, 0, 0.45, 0); for (const [x, z] of [[-0.6, -0.4], [0.6, -0.4], [-0.6, 0.4], [0.6, 0.4]]) mk(new THREE.CylinderGeometry(0.12, 0.12, 0.08, 12), mat(0x1b1b1d), eggCart, x, 0.12, z).rotation.x = PI / 2;
   const EGGPILE = []; { let k = 0; for (let lay = 0; lay < 3; lay++) for (let i = 0; i < 4 - lay; i++) for (let j = 0; j < 3 - lay; j++) if (k < 20) { EGGPILE.push([-0.45 + (i + lay * 0.5) * 0.3, 0.6 + lay * 0.16, -0.3 + (j + lay * 0.5) * 0.3]); k++; } }
-  const fiver = mk(new THREE.PlaneGeometry(0.42, 0.21), new THREE.MeshStandardMaterial({ map: canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#3fb8a2'; c.fillRect(0, 0, w, h); c.strokeStyle = '#1d6e60'; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12); c.fillStyle = '#0f3d35'; c.font = 'bold 70px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('£5', w / 2, h / 2 + 4); }), side: THREE.DoubleSide, roughness: 0.7 }), scene);   // r3: Whittle's renewal fee, slurped by the intake
-  const fillings = Array.from({ length: 4 }, () => mk(new THREE.SphereGeometry(0.034, 10, 8), mat(0xe8ecf0, 0.2), scene));
+  const fiver = mk(new THREE.PlaneGeometry(0.7, 0.35), new THREE.MeshStandardMaterial({ map: canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#f3ead2'; c.fillRect(0, 0, w, h); c.strokeStyle = '#2f7a5a'; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12); c.fillStyle = '#1f4a38'; c.font = 'bold 70px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('£5', w / 2, h / 2 + 4); }), side: THREE.DoubleSide, roughness: 0.7 }), scene);   // r3: Whittle's renewal fee, slurped by the intake
+  const fillings = Array.from({ length: 4 }, () => mk(new THREE.SphereGeometry(0.06, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffc23a, roughness: 0.25, metalness: 0.8, emissive: 0x6a4a00, emissiveIntensity: 0.4 }), scene));
   const hatDrips = Array.from({ length: 5 }, (_, i) => mk(new THREE.SphereGeometry(0.035 + i * 0.006, 10, 8), new THREE.MeshStandardMaterial({ color: 0xc9ced3, metalness: 0.9, roughness: 0.25 }), gary.hat ?? gary.head, (i - 2) * 0.08, 0.33 - Math.abs(i - 2) * 0.03, 0.03 * i - 0.03));
   const jellyM = new THREE.MeshPhysicalMaterial({ color: 0xff6a3a, roughness: 0.12, transparent: true, opacity: 0.55, clearcoat: 1, emissive: 0x5a1a08, emissiveIntensity: 0.3 });
   const jellyGoo = mk(new THREE.SphereGeometry(0.33, 20, 14, 0, TAU, 0, PI * 0.62), jellyM, gary.head, 0, 0.05, 0); const jellyChest = mk(new THREE.SphereGeometry(0.24, 16, 12), jellyM, gary.root, 0, 0.82, 0.06); jellyChest.scale.set(1.2, 1.1, 0.9);
@@ -282,6 +283,8 @@ export async function build(studio, story) {
   // END: confetti, bills, the stamps, the duck flies in, POOF
   fx.burst('confetti', t.end + 0.05, { pos: [PARK[0] + dX + 3, 7, EZ], n: 160, dir: [0, 1, 0.3], spread: 0.9, speed: [3, 6], seed: 155 }); kick(t.end, 0.4);
   fx.burst('bill', MONEY, { pos: [PARK[0] + dX + 9, 4.5, EZ + 0.5], box: [3, 0.5, 1.5], n: 60, dir: [0, -1, 0], spread: 1.2, speed: [0.3, 0.8], seed: 156 }); kick(MONEY, 0.4);
+  // r4: each roll-call stamp gets a physical beat (singe smoke, jelly splatter, a squish dust puff)
+  { const gx = PARK[0] + 9.0 + dX; fx.burst('smoke', t.singed + 0.05, { pos: [gx, 0.35, EZ + 0.4], n: 10, dir: [0, 1, 0], speed: [0.4, 1.0], spread: 0.6, size: [0.2, 0.35], color: 0x555555, alpha: 0.5, seed: 171 }); fx.burst('drops', t.jellied + 0.05, { pos: [gx - 0.2, 0.3, EZ + 0.4], n: 16, dir: [0, 1, 0], speed: [1, 2], spread: 1.0, size: [0.05, 0.1], color: 0xff6a3a, floor: 0, seed: 172 }); fx.burst('dust', t.squished + 0.05, { pos: [gx, 0.1, EZ + 0.4], n: 12, dir: [0, 0.3, 0], speed: [0.6, 1.4], spread: 1.4, size: [0.25, 0.45], color: 0xcfc6b8, alpha: 0.5, seed: 173 }); kick(t.squished + 0.05, 0.35); }
   fx.burst('confetti', DLAND2, { pos: [PARK[0] + dX - 4.2, 2.8, EZ + 0.3], n: 24, dir: [-1, 0.3, 0], spread: 1, speed: [0.8, 1.6], color: 0xd8d2c6, size: [0.04, 0.07], seed: 157 }); kick(DLAND2, 0.4);
   fx.burst('confetti', POOF, { pos: [PARK[0] + dX - 4.2, 2.8, EZ + 0.3], n: 50, dir: [-1, 0.4, 0], spread: 1, speed: [1, 2.5], color: 0xd8d2c6, size: [0.04, 0.07], seed: 158 }); kick(POOF, 0.5);
   fx.stream('mist', DLAND2, END, { pos: [PARK[0] + dX - 3.2, 2.9, EZ], box: [0.2, 0.4, 0.3], rate: 14, dir: [-1, 0, 0], spread: 0.2, speed: [3, 4.5], size: [0.15, 0.3], color: 0xfff0dc, seed: 159 });
@@ -308,20 +311,20 @@ export async function build(studio, story) {
   // CONGRATS (on "you've"): a low hero angle on Gary; the egg, tele; the egg fountain from above
   Fk(t.youve - 0.1, [2.95, 1.05, 1.7], [2.5, 0.8, EZ], 56);
   Fk(t.egg - 0.2, [3.3, 1.0, 2.3], [2.35, 0.62, -0.15], 34, t.egg + 0.5);
-  Fk(t.thousand - 0.1, [4.2, 3.1, 3.6], [2.6, 0.5, -1.0], 56);
+  Fk(t.thousand - 0.1, [4.8, 3.6, 5.0], [2.6, 0.5, -1.0], 40);
   // DUCT: the box fan from the right; the storm wide; the TP roll + Gary in one medium shot; mummified; the RINGS (one held framing while
   // all four slide on); the jet at the duck, high-left; the creep at floor level (tele)
-  Fk(t.swap - 0.15, [4.4, 1.5, 3.4], [3.1, 0.65, -1.6], 23, FANON + 0.1);
-  Fk(t.air - 0.1, [1.75, 1.95, 4.9], [1.65, 1.0, -1.4], 58);
+  Fk(t.swap - 0.15, [3.97, 1.21, 1.72], [3.1, 0.65, -1.6], 34, FANON + 0.1);
+  Fk(t.air - 0.1, [1.4, 2.3, 7.6], [1.65, 1.0, -1.4], 40);
   Fk(t.toilet - 0.25, [3.3, 1.55, 3.4], [2.9, 0.55, -1.7], 46, t.mummifies - 0.35);
-  Fk(t.mummifies + 0.05, [3.0, 1.3, 1.1], [2.55, 0.85, EZ], 56, TP1 + 0.2);
+  Fk(t.mummifies + 0.05, [4.4, 1.3, 0.6], [2.55, 0.85, EZ], 50, TP1 + 0.2);   // r4: mummified Gary from the front (r3: from behind)
   Fk(RING0 + 0.05, [1.2, 1.6, 2.7], [1.75, 1.08, EZ], 40, t.all - 0.05);
   Fk(t.all + 0.2, [0.75, 2.2, 2.8], [1.3, 0.75, -1.3], 56, t.oneway + 0.2);
-  Fk(t.creeps - 0.25, [3.4, 0.5, 5.0], [2.8, 0.55, -0.8], 23);
+  Fk(t.creeps - 0.25, [3.2, 0.52, 3.06], [2.8, 0.55, -0.8], 34);
   // SQUEEZE: the rubber duck squeak; ride along the hallway while the six stages slot in (tele from across the hall); the term close; Gary spun free
   Fk(t.squeezed - 0.05, [cx(t.squeezed) + 1.2, 1.3, 1.2], [cx(t.squeezed) + 0.65, 0.95, EZ], 56, t.stack - 0.3);
-  F(t.stack + 0.1, [cx(t.stack) - 0.4, 1.9, 5.8], [cx(t.stack) - 0.85, 1.1, EZ], 24);
-  Pp(lerp(t.stack, t.axial, 0.5), [cx(lerp(t.stack, t.axial, 0.5)) - 0.5, 1.9, 5.8], [cx(lerp(t.stack, t.axial, 0.5)) - 0.9, 1.1, EZ], 24);
+  F(t.stack + 0.1, [cx(t.stack) - 0.54, 1.66, 3.8], [cx(t.stack) - 0.85, 1.1, EZ], 34);
+  Pp(lerp(t.stack, t.axial, 0.5), [cx(lerp(t.stack, t.axial, 0.5)) - 0.6, 1.66, 3.8], [cx(lerp(t.stack, t.axial, 0.5)) - 0.9, 1.1, EZ], 34);
   Fk(t.axial - 0.1, [cx(t.axial) - 0.6, 1.6, 2.4], [cx(t.axial) - 0.9, 1.1, EZ], 56, STG1 + 0.05);
   Fk(t.sucks - 0.15, [cx(t.sucks + 0.5) + 1.3, 1.55, 2.8], [cx(t.sucks + 0.5) + 0.62, 0.8, EZ], 56, SUCK1 + 0.15);
   // BURN: the combustor assembles in section (medium); the pour + the coil sliding back (one wide); FWOOSH close; Gary behind it
@@ -332,27 +335,25 @@ export async function build(studio, story) {
   // CORD: the handle + cord close; follow the plane out of the garage and down the driveway; hold on Gary for the plug BONK
   Fk(t.cord - 0.25, [cx(t.cord) + 0.9, 1.3, 2.2], [cx(t.cord) - 0.2, 0.72, EZ], 44);
   for (const tk of [ROLL0 + 0.25, ROLL0 + 0.7, ROLL1 - 0.25]) Pp(tk, [cpX(tk) + 0.4, 2.0, 3.5], [cpX(tk) + 0.3, 0.9, EZ], 50);
-  Fk(t.out - 0.3, [20.7, 1.75, 2.6], [19.9, 1.15, EZ], 50, PLUG + 0.35);
+  Fk(t.out - 0.3, [20.7, 1.75, 2.6], [19.9, 1.15, EZ], 50, PLUG + 0.2);
   // TURBINE: one held close framing (lens high, no caster in it) while the casing, the disc, 14 blades and the shaft go in; the relight wide;
   // Whittle (tele on Gary at the back); the £5 high wide; NO MORE CORD (tele)
   Fk(t.soT + 0.5, [15.2, 1.75, 2.6], [17.0, 1.15, EZ], 32, IGN2 - 0.35);
-  Fk(IGN2 - 0.05, [18.3, 1.95, 4.0], [17.5, 0.8, EZ], 56, t.patented - 0.2);
-  Fk(t.patented, [13.9, 1.6, 2.6], [15.85, 1.05, EZ + 0.35], 32, t.five - 0.4);
-  Fk(t.five - 0.25, [21.6, 1.9, 3.8], [19.9, 1.0, -0.2], 44);   // r3: Gary walks the £5 note past the intake → SHLOOP
-  Fk(t.cuts - 0.2, [17.4, 1.6, 2.6], [19.55, 0.9, EZ + 0.1], 36, SNIP + 0.3);
+  Fk(IGN2 - 0.05, [14.4, 2.3, 4.0], [16.6, 1.0, EZ], 42, t.patented - 0.1);
+  Fk(t.patented + 0.1, [13.6, 1.6, 2.9], [15.85, 0.9, -0.4], 32, t.five - 0.4);
+  Fk(t.five - 0.3, [15.0, 2.1, 3.4], [19.6, 1.0, 0.0], 38);   // r4: down the engine after Gary → he turns at the intake → SHLOOP
+  Fk(t.cuts - 0.2, [16.0, 1.68, 2.45], [19.55, 0.9, EZ + 0.1], 32, SNIP + 0.3);
   // NOZZLE: the back (blobs, lens upstream of the plume); the petals close like an iris (rear ¾ tele); the term; the tiny dryer nozzle inside;
   // "Now" = the chase's start pose (the launch is a camera locked alongside the plane, camAt) → it lands at the stand
   Fk(t.blobs - 0.15, [14.6, 1.75, 3.0], [16.6, 1.15, EZ], 34, PET1 - 0.25);
-  Fk(t.nozzleW - 0.1, [18.4, 1.85, 2.9], [17.4, 1.2, EZ], 56);
-  Fk(t.came - 0.3, [19.25, 1.3, 1.05], [19.1, 1.15, EZ], 26, t.came + 0.5);
-  Fk(t.now - 0.1, [15.6, 2.6, 6.4], [18.6, 1.0, EZ], 54, GO);
-  Fk(CATCH + 0.05, [60.0, 4.1, 8.2], [61.2, 2.7, EZ], 54, MELT0 + 0.1);
+  Fk(t.nozzleW - 0.1, [17.0, 2.0, 4.6], [18.0, 1.15, EZ], 48, t.now - 0.45);   // the petals AND the tiny dryer nozzle in one frame (no dive in + out)
+  Fk(t.now - 0.1, [16.1, 2.75, 6.2], [19.2, 1.1, EZ], 54, GO);   // = the chase's start pose
+  Fr.push({ t: CATCH + 0.05, pos: [60.0, 4.1, 8.2], look: [61.2, 2.7, EZ], fov: 54, keep: true, until: MELT0 + 0.1, swoop: 60 });
   // COOL: melting close; GAS 1,600; low under the engine (drips onto Gary); ONE blade getting its holes (tele) → pull back for the rest;
   // the film close; behind the blast fence (the term); Gary's hat
   Fk(MELT0 + 0.75, [60.95, 3.35, 2.1], [60.35, 3.0, EZ], 36);
   Fk(t.thirteen - 0.2, [61.6, 0.9, 2.8], [60.3, 2.2, -0.4], 50);
-  Fk(DRILL0 + 0.05, [61.25, 3.25, 4.9], [60.33, 2.95, EZ], 20, DRILL0 + 1.1);
-  Fk(DRILL0 + 1.7, [61.6, 3.3, 3.9], [60.4, 2.85, EZ], 40, FILM0 + 0.2);
+  Fk(DRILL0 + 0.05, [60.86, 3.12, 2.5], [60.33, 2.95, EZ], 34, FILM0 + 0.3);   // r4: the holes go in blade by blade IN this close
   Fk(FILM0 + 0.5, [60.85, 3.2, 1.65], [60.33, 3.0, EZ], 32, t.film + 0.35);   // the film holds through its TERM
   Fk(t.drips - 0.15, [61.0, 1.85, 1.9], [60.15, 1.4, -0.2], 38, t.drips + 0.45);
   // FAN: the CONTROL booth (Gary behind the shaking window as it screams); his fillings, close; out to the front: the fan assembles
@@ -362,7 +363,7 @@ export async function build(studio, story) {
   Fk(t.giant - 0.05, [67.6, 3.6, 6.4], [62.6, 3.0, EZ], 40);
   Fk(t.around - 0.15, [63.2, 0.6, 3.6], [62.8, 2.6, EZ], 52);
   Fk(t.turbofan - 0.1, [63.0, 3.4, 9.5], [62.6, 3.0, EZ], 50);
-  Fk(t.quieter - 0.15, [66.8, 1.8, 3.0], [65.2, 1.8, -0.6], 44);
+  Fk(t.quieter - 0.15, [68.6, 1.9, 4.6], [66.4, 1.8, 1.0], 44);
   // DUCK: in front of the intake; sucked in; through the bypass (section); out the back into Gary's arms; fluffed but fine
   Fk(t.waddles - 0.2, [70.6, 2.6, 5.6], [65.4, 2.45, EZ], 50, SUCKD + 0.4);
   Fk(t.flings - 0.1, [61.7, 4.0, 7.6], [61.6, 3.7, EZ], 44, THRU1 - 0.1);
@@ -375,11 +376,11 @@ export async function build(studio, story) {
   Pp(JOUT, [60.6, 2.6, 6.8], [59.6, 1.7, EZ], 52);
   Fk(SPLAT + 0.1, [58.5, 2.3, 2.4], [57.9, 1.65, -0.35], 42, t.again + 0.55);
   // FINISH (+x): the starter + bottles in section; the swirl on the spinner (front)
-  Fk(t.starter - 0.15, [62.4, 2.5, 4.6], [61.9, 2.75, EZ], 44);
+  Fk(W('finish', 'fire') - 0.1, [62.4, 2.9, 4.6], [61.9, 3.3, EZ], 44);
   Fk(t.swirl - 0.3, [67.6, 3.4, 3.5], [64.0, 3.0, EZ], 40);
   // FLY (+x): the forklift carries it to the wing; the bolt-up; then the camera rides the plane (parked-frame coords): a low takeoff over the
   // streaming runway; an exterior above the clouds with Gary on the wing ("finally FLIES")
-  Fk(t.hang - 0.2, [64.5, 3.4, 9.0], [61.2, 2.2, EZ], 56);
+  Fk(t.hang - 0.2, [67.5, 3.5, 9.5], [63.5, 2.4, EZ], 56);
   Fk(BOLT, [78.5, 4.4, 9.8], [75.0, 3.9, EZ], 52, TO - 0.3);
   Fk(t.hundred - 0.15, [81.0, 1.8, 9.0], [76.0, 3.3, -2.5], 52);   // (a lens behind the engine crossed the wing on its way up to Gary)
   Fk(t.garyF - 0.2, [79.4, 7.1, 4.4], [75.9, 5.95, -0.7], 44, t.landing - 0.1);   // Gary arms out against the sunset (a deck view needs the lens on the fuselage side: it can't reach the landing framing legally)
@@ -392,11 +393,12 @@ export async function build(studio, story) {
   // END (parked frame; Mrel carries it to the terminal): the finished engine ta-da; Gary squished (tele); money; the egg pile blown away;
   // the roll call on Gary; the duck flies over him → the blowout swoop; rest
   Fk(t.engineE - 0.1, [91.0, 2.0, 1.2], [80.0, 0.4, -1.0], 46);
-  Fk(t.forty - 0.2, [90.0, 1.8, 1.0], [80.0, 0.5, -0.9], 42, t.eggsE + 0.2);
+  Fk(t.forty - 0.2, [89.8, 1.85, 1.3], [81.0, 0.45, -0.9], 44);
+  Fk(t.eggsE - 0.3, [88.8, 1.7, 1.2], [83.0, 0.4, -0.6], 46, t.eggsE);
   Fk(t.singed - 0.2, [87.0, 1.45, 1.9], [85.6, 0.35, -0.45], 54, t.squished + 0.3);
   Fk(t.whole - 0.3, [88.6, 2.4, 4.4], [85.4, 1.9, -0.6], 50);
-  Fr.push({ t: t.blowout2 - 0.3, pos: [71.6, 3.6, 5.0], look: [73.5, 3.0, EZ], fov: 46, keep: true, until: END - 0.8, swoop: 30 });
-  Fr.push({ t: END, pos: [71.5, 3.65, 5.15], look: [73.5, 3.0, EZ], fov: 46.5, stop: true });
+  Fk(t.blowout2, [76.0, 3.3, 6.5], [73.0, 3.0, EZ], 36, END - 0.8);   // r4: a pull-back to the duck in the exhaust (v3 passed across the engine)
+  Fr.push({ t: END, pos: [76.1, 3.32, 6.6], look: [73.0, 3.0, EZ], fov: 36.5, stop: true });
   planRail.verbose = true;
   const rail = makeRail(planRail(Fr, { shortHoldPass: true, minHold: 0.9, move: [0.28, 16], lead: 0.12, maxLead: 0.25 }));
   const HOLDS = []; { let a = null; const dt = 1 / 30; let prev = rail.at(0);
@@ -426,7 +428,7 @@ export async function build(studio, story) {
   const SEATP = (tt) => [cpX(tt) + 0.62, 0.03, EZ];
   const sit = { legL: { x: -1.5, kn: 1.45 }, legR: { x: -1.5, kn: 1.45 } };
   const WINGP = [PARK[0] + P.engine[0] + 0.4, 5.55, EZ + 0.15];   // Gary's spot on top of the right wing (parked frame)
-  const GSTAND = [D.stand.x - 0.95, 0, -0.1], GFRONT = [D.stand.x + 4.5, 0, -0.9], GBACK = [D.stand.x - 3.1, 0, -0.35], BOOTHP = [D.stand.x + 6.6, 0, -6.45];
+  const GSTAND = [D.stand.x - 0.95, 0, -0.1], GFRONT = [D.stand.x + 5.6, 0, 1.4], GBACK = [D.stand.x - 3.1, 0, -0.35], BOOTHP = [D.stand.x + 6.6, 0, -6.45];
   function garyAt(tt) {
     let p = { t: tt, eyes: blinkE(tt), mouth: 'smile', brows: 0, rotY: PI / 2 };
     const soot = tt > BLAST ? 1 : 0, mess = { soot: soot * 0.8, noBrows: tt > BLAST, hairUp: tt > BLAST && tt < BLAST + 1.5 ? 1 - u01(tt, BLAST + 0.8, BLAST + 1.5) : 0 };
@@ -462,14 +464,14 @@ export async function build(studio, story) {
       if (tt < SHRED) { const s = SEATP(GO), g = goPath(tt), o = goPath(GO); p = { ...p, x: s[0] + g[0] - o[0], y: s[1] + g[1] - o[1], z: s[2], ...sit, ...mess, mouth: 'scream', eyes: 'wide', armR: { x: -2.8, z: 0.6 }, armL: { x: -2.8, z: 0.6 } }; }
       else { const s = SEATP(GO), g = goPath(SHRED), o = goPath(GO), q = hop(tt, SHRED, GLAND, [s[0] + g[0] - o[0], s[1] + g[1] - o[1], s[2]], GSTAND, 1.5), u = u01(tt, SHRED, GLAND), flat = tt > GLAND ? 1 - smooth(u01(tt, GLAND + 0.45, GLAND + 0.75)) : 0; p = { ...p, x: q[0], y: q[1] + 0.12 * flat, z: q[2] + 0.5 * flat, rx: tt < GLAND ? -u * TAU : PI / 2 * 0.95 * flat, ...mess, mouth: 'scream', eyes: 'wide', squash: tt > GLAND ? squash(tt, GLAND, 0.35) : [1, 1], armR: { x: -2.8, z: 0.8 }, armL: { x: -2.8, z: 0.8 } }; }
     } else if (tt < RUN0) {   // at the stand: drips, ladder + drill, film, fillings, the fan assembly (front)
-      const onLadder = tt > LAD0 + 0.4 && tt < FILM0 + 0.8, ladderP = [D.stand.x - 1.55, 0, 0.1];
+      const onLadder = tt > LAD0 + 0.4 && tt < FILM0 + 0.8, ladderP = [D.stand.x + 0.25, 0, 0.35];   /* on the ladder prop, off the drill close's lens */
       let q = GSTAND; if (tt > LAD0 && tt < FILM0 + 1.2) q = K(tt, [[LAD0, GSTAND], [LAD0 + 0.4, ladderP], [FILM0 + 0.8, ladderP], [FILM0 + 1.2, GSTAND]]);
       if (tt > BOOTH0) q = K(tt, [[BOOTH0, GSTAND], [BOOTH0 + 0.5, [D.stand.x + 4.2, 0, -1.6]], [t.fillings - 0.1, BOOTHP], [OUT0, BOOTHP], [OUT0 + 0.35, [D.stand.x + 8.6, 0, -6.45]], [OUT0 + 0.8, [D.stand.x + 8.4, 0, -2.6]], [HUB0 + 0.9, GFRONT]]);
       const inBooth = tt > t.fillings - 0.2 && tt < OUT0 + 0.05, vib = tt > RUN && tt < QUIET ? 0.04 * Math.sin(tt * 70) : 0, ladderY = onLadder ? 1.3 : inBooth ? 0.3 : 0, drilling = tt > DRILL0 && tt < DRILL1, ears = tt > RUN && tt < QUIET && !(tt > HUB0 && tt < NAC1);
       const directing = tt > HUB0 + 0.9 && tt < NAC1;
       p = { ...p, x: q[0] + vib, y: ladderY, z: q[2], rotY: directing ? -PI * 0.6 : onLadder ? PI / 2 : inBooth ? 0 : tt > BOOTH0 && tt < OUT0 ? PI * 0.8 : tt > OUT0 && tt < HUB0 + 0.9 ? -PI * 0.4 : 0.15, ...mess, walk: (tt > LAD0 && tt < LAD0 + 0.4) || (tt > BOOTH0 && tt < t.fillings - 0.1) || (tt > OUT0 && tt < HUB0 + 0.9) ? tt * 16 : undefined,
         armR: drilling ? { x: -1.85, z: 0.3, el: 0.2 + 0.08 * Math.sin(tt * 40) } : ears ? { x: -0.4, z: 1.6, el: 2.2 } : directing ? { x: -2.4 + Math.max(0, Math.sin(tt * 9)) * 1.0, z: 0.4, el: 0.3 } : { x: -0.3, z: 0.2, el: 0.5 },
-        armL: ears ? { x: -0.4, z: 1.6, el: 2.2 } : { x: -0.2, z: 0.2 }, mouth: tt > MELT0 + 0.3 && tt < MELT0 + 1.9 ? 'scream' : tt > RATTLE - 0.1 && tt < RATTLE + 0.8 ? 'o' : ears ? 'wavy' : tt > QUIET ? 'grin' : 'smile',
+        armL: ears ? { x: -0.4, z: 1.6, el: 2.2 } : { x: -0.2, z: 0.2 }, mouth: tt > MELT0 + 0.3 && tt < MELT0 + 1.9 ? 'scream' : tt > RATTLE - 0.1 && tt < RATTLE + 0.8 ? 'scream' : ears ? 'wavy' : tt > QUIET ? 'grin' : 'smile',
         eyes: tt > MELT0 + 0.3 && tt < MELT0 + 1.9 ? 'wide' : tt > RATTLE - 0.2 && tt < RATTLE + 0.8 ? 'wide' : blinkE(tt), look: tt > MELT0 && tt < MELT0 + 1.9 ? [0, 1] : [0, 0] };
     } else if (tt < FORK0) {   // dash to the back, catch the duck, the remote, SPLAT, AGAIN
       const q = K(tt, [[RUN0, GFRONT], [RUN1, GBACK]]), holding = tt > DOUT, splat = tt > SPLAT;
@@ -486,7 +488,7 @@ export async function build(studio, story) {
     } else {   // flung off the wing at the stop → squished flat on the runway, face up, the roll call; sits up for the duck
       const land = [PARK[0] + 9.0 + dX, 0.02, EZ + 0.4];
       if (tt < GSPLAT) { const q = hop(tt, GFLY0, GSPLAT, rel(GFLY0, WINGP), land, 1.2), u = u01(tt, GFLY0, GSPLAT); p = { ...p, x: q[0], y: q[1], z: q[2], rx: -u * 1.7, mouth: 'scream', eyes: 'wide', armR: { x: -2.8, z: 0.8 }, armL: { x: -2.8, z: 0.8 } }; }
-      else { const sitUp = smooth(u01(tt, t.duckE - 0.3, t.duckE + 0.3)); p = { ...p, x: land[0], y: land[1], z: land[2], rotY: PI * 0.62, rx: -PI / 2 * (1 - sitUp * 0.75), pancake: 1 - sitUp, mouth: tt > t.duckE ? 'o' : 'wavy', eyes: tt < GSPLAT + 0.6 ? 'spiral' : tt > t.duckE ? 'wide' : 'half', armR: { x: -0.2, z: 1.3 }, armL: { x: -0.2, z: 1.3 } }; }
+      else { const sitUp = smooth(u01(tt, t.duckE - 0.3, t.duckE + 0.3)); p = { ...p, x: land[0], y: land[1], z: land[2], rotY: lerp(PI * 0.62, 0.5, sitUp), rx: -PI / 2 * (1 - sitUp * 0.75), pancake: 1 - sitUp, mouth: tt > t.duckE ? 'o' : 'wavy', eyes: tt < GSPLAT + 0.6 ? 'spiral' : tt > t.duckE ? 'wide' : 'half', armR: { x: -0.2, z: 1.3 }, armL: { x: -0.2, z: 1.3 } }; }
     }
     // the mess builds up: soot (singed) for good, jelly after the splat, the metal drips on his hat
     if (tt > BLAST) { p.soot = 0.75; p.noBrows = true; }
@@ -497,7 +499,7 @@ export async function build(studio, story) {
     drill.visible = tt > DRILL0 - 0.3 && tt < DRILL1 + 0.2; remote.visible = tt > FIRE - 0.6 && tt < FIRE + 0.4;
     hatDrips.forEach((d, i) => { d.visible = tt > MELT0 + 0.5 + i * 0.25; });
     { const on = tt > SPLAT && tt < GFLY0, wob = 1 + 0.12 * Math.exp(-(tt - SPLAT) * 3) * Math.sin((tt - SPLAT) * 26); jellyGoo.visible = tt > SPLAT; jellyChest.visible = on; const cap = smooth(u01(tt, SPLAT + 0.9, SPLAT + 1.5)) /* slides up to a cap so the face reads again */; jellyGoo.position.y = 0.05 + 0.17 * cap; jellyGoo.scale.set(1.12 * wob * (1 - 0.1 * cap), 1.0 / wob, 1.12 * wob * (1 - 0.1 * cap)); jellyChest.scale.set(1.2 * wob, 1.1 / wob, 0.9); }
-    { gary.head.updateWorldMatrix(true, false); const mth = new THREE.Vector3(0, -0.12, 0.26).applyMatrix4(gary.head.matrixWorld); fillings.forEach((f, i) => { const a = tt - (RATTLE + i * 0.12); f.visible = a > 0 && a < 1.1; if (f.visible) { const yy = mth.y + a * 1.6 - 4.9 * a * a, floorY = 1.05; f.position.set(mth.x + a * (i - 1.5) * 0.5, yy > floorY ? yy : floorY + 0.12 * Math.abs(Math.sin(a * 14)) * Math.exp(-a * 3), mth.z + Math.min(a, 0.35) * 1.2); } }); }
+    { gary.head.updateWorldMatrix(true, false); const mth = new THREE.Vector3(0, -0.12, 0.26).applyMatrix4(gary.head.matrixWorld); fillings.forEach((f, i) => { const a = tt - (RATTLE + i * 0.12); f.visible = a > 0 && a < 1.1; if (f.visible) { const yy = mth.y + a * 1.6 - 4.9 * a * a, floorY = 1.34; f.position.set(mth.x + a * (i - 1.5) * 0.5, yy > floorY ? yy : floorY + 0.14 * Math.abs(Math.sin(a * 14)) * Math.exp(-a * 3), mth.z + Math.min(a, 0.5) * 1.6); } }); }
     dizzy.update(tt, tt > SUCK1 && tt < SUCK1 + 1.4 ? 1 : tt > PLUG && tt < PLUG + 1.2 ? 1 : tt > GSPLAT && tt < GSPLAT + 1.2 ? 1 : 0, (() => { gary.head.updateWorldMatrix(true, false); const v = gary.head.getWorldPosition(new THREE.Vector3()); return [v.x, v.y + 0.35, v.z]; })());
   }
   // the forklift (parked beside the stand → behind the engine → carries it to the wing → drives off)
@@ -522,12 +524,12 @@ export async function build(studio, story) {
     } else if (tt < GO + 0.3) {   // rides the plane's nose (house → driveway)
       const x = cpX(tt) + 1.25; p = { ...p, x, y: 0.66, z: EZ, rotY: tt > BLAST - 0.2 && tt < BLAST + 0.8 ? -PI / 2 : PI / 2, eyes: tt > PLUG && tt < PLUG + 0.6 ? 'wide' : blinkE(tt + 0.5), quack: tt > t.out - 0.1 && tt < t.out + 0.2 ? 1 : 0 };
     } else if (tt < DW0) {   // tumbles off at the launch (no flapping), lands by the stand, pokes around
-      const land = [D.stand.x + 4.8, 0, 1.6];
+      const land = [D.stand.x + 6.2, 0, -2.0];   // r4: clear of Gary's spot (he hid the duck's walk to the intake)
       if (tt < DLAND) { const q = hop(tt, GO + 0.3, DLAND, [goPath(GO + 0.3)[0] + 3.2, 1.2, EZ], land, 2.0); p = { ...p, x: q[0], y: q[1], z: q[2], rx: -u01(tt, GO + 0.3, DLAND) * TAU, eyes: 'wide' }; }
       else p = { ...p, x: land[0] + 0.3 * Math.sin(tt * 0.6), y: 0, z: land[2], rotY: -PI / 2 + 0.6 * Math.sin(tt * 0.4), waddle: Math.sin(tt * 0.6) > 0.7 ? tt * 12 : undefined, squash: tt < DLAND + 0.4 ? squash(tt, DLAND, 0.3) : [1, 1] };
     } else if (tt < SUCKD + 0.35) {   // waddles in front of the intake → sucked in
-      const q = K(tt, [[DW0, [D.stand.x + 4.8, 0, 1.6]], [SUCKD, [D.stand.x + E.nac[0] + 1.2, 0.0, EZ + 0.1]]]);
-      if (tt < SUCKD) p = { ...p, x: q[0], y: 0, z: q[2], rotY: -PI * 0.6, waddle: tt * 14, quack: tt > t.waddles && tt < t.waddles + 0.25 ? 1 : 0 };
+      const q = K(tt, [[DW0, [D.stand.x + 6.2, 0, -2.0]], [SUCKD, [D.stand.x + E.nac[0] + 1.0, 0.0, EZ - 0.25]]]);
+      if (tt < SUCKD) p = { ...p, x: q[0], y: 0, z: q[2], rotY: -1.1, waddle: tt * 14, quack: tt > t.waddles && tt < t.waddles + 0.25 ? 1 : 0 };
       else { const u = u01(tt, SUCKD, SUCKD + 0.35); p = { ...p, x: lerp(q[0], D.stand.x + E.bigFanX + 0.2, easeInQuad(u)), y: lerp(0, D.stand.y - 1.2, u), z: EZ - 0.05, rotY: PI / 2, eyes: 'wide', quack: 1, squash: [1 - 0.3 * u, 1 + 0.4 * u] }; }
     } else if (tt < DOUT) {   // through the bypass (behind the fan, outside the core) → out the back → into Gary's arms
       if (tt < THRU1) { const u = u01(tt, SUCKD + 0.35, THRU1), x = lerp(D.stand.x + E.bigFanX - 0.2, D.stand.x + E.nac[1] - 0.4, smooth(u)); p = { ...p, x, y: D.stand.y - 1.15 + 0.08 * Math.sin(tt * 30), z: EZ - 0.25, rotY: -PI / 2, rz: u * TAU * 2, eyes: 'spiral', scale: 0.85 }; }
@@ -538,7 +540,7 @@ export async function build(studio, story) {
       if (tt > TO) p.y = -50;   // (off-screen once the plane leaves; it flies to the terminal by itself)
     } else {   // END: flies in from the sky, lands behind the engine, plants itself in the exhaust: the blowout
       const behind = [PARK[0] + dX - 4.2, 2.55, EZ + 0.25];
-      if (tt < DLAND2) { const u = u01(tt, DFLY0, DLAND2), A = [PARK[0] + dX + 15, 5.5, 3.0], M = [PARK[0] + dX + 9, 2.6, -0.2]; const q = u < 0.5 ? [lerp(A[0], M[0], u * 2), lerp(A[1], M[1], smooth(u * 2)), lerp(A[2], M[2], u * 2)] : [lerp(M[0], behind[0], smooth((u - 0.5) * 2)), lerp(M[1], behind[1], smooth((u - 0.5) * 2)), lerp(M[2], behind[2], (u - 0.5) * 2)]; p = { ...p, x: q[0], y: q[1], z: q[2], rotY: -PI / 2, flap: 1, fly: 1, eyes: 'happy', fluff: 0.5, quack: u > 0.4 && u < 0.5 ? 1 : 0 }; }
+      if (tt < DLAND2) { const u = u01(tt, DFLY0, DLAND2), A = [PARK[0] + dX + 15, 5.5, 3.0], M = [PARK[0] + dX + 9, 2.6, -0.2]; const O = [PARK[0] + dX - 1.0, 2.6, 2.6], q = K(tt, [[DFLY0, A], [lerp(DFLY0, DLAND2, 0.4), M], [lerp(DFLY0, DLAND2, 0.75), O], [DLAND2, behind]]); p = { ...p, x: q[0], y: q[1], z: q[2], rotY: -PI / 2, flap: 1, fly: 1, eyes: 'happy', fluff: 0.5, quack: u > 0.4 && u < 0.5 ? 1 : 0 }; }
       else p = { ...p, x: behind[0] + 0.15 * Math.sin(tt * 3), y: behind[1] + 0.12 * Math.sin(tt * 5), z: behind[2], rotY: PI / 2, flap: 0.8, fly: 1, fluff: tt > POOF ? lerp(0.9, 1.5, easeOutBack(u01(tt, POOF, POOF + 0.3))) : 0.75 + 0.12 * Math.sin(tt * 20), eyes: 'happy' };
     }
     duck.set(p);
@@ -568,6 +570,7 @@ export async function build(studio, story) {
       if (on) { let pts = cordRoute(Math.min(tt, ROLL1));
         if (tt < PLUG - 0.5) { cord.plug.position.set(...OUTLET); cord.plug.rotation.set(0, PI / 2, 0); }
         else if (tt < PLUG) { const u = u01(tt, PLUG - 0.5, PLUG), n = pts.length, k = Math.floor(u * (n - 3)); const head = pts.slice(k); gary.head.updateWorldMatrix(true, false); const gh = gary.head.getWorldPosition(new THREE.Vector3()); const tip = u > 0.85 ? [gh.x, gh.y + 0.3, gh.z] : head[0]; pts = [tip, ...head.slice(1)]; cord.plug.position.set(...tip); cord.plug.rotation.set(u * 9, u * 5, 0); }
+        else if (tt < PLUG + 0.45) { gary.head.updateWorldMatrix(true, false); const gh = gary.head.getWorldPosition(new THREE.Vector3()); const q = hop(tt, PLUG, PLUG + 0.45, [gh.x, gh.y + 0.3, gh.z], [gh.x + 0.5, 0.06, gh.z + 1.3], 0.5); eng.dryer.cordAnchor.updateWorldMatrix(true, false); const h = eng.dryer.cordAnchor.getWorldPosition(new THREE.Vector3()); pts = [[h.x, h.y, h.z], [(h.x + q[0]) / 2, Math.max(q[1], 0.4), (h.z + q[2]) / 2], q]; cord.plug.position.set(...q); cord.plug.rotation.set(tt * 20, tt * 13, 0); }   // r4: bounces off the hat toward the lens
         else { eng.dryer.cordAnchor.updateWorldMatrix(true, false); const h = eng.dryer.cordAnchor.getWorldPosition(new THREE.Vector3()); const tail = tt < SNIP ? [h.x - 0.3, 0.03, h.z + 0.6] : [h.x + 0.2, 0.03, h.z + 0.8]; const end = [tail[0] - 2.2, 0.03, tail[2] + 0.4]; pts = tt < SNIP ? [[h.x, h.y, h.z], [h.x - 0.05, 0.3, h.z + 0.3], tail, end] : [[h.x + 0.2, 0.25, h.z + 0.5], [h.x + 0.1, 0.03, h.z + 0.6], tail, end]; cord.plug.position.set(...end); cord.plug.rotation.set(0, 0.3, PI / 2); }
         cord.update(pts); } }
     // toilet paper: the strip from the roll to Gary; the mummy wrap; unwinding into the intake
@@ -592,17 +595,17 @@ export async function build(studio, story) {
     S.setRollDoor(smooth(u01(tt, DOOR0, DOOR1)));
     S.setFence(smooth(u01(tt, FENCE - 0.05, FENCE + 0.25)));
     { const topY = tt < NAC0 ? D.stand.y + 0.52 : D.stand.y + E.RN + 0.05; S.setHanger(tt > CATCH - 0.05 && tt < LIFT0 + 0.15 ? topY : 9); S.hanger.visible = tt > CATCH - 0.3 && tt < LIFT0 + 0.15; }
-    S.boardFace.visible = true; S.boothGlass.position.y = 1.71 + (tt > RUN && tt < OUT0 ? 0.012 * Math.sin(tt * 90) : 0); S.boothGlass.rotation.z = tt > RUN && tt < OUT0 ? 0.01 * Math.sin(tt * 77) : 0;
+    S.boardFace.visible = true; S.boothGlass.visible = !(tt > t.rattle - 0.4 && tt < W('fan', 'out') + 0.3); S.boothGlass.position.y = 1.71 + (tt > RUN && tt < OUT0 ? 0.012 * Math.sin(tt * 90) : 0); S.boothGlass.rotation.z = tt > RUN && tt < OUT0 ? 0.01 * Math.sin(tt * 77) : 0;
     // the stand's ladder (dressing beside the stand until Gary uses it)
     ladder.position.set(tt > LAD0 && tt < FILM0 + 1.2 ? D.stand.x + 0.25 : D.stand.x - 2.4, 0, tt > LAD0 && tt < FILM0 + 1.2 ? 0.35 : 2.4); ladder.rotation.y = tt > LAD0 && tt < FILM0 + 1.2 ? 0 : 0.6; ladder.visible = tt > GO;
     // the forklift
-    { const f = forkAt(tt); fork.set(f); fork.g.visible = tt > CATCH + 0.6 && tt < TO + 2; }
+    { const f = forkAt(tt); fork.set(f); fork.g.visible = tt > CATCH + 0.6 && tt < TO + 2; cradle.visible = tt > LIFT0 - 0.1 && tt < BOLT + 0.4; }
     // the bird cannon: rolls in from the right in front of the intake; the jelly bird in the breech → fired → through → SPLAT
     { const home = [D.stand.x + 12.5, 0, 1.6], spot = [D.stand.x + 6.3, 0, EZ]; const u = smooth(u01(tt, CAN0, CAN1)); cannon.g.position.set(lerp(home[0], spot[0], u), 0, lerp(home[2], spot[2], u)); cannon.g.rotation.y = PI + lerp(0.5, 0, u); cannon.g.visible = tt > GO && tt < FORK0;
       cannon.g.position.x += tt > FIRE && tt < FIRE + 0.4 ? 0.25 * Math.exp(-(tt - FIRE) * 10) : 0;
       const mz = new THREE.Vector3(spot[0] - 1.8 + 0.3, 1.2, EZ); let jp = null;
       if (tt > CAN1 - 0.2 && tt < HOPJ) jp = [spot[0] + 2.3, 0.72 + 0.03 * Math.sin(tt * 9), 1.6];
-      else if (tt >= HOPJ && tt < FIRE) jp = tt < HOPJ + 0.4 ? hop(tt, HOPJ, HOPJ + 0.4, [spot[0] + 2.3, 0.72, 1.6], [spot[0] + 1.8, 1.62, EZ], 0.5) : [spot[0] + 1.8, 1.62, EZ];   // on top of the gun's tank
+      else if (tt >= HOPJ && tt < FIRE - 0.12) jp = tt < HOPJ + 0.4 ? hop(tt, HOPJ, HOPJ + 0.4, [spot[0] + 2.3, 0.72, 1.6], [spot[0] + 1.8, 1.62, EZ], 0.5) : [spot[0] + 1.8, 1.62, EZ];   // on top of the gun's tank
       else if (tt >= FIRE && tt < JIN) jp = [lerp(spot[0] - 1.6, D.stand.x + E.bigFanX + 0.3, u01(tt, FIRE, JIN)), lerp(1.2, D.stand.y - 1.1, u01(tt, FIRE, JIN)), EZ - 0.1];
       else if (tt >= JIN && tt < JOUT) jp = [lerp(D.stand.x + E.bigFanX, D.stand.x + E.nac[1] - 0.4, u01(tt, JIN, JOUT)), D.stand.y - 1.15, EZ - 0.25];
       else if (tt >= JOUT && tt < SPLAT) jp = hop(tt, JOUT, SPLAT, [D.stand.x + E.nac[1] - 0.6, D.stand.y - 1.15, EZ - 0.2], [GBACK[0] + 0.1, 1.5, GBACK[2] + 0.1], 0.3);
@@ -628,7 +631,7 @@ export async function build(studio, story) {
 
   // the £5 note: in Gary's hand on 'five' → sucked into the intake on 'renewal' (after garyAt: it reads his posed hand)
   function fiverAt(tt) {
-    { const h = gary.hand ? gary.hand(-1) : null;   /* the near-side hand */ fiver.visible = tt > t.five - 0.35 && tt < t.renewal + 0.35 && !!h; if (fiver.visible) { h.updateWorldMatrix(true, false); const hp = new THREE.Vector3().setFromMatrixPosition(h.matrixWorld), ip = new THREE.Vector3(cpX(tt) - 1.75 + 2.05, 1.15, EZ), u = smooth(u01(tt, t.renewal + 0.02, t.renewal + 0.3)); fiver.position.lerpVectors(hp, ip, u); fiver.position.y += 0.1 * (1 - u); fiver.rotation.set(-0.2 + u * 6, u * 4, 0.15 + u * 3); fiver.scale.setScalar(1.2 * (1 - 0.7 * u)); } }
+    { const h = gary.hand ? gary.hand(-1) : null;   /* the near-side hand */ fiver.visible = tt > t.five - 0.35 && tt < t.renewal + 0.42 && !!h; if (fiver.visible) { h.updateWorldMatrix(true, false); const hp = new THREE.Vector3().setFromMatrixPosition(h.matrixWorld), ip = new THREE.Vector3(cpX(tt) - 1.75 + 2.05, 1.15, EZ), u = smooth(u01(tt, t.renewal - 0.02, t.renewal + 0.38)); fiver.position.lerpVectors(hp, ip, u); fiver.position.y += 0.1 * (1 - u) + 0.55 * Math.sin(PI * u); fiver.rotation.set(-0.2 + u * 5, u * 3, 0.15 + u * 2.5); fiver.scale.setScalar(1 - 0.75 * u);   /* r4: 2× cream note, a 0.4 s arc into the intake */ } }
   }
 
   function update(tt) {
@@ -637,9 +640,11 @@ export async function build(studio, story) {
     fiverAt(tt);
     const cam = camAt(tt);
     // inside the cloud layer: a white-out (fog) while the camera passes through
-    const cy = cam.pos[1], cwin = (a) => smooth(u01(tt, a - 0.15, a)) * (1 - smooth(u01(tt, a + 0.12, a + 0.4))), inCloud = S.deck.visible ? Math.max(clamp(1 - Math.abs(cy - (D.cloudY + 8)) / 12), cwin(TELE)) : 0;
+    const cy = cam.pos[1], cwin = (a) => smooth(u01(tt, a - 0.35, a)) * (1 - smooth(u01(tt, a + 0.1, a + 0.45))), inCloud = S.deck.visible ? Math.max(clamp(1 - Math.abs(cy - (D.cloudY + 8)) / 12), cwin(TELE)) : 0;
     S.deck.visible = S.deck.visible && cy > D.cloudY - 25;
-    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', smooth(inCloud));
+    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', 0.8 * smooth(inCloud));
+    S.hangar.visible = cy < 15;   // r4: its door read as a black slab from the descent
+    { const gp = gary.root.position; gary.root.visible = Math.hypot(cam.pos[0] - gp.x, cam.pos[1] - gp.y - 0.9, cam.pos[2] - gp.z) > 0.9; }   // r4: never through the lens (44.05)
     { const dl = Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]); studio.camera.near = clamp(0.02 * dl, 0.05, 0.5); }
     studio.setCamera(cam.pos, cam.look, cam.fov * (1 - pushAt(tt)), tt, 0);
     kickR.apply(studio.camera, tt, Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]));
