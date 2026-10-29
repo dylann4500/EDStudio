@@ -2554,6 +2554,35 @@ SFX.update({
 AMBIENCE.update({"water_rush": amb_water_rush, "drill": amb_drill, "fan": amb_fan, "train": amb_train})
 
 
+def amb_hairdryer(dur, rng, pitch=1.0):
+    """041: a hair dryer on high — a soft motor hum + a low-passed air hiss (no whistle: the highs stay rolled off)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        air = unit_rms(lp(pink(n, rng), 2400)) * (0.85 + 0.15 * np.sin(2 * np.pi * 7.0 * t + ch))
+        f0 = 205.0 * pitch
+        hum = unit_rms(sum(np.sin(2 * np.pi * f0 * k * t + ch * k) / (k * k) for k in (1, 2, 3)))
+        out.append(air + 0.22 * hum)
+    return norm(np.vstack(out))
+
+
+def amb_jet(dur, rng, whine=0.5, pitch=1.0):
+    """041: a jet engine at a safe listening distance — a broad low roar + a soft turbine whine (low-passed, never shrill)."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = []
+    for ch in range(2):
+        roar = unit_rms(lp(brown(n, rng), 420)) + 0.6 * unit_rms(bp(pink(n, rng), 200, 1600)) * (0.8 + 0.2 * np.abs(smooth_rand(n, 4.0, rng)))
+        f0 = 620.0 * pitch
+        wh = unit_rms(lp(np.sin(2 * np.pi * f0 * t + 0.3 * np.sin(2 * np.pi * 3.1 * t + ch)) + 0.35 * np.sin(2 * np.pi * 2 * f0 * t), 1800))
+        out.append(unit_rms(roar) + whine * 0.25 * wh)
+    return norm(np.vstack(out))
+
+
+AMBIENCE.update({"hairdryer": amb_hairdryer, "jet": amb_jet})   # 041
+
+
 def load_voice(V, N, log=print):
     """Narration stem (build genre): videos/<v>/<V['file']> (any rate, mono/stereo) -> centered stereo at SR, length N.
     Returns (voice, activity 0..1) — activity drives the music/ambience ducking."""

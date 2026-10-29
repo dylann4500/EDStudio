@@ -312,6 +312,27 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
   wasn't saved, re-create the task in a user-typed turn, or post from the manager session at the slot (a background
   `sleep` until the slot re-invokes you).
 
+## 039 is the reference cut for every build reel (user, Oct 28 2026)
+- **Make the next ones like 039** (user, after watching it: "quite good btw great pacing and great camera and stuff so yeah future
+  vids should be like this… everything else though from no like silent periods and pacing and everything about the last one was
+  good"). Why: it's the first build reel the user signed off on as a whole, so its measured numbers ARE the bar: narration ≈ 5.8
+  syllables/s and ≥ 4.2 words/s over the speech span, no silence > 0.19 s, 0 caption blanks (v3 Adam, tempo ≤ 1.58, maxPause 0.16,
+  pauseFloor −45, yellShelf); ~6 visual events/s (density.py), nothing static > 0.6 s; ~90 kicks, ~15–17 full-strength, none inside a
+  TERM line; a new place or look every ~2 s and never > 8 s in one place (tools/scenes.py; 039's top-of-tower stretch reached 10.8 s
+  before it was broken up); fast ONE-WAY moves (`swoop`, `move`, per-framing `lead`), ≤ ~2.2 frame widths/s over any 0.5 s window
+  except a one-way opener, no out-and-back whips, measured on the 60 fps final; rolling counters for the real numbers.
+- **Comedy stays at 039's amount** (user first asked for less, then withdrew it: "no change on comedy the lighthouse amount is fine
+  for future"): one recurring animal sidekick + a hurt-Gary failure per fix, kind cartoon only. Why: the user tested the idea of
+  less and decided the 039 density was right.
+- **Let the big builds come together ON SCREEN** (user, on 039: "the transition from lamp to the entire light house scaffolding was
+  quite fast so maybe build progression a tiny bit slower so we can see it come together"; 034 drew the same note, "a small bit
+  rushed"). Keep the narration pace, but spread every big structural step across the beat it belongs to: over ~3–5 s, while the
+  camera rides along, rings slide on one at a time, stages slot in, blades go in one by one, the shaft joins the turbine. Nothing
+  bigger than a bolt-on pops into existence in < ~1 s; the object stays recognizable (041: still the hair dryer for the first fixes)
+  and gains one visible part per fix. Why: the build IS the show (the format is "How a ___ Becomes a ___"): a 1 s pop reads as a
+  cut and the viewer never sees the machine they were promised. The logic and pacing reviewers judge "do we see it come together?"
+  explicitly every round (docs/BUILD-REVIEW.md).
+
 ## Turbo pace (034, opt-in variant — user: "faster pace, no moments of silence, continuous text… SUPER overstimulating")
 An experiment on top of the normal build rules (one continuous take, no cuts, Gary, kicks): the same ~100 s, ~30 % more words,
 no pauses, something new on screen every < 0.8 s.
@@ -830,3 +851,48 @@ as a record of what the cut style needs, if it is ever tried again.
 - **Teleports hide in wides**: Gary snapping from the lantern to the watch room (2 m down through a solid floor) was invisible in
   stills and obvious at 2 fps to the logic reviewer. Give every floor change a route (039: a hatch + ladder on the cut side).
 
+
+## Lessons from 041 (hair dryer → jet engine; each cost a stills round)
+- **A machine that grows = one staged hero with a 0..1 (or a count) per part** (`engine/build/jet.js` `makeEngine().set({...})`): duct
+  rings, compressor stages, combustor, shaft, turbine disc + blades, nozzle petals, drilled holes, nacelle rings, fan blades — each
+  slides in over its own window, so shots.js can stretch any step across its beat (the user's "let it come together"). Keep the old
+  object INSIDE the new one (041: the hair dryer stays as the motor pod in every section view) so the viewer always sees what it was.
+- **A half-section of a machine without section caps by hand**: clip every material at the machine's own axis plane (a world plane
+  recomputed from its matrixWorld each frame — it rides any vehicle) and draw BACK faces of closed solids in a flat section colour
+  (`secMat`: `if (!gl_FrontFacing) gl_FragColor = vec4(uSec, a)` after dithering). Closed lathe rings/discs/blades read as cut solid
+  metal; rotating blades keep turning behind the cut. Only closed solids: an open shell's inside would turn section-coloured too.
+- **A vehicle the camera rides (a plane taking off) = author every framing in the PARKED frame** and push the rail through
+  `pose(t)·parked⁻¹` (041 `rel`): before takeoff it's the identity, during the flight the world streams past, after the stop it's a
+  translation to the gate — one rail, no special cases. Bug that cost a sheet: the helper wrote the pose into a shared Vector3 that
+  the caller was still using (`_v.set(p).applyMatrix4(relM(t))` evaluates `relM` AFTER `_v.set`) → the camera sat at the plane.
+- **`tools/scenes.py` counts against the LAST counted look**: a wide (d ≈ 6 m) anchors the room and every close-up inside its view
+  fails the 0.6·d / 0.8·d tests (041's bathroom → hallway read as ONE 19 s look). Alternate telephoto close-ups (fov ≤ 24, from 5–6 m)
+  with wide-angle frames (fov ≥ 56): a ×2 fov change is a new look by the rule AND on screen (different perspective, not a jiggle).
+- **A TERM callout without `hold`/`until` stays up to its beat's end** (narrate.py default) — that swallowed the punchline impacts
+  after it (the singe, the GO launch, the jelly SPLAT) under the "no kick in a TERM line" rule. Do what 039 did: `until` = the
+  term's LAST word (ends 0.3 s after it) plus `min: 0.9` (narrate.py, 041: a floor on the visible time — a fast read flashed DUCTED
+  FAN for 0.44 s). A fixed `hold: 1.3` still swallowed the turbofan's last ring and the plane's stop; time a build's completion
+  impact from the TERM's end in BOTH shots.js and make_cues.py (`TEND('TURBOFAN') + 0.02`, read from story.json callouts).
+- **Check every `nth` against the transcript**: `'bird', nth: 2` put BIRD STRIKE TEST on "Gary's test BIRD is jelly" (one sentence
+  late) because "birds" ≠ "bird" — and that TERM then ate the cannon shot's kick.
+- **Measure the camera speed on the PIXELS: `python3 -I tools/flow.py final.mp4 30`** (per-block phase correlation, median of 15
+  blocks so static captions don't count). Camera-key math lies after a parked-frame ride (the flight read as 3,000 m/s) and a whole-
+  frame correlation locks onto the caption (039 read as static). Calibration: 039 tops out at 1.73 fw/s; the manager's rule is
+  ≤ ~2.2 over any 0.5 s window.
+- **A place needs a reason to be in the shot at its word, not just a set**: a blast-fence view on "FILM COOLING" put the TERM over a
+  wall (dropped), a cockpit view at landing needed a 19 m move in 0.4 s (dropped — and "he" would have read as the pilot). New places
+  go where the story already moves (041: the booth on "it screams", the apron wide while Gary runs to it).
+- **scenes.py's anchor is the last counted look, so a WIDE follow swallows the closes after it**: 041's driveway roll followed the
+  plane with pass framings 6.6 m out; that became the anchor and the next eight close framings (all within 5.3 m / 35°) counted as
+  nothing — 15.3 s "in one place". Follow at ~4 m, and make consecutive closes differ by > 0.8·d of lens or > 0.6·d of aim.
+- **A prop held by a rig reads the rig's hand AFTER the rig is posed** (`fiverAt` after `garyAt` in update): in propsAt it reads last
+  frame's hand — invisible in a single still, a one-frame lag in the video. A rig facing +x (rotY π/2) has its RIGHT hand on the far
+  side from a +z lens: hand(−1) for anything the camera must see.
+- **A lens path from below a wing to above it goes through the wing** (041 takeoff → "FLIES": grey slabs for 0.4 s). Keep consecutive
+  framings on the same side of any big plane-like part, or add a pass point outboard of its edge.
+- **Something "in" a cannon's breech is inside the barrel**: 041's jelly bird sat at the breech and never rendered; put the payload on
+  top (the tank) until it fires.
+- **A walk the narration forces must fit the words**: Gary's dash to the booth was keyed "dripped on" + 0.25 → "works" (6 m in 0.2 s,
+  a teleport). Key it from the line that motivates it ("works" → "fillings") and let the camera hold the previous payoff.
+- **A big flat prop near the lens eats the frame**: the cardboard plane's wings (1.15 m) and a fuel jug on its near side filled the
+  bottom of every bathroom close-up; shrink near-side props, keep the near side of a vehicle low and bare.

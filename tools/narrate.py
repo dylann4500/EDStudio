@@ -440,6 +440,7 @@ def layout(slug, cfg, wj):
                 e = a + c['hold']
             else:
                 e = wb['t1'] + 0.25
+            e = max(e, a + c.get('min', 0))   # 041: a floor on the visible time (a fast read flashed DUCTED FAN for 0.44 s)
             e = min(e, t1 + 0.1, dur)
             co = {'text': c['text'], 'style': c.get('style', 'term'), 't0': round(a, 3), 't1': round(e, 3)}
             for k2 in ('pos', 'x', 'y', 'roll', 'rollDur'):  # sfx position / a callout's own height (frame fraction) when the default band hides the subject; 039: roll [from, to] counts {n} up

@@ -1,0 +1,778 @@
+{
+  "title": "How a Hair Dryer Becomes a Jet Engine",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 310
+  },
+  "lead": 0.04,
+  "gap": 0.03,
+  "tail": 1.0,
+  "maxPause": 0.16,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.58,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.1,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "You want to fly, so Gary tapes a hair dryer to a cardboard plane. [excited] It gives the duck a BLOWOUT!",
+      "callouts": [
+        {
+          "at": "tapes",
+          "text": "RRRIP!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "gives",
+          "text": "CLICK!",
+          "style": "sfx",
+          "pos": [
+            0.28,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "blowout",
+          "text": "POOF!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.64
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built the world's worst jet engine. Its thrust: one egg. Gary weighs a thousand.",
+      "callouts": [
+        {
+          "at": "worst",
+          "text": "WORLD'S WORST JET ENGINE",
+          "style": "label",
+          "hold": 1.2,
+          "y": 0.66
+        },
+        {
+          "at": "egg",
+          "text": "THRUST: 1 EGG",
+          "style": "label",
+          "hold": 1.0
+        },
+        {
+          "at": "thousand",
+          "text": "GARY: {n} EGGS",
+          "style": "label",
+          "roll": [
+            1,
+            1000
+          ],
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "duct",
+      "say": "So you swap in a bigger fan. Air sprays everywhere. The toilet paper mummifies Gary. So you wrap the fan in a tube. This is called a ducted fan. All the air goes one way. The plane creeps. The duck walks faster.",
+      "callouts": [
+        {
+          "at": "everywhere",
+          "text": "WHOOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "mummifies",
+          "text": "MUMMIFIED",
+          "style": "stamp",
+          "hold": 0.9,
+          "y": 0.64
+        },
+        {
+          "at": "tube",
+          "text": "CLANK CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "ducted",
+          "text": "DUCTED FAN",
+          "style": "term",
+          "until": "fan",
+          "min": 0.9
+        },
+        {
+          "at": "creeps",
+          "text": "creeeak...",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "faster",
+          "text": "QUACK.",
+          "style": "sfx",
+          "pos": [
+            0.62,
+            0.68
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "squeeze",
+      "say": "Squeezed air pushes harder, so you stack fans in a row, each squeezing tighter. This is called an axial compressor. [excited] It sucks the toilet paper off GARY!",
+      "callouts": [
+        {
+          "at": "stack",
+          "text": "CLICK CLICK CLICK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.9
+        },
+        {
+          "at": "axial",
+          "text": "AXIAL COMPRESSOR",
+          "style": "term",
+          "until": "compressor",
+          "min": 0.9
+        },
+        {
+          "at": "row",
+          "text": "SQUEEZE: {n}X",
+          "style": "label",
+          "roll": [
+            1,
+            60
+          ],
+          "until": "tighter"
+        },
+        {
+          "at": "gary",
+          "text": "WHEEEE!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "burn",
+      "say": "Squeezed air burns hot, so the heater coil becomes a fuel flame. This is called a combustion chamber. Gary was standing behind it.",
+      "callouts": [
+        {
+          "at": "flame",
+          "text": "FWOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7,
+          "nth": 1
+        },
+        {
+          "at": "fuel",
+          "text": "GLUG GLUG",
+          "style": "sfx",
+          "pos": [
+            0.28,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "combustion",
+          "text": "COMBUSTION CHAMBER",
+          "style": "term",
+          "until": "chamber",
+          "min": 0.9
+        },
+        {
+          "at": "flame",
+          "text": "HOTTER THAN LAVA",
+          "style": "label",
+          "hold": 0.95
+        },
+        {
+          "at": "behind",
+          "text": "SINGED",
+          "style": "stamp",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "cord",
+      "say": "But the fans still run on a cord. The plane rolls down the driveway. [shouting] The plug rips OUT!",
+      "callouts": [
+        {
+          "at": "cord",
+          "text": "EXTENSION CORD",
+          "style": "label",
+          "hold": 0.9
+        },
+        {
+          "at": "driveway",
+          "text": "BOING!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "out",
+          "text": "PLINK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "turbine",
+      "say": "So you put a windmill in the exhaust, on the same shaft: the fire spins the fans. This is called a turbine. Whittle patented the jet engine in 1930, then couldn't afford the five pound renewal. No more cord.",
+      "callouts": [
+        {
+          "at": "windmill",
+          "text": "WHIRRR",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "shaft",
+          "text": "CLUNK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "turbine",
+          "text": "TURBINE",
+          "style": "term",
+          "until": "turbine",
+          "min": 0.6
+        },
+        {
+          "at": "patented",
+          "text": "WHITTLE'S PATENT, 1930",
+          "style": "label",
+          "until": "1930"
+        },
+        {
+          "at": "five",
+          "text": "RENEWAL FEE: £5",
+          "style": "label",
+          "until": "renewal"
+        },
+        {
+          "at": "renewal",
+          "text": "SHLOOP!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "more",
+          "text": "SNIP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "nozzle",
+      "say": "The exhaust blobs out slowly. So you pinch the exit, like a thumb on a hose. This is called a nozzle. Your hair dryer came with one. [shouting] Now it GOES!",
+      "callouts": [
+        {
+          "at": "blobs",
+          "text": "BLORP.",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "thumb",
+          "text": "PSSSHT!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "nozzle",
+          "text": "NOZZLE",
+          "style": "term",
+          "until": "nozzle",
+          "min": 0.9
+        },
+        {
+          "at": "came",
+          "text": "CLICK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "goes",
+          "text": "ZOOOOM!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.58
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "cool",
+      "say": "Then the turbine melts. The gas is sixteen hundred degrees; the blades melt at thirteen hundred. So you hollow them out and drill tiny holes: cool air blankets every blade. This is called film cooling. Gary got dripped on.",
+      "callouts": [
+        {
+          "at": "gas",
+          "text": "DRIP DRIP",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "sixteen",
+          "text": "GAS: {n}°C",
+          "style": "label",
+          "roll": [
+            20,
+            1600
+          ],
+          "until": "degrees"
+        },
+        {
+          "at": "thirteen",
+          "text": "BLADE METAL MELTS: 1,300°C",
+          "style": "label",
+          "until": "hundred"
+        },
+        {
+          "at": "holes",
+          "text": "BZZT BZZT!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "film",
+          "text": "FILM COOLING",
+          "style": "term",
+          "until": "cooling",
+          "min": 0.9
+        },
+        {
+          "at": "dripped",
+          "text": "DRIPPED ON",
+          "style": "stamp",
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "fan",
+      "say": "It works, but it screams. Gary's fillings rattle out. So you add a giant fan up front, blowing most air around the core. This is called a turbofan. Way quieter.",
+      "callouts": [
+        {
+          "at": "screams",
+          "text": "SCREEEEE!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "rattle",
+          "text": "PING PING!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.7
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "giant",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "turbofan",
+          "text": "TURBOFAN",
+          "style": "term",
+          "until": "turbofan",
+          "min": 0.9
+        },
+        {
+          "at": "around",
+          "text": "BYPASS RATIO 10:1",
+          "style": "label",
+          "until": "core"
+        },
+        {
+          "at": "quieter",
+          "text": "16 BLADES, 11 FT ACROSS",
+          "style": "label",
+          "hold": 1.4,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "duck",
+      "say": "Then the duck waddles in front. [shouting] The duck goes IN!",
+      "callouts": [
+        {
+          "at": "waddles",
+          "text": "QUACK?",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.32
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "in",
+          "text": "SHLOOOP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.3
+          ],
+          "hold": 0.8,
+          "nth": 2
+        }
+      ]
+    },
+    {
+      "id": "duck2",
+      "say": "The fan flings it around the core, out the back. Fluffed, but fine. Engines get tested by firing birds into them. This is called a bird strike test. Gary's test bird is jelly. He was standing behind it. Again.",
+      "callouts": [
+        {
+          "at": "back",
+          "text": "FWUMP!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.32
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "fine",
+          "text": "FLUFFED",
+          "style": "stamp",
+          "hold": 0.9
+        },
+        {
+          "at": "birds",
+          "text": "8 LB BIRD AT 200 KNOTS",
+          "style": "label",
+          "hold": 1.0
+        },
+        {
+          "at": "bird",
+          "text": "BIRD STRIKE TEST",
+          "style": "term",
+          "until": "test",
+          "min": 0.9
+        },
+        {
+          "at": "jelly",
+          "text": "WOBBLE",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "behind",
+          "text": "SPLAT!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "again",
+          "text": "AGAIN",
+          "style": "stamp",
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a starter, fire bottles, and a spinner swirl.",
+      "callouts": [
+        {
+          "at": "starter",
+          "text": "STARTER",
+          "style": "label",
+          "hold": 0.8
+        },
+        {
+          "at": "fire",
+          "text": "FIRE BOTTLES",
+          "style": "label",
+          "hold": 0.8
+        },
+        {
+          "at": "swirl",
+          "text": "SPINNER SWIRL",
+          "style": "label",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "fly",
+      "say": "Now you hang it on a real plane. Takeoff: a hundred thousand pounds of thrust. [excited] Gary finally FLIES!",
+      "callouts": [
+        {
+          "at": "hang",
+          "text": "CLUNK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "hundred",
+          "text": "THRUST: {n} LB",
+          "style": "label",
+          "roll": [
+            0,
+            105000
+          ],
+          "until": "thrust"
+        },
+        {
+          "at": "flies",
+          "text": "WHOOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.58
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "land",
+      "say": "Landing, he can't stop. So doors flip open and throw the air forward. This is called a thrust reverser. The plane stops. Gary doesn't.",
+      "callouts": [
+        {
+          "at": "stop",
+          "text": "SKREEECH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "flip",
+          "text": "CLACK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "thrust",
+          "text": "THRUST REVERSER",
+          "style": "term",
+          "until": "reverser",
+          "min": 0.9
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a jet engine. You just wanted to fly. Now it costs forty million dollars, it pushes like a million eggs, and Gary is singed, jellied and squished. [shouting] The duck could fly the whole TIME!",
+      "callouts": [
+        {
+          "at": "congratulations",
+          "text": "SQUISH!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.8
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "forty",
+          "text": "${n}",
+          "style": "money",
+          "roll": [
+            0,
+            40000000
+          ],
+          "rollDur": 0.6,
+          "until": "dollars"
+        },
+        {
+          "at": "million",
+          "text": "RECORD: 1,000,000 EGGS",
+          "style": "label",
+          "nth": 2,
+          "until": "eggs"
+        },
+        {
+          "at": "singed",
+          "text": "SINGED",
+          "style": "stamp",
+          "hold": 0.7
+        },
+        {
+          "at": "jellied",
+          "text": "JELLIED",
+          "style": "stamp",
+          "hold": 0.7
+        },
+        {
+          "at": "squished",
+          "text": "SQUISHED",
+          "style": "stamp",
+          "hold": 0.8
+        },
+        {
+          "at": "whole",
+          "text": "FLAP FLAP FLAP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.58
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "end2",
+      "say": "It just came for the blowout.",
+      "callouts": [
+        {
+          "at": "blowout",
+          "text": "POOF!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 1.0
+        }
+      ]
+    }
+  ]
+}
