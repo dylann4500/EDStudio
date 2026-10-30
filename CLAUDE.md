@@ -803,6 +803,10 @@ tail rose to 0.03–0.044 and every early beat rose too (wc +47 %). Lessons: (1)
 mix scored highest all along — vocal crowd beds are a cheap lift for any beat (no speech needed); (2) a long low tail drags
 the mean and is where dead zones live: compress the epilogue to ~2 s per rung; (3) the end card over a live, face-filled
 scene (`finalFade` depth 0.3) beat black (−0.026 → +0.018 for the stars + card stretch).
+**040 (Pip ep. 6, tornado home alone, 67.4 s) cut1 = 0.0524 / first 60 s 0.0505, no dead zone → TARGET MET first try.** A
+bright green-gray storm (never black) scored like a day reel: the street with the far funnel 0.078, the TV warning 0.075, the
+yard chaos 0.072, the pile-in hug in the tub 0.066. Weakest: the sleeping-Pip title (0.001), the quiet sunny street after the
+storm (0.035, a wide with no face) and the three-trip pack (0.038, Pip small in a wide living room). Storms work if they stay lit.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
