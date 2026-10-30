@@ -178,4 +178,13 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   lift it to chest height (the BATTERY CANDLES box lit Mom's face from below); a flashlight held between the lens and the
   subject shows its beam cone from behind as a white blob — set the beam opacity to 0 and keep only the spot; split a
   "find it → light it up" beat into a close grab + an over-the-shoulder beam shot (one wide made Pip a speck).
+- **Ep. 6 (040, tornado home alone) = disaster #2, home + street + store, no lightning:** the family goes to the store; Pip's
+  ears go up first (hedged fact: dogs MAY feel the pressure drop — VCA/AKC call it likely, not proven), the window view turns
+  green-gray, Maple St bends under a far funnel, the TV + every phone at the store say TORNADO WARNING (store beat = faces),
+  he packs Mia's red wagon in three trips (bunny, bowl, Bubbles the goldfish carried by her bowl's handle), hauls it past the
+  window to the NEW windowless bathroom (`engine/sets/bathroom.js`, NWS: "an interior room away from windows… don't forget
+  pets") and everybody gets in the tub under a towel; outside it's cartoon-only chaos with nobody in it (lawn chairs, a
+  cartwheeling trampoline, the gnome, Mrs. Rosa's porch roof folding); the sun, the trampoline in a tree, the gnome on the
+  mailbox, the family runs up the walk, the door flies open, pile-in hug in the tub. HUD WIND 12 → 150 → 5 km/h (EF1 =
+  138–177 km/h). Sound: no music until the warning (brief), then Pip's theme in D minor → F major at the sun.
 - **Still missing (build when an episode needs it):** a flood plane, a lightning flash (038 kept thunder to a far `distant_boom` rumble on purpose).

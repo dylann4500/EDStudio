@@ -206,6 +206,18 @@ videos/NNN-slug/
 - **Blackout kit (038, Pip ep. 5):** `pip.update(t, { shine })` = dog eyeshine (additive green-gold over the pupils). 038
   shots.js has camera-following rain, window rain, a lit/dark storm window view, battery candles + box, a lantern, a blanket
   fort, Pip's raincoat, an umbrella, a quilt hood. city.js at the origin + suburb/livingroom parked at offsets works in one scene.
+- **Tornado kit (040, Pip ep. 6):** `engine/sets/bathroom.js` `buildBathroom(studio)` = a windowless family bathroom (the
+  "interior room away from windows"): alcove tub along the back wall (`DIMS.rimY` 0.55, basin floor 0.1, `DIMS.basin`), duck
+  shower curtain, vanity + mirror, toilet, towels, Mia's stool, a fish picture where a window would be, a ceiling light
+  `setLight(k)` (flicker), and a door whose hinge group `door` swings OUT into a lit hallway (`rotation.y = −1.45`; swung in, it
+  blocked the tub's view of the doorway). Room is 2.6 × 2.5 m: a 4-person hug only fits a vertical frame stacked — Mia kneels IN
+  the tub with Pip on her knees, Mom + Dad perch on the two tub ends (040 `hug`; kneeling at the apron put a parent's back over
+  everything). 040 shots.js helpers: `makeWagon` (Mia's red wagon, `setHandle(worldPoint)` aims the grip at Pip's mouth),
+  `makeTrampoline` (cartwheel = `rotation.set(PI/2, 0, dist/r, 'ZYX')`), `makeGnome`, `makeFunnel` (lathe cone with curved
+  swirl-band strokes scrolling in u + a dark cloud skirt + dust + orbiting debris; vertical streaks read as a water fountain),
+  `makeLeaves` (instanced wind-blown leaves that follow the camera), a slanted `makeRain`, a storm dome inside suburb.js's
+  sky (renderOrder −1 or the far funnel draws first and gets covered), window views + an overlay that crossfades to a green
+  storm, `tvCard()` TORNADO WARNING, phone alert screens, a fish bowl with a carry handle (`holdFish`).
 - **Dog park + breeds (030, Pip ep. 3):** `engine/sets/dogpark.js` `buildDogPark(studio)` = a sunny fenced BARK PARK (chain-link
   panels via an alpha-tested canvas texture — `fence.{front,back,left,right,vest}` groups to hide per shot), a double-gate
   vestibule (`gates.inner/outer` hinge groups, `rotation.y > 0` swings into the park), the arch sign (`setSign`), a big shade
