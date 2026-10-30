@@ -51,7 +51,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 042 | What if your belly button turned into a portal? | unhinged (weird tier) / @ed._.studios | building Oct 29 (Fri 1 PM) |
 | 043 | What if Earth had rings like Saturn? | science / @ed_.studios | building Oct 29 (Fri 1 PM) |
-| 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | building Oct 29 (Fri 1 PM) |
+| 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | made Oct 29, in review (Fri 1 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
