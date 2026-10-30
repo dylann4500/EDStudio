@@ -460,6 +460,14 @@ videos/NNN-slug/
   low-passed), `hiss` (steam/extinguisher), `breath` (inhale/exhale), `buzz` bed (big wings). 037 shots.js: `runLegs()` = a run
   cycle (longer stride + knee lift than the walk; local legIK copy), `stream()` = a hose arc of water blobs, `sootify(rig)` /
   `ageHair(rig)` tint a face / gray the hair, `seatKid()` / `seatAdult()`.
+- **Ring kit (043, `engine/rings.js`):** Saturn's main rings scaled to Earth (C/B/Cassini/A, 1.239–2.269 R, real-ish optical
+  depths). `makeRingSky()` = a camera-centred sky sphere whose shader RAY-CASTS the ring plane for an observer at any latitude
+  (`set({lat, sun: sunECEF(dec, hour), E, U, gain, haze})`, `follow(camera, r)` after `setCamera`): the equator gets an edge-on
+  hairline through the zenith, mid-latitudes an arch (NYC 26°, Tokyo 32°), Earth's shadow eats the arch after sunset, the lit/unlit
+  face flips with the season (the north sees the LIT face only in its summer). `ringTransmit(lat, sun)` = sunlight through the
+  rings (the ground shadow: Miami's Dec noon = 0.1 %), `archStats(lat)` = the arch's elevations for the HUD.
+  `makeSpaceRings(R)` = lit rings + the rings' shadow on Earth (a shell shader) for tech.js `buildSpace`. 043 shots.js:
+  camera-facing meteor `streak()` quads, a satellite sandblast (sparks + flying bits), an Ordovician debris ring (instanced).
 - `engine/sets/lagoon.js` (036): an Icelandic geothermal lagoon at night — opaque milky-blue water glowing from below (swimmers
   at rig y ≈ −1.22 show heads + shoulders only), steam sprites (`update(t, camLocal)` thins the puffs near the lens), lava rocks
   with snow caps, a lit LAGOON BAR hut + boardwalk, lamp posts, a pink-lit geothermal greenhouse, a power plant with plumes,
@@ -715,6 +723,12 @@ videos/NNN-slug/
 - **A lens high over a city sidewalk sits inside the storefront awnings (037):** street.js awnings (y ≈ 2.75) and the hot-dog
   cart's umbrella (y 2.45, r 0.95) rendered the whole downtown shot as one pink wall. Hide them for that shot (filter meshes by
   position, restore them after) or keep the camera under 2.3 m there.
+- **Anything drawn in a set's SKY (043 rings, moons, giants) needs the set's sky dome to stop writing depth** (`depthWrite =
+  false`, `renderOrder −3`; 043 does it for every BackSide sphere ≥ 100 m) — and then check what ELSE sits there: street.js's
+  "hazy skyline" boxes at 110–135 m are fogged to exactly the sky colour (invisible) but still occlude the sky (the NYC arch
+  vanished until they were hidden). Raycast from the camera along the missing direction to find the blocker.
+- **A vertical frame from 1 m away is ±0.27 m wide (043 classroom):** the kids sat just outside it and the still showed empty
+  desks. Back the lens off to ~2 m (or widen the fov) before blaming visibility; `bearing.py` catches it.
 - **A back-hinged lid opening toward the sky becomes a disc between the lens and the cook (037 grill):** slide it off to the side.
 - **A flying insect head-on is invisible (037):** 70 cm dragonfly wings seen edge-on read as nothing next to a crow; turn it
   broadside (nose across the frame) and roll it ~0.8 rad so the wing surfaces face the lens, and give the wings ≥ 0.7 alpha.
@@ -846,6 +860,9 @@ MET first try.** The busy face-filled middle topped it (laundromat pigeon + sock
 mariachi 0.109, the queue 0.10); the dark 3 AM couch open (−0.024 → +0.012: one face, a purple glow, slow) and the 11 s Grandma's-kitchen
 epilogue with the end card over a near-static hug (0.022) were the lows. Same lesson again: a quiet single-face night open and a long
 held ending sag — keep the hug ≤ 5 s before the card and open on something already moving.
+**043 (Earth rings, science, 65.4 s) cut2 = 0.0452 / first 60 s 0.0451, no dead zone → TARGET MET after one in-place pass**
+(cut1 0.0431): faceless sky wides and crowds seen from behind sagged (0.02–0.03); turning the nearest people to the lens, a
+bouncing party + an arcing camera, and opening the wide on two close faces before craning up to the sky lifted them 2–3×.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 

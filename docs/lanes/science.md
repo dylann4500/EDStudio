@@ -151,3 +151,24 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **cut4 + cut5 (Oct 28, manager-approved retime):** cut4 0.0394 (bright 37 s at 0.06–0.11, tail dead zone); cut5 **0.0581, target
   met** — same first 37 s, epilogue cut to ~2 s per rung with crowd voices under it, end card over the lagoon faces. Shipped cut5
   (51.8 s). See CLAUDE.md → TRIBE notes for the lessons (crowd-voice beds, short epilogues, end card over a live scene).
+
+## Seventh video: 043 "What if Earth had rings like Saturn?"
+- **Shape (65.4 s):** a Quito tourist's face looking up (title) → ringed Earth from space + skimming the ice (HUD RING WIDTH 6,560
+  km) → a sky ladder by LATITUDE (HUD number = latitude, line 2 = what the arch does): Quito 0° (edge-on hairline through the
+  zenith, the painted equator line meets the line in the sky), New York 40.7° (an arch over the avenue), Tokyo 35.7° at sunset
+  (Earth's shadow slides across the arch), Ohio 39.9° at night (ringshine + shooting stars, a kid drawing it) → the ground:
+  Miami's pool July → December (NOON SUNLIGHT 100 → 0.1 %, the sun slides behind the B ring), the shadow swaps hemispheres
+  (space, Dec → Jun), a launch under the arch + a satellite sandblasted crossing the ring plane → a classroom: "Scientists
+  propose Earth once had a ring" (Tomkins et al. 2024, 466 Ma) → a Tuscany wedding under the arch ("Two rings for them. One for
+  the planet.") → "Would you want Earth to have rings?" over the live wedding (finalFade depth 0.35).
+- **Model:** Saturn's main rings scaled by planet radius (1.239–2.269 R = 1,520–8,085 km up), inside Earth's Roche limit; every
+  sky is ray-cast (engine/rings.js), so the HUD numbers (arch heights, 0.1 % sunlight) come from the same code as the picture.
+- **Honesty traps found while building:** the summer hemisphere sees the LIT face (northern skies set in July, Miami's shadow
+  in December); near the horizon you mostly see the faint C ring (τ ≈ 0.1) — aim at the bright B ring; a ring 10 m thick
+  exactly edge-on vanishes, so the Quito lens sits 0.1° off the plane (still "0.0°").
+- **TRIBE:** cut1 0.0431 / first 60 s 0.0410, no dead zone (just under). Weak: the title (−0.029), the faceless space open (0.013),
+  NYC from behind the crowd (0.027), the Tokyo rooftop (0.021) and arch wide (0.027). cut2 = SAME timeline + audio, visual only:
+  the nearest New Yorkers turn to the lens and point back, the Tokyo crowd bounces + waves under an arcing lens, the arch shot
+  opens on two close faces and cranes up, a swimmer leaps, the wedding wide became the guests' faces → **0.0452 / 0.0451, TARGET
+  MET** (Tokyo 0.021 → 0.059, arch 0.027 → 0.067). Sky spectacle needs a face in the same frame, or right before it.
+
