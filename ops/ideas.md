@@ -53,6 +53,9 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 043 | What if Earth had rings like Saturn? | science / @ed_.studios | made Oct 30, in review (Fri 1 PM) |
 | 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | made Oct 29, in review (Fri 1 PM) |
 | 045 | What if everyone woke up glued to the last thing they touched? | unhinged / @ed._.studios | queued Oct 30 (Sat 1 PM) |
+| 046 | What if all the oceans drained at once? | science / @ed_.studios | queued Oct 30 (Sat 1 PM) |
+| 047 | What if Pip was the ring bearer at the wedding? (Pip ep. 8) | pip / @ed._.sims | queued Oct 30 (Sat 1 PM) |
+| 048 | What if the street flooded and Pip went back for the ducklings? (Pip ep. 9) | pip / @ed._.sims | queued Oct 30 (Sat 6 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -72,11 +75,8 @@ Classic tier ("everyone on Earth…"):
 - What if everyone had to hold hands with a stranger for 24 hours?
 
 ## Backlog: science (@ed_.studios)
-- What if all the oceans drained at once?
 - What if you fell into a black hole?
 
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
-- What if Pip was the ring bearer at the wedding? (wedding.js, RINGS 2 → 0 → 2: he runs off, comes back with the bouquet too. Job template + "send this to the couple" share hook)
-- What if the street flooded and Pip went back for the ducklings? (flood plane from pool.js water, WATER LEVEL, the duck family follows him home. Source: tsunami episodes 0.9–1.3M)
 - What if Pip's kid left for college and he waited by the door every day? (DAYS WAITED 0 → 98, Thanksgiving reunion. 001's emotional format with a pet + "waited by the door" from the 1M birthday)
