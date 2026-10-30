@@ -67,7 +67,7 @@ BOOTH0, RUN, RATTLE, OUT0, HUB0 = t['works'] + 0.05, t['works'], t['rattle'] - 0
 DW0, SUCKD, THRU1 = t['waddles'] - 0.7, t['inD'] - 0.2, t['back']; DOUT = THRU1 + 0.45; RUN0, RUN1 = t['flings'] - 0.1, t['back'] - 0.15
 CAN0, CAN1, FIRE = t['engines'], t['birds'], W('duck2', 'test', 2) - 0.05; HOPJ = W('duck2', 'bird') - 0.35; JIN = FIRE + 0.4; JOUT = JIN + 0.55; SPLAT = max(JOUT + 0.2, t['behindJ'] + 0.02)   # mirrors shots.js (r3)
 STARTER, BOTTLES, SWIRL = t['starter'], t['bottles'], t['swirl']
-FORK0, LIFT0 = t['nowF'] - 0.5, t['nowF'] + 0.05; DRIVE0 = LIFT0 + 0.3; DRIVE1 = max(DRIVE0 + 1.0, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT - 0.15, BOLT + 0.35   # mirrors shots.js (r5b)
+FORK0, LIFT0 = t['nowF'] - 0.5, t['nowF']; DRIVE0 = LIFT0 + 0.3; DRIVE1 = max(DRIVE0 + 0.85, t['planeF']); BOLT = DRIVE1; WING0, WING1 = BOLT - 0.15, BOLT + 0.35   # mirrors shots.js (r5b)
 TO = max(t['takeoff'] - 0.05, WING1 + 0.02); LIFTOFF = TO + 0.55; CLOUD_IN = LIFTOFF + 0.45; ABOVE = CLOUD_IN + 0.25; DIVE = t['landing'] + 0.15; TELE = DIVE + 0.2; TOUCH = max(TELE + 0.8, t['stop'] + 0.05)
 FLIP, STOP = t['flip'] - 0.05, max(t['stops'], TEND('THRUST REVERSER') + 0.04); GFLY0 = t['doesnt'] - 0.08; GSPLAT = GFLY0 + 0.45
 MONEY, EGGBLOW, DFLY0, DLAND2, POOF = t['forty'], t['millionE'] + 0.1, t['duckE'] - 0.3, t['blowout2'] - 0.1, t['blowout2']

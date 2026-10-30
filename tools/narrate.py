@@ -213,7 +213,7 @@ def clip_to_safe(c0, c1, safe, hop=0.005):
     return (a, b) if b - a > 0.01 else None
 
 
-def squeeze_audio(x, words, max_pause, floor_db=-45, hop=0.005, fade=0.012, pad=0.04, guard=0.03, cuts_out=None):
+def squeeze_audio(x, words, max_pause, floor_db=-45, hop=0.005, fade=0.012, pad=0.04, guard=0.03, cuts_out=None, soft_db=None):
     """Turbo pace, measured on the AUDIO (034 r2, script.json "pauseFloor"): v3's word timestamps run past the real word ends, so
     after squeeze() the voice still had 30 silences of 0.25–0.43 s. Find every run of 5 ms blocks whose peak is under floor_db and
     cut it down to max_pause (middle cut, short crossfade); the clip's head and tail silences down to pad. Word times follow.
@@ -224,7 +224,8 @@ def squeeze_audio(x, words, max_pause, floor_db=-45, hop=0.005, fade=0.012, pad=
         return x, words
     pk = np.abs(x[:n * H]).reshape(n, H).max(1)
     quiet = pk < 10 ** (floor_db / 20)
-    soft = pk >= 10 ** ((floor_db - 10) / 20)   # any trace of sound
+    soft = pk >= 10 ** ((floor_db - 10 if soft_db is None else soft_db) / 20)   # any trace of sound (041, opt-in per beat "pauseSoft": a v3 clip with a
+    # −51…−55 dBFS noise floor between two sentences reads as 'sound' at the default floor − 10, so its 0.23 s pause could never be cut)
     G = int(round(guard / hop))
     near = np.convolve(soft.astype(float), np.ones(2 * G + 1), 'same') > 0   # within the guard of a trace of sound
     cuts, i = [], 0
@@ -380,7 +381,7 @@ def narrate(slug, provider, key):
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
             x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
             if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)
-                x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'])
+                x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'], soft_db=b.get('pauseSoft'))
         ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
         if ys and TAG.search(b['say']):
             x = shelf_tail(x, words, b, b.get('shelf', ys.get('db', -4)), ys.get('hz', 5000))

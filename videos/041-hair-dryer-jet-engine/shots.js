@@ -86,7 +86,7 @@ export async function build(studio, story) {
   const DW0 = t.waddles - 0.7, SUCKD = t.inD - 0.2, THRU1 = t.back, DOUT = THRU1 + 0.45, RUN0 = t.flings - 0.1, RUN1 = t.back - 0.15;
   const CAN0 = t.engines, CAN1 = t.birds, HOPJ = t.bird - 0.35, FIRE = t.testB - 0.05, JIN = FIRE + 0.4, JOUT = JIN + 0.55, SPLAT = Math.max(JOUT + 0.2, t.behindJ + 0.02);   // r3: fired on Gary's 'test', slow enough to follow
   const STARTER = t.starter, BOTTLES = t.bottles, SWIRL = t.swirl;
-  const FORK0 = t.nowF - 0.5, LIFT0 = t.nowF + 0.05, DRIVE0 = LIFT0 + 0.3, DRIVE1 = Math.max(DRIVE0 + 1.0, t.planeF), BOLT = DRIVE1, WING0 = BOLT - 0.15, WING1 = BOLT + 0.35;
+  const FORK0 = t.nowF - 0.5, LIFT0 = t.nowF, DRIVE0 = LIFT0 + 0.3, DRIVE1 = Math.max(DRIVE0 + 0.85, t.planeF), BOLT = DRIVE1, WING0 = BOLT - 0.15, WING1 = BOLT + 0.35;
   const TAXI0 = W('finish', 'starter') - 0.6, TAXI1 = t.nowF - 0.2;   // r5: GARY AIR taxis in behind the bird test (not parked behind the stand all along)
   const TO = Math.max(t.takeoff - 0.05, WING1 + 0.02), LIFTOFF = TO + 0.55, CLOUD_IN = LIFTOFF + 0.45, ABOVE = CLOUD_IN + 0.25, DIVE = t.landing + 0.15, TELE = DIVE + 0.2, TOUCH = Math.max(TELE + 0.8, t.stop + 0.05);   // r3: the runway rushes up for ≥ 0.8 s
   const FLIP = t.flip - 0.05, STOP = Math.max(t.stops, TEND('THRUST REVERSER') + 0.04), GFLY0 = t.doesnt - 0.08, GSPLAT = GFLY0 + 0.45;
@@ -365,7 +365,7 @@ export async function build(studio, story) {
   Fk(t.drips - 0.15, [61.0, 1.85, 1.9], [60.15, 1.4, -0.2], 38, t.drips + 0.25);
   // FAN: the CONTROL booth (Gary behind the shaking window as it screams); his fillings, close; out to the front: the fan assembles
   // (front ¾, orbiting to the side as the blades + rings go in); under the fan for "around the core"; the term side-on; quieter
-  Fk(t.works + 0.1, [63.4, 2.1, 3.4], [66.6, 1.7, -4.2], 46);   // r5b: follow Gary's dash one way (no fov-60 pump)   // wide: the engine screams, Gary dashes to the booth
+  Fk(t.works + 0.1, [63.4, 2.1, 3.4], [66.6, 1.9, -4.2], 46);   // r5b: follow Gary's dash one way (no fov-60 pump)   // wide: the engine screams, Gary dashes to the booth
   Fk(t.rattle - 0.3, [67.4, 1.6, -2.4], [67.6, 1.22, -5.6], 38, W('fan', 'out') + 0.15);
   Pp(W('fan', 'out') + 0.5, [67.5, 2.4, 2.2], [66.2, 2.2, -3.0], 50);
   Fk(t.giant + 0.25, [67.6, 3.6, 6.4], [62.6, 3.0, EZ], 40);
@@ -392,7 +392,7 @@ export async function build(studio, story) {
   // streaming runway; an exterior above the clouds with Gary on the wing ("finally FLIES")
   Fk(t.hang - 0.2, [67.5, 3.5, 8.6], [63.5, 2.4, EZ], 48);
   Fk(BOLT, [78.5, 4.4, 9.8], [75.0, 3.9, EZ], 52, TO - 0.3);
-  Fk(t.hundred - 0.15, [81.0, 1.8, 9.0], [76.0, 3.9, -2.5], 52);   // (a lens behind the engine crossed the wing on its way up to Gary)
+  Fk(t.hundred - 0.05, [81.0, 1.8, 9.0], [76.0, 3.9, -2.5], 52);   // (a lens behind the engine crossed the wing on its way up to Gary)
   Fk(t.garyF - 0.2, [79.4, 7.1, 4.4], [75.9, 5.95, -0.7], 44, t.landing - 0.1);   // Gary arms out against the sunset (a deck view needs the lens on the fuselage side: it can't reach the landing framing legally)
   Fk(t.landing + 0.1, [83.0, 9.0, 7.5], [76.5, 4.0, -0.2], 50, TOUCH - 0.05);   // the runway rushes up past the wing edge
   // LAND: the descent wide; the reverser close; the term; the stop: ride with Gary on the wing → he flies off → SPLAT on the runway
@@ -406,7 +406,7 @@ export async function build(studio, story) {
   Fk(t.forty - 0.2, [89.4, 1.8, 1.9], [82.6, 0.6, -0.7], 46);
   Fk(t.eggsE - 0.3, [88.6, 1.7, 1.8], [83.4, 0.8, -0.6], 46);
   Fk(t.singed - 0.2, [87.4, 1.4, 1.6], [85.4, 0.62, -0.45], 50, t.squished + 0.3);
-  Fk(t.whole - 0.3, [87.6, 2.9, 6.6], [84.8, 1.4, -0.6], 52, DFLY0 + 0.95);
+  Fk(t.whole - 0.3, [87.6, 2.9, 6.6], [84.8, 0.75, -0.6], 52, DFLY0 + 0.95);   // voiced: Gary + the duck loop sit above the caption
   Fk(t.blowout2 + 0.2, [79.0, 3.5, 9.8], [74.6, 2.8, EZ], 56);   // r5: wide enough to follow the duck to the exhaust at a legal speed
   Fr.push({ t: END, pos: [78.7, 3.52, 10.0], look: [74.6, 2.8, EZ], fov: 56 });
   planRail.verbose = true;

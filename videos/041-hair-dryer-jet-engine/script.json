@@ -91,7 +91,8 @@
           "at": "egg",
           "text": "THRUST: 1 EGG",
           "style": "label",
-          "hold": 1.0
+          "hold": 1.0,
+          "y": 0.66
         },
         {
           "at": "thousand",
@@ -163,7 +164,8 @@
           ],
           "hold": 0.7
         }
-      ]
+      ],
+      "pauseSoft": -50
     },
     {
       "id": "squeeze",
@@ -284,7 +286,8 @@
           ],
           "hold": 0.7
         }
-      ]
+      ],
+      "shelf": -7
     },
     {
       "id": "turbine",
@@ -397,8 +400,8 @@
           "text": "ZOOOOM!",
           "style": "sfx",
           "pos": [
-            0.7,
-            0.58
+            0.3,
+            0.7
           ],
           "hold": 0.9
         }
@@ -540,7 +543,8 @@
           "hold": 0.8,
           "nth": 2
         }
-      ]
+      ],
+      "shelf": -11
     },
     {
       "id": "duck2",
@@ -551,8 +555,8 @@
           "text": "FWUMP!",
           "style": "sfx",
           "pos": [
-            0.72,
-            0.32
+            0.28,
+            0.4
           ],
           "hold": 0.7
         },
@@ -580,8 +584,8 @@
           "text": "WOBBLE",
           "style": "sfx",
           "pos": [
-            0.3,
-            0.6
+            0.62,
+            0.7
           ],
           "hold": 0.7
         },
