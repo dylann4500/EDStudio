@@ -921,3 +921,21 @@ as a record of what the cut style needs, if it is ever tried again.
   a teleport). Key it from the line that motivates it ("works" → "fillings") and let the camera hold the previous payoff.
 - **A big flat prop near the lens eats the frame**: the cardboard plane's wings (1.15 m) and a fuel jug on its near side filled the
   bottom of every bathroom close-up; shrink near-side props, keep the near side of a vehicle low and bare.
+- **041's review arc (5 rounds, the last on the real voice):** v1 logic 6.5 · look 6 · pacing 6.5 · camera 5 · comedy 6.5 → r5 official
+  (Adam v3, 100.9 s) logic 8 · look 7.5 · pacing 8 · camera 7.5 · comedy 8, comes-together 8 (logic) / 7.5 (pacing: the 16 fan
+  blades go in EDGE-ON — a side view of a disc shows a growing sawtooth, not blades; frame a fan build 35–45° off its axis).
+  Open at ship: the engine core hung ~0.8 m under its hanger plate during the fan build (the hanger jumped to the nacelle-top height
+  at NAC0, before the nacelle existed — tie a support's height to the part that's actually there), and a camera crossing the cloud
+  deck planes whited 3 frames and sliced the engine out of one (drive a cloud white-out by the camera's HEIGHT, not by time windows).
+- **Voicing re-keys everything — re-run the QC hook before the review render** (041: the real take ran 7.7 s longer than the scratch
+  at the same tempo, with different internal pacing): a fixed 1.0 s forklift drive pushed the bolt-up into the takeoff framing (a
+  3.7 m move in 0.38 s), and four sfx callouts landed on faces. Fixes were free: shorter minimum windows and callout `pos`/`y`.
+- **v3's noise floor can hide a long pause from pauseFloor**: a 0.23 s pause after a sentence sat at −51…−55 dBFS peak, which the
+  cut guard (floor − 10 = −55) counts as "sound", so it was never cut. narrate.py beat-level `"pauseSoft": -50` (opt-in) moves that
+  guard for one beat: it removed 70 ms (peak −51 dBFS) and left every other cut identical. Check with an in-memory rebuild of the
+  beat that lists the cuts before and after (041 scratchpad cutprobe.py).
+- **Yell brightness varies per take**: the duck beat's [shouting] ran +6.2 dB above 4 kHz over its calm part with the default −4 dB
+  shelf; per-beat `"shelf": -11` (and −7 on another) brought every yell to ≤ +2.6 dB. Measure on voice.wav after every voicing.
+- **Render the 60 fps final while the reviewers score**: copy the scored folder's story/shots/audio/words/cues into a throwaway
+  `videos/NNNz-tmp/` (shots.js imports via `@engine`, so the slug doesn't matter), render it there, `cmp` the inputs against the
+  committed state, and move final.mp4 in only if the gates pass — the reviewers' 30 fps file stays untouched and ~25 min are saved.
