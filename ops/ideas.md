@@ -42,10 +42,10 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 032 | How a Bird Feeder Becomes a Space Station | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 033 | How a Squirt Gun Becomes a Fire Truck | build — NOT managed by the operation | reserved by the Builder Vid Manager chat |
 | 034 | How a Go-Kart Becomes a Tank | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
-| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | made Oct 28, in review (Thu 6 PM) |
-| 036 | What if the Sun disappeared? | science / @ed_.studios | made Oct 28, in review (Thu 1 PM) |
-| 037 | What if the oxygen in the air doubled? | science / @ed_.studios | made Oct 28, in review (Thu 6 PM) |
-| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | made Oct 28, in review (Thu 1 PM) |
+| 035 | What if your farts got 2× louder every time? | unhinged (weird tier) / @ed._.studios | scheduled Thu Oct 29 evening |
+| 036 | What if the Sun disappeared? | science / @ed_.studios | scheduled Thu Oct 29 evening |
+| 037 | What if the oxygen in the air doubled? | science / @ed_.studios | scheduled Thu Oct 29 evening |
+| 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | scheduled Thu Oct 29 evening |
 | 039 | How a Flashlight Becomes a Lighthouse | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | building Oct 29 (Fri 6 PM) |
 | 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |

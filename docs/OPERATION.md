@@ -217,3 +217,8 @@ go out on their own; the new manager re-reads `ops/`, re-arms the tick, and chec
 - Oct 27: clicking Schedule while the music copyright check still says "Checking in progress" opens a "Continue to post?"
   dialog whose button is "Post now". Never click it: Cancel, wait ~30 s for the check to finish, then Schedule again,
   and confirm the blue "⏰ <date>, <time>" tag on the content page.
+- Oct 29: after the Mac slept, an existing TikTok Studio tab looked fine to JS but ignored typing (the caption stayed
+  "upload") and screenshots timed out. Open a NEW tab in that account's browser for the upload instead of reusing the old
+  one, and always read the editor's `innerText` after typing the first line before typing the rest.
+- Oct 29: a missed slot because nobody approved in time is not the Mac's fault — when the user approves late, post that
+  evening (they chose 8 PM + 9 PM) rather than pushing into tomorrow's already-assigned slots.
