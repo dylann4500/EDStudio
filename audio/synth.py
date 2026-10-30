@@ -1598,6 +1598,48 @@ def amb_dry_leaves(dur, rng, density=1.0):
     return norm(np.vstack(out))
 
 
+def amb_kids_laugh(dur, rng, density=1.0):
+    """044: kids giggling in the snow, at a distance — bursts of "ha-ha-ha" (a voiced buzz at a child's pitch through soft
+    'ah' formants), panned around, low-passed so it never pierces. A crowd-voice bed lifts a beat (036) without speech."""
+    n = nsamp(dur)
+    out = np.zeros((2, n))
+    tt = rng.uniform(0.05, 0.4)
+    while tt < dur - 0.6:
+        syl = int(rng.integers(3, 7)); f0 = rng.uniform(300, 430); pan = rng.uniform(-0.8, 0.8); g = rng.uniform(0.5, 1.0)
+        L = syl * 0.15 + 0.1; m = nsamp(L); t = tvec(m)
+        f = f0 * (1.0 - 0.18 * t / L) * (1 + 0.02 * np.sin(2 * np.pi * 6 * t))
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        buzz = sum(np.sin(k * ph) / k for k in range(1, 9))
+        v = 0.6 * bp(buzz, 800, 1300) + 0.45 * bp(buzz, 1500, 2300) + 0.25 * bp(pink(m, rng), 900, 2500)
+        env = np.zeros(m)
+        for k in range(syl):
+            a = nsamp(k * 0.15); b = min(m, a + nsamp(0.1))
+            env[a:b] = np.sin(np.linspace(0, np.pi, b - a)) ** 1.2 * (1 - 0.1 * k)
+        y = lp(v * env * g, 3200)
+        s0 = nsamp(tt); e0 = min(n, s0 + m)
+        out[0, s0:e0] += y[: e0 - s0] * (1 - pan) * 0.5
+        out[1, s0:e0] += y[: e0 - s0] * (1 + pan) * 0.5
+        tt += L + rng.uniform(0.3, 1.6) / max(0.2, density)
+    return norm(out)
+
+
+def sfx_sneeze(rng, pitch=1.0):
+    """044: a puppy's cartoon sneeze — a breathy rising "ah-" then a short soft "choo" (noise burst + a tiny voiced 'oo').
+    Low-passed: cute, never a honk. Keep it ≈ −26…−30 dB."""
+    a, c = 0.32, 0.22
+    n1 = nsamp(a); t1 = tvec(n1); u = t1 / a
+    f = 520 * pitch * (1 + 0.35 * u)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    ah = (np.sin(ph) + 0.3 * np.sin(2 * ph)) * 0.35 + bp(pink(n1, rng), 600, 2200) * 0.5
+    ah = ah * (u ** 1.5) * (1 - u * 0.2)
+    n2 = nsamp(c); t2 = tvec(n2); w = t2 / c
+    ch = bp(pink(n2, rng), 1200, 3800) * 1.4 * np.exp(-w * 5) * np.clip(w * 40, 0, 1)
+    f2 = 700 * pitch * (1 - 0.3 * w); ph2 = 2 * np.pi * np.cumsum(f2) / SR
+    ch = ch + 0.5 * np.sin(ph2) * np.exp(-w * 7) * np.clip(w * 30, 0, 1)
+    y = lp(np.concatenate([ah, ch]), 3600, 2)
+    return Sound(norm(fades(y, 0.01, 0.05)), onsets=[(a, "soft")])
+
+
 def amb_sleigh_bells(dur, rng, period=0.33):
     """Very faint distant sleigh bells passing by (stereo pan sweep, outdoor reverb)."""
     n = nsamp(dur)
@@ -1654,6 +1696,7 @@ AMBIENCE = {
     "sleigh_bells": amb_sleigh_bells,
     "lamp_hum": amb_lamp_hum,
     "surf": amb_surf,
+    "kids_laugh": amb_kids_laugh,   # 044 (snow day)
 }
 
 # =============================================================================
@@ -2350,6 +2393,7 @@ SFX = {
     "alarm_beep": (sfx_alarm_beep, "prop"),
     "cartoon_splash": (sfx_cartoon_splash, "prop"),   # 020 (017 owns water_splash)
     "scan_beep": (sfx_scan_beep, "ui"),   # 031 (checkout scanner; "ui" so the music does not duck under every boop)
+    "sneeze": (sfx_sneeze, "ui"),   # 044 (a puppy's cartoon sneeze)
 }
 
 # =============================================================================
