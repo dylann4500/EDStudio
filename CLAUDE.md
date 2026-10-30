@@ -805,6 +805,11 @@ tail rose to 0.03–0.044 and every early beat rose too (wc +47 %). Lessons: (1)
 mix scored highest all along — vocal crowd beds are a cheap lift for any beat (no speech needed); (2) a long low tail drags
 the mean and is where dead zones live: compress the epilogue to ~2 s per rung; (3) the end card over a live, face-filled
 scene (`finalFade` depth 0.3) beat black (−0.026 → +0.018 for the stars + card stretch).
+**042 (belly-button portal, POV escalation — not a doubling, 68 s) cut1: wc 0.0629 / first 60 s 0.0706 / 17.4 % above, no dead zone → TARGET
+MET first try.** The busy face-filled middle topped it (laundromat pigeon + socks 0.135, the Pacific jet 0.143, tourist close-up 0.121,
+mariachi 0.109, the queue 0.10); the dark 3 AM couch open (−0.024 → +0.012: one face, a purple glow, slow) and the 11 s Grandma's-kitchen
+epilogue with the end card over a near-static hug (0.022) were the lows. Same lesson again: a quiet single-face night open and a long
+held ending sag — keep the hug ≤ 5 s before the card and open on something already moving.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 
