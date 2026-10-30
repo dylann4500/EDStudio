@@ -1,0 +1,252 @@
+{
+ "tone": "whatif",
+ "look": {
+  "exposure": 1.04,
+  "fill": 0.5,
+  "vignette": 0.22,
+  "bloom": 0.26,
+  "bloomThreshold": 0.88
+ },
+ "fps": 30,
+ "duration": 65.4,
+ "title": {
+  "html": "What if Earth had <em>rings</em> like Saturn?",
+  "in": -0.4,
+  "out": 3.2
+ },
+ "subs": [
+  [
+   3.3,
+   5.4,
+   "Saturn’s rings, scaled to Earth."
+  ],
+  [
+   5.5,
+   7.5,
+   "Ice too close to clump into a moon."
+  ],
+  [
+   7.7,
+   10.3,
+   "At the equator, you see them edge-on."
+  ],
+  [
+   10.5,
+   13.2,
+   "A thin line, straight overhead."
+  ],
+  [
+   13.5,
+   16.2,
+   "Go north, and the line becomes an arch."
+  ],
+  [
+   16.4,
+   19.4,
+   "New York gets one across the southern sky."
+  ],
+  [
+   19.7,
+   22.2,
+   "After sunset, the rings stay lit."
+  ],
+  [
+   22.4,
+   25.2,
+   "Then Earth’s shadow slides across them."
+  ],
+  [
+   25.5,
+   28.2,
+   "Nights glow, brighter than any full Moon."
+  ],
+  [
+   28.4,
+   31.2,
+   "Ring dust rains down as shooting stars."
+  ],
+  [
+   31.5,
+   33.9,
+   "But rings cast shadows."
+  ],
+  [
+   34.1,
+   37.8,
+   "By December, Miami’s noon sun is behind them."
+  ],
+  [
+   38.1,
+   41.4,
+   "Six months later, the shadow swaps sides."
+  ],
+  [
+   41.7,
+   44.3,
+   "Low satellites slip under the rings."
+  ],
+  [
+   44.5,
+   47.4,
+   "Anything between 1,500 and 8,000 km gets sandblasted."
+  ],
+  [
+   47.7,
+   50.4,
+   "Scientists propose Earth once had a ring."
+  ],
+  [
+   50.6,
+   52.3,
+   "466 million years ago."
+  ],
+  [
+   52.5,
+   55.0,
+   "Its shadow may have chilled the planet."
+  ],
+  [
+   55.2,
+   58.2,
+   "Today, every wedding photo would have rings in it."
+  ],
+  [
+   58.3,
+   60.8,
+   "Two rings for them. One for the planet."
+  ]
+ ],
+ "hudLabel": "LATITUDE",
+ "hud": [
+  {
+   "t0": 0,
+   "t1": 7.6,
+   "label": "RING WIDTH",
+   "from": 6560,
+   "to": 6560,
+   "unit": " km",
+   "time": "SATURN’S RINGS · SCALED TO EARTH",
+   "age": "SATURN’S: 275,000 km ACROSS · ~10 m THICK"
+  },
+  {
+   "t0": 7.6,
+   "t1": 13.4,
+   "text": "0.0°",
+   "from": 0,
+   "to": 0,
+   "time": "QUITO · JULY · NOON",
+   "age": "THE RINGS · EDGE-ON, 90° UP"
+  },
+  {
+   "t0": 13.4,
+   "t1": 19.6,
+   "from": 0,
+   "to": 40.7,
+   "dec": 1,
+   "unit": "° N",
+   "r0": 13.4,
+   "r1": 14.6,
+   "time": "NEW YORK · JULY · 2 PM",
+   "age": "THE ARCH · UP TO 26° HIGH"
+  },
+  {
+   "t0": 19.6,
+   "t1": 25.4,
+   "from": 40.7,
+   "to": 35.7,
+   "dec": 1,
+   "unit": "° N",
+   "r0": 19.6,
+   "r1": 20.4,
+   "time": "TOKYO · JULY · 7 PM → 8:50 PM",
+   "age": "THE RINGS · STILL IN SUNLIGHT"
+  },
+  {
+   "t0": 25.4,
+   "t1": 31.4,
+   "from": 35.7,
+   "to": 39.9,
+   "dec": 1,
+   "unit": "° N",
+   "r0": 25.4,
+   "r1": 26.2,
+   "time": "OHIO · JULY · 9:45 PM",
+   "age": "RINGSHINE · ≫ A FULL MOON"
+  },
+  {
+   "t0": 31.4,
+   "t1": 38.0,
+   "label": "NOON SUNLIGHT",
+   "from": 100,
+   "to": 0.1,
+   "dec": 1,
+   "unit": " %",
+   "r0": 34.1,
+   "r1": 35.9,
+   "time": "MIAMI · 25.8° N · JULY → DECEMBER",
+   "age": "IN THE B RING’S SHADOW"
+  },
+  {
+   "t0": 38.0,
+   "t1": 41.6,
+   "label": "SUN ABOVE THE RING PLANE",
+   "from": -23.4,
+   "to": 23.4,
+   "dec": 1,
+   "unit": "°",
+   "r0": 38.2,
+   "r1": 41.2,
+   "ease": "linear",
+   "time": "DEC 21 → JUN 21",
+   "age": "WINTER HEMISPHERE · IN SHADOW"
+  },
+  {
+   "t0": 41.6,
+   "t1": 47.6,
+   "label": "RING ZONE",
+   "text": "1,520–8,085 km UP",
+   "from": 0,
+   "to": 0,
+   "time": "CAPE CANAVERAL · 28.5° N",
+   "age": "ISS 420 km · GPS 20,200 km · BOTH SAFE"
+  },
+  {
+   "t0": 47.6,
+   "t1": 55.0,
+   "label": "YEARS AGO",
+   "from": 466000000,
+   "to": 466000000,
+   "time": "THE ORDOVICIAN",
+   "age": "TOMKINS ET AL. 2024 · A PROPOSAL"
+  },
+  {
+   "t0": 55.0,
+   "t1": 65.4,
+   "from": 43.3,
+   "to": 43.3,
+   "dec": 1,
+   "unit": "° N",
+   "time": "TUSCANY · JULY · 8:15 PM",
+   "age": "THE ARCH · 23° HIGH"
+  }
+ ],
+ "end": {
+  "in": 61.2,
+  "html": "Would you want Earth to have <em>rings</em>?",
+  "small": "TELL US BELOW"
+ },
+ "dips": [],
+ "finalFade": [
+  60.9,
+  61.4,
+  0.35
+ ],
+ "debugView": {
+  "center": [
+   0,
+   0,
+   0
+  ],
+  "height": 30
+ }
+}
