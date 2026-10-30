@@ -203,6 +203,18 @@ videos/NNN-slug/
   (`setDeflate(k, t)` slow comic slump), `makeSkeleton()` (`setCollapse(k)`, `legBone` to steal, holds a `bowl`), `makeBone()`
   (a bone-shaped dog biscuit — never a real cooked bone on screen), `makeJackOLantern`, `makeStringLights`, `makeCobweb`,
   `makeSign(text, {lines})`, `costume(rig, 'witch'|'ghost'|'dino'|'hero'|'skeleton'|'pumpkin'|'vampire'|'catEars')`.
+- **Winter kit (044, Pip ep. 7, `engine/winter.js`):** `dressWinter(studio, buildSuburb(studio))` snows in suburb.js (lawns,
+  sidewalks, a road with slushy tire tracks, snow slabs on roofs / porch roofs / mailboxes / cars / fence rails / bench, trees +
+  shrubs turned dark evergreen with white caps, flower beds buried, icicles + a wreath + snowy porch steps on lot 0, a pale winter
+  sky, cool bright light whose hemi ground colour is near-white = snow bounce); returns `{SY: 0.1 (snow top), fog, porchTop}`.
+  `makeSnowfall(parent, {n, box, speed, size})` = deterministic flakes that wrap round a center each frame (a box that follows the
+  camera = snow everywhere; drop flakes within ~0.7 m of the lens or they read as giant blobs — 044 `update`), `makeHeroFlake()`
+  (six-armed crystal sprite for close-ups), `makeDrift`, `makeSnowman()` (`setBuild(0..1)` stacks it with a boing, `nose`
+  group to steal, `wave(t, k)` stick arm), `winterWear(P, {coat, hat, pom, scarf, mitten, boots})`, `makeDogScarf()` (parent it to
+  `dog.collar`: it follows the neck), `makeDogSweater(dog)`, `makeSnowBeard(pip)` (`setBeard`, `setCap`), `snowViewTex()` (a
+  snowy street for any window view plane). 044 shots.js: `lieBack()` (a rig on its back in a carrier: snow angel), a room seen
+  from OUTSIDE its window (facade boxes round the opening + frost glass + a nose-fog spot — and give the room a front wall, or
+  the open +z side shows black through the window), instanced snow `burst`/`puff` poofs, a leash TubeGeometry rebuilt per frame.
 - **Blackout kit (038, Pip ep. 5):** `pip.update(t, { shine })` = dog eyeshine (additive green-gold over the pupils). 038
   shots.js has camera-following rain, window rain, a lit/dark storm window view, battery candles + box, a lantern, a blanket
   fort, Pip's raincoat, an umbrella, a quilt hood. city.js at the origin + suburb/livingroom parked at offsets works in one scene.
@@ -670,6 +682,10 @@ videos/NNN-slug/
 - **A prop you add can swallow the camera (022):** a press-room reverse shot rendered black because the camera sat behind a
   presentation screen just added to the set. Run bearing.py on new props as well as people. And never fade a cap mesh in by
   `scale.y` (it sinks inside its parent and never shows); fade its opacity.
+- **`root.traverse()` while adding children to the meshes you visit = an endless loop** ("Maximum call stack size exceeded" in
+  `traverse`, 044's first `dressWinter`): collect the meshes into an array first, then add the snow caps.
+- **A camera inside a set reads as one flat colour (044 sleep shot: the livingroom armchair, teal):** before re-aiming, check the
+  lens against the set's furniture (`DIMS.armchair` etc.), not just the rigs.
 - **A lens high over a city sidewalk sits inside the storefront awnings (037):** street.js awnings (y ≈ 2.75) and the hot-dog
   cart's umbrella (y 2.45, r 0.95) rendered the whole downtown shot as one pink wall. Hide them for that shot (filter meshes by
   position, restore them after) or keep the camera under 2.3 m there.

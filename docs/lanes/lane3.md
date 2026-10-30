@@ -178,4 +178,12 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   lift it to chest height (the BATTERY CANDLES box lit Mom's face from below); a flashlight held between the lens and the
   subject shows its beam cone from behind as a white blob — set the beam opacity to 0 and keep only the spot; split a
   "find it → light it up" beat into a close grab + an over-the-shoulder beam shot (one wide made Pip a speck).
+- **Ep. 7 (044, first snow) added `engine/winter.js`** (CLAUDE.md → Winter kit): the family's yard (suburb lot 0) on the first
+  snow morning, falling snow everywhere, drifts, a snowman you can stack / steal the nose from, winter clothes for any rig, a dog
+  scarf + sweater, Pip's snow beard. Template for a "first": the window reveal (shot from OUTSIDE the glass: Pip's face behind
+  frost, nose fog — the thumbnail), then one gag per ~4 s in one bright yard (ears swimming through a drift, flakes on the
+  tongue, the sneeze, snow angel + "snow corgi", snow zoomies, sharing his scarf with shivering Bean, catching every snowball →
+  a white beard, stealing the snowman's carrot and giving it back "mostly"), the paw-wipe fact (ASPCA: de-icing salt irritates
+  paws), the nap by the window while the snowman waves. HUD = a count of the gag (SNOWFLAKES CAUGHT 0 → 5, then each snowball
+  "counts" as ~a million crystals → 6,000,005). Recurring cast: Leo + Zoe, the kids next door (red / purple hats).
 - **Still missing (build when an episode needs it):** a flood plane, a lightning flash (038 kept thunder to a far `distant_boom` rumble on purpose).

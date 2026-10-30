@@ -1,0 +1,453 @@
+{
+ "tone": "emotional",
+ "series": "pip",
+ "look": {
+  "exposure": 1.02,
+  "fill": 0.55,
+  "vignette": 0.18,
+  "bloom": 0.2,
+  "bloomThreshold": 0.95
+ },
+ "fps": 30,
+ "duration": 68.8,
+ "title": {
+  "html": "What if Pip saw <em>snow</em> for the first time?",
+  "in": -0.4,
+  "out": 3.4
+ },
+ "subs": [
+  [
+   3.7,
+   4.9,
+   "This is Pip."
+  ],
+  [
+   5.2,
+   7.5,
+   "He had never seen snow."
+  ],
+  [
+   8.0,
+   9.4,
+   "Mia opened the door."
+  ],
+  [
+   9.6,
+   11.2,
+   "Pip did not wait."
+  ],
+  [
+   11.8,
+   14.4,
+   "The snow was deeper than Pip."
+  ],
+  [
+   15.7,
+   17.3,
+   "He tried to catch one."
+  ],
+  [
+   18.1,
+   19.6,
+   "He caught three."
+  ],
+  [
+   20.2,
+   21.9,
+   "Mia tried too."
+  ],
+  [
+   23.5,
+   25.1,
+   "One landed on his nose."
+  ],
+  [
+   26.0,
+   26.9,
+   "Achoo."
+  ],
+  [
+   27.3,
+   29.0,
+   "Mia made a snow angel."
+  ],
+  [
+   29.3,
+   30.9,
+   "Pip made a snow corgi."
+  ],
+  [
+   31.3,
+   33.4,
+   "Then came the snow zoomies."
+  ],
+  [
+   35.1,
+   36.6,
+   "Bean had a sweater."
+  ],
+  [
+   36.9,
+   38.6,
+   "Bean was still cold."
+  ],
+  [
+   39.2,
+   41.3,
+   "So Pip gave Bean his scarf."
+  ],
+  [
+   41.6,
+   42.9,
+   "Bean stopped shivering."
+  ],
+  [
+   43.3,
+   45.4,
+   "The kids next door had snowballs."
+  ],
+  [
+   46.9,
+   48.6,
+   "Pip caught every single one."
+  ],
+  [
+   48.9,
+   50.4,
+   "He counted each one."
+  ],
+  [
+   50.9,
+   52.5,
+   "They built a snowman."
+  ],
+  [
+   53.7,
+   55.1,
+   "Pip borrowed his nose."
+  ],
+  [
+   55.5,
+   57.0,
+   "Then he gave it back."
+  ],
+  [
+   57.5,
+   58.4,
+   "Mostly."
+  ],
+  [
+   58.9,
+   61.1,
+   "Mom wiped the salt off his paws."
+  ],
+  [
+   61.55,
+   63.4,
+   "Pip fell asleep by the window."
+  ],
+  [
+   63.5,
+   64.5,
+   "The snowman waved."
+  ]
+ ],
+ "hudLabel": "SNOWFLAKES CAUGHT",
+ "hud": [
+  {
+   "t0": 0,
+   "t1": 7.8,
+   "from": 0,
+   "to": 0,
+   "time": "7:41 AM · THE FRONT WINDOW",
+   "age": "PIP · CORGI · 6 MONTHS"
+  },
+  {
+   "t0": 7.8,
+   "t1": 11.4,
+   "from": 0,
+   "to": 0,
+   "time": "7:43 AM · THE FRONT DOOR",
+   "age": "FIRST SNOW OF THE YEAR"
+  },
+  {
+   "t0": 11.4,
+   "t1": 15.4,
+   "from": 0,
+   "to": 0,
+   "time": "7:43 AM · THE FRONT YARD",
+   "age": "PIP · 15 IN TALL · THE DRIFT · 18 IN"
+  },
+  {
+   "t0": 15.4,
+   "t1": 17.5,
+   "from": 0,
+   "to": 1,
+   "time": "7:44 AM · THE FRONT YARD",
+   "age": "1 SNOW CRYSTAL ≈ 10¹⁸ WATER MOLECULES",
+   "r0": 16.9,
+   "r1": 17.099999999999998
+  },
+  {
+   "t0": 17.5,
+   "t1": 18.6,
+   "from": 1,
+   "to": 2,
+   "time": "7:44 AM · THE FRONT YARD",
+   "age": "1 SNOW CRYSTAL ≈ 10¹⁸ WATER MOLECULES",
+   "r0": 18.0,
+   "r1": 18.2
+  },
+  {
+   "t0": 18.6,
+   "t1": 19.8,
+   "from": 2,
+   "to": 3,
+   "time": "7:44 AM · THE FRONT YARD",
+   "age": "1 SNOW CRYSTAL ≈ 10¹⁸ WATER MOLECULES",
+   "r0": 19.0,
+   "r1": 19.2
+  },
+  {
+   "t0": 19.8,
+   "t1": 21.3,
+   "from": 3,
+   "to": 4,
+   "time": "7:46 AM · THE FRONT YARD",
+   "age": "1 SNOW CRYSTAL ≈ 10¹⁸ WATER MOLECULES",
+   "r0": 20.6,
+   "r1": 20.8
+  },
+  {
+   "t0": 21.3,
+   "t1": 23.2,
+   "from": 4,
+   "to": 5,
+   "time": "7:46 AM · THE FRONT YARD",
+   "age": "1 SNOW CRYSTAL ≈ 10¹⁸ WATER MOLECULES",
+   "r0": 21.8,
+   "r1": 22.0
+  },
+  {
+   "t0": 23.2,
+   "t1": 25.8,
+   "from": 5,
+   "to": 5,
+   "time": "7:47 AM · THE FRONT YARD",
+   "age": "1 LANDED ON HIS NOSE"
+  },
+  {
+   "t0": 25.8,
+   "t1": 27.0,
+   "from": 5,
+   "to": 5,
+   "time": "7:47 AM · THE FRONT YARD",
+   "age": "SNEEZES · 1"
+  },
+  {
+   "t0": 27.0,
+   "t1": 34.8,
+   "from": 5,
+   "to": 5,
+   "time": "7:52 AM · THE FRONT YARD",
+   "age": "1 SNOW ANGEL · 1 SNOW CORGI"
+  },
+  {
+   "t0": 34.8,
+   "t1": 41.0,
+   "from": 5,
+   "to": 5,
+   "time": "8:05 AM · THE SIDEWALK",
+   "age": "BEAN · CHIHUAHUA · 4 LB · 1 SWEATER"
+  },
+  {
+   "t0": 41.0,
+   "t1": 43.0,
+   "from": 5,
+   "to": 5,
+   "time": "8:05 AM · THE SIDEWALK",
+   "age": "SCARVES SHARED · 1"
+  },
+  {
+   "t0": 43.0,
+   "t1": 46.9,
+   "from": 5,
+   "to": 1000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 44.9,
+   "r1": 45.18
+  },
+  {
+   "t0": 46.9,
+   "t1": 47.5,
+   "from": 1000005,
+   "to": 2000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 47.0,
+   "r1": 47.28
+  },
+  {
+   "t0": 47.5,
+   "t1": 48.1,
+   "from": 2000005,
+   "to": 3000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 47.6,
+   "r1": 47.88
+  },
+  {
+   "t0": 48.1,
+   "t1": 48.7,
+   "from": 3000005,
+   "to": 4000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 48.2,
+   "r1": 48.480000000000004
+  },
+  {
+   "t0": 48.7,
+   "t1": 49.3,
+   "from": 4000005,
+   "to": 5000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 48.8,
+   "r1": 49.08
+  },
+  {
+   "t0": 49.3,
+   "t1": 50.6,
+   "from": 5000005,
+   "to": 6000005,
+   "time": "8:12 AM · SNOWBALL FIGHT",
+   "age": "1 SNOWBALL ≈ 1,000,000 SNOW CRYSTALS",
+   "r0": 49.4,
+   "r1": 49.68,
+   "ageGoldAt": 49.6
+  },
+  {
+   "t0": 50.6,
+   "t1": 55.2,
+   "from": 6000005,
+   "to": 6000005,
+   "time": "8:30 AM · THE FRONT YARD",
+   "age": "SNOWMEN · 1 · NOSES · 1"
+  },
+  {
+   "t0": 55.2,
+   "t1": 58.6,
+   "from": 6000005,
+   "to": 6000005,
+   "time": "8:34 AM · THE FRONT YARD",
+   "age": "NOSES RETURNED · 1 (MOSTLY)"
+  },
+  {
+   "t0": 58.6,
+   "t1": 61.4,
+   "from": 6000005,
+   "to": 6000005,
+   "time": "8:40 AM · HOME",
+   "age": "SIDEWALK SALT STINGS PAWS · WIPE THEM"
+  },
+  {
+   "t0": 61.4,
+   "t1": 68.8,
+   "from": 6000005,
+   "to": 6000005,
+   "time": "11:20 AM · THE FRONT WINDOW",
+   "age": "SNOW STILL FALLING"
+  }
+ ],
+ "end": {
+  "in": 64.6,
+  "html": "What should Pip try <em>next</em>?",
+  "small": "TELL US IN THE COMMENTS 👇"
+ },
+ "dips": [],
+ "finalFade": [
+  64.0,
+  64.6,
+  0.35
+ ],
+ "pip": {
+  "boop": 6.3,
+  "door": 8.1,
+  "out": 8.7,
+  "leap": 9.75,
+  "land": 10.55,
+  "pop": 13.6,
+  "catches": [
+   16.9,
+   18.0,
+   19.0,
+   20.6,
+   21.8
+  ],
+  "snaps": [
+   16.7,
+   17.8,
+   18.8,
+   20.4,
+   21.6
+  ],
+  "noseFlake": 24.0,
+  "ah": [
+   25.0,
+   25.4
+  ],
+  "sneeze": 25.75,
+  "angel": 27.3,
+  "zoom": 31.2,
+  "shiver": 35.0,
+  "tug": 39.0,
+  "drape": 40.9,
+  "lick": 41.9,
+  "throws": [
+   44.3,
+   46.45,
+   47.05,
+   47.65,
+   48.25,
+   48.85
+  ],
+  "sbCatch": [
+   44.9,
+   47.0,
+   47.6,
+   48.2,
+   48.8,
+   49.4
+  ],
+  "stack": [
+   51.0,
+   51.7,
+   52.1
+  ],
+  "carrot": 52.9,
+  "steal": 53.55,
+  "give": 57.15,
+  "chomp": 56.0,
+  "wipe": [
+   59.3,
+   60.4
+  ],
+  "snore": [
+   62.2,
+   64.0,
+   65.8,
+   67.6
+  ]
+ },
+ "debugView": {
+  "center": [
+   -31,
+   0,
+   -5
+  ],
+  "height": 20
+ }
+}

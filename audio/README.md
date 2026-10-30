@@ -94,6 +94,19 @@ EDStudio makes sims of every kind; the soundtrack must not sound like the last v
 - The music-box line is what holds the music median up: an 8-bar stretch of staccato waltz with no `bell_melody` failed the
   dropout check twice (16.9 s, 32.7 s) even with bar pads at 1.05 — a soft music-box phrase over each gap fixed it.
 
+## Snow-day waltz + snow foley (044, Pip ep. 7)
+- Pip's theme with the music box an octave up (sparkly), faint `sleigh_bells` −52 under the yard, a soft `wind` bed the whole
+  way (−48 open, −50 yard, −53 through the window at the nap). Music enters on the window reveal (3.6 s), quiet wind before it.
+- Counted catches = one music-box note each, climbing the chord (F A C F A for the tongue catches; a rising scale per snowball):
+  the HUD +1 and the note land on the same frame (story.json `pip.catches` / `sbCatch`).
+- Snow foley without new sounds: `footstep` weight 0.15–0.2 + scuff 0.9–1.0 = crunchy little paws, `dig` = the flump into a
+  drift / a snowman ball set down, `crumble` (dur 0.25–0.9, size 0.15–0.5) = snow falling off, `pop` pitch 0.7–0.8 = a snowball
+  caught, `blanket_rustle` softness 0.8 = snow-angel sweeps, a fast soft `knock` pitch 2.4 every 90 ms at −46 = teeth chattering.
+- New (additive): ambience `kids_laugh` (density) = distant giggles ("ha-ha-ha" bursts at a child's pitch through soft 'ah'
+  formants, panned, low-passed 3.2 kHz) — the crowd-voice lift from 036 for family beats (−44 light, −38 for a snowball fight,
+  −47 faint outside under the end card); SFX `sneeze` (pitch) = a breathy rising "ah-" + a soft "choo", category ui, ≈ −27 dB
+  (schedule it 0.32 s before the sneeze frame: the "choo" sits at the onset).
+
 ## Shop waltz + checkout foley (031, Pip ep. 4)
 - Pip's theme as in-store music: the 021 waltz brighter and per job a new key (greeter F, sausages Bb, checkout F) with a
   music-box ta-da on each gag; the time-lapse plays the waltz at double speed (`waltz(..., beat=0.25)`).
