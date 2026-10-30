@@ -50,7 +50,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | made Oct 30, in review (Fri 6 PM) |
 | 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 042 | What if your belly button turned into a portal? | unhinged (weird tier) / @ed._.studios | made Oct 30, in review (Fri 1 PM) |
-| 043 | What if Earth had rings like Saturn? | science / @ed_.studios | building Oct 29 (Fri 1 PM) |
+| 043 | What if Earth had rings like Saturn? | science / @ed_.studios | made Oct 30, in review (Fri 1 PM) |
 | 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | made Oct 29, in review (Fri 1 PM) |
 | 045 | What if everyone woke up glued to the last thing they touched? | unhinged / @ed._.studios | queued Oct 30 (Sat 1 PM) |
 
