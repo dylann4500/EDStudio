@@ -148,6 +148,7 @@ export async function build(studio, story) {
   const goPath = (tt) => { const u = u01(tt, GO, CATCH), e = easeInQuad(u) * 0.35 + smooth(u) * 0.65; return [lerp(19.4 - 1.75, D.stand.x, e), lerp(1.15, D.stand.y, e) + 4 * 2.2 * e * (1 - e), EZ]; };
   // the airliner: parked → forklift time → takeoff roll → climb → above the clouds → (inside a cloud: jump to the approach) → touchdown → rollout + reversers → stop
   const PARK = D.plane;
+  for (const sp of S.puffs) if (Math.abs(sp.position.z + 3) < sp.scale.y + 25) sp.visible = false;   // r6: no puff sprite along the flight path (z −9 … +15): one filled the lens at 82.2
   function planePose(tt) {
     if (tt < TO) return { x: PARK[0] + (tt < TAXI1 ? 70 * (1 - u01(tt, TAXI0, TAXI1)) ** 2 : 0), y: 0, z: PARK[2], pitch: 0, gear: 1 };
     if (tt < LIFTOFF) { const u = tt - TO, a = 2 * 140 / (LIFTOFF - TO) ** 2; return { x: PARK[0] + 0.5 * a * u * u, y: 0, z: PARK[2], pitch: 0.06 * smooth(u01(tt, LIFTOFF - 0.35, LIFTOFF)), gear: 1 }; }
@@ -179,9 +180,15 @@ export async function build(studio, story) {
   const angAt = (arr, tt) => { const i = clamp(tt / DT, 0, arr.length - 2), k = Math.floor(i); return lerp(arr[k], arr[k + 1], i - k); };
   const HOLE_RANK = (() => { const a0 = angAt(ANG, (STILL0 + STILL1) / 2), ks = [...Array(14).keys()].sort((p, q) => Math.sin(a0 + p / 14 * TAU) - Math.sin(a0 + q / 14 * TAU)), r = []; ks.forEach((k, i) => { r[k] = i; }); return r; })();   // visible blades first (rotor stopped)
 
+  // r6: the near half of the fan is cut away, so blades slotted in order went in where nobody could see them (a 'red sawtooth' side-on).
+  // The hub indexes one slot (0.4 of each blade's window), then the next blade drops into the SAME visible slot (up and back, FAN_P);
+  // a blade lands at the end of its window, so the kicks every second blade stay where they were.
+  const FAN_P = TAU * 14 / 16;
+  const fanIdx = (tt) => { if (tt >= BLD1) return { n: 16, a: FAN_P - TAU * 15 / 16 }; const u = 16 * u01(tt, BLD0, BLD1), i = Math.floor(u), f = u - i;
+    return { n: i + clamp((f - 0.4) / 0.6), a: FAN_P - TAU / 16 * (i - 1 + smooth(clamp(f / 0.4))) }; };
   // ---------------------------------------------------------------- the engine, stage by stage (every part assembles over its own window)
   function engAt(tt) {
-    const s = { t: tt, spin: angAt(ANG, tt), fanSpin: angAt(ANF, tt) };
+    const fi = fanIdx(tt), s = { t: tt, spin: angAt(ANG, tt), fanSpin: fi.a + angAt(ANF, tt) };
     s.coil = tt > ON && tt < IGN ? (tt < PLUG ? 1 : 0) : 0; s.coilDX = -1.75 * smooth(u01(tt, COIL0, COIL1)); s.coilOn = tt < IGN ? 1 : 0;
     s.boxFan = smooth(u01(tt, FANON - 0.45, FANON));
     s.duct = 4 * u01(tt, RING0, RING1);
@@ -193,7 +200,7 @@ export async function build(studio, story) {
     s.petals = 10 * u01(tt, PET0, PET1);
     s.tGlow = smooth(u01(tt, MELT0, MELT0 + 0.4)); s.melt = smooth(u01(tt, MELT0 + 0.2, MELT0 + 1.1));
     s.holes = 14 * u01(tt, DRILL0, DRILL1); s.holeRank = HOLE_RANK; s.film = smooth(u01(tt, FILM0, FILM0 + 0.6));
-    s.cowl = smooth(u01(tt, COWL0, COWL0 + 0.5)); s.fanHub = smooth(u01(tt, HUB0, HUB1)); s.fan = 16 * u01(tt, BLD0, BLD1); s.ogv = 24 * u01(tt, BLD1 - 0.6, NAC1); s.nacelle = 6 * u01(tt, NAC0, NAC1);
+    s.cowl = smooth(u01(tt, COWL0, COWL0 + 0.5)); s.fanHub = smooth(u01(tt, HUB0, HUB1)); s.fan = fi.n; s.ogv = 24 * u01(tt, BLD1 - 0.6, NAC1); s.nacelle = 6 * u01(tt, NAC0, NAC1);
     s.starter = tt < STARTER ? 0 : easeOutBack(u01(tt, STARTER, STARTER + 0.3)); s.bottles = tt < BOTTLES ? 0 : easeOutBack(u01(tt, BOTTLES, BOTTLES + 0.3)); s.swirl = tt > SWIRL ? 1 : 0;
     s.pylon = smooth(u01(tt, BOLT - 0.3, BOLT)); s.reverser = smooth(u01(tt, FLIP, FLIP + 0.45)) * (1 - smooth(u01(tt, STOP + 0.4, STOP + 1.2)));
     return s;
@@ -267,7 +274,7 @@ export async function build(studio, story) {
   // FAN: the scream (vibration), fillings, the hub + blades + nacelle rings, the airflow
   fx.burst('spark', RATTLE, { pos: [60.1, 1.3, 0.35], n: 10, speed: [0.6, 1.2], spread: 1.2, size: [0.03, 0.06], seed: 110 }); kick(RATTLE, 0.35); kick(RUN, 0.45);
   fx.burst('spark', HUB1, { pos: [D.stand.x + E.bigFanX, D.stand.y, EZ], n: 24, speed: [1, 2.5], spread: 1.2, seed: 111 }); kick(HUB1, 0.5);
-  for (let k = 0; k < 8; k++) { const tk = BLD0 + (k * 2 + 1) * (BLD1 - BLD0) / 16; fx.burst('spark', tk, { pos: [D.stand.x + E.bigFanX, D.stand.y + 1.1, EZ - 0.2], n: 10, speed: [0.8, 1.8], spread: 1.2, seed: 112 + k }); kick(tk, 0.18); }
+  for (let k = 0; k < 8; k++) { const tk = BLD0 + (k * 2 + 1) * (BLD1 - BLD0) / 16; fx.burst('spark', tk, { pos: [D.stand.x + E.bigFanX, D.stand.y + 0.85, EZ - 0.85], n: 10, speed: [0.8, 1.8], spread: 1.2, seed: 112 + k }); kick(tk, 0.18); }
   for (let k = 0; k < 6; k++) { const tk = NAC0 + (k + 0.9) * (NAC1 - NAC0) / 6; fx.burst('spark', tk, { pos: [D.stand.x + E.nac[0] - k * 0.48 - 0.24, D.stand.y + 1.8, EZ - 0.2], n: 14, speed: [1, 2.2], spread: 1.2, seed: 122 + k }); kick(tk, 0.3); }
   fx.burst('confetti', NAC1 + 0.05, { pos: [D.stand.x + 1, D.stand.y + 2.4, EZ], n: 90, dir: [0, 1, 0.3], spread: 0.8, speed: [2, 4], seed: 129 }); kick(NAC1 + 0.05, 0.6);
   // DUCK + BIRD TEST
@@ -366,12 +373,12 @@ export async function build(studio, story) {
   // FAN: the CONTROL booth (Gary behind the shaking window as it screams); his fillings, close; out to the front: the fan assembles
   // (front ¾, orbiting to the side as the blades + rings go in); under the fan for "around the core"; the term side-on; quieter
   Fk(t.works + 0.1, [63.4, 2.1, 3.4], [66.6, 1.9, -4.2], 46);   // r5b: follow Gary's dash one way (no fov-60 pump)   // wide: the engine screams, Gary dashes to the booth
-  Fk(t.rattle - 0.3, [67.4, 1.6, -2.4], [67.6, 1.22, -5.6], 38, W('fan', 'out') + 0.15);
-  Pp(W('fan', 'out') + 0.5, [67.5, 2.4, 2.2], [66.2, 2.2, -3.0], 50);
-  Fk(t.giant + 0.25, [67.6, 3.6, 6.4], [62.6, 3.0, EZ], 40);
-  Fk(t.around - 0.15, [63.2, 0.6, 3.6], [62.8, 2.6, EZ], 52);
-  Fk(t.turbofan - 0.1, [63.0, 3.4, 9.5], [62.6, 3.0, EZ], 50);
-  Fk(t.quieter - 0.15, [68.6, 1.9, 4.6], [66.4, 1.8, 1.0], 44);
+  Fk(t.rattle - 0.3, [67.4, 1.6, -2.4], [67.6, 1.22, -5.6], 38, W('fan', 'out') - 0.15);
+  Pp(W('fan', 'out') + 0.5, [68.4, 2.35, 1.8], [66.0, 2.16, -3.18], 41);   // r6: halfway on the diagonal out of the booth (a 36° pan + 8.6 m needs ~1.3 s)
+  Fk(t.giant + 0.35, [69.4, 2.9, 6.0], [64.4, 2.95, EZ], 44);   // r6: ¾ front of the fan (45° off its axis): each blade drops into the same visible slot
+  Pp(t.around, [69.9, 2.9, 6.2], [64.7, 2.9, EZ], 44);   // r6: one slow +x drift through the term (was: dive under, pull back, push in)
+  Fk(t.turbofan - 0.1, [70.3, 2.8, 6.0], [65.0, 2.7, EZ], 46);
+  Fk(t.quieter - 0.15, [70.5, 2.5, 5.8], [66.2, 1.9, 0.6], 48);
   // DUCK: in front of the intake; sucked in; through the bypass (section); out the back into Gary's arms; fluffed but fine
   Fk(t.waddles - 0.2, [70.6, 2.6, 5.6], [65.4, 2.45, EZ], 50, t.goesD - 0.75);
   Fk(t.goesD - 0.2, [64.0, 1.6, 4.4], [65.0, 1.25, -0.9], 44, SUCKD + 0.45);   // r5: side-on through the cutaway, held still from "goes" to "IN"
@@ -438,7 +445,7 @@ export async function build(studio, story) {
   const SEATP = (tt) => [cpX(tt) + 0.62, 0.03, EZ];
   const sit = { legL: { x: -1.5, kn: 1.45 }, legR: { x: -1.5, kn: 1.45 } };
   const WINGP = [PARK[0] + P.engine[0] + 0.4, 5.55, EZ + 0.15];   // Gary's spot on top of the right wing (parked frame)
-  const GSTAND = [D.stand.x - 0.95, 0, -0.1], GFRONT = [D.stand.x + 5.6, 0, 1.4], GBACK = [D.stand.x - 3.1, 0, -0.35], BOOTHP = [D.stand.x + 6.6, 0, -6.45];
+  const GSTAND = [D.stand.x - 0.95, 0, -0.1], GFRONT = [D.stand.x + 4.7, 0, 1.3], GBACK = [D.stand.x - 3.1, 0, -0.35], BOOTHP = [D.stand.x + 6.6, 0, -6.45];
   function garyAt(tt) {
     let p = { t: tt, eyes: blinkE(tt), mouth: 'smile', brows: 0, rotY: PI / 2 };
     const soot = tt > BLAST ? 1 : 0, mess = { soot: soot * 0.8, noBrows: tt > BLAST, hairUp: tt > BLAST && tt < BLAST + 1.5 ? 1 - u01(tt, BLAST + 0.8, BLAST + 1.5) : 0 };
@@ -479,7 +486,7 @@ export async function build(studio, story) {
       if (tt > BOOTH0) q = K(tt, [[BOOTH0, GSTAND], [BOOTH0 + 0.5, [D.stand.x + 4.2, 0, -1.6]], [t.fillings - 0.1, BOOTHP], [OUT0, BOOTHP], [OUT0 + 0.35, [D.stand.x + 8.6, 0, -6.45]], [OUT0 + 0.8, [D.stand.x + 8.4, 0, -2.6]], [HUB0 + 0.9, GFRONT]]);
       const inBooth = tt > t.fillings - 0.2 && tt < OUT0 + 0.05, vib = tt > RUN && tt < QUIET ? 0.04 * Math.sin(tt * 70) : 0, ladderY = onLadder ? 1.3 : inBooth ? 0.3 : 0, drilling = tt > DRILL0 && tt < DRILL1, ears = tt > RUN && tt < QUIET && !(tt > HUB0 && tt < NAC1);
       const directing = tt > HUB0 + 0.9 && tt < NAC1;
-      p = { ...p, x: q[0] + vib, y: ladderY, z: q[2], rotY: directing ? -PI * 0.6 : onLadder ? PI / 2 : inBooth ? 0 : tt > BOOTH0 && tt < OUT0 ? PI * 0.8 : tt > OUT0 && tt < HUB0 + 0.9 ? -PI * 0.4 : 0.15, ...mess, walk: (tt > LAD0 && tt < LAD0 + 0.4) || (tt > BOOTH0 && tt < t.fillings - 0.1) || (tt > OUT0 && tt < HUB0 + 0.9) ? tt * 16 : undefined,
+      p = { ...p, x: q[0] + vib, y: ladderY, z: q[2], rotY: directing ? -0.55 : onLadder ? PI / 2 : inBooth ? 0 : tt > BOOTH0 && tt < OUT0 ? PI * 0.8 : tt > OUT0 && tt < HUB0 + 0.9 ? -PI * 0.4 : 0.15, ...mess, walk: (tt > LAD0 && tt < LAD0 + 0.4) || (tt > BOOTH0 && tt < t.fillings - 0.1) || (tt > OUT0 && tt < HUB0 + 0.9) ? tt * 16 : undefined,
         armR: drilling ? { x: -1.85, z: 0.3, el: 0.2 + 0.08 * Math.sin(tt * 40) } : ears ? { x: -0.4, z: 1.6, el: 2.2 } : directing ? { x: -2.4 + Math.max(0, Math.sin(tt * 9)) * 1.0, z: 0.4, el: 0.3 } : { x: -0.3, z: 0.2, el: 0.5 },
         armL: ears ? { x: -0.4, z: 1.6, el: 2.2 } : { x: -0.2, z: 0.2 }, mouth: tt > MELT0 + 0.3 && tt < MELT0 + 1.9 ? 'scream' : tt > RATTLE - 0.1 && tt < RATTLE + 0.8 ? 'scream' : ears ? 'wavy' : tt > QUIET ? 'grin' : 'smile',
         eyes: tt > MELT0 + 0.3 && tt < MELT0 + 1.9 ? 'wide' : tt > RATTLE - 0.2 && tt < RATTLE + 0.8 ? 'wide' : blinkE(tt), look: tt > MELT0 && tt < MELT0 + 1.9 ? [0, 1] : [0, 0] };
@@ -609,7 +616,7 @@ export async function build(studio, story) {
     S.setHangarDoors(smooth(u01(tt, t.add - 0.3, t.add + 0.9)));   // r5: HANGAR 1 rolls open on "a giant fan up front"
     air.farEng.visible = tt < STOP;   // (its plain far engine read as a cowl behind the roll call)
     S.setFence(smooth(u01(tt, FENCE - 0.05, FENCE + 0.25)));
-    { const topY = tt < NAC0 ? D.stand.y + 0.52 : D.stand.y + E.RN + 0.05; S.setHanger(tt > CATCH - 0.05 && tt < LIFT0 + 0.15 ? topY : 9); S.hanger.visible = tt > CATCH - 0.3 && tt < LIFT0 + 0.15; }
+    { const topY = D.stand.y + 0.52; S.setHanger(tt > CATCH - 0.05 && tt < LIFT0 + 0.15 ? topY : 9); S.hanger.visible = tt > CATCH - 0.3 && tt < LIFT0 + 0.15; }
     S.boardFace.visible = true; S.boothGlass.visible = !(tt > t.rattle - 0.4 && tt < W('fan', 'out') + 0.3); S.boothGlass.position.y = 1.71 + (tt > RUN && tt < OUT0 ? 0.012 * Math.sin(tt * 90) : 0); S.boothGlass.rotation.z = tt > RUN && tt < OUT0 ? 0.01 * Math.sin(tt * 77) : 0;
     // the stand's ladder (dressing beside the stand until Gary uses it)
     ladder.position.set(tt > LAD0 && tt < FILM0 + 1.2 ? D.stand.x + 0.25 : D.stand.x - 2.4, 0, tt > LAD0 && tt < FILM0 + 1.2 ? 0.35 : 2.4); ladder.rotation.y = tt > LAD0 && tt < FILM0 + 1.2 ? 0 : 0.6; ladder.visible = tt > GO;
@@ -655,9 +662,12 @@ export async function build(studio, story) {
     fiverAt(tt);
     const cam = camAt(tt);
     // inside the cloud layer: a white-out (fog) while the camera passes through
-    const cy = cam.pos[1], cwin = (a) => smooth(u01(tt, a - 0.4, a)) * (1 - smooth(u01(tt, a + 0.1, a + 0.5))), inCloud = S.deck.visible ? Math.max(cwin(TELE), cwin(CLOUD_IN)) : 0;
+    // r6: by HEIGHT, not time windows (the white-out was 0.45 s off the real crossing and strobed): a thin haze in the layer, and each
+    // deck plane fades out within ~20 m of the lens, so the plane flies through a gap and is never sliced (84.3 lost the engine)
+    const cy = cam.pos[1], slab = Math.max(0, D.cloudY - 2 - cy, cy - D.cloudY - 9), inCloud = S.deck.visible ? 1 - smooth(clamp(slab / 14)) : 0;
     S.deck.visible = S.deck.visible && cy > D.cloudY - 25;
-    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', 0.72 * smooth(inCloud));
+    S.deckTop.material.opacity = 0.96 * smooth(clamp((Math.abs(cy - D.cloudY - 9) - 4) / 18)); S.deckBot.material.opacity = 0.96 * smooth(clamp((Math.abs(cy - D.cloudY + 2) - 4) / 18));
+    if (inCloud > 0.01) S.setMood(m[2] < 0.5 ? m[0] : m[1], 'cloud', 0.3 * inCloud);
     S.hangar.visible = cy < 15; S.beaconM.emissiveIntensity = 0.9 + 1.4 * Math.max(0, Math.sin(tt * 9));   // r4: its door read as a black slab from the descent
     { const gp = gary.root.position; gary.root.visible = Math.hypot(cam.pos[0] - gp.x, cam.pos[1] - gp.y - 0.9, cam.pos[2] - gp.z) > 0.9; }   // r4: never through the lens (44.05)
     { const dl = Math.hypot(cam.pos[0] - cam.look[0], cam.pos[1] - cam.look[1], cam.pos[2] - cam.look[2]); studio.camera.near = clamp(0.02 * dl, 0.05, 0.5); }

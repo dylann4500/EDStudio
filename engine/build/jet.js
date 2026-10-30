@@ -692,7 +692,7 @@ export async function buildJet(studio) {
   studio.baseExposure = renderer.toneMappingExposure;
   setMood('day');
   function update(t) { sock.rotation.y = 0.15 * Math.sin(t * 1.3); sock.scale.set(1, 1 + 0.05 * Math.sin(t * 7), 1); }
-  return { root, house, bath, hall, gar, yard, fence, stand, back, deck, puffs, sky, skyU, sun, hemi, aimSun, setMood, update, M,
+  return { root, house, bath, hall, gar, yard, fence, stand, back, deck, deckTop, deckBot, puffs, sky, skyU, sun, hemi, aimSun, setMood, update, M,
     tub, water, rubberDuck, mirror, outlet, booth, boothGlass, toilet, tpHolder, tpRoll, towels, boxFanFrame, setRollDoor, rollDoor, setHangarDoors, beaconM, heater, setFence, setHanger, hanger, cans, mailbox, lamps, boardFace, term, hangar, sock, gnome };
 }
 
