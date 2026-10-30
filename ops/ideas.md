@@ -52,6 +52,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 042 | What if your belly button turned into a portal? | unhinged (weird tier) / @ed._.studios | building Oct 29 (Fri 1 PM) |
 | 043 | What if Earth had rings like Saturn? | science / @ed_.studios | building Oct 29 (Fri 1 PM) |
 | 044 | What if Pip saw snow for the first time? (Pip ep. 7) | pip / @ed._.sims | made Oct 29, in review (Fri 1 PM) |
+| 045 | What if everyone woke up glued to the last thing they touched? | unhinged / @ed._.studios | queued Oct 30 (Sat 1 PM) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -64,7 +65,6 @@ Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minu
 - What if your toenails grew a meter a day?
 
 Classic tier ("everyone on Earth…"):
-- What if everyone woke up glued to the last thing they touched?
 - What if every human got the hiccups forever?
 - What if every human turned into a pigeon at 3 PM every day?
 - What if everyone's reflection started doing its own thing?
