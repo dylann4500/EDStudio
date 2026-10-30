@@ -166,3 +166,9 @@ blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #ani
 - **Honesty traps found while building:** the summer hemisphere sees the LIT face (northern skies set in July, Miami's shadow
   in December); near the horizon you mostly see the faint C ring (τ ≈ 0.1) — aim at the bright B ring; a ring 10 m thick
   exactly edge-on vanishes, so the Quito lens sits 0.1° off the plane (still "0.0°").
+- **TRIBE:** cut1 0.0431 / first 60 s 0.0410, no dead zone (just under). Weak: the title (−0.029), the faceless space open (0.013),
+  NYC from behind the crowd (0.027), the Tokyo rooftop (0.021) and arch wide (0.027). cut2 = SAME timeline + audio, visual only:
+  the nearest New Yorkers turn to the lens and point back, the Tokyo crowd bounces + waves under an arcing lens, the arch shot
+  opens on two close faces and cranes up, a swimmer leaps, the wedding wide became the guests' faces → **0.0452 / 0.0451, TARGET
+  MET** (Tokyo 0.021 → 0.059, arch 0.027 → 0.067). Sky spectacle needs a face in the same frame, or right before it.
+

@@ -805,6 +805,9 @@ tail rose to 0.03–0.044 and every early beat rose too (wc +47 %). Lessons: (1)
 mix scored highest all along — vocal crowd beds are a cheap lift for any beat (no speech needed); (2) a long low tail drags
 the mean and is where dead zones live: compress the epilogue to ~2 s per rung; (3) the end card over a live, face-filled
 scene (`finalFade` depth 0.3) beat black (−0.026 → +0.018 for the stars + card stretch).
+**043 (Earth rings, science, 65.4 s) cut2 = 0.0452 / first 60 s 0.0451, no dead zone → TARGET MET after one in-place pass**
+(cut1 0.0431): faceless sky wides and crowds seen from behind sagged (0.02–0.03); turning the nearest people to the lens, a
+bouncing party + an arcing camera, and opening the wide on two close faces before craning up to the sky lifted them 2–3×.
 **The TRIBE lock is a poll race, not a queue:** 020 lost it twice (to 017 and 022) and waited 60 min. Make the upload/preview copies
 and write the docs while waiting; you can still re-render while queued (the script copies final.mp4 only once it holds the lock).
 

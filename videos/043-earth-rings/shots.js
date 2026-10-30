@@ -241,10 +241,10 @@ export async function build(studio, story) {
     if (cam === 'title') {
       const p = basePose(); p.eyes = blink(t, 2); Object.assign(p, { x: 0.15, z: 1.2, rotY: 0.25 }); look(p, 0.75 + 0.05 * Math.sin(t * 0.8)); p.mouth = t > 1.4 ? 'o' : 'smile';
       p.armB = mixArm(REST, POINT_UP_B, smooth(clamp((t - 1.5) / 0.5))); put(tourist, 'plaza', p);
-      plazaCrowd.slice(0, 6).forEach((rig, i) => crowdPose(rig, i, -1.6 + i * 0.75 + (i % 2) * 0.2, -0.6 - (i % 3) * 0.9, 0.2 * Math.sin(i * 2.1), 0.65, i % 2 ? { armB: PHONE_B } : {}));
+      plazaCrowd.slice(0, 6).forEach((rig, i) => crowdPose(rig, i, -1.25 + i * 0.55 + (i % 2) * 0.15, -0.15 - (i % 3) * 0.6, 0.2 * Math.sin(i * 2.1), 0.65, i % 2 ? { armB: PHONE_B } : { armB: mixArm(REST, CHEER, 0.5 + 0.5 * Math.sin(t * 4 + i)), armA: mixArm(REST, CHEER, 0.5 + 0.5 * Math.sin(t * 4 + i + 1.5)) }));
       plazaCrowd.slice(0, 6).forEach((rig, i) => { if (i % 2) phoneIn(rig, 1); });
       const u = smooth(clamp(t / 3.2));
-      return { P: [lerp(0.75, 0.6, u), lerp(1.38, 1.42, u), lerp(3.1, 2.55, u)], A: [0.12, lerp(1.92, 1.95, u), 1.15], fov: 44 };
+      return { P: [lerp(1.2, 0.35, u), lerp(1.36, 1.44, u), lerp(2.95, 2.4, u)], A: [0.12, lerp(1.9, 1.95, u), 1.15], fov: 46 };
     }
     if (cam === 'quitoUp') {
       // a circle of tourists round the lens, chins up; the lens tilts up to the hairline overhead
@@ -290,8 +290,8 @@ export async function build(studio, story) {
     space.earth.material.color.copy(earthC0); rings.ring.visible = true; rings.shell.visible = true; rings.U.uGain.value = cam === 'sats' ? 0.6 : 0.82;
     if (sunDisc) sunDisc.visible = cam !== 'space';   // the camera swings past it: a white disc filled the frame at 5 s
     if (cam === 'space') {
-      setSpaceSun(JUL); space.setSpin(1.9 + t * 0.03);
-      const u = smooth(clamp((t - 3.2) / 2.4)), a = lerp(0.55, 0.36, u), d = lerp(3300, 2750, u), el = lerp(0.4, 0.34, u);
+      setSpaceSun(JUL); space.setSpin(1.6 + t * 0.12);
+      const u = smooth(clamp((t - 3.2) / 2.4)), a = lerp(0.95, 0.3, u), d = lerp(3900, 2500, u), el = lerp(0.55, 0.3, u);
       return { P: [Math.cos(a) * d * Math.cos(el), Math.sin(el) * d, Math.sin(a) * d * Math.cos(el)], A: [0, lerp(-40, 0, u), 0], fov: 40 };
     }
     if (cam === 'swap') {
@@ -363,7 +363,7 @@ export async function build(studio, story) {
     sky('street', 40.7, JUL, 14, { haze: 0xe8dcc8 });
     // the crowd on the front sidewalk (z 7–10) near x 2, looking south (−x) and up
     const spots = [[1.2, 8.0], [1.9, 8.9], [2.6, 7.7], [3.2, 9.1], [0.5, 9.2], [3.9, 8.3], [4.7, 9.4], [0.0, 7.8], [5.4, 7.9]];
-    nyc.forEach((rig, i) => { const [x, z] = spots[i], p = basePose(); p.eyes = blink(t, 30 + i); Object.assign(p, { x, z, rotY: -PI / 2 + 0.25 * Math.sin(i * 1.9) }); look(p, 0.38 + 0.04 * Math.sin(t + i)); p.mouth = i % 3 ? 'o' : 'smile'; if (i % 2 === 0) p.armB = PHONE_B; if (i === 3) p.armB = POINT_UP_B; put(rig, 'street', p, { y: SIDEWALK_H, floor: SIDEWALK_H }); if (i % 2 === 0) phoneIn(rig, 1, W('street', x - 6, 3, z)); });
+    nyc.forEach((rig, i) => { const [x, z] = spots[i], p = basePose(); p.eyes = blink(t, 30 + i); const turn = cam === 'nycArch' && (i === 3 || i === 5 || i === 6 || i === 8); Object.assign(p, { x, z, rotY: turn ? PI / 2 + 0.35 * Math.sin(i * 1.3) : -PI / 2 + 0.25 * Math.sin(i * 1.9) }); look(p, turn ? 0.05 + 0.08 * Math.sin(t * 3 + i) : 0.38 + 0.04 * Math.sin(t + i)); if (turn) { p.mouth = Math.sin(t * 7 + i) > 0 ? 'o' : 'smile'; p.armA = A(-2.4, 0.3, -0.2, 0); p.armA.sx += 0.25 * Math.sin(t * 5 + i); } p.mouth = i % 3 ? 'o' : 'smile'; if (i % 2 === 0) p.armB = PHONE_B; if (i === 3 && !turn) p.armB = POINT_UP_B; put(rig, 'street', p, { y: SIDEWALK_H + (turn ? 0.05 * Math.max(0, Math.sin(t * 6 + i)) : 0), floor: SIDEWALK_H }); if (i % 2 === 0) phoneIn(rig, 1, W('street', x - 6, 3, z)); });
     { const p = basePose(); p.eyes = blink(t, 40); const [cx, cz] = [5.6, -1.1]; Object.assign(p, { x: cx + 0.1, z: cz - 0.7, rotY: -PI / 2 + 0.4 }); look(p, 0.4); p.armA = HOLD_A; p.armB = SHADE_B; p.mouth = 'o'; put(vendor, 'street', p, { y: SIDEWALK_H, floor: SIDEWALK_H }); }
     taxi.g.visible = true; taxi.g.position.set(-1.5, 0, 5.2); taxi.g.rotation.y = -PI / 2;
     { const p = basePose(); p.eyes = blink(t, 41); Object.assign(p, { x: -1.3, z: 5.95, rotY: -PI / 2 + 0.9 }); look(p, 0.45); p.armB = POINT_UP_B; p.mouth = 'o'; p.lean = 0.15; put(cabbie, 'street', p, { y: -0.25, floor: -0.25 }); }
@@ -383,10 +383,13 @@ export async function build(studio, story) {
     sky('city', 35.7, JUL, hour, { haze: k < 0.5 ? 0xe9b48a : 0x2a3050, gain: lerp(1.0, 0.85, k) });
     const RX = -12, RZ = 12.5, Y = ROOF_Y;
     const spots = [[-12.5, 11.9, 0.2], [-11.75, 11.5, -0.3], [-12.95, 12.7, 0.4], [-11.4, 12.5, -0.4], [-12.15, 13.3, 0.1], [-13.0, 11.3, 0.3], [-11.2, 13.4, -0.5], [-12.3, 14.1, 0.0]];
-    roofers.forEach((rig, i) => { const [x, z, ry] = spots[i], p = basePose(); p.eyes = blink(t, 50 + i); Object.assign(p, { x, z, rotY: PI + ry }); look(p, 0.42 + 0.03 * Math.sin(t * 0.9 + i)); p.mouth = i % 2 ? 'o' : 'smile'; if (i === 1) p.armB = POINT_UP_B; if (i === 3 || i === 6) p.armB = PHONE_B; if (i === 4) { p.armA = HUG_A; p.armB = HUG_B; } put(rig, 'city', p, { y: Y, floor: Y }); if (i === 3 || i === 6) phoneIn(rig, 1, new THREE.Vector3(x, Y + 12, z - 30)); });
-    if (cam === 'tokyoFaces') { const u = smooth(clamp((t - 19.6) / 2.8)); return { P: [lerp(-11.9, -12.3, u), Y + 1.5, lerp(8.7, 9.0, u)], A: [-12.2, Y + 1.72, 12.6], fov: 50 }; }
+    const near = cam === 'tokyoArch' ? { 0: [-9.85, 13.3, -0.55], 1: [-11.05, 13.45, 0.45] } : {};
+    roofers.forEach((rig, i) => { const [x, z, ry] = near[i] || spots[i], p = basePose(); p.eyes = blink(t, 50 + i); Object.assign(p, { x, z, rotY: near[i] ? ry : PI + ry }); look(p, 0.42 + 0.03 * Math.sin(t * 0.9 + i)); p.mouth = i % 2 ? 'o' : 'smile'; if (i === 1) p.armB = POINT_UP_B; if (i === 3 || i === 6) p.armB = PHONE_B; if (i === 4) { p.armA = HUG_A; p.armB = HUG_B; } if (i === 2 || i === 5 || i === 7) { const w = 0.5 + 0.5 * Math.sin(t * 5 + i); p.armA = mixArm(REST, CHEER, w); p.armB = mixArm(REST, CHEER, 1 - w); }
+      if (near[i]) { p.armB = POINT_UP_B; p.armA = REST; look(p, 0.15 + 0.1 * Math.sin(t * 2 + i)); p.headYaw = i ? -0.5 : 0.5; p.mouth = Math.sin(t * 6 + i) > 0 ? 'o' : 'smile'; }
+      const hop = 0.045 * Math.max(0, Math.sin(t * 6.4 + i * 1.7)); put(rig, 'city', p, { y: Y + hop, floor: Y + hop }); if (i === 3 || i === 6) phoneIn(rig, 1, new THREE.Vector3(x, Y + 12, z - 30)); });
+    if (cam === 'tokyoFaces') { const u = smooth(clamp((t - 19.6) / 2.8)); return { P: [lerp(-11.0, -13.2, u), Y + lerp(1.4, 1.6, u), lerp(8.9, 9.1, u)], A: [-12.2, Y + 1.72, 12.6], fov: 50 }; }
     const u = smooth(clamp((t - 22.4) / 3.0));
-    return { P: [lerp(-10.2, -10.6, u), Y + 1.65, lerp(15.2, 15.6, u)], A: [lerp(-14, -16, u), Y + lerp(14, 16, u), -30], fov: 64 };
+    return { P: [lerp(-10.4, -10.6, u), Y + lerp(1.5, 2.6, u), lerp(15.4, 15.8, u)], A: [lerp(-12, -16, u), Y + lerp(7, 16, u), -30], fov: 64 };
   }
 
   // ================================================================ SUBURB (Ohio, 10 PM): ringshine + shooting stars
@@ -459,11 +462,12 @@ export async function build(studio, story) {
     const cold = 1 - T;
     if (cam === 'miamiPool') {
       const SW = [[-0.45, 3.0, 0], [0.3, 3.5, 1], [0.85, 2.7, 2], [-0.95, 2.3, 3]];
-      swimmers.forEach((rig, i) => { const [x, z] = SW[i], p = basePose(); p.eyes = blink(t, 70 + i); Object.assign(p, { x, z, rotY: 0.3 * Math.sin(i * 2) + 0.15 * Math.sin(t * 1.3 + i) }); look(p, 0.1); p.mouth = 'smile'; const splash = 0.5 + 0.5 * Math.sin(t * 6 + i * 2); p.armA = mixArm(A(-1.2, 0.9, -0.3, 0), CHEER, splash * (i % 2)); p.armB = mixArm(A(-1.2, 0.9, -0.3, 0), CHEER, splash * ((i + 1) % 2)); const s = i < 3 ? KS : 1; put(rig, 'pool', p, { y: PD.water - (i < 3 ? 0.62 : 1.0) + 0.04 * Math.sin(t * 2 + i), floor: PD.floor, s }); });
-      for (let k = 0; k < 16; k++) { const a = k * 2.399, x = SW[k % 4][0] + Math.cos(a) * 0.35, z = SW[k % 4][1] + Math.sin(a) * 0.3, ph = (t * 1.8 + k * 0.37) % 1; puff(W('pool', x, PD.water + 0.15 + ph * 0.5, z), 0.12 + 0.1 * ph, 0.55 * (1 - ph), new THREE.Color(0xffffff)); }
+      swimmers.forEach((rig, i) => { const [x, z] = SW[i], p = basePose(); p.eyes = blink(t, 70 + i); Object.assign(p, { x, z, rotY: 0.3 * Math.sin(i * 2) + 0.15 * Math.sin(t * 1.3 + i) }); look(p, 0.1); p.mouth = 'smile'; const splash = 0.5 + 0.5 * Math.sin(t * 6 + i * 2); p.armA = mixArm(A(-1.2, 0.9, -0.3, 0), CHEER, splash * (i % 2)); p.armB = mixArm(A(-1.2, 0.9, -0.3, 0), CHEER, splash * ((i + 1) % 2)); const s = i < 3 ? KS : 1; const leap = i === 1 ? Math.max(0, Math.sin(PI * clamp((t - 32.5) / 0.9))) * 0.75 : 0; if (leap > 0) { p.armA = CHEER; p.armB = CHEER; p.mouth = 'o'; } put(rig, 'pool', p, { y: PD.water - (i < 3 ? 0.62 : 1.0) + 0.1 * Math.sin(t * 3 + i) + leap, floor: PD.floor, s }); });
+      for (let k = 0; k < 14; k++) { const age = t - 33.35, a = k * 2.399; if (age > 0 && age < 0.9) puff(W('pool', SW[1][0] + Math.cos(a) * (0.2 + age * 0.8), PD.water + 0.1 + 1.8 * age - 2.5 * age * age, SW[1][1] + Math.sin(a) * (0.15 + age * 0.5)), 0.14 + 0.12 * age, 0.8 * (1 - age / 0.9), new THREE.Color(0xffffff)); }
+      for (let k = 0; k < 28; k++) { const a = k * 2.399, x = SW[k % 4][0] + Math.cos(a) * 0.35, z = SW[k % 4][1] + Math.sin(a) * 0.3, ph = (t * 1.8 + k * 0.37) % 1; puff(W('pool', x, PD.water + 0.15 + ph * 0.5, z), 0.12 + 0.1 * ph, 0.55 * (1 - ph), new THREE.Color(0xffffff)); }
       { const p = basePose(); p.eyes = blink(t, 75); Object.assign(p, { x: 9.5, z: 7.4, rotY: PI - 0.3 }); look(p, 0.1); p.armA = LAP_A; p.armB = LAP_B; seatAdult(guard, 'pool', p, 2.0); }
       const u = smooth(clamp((t - 31.4) / 2.7));
-      return { P: [lerp(-0.05, 0.1, u), 0.35, lerp(6.9, 6.5, u)], A: [0.0, lerp(3.4, 3.9, u), -4], fov: 62 };
+      return { P: [lerp(-0.4, 0.3, u), 0.35, lerp(7.1, 6.2, u)], A: [0.0, lerp(3.4, 3.9, u), -4], fov: 62 };
     }
     if (cam === 'miamiSky') {
       // low lens looking south and up: the sun slides into the dark band; a kid in the pool (profile) at the frame's edge
@@ -547,10 +551,10 @@ export async function build(studio, story) {
     { const [x, z] = WD.officiant, p = basePose(); p.eyes = blink(t, 122); p.glasses = true; Object.assign(p, { x, z, rotY: 0 }); look(p, 0.5 * lookUp); p.armA = HOLD_A; p.armB = HOLD_B; p.mouth = 'smile'; put(officiant, 'wed', p); }
     guests.forEach((rig, i) => { const row = Math.floor(i / 4), side = i % 2 ? 1 : -1, seat = WD.seats[Math.floor(i / 2) % 2], z = WD.rows[row], x = side * seat, p = basePose(); p.eyes = blink(t, 130 + i); Object.assign(p, { x, z, rotY: PI + side * 0.1 }); look(p, 0.55 * lookUp + 0.05); p.mouth = lookUp > 0.5 ? 'o' : 'smile';
       const cheer = cam === 'wedKiss' ? smooth(clamp((t - T_KISS - 0.3 - (i % 4) * 0.1) / 0.4)) : 0; if (i % 3 === 0) { p.armA = mixArm(LAP_A, CHEER, cheer); p.armB = mixArm(LAP_B, CHEER, cheer); } else { p.armA = mixArm(LAP_A, clapA(t + i), cheer); p.armB = mixArm(LAP_B, clapB(t + i), cheer); }
-      if (cam === 'wedArch' && i === 5) p.armB = POINT_UP_B; if (cam === 'wedArch' && (i === 2 || i === 7)) { p.armB = PHONE_B; }
+      if (cam === 'wedArch' && (i === 5 || i === 0 || i === 9)) { p.armB = POINT_UP_B; p.armB.sx += 0.2 * Math.sin(t * 4 + i); } if (cam === 'wedArch' && (i === 2 || i === 7)) { p.armB = PHONE_B; }
       seatAdult(rig, 'wed', p, WD.seat); if (cam === 'wedArch' && (i === 2 || i === 7)) phoneIn(rig, 1, W('wed', 0, 30, -80)); });
     burst(W('wed', 0, 2.6, -3.3), t, T_KISS + 0.2, 260, 3.5, 2.2);
-    if (cam === 'wedArch') { const u = smooth(clamp((t - 55.0) / 3.2)); return { P: [lerp(1.6, 1.2, u), lerp(1.05, 1.1, u), lerp(4.8, 4.2, u)], A: [0, lerp(2.2, 3.4, u), -4], fov: 58 }; }
+    if (cam === 'wedArch') { const u = smooth(clamp((t - 55.0) / 3.2)); return { P: [lerp(1.15, 1.75, u), lerp(1.3, 1.38, u), lerp(-3.05, -2.9, u)], A: [lerp(1.7, 2.1, u), 1.05, 1.6], fov: 54 }; }
     const u = smooth(clamp((t - 58.2) / 7.2));
     return { P: [lerp(0.35, 0.15, u), lerp(1.25, 1.2, u), lerp(-0.2, -1.0, u)], A: [0, lerp(1.95, 2.25, u), -4.2], fov: 54 };
   }
