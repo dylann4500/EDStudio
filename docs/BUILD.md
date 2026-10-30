@@ -924,9 +924,24 @@ as a record of what the cut style needs, if it is ever tried again.
 - **041's review arc (5 rounds, the last on the real voice):** v1 logic 6.5 · look 6 · pacing 6.5 · camera 5 · comedy 6.5 → r5 official
   (Adam v3, 100.9 s) logic 8 · look 7.5 · pacing 8 · camera 7.5 · comedy 8, comes-together 8 (logic) / 7.5 (pacing: the 16 fan
   blades go in EDGE-ON — a side view of a disc shows a growing sawtooth, not blades; frame a fan build 35–45° off its axis).
-  Open at ship: the engine core hung ~0.8 m under its hanger plate during the fan build (the hanger jumped to the nacelle-top height
-  at NAC0, before the nacelle existed — tie a support's height to the part that's actually there), and a camera crossing the cloud
-  deck planes whited 3 frames and sliced the engine out of one (drive a cloud white-out by the camera's HEIGHT, not by time windows).
+  Two flaws were confirmed on frames after r5: the engine core hung ~0.8 m under its hanger plate during the fan build (the hanger
+  jumped to the nacelle-top height at NAC0, before the nacelle existed — tie a support's height to the part that's actually there),
+  and a camera crossing the cloud deck planes whited 3 frames and sliced the engine out of one. The manager authorized ONE fix pass
+  for exactly those three items + a re-score: r6 (the 60 fps final itself) logic 8 · look 7.5 · pacing 8 · camera 8 · comedy 8,
+  comes-together 8.5 (logic) / 8 (pacing), no blockers → shipped.
+- **A rotor in a half-section: index the hub, don't fill slots in order** (041 r6): the near half of the fan is clipped, so blades
+  slotted 0…15 went in where nobody could see them. Turn the hub one slot per blade (0.4 of each blade's window) and drop every blade
+  into the SAME visible slot (top-back); film it from a ¾ front view (~45° off the axis), not side-on (a side view of a disc = a
+  growing sawtooth). Keep each blade's LANDING at the old time so the kicks/sfx don't move (`fanIdx` in 041 shots.js).
+- **Clouds by camera height, not time windows** (041 r6): each deck plane's opacity = smooth((|camY − planeY| − 4)/18) so the plane
+  flies through a gap and is never sliced; a thin haze (cloud mood × 0.3) inside the layer; no puff sprite within its own width of
+  the flight path (one filled the lens). **A mask hides what's behind it:** the old white-out had been covering the flight's
+  time-compressed jump from the climb to the descent (the camera moves ~1.7 km between two frames at 84.28); without it the backdrop
+  steps from cloud to fields in one frame (one-way, −15/255). If you remove a white-out, look for the cut it was hiding — land the
+  jump at the same altitude so the background matches on both sides.
+- **A pan that's too fast after a hold can't be fixed by more time between framings:** planRail departs at `n.t − max(need,
+  min(1.6·need, 0.55·span))`, so extra time becomes hold. Split the move with a pass point halfway (041's booth → ¾ fan view: 2.41 →
+  1.94 fw/s).
 - **Voicing re-keys everything — re-run the QC hook before the review render** (041: the real take ran 7.7 s longer than the scratch
   at the same tempo, with different internal pacing): a fixed 1.0 s forklift drive pushed the bolt-up into the takeoff framing (a
   3.7 m move in 0.38 s), and four sfx callouts landed on faces. Fixes were free: shorter minimum windows and callout `pos`/`y`.
