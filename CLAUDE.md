@@ -411,6 +411,20 @@ videos/NNN-slug/
   its back by its hip (tilt −π/2 flat → 0 sitting up; −1.2 = propped on pillows, the only way faces clear a duvet from the foot
   of the bed); an apartment facade built from brick boxes around real window openings with neighbors leaning out.
 
+- **Portal kit (042 belly-button portal, all in `videos/042-bellybutton-portal/shots.js`, copy it):** `portalMaterial()` = a
+  swirl disc as a tiny ShaderMaterial (polar spiral arms, deep center, bright rim, values > 1 so bloom glows; `uA/uB/uC` colors,
+  `P.warm(true)` = gold); `makePortal(r, light)` = disc + additive glow sprite (keep the glow ≤ 2.4·r on big portals — 4.5·r
+  washed a whole Mars shot) + a PointLight; `exitAt(e, key, p, n, t, open)` places one anywhere facing n. **Front half of a
+  body into a portal = a clipping plane** on that body's (cloned) materials: `plane.set(n, −n·portalPos)` while it's inside,
+  `plane.set(up, 1e5)` otherwise (+ `renderer.localClippingEnabled = true`) — 042's cat goes in front-first and gets pulled
+  out with a fish. Items going IN = `suck()` (cubic ease to the disc, shrink + spin); people going in = `showC` with a scale
+  (a head-first dive that shrinks to 5 %); people coming OUT = `showC` from 15 % scale with `easeOutBack` → a standing pose.
+  The "rolled-up T-shirt" = a skin-colored cylinder band around the lower torso (`spine` local y 0.15–0.35, scale 1.13 × 0.8)
+  + a shirt-colored torus roll above it; hands hold the roll with `A(-0.05, 0.3, -1.75, 0)` (both arms). A small sphere
+  patch on the front read as a hole in the shirt; crossed-arm hem poses hid the navel. Under a purple key a mustard shirt
+  read as skin: give the hero a saturated BLUE shirt when a colored glow lights the torso.
+- **Pose lineup for ONE rig (042):** render `you` alone at t = 200, 201, … with a different arm preset per frame (`HEMS[page]`)
+  and a close camera — five pool figures in a row were too small to judge where the hands land on the body.
 - **Fire kit (037, `engine/oxygen.js`):** `makeFlames({n, r, seed})` = cartoon flames that read in DAYLIGHT (3 nested
   teardrop tongues red → orange → yellow, unlit, transparent, `depthWrite:false`, renderOrder 5/6/7 so the inner bands draw
   over the outer shell; additive glow sprites wash out to white on a bright sky). Call `update(t, h, {wind:[x,z], width, maxW,

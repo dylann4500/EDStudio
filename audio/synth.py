@@ -3173,6 +3173,24 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
 # ---- main ---------------------------------------------------------------------------------------
 
 
+def sfx_portal_wub(rng, dur=0.9, pitch=1.0, swallow=0.0):
+    """A cartoon portal (042): a soft swirling 'vwoom' — a round low sine that glides up (opening) or down (swallow > 0.5,
+    something sucked in), wobbling at ~7 Hz, over a slowly turning band of pink noise. Low-passed, no whoosh hiss."""
+    n = nsamp(dur)
+    t = tvec(n)
+    u = t / dur
+    glide = (1 - u) if swallow > 0.5 else u
+    f = (70 + 120 * glide) * pitch * (1 + 0.06 * np.sin(2 * np.pi * 7 * t))
+    tone = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.35 * np.sin(4 * np.pi * np.cumsum(f) / SR)
+    swirl = sweep_filter(pink(n, rng), (300 + 500 * (0.5 + 0.5 * np.sin(2 * np.pi * 3.2 * t))) * pitch, q=1.4, kind="bp")
+    env = np.sin(np.pi * np.clip(u, 0, 1)) ** (0.6 if swallow > 0.5 else 1.2)
+    y = env * (unit_rms(tone) + 0.45 * unit_rms(swirl))
+    return Sound(norm(fades(lp(y, 2200), 0.01, 0.06)), onsets=[(0.0, "soft")])
+
+
+SFX.update({"portal_wub": (sfx_portal_wub, "prop")})
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("video", nargs="?", help="video folder under videos/ (reads videos/<video>/cues.json, writes videos/<video>/audio.wav)")
