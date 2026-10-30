@@ -186,4 +186,7 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
   a white beard, stealing the snowman's carrot and giving it back "mostly"), the paw-wipe fact (ASPCA: de-icing salt irritates
   paws), the nap by the window while the snowman waves. HUD = a count of the gag (SNOWFLAKES CAUGHT 0 → 5, then each snowball
   "counts" as ~a million crystals → 6,000,005). Recurring cast: Leo + Zoe, the kids next door (red / purple hats).
+  TRIBE cut1 = 0.0816 / first 60 s 0.0898, no dead zone (3rd best after 030 + 031): the first 35 s of close gags in
+  the bright yard scored 0.10–0.16 (tongue flakes 0.157); the snowball fight + snowman sagged to 0.044–0.058 (wider two-shots,
+  kids at a distance) and the nap ending to 0.021. Keep the gags close; the quiet ending is affordable when the middle is hot.
 - **Still missing (build when an episode needs it):** a flood plane, a lightning flash (038 kept thunder to a far `distant_boom` rumble on purpose).

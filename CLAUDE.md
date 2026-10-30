@@ -774,6 +774,10 @@ while they stay human-scale. Keep the cosmic end short, or put a face in it.
 in one sunny park, a new gag every ~4 s, faces in every shot; the gag beats sat at 0.11–0.13 (poodle frizz 0.134, zoomies
 0.135). The weakest were the title (−0.036) and the gate wide shot from behind Mia (0.027): open on a face, not a back.
 
+**044 (Pip ep. 7, first snow) cut1 = 0.0816 / first 60 s 0.0898, no dead zone:** a bright white yard, Pip's face close in
+every gag (tongue flakes 0.157, sneeze 0.137, door zoom into the drift 0.129); the snowball fight + snowman wides sagged to
+0.044–0.058 and the window nap + end card to 0.021. Snow = bright + faces: a winter episode scores like a sunny one.
+
 **038 (Pip ep. 5, blackout) cut1 = 0.0450 / first 60 s 0.0488 — met by a hair:** the dark first 17 s (wide family shots,
 faces 2–4 m away, a faceless rooftop) scored 0.01–0.03 and the sleeping ending 0.016; the close action beats after the flashlight
 scored 0.07–0.10. Dark only works when the faces are CLOSE (021); a dim wide is the weakest thing we make.
