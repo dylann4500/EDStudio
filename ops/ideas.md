@@ -47,7 +47,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 037 | What if the oxygen in the air doubled? | science / @ed_.studios | scheduled Thu Oct 29 evening |
 | 038 | What if the whole town lost power… and Pip was the only one not scared? (Pip ep. 5) | pip / @ed._.sims | scheduled Thu Oct 29 evening |
 | 039 | How a Flashlight Becomes a Lighthouse | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
-| 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | building Oct 29 (Fri 6 PM) |
+| 040 | What if a tornado hit while Pip was home alone? (Pip ep. 6) | pip / @ed._.sims | made Oct 30, in review (Fri 6 PM) |
 | 041 | How a Hair Dryer Becomes a Jet Engine | build — NOT managed by the operation | reserved by the Builder Vid Manager chat (Gary the Builder account) |
 | 042 | What if your belly button turned into a portal? | unhinged (weird tier) / @ed._.studios | building Oct 29 (Fri 1 PM) |
 | 043 | What if Earth had rings like Saturn? | science / @ed_.studios | building Oct 29 (Fri 1 PM) |
