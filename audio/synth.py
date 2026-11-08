@@ -2681,8 +2681,12 @@ SFX.update({"toot": (sfx_toot, "prop"), "car_alarm": (sfx_car_alarm, "prop"), "w
 # =============================================================================
 
 
-def amb_fire(dur, rng, size=1.0):
-    """A fire bed: a soft low roar (brown noise breathing) + wood crackle grains + rare pops. size 0.3 campfire … 2 blaze."""
+def amb_fire(dur, rng, size=1.0, intensity=None):
+    """A fire bed: a soft low roar (brown noise breathing) + wood crackle grains + rare pops. size 0.3 campfire … 2 blaze.
+    Two reels share the name "fire" (the bed's random stream is seeded by its name, so neither may rename it): 037 passes
+    `size` (this one), 033 passes `intensity` and gets amb_fire_roar, a breathier roar with slow surges."""
+    if intensity is not None:
+        return amb_fire_roar(dur, rng, intensity)
     n = nsamp(dur)
     out = []
     for ch in range(2):
@@ -2783,7 +2787,7 @@ AMBIENCE.update({"hairdryer": amb_hairdryer, "jet": amb_jet})   # 041
 
 # 033 (fire truck): a fire bed, a steam sizzle, a soft siren wail, a fireball whump — all low-passed, never harsh.
 def amb_fire_roar(dur, rng, intensity=1.0):
-    """033 ("fire_roar", 037 owns "fire"): a fire burning: a low breathy roar with slow surges + soft wood crackles (all under 3 kHz)."""
+    """033's fire bed (cue "fire" with `intensity`, see amb_fire): a fire burning: a low breathy roar with slow surges + soft wood crackles (all under 3 kHz)."""
     n = nsamp(dur)
     out = []
     for ch in range(2):
@@ -2825,7 +2829,6 @@ def sfx_fireball(rng, size=1.0):
 
 
 SFX.update({"sizzle": (sfx_sizzle, "prop"), "siren": (sfx_siren, "prop"), "fireball": (sfx_fireball, "prop")})
-AMBIENCE.update({"fire_roar": amb_fire_roar})   # 033
 
 
 def load_voice(V, N, log=print):

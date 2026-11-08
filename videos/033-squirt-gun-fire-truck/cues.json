@@ -737,7 +737,7 @@
  },
  "ambience": [
   {
-   "sound": "fire_roar",
+   "sound": "fire",
    "t0": 0.0,
    "t1": 15.292,
    "fade_in": 0.1,
@@ -771,7 +771,7 @@
    "seed": 3
   },
   {
-   "sound": "fire_roar",
+   "sound": "fire",
    "t0": 18.057222222222222,
    "t1": 68.86,
    "fade_in": 0.3,

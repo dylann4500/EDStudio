@@ -9,7 +9,7 @@ on the piano in G major at 132 bpm (I–IV–ii–V, then vi–IV–I–V once t
 drops out), a light march tom on 1 and 3, booms on the big impacts, and the build genre's signature rising mallet "ta-da" on every
 TERM (here G5–B5–D6). 024 was a marimba ostinato in F, 025 a desert shuffle in D, 026 a disco pluck in Bb, 032 a lounge walk in D.
 The hook is backyard foley only (the grill roaring, the squirt-gun pews); the music drops in on "Congratulations". A fire bed
-(synth.py amb_fire_roar, "fire_roar") burns under the grill and the hedge; water is water_rush; the siren is a soft low-passed wail. The narrator
+(synth.py amb_fire) burns under the grill and the hedge; water is water_rush; the siren is a soft low-passed wail. The narrator
 sits on top: music ducks ~9 dB under every phrase, ambience ~5 dB. All foley soft + low-passed."""
 import json, os
 
@@ -243,10 +243,10 @@ e(t['burgers2'] + 0.6, "cat_meow", -18, -0.2, pitch=0.9)
 
 # ---------------------------------------------------------------- beds
 amb = [
-    {"sound": "fire_roar", "t0": 0.0, "t1": t['lid'] + 0.2, "fade_in": 0.1, "fade_out": 0.3, "gain_db": -27, "args": {"intensity": 1.0}, "seed": 1},   # the grill
+    {"sound": "fire", "t0": 0.0, "t1": t['lid'] + 0.2, "fade_in": 0.1, "fade_out": 0.3, "gain_db": -27, "args": {"intensity": 1.0}, "seed": 1},   # the grill
     {"sound": "city_day", "t0": 0.0, "t1": IN + 0.8, "fade_in": 0.2, "fade_out": 0.5, "gain_db": -36, "args": {"murmur": 0.0, "traffic": 0.4}, "seed": 2},
     {"sound": "crickets", "t0": 0.0, "t1": D, "fade_in": 0.5, "fade_out": 0.5, "gain_db": -44, "seed": 3},
-    {"sound": "fire_roar", "t0": ignite[3], "t1": MEGA + 1.0, "fade_in": 0.3, "fade_out": 0.5, "gain_db": -26, "args": {"intensity": 1.4}, "seed": 4},   # the hedge
+    {"sound": "fire", "t0": ignite[3], "t1": MEGA + 1.0, "fade_in": 0.3, "fade_out": 0.5, "gain_db": -26, "args": {"intensity": 1.4}, "seed": 4},   # the hedge
     {"sound": "water_rush", "t0": FILL0, "t1": t['bye'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -32, "seed": 5},   # the garden hose
     {"sound": "drill", "t0": DRV0, "t1": DRV1 + 0.3, "fade_in": 0.2, "fade_out": 0.2, "gain_db": -30, "args": {"rate": 5.0}, "seed": 6},   # the engine
     {"sound": "drill", "t0": t['spins'], "t1": MEGA + 2.6, "fade_in": 0.6, "fade_out": 0.6, "gain_db": -36, "args": {"rate": 18.0}, "seed": 7},   # the pump whine (low)
