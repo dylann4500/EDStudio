@@ -1,0 +1,624 @@
+{
+  "title": "How a Go-Kart Becomes a Tank",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 300
+  },
+  "lead": 0.04,
+  "gap": 0.03,
+  "tail": 1.0,
+  "maxPause": 0.18,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.55,
+  "joinLen": 4,
+  "look": {
+    "exposure": 1.06,
+    "bloom": 0.14,
+    "fill": 0.45,
+    "toneMapping": "neutral",
+    "vignette": 0.14,
+    "grain": 0.012,
+    "warm": 0.3,
+    "saturation": 1.12,
+    "lift": 0.01
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "Your go-kart is stuck in the mud. Gary floors it. The mud wins.",
+      "callouts": [
+        {
+          "at": "floors",
+          "text": "VRRRM!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "wins",
+          "text": "SPLAT!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.64
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built a mud sprinkler. A goose is judging you.",
+      "callouts": [
+        {
+          "at": "sprinkler",
+          "text": "MUD SPRINKLER",
+          "style": "label",
+          "hold": 1.1
+        }
+      ]
+    },
+    {
+      "id": "tracks",
+      "say": "Wheels sink, because the weight sits on four tiny spots. So you wrap them in steel plates. This is called a continuous track. It spreads seventy tons so wide, it presses softer than a horse. Ask the horse.",
+      "callouts": [
+        {
+          "at": "four",
+          "text": "4 TINY SPOTS",
+          "style": "label",
+          "until": "spots"
+        },
+        {
+          "at": "wrap",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "continuous",
+          "text": "CONTINUOUS TRACK",
+          "style": "term",
+          "until": "track"
+        },
+        {
+          "at": "seventy",
+          "text": "15 PSI vs HORSE 25 PSI",
+          "style": "label",
+          "until": "horse"
+        },
+        {
+          "at": "ask",
+          "text": "SHLUP!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "steer",
+      "say": "Now it only goes straight. Slow one track, and the other swings you around. This is called skid steering. Run them opposite ways, and you spin in place. [excited] So do Gary's EYEBALLS!",
+      "callouts": [
+        {
+          "at": "straight",
+          "text": "NO TURNS",
+          "style": "stamp",
+          "hold": 0.8,
+          "y": 0.66
+        },
+        {
+          "at": "skid",
+          "text": "SKID STEERING",
+          "style": "term",
+          "until": "steering"
+        },
+        {
+          "at": "spin",
+          "text": "WHIRRR!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.62
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "eyeballs",
+          "text": "@_@",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.64
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "goose",
+      "say": "Then a goose blocks the road. You honk. It honks louder. Gary gets out to shoo it. [shouting] The goose shoos GARY!",
+      "callouts": [
+        {
+          "at": "honk",
+          "text": "meep.",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "louder",
+          "text": "HONK!!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.38
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "gary",
+          "nth": 2,
+          "text": "HONK HONK HONK",
+          "style": "sfx",
+          "pos": [
+            0.5,
+            0.3
+          ],
+          "hold": 1.0
+        }
+      ],
+      "shelf": -11
+    },
+    {
+      "id": "armor",
+      "say": "Meanwhile, the neighbors test their pumpkin cannon. So you bolt on steel plates. Flat plates take it head-on, so you tilt them. This is called sloped armor. At sixty degrees, a hit has to cross twice the steel. [excited] Pumpkins BOUNCE!",
+      "callouts": [
+        {
+          "at": "cannon",
+          "text": "FOOMP!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "bolt",
+          "text": "SPLAT!",
+          "style": "sfx",
+          "pos": [
+            0.24,
+            0.27
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "plates",
+          "text": "CLANG!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "headon",
+          "text": "SPLAT!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "sloped",
+          "text": "SLOPED ARMOR",
+          "style": "term",
+          "until": "armor"
+        },
+        {
+          "at": "sixty",
+          "text": "60°",
+          "style": "label",
+          "until": "degrees"
+        },
+        {
+          "at": "twice",
+          "text": "2X THE STEEL",
+          "style": "label",
+          "until": "steel"
+        },
+        {
+          "at": "bounce",
+          "text": "BOING!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.32
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "turret",
+      "say": "Aiming a cannon means turning the whole tank, so it goes on a spinning ring. This is called a turret. Target: one watermelon. You fire. The melon explodes, and the tank flies backward. [shouting] Right through the BARN!",
+      "callouts": [
+        {
+          "at": "whole",
+          "text": "WRONG WAY",
+          "style": "stamp",
+          "hold": 0.8
+        },
+        {
+          "at": "turret",
+          "text": "TURRET",
+          "style": "term",
+          "hold": 0.9
+        },
+        {
+          "at": "watermelon",
+          "text": "TARGET",
+          "style": "label",
+          "hold": 0.8
+        },
+        {
+          "at": "fire",
+          "text": "BOOM!",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.36
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "explodes",
+          "text": "SPLOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.4
+        },
+        {
+          "at": "barn",
+          "text": "CRASH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.36
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "recoil",
+      "say": "So the barrel slides back into giant shock absorbers. This is called a recoil mechanism. The gun moves twelve inches. The tank stays put. So does the chicken on Gary's head.",
+      "callouts": [
+        {
+          "at": "recoil",
+          "text": "RECOIL MECHANISM",
+          "style": "term",
+          "until": "mechanism"
+        },
+        {
+          "at": "twelve",
+          "text": "GUN: 12 INCHES",
+          "style": "label",
+          "until": "inches",
+          "y": 0.22
+        },
+        {
+          "at": "put",
+          "text": "TANK: 0",
+          "style": "label",
+          "hold": 0.7,
+          "y": 0.22
+        },
+        {
+          "at": "chicken",
+          "text": "BAWK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.3
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "stab",
+      "say": "Every bump wrecks your aim. You hit a scarecrow and a cloud. So spinning gyros hold the gun still. This is called a stabilizer. Germany tested one with a full glass on the gun. Gary's lemonade is fine. Gary isn't.",
+      "callouts": [
+        {
+          "at": "scarecrow",
+          "text": "OOPS!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.42
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "cloud",
+          "text": "POOF!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.24
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "stabilizer",
+          "text": "STABILIZER",
+          "style": "term",
+          "hold": 0.8
+        },
+        {
+          "at": "tested",
+          "text": "GERMANY, 1986",
+          "style": "label",
+          "until": "gun"
+        },
+        {
+          "at": "isnt",
+          "text": "OOF!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.6
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "turbine",
+      "say": "It's too heavy for a lawnmower engine. The goose is faster. So you drop in a jet engine. This is called a gas turbine. Fifteen hundred horsepower.",
+      "callouts": [
+        {
+          "at": "faster",
+          "text": "honk.",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "gas",
+          "text": "GAS TURBINE",
+          "style": "term",
+          "until": "turbine"
+        },
+        {
+          "at": "hundred",
+          "text": "1,500 HP",
+          "style": "label",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "behind",
+      "say": "Never stand behind it. Gary stood behind it. [shouting] Bye, EYEBROWS!",
+      "callouts": [
+        {
+          "at": "eyebrows",
+          "text": "FWOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.3
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "say": "It weighs seventy tons. That little bridge holds three. [excited] For about one SECOND!",
+      "callouts": [
+        {
+          "at": "seventy",
+          "text": "70 TONS",
+          "style": "label",
+          "until": "tons"
+        },
+        {
+          "at": "three",
+          "text": "BRIDGE: 3 TONS",
+          "style": "label",
+          "hold": 0.9
+        },
+        {
+          "at": "second",
+          "text": "SNAP!",
+          "style": "sfx",
+          "pos": [
+            0.28,
+            0.66
+          ],
+          "hold": 0.8
+        }
+      ],
+      "shelf": -5
+    },
+    {
+      "id": "mlc",
+      "say": "Bridges get a number in a yellow circle. This is called military load class. This one says three. Yours needs eighty. Gary is now a submarine.",
+      "callouts": [
+        {
+          "at": "military",
+          "text": "MILITARY LOAD CLASS",
+          "style": "term",
+          "until": "class"
+        },
+        {
+          "at": "eighty",
+          "text": "YOURS: 80",
+          "style": "label",
+          "hold": 0.9
+        },
+        {
+          "at": "submarine",
+          "text": "BLUB.",
+          "style": "sfx",
+          "pos": [
+            0.76,
+            0.67
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "peri",
+      "say": "Out of the creek, you shut the hatch, and now you're blind. So you add mirror tubes. These are called periscopes. Gary looks out. The goose looks in.",
+      "callouts": [
+        {
+          "at": "hatch",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.34
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "blind",
+          "text": "BLIND",
+          "style": "stamp",
+          "hold": 0.8
+        },
+        {
+          "at": "periscopes",
+          "text": "PERISCOPES",
+          "style": "term",
+          "hold": 0.9
+        },
+        {
+          "at": "in",
+          "text": "HONK!",
+          "style": "sfx",
+          "pos": [
+            0.76,
+            0.24
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a radio, a cup holder, and a horn that honks like a goose.",
+      "callouts": [
+        {
+          "at": "radio",
+          "text": "RADIO",
+          "style": "label",
+          "hold": 0.5
+        },
+        {
+          "at": "cup",
+          "text": "CUP HOLDER",
+          "style": "label",
+          "hold": 0.6
+        },
+        {
+          "at": "goose",
+          "text": "HONK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.68
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a tank. You just wanted to get out of the mud. Now you've spent nineteen million dollars, the bridge is in the creek, and Gary has no eyebrows. [shouting] And the GOOSE is driving!",
+      "callouts": [
+        {
+          "at": "nineteen",
+          "text": "$19,000,000",
+          "style": "money",
+          "until": "dollars"
+        },
+        {
+          "at": "eyebrows",
+          "text": "NO EYEBROWS",
+          "style": "stamp",
+          "hold": 0.8,
+          "y": 0.68
+        },
+        {
+          "at": "driving",
+          "text": "HONK HONK!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.32
+          ],
+          "hold": 1.0
+        }
+      ],
+      "shelf": -6
+    },
+    {
+      "id": "end2",
+      "say": "Gary is back in the mud.",
+      "callouts": [
+        {
+          "at": "mud",
+          "text": "STUCK AGAIN",
+          "style": "stamp",
+          "hold": 1.4
+        }
+      ]
+    }
+  ],
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  }
+}
