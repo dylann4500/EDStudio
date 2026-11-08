@@ -505,6 +505,14 @@ videos/NNN-slug/
   the roof floodlights (MeshBasic boxes 5 × 0.9) and reuse `lights.sun` as the far floodlight bank (036 `stadScene`).
   A camera near a goal: the net spans x 52.5–54.5, |z| < 3.66 — 036's first close-up of the home end sat inside it.
 
+- **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
+  addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
+  3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer
+  stair-steps that don't crawl on a moving camera). `mosaicAt(t, CUTS)` = a mosaic cut transition (blocks swell to ~54 px and back
+  over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
+  draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
+  `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with
