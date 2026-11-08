@@ -396,6 +396,11 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Lighthouse kit (039, `engine/build/lighthouse.js`):** open sea (a JS mirror of the shader waves: `seaH`/`floatPose`, an
+  exaggerated curve `R`, a big wave), 7 moods, a cutaway rock lighthouse that grows (`setGrow` clip plane) and leans, a hatch ladder
+  to the lantern, Fresnel lens/mirror/beams, boats (tug/sailboat/cruise/freighter/barge), gull, foam spray crown, far coast. A camera
+  riding a boat: mount it on the boat body, steady the boat, shake for the foreground distance (039 tug deck). rail.js `swoop`
+  (fast one-way dolly to a far place) and `lead/maxLead`; `tools/scenes.py` counts new looks (docs/BUILD.md → Lessons from 039).
 - **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
   below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
   conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in
@@ -568,6 +573,8 @@ videos/NNN-slug/
   placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
   `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
+  It misses `…}); // note foo.bar(x);` (no `;` inside the comment before the code): also run
+  `grep -nE "//.*[A-Za-z_]+(\.[A-Za-z_]+)*\([^)]*\);\s*$|//.*[A-Za-z_]+\.[A-Za-z_.]+ = [^;]+;\s*$"` and read each hit (039 lost a character to it).
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
   The classroom door swings flat against the inside wall instead, so the camera sees people come through the opening (003).
   Use `--cam top` to verify. People standing in the hallway stay at z > 0.25 (outside the door's swing arc).

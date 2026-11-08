@@ -34,7 +34,7 @@ export function createBuildOverlay(story) {
 
   const word = document.createElement('div'); word.className = 'bw'; ui.appendChild(word);
   const callouts = (story.callouts || []).map((c) => {
-    const el = document.createElement('div'); el.className = 'bc ' + c.style; el.textContent = c.text; ui.appendChild(el);
+    const el = document.createElement('div'); el.className = 'bc ' + c.style; el.textContent = c.roll ? c.text.replace('{n}', Math.round(c.roll[1]).toLocaleString('en-US')) : c.text; ui.appendChild(el);   // 039: roll [from, to] counts {n} up on entry (fit is measured on the final number)
     if (c.style === 'sfx') { const [x, y] = c.pos || [0.5, 0.4]; el.style.left = `${x * 1080}px`; el.style.top = `${y * 1920}px`; el.style.transform = 'translate(-50%,-50%)'; }
     else if (c.x != null) { el.style.left = `${c.x * 1080}px`; el.style.right = 'auto'; el.style.top = `${(c.y ?? 0.5) * 1920}px`; } // placed at [x, y] (centred there)
     else if (c.y != null) el.style.top = `${c.y * 1920}px`; // per-callout height (frame fraction) when the style's band covers the subject
@@ -68,6 +68,7 @@ export function createBuildOverlay(story) {
       else if (c.style === 'sfx') { s = easeOutBack(clamp(a / 0.16)); rot = -7; }
       else s = easeOutBack(clamp(a / 0.2));
       el.style.opacity = out * clamp(a / 0.05);
+      if (c.roll) { const u = clamp(a / (c.rollDur ?? 0.5)), v = c.roll[0] + (c.roll[1] - c.roll[0]) * (1 - (1 - u) ** 3); el.textContent = c.text.replace('{n}', (c.roll[1] < 100 && !Number.isInteger(c.roll[0]) ? v.toFixed(1) : Math.round(v).toLocaleString('en-US'))); }
       const base = c.style === 'sfx' || c.x != null ? 'translate(-50%,-50%) ' : 'translateY(-50%) ';
       el.style.transform = `${base}rotate(${rot}deg) scale(${Math.max(0.01, s * o.fit)})`;
     }

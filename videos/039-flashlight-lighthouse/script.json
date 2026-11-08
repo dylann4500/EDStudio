@@ -1,0 +1,908 @@
+{
+  "title": "How a Flashlight Becomes a Lighthouse",
+  "tone": "build",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 310
+  },
+  "lead": 0.04,
+  "gap": 0.03,
+  "tail": 1.0,
+  "maxPause": 0.16,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.58,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.12,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "Ships keep crashing into your rock. So Gary waves a flashlight. [excited] A tugboat hits GARY!",
+      "callouts": [
+        {
+          "at": "crashing",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "flashlight",
+          "text": "CLICK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "tugboat",
+          "text": "TOOT TOOT!",
+          "style": "sfx",
+          "pos": [
+            0.75,
+            0.17
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "gary",
+          "text": "SPLOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.64
+          ],
+          "hold": 0.8,
+          "nth": 2
+        }
+      ]
+    },
+    {
+      "id": "congrats",
+      "say": "Congratulations, you've built the world's worst lighthouse. A seagull stole the batteries. It's not even dark yet.",
+      "callouts": [
+        {
+          "at": "worst",
+          "text": "WORLD'S WORST LIGHTHOUSE",
+          "style": "label",
+          "hold": 1.2,
+          "y": 0.66
+        },
+        {
+          "at": "seagull",
+          "text": "SQUAWK!",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "batteries",
+          "text": "YOINK!",
+          "style": "sfx",
+          "pos": [
+            0.2,
+            0.62
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "range",
+      "say": "Gary lights an oil lamp. Ships can't see it: three miles out, the Earth curves over it. So you build up. This is called geographic range. Four times higher, twice as far. Two hundred feet, twenty miles.",
+      "callouts": [
+        {
+          "at": "lamp",
+          "text": "5 CANDLEPOWER",
+          "style": "label",
+          "hold": 1.0
+        },
+        {
+          "at": "three",
+          "text": "HORIZON: 3 MILES",
+          "style": "label",
+          "until": "out"
+        },
+        {
+          "at": "curves",
+          "text": "WHERE?",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.42
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "build",
+          "text": "CLANK CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "geographic",
+          "text": "GEOGRAPHIC RANGE",
+          "style": "term",
+          "until": "range"
+        },
+        {
+          "at": "four",
+          "text": "4X HIGHER = 2X FARTHER",
+          "style": "label",
+          "until": "far"
+        },
+        {
+          "at": "two",
+          "text": "200 FT",
+          "style": "label",
+          "until": "feet",
+          "y": 0.62
+        },
+        {
+          "at": "twenty",
+          "text": "RANGE: {n} MILES",
+          "style": "label",
+          "until": "miles",
+          "y": 0.69,
+          "roll": [
+            3,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reflector",
+      "say": "But it shines everywhere. So you add a curved mirror behind it. This is called a parabolic reflector. One beam, four hundred times brighter. [excited] Gary looked right INTO it!",
+      "callouts": [
+        {
+          "at": "everywhere",
+          "text": "WASTED",
+          "style": "stamp",
+          "hold": 0.7
+        },
+        {
+          "at": "mirror",
+          "text": "CLANG!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "parabolic",
+          "text": "PARABOLIC REFLECTOR",
+          "style": "term",
+          "until": "reflector"
+        },
+        {
+          "at": "four",
+          "text": "X400 = {n} CANDLEPOWER",
+          "style": "label",
+          "until": "brighter",
+          "roll": [
+            5,
+            2000
+          ]
+        },
+        {
+          "at": "into",
+          "text": "FWOOM!",
+          "style": "sfx",
+          "pos": [
+            0.78,
+            0.66
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "everywhere",
+          "text": "ZING!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.16
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "beam",
+          "text": "VMMM",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.66
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "lens",
+      "say": "Gary wears sunglasses at night now. A lens this big would be a glass boulder. So Fresnel sliced it into rings. This is called a Fresnel lens. Same bend, way less glass. Gary carries two tons upstairs.",
+      "callouts": [
+        {
+          "at": "sunglasses",
+          "text": "SHADES ON",
+          "style": "sfx",
+          "pos": [
+            0.8,
+            0.42
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "boulder",
+          "text": "TOO HEAVY",
+          "style": "stamp",
+          "hold": 0.8,
+          "y": 0.66
+        },
+        {
+          "at": "sliced",
+          "text": "SHHK SHHK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "fresnel",
+          "nth": 2,
+          "text": "FRESNEL LENS",
+          "style": "term",
+          "until": "lens"
+        },
+        {
+          "at": "same",
+          "text": "SAME BEND, LESS GLASS",
+          "style": "label",
+          "until": "glass",
+          "y": 0.62
+        },
+        {
+          "at": "upstairs",
+          "text": "{n} CANDLEPOWER",
+          "style": "label",
+          "roll": [
+            2000,
+            80000
+          ],
+          "y": 0.3,
+          "hold": 1.4
+        },
+        {
+          "at": "two",
+          "text": "2 TONS",
+          "style": "label",
+          "until": "tons",
+          "y": 0.72
+        },
+        {
+          "at": "upstairs",
+          "text": "HNNNGH!",
+          "style": "sfx",
+          "pos": [
+            0.75,
+            0.66
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "rings",
+          "text": "SNIP SNIP",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.66
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "clock",
+      "say": "One beam points one way. A cruise ship sneaks up behind. So falling weights spin the lens, like a giant cuckoo clock. This is called a clockwork drive. Every two and a half hours, Gary cranks them back up.",
+      "callouts": [
+        {
+          "at": "way",
+          "text": "ONE WAY",
+          "style": "stamp",
+          "hold": 0.7
+        },
+        {
+          "at": "behind",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "cuckoo",
+          "text": "CUCKOO!",
+          "style": "sfx",
+          "pos": [
+            0.22,
+            0.18
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "clockwork",
+          "text": "CLOCKWORK DRIVE",
+          "style": "term",
+          "until": "drive"
+        },
+        {
+          "at": "every",
+          "text": "EVERY 2.5 HOURS",
+          "style": "label",
+          "until": "hours",
+          "y": 0.64
+        },
+        {
+          "at": "back",
+          "text": "yawn.",
+          "style": "sfx",
+          "pos": [
+            0.75,
+            0.2
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "giant",
+          "text": "TICK TOCK",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.18
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "hours",
+          "text": "CLUNK!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.66
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "cranks",
+          "text": "CRANK CRANK",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.66
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "mercury",
+      "say": "Two tons barely turns, so you float it on mercury. This is called a mercury bath. Now one finger spins it. [excited] The seagull rides it like a CAROUSEL!",
+      "callouts": [
+        {
+          "at": "barely",
+          "text": "ERRRK...",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "float",
+          "text": "GLUG GLUG",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "mercury",
+          "nth": 2,
+          "text": "MERCURY BATH",
+          "style": "term",
+          "until": "bath",
+          "y": 0.64
+        },
+        {
+          "at": "finger",
+          "text": "1 FINGER",
+          "style": "label",
+          "hold": 0.9,
+          "y": 0.8
+        },
+        {
+          "at": "carousel",
+          "text": "WHEEE!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "spins",
+          "text": "WHOOSH",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.18
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "char",
+      "say": "A ship mistakes you for the lighthouse next door. So each light blinks its own rhythm. This is called a light characteristic. Yours: two flashes every ten seconds. Gary's first one spelled help.",
+      "callouts": [
+        {
+          "at": "door",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "rhythm",
+          "text": "BLINK BLINK",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "characteristic",
+          "text": "LIGHT CHARACTERISTIC",
+          "style": "term",
+          "until": "characteristic",
+          "y": 0.64
+        },
+        {
+          "at": "two",
+          "text": "2 FLASHES / 10 SEC",
+          "style": "label",
+          "until": "seconds",
+          "y": 0.7
+        },
+        {
+          "at": "spelled",
+          "text": ".... . .-.. .--. = HELP",
+          "style": "label",
+          "hold": 1.2,
+          "y": 0.64
+        },
+        {
+          "at": "flashes",
+          "text": "FLASH! FLASH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.18
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "storm",
+      "say": "Then the storm hits. Waves rip out the bottom bricks. [shouting] The whole tower LEANS!",
+      "callouts": [
+        {
+          "at": "storm",
+          "text": "KRAKOOM!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.24
+          ],
+          "hold": 0.7
+        },
+        {
+          "at": "bricks",
+          "text": "CRUNCH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.64
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "tower",
+          "text": "TIMBERRR",
+          "style": "stamp",
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "smeaton",
+      "say": "So you rebuild in granite blocks that lock like puzzle pieces, flared like an oak. This is called dovetailing. Smeaton's outlasted its own rock.",
+      "callouts": [
+        {
+          "at": "granite",
+          "text": "THUNK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.5
+        },
+        {
+          "at": "puzzle",
+          "text": "CLICK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "dovetailing",
+          "text": "DOVETAILING",
+          "style": "term",
+          "until": "smeatons"
+        },
+        {
+          "at": "smeatons",
+          "text": "SMEATON'S TOWER, 1759",
+          "style": "label",
+          "until": "rock"
+        },
+        {
+          "at": "oak",
+          "text": "POP!",
+          "style": "sfx",
+          "pos": [
+            0.22,
+            0.18
+          ],
+          "hold": 0.5
+        },
+        {
+          "at": "rock",
+          "text": "CRUMBLE...",
+          "style": "sfx",
+          "pos": [
+            0.75,
+            0.82
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "fog",
+      "say": "Then fog rolls in. So you add a horn blown by compressed air. This is called a foghorn. Ships hear it eight miles out. Gary hears it from one foot. [shouting] WHAT?",
+      "callouts": [
+        {
+          "at": "in",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "horn",
+          "text": "CLANK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.6
+          ],
+          "hold": 0.5
+        },
+        {
+          "at": "foghorn",
+          "text": "FOGHORN",
+          "style": "term",
+          "until": "foghorn"
+        },
+        {
+          "at": "eight",
+          "text": "HEARD {n} MILES OUT",
+          "style": "label",
+          "until": "out",
+          "roll": [
+            0,
+            8
+          ]
+        },
+        {
+          "at": "foot",
+          "text": "BWAAAAH!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.7
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "compressed",
+          "text": "PSSHH",
+          "style": "sfx",
+          "pos": [
+            0.25,
+            0.66
+          ],
+          "hold": 0.6
+        }
+      ],
+      "shelf": -9
+    },
+    {
+      "id": "daymark",
+      "say": "By day, every lighthouse is a white stick. So you paint it. This is called a daymark. Cape Hatteras wears a black and white spiral. The seagull adds polka dots.",
+      "callouts": [
+        {
+          "at": "stick",
+          "text": "WHICH ONE?",
+          "style": "stamp",
+          "hold": 0.7
+        },
+        {
+          "at": "paint",
+          "text": "SPLISH!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.38
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "daymark",
+          "text": "DAYMARK",
+          "style": "term",
+          "until": "daymark",
+          "y": 0.64
+        },
+        {
+          "at": "cape",
+          "text": "CAPE HATTERAS, 1873",
+          "style": "label",
+          "until": "spiral",
+          "y": 0.72
+        },
+        {
+          "at": "dots",
+          "text": "PLOP PLOP",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.62
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "spiral",
+          "text": "SWISH",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.66
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "wave",
+      "say": "Then the big one. [shouting] The wave swallows the whole TOWER!",
+      "callouts": [
+        {
+          "at": "wave",
+          "text": "RUMBLE...",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.42
+          ],
+          "hold": 0.8
+        },
+        {
+          "at": "swallows",
+          "text": "KA-SPLOOSH!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.14
+          ],
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "hold",
+      "say": "The granite holds, and a ship misses your rock.",
+      "callouts": [
+        {
+          "at": "holds",
+          "text": "STILL STANDING",
+          "style": "stamp",
+          "hold": 0.8
+        },
+        {
+          "at": "rock",
+          "text": "DAYS WITHOUT A CRASH: 1",
+          "style": "label",
+          "hold": 1.2
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "say": "Add a radio, a helipad and a bird perch. Birds really do fly into lighthouses.",
+      "callouts": [
+        {
+          "at": "radio",
+          "text": "RADIO",
+          "style": "label",
+          "hold": 0.5
+        },
+        {
+          "at": "helipad",
+          "text": "HELIPAD",
+          "style": "label",
+          "hold": 0.6
+        },
+        {
+          "at": "perch",
+          "text": "BIRD PERCH",
+          "style": "label",
+          "until": "lighthouses",
+          "y": 0.64
+        },
+        {
+          "at": "lighthouses",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.3,
+            0.22
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Congratulations, you've built a lighthouse. You just wanted the boats to stop hitting your rock. Now it's four million dollars, Gary is blind, soaked and deaf, and the boats finally miss. [shouting] The seagull DOESN'T!",
+      "callouts": [
+        {
+          "at": "four",
+          "text": "${n}",
+          "style": "money",
+          "until": "dollars",
+          "roll": [
+            0,
+            4270000
+          ],
+          "rollDur": 0.6
+        },
+        {
+          "at": "blind",
+          "text": "BLIND",
+          "style": "stamp",
+          "hold": 0.35,
+          "y": 0.66
+        },
+        {
+          "at": "soaked",
+          "text": "SOAKED",
+          "style": "stamp",
+          "hold": 0.35,
+          "y": 0.66
+        },
+        {
+          "at": "deaf",
+          "text": "DEAF",
+          "style": "stamp",
+          "hold": 0.5,
+          "y": 0.66
+        },
+        {
+          "at": "doesnt",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.22,
+            0.18
+          ],
+          "hold": 1.0
+        },
+        {
+          "at": "lighthouse",
+          "text": "TA-DA!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.3
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "end2",
+      "say": "It's the only thing still hitting your rock.",
+      "callouts": [
+        {
+          "at": "rock",
+          "text": "BACK TO 0",
+          "style": "stamp",
+          "hold": 1.3,
+          "y": 0.2,
+          "x": 0.26
+        }
+      ]
+    }
+  ]
+}
