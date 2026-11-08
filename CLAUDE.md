@@ -401,6 +401,14 @@ videos/NNN-slug/
   to the lantern, Fresnel lens/mirror/beams, boats (tug/sailboat/cruise/freighter/barge), gull, foam spray crown, far coast. A camera
   riding a boat: mount it on the boat body, steady the boat, shake for the foreground distance (039 tug deck). rail.js `swoop`
   (fast one-way dolly to a far place) and `lead/maxLead`; `tools/scenes.py` counts new looks (docs/BUILD.md → Lessons from 039).
+- **Other build sets (all in `engine/build/`, lessons per reel in docs/BUILD.md):** `station.js` (032: a backyard on a toy planet,
+  `makeFeeder`, squirrel, songbird, treadmill), `firetruck.js` (033: `makeFireTruck` cutaway, `makeSectionWater().set(cells)` =
+  water that stays level in a tilting tank, `makeJet` ballistic hose stream, `makeFires`, grill, hydrant, dalmatian, yard cat),
+  `tank.js` (034: `makeKartTank().setStage({...})` grows a go-kart into a tank, tracks built link by link, goose, barn, bridge),
+  `jet.js` (041: `makeEngine().set({...})` = a staged turbofan half-section, `makeHairDryer`, bird cannon, forklift). Turbo checks:
+  `tools/pace.py` (syllables/s, gaps), `density.py` (visual events/s), `scenes.py` (new looks), `flow.py` (camera speed on the
+  pixels of a render), `check_voice.py` (whisper transcript + yell levels). `tools/narrate.py` reuses a finished reel's committed
+  `voice/eleven-*` takes when there's no key, so any clone can rebuild voice.wav.
 - **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
   below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
   conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in
@@ -552,6 +560,10 @@ videos/NNN-slug/
   opacity the whole time (numbers may roll, nothing else changes). Anything that blinks or breathes is distracting.
 
 ## Hard-won rules (each one cost a debugging round)
+- **Never rename a sound a shipped reel uses (Nov 8, merging 033 into main):** synth.py seeds every bed's noise with its NAME
+  (`seeded("amb", sound, seed)`), so 033's fire renamed to `fire_roar` re-rolled its whole ambience (stem corr 0.44). When two
+  branches register one name with different parameters, keep the name and route by the arguments (`amb_fire`: `intensity` → 033,
+  `size` → 037). After a merge, re-synthesize every reel whose sounds were touched and `cmp` audio.wav with the shipped one.
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
 - **A sky dome that follows the camera in `onBeforeRender` must convert the camera into its root's LOCAL space** when the set is parked
   at an offset (`root.worldToLocal`) — 029's harbor sky copied the world position into a child of a root at x = 6000 and rendered
