@@ -696,6 +696,75 @@ as a record of what the cut style needs, if it is ever tried again.
   final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
 
+## Lessons from 033 (squirt gun → fire truck; each cost a stills round)
+- **A vehicle cutaway = a window, not a half-vehicle**: cut the near skin only over the guts (tank + pump, `engine/build/firetruck.js`)
+  with section-coloured edges, keep the cab, compartments and wheels whole — it still reads as a fire truck in every wide.
+- **Orient the machine so the physics points at the story**: the first layout had the cab away from the fire; flipping it so the
+  cab faces the fire made the brake surge (water + Gary go forward), the tip-over (about the FRONT wheels, the tail rises) and the
+  outriggers (front jacks ahead of the front axle push the nose up, the tail slams down) all physically right at once.
+- **Water in a moving/tilting tank stays level in WORLD space**: `makeSectionWater(...).set(cells)` clips each compartment rect
+  below the line y = L + s(x − xc); in the tank's frame use s = tan(slosh − tank roll), so the bed tilt, the braking dive and the
+  tip all keep the surface flat; baffles = more cells with smaller, faster slosh.
+- **Fire sprites: normal-blended orange flames + a small additive core.** Additive-only flames washed out to pale smudges on a sunny
+  wall; white additive cores turned the fireball into a flashbulb (orange cores fixed it). Ignite a long hedge from the source
+  outward in ~0.3 s (7 sources), or the reveal word lands before anything burns.
+- **A water jet is a ballistic tube** (`makeJet`): v0 = Δ/T + ½gT ŷ for a chosen flight time, the tube grows from the nozzle at the
+  water's speed, stops at a hit test (`stop(p)`), sprays drops at the end. A mega blast that must land ON its word needs a short
+  flight time (T ≈ 0.55 s, flatter), not a lob.
+- **A running gag carries continuity across beats**: Gary's pants catch fire in the fireball and stay lit ("Gary's pants are STILL
+  on fire") until the pump's useless dribble puts them out — one prop, three lines shown.
+- **Three items of a finishing list far apart (cab siren, mid-truck pole, tail) = one whole-truck frame, then push in**; a close-up
+  per item broke the speed rule four times in the scratch read.
+- **033 round 1 (v1, scratch voice): logic 6.5 · look 6 · pacing 7 · camera 5 · comedy 6.5.** Wins for v2: the camera reviewer's
+  projected framings (every subject in frame ON its word; a tall two-shot instead of a whip to the cat and back); a framing keyed to
+  an undefined `t.say` made its `until` NaN, so the camera left 0.3 s after arriving — planRail now warns on non-numeric times;
+  jets as an UNLIT near-white core + a 1.7× soft sheath + mist sprites (a lit glossy tube read as a glass rod / fishing line);
+  thin silver ladder rails vanished against the sky (red rails, 1.5× thicker, aluminium only for the rungs); an end-on mailbox
+  capsule read as a black lollipop in front of the truck for 15 s; "charcoal" needs near-black + embers (lerping a green
+  texture's colour multiplier stays dark green); baffles seen in section are edge-on lines, so draw their cut edge DASHED (the
+  holes); clear every canopy blob in front of the side character's plane or a high wide hides it; give the useless gadget one
+  last useless squirt on "Water works on hedges"; the cat sits sniffing the plate and only eats on "The cat ate the BURGERS".
+- **033 round 2 (v2, Adam v3): logic 7.5 · look 6.5 · pacing 8 · camera 6.5 · comedy 7.5.** Wins for v3: **soot = patchy smudges, never a
+  tint** — a warm near-black lerp over skin + clothes made sooted Gary read as a different (dark-skinned) man, and a cool grey
+  lerp still read as a costume change (manager steer). toon.js `set({soot: 0..1})` now fades in blotch SHELLS (one seeded
+  canvas of soft charcoal blobs on 1.02× copies of the skull, clothes and hat; the hat at 40 % or it reads as leopard print) and
+  never touches the base colours; pair it with white eyes blinking (`'wide'`/`'closed'` every 0.85 s), a smoking hard hat (a
+  slow fx smoke stream AT the hat top: g −0.5, speed 0.12–0.3 — the default smoke rises so fast the plume starts 1 m above
+  him) and fade it out a few seconds later. The QC face check must cover the HAT too (head + 0.3 m):
+  callouts kept landing on his hard hat while the face check passed. Clouds 4–22° wide in a 23° frame read as smudges on the lens
+  (keep them small, low and white). A half-cylinder fender at `rotation.x = +π/2` hangs UNDER the axle (black crescents under
+  every wheel in 40 % of frames). Fix side-character gaps with WIDES that hold both stories (the camera reviewer projected the
+  cat's x/y % per frame), not with extra visits. A line about an absence ("Now the water hits them instead of Gary") still needs
+  its own event: a second brake tap, each cell slapping its baffle with spray through the holes. A 0.12 s `hop` window = a
+  one-frame teleport; give every transfer ≥ 0.3 s. Chain a gag through ONE prop: the right wrench pops out of a compartment on
+  "random", BONKs him on "person", lands in his hands on "wrench" (v2 hid the flight, so the BONK had no cause). Don't telegraph
+  the final reveal: the cat grooms smugly under hanging Gary and only hops to the grill on "The cat". At "100 FEET" the ladder tip
+  must be IN the frame on the word (a tall, wide fov-68 framing), and the cat must be ≥ 60 px tall on "the cat is at twenty".
+- **033 round 3: logic 7.5 · look 7 · pacing 8 · camera 6.5 · comedy 7.5.** Wins for v4: a gag's CAUSE must be on screen
+  before its word — the hedge "catching fire" on HEDGE read as magic until a smouldering spot (where the fireball flung the oil)
+  smoked beside Gary for 6 s and lit the hedge outward from there; an ending whose action (the ladder pulled out from under
+  Gary) happens while the camera is on its trigger (the dog's lever) is lost — trigger on one word, consequence on the next
+  word with the camera already on the victim; a "count" line ("five sides") needs the count drawn (yellow 1-5 popping onto the
+  nut's faces, one per 0.09 s, from a 45° top view — a 25° view made the pentagon a cube); a stamp-label + its prop must pop on
+  the SAME word (the 3 FT label showed 0.6 s before the pole); a prop a line moves somewhere ("bolt the nozzle to the roof")
+  must travel there in Gary's hand, not reappear; `//` comments inside a one-line `g.set({ … })` call swallow the rest of the
+  call (bit twice this round; `node --check` catches it, the comment-lint grep does not); a final two-shot added as the END
+  stop arrives on the last frame — give it its own held framing ~1.3 s before the end.
+- **033 round 4: logic 7.5 · pacing 8 · camera 7 · comedy 8** (look ~7, own check). Wins for v5: a big-headed toon CANNOT
+  reach above his own hat (hands top out at ~1.16 m, the hat at ~1.5 m), so "hanging from a branch" = the branch BEHIND his head
+  with arms up and slightly back (x ≈ −3.25), hands on the branch axis, the body tilted to the branch's slope, from the middle
+  of the branch (at the tip his outer hand held air); "Firefighters say…" got a gag of its own (Gary hugs an armful of leaves
+  while the cat backs away); a lever press = trigger word, then the camera leaves (the press at the very start of a camera
+  move read as nothing); when a face keeps landing at caption height in a framing, change the POSE (Gary squats by the pump to
+  watch it spin up) instead of fighting the lens.
+- **033 round 5 (final): logic 8 · pacing 8.5 · comedy 8 · camera 7 · look ~7 → shipped.** Five rounds; what moved logic from
+  7.5 to 8 was ONE thing — the ending's victim visibly doing what the line says (hanging from the branch, dropped on the punch
+  word "BURGERS" with the camera already on him). Last-round camera wins: a TERM must name what's IN the frame on its word
+  ("DECK GUN" over a burning house = a broken promise; frame over the gun toward its target and ride the jet); a whirl that is
+  wider than the frame needs a wider lens, not a faster pan; when a fix moves a prop off a face it can land it under the
+  caption instead (the HEAT badge) — re-check every moved thing against the caption band.
+
+
 ## Lessons from 034 (go-kart → tank, the first TURBO reel; each cost a stills round)
 - **A vehicle that upgrades in place = one rig with staged parts** (`engine/build/tank.js` `makeKartTank().setStage({...})`): the
   kart rides up onto a tracked deck, plates pop on one by one, the glacis tilts about its bottom edge (its length = h / cos a so its
