@@ -56,6 +56,9 @@ the tick starts producers for it. TikTok's scheduler accepts posts 15 min to 10 
   stale locks are taken over), runs `run_tribe.py` in the main checkout, writes `videos/NNN-slug/tribe-cutN.txt` (cutN = the video's Nth cut; the model is always TRIBE v2)
   (last line `TARGET MET` / `NOT MET`). `--status` shows who holds it.
 - **`tools/upload-copy.sh`** → `out/upload.mp4` (HEVC < 10 MB, the Claude-in-Chrome upload limit; looks identical at phone size).
+  60 fps build reels are posted as a 60 fps HEVC copy (two-pass, ≈ 570 kbps for 115 s; the user chose it over a 30 fps copy on 026
+  to match 024/025). Instagram's web player serves all three at 30 fps, 720×1280 (measured with `requestVideoFrameCallback`), and
+  the 60 fps copy goes blocky for about a second in the hardest screen shake (026's crash), so check that frame before uploading.
 - **`tools/preview-copy.sh`** → `out/preview.mp4` (H.264 720p ≤ 4.5 MB, plays on any phone, small enough to text).
 - **`tools/caption.py videos/NNN-slug`** — prints the paste-ready caption, or fails if it breaks the house format
   (course line as its own block, 5 hashtags incl. #animation, 👇 question, "Send this to…").
