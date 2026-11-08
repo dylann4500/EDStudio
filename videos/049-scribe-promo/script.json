@@ -1,0 +1,233 @@
+{
+  "title": "No Nut November (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 290
+  },
+  "lead": 0.04,
+  "gap": 0.05,
+  "tail": 4.45,
+  "maxPause": 0.17,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.55,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.12,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "A hundred college seniors jump out of a plane. It's No Nut November. Last man standing wins.",
+      "callouts": [
+        {
+          "at": "hundred",
+          "text": "100 GUYS · 1 ISLAND",
+          "style": "label",
+          "until": "plane",
+          "y": 0.31
+        },
+        {
+          "at": "no",
+          "text": "NO NUT NOVEMBER",
+          "style": "term",
+          "until": "november",
+          "y": 0.31
+        }
+      ]
+    },
+    {
+      "id": "orchard",
+      "say": "Seven of them hot drop the peach orchard. Bold. Stupid. Gone.",
+      "callouts": [
+        {
+          "at": "stupid",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.36
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "wifi",
+      "say": "Day four. Somebody finds wifi. Thirty men go down in four seconds.",
+      "callouts": []
+    },
+    {
+      "id": "drop",
+      "say": "Day fifteen. A supply drop. Twenty men rip it open. Two cantaloupes. [shouting] Nobody SURVIVES.",
+      "callouts": []
+    },
+    {
+      "id": "blimp",
+      "say": "Everyone who loses goes to the blimp. They watch. They judge.",
+      "callouts": []
+    },
+    {
+      "id": "seagull",
+      "say": "Day twenty-nine. Two left. Trevor, and some guy in the library. A seagull winks at Trevor. Trevor is out.",
+      "callouts": [
+        {
+          "at": "winks",
+          "text": "*wink*",
+          "style": "sfx",
+          "pos": [
+            0.66,
+            0.35
+          ],
+          "hold": 0.8
+        }
+      ]
+    },
+    {
+      "id": "twist",
+      "say": "The last man alive doesn't even know he's playing.",
+      "callouts": []
+    },
+    {
+      "id": "library",
+      "say": "Tyler has been in the library since Halloween. Forty calculus problems. Handwritten. Due at midnight. He's on number two.",
+      "callouts": [
+        {
+          "at": "forty",
+          "text": "40 PROBLEMS",
+          "style": "label",
+          "hold": 1.1,
+          "y": 0.3
+        },
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "hold": 0.55,
+          "y": 0.33
+        },
+        {
+          "at": "midnight",
+          "text": "DUE 11:59 PM",
+          "style": "label",
+          "hold": 0.55,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "He's cooked. So he opens Scribe.",
+      "callouts": [
+        {
+          "at": "cooked",
+          "text": "COOKED",
+          "style": "stamp",
+          "hold": 0.45,
+          "y": 0.33
+        }
+      ]
+    },
+    {
+      "id": "solve",
+      "say": "One photo of the worksheet. Scribe solves all forty.",
+      "callouts": [
+        {
+          "at": "photo",
+          "text": "SNAP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.33
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "solves",
+          "text": "{n}/40 SOLVED",
+          "style": "label",
+          "roll": [
+            0,
+            40
+          ],
+          "rollDur": 0.9,
+          "hold": 1.4,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "But it has to be handwritten. So Scribe writes it in his handwriting. His chicken scratch. His messy sevens. Even the graphs.",
+      "callouts": [
+        {
+          "at": "writes",
+          "text": "YOUR HANDWRITING",
+          "style": "term",
+          "until": "handwriting",
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "match",
+      "say": "His professor holds it next to last week's homework. [excited] Perfect MATCH.",
+      "callouts": [
+        {
+          "at": "perfect",
+          "text": "PERFECT MATCH",
+          "style": "stamp",
+          "hold": 1.1,
+          "y": 0.255
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "say": "One shot. Done. Eleven oh four.",
+      "callouts": [
+        {
+          "at": "eleven",
+          "text": "11:04 PM",
+          "style": "label",
+          "hold": 1.0,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "walk",
+      "say": "Tyler walks outside. Ninety-nine men in a blimp are staring at him. He has fifty-six minutes and nothing to do with his hands.",
+      "callouts": []
+    },
+    {
+      "id": "zero",
+      "say": "Zero alive.",
+      "callouts": []
+    }
+  ]
+}
