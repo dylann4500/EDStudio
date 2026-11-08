@@ -4,9 +4,9 @@
 Every time comes from story.json (the narration's word times) with the SAME formulas as shots.js, so re-voicing keeps every sound on
 its picture. Then: python3 -I audio/synth.py 049-scribe-promo
 
-Sound identity: "LOBBY FUNK" — a battle-royale lobby groove: synth.py's continuous "disco" style on the pluck (octave bass in 8ths +
-off-beat stabs) in E minor at 120 bpm, a tom on every beat + a soft clap on 2 and 4, a dark E pad under everything. The hook is the
-plane's cabin hum + skydive wind only; the music drops in on "No Nut November" with a boom. The library turns the chords tense
+Sound identity: "LOBBY RUSH" (v2, 140 bpm; v1 was a 120 bpm "LOBBY FUNK" the user found slow): synth.py disco pluck (octave bass in 8ths +
+off-beat stabs) in E minor at 140 bpm, a four-on-the-floor kick, claps on 2 + 4, 16th hats, tom fills, a marimba arp, an E pad. The hook is the
+plane's cabin hum + skydive wind over a hat/kick build; the full groove drops on "No Nut November" with a boom. The library turns the chords tense
 (Em–C–Am–B), Scribe opening lifts them to G–D–Em–C, the ending goes back to the lobby loop and resolves on G under the end card.
 Foley on every gag (bonks, chute pops, the kill-feed ding, wifi chirps, the crate, a heavenly chime on the cantaloupes, the gull,
 camera shutter, solve beeps, pen scribble, stamps, the door, the spotlight clunk, a heartbeat on "nothing to do with his hands") and
@@ -56,8 +56,11 @@ DOOR0, WALK1, SPOT_ON, ZAP = t['walks'] - 0.1, t['outside'] + 0.45, t['staring']
 FEED = [BONK + 0.05, BONK2[0] + 0.06, BONK2[1] + 0.1, GONE + 0.05, BEAM0 + 0.02, BEAM0 + 0.3, BEAM0 + 0.55, BEAM0 + 0.8, BEAMS5 + 0.05, BEAMS5 + 0.3, BEAMS5 + 0.55,
         t['everyone'] + 0.25, t['everyone'] + 0.65, t['blimpW'] + 0.1, t['watch'] + 0.05, t['judge'] - 0.1, t['judge'] + 0.3, TOUT + 0.05]
 
-# ---------------------------------------------------------------- music: 120 bpm lobby funk, E minor (pluck, disco style)
-BPM = 120
+# ---------------------------------------------------------------- music: 140 bpm "LOBBY RUSH", E minor (pluck disco + marimba arp + driving drums)
+# v2 (user, Nov 8: "more upbeat, faster percussive music… it feels a little bit slow"): 120 → 140 bpm, four-on-the-floor kick, claps on
+# 2 + 4, 16th-note felt hats (tick), a tom fill every 4 bars, a bouncing 8th-note marimba arp over the chords; the drums start under
+# the hook (hats + a building kick) and the full groove drops on "No Nut November".
+BPM = 140
 BEAT = 60 / BPM
 IN = t['no'] - 0.02
 LIB0, LIFT0, END0 = t['tyler'], t['scribe'] - 0.1, t['tylerW']
@@ -74,8 +77,8 @@ while cur < D - 1.0:
     cyc += 1
 chords.append([round(cur, 3), 'G'])
 sections = [{"t0": IN, "t1": D, "style": "disco", "step": BEAT / 2,
-             "vel": [[IN, 0.33], [t['seven'], 0.34], [t['everyone'], 0.36], [LIB0, 0.3], [LIFT0, 0.37], [t['professor'], 0.36], [END0, 0.3], [t['nothing'], 0.27], [ZAP, 0.36], [D, 0.33]],
-             "bass_hold": 0.95, "stab_vel": 0.5, "stab_hold": 0.85}]
+             "vel": [[IN, 0.36], [t['seven'], 0.37], [t['everyone'], 0.39], [LIB0, 0.34], [LIFT0, 0.4], [t['professor'], 0.39], [END0, 0.35], [t['nothing'], 0.33], [ZAP, 0.4], [D, 0.36]],
+             "bass_hold": 0.9, "stab_vel": 0.55, "stab_hold": 0.7}]
 mallet = []
 for c in story['callouts']:                                  # rising "ta-da" on TERM callouts, a two-note lift on labels, a falling pair on stamps
     a = c['t0'] + 0.02
@@ -86,12 +89,28 @@ for c in story['callouts']:                                  # rising "ta-da" on
         mallet += [[round(a, 3), 71, 0.3, 0.14], [round(a + 0.09, 3), 76, 0.32, 0.26]]
     elif c['style'] == 'stamp':
         mallet += [[round(a, 3), 71, 0.3, 0.12], [round(a + 0.11, 3), 64, 0.3, 0.26]]
-pad = [{"t0": IN, "t1": D - 0.2, "notes": [28, 40, 47, 52, 55], "level": 0.5, "attack": 0.3, "release": 0.8, "cutoff": 900, "hp": 30}]
+# the bouncing marimba arp: 8ths on the chord tones (up-down with an octave kick on the 4th step); sparser 4ths in the tense library
+TRI = {'Em': [64, 67, 71], 'C': [64, 67, 72], 'G': [62, 67, 71], 'D': [62, 66, 69], 'Am': [64, 69, 72], 'B': [63, 66, 71]}
+ARP = [0, 1, 2, 3, 2, 1, 0, 1]
+for i, (ct, sym) in enumerate(chords[:-1]):
+    nxt = chords[i + 1][0]; tri = TRI[sym]; tense = LIB0 - 0.3 < ct < LIFT0 - 0.3
+    k, step = 0, (BEAT if tense else BEAT / 2)
+    while ct + k * step < nxt - 0.02:
+        a = ARP[k % 8]; m = tri[a] if a < 3 else tri[0] + 12
+        mallet.append([round(ct + k * step, 3), m, (0.2 if k % 2 == 0 else 0.15) * (0.8 if tense else 1.0), 0.16]); k += 1
+pad = [{"t0": IN, "t1": D - 0.2, "notes": [28, 40, 47, 52, 55], "level": 0.5, "attack": 0.3, "release": 0.8, "cutoff": 900, "hp": 30}, {"t0": 0.3, "t1": IN + 0.2, "notes": [40, 47, 52], "level": 0.4, "attack": 1.4, "release": 0.4, "cutoff": 700, "hp": 30}]   # a riser under the hook's hat build (keeps the bed continuous)
 booms = [IN, BONK, BEAM0, BURST, BEAMS5, TOUT, t['cooked'], t['perfect'], SPOT_ON, ZAP]
 drums = [[round(b, 3), 0.45, "boom"] for b in booms]
-drum_patterns = [{"t0": IN + 0.02, "t1": D - 1.0, "step": BEAT, "pattern": [1, 0.55, 0.8, 0.55], "vel": 0.12, "kind": "tom"},
-                 {"t0": IN + 0.02 + BEAT, "t1": D - 1.0, "step": 2 * BEAT, "pattern": [1], "vel": 0.12, "kind": "clap"}]
-music = {"gain_db": 2.0, "reverb_db": -13.0, "pad_db": 4.0, "pad_reverb_db": -6.0, "mallet_db": 0.0, "drums_db": -8.0, "instrument": "pluck",
+PRE = IN - BEAT * int(IN / BEAT - 0.1)               # the hook's pre-roll starts on the same grid as the drop
+drums += [[round(PRE + k * BEAT / 4, 3), 0.3 + 0.4 * k / max(1, (IN - PRE) / (BEAT / 4)), "tick"] for k in range(int((IN - PRE) / (BEAT / 4)))]   # a hat build
+drums += [[round(PRE + k * BEAT, 3), 0.25 + 0.35 * k / max(1, (IN - PRE) / BEAT), "kick"] for k in range(int((IN - PRE) / BEAT))]
+drums += [[round(IN - BEAT + k * BEAT / 4, 3), 0.25 + 0.1 * k, "tom"] for k in range(4)]   # the fill into the drop
+END_D = D - 0.6
+drum_patterns = [{"t0": IN, "t1": END_D, "step": BEAT, "pattern": [1], "vel": [[IN, 0.6], [LIB0, 0.5], [LIFT0, 0.62], [END0, 0.52], [ZAP, 0.62], [D, 0.55]], "kind": "kick"},
+                 {"t0": IN + BEAT, "t1": END_D, "step": 2 * BEAT, "pattern": [1], "vel": [[IN, 0.42], [LIB0, 0.34], [LIFT0, 0.44], [D, 0.42]], "kind": "clap"},
+                 {"t0": IN, "t1": END_D, "step": BEAT / 4, "pattern": [0.45, 0.25, 0.85, 0.3], "vel": [[IN, 0.4], [LIB0, 0.34], [LIFT0, 0.42], [D, 0.4]], "kind": "tick"},
+                 {"t0": IN + 15 * BEAT, "t1": END_D, "step": BEAT / 4, "pattern": [0] * 60 + [0.8, 0.9, 1.0, 1.1], "vel": 0.3, "kind": "tom"}]   # a 4-sixteenth tom fill closing every 4 bars
+music = {"gain_db": 0.5, "reverb_db": -13.0, "pad_db": 4.0, "pad_reverb_db": -6.0, "mallet_db": -2.0, "drums_db": -4.0, "instrument": "pluck",
          "leveler": {"thr_rel_db": 4.0, "ratio": 2.0, "tau": 0.3}, "end": D, "chords": chords, "sections": sections, "melody": [],
          "mallet_melody": sorted(mallet), "pad": pad, "drums": drums, "drum_patterns": drum_patterns}
 
@@ -206,7 +225,7 @@ amb = [
 
 ev = [x for x in ev if x is not None]
 cues = {
-    "title": "049 - Scribe promo: No Nut November battle royale (LOBBY FUNK pluck 120 bpm + battle-royale foley + narrator)",
+    "title": "049 - Scribe promo: No Nut November battle royale (LOBBY RUSH pluck + marimba 140 bpm, driving drums + battle-royale foley + narrator)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
     "stem_gain_db": {"music": -8.0, "sfx": 3.5, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -6.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},
