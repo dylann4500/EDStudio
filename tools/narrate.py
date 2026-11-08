@@ -320,7 +320,8 @@ def trim(x, words, pad=0.04):
 
 # ---- voicing ----------------------------------------------------------------------------------------------------------
 
-def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
+def clip_stem(vdir, provider, cfg, beat):
+    """The cache path of one beat's take (without extension): voice/<provider>-<beat id>-<sha1 of voice + settings + text>."""
     text = beat['say'].strip()
     if provider == 'eleven':
         v = cfg['voice']
@@ -331,7 +332,12 @@ def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
         s = cfg.get('scratch', {})
         sig = json.dumps([s.get('voice'), s.get('rate'), text], sort_keys=True)
     h = hashlib.sha1(sig.encode()).hexdigest()[:10]
-    stem = os.path.join(vdir, f"{'eleven' if provider == 'eleven' else 'scratch'}-{beat['id']}-{h}")
+    return os.path.join(vdir, f"{'eleven' if provider == 'eleven' else 'scratch'}-{beat['id']}-{h}")
+
+
+def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
+    text = beat['say'].strip()
+    stem = clip_stem(vdir, provider, cfg, beat)
     if os.path.exists(stem + '.json'):
         meta = json.load(open(stem + '.json'))
         return stem + meta['ext'], meta['words'], False
@@ -505,7 +511,13 @@ def main():
     if '--layout' in a:
         cfg = json.load(open(os.path.join(vd, 'script.json')))
         return layout(slug, cfg, json.load(open(os.path.join(vd, 'words.json'))))
-    provider = 'eleven' if key and '--scratch' not in a and json.load(open(os.path.join(vd, 'script.json')))['voice'].get('provider') == 'eleven' else 'scratch'
+    sc = json.load(open(os.path.join(vd, 'script.json')))
+    want = '--scratch' not in a and sc['voice'].get('provider') == 'eleven'
+    # a clone without a key can still rebuild a finished reel: its committed voice/eleven-* takes cover every beat
+    cached = want and all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'eleven', sc, b) + '.json') for b in sc['beats'])
+    provider = 'eleven' if want and (key or cached) else 'scratch'
+    if provider == 'eleven' and not key:
+        print('(no ELEVENLABS_API_KEY: every beat has a committed ElevenLabs take in voice/, reusing them)')
     if provider == 'scratch':
         print('(scratch voice: macOS say — set ELEVENLABS_API_KEY for the real narrator)')
     cfg, wj = narrate(slug, provider, key)

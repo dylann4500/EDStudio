@@ -6,9 +6,12 @@ Make one complete EDStudio **build** video for: **$ARGUMENTS**
 
 The build genre is its own category (user, Oct 26 2026: "an entirely new harness"). Read **`docs/BUILD.md`** first (the
 rulebook + kit), then `docs/reference/wemakebuild.md` (what the reference account does and why it retains), then CLAUDE.md
-(deterministic renders, worktrees, hard-won rules). Reference video: `videos/024-hole-subway` (script.json, shots.js,
-make_cues.py). User steer: "their videos are really dense with lots of good animation, actions, items" — a new action, prop
-or effect on almost every phrase.
+(deterministic renders, worktrees, hard-won rules). **Reference video: `videos/039-flashlight-lighthouse`** (script.json,
+shots.js, make_cues.py) — the user's template since Oct 28 ("future vids should be like this"): copy its pace, camera, scene
+changes and comedy amount, and its numbers are the bar (docs/BUILD.md → "039 is the reference cut"). `videos/024-hole-subway`
+is the first build reel (the slower original style). User steer: "their videos are really dense with lots of good animation,
+actions, items" — a new action, prop or effect on almost every phrase, and let every big build come together ON screen over
+~3–5 s (039 note: "build progression a tiny bit slower so we can see it come together").
 
 1. **Worktree + number** (CLAUDE.md → Parallel sessions): `git fetch`, check `videos/`, `origin/main`, `.claude/worktrees/`
    AND `ops/ledger.csv` / `ops/ideas.md` (the operation's manager hands out numbers — ask it, docs/OPERATION.md), take the
@@ -27,7 +30,8 @@ or effect on almost every phrase.
 5. **Narration**: draft with the scratch voice (`python3 -I tools/narrate.py NNN-slug --scratch`) until review round 1 locks the
    script; then ElevenLabs **Adam on Eleven v3 with inline audio tags, used tastefully** (user's pick, docs/BUILD.md → The
    narrator): `"voice": {"provider": "eleven", "voice_id": "pNInz6obpgDQGcFmaJgB", "model": "eleven_v3", "settings":
-   {"stability": 0.0, "similarity_boost": 0.8}}`, `"tempo": 1.3`; ~4–6 `[shouting]` + ~3–4 `[excited]` on payoffs only, one CAPS
+   {"stability": 0.0, "similarity_boost": 0.8}}` with 039's turbo settings (`"tempo": 1.58, "maxPause": 0.16, "pauseFloor": -45,
+   "yellShelf": {"db": -4, "hz": 5000}`; copy 039's script.json header); ~4–6 `[shouting]` + ~3–4 `[excited]` on payoffs only, one CAPS
    word each, every tag at the END of its beat (split the beat after a mid-beat yell so it can't bleed into calm lines).
    Check the character budget first (`/v1/user/subscription`; ~2,100 chars per reel). Read the printed beat table; fix any
    "callout anchor not found". Verify the takes with `tools/check_voice.py NNN-slug` (local whisper transcript + yell levels),
@@ -45,14 +49,18 @@ or effect on almost every phrase.
    `node tools/sheet.mjs NNN-slug`, look, fix, repeat. Typical fixes: a tree/lamp/car between camera and subject, sprites
    (dust/stink/drops) spawned right in front of the lens, the hero hidden behind trailing machinery, a ring/donut too
    close to fit the 9:16 frame. Then `--preview` and scan it at 1 fps (`fps=1,scale=150:-1,tile=12x5`).
-   After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 024's `window.EDSTUDIO_QC` into build()) — no face
+   After every camera change: `node tools/render.mjs NNN-slug --qc` (copy 039's `window.EDSTUDIO_QC` into build(): it also prints the `cams:` and `events:` lines scenes.py and density.py read) — no face
    under the caption/callouts for ≥ 0.5 s — and no `[rail] … m in … s` line in the log.
+   Measure the turbo bar (039's numbers, docs/BUILD.md): `python3 -I tools/pace.py NNN-slug` (≈ 5.8 syllables/s, no silence
+   > 0.19 s), `node tools/render.mjs NNN-slug --qc > qc.log` then `python3 -I tools/density.py NNN-slug qc.log` (~6 visual
+   events/s) and `python3 -I tools/scenes.py qc.log` (a new place/look every ~2 s, never > 8 s in one place); on a render,
+   `python3 -I tools/flow.py videos/NNN-slug/final.mp4 30` (camera ≤ ~2.2 frame widths/s, one-way moves only).
 8b. **Review loop — follow docs/BUILD-REVIEW.md** (it's what made 024 good): render a 30 fps cut (`--fps 30 --blur 1`),
    `python3 -I tools/review_kit.py NNN-slug <scratchpad>/reviewN --video videos/NNN-slug/final.mp4 --ref <reference.mp4>`,
    send 5 read-only reviewer agents in ONE message (logic, look, pacing, camera, comedy — brief templates in that file) scoring
    /10, look at the frames yourself meanwhile, merge their fixes (script → camera → logic → look), verify with stills + `--qc`,
    record the scores in BUILD.md, repeat until all ≥ 8 (fold logic/pacing/comedy into one agent once they plateau).
-9. **Audio**: `make_cues.py` computes every cue from story.json (copy 024's) → `python3 -I audio/synth.py NNN-slug`.
+9. **Audio**: `make_cues.py` computes every cue from story.json (copy 039's) → `python3 -I audio/synth.py NNN-slug`.
    Check: −14 LUFS, `music dropouts: none`, voice on top (measure stems: voice ≈ −15, sfx ≈ −20, music ≈ −24 LUFS).
 10. **Render** `node tools/render.mjs NNN-slug` (60 fps + blur, ~25 min), QC (docs/BUILD.md checklist) — scan the ACTUAL
     render (1 fps sheet + the last 8 s at 2.5 fps), not only stills — write caption.md (house format + course line), commit the

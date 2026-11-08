@@ -89,4 +89,5 @@ Hard rules:
 - `docs/lanes/`: one brief per account.
 - `ops/`: the ledger, the idea backlog and the research digests.
 - `videos/NNN-*/`: every video ever made: its story, 3D shots, sound cues, caption and `final.mp4`.
-- `/new-video`: make one video. `/operation`: run the whole thing.
+- `/new-video`: make one video. `/new-build`: make one narrated build reel ("How a ___ Becomes a ___", docs/BUILD.md).
+  `/operation`: run the whole thing.

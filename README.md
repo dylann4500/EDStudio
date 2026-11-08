@@ -10,31 +10,35 @@ Claude Code writes, builds, renders, checks and publishes faceless short-form vi
 [![Node 18+](https://img.shields.io/badge/node-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-D97757)](https://claude.com/claude-code)
 
-<img src="docs/media/smart-mars.gif" width="15%" alt="Rocket landing on Mars, from 'What if every human became twice as smart?'">
-<img src="docs/media/pregnant-bench.gif" width="15%" alt="Two pregnant commuters on a bench, from 'What if everyone on Earth woke up pregnant?'">
-<img src="docs/media/search-pigeon.gif" width="15%" alt="A search-history bubble above a man's head, from 'What if everyone's search history floated above their head?'">
-<img src="docs/media/toddler-playground.gif" width="15%" alt="Adults turned toddlers on a playground, from 'What if every adult woke up as a toddler?'">
-<img src="docs/media/nukes-globe.gif" width="15%" alt="Hologram globe of nuclear warheads, from 'What if every nuclear weapon vanished?'">
-<img src="docs/media/giant-car.gif" width="15%" alt="A 3.3 m man next to a car, from 'What if every person's height doubled overnight?'">
+<img src="docs/media/smart-mars.gif" width="12%" alt="Rocket landing on Mars, from 'What if every human became twice as smart?'">
+<img src="docs/media/pregnant-bench.gif" width="12%" alt="Two pregnant commuters on a bench, from 'What if everyone on Earth woke up pregnant?'">
+<img src="docs/media/search-pigeon.gif" width="12%" alt="A search-history bubble above a man's head, from 'What if everyone's search history floated above their head?'">
+<img src="docs/media/toddler-playground.gif" width="12%" alt="Adults turned toddlers on a playground, from 'What if every adult woke up as a toddler?'">
+<img src="docs/media/nukes-globe.gif" width="12%" alt="Hologram globe of nuclear warheads, from 'What if every nuclear weapon vanished?'">
+<img src="docs/media/giant-car.gif" width="12%" alt="A 3.3 m man next to a car, from 'What if every person's height doubled overnight?'">
+<img src="docs/media/build-lighthouse.gif" width="12%" alt="Gary painting a spiral daymark on a lighthouse, from the build reel 'How a Flashlight Becomes a Lighthouse'">
+<img src="docs/media/build-jet.gif" width="12%" alt="A cutaway jet engine on a plane with its thrust reverser open, from the build reel 'How a Hair Dryer Becomes a Jet Engine'">
 
 <sub>Frames from published videos: <i>twice as smart</i> (187K views) · <i>everyone pregnant</i> (141K) · <i>search history</i> (34K) ·
-<i>toddlers</i> · <i>no nukes</i> · <i>height doubled</i> (13K). Views on TikTok as of Oct 26, 2026.</sub>
+<i>toddlers</i> · <i>no nukes</i> · <i>height doubled</i> (13K). Views on TikTok as of Oct 26, 2026. Last two: build reels
+<i>flashlight → lighthouse</i> · <i>hair dryer → jet engine</i>.</sub>
 
-[Get started](GET-STARTED.md) · [How a video is made](#how-a-video-is-made) · [The operation](#run-a-channel-the-operation) · [License](#license)
+[Get started](GET-STARTED.md) · [How a video is made](#how-a-video-is-made) · [Build reels](#build-reels) · [The operation](#run-a-channel-the-operation) · [License](#license)
 
 </div>
 
 ## What it is
 
 Each video is a Three.js scene that headless Chrome renders frame by frame. Python synthesizes the music and sound effects,
-and ffmpeg encodes everything to 1080×1920. There's no stock footage, no AI video and no paid tool. Claude Code does the work:
+and ffmpeg encodes everything to 1080×1920. There's no stock footage and no AI video, and nothing paid is required (build
+reels can use an ElevenLabs narrator; without a key they fall back to the free macOS voice). Claude Code does the work:
 - it writes the story and the 3D shots;
 - it reviews still frames and fixes what looks wrong;
 - it mixes the audio, renders and runs a QC checklist.
 
 The repo also runs as a channel: a manager Claude assigns ideas to parallel producer sessions, scores each video with a
 brain-response model, sends you a preview to approve on your phone, and schedules the post. The rule book Claude follows is
-[`CLAUDE.md`](CLAUDE.md), written down one lesson at a time over 14 videos.
+[`CLAUDE.md`](CLAUDE.md), written down one lesson at a time over 44 videos.
 
 ## What it can do
 
@@ -44,13 +48,13 @@ brain-response model, sends you a preview to approve on your phone, and schedule
 
 **Many formats, one engine**<br>
 Funny "what if everyone on Earth…" sims, science what-ifs with sourced numbers, a recurring-character series, emotional
-stories and biographies. Each format has its own pacing, HUD and sound identity ([`docs/TONES.md`](docs/TONES.md)).
+stories, biographies and narrated build reels ("How a ___ Becomes a ___"). Each format has its own pacing, HUD and sound identity ([`docs/TONES.md`](docs/TONES.md)).
 
 </td>
 <td width="50%" valign="top">
 
 **A growing 3D world**<br>
-20 sets (street, suburb, supermarket, classroom, plane, pool, Mars, war room, 1800s frontier…), a posable character rig
+49 sets (street, suburb, supermarket, classroom, plane, pool, Mars, war room, 1800s frontier…) plus 8 build-reel cutaways, a posable character rig
 with crowds, kids, giants and toddlers, a prop library, and a hologram globe with Natural Earth borders.
 
 </td>
@@ -111,6 +115,33 @@ Daily research, several videos building at once, a phone preview for your yes, a
 6. **Brain score (optional, required in the operation):** `sh tools/tribe-score.sh videos/NNN-slug v1` scores the video
    against the best posted one. The weakest beats get a fix pass.
 7. **Caption and commit:** `caption.md` must pass `tools/caption.py`, then the video folder is committed.
+
+## Build reels
+
+```
+/new-build hair dryer → jet engine
+```
+
+"How a ___ Becomes a ___": a narrator roasts a humble object while it upgrades into a giant machine, one fix at a time, and
+each fix gets its real engineering name. Gary the builder gets hurt by every failure. It has its own harness, written up in
+[`docs/BUILD.md`](docs/BUILD.md):
+- **The voice sets the clock.** `tools/narrate.py` voices `script.json` (ElevenLabs Adam on Eleven v3, or the macOS `say`
+  voice when there's no key) and lays out `story.json` from the per-word timestamps.
+- **One continuous camera, no cuts.** `engine/build/rail.js` plans a single gliding take through framings placed on the words
+  they must show, with hard impact kicks on every landing. Renders run at 60 fps with motion blur.
+- **One spoken word on screen at a time**, plus yellow callouts that name each term and counters that roll up the real
+  numbers (`engine/build/captions.js`).
+- **A cutaway set per reel** in `engine/build/` (subway, dam, car factory, space station, fire truck, tank, lighthouse, jet
+  engine) and a big-headed cast in `toon.js`.
+- **Measured pace.** `tools/pace.py`, `density.py`, `scenes.py` and `flow.py` check a cut against the reference reel:
+  ≈ 5.8 syllables/s, a new place or look every ~2 s, and a camera under ~2.2 frame widths/s.
+- **Five reviewers.** Each cut goes to five read-only Claude subagents (logic, look, pacing, camera, comedy) that score it
+  out of 10. Claude applies their fixes and repeats until the scores reach the bar ([`docs/BUILD-REVIEW.md`](docs/BUILD-REVIEW.md)).
+
+All eight build reels are in `videos/` with the script, shots, cue sheet, the voice takes they use and the final cut: 024
+subway, 025 dam, 026 car factory, 032 space station, 033 fire truck, 034 tank, 039 lighthouse (the reference cut) and 041 jet
+engine. For the real narrator, put `ELEVENLABS_API_KEY=…` in `~/.config/edstudio/.env` (outside the repo) or in a git-ignored
+`.env` at the repo root.
 
 ## Architecture
 
@@ -194,8 +225,9 @@ picks it up with `/operation resume`. Claude never types passwords, never solves
 | Rendering | puppeteer-core 23 driving installed Chrome (WebGL2); ffmpeg (bundled via `@ffmpeg-installer`) |
 | Text overlay | HTML/CSS in the page, with the Inter and Newsreader fonts (`@fontsource`) |
 | Audio | Python 3, numpy, scipy (`audio/synth.py`) |
+| Narration (build reels) | ElevenLabs Adam on Eleven v3, optional; macOS `say` as the free scratch voice (`tools/narrate.py`) |
 | Scoring | TRIBE v2 (PyTorch, V-JEPA 2, w2v-BERT), local, optional |
-| Automation | Claude Code: `/new-video`, `/operation`, parallel sessions, scheduled tasks, Claude in Chrome |
+| Automation | Claude Code: `/new-video`, `/new-build`, `/new-biography`, `/operation`, parallel sessions, scheduled tasks, Claude in Chrome |
 
 ## Getting started
 
@@ -229,11 +261,12 @@ Flags: `--preview` (fast draft), `--from 20 --to 28` (time range), `--cam top` (
 ## Repository layout
 
 ```
-engine/            core (renderer, timeline helpers, text overlay), rig, props, sets/ (20 locations), globe, sky
+engine/            core (renderer, timeline helpers, text overlay), rig, props, sets/ (49 locations), globe, sky
+engine/build/      the build-reel kit: one-take camera rail, word captions, toon cast, effects, 8 cutaway sets
 videos/            one folder per video: story.json + shots.js + cues.json + caption.md + final.mp4
 audio/             synth.py: procedural music + sound-effects library
 tools/             render, stills sheet, new video, doctor, TRIBE lock, upload/preview copies, caption check
-docs/              FORMAT.md + TONES.md (style), lanes/ (one brief per channel), OPERATION.md, reference/, media/
+docs/              FORMAT.md + TONES.md (style), BUILD.md + BUILD-REVIEW.md (build reels), lanes/ (one brief per channel), OPERATION.md, reference/, media/
 ops/               the operation's state: ledger, idea backlog, research digests
 tribe-experiment/  local TRIBE v2 scoring, plus the study against real views
 brand/             channel handles, bios and avatars
@@ -251,7 +284,8 @@ CLAUDE.md          the rule book for AI agents: style, engine cheat sheet, hard-
 
 ## Status and limits
 
-- **No voices.** Videos carry on-screen text, music and sound effects only.
+- **Voices only in build reels.** Every other format carries on-screen text, music and sound effects only. A build reel's
+  real narrator needs an ElevenLabs key; without one, `narrate.py` uses the macOS `say` voice (a scratch stand-in, macOS only).
 - **One machine does all the work.** Renders and TRIBE runs are local, and TRIBE runs one at a time (20–60 min each), so
   output per day is bounded by that computer.
 - **The brain score isn't proven to predict views** (see the third engineering note). It's logged so it can be tested.
