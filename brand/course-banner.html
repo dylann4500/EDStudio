@@ -1,0 +1,95 @@
+<!doctype html>
+<!-- Course banner (1920×1080). Rendered by tools/banner.mjs -> brand/course/banner.png (+ @2x).
+     Brand: navy + warm gold glow, Newsreader serif headline, Inter for UI text. Right side = real frames from our reels.
+     Edit the text in the TEXT block below; frames live in brand/course/frames/. -->
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: 'Newsreader'; font-weight: 300; src: url(/node_modules/@fontsource/newsreader/files/newsreader-latin-300-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Newsreader'; font-weight: 400; font-style: italic; src: url(/node_modules/@fontsource/newsreader/files/newsreader-latin-400-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 500; src: url(/node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; src: url(/node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2'); }
+:root { --gold: #f3c46b; --gold2: #e9a64c; --ink: #0a1426; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+.bg { position: absolute; inset: 0;
+  background:
+    radial-gradient(900px 700px at 1420px 560px, rgba(233,166,76,.34), rgba(233,166,76,0) 70%),
+    radial-gradient(1200px 900px at 300px 200px, rgba(47,143,163,.18), rgba(47,143,163,0) 70%),
+    radial-gradient(1600px 1200px at 50% 45%, #16273f, #0a1426 75%); }
+.stars { position: absolute; inset: 0; }
+.grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay; }
+
+/* ---- left column */
+.left { position: absolute; left: 120px; top: 150px; width: 820px; color: #fff; }
+.pill { display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border: 2px solid rgba(243,196,107,.6); border-radius: 999px;
+  font: 600 20px Inter; letter-spacing: .2em; color: var(--gold); background: rgba(243,196,107,.07); }
+.pill i { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 14px var(--gold); }
+h1 { margin: 34px 0 0; font: 300 112px/1.0 Newsreader; letter-spacing: -0.015em; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
+h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
+.sub { margin-top: 30px; font: 500 31px/1.45 Inter; color: rgba(255,255,255,.82); max-width: 760px; }
+.sub b { color: #fff; font-weight: 600; }
+.chips { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px; max-width: 800px; }
+.chip { display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px 14px 16px; border-radius: 16px; background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12); font: 600 22px Inter; color: #fff; }
+.chip svg { width: 30px; height: 30px; flex: none; }
+.foot { position: absolute; left: 120px; bottom: 92px; display: flex; align-items: center; gap: 22px; font: 600 19px Inter; letter-spacing: .18em; color: rgba(255,255,255,.6); }
+.foot .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(243,196,107,.8); }
+.brand { position: absolute; right: 64px; bottom: 56px; font: 400 30px Newsreader; font-style: italic; color: rgba(255,255,255,.55); }
+.brand b { font-style: normal; font-weight: 300; color: var(--gold); }
+
+/* ---- phone fan */
+.fan { position: absolute; left: 1010px; top: 0; width: 910px; height: 1080px; }
+.phone { position: absolute; width: 300px; height: 533px; border-radius: 40px; padding: 10px; background: linear-gradient(160deg, #2a3446, #0d1320);
+  box-shadow: 0 40px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08) inset; transform-origin: 50% 100%; }
+.phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 31px; display: block; }
+.phone::after { content: ''; position: absolute; top: 20px; left: 50%; width: 70px; height: 18px; margin-left: -35px; border-radius: 10px; background: #05080d; }
+.phone.hero { width: 360px; height: 640px; z-index: 5; box-shadow: 0 50px 110px rgba(0,0,0,.6), 0 0 90px rgba(243,196,107,.22), 0 0 0 1px rgba(255,255,255,.1) inset; }
+.tag { position: absolute; z-index: 9; padding: 10px 18px; border-radius: 14px; background: rgba(10,20,38,.82); border: 1px solid rgba(243,196,107,.35);
+  font: 600 18px Inter; color: #fff; letter-spacing: .02em; box-shadow: 0 10px 30px rgba(0,0,0,.4); white-space: nowrap; }
+.tag span { color: var(--gold); }
+</style></head>
+<body>
+<div class="bg"></div>
+<svg class="stars" id="stars" viewBox="0 0 1920 1080"></svg>
+<canvas class="grain" id="grain" width="960" height="540" style="width:1920px;height:1080px"></canvas>
+
+<!-- TEXT -->
+<div class="left">
+  <div class="pill"><i></i>ONLINE COURSE</div>
+  <h1>Make <em>viral</em> 3D<br>animated reels</h1>
+  <div class="sub">Toy-like characters, cinematic worlds, sound and story — built step by step with <b>Claude Code</b> and <b>Three.js</b>. Faceless, procedural, yours.</div>
+  <div class="chips">
+    <div class="chip"><svg viewBox="0 0 32 32"><path d="M6 6h14a6 6 0 0 1 6 6v14H12a6 6 0 0 1-6-6z" fill="none" stroke="#f3c46b" stroke-width="2.4"/><path d="M11 13h10M11 18h7" stroke="#f3c46b" stroke-width="2.4" stroke-linecap="round"/></svg>Hooks &amp; story</div>
+    <div class="chip"><svg viewBox="0 0 32 32"><path d="M16 4 27 10v12L16 28 5 22V10z" fill="none" stroke="#f3c46b" stroke-width="2.4" stroke-linejoin="round"/><path d="M5 10l11 6 11-6M16 16v12" stroke="#f3c46b" stroke-width="2.4" stroke-linejoin="round"/></svg>3D scenes &amp; characters</div>
+    <div class="chip"><svg viewBox="0 0 32 32"><path d="M5 13v6M10 9v14M15 5v22M20 10v12M25 14v4" stroke="#f3c46b" stroke-width="2.6" stroke-linecap="round"/></svg>Music &amp; sound design</div>
+    <div class="chip"><svg viewBox="0 0 32 32"><rect x="9" y="3" width="14" height="26" rx="3.5" fill="none" stroke="#f3c46b" stroke-width="2.4"/><path d="M14 13l6 3.5-6 3.5z" fill="#f3c46b"/></svg>Render &amp; post</div>
+  </div>
+</div>
+<div class="foot"><span>NO BLENDER</span><span class="dot"></span><span>NO PAID TOOLS</span><span class="dot"></span><span>NO ANIMATION EXPERIENCE</span></div>
+<div class="brand"><b>ED</b>Studios</div>
+
+<div class="fan" id="fan"></div>
+
+<script>
+// phone fan: [frame, x, y, rotation°, hero?]
+const P = [
+  ['g', 40, 330, -16], ['b', 175, 235, -8], ['e', 330, 175, 0, true], ['a', 560, 235, 8], ['c', 695, 330, 16],
+];
+const fan = document.getElementById('fan');
+for (const [f, x, y, r, hero] of P) {
+  const d = document.createElement('div'); d.className = 'phone' + (hero ? ' hero' : '');
+  d.style.left = x + 'px'; d.style.top = y + 'px'; d.style.transform = `rotate(${r}deg)`; d.style.zIndex = hero ? 5 : 5 - Math.abs(r) / 8;
+  const im = new Image(); im.src = `/brand/course/frames/${f}.jpg`; d.appendChild(im); fan.appendChild(d);
+}
+// little floating tags
+[['What if your height <span>doubled</span>?', 40, 160], ['The first city on <span>Mars</span>', 600, 120], ['8.2 billion <span>giants</span>', 650, 905]].forEach(([html, x, y]) => {
+  const t = document.createElement('div'); t.className = 'tag'; t.innerHTML = html; t.style.left = x + 'px'; t.style.top = y + 'px'; fan.appendChild(t);
+});
+// stars + grain (deterministic)
+let s = 7; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
+document.getElementById('stars').innerHTML = Array.from({ length: 110 }, () => `<circle cx="${(R() * 1920).toFixed(0)}" cy="${(R() * 1080).toFixed(0)}" r="${(0.6 + R() * 1.6).toFixed(1)}" fill="#fff" opacity="${(0.12 + R() * 0.35).toFixed(2)}"/>`).join('');
+const g = document.getElementById('grain').getContext('2d'), img = g.createImageData(960, 540);
+for (let i = 0; i < img.data.length; i += 4) { const v = R() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+g.putImageData(img, 0, 0);
+Promise.all([...document.images].map((im) => im.decode().catch(() => {}))).then(() => document.fonts.ready).then(() => (window.BANNER_READY = true));
+</script>
+</body></html>
