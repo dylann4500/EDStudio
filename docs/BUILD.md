@@ -226,6 +226,18 @@ v3 (planRail, visible exits, re-voiced punch-ups) 7 · 6 · 8 · 6.5 · 7.5 → 
 driver, turnstile swipes) 8 · 6.5 · 8.5 · 6.5 · 8 → v5 (QC hook for faces under text, soft holds, money bills, nightlight
 dark + glowing Gary) 8 · 6.5 · 8.5 · 7 · 8.5; v6 = the round-5 fixes below, shipped without a 6th review round. The camera stayed at 6.5 until the soft holds; the look reviewers keep asking for
 AO/DoF/sky — the biggest remaining gap to the Blender reference.
+032's (bird feeder → space station, scratch voice): v1 6.5 · 6 · 6 · 6 · 6.5 → v2 (one room per beat down a 5-module stack,
+cupola, stowaway squirrel, emergency light, Whipple section) 7 · 6.3 · 7 · 6.5 · 7. v2's top find was ours: open hatch lids
+(`hatchDoor.open` swings the lid INTO the room) hung across the plugged hero's face for 30 s; and a mid-line comment had silently
+swallowed the end rail's "birds" key (lint_comments.py now flags comments holding `{ t: …` or ending in `},`).
+v3 (lids hidden, foil unroll, seed curls into view, stowaway pop, camera framings) 7.5 · 6.6 · 7.5 · 6.8 · 7.5 — the camera
+reviewer found two hidden cuts in the ending (a 0.2 s 'pull to the final spot' whipped 1,400°/s at the landing; the dive slid
+2.4 m through a hull in two frames) by rebuilding the camera path numerically — do that before trusting a keyed follow-cam.
+v4 (plug reads stuck in the wall, helmeted birds on "feed the birds", foil unroll + fleck, seed fire) 8.0 · 6.8 · 7.8 · 7.1 · 7.8
+→ stop rule met (manager): no 5th round; the camera reviewer's framings (cupola framed as a window before the lens goes in,
+backing straight out of the open side, the seed picked up at the LAB edge) + a fix pass shipped as v5. The scratch final is not
+rendered: the Eleven v3 voicing re-times everything, so G3-pre = scores + a 30 fps phone preview + the tagged script, then hold.
+v6 = the Eleven v3 voicing (one take, 1,871 chars, no retakes; 110.4 → 98.6 s) + one re-sync pass (below), no review round.
 Round-2's biggest wins for v3: planRail (no whips), visible exits, line punch-ups re-voiced for ~600 characters ("A snail just
 lapped it", "Basically, load-bearing donuts", "Gary wakes up. Mid-air.", "Dirt is not on the list"), cutting a size claim the
 picture couldn't show ("as long as a football field"), mid-grey tunnel concrete with cables + lamps (the light grey washed out
@@ -287,6 +299,9 @@ first whoosh (4.5·t²) hid Gary until the last 0.2 s. Check the final second of
 1. Put `ELEVENLABS_API_KEY=…` in `~/.config/edstudio/.env` (outside the repo, so it can never be committed; a git-ignored `.env` at the repo root also works). `python3 -I tools/narrate.py --voices` → pick a
    funny, energetic male narrator; optionally A/B with `--sample "Congratulations, you've built a subway." <id1> <id2>`.
 2. Set `voice.voice_id` in script.json (`speed` ≈ 1.05–1.1 for ~3.1 words/s), run `python3 -I tools/narrate.py NNN-slug`.
+   Then `tools/check_voice.py NNN-slug` (faster-whisper in a scratch venv): every beat said verbatim, yells not clipped. A bad
+   beat costs only its own characters to redo (clips are cached per beat: delete its `voice/eleven-<beat>-*` pair and re-run).
+   The real voice re-times the reel (032: −11 %, unevenly): re-run `--qc` + read the `[rail]` lines before any stills.
 3. `python3 -I videos/NNN-slug/make_cues.py && python3 -I audio/synth.py NNN-slug`, re-render stills at a few word-synced gags
    (shots are keyed to words, so they follow), then the full render. Commit `voice/eleven-*` + words.json + story.json.
 
@@ -695,6 +710,55 @@ as a record of what the cut style needs, if it is ever tried again.
   by 0.3 s past its listed end, the crash block came back early, and its target filled the frame (caught only in the 60 fps
   final's last-8-s check). Key the window to the next cut's start.
 026 v4 (cuts) review: logic 7.5 · pacing 8.5 · comedy 8 · camera 6.5 → one fix pass merged (the faces, gaps, drops above).
+
+## Lessons from 032 (bird feeder → space station: the first build reel that leaves the ground)
+- **Two worlds in one take = a toy planet** (`engine/build/station.js`): the backyard sits on top of a 1.2 km sphere (custom polar
+  mesh, a disc-mapped canvas centred on the yard, a shader with its own `uSun` so the station can sit in Earth's shadow while the
+  planet keeps a day/night terminator + city lights), the station hangs ~75 m above it, and the sky shader fades blue → black
+  with the camera's altitude (`setSpace`). The rocket climb and the ending dive are **follow-cams** (functions of the subject's
+  path, blended in/out of the rail over ~0.5 s) — planRail's speed lint is for framings, not chases.
+- **Build a station VERTICALLY for 9:16**: modules stacked along y, each a partial cylinder cut by z = zc (dollhouse section, racks
+  on the back/side walls, hatches in the bulkheads). Two modules fill a vertical frame; along x they would be a sliver.
+- **A wide thing (a 36 m solar wingspan) never fits a 9:16 wide** (at d = 21 m the frame is 11 m wide: three panels). Ride it
+  instead: the hero rides the unfolding tip and the camera tracks him, the panels stream past — it sells the length and keeps
+  his face in frame. A gag 15+ m from the next room (the swat at the wing) needs a motivated whip: the swat flings him back
+  through the airlock and the camera rides the fling.
+- **Pose-order bug**: props placed from a rig's world pose (the review card on the squirrel's head) must be updated AFTER the rig
+  in `update()` — a still renders one frame, so the prop read the build-time pose and floated 1.5 m off.
+- **Track the side character's face in `EDSTUDIO_QC` too** (Gary + the squirrel): half the first QC's hits were the squirrel under
+  labels/stamps. Stamps/labels take `x`/`y` to dodge; put a stamp between two faces rather than on the default band.
+- **Put the punchline props in one frame**: "the squirrel runs the place, and Gary is still the plug" were 6 m apart (two modules)
+  and the camera could not hold either; the treadmill now sits on a LAB rack shelf right under the plugged Gary (2.5 m apart).
+- **One room per beat on a long interior stretch** (manager on v1: 55–95 s in one module "reads as one place"): a vertical stack
+  of five rooms, each with its own palette + light + props (life support green with fans + lettuce under a pink grow light,
+  galley warm, LAB cool blue with a red beacon, a tiled W.C.), and the camera glides down the stack beat by beat.
+- **A window reads only from INSIDE its frame**: the cupola shot from outside was grey hull + clouds; a lens inside a glass hex
+  dome (opacity 0.2, struts) looking down at the backyard reads at once. Enter through glass (transparent = an invisible
+  pass), never through an opaque floor; leave the same way before rising to the wide.
+- **Tinfoil / thin metal**: metalness 0.95 with only a grey RoomEnvironment is a flat grey slab; metalness ≈ 0.55 + its own
+  crinkle texture as `emissiveMap` (repeated 7 × 2.5) reads as foil.
+- **A quadruped run seen from the front is just the tail curl** (it read as poop on the treadmill): the squirrel got an upright
+  `jog` pose (legs + arms pumping), turned three-quarter to the lens, so the face + captain's hat lead.
+- **QC face-under-caption during a rail move**: a pan that sweeps a face across the centre band flags for the whole move. Hold
+  the old framing longer and move fast (`Fk … until`), time the move with the subject's own motion (the pole shooting up),
+  or aim at the midpoint between two faces so both sit outside the band.
+- Duplicate keys in an fx options object: the LAST wins (`size` twice made the vapor puff a big white ball).
+- Zero-g particles: `fx.burst(kind, t, { g: 0, drag ≈ 0.3–1.5 })` = drift-and-hover (seeds, confetti, money, coffee drops);
+  new fx kind `seed` (sunflower seeds). In zero-g, liquids are blobs or sealed bags — never a half-full tank.
+- **The real voice is shorter than the scratch voice, and unevenly** (Eleven v3 Adam at tempo 1.3 = 2.8 words/s: 110.4 → 98.6 s;
+  the hook −34 %, the orbit beat −25 %, the end −20 %). Word-keyed timing carried almost everything; the re-sync pass was
+  2 `[rail]` speed warnings + 4 QC runs + one sync miss. Plan for it: leave the camera ~15 % slack in long beats.
+- **Key a serial animation chain to the word it must LAND on, not only the word it starts from**: Gary's pop-out → rocket rights
+  itself → he jumps in → launch hung off "So" and fired 0.7 s after "sideways" on the faster voice. `POPOUT = min(So + 0.12,
+  sideways − 0.55)` (mirrored in make_cues.py) puts the launch back on the word with either voice.
+- **Build every rail with planRail, the ending too**: 032's end rail was raw `makeRail` keys (no lint) and needed ~10 s of moves
+  in 6.4 s on the real voice. Through planRail it printed the problem; the fix was a closer, lower station wide (24 m from the
+  cupola instead of 34 m) that still holds all five rooms, the wings' truss and the passing birds.
+- **Check the takes, don't guess** (`tools/check_voice.py`): local faster-whisper transcripts vs each beat's line + per-yell
+  loudness/brightness. 032: all 18 beats verbatim, yells +1.2…+3.7 dB over the calm half, peaks ≤ −0.4 dBFS, no clipping.
+- **Measure the music stem against the voice**: the walk-style score at vel 0.3 sat at −31.8 LUFS under a narrator speaking 93 %
+  of the time (house −24); music `gain_db +7` → −25.3, master still −14.05 LUFS.
+
 
 ## Lessons from 033 (squirt gun → fire truck; each cost a stills round)
 - **A vehicle cutaway = a window, not a half-vehicle**: cut the near skin only over the guts (tank + pump, `engine/build/firetruck.js`)
