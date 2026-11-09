@@ -116,6 +116,7 @@ def run(job, out):
                 args['generator'] = torch.Generator('cpu').manual_seed(seed)
                 im = pipe('img2img')(image=up, strength=job.get('strength', 0.4), **args).images[0]
         p = os.path.join(out, f"{job['name']}-{seed}.png"); im.save(p); paths.append(p)
+        if dev == 'mps': torch.mps.empty_cache()   # hand the cached activations back between images (the Mac swaps otherwise)
         print(f"{p}  {time.time() - t0:.0f}s", flush=True)
     sheet(paths, os.path.join(out, f"_sheet-{job['name']}.jpg"))
 

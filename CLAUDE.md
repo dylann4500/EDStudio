@@ -522,6 +522,26 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **VRoid anime characters = the anime look (054 Vex, Nov 9; supersedes the 2-D puppets below):** the user wants a real animated 3-D
+  character like the reference reels ("an actual character rendered sprite that could move around… not a still image"). Build her
+  in **VRoid Studio** (installed; a Unity app that ignores background clicks → needs full-screen control, ~30 min: ask the user
+  first) from presets: face/eyes/eyeliner/lips/eyelid colour = makeup, hairstyle + hex colour, body sliders (drag with
+  mouse-down → move → up; typing into the value boxes doesn't stick), Outfit → Tops/Bottoms = none leaves VRoid's black
+  bandeau + briefs (= a bikini). Export → VRM 1.0 (faces +z) → `videos/NNN/x.vrm`; save the `.vroid` project in ~/Documents.
+  `engine/vroid.js` `makeVroid(url, {textures, bust, thigh})` reads VRMC_vrm itself (no new dependency): humanoid bones, expression
+  presets (happy/relaxed/angry/sad/surprised, aa/ih/ou/ee/oh visemes, blink/blinkLeft), cel shading (MToon's unlit fallback →
+  MeshToonMaterial + emissive floor so shadows keep their hue) + an ink hull; `update(t, {x, z, rotY, pose, walk:{dist,speed},
+  lean, tilt, nod, turn, look, mouth, vowel, face, hands, aim})` = AIM posing (bone directions in her frame) + finger shapes
+  (relax/open/fist/point/peace/hold) + a walk cycle + procedural hair/bust sway. `dressGoth(V)` = shades, choker + cross, chains,
+  chain belt, O-ring bat charm, side ties, spiked cuffs. Swap a texture at runtime (`textures: {Body_00_SKIN: png}`) — 054's
+  goth lace bikini is painted on the 2048² body atlas (`vex-body.png`). Lip-sync = the active word's vowels (054 `lips()`).
+  **The Ally (@allythetutor) look the user means = ONE sunny voxel beach for the whole reel** (pixel sun, block clouds, stilt huts
+  with red/blue roofs, dunes, grass tufts, the sea BEHIND her — cameras look toward the sea, key light from behind the lens),
+  every fact a prop/diorama on the sand beside her, the pixel pass at ~4 px, a small yellow pixel-font title + yellow fact
+  cards at the top, one-word lowercase white pixel captions at ~72 %. 054's first cut used 3 px blocks + our old indoor sets
+  (office/library/classroom) and the user said it "looks like our old video stuff": the PR (engine/pixel.js, pixeltex.js,
+  _pixel-template) is only the post pass + textures — the world and the character are on us. 054 builds "stations" (turned
+  180° so the sea is behind her) on `engine/sets/voxbeach.js`; `engine/pixelcaps.js` = the pixel text (lowercase, plain title).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via

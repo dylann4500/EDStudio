@@ -53,18 +53,49 @@ export function buildVoxBeach(studio, opts = {}) {
 
   // ---- sky: a deep blue gradient dome + block clouds
   const sc = document.createElement('canvas'); sc.width = 4; sc.height = 256; const sg = sc.getContext('2d'), gr = sg.createLinearGradient(0, 0, 0, 256);
-  gr.addColorStop(0, '#1f63d8'); gr.addColorStop(0.55, '#4a92ee'); gr.addColorStop(1, '#9cc8f5'); sg.fillStyle = gr; sg.fillRect(0, 0, 4, 256);
+  gr.addColorStop(0, '#4f9fe8'); gr.addColorStop(0.55, '#86c2f2'); gr.addColorStop(1, '#d4ebfb'); sg.fillStyle = gr; sg.fillRect(0, 0, 4, 256);
   const skyT = new THREE.CanvasTexture(sc); skyT.colorSpace = THREE.SRGBColorSpace;
   const sky = new THREE.Mesh(new THREE.SphereGeometry(300, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshBasicMaterial({ map: skyT, side: THREE.BackSide, fog: false, depthWrite: false }));
   sky.renderOrder = -1; root.add(sky);
-  const cm = new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: 0x9ab4d8, emissiveIntensity: 0.35 });
-  for (let i = 0; i < 9; i++) { const c = new THREE.Group(), x = -90 + i * 23, z = -120 + (i % 3) * 25, y = 40 + (i * 7) % 18; for (let k = 0; k < 4; k++) box(10 + k * 2, 3, 6, cm, (k - 1.5) * 6, (k % 2) * 2.5, 0, c); c.position.set(x, y, z); root.add(c); }
+  const cm = new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: 0xc8dcf0, emissiveIntensity: 0.55 });
+  for (let i = 0; i < 18; i++) { const c = new THREE.Group(), side = i % 2 ? 1 : -1, x = -150 + (i * 37) % 300, z = side * (110 + (i * 13) % 50), y = 34 + (i * 7) % 16; for (let k = 0; k < 4; k++) box(8 + k * 2, 3, 6, cm, (k - 1.5) * 5, (k % 2) * 2.5, (k % 3) - 1, c); c.position.set(x, y, z); root.add(c); }
+  // the pixel sun (a camera-facing sprite the shot places in its sky: setSun(dirFromCamera))
+  const sunT = pixelTex(24, 24, (g) => { g.fillStyle = '#ffe9a0'; g.beginPath(); g.arc(12, 12, 11, 0, 7); g.fill(); g.fillStyle = '#f7cf3c'; g.beginPath(); g.arc(12, 12, 9, 0, 7); g.fill(); }, { k: 4 });
+  const sunS = new THREE.Sprite(new THREE.SpriteMaterial({ map: sunT, fog: false, depthWrite: false, toneMapped: false })); sunS.scale.setScalar(18); sunS.renderOrder = -1; root.add(sunS);
+  // beach huts on stilts along the shore (pastel walls, red / blue pyramid roofs) + dunes + grass
+  const hutCols = [[0x86b3e0, 0xd0453a], [0x9fd0b4, 0x3d6fb8], [0xe8d9a8, 0xd0453a], [0x7fb8c8, 0x3d6fb8], [0xd9a0a0, 0x3d6fb8], [0xa8c88f, 0xd0453a]];
+  const post = lam(pixelTex(8, 8, (g, w, h) => speckle(g, w, h, '#8a6a4a', ['#7a5a3c', '#9a7a58'], 12, 3), { k: 1 }));
+  for (let i = 0; i < 12; i++) {
+    const side = i < 8 ? 1 : -1, x = side > 0 ? -28 + i * 8 + ((i * 3) % 3) : -22 + (i - 8) * 14, z = side > 0 ? 15 + (i % 3) * 1.6 : -26 - (i % 2) * 3, [wc, rc] = hutCols[i % hutCols.length];
+    const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = side > 0 ? Math.PI : 0; root.add(g);
+    for (const [px, pz] of [[-1.2, -1], [1.2, -1], [-1.2, 1], [1.2, 1]]) box(0.2, 1.6, 0.2, post, px, 0.8, pz, g);
+    box(3, 0.2, 2.6, post, 0, 1.7, 0, g);
+    const wm = lam(pixelTex(16, 16, (g2, w, h) => { g2.fillStyle = '#' + new THREE.Color(wc).getHexString(); g2.fillRect(0, 0, w, h); g2.fillStyle = 'rgba(0,0,0,.12)'; for (let y = 3; y < h; y += 4) g2.fillRect(0, y, w, 1); }, { k: 1 }));
+    box(2.6, 2.0, 2.2, wm, 0, 2.8, 0, g); box(0.7, 1.2, 0.05, lam(pixelTex(4, 8, (g2) => { g2.fillStyle = '#3a3a48'; g2.fillRect(0, 0, 4, 8); }, { k: 1 })), 0, 2.5, 1.12, g);
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(2.3, 1.3, 4), new THREE.MeshLambertMaterial({ color: rc })); roof.rotation.y = Math.PI / 4; roof.position.set(0, 4.45, 0); roof.castShadow = true; g.add(roof);
+  }
+  const duneM = lam(sand);
+  for (const [x, z, r, h] of [[-14, -14, 9, 2.6], [12, -16, 11, 3.0], [-30, -8, 12, 3.4], [30, -6, 10, 2.8], [-20, 10, 8, 1.6], [22, 9, 9, 1.8]]) { const d = new THREE.Mesh(new THREE.SphereGeometry(r, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), duneM); d.scale.y = h / r; d.position.set(x, -0.05, z); d.receiveShadow = true; root.add(d); }
+  for (let i = 0; i < 70; i++) { const ang = i * 2.39996, rr = 3 + (i * 0.37) % 1 * 14 + (i % 7) * 1.6, x = Math.cos(ang) * rr, z = Math.sin(ang) * rr * 0.8 + 3; if (Math.abs(x) < 1.6 && Math.abs(z - 2) < 3) continue; const q = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.9), grassM); q.position.set(x, 0.42, z); q.rotation.y = i; root.add(q); const q2 = q.clone(); q2.rotation.y = i + Math.PI / 2; root.add(q2); }
 
   // ---- light: bright midday sun from the front-left (her face lit), cool sky bounce
-  const hemi = new THREE.HemisphereLight(0xcfe4ff, 0xe8d3a3, 1.2); root.add(hemi);
+  const hemi = new THREE.HemisphereLight(0xdcecff, 0xf0dcae, 1.45); root.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff3e0, 2.0); sun.position.set(-6, 12, 10); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, near: 1, far: 60 }); sun.target.position.set(0, 0, -2); root.add(sun, sun.target);
   scene.background = new THREE.Color(0x4a92ee);
   studio.camera.far = Math.max(studio.camera.far, 700); studio.camera.updateProjectionMatrix();
-  return { root, sun, hemi, house: H, DIMS };
+  // mood: 0 = midday, 1 = sunset (violet top, tangerine horizon, a low warm sun from the sea side)
+  const SKY = [['#4f9fe8', '#86c2f2', '#d4ebfb'], ['#5a3a8a', '#e0708a', '#ffc070']];
+  const mixC = (a, b, k) => '#' + new THREE.Color(a).lerp(new THREE.Color(b), k).getHexString();
+  let moodK = -1;
+  function setMood(k) {
+    if (Math.abs(k - moodK) < 1e-3) return; moodK = k;
+    const g2 = sg.createLinearGradient(0, 0, 0, 256); [0, 0.55, 1].forEach((u, i) => g2.addColorStop(u, mixC(SKY[0][i], SKY[1][i], k))); sg.fillStyle = g2; sg.fillRect(0, 0, 4, 256); skyT.needsUpdate = true;
+    sun.color.set(mixC('#fff3e0', '#ff9a5a', k)); sun.intensity = 2.0 - 0.6 * k; sun.position.set(-6 + 2 * k, 12 - 7 * k, 10 + 6 * k);
+    hemi.color.set(mixC('#cfe4ff', '#c7a0d8', k)); hemi.groundColor.set(mixC('#e8d3a3', '#e0a070', k)); hemi.intensity = 1.45 - 0.3 * k;
+    cm.emissive.set(mixC('#9ab4d8', '#ff9a7a', k));
+  }
+  /** place the pixel sun in the sky relative to the camera: dir = direction from the camera (world), at 250 m */
+  const setSun = (camPos, dir) => { sunS.position.copy(camPos).addScaledVector(dir.clone().normalize(), 250).sub(root.position); };
+  return { root, sun, hemi, house: H, DIMS, setMood, setSun, sunSprite: sunS };
 }

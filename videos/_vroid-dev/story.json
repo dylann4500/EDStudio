@@ -1,0 +1,3 @@
+{ "tone": "build", "mode": "build", "title": "vroid dev", "fps": 30, "duration": 40,
+  "look": { "exposure": 1.0, "bloom": 0.05, "bloomThreshold": 0.98, "fill": 0.35, "toneMapping": "neutral", "vignette": 0.1, "grain": 0.0, "warm": 0.03, "saturation": 1.05, "lift": 0.0 },
+  "beats": {}, "order": [], "words": [], "callouts": [] }
