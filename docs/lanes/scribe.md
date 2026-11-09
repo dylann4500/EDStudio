@@ -36,16 +36,28 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **45–65 s**, 1080×1920. 60 fps + motion blur in the build/toon look; 30 fps is fine for other styles.
 - **Narrated** (ElevenLabs, Adam v3, docs/PROMO.md pace ≈ 3.9 words/s). The hook is spoken on frame 1; no silent title card.
   Captions: one word at a time in the center (`engine/build/captions.js`) unless your style has a better native caption.
-- **ElevenLabs budget (free tier until the user upgrades — 6.4K chars left until Nov 29, and free = non-commercial):** draft and
+- **ElevenLabs budget (a new FREE-tier key since Nov 8: 10K chars, resets Dec 9, shared by every producer; the user cleared the plan's use with ElevenLabs, Nov 8 — don't raise its terms):** draft and
   time everything with the scratch voice (`python3 -I tools/narrate.py NNN-slug --scratch` = macOS `say`, free), lock the script, then voice it ONCE with Eleven (≤ 1,300 chars). Tempo changes are free; beats are cached, so re-voice only the
   beat you changed. If the quota runs out, finish on the scratch voice, say so in your report, and the manager re-voices later.
-- **Music: upbeat, fast, percussive** (user steer on 049: 140 bpm four-on-the-floor + claps + hats + a marimba arp, music ≈ −21 LUFS
+- **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
+  that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
+- **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the
+  reel), and run `sh tools/nomusic-copy.sh videos/NNN-slug` → `out/nomusic.mp4` + `out/upload-nomusic.mp4` (every stem except
+  music.wav, on final.mp4's picture). **The no-music cut is what we post** (user, Nov 8: "yes, trending sounds"): add a
+  trending TikTok / Instagram sound in the app at upload, low under the voice. When a bed is used: **upbeat, fast, percussive** (user steer on 049: 140 bpm four-on-the-floor + claps + hats + a marimba arp, music ≈ −21 LUFS
   under a −16 voice). Continuous, never harsh (CLAUDE.md sound rules still hold).
 - **No TRIBE gate** for promos (volume wins; @officialwriteit posts 5–9 a day). The QC checklist, still sheets and the full-res
   final still apply.
-- **Caption:** hook + emoji, 2–3 sentences, a 👇 question, "Send this to your ___", a blank line, the Scribe line (e.g.
-  `✍️ Scribe: your homework, in your handwriting. 10 free assignments 👉 tryscribe.ink`), a blank line, 5 hashtags.
-  **No course line.** `python3 -I tools/caption.py videos/NNN-slug` must pass. Paste the caption in full in your report.
+- **Caption: NO link, NO plug** (user rule, Nov 8: "TikTok is gonna destroy our videos if they have links or very clear
+  advertisement in the captions. In the videos, it can't tell… never plug it"). No tryscribe.ink, no "10 free assignments", no
+  course line, no "link in bio". Write the hook (the video's opening question) + one emoji, then 5 hashtags — the shape of the
+  posted ones: `POV you get 2x gay every second 💅 #fyp #homework #gay #school #funnyreels`. Scribe shows up in the VIDEO
+  (end card, on-screen product), never in the caption. `python3 -I tools/caption.py videos/NNN-slug` must pass. Paste the
+  caption in full in your report.
+- **Posting by hand in TikTok Studio (web, Nov 8):** pick each hashtag from the suggestion list (type `#tag`, wait ~3 s, Enter)
+  so it links — a plain typed tag stays plain text, and Enter before the list loads inserts a line break. Scheduled posts
+  can't be edited (only deleted + re-uploaded). The Chrome extension's file upload caps at 10 MB per call: split a bigger
+  video into ≤ 9 MB parts, push each into a temporary page file input, rebuild a `File` in the page and set it on TikTok's input.
 - Copy the reference's FORMAT and beats freely; all art, lines and characters are ours. No real brands' logos besides Scribe
   (fictional detectors/teachers/apps are fine), nothing that impersonates a real person.
 

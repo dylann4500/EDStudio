@@ -22,7 +22,7 @@ matching video possible." Density is the point: something new pops, breaks, floo
 | Iteration | stills + self-QC | stills + `--qc` + **a 5-subagent review loop** (docs/BUILD-REVIEW.md) until every dimension ≥ 8 |
 
 House rules that still hold: deterministic renders (no Math.random/Date), real numbers web-searched and cited, caption.md
-with the course link pasted in every delivery, music continuous and never harsh, stills before every full render.
+(no links/plugs, user rule Nov 8) pasted in every delivery, music continuous and never harsh, stills before every full render.
 Exempt: opening question card, HUD, lower-third subtitles, "no popping text" (pops ONCE on entry are this genre's look;
 still nothing pulses or flickers after), end card.
 
@@ -412,7 +412,7 @@ no pauses, something new on screen every < 0.8 s.
 - [ ] Numbers are sourced (shots.js header + caption.md comment) and match the narration.
 - [ ] Audio: −14 LUFS, voice clearly on top, `music dropouts: none`, nothing harsh (zap/crack soft, all foley low-passed).
 - [ ] `--qc` lists no face-under-text run ≥ 0.5 s; the render log has no `[rail] … m in … s` warning.
-- [ ] 1080×1920, 60 fps (motion blur 2), H.264 + AAC, < 100 MB; caption.md in house format with the course line, pasted in the report.
+- [ ] 1080×1920, 60 fps (motion blur 2), H.264 + AAC, < 100 MB; caption.md in house format (no link, no plug line), pasted in the report.
 
 ## Lessons from 024 (each cost a stills round)
 - A cutaway needs the cut **off-center** through round things so the visible part is big enough (tunnel axis at z = −0.6:
