@@ -109,3 +109,39 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   covers the whole face: tilt it sideways (rotation z) with its mouth at the corner of his mouth. A table chair between the lens
   and the counter hid half the coffee shot (hide `KIT.chairs[i]` per shot). A pizza lid opened to vertical hid the faces behind
   it: flip it flat (−3.05 rad).
+
+## 051: "Everyone in my town has a number above their head" (Scribe), 50 s
+- The viral number-over-heads trope as a toon town tour, one gag per place, hard cuts (28 shots): street (the hook), a dog at 0
+  ("he ate it"), the class president always at 0, a couple whose numbers match to the minute (copying), a 42-year-old dropout on
+  the subway at 9,000 and climbing, a party liar at 61, Mr. Dawson's GRADING number → Tyler 312 → finals → 800 → cooked → Scribe
+  (on screen at 28.4 s = 57 %) → his number crashes to 0, the library turns around → callback (the president had Scribe all
+  along) → the town hits 0 in three waves → except Dawson (400 → 12,000, buried in paper) → end card.
+- Kit (additive): `engine/build/numtags.js` `makeNumTags(parent, n, {minPx, maxPx, natH})` = number badges over heads (camera-
+  facing sprites, canvas redrawn only when the text changes; `set(i, {pos, value | text, label, tier, pop, maxPx})`, then
+  `update(camera)` sizes each one for the lens: its height stays between minPx and maxPx of the 1920 px frame); tiers colour
+  themselves (0 green + glow, < 100 yellow, < 500 orange, else red). `engine/build/school.js` `buildHallway(studio, {banner})` =
+  a high-school hallway (lockers, classroom doors, trophy case, fountain, VOTE MAYA posters, a FINALS WEEK banner, glass doors
+  onto a sunny day at the far end; shoot from z ≈ +2 looking −z). `brhud.js makeHud({ end })` without `alive` = the Scribe end
+  card alone. Sets reused at offsets: street.js, restaurant.js (the café), subway.js, livingroom.js `dinner` + party lights,
+  049's library + office (a TEACHERS' LOUNGE sign on the board).
+- ElevenLabs: 1,014 chars (16 beats, one pass), Adam v3 tempo 1.55 → 45.5 s of speech; large-v3 transcript matched every beat.
+- Music per the Nov 8 steer: a minimal bed (C-major pad per chord, quarter-note marimba, soft kick + hats) at ≈ −28 LUFS under a
+  −15 voice; the places (street, hallway, café, train, party crowd, cheering town) and the number foley (a tick per increment, a
+  falling run of ticks into a bright "zero" chime) carry the reel. One long pad under changing chords tripped the dropout check
+  (the voice-keyed duck + staccato bits): one soft pad per chord fixed it.
+
+### Lessons from 051 (each cost a stills round)
+- **Put the hero's head at 40 % of the frame by maths, not by eye** (`aimAt(C, H, fov, f)` in 051 shots.js: pitch the look point
+  so the head projects at fraction f): four rounds of hand-aimed framings kept landing faces exactly under the one-word caption
+  at 52 %. Raising the look point moves the subject DOWN the frame.
+- **A big toon head + a number above it needs room:** the head is 0.54 m tall, so at 2 m (fov 44) it fills a third of a vertical
+  frame and its tag leaves the top. Keep close-ups ≥ 2.4 m, the head at 0.42–0.44 and tags ≤ 190 px; the QC hook flags hero
+  tags under the caption and any tag above 12 % of the frame.
+- **Two people side by side at a café table are 1.3 m wide with toon heads:** a 2 m two-shot cut both in half. 2.5 m+ head-on,
+  or a high three-quarter angle that stacks them in depth.
+- **An extra next to the lens is a giant prop:** a seated subway rider's phone (0.42 m in front of its face) became a black slab
+  across Doug's face. Skip every extra within ~1.5 m of the camera (`nearCam`), not only those on the lens line.
+- **toon.js `hat: 'cap'` covers the eyes** (the dome's rim sits at eye height): lift it after `set()` (`hat.position.y = 0.1`).
+- **Canvas text wider than its canvas is clipped** (the hallway banner read "NALS WEEK · YOU GOT TH"): shrink-to-fit the font.
+- **A worksheet insert shows the whole page** (≈ 1 m above it at fov 46) and hides the hero for those frames: 049's 0.66 m framing
+  showed only the title and a blurry hand.

@@ -34,9 +34,11 @@ const ss = (u) => { u = clamp(u); return u * u * (3 - 2 * u); };
 export function makeHud(o) {
   const ui = document.getElementById('ui'), st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
   const el = (cls, html = '') => { const e = document.createElement('div'); e.className = 'br ' + cls; e.innerHTML = html; ui.insertBefore(e, ui.firstChild); return e; };
-  const alive = el('br-alive', '<div class="lab">ALIVE</div><div class="num">100</div><div class="day">DAY 1 · 9:00 AM</div>');
-  const num = alive.querySelector('.num'), day = alive.querySelector('.day');
-  const map = el('br-map', '<canvas width="420" height="420"></canvas>'), mc = map.querySelector('canvas'), mg = mc.getContext('2d');
+  // 051 (opt-in): without `alive` the battle-royale boxes (ALIVE counter, minimap) are not built — e.g. only the Scribe end card
+  const BR = !!o.alive;
+  const alive = BR ? el('br-alive', '<div class="lab">ALIVE</div><div class="num">100</div><div class="day">DAY 1 · 9:00 AM</div>') : null;
+  const num = BR ? alive.querySelector('.num') : null, day = BR ? alive.querySelector('.day') : null;
+  const map = BR ? el('br-map', '<canvas width="420" height="420"></canvas>') : null, mc = BR ? map.querySelector('canvas') : null, mg = BR ? mc.getContext('2d') : null;
   const feed = (o.feed || []).map((f) => ({ ...f, e: el('br-feed', `<b>${f.name}</b> <i>${f.by ? 'eliminated by' : 'eliminated himself'}</i>${f.by ? ' <em>' + f.by + '</em>' : ''}`) }));
   const banner = o.banner ? el('br-banner', `<div class="box"><div class="nm">${o.banner.name}</div><div class="tx">${o.banner.text}</div></div>`) : null;
   const end = o.end ? el('br-end', `<div class="bg"></div><img src="${o.end.icon}"><div class="wm">Scribe</div><div class="tag">${o.end.tag}</div><div class="url">${o.end.url}</div><div class="offer">${o.end.offer}</div>`) : null;
@@ -58,11 +60,13 @@ export function makeHud(o) {
   }
   let lastN = null, lastDay = null;
   function update(t) {
-    const [s0, s1] = o.show, vis = t >= s0 && t < s1, a = ss((t - s0) / 0.25) * (1 - ss((t - (s1 - 0.3)) / 0.3));
-    for (const e of [alive, map]) { e.style.opacity = vis ? a : 0; e.style.transform = `translateY(${(1 - ss((t - s0) / 0.3)) * -30}px)`; }
-    const n = Math.round(keys(o.alive, t)); if (n !== lastN) { num.textContent = String(n); lastN = n; }
-    const d = keys(o.day, t); if (d !== lastDay) { day.textContent = d; lastDay = d; }
-    if (vis) drawMap(t);
+    const [s0, s1] = o.show || [0, 0], vis = t >= s0 && t < s1, a = ss((t - s0) / 0.25) * (1 - ss((t - (s1 - 0.3)) / 0.3));
+    if (BR) {
+      for (const e of [alive, map]) { e.style.opacity = vis ? a : 0; e.style.transform = `translateY(${(1 - ss((t - s0) / 0.3)) * -30}px)`; }
+      const n = Math.round(keys(o.alive, t)); if (n !== lastN) { num.textContent = String(n); lastN = n; }
+      const d = keys(o.day, t); if (d !== lastDay) { day.textContent = d; lastDay = d; }
+      if (vis) drawMap(t);
+    }
     // kill feed: newest on top, up to 3 rows, each lives ~2.4 s
     const live = feed.filter((f) => t >= f.t && t < f.t + (f.life ?? 2.4) && t < s1).sort((x, y) => y.t - x.t);
     for (const f of feed) {
