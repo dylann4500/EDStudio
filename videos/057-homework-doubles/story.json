@@ -1,0 +1,23 @@
+{
+  "tone": "promo",
+  "style": "pixel",
+  "reference": "@whatifpov 'What if your speed DOUBLED every 3 seconds?' (docs/reference/whatifpov.md)",
+  "look": { "exposure": 1.08, "bloom": 0.22, "bloomThreshold": 0.95, "grain": 0, "vignette": 0.16, "saturation": 1.12, "warm": 0.5, "fill": 0.45 },
+  "fps": 30,
+  "duration": 41.4,
+  "title": { "html": "What if your homework <em>doubled</em> every 3 seconds?", "in": -0.5, "out": 2.2 },
+  "hud": [],
+  "subs": [
+    [3.6, 6.25, "Just walking to class."],
+    [6.6, 9.25, "Every 3 seconds, it doubles."],
+    [9.6, 12.25, "Up to your chin."],
+    [12.6, 15.25, "Taller than your teacher."],
+    [15.6, 18.25, "Taller than the school."],
+    [19.45, 21.25, "Heavier than a car."],
+    [21.6, 24.25, "It buries the whole school."],
+    [24.6, 27.25, "One photo with Scribe."],
+    [30.6, 33.25, "…in YOUR handwriting."],
+    [33.6, 36.8, "Due tomorrow? Done."]
+  ],
+  "debugView": { "center": [1004, 0, -6], "height": 60 }
+}
