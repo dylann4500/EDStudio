@@ -72,6 +72,8 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 062 | "How fucking airplanes fucking fly" — f-word explainer #2, hard pivot to Scribe (physics + free-body diagrams) (toon) | scribe | assigned Nov 9 (user: "we need more fucking ones") |
 | 063 | "How fucking penguins fucking survive Antarctica" — f-word explainer #3, hard pivot to Scribe (biology) (toon) | scribe | assigned Nov 9 |
 | 064 | Goth tutor Vex does the f-word explainer (anime/pixel look, after 054 v2) | scribe | reserved Nov 9 for the 049/054 session |
+| 065 | Vex #3 (goth mommy, anime/pixel): biology — a Punnett square drawn by the pen; comfort/tease, 18+ college framing | scribe | assigned Nov 9 to the 049/054 session (overnight) |
+| 066 | Vex #4 (goth mommy, anime/pixel): economics — a supply-and-demand shift drawn by the pen; comfort/tease, 18+ college framing | scribe | assigned Nov 9 to the 049/054 session (overnight) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
