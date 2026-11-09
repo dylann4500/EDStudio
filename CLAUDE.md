@@ -526,6 +526,16 @@ videos/NNN-slug/
 - **A doubling premise that needs more doublings than real time allows (057):** keep "every 3 seconds" honest with a STORY CLOCK —
   T(t) piecewise-linear (real time for the first two beats to set the rule, then fast-forward), value = 2^(T/3), and a HUD clock
   line ("T+0:36") so the math checks out. 1 sheet → a buried school is ~31 doublings (1:33 of story time in 21 s of screen).
+- **Motion-graphics look (`engine/mg/`, docs/STYLES.md → mg; template `videos/_mg-template`; proof reel 061):** a Kurzgesagt-like
+  flat vector explainer on Canvas 2D (no WebGL, ≈0.07 s/frame). `createMG(studio)` → `M.render(t, SHOTS)` with transitions
+  (`tr.kind` cut|fade|zoom|zoomout|slide|iris|wipe), `M.view(g, cam, depth, fn)` parallax layers; `draw.js` soft-gradient shapes +
+  long shadows (`shape/circle/rrect/line(k draw-on)/ring/glow`); `people.js` round-headed `makeFolk` (IK arms `{to: [x, y]}`,
+  `clapArms`, `drawHandsPOV`), `makeCrowd`/`drawCrowd`; `geo.js` `makeWorld()` globe with people-dots + flat maps + great circles;
+  `charts.js` bars/lineChart/gauge; `type.js` `ktext`/`label`; `scenes.js` space/beach/street; `scribe2d.js` `makeWorksheet`
+  (handwritten answers AND figures, stroke by stroke) + `scribeApp` (the app as a phone screen); `overlay.js` `mgOverlay(story)` =
+  the whatif title/HUD/subtitles restyled with kinetic words; `endcard.js` the Scribe card. core.js HUD gained `fmt: 'hms'`
+  (an h:mm:ss countdown); synth.py gained `hand_clap`, `mass_clap`, `phone_buzz`, `gull_cry`, `shutter`.
+  In-world labels stay out of the HUD box (x < 600, y 430–690) and faces out of the subtitle band: `render.mjs --qc`.
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer
