@@ -67,7 +67,14 @@ export async function build(studio, story) {
   { const S = ST.brain; bx(S, 0.8, 0.85, 0.8, plankM, 0.85, 0.425, -1.7); brain.position.set(0.85, 1.35, -1.7); S.add(brain); brain.scale.setScalar(0.8);
     const geo = new THREE.SphereGeometry(0.55, 40, 28), P = geo.attributes.position;
     for (let i = 0; i < P.count; i++) { const x = P.getX(i), y = P.getY(i), z = P.getZ(i), n = 1 + 0.06 * Math.sin(x * 22 + y * 9) * Math.sin(z * 18 - y * 7) - (Math.abs(x) < 0.05 ? 0.08 : 0); P.setXYZ(i, x * n * 1.15, y * n * 0.85, z * n); }
-    geo.computeVertexNormals(); const bm = new THREE.Mesh(geo, toon(0xf29ab8, 0x3a1020)); bm.castShadow = true; brain.add(bm);
+    geo.computeVertexNormals();
+    const sulciT = canvasTex(1024, 512, (g, w, h) => { g.fillStyle = '#f4a3c0'; g.fillRect(0, 0, w, h); let R = 11; const r = () => (R = (R * 16807) % 2147483647) / 2147483647;
+      g.strokeStyle = '#b8486e'; g.lineCap = 'round'; g.lineJoin = 'round';
+      for (let i = 0; i < 110; i++) { let x = r() * w, y = 30 + r() * (h - 60), a = r() * 6.3; g.lineWidth = 6 + r() * 5; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 14; k++) { a += (r() - 0.5) * 1.9; x += Math.cos(a) * 14; y += Math.sin(a) * 9; g.lineTo(x, y); } g.stroke(); }
+      g.strokeStyle = 'rgba(255,220,232,.55)'; g.lineWidth = 3; for (let i = 0; i < 60; i++) { const x = r() * w, y = r() * h; g.beginPath(); g.arc(x, y, 8 + r() * 10, r() * 3, r() * 3 + 2); g.stroke(); } });
+    const bm = new THREE.Mesh(geo, new THREE.MeshToonMaterial({ map: sulciT, emissive: 0x3a1020 })); bm.castShadow = true; brain.add(bm);
+    const cb = new THREE.Mesh(new THREE.SphereGeometry(0.26, 24, 16), new THREE.MeshToonMaterial({ map: sulciT, emissive: 0x3a1020 })); cb.scale.set(1.3, 0.6, 0.9); cb.position.set(0, -0.32, -0.36); brain.add(cb);   // cerebellum
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.07, 0.45, 14), toon(0xe08aa8, 0x2a0c18)); stem.position.set(0, -0.48, -0.12); stem.rotation.x = 0.25; brain.add(stem);
     const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.59), new THREE.MeshBasicMaterial({ map: signT, toneMapped: false })); sg.position.set(0.85, 2.3, -1.85); sg.scale.setScalar(0.85); S.add(sg); bx(S, 0.08, 0.7, 0.08, plankM, 0.85, 1.95, -1.9); }
   // the bed (payoff + end, at sunset)
   { const S = ST.bed; bx(S, 1.7, 0.35, 2.3, plankM, 1.3, 0.18, -1.6); bx(S, 1.6, 0.22, 2.15, lam({ color: 0xf4f0ea }), 1.3, 0.46, -1.6); bx(S, 1.62, 0.1, 1.4, lam({ color: 0x5a2a6a }), 1.3, 0.6, -1.15);
@@ -186,7 +193,7 @@ export async function build(studio, story) {
     if (sh.write) { const p = tipLocal(tip); pen.g.position.set(p.x, p.y + 0.004 + 0.006 * Math.abs(Math.sin(t * 23)), p.z); pen.g.rotation.set(0.35, 0, -0.3); }
     snap.visible = sh.snap === 1;
     if (sh.snap) { const sw = [LD.sheet[0], LD.deskY, LD.sheet[1]], u = ease(u01(t, sh.t0, sh.t0 + 0.35)), tS = sh.t0 + 0.4; snap.position.set(sw[0] + 0.03, sw[1] + 0.34 - 0.08 * u, sw[2] + 0.3 - 0.12 * u); snap.rotation.set(-0.35, 0.1, 0); snap.flash.material.opacity = t > tS && t < tS + 0.18 ? 0.95 * (1 - (t - tS) / 0.18) : 0; }
-    pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)));
+    pixel.set(Math.max(sh.screen ? 1 : sh.write ? 2 : PIXEL, mosaicAt(t, CUTS)));   // the Scribe UI + the handwriting must read (manager review)
     ov.update(t);
   }
   update(0);
