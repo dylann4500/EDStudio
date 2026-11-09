@@ -574,6 +574,27 @@ videos/NNN-slug/
   All packs on one frame: `videos/_subjects-demo/packs.jpg`. **After any scribe.js change run `node tools/scribe-check.mjs`**
   (every shipped reel's sheets + screens must stay pixel-identical to main's).
 
+- **Hippo + burger joint + sim text layout (055, Scribe dupe of @okwhatifcrazy's hippo reel):** `engine/hippo.js` `makeHippo({name})`
+  → `{g, headG, jawL, legs, cap, badge.set(text, gold), anchors.{mouth, nose, head, back, jaw}, update(t, s)}` with `s = {walk|run +
+  dist, open 0..1 (1 = a real 150° gape: 35 % head up + 65 % jaw down), chew, pitch/yaw/roll, eyes 'open'|'closed'|'happy'|'wide'|'sad',
+  lids, lookX/Y, ears 0..1 (pinned back), squeeze 0..1 (cartoon squash through a door), lean (+ nose down; −0.3 + `y` 0.27 = rearing
+  at a counter so the yawn clears it), sink (m, into water), wet 0..1, wag}`; 4 m long, 1.6 m wide, 1.7 m to the ears; set
+  `g.rotation.order = 'YXZ'` to roll him (belly flop). `engine/sets/burger.js` `buildBurger(studio)` = CHOMPY'S inside and out
+  (dining room with booths + 4-tops `tables[i] = {g, chairs, cond}`, counter + registers + menu boards, kitchen, FIZZ fountain
+  `nozzles`, salad bar `setEaten(0..1)`, `doorFrame` that can pop off, `setFlood`, `setMess`, `setNight` (chairs up), outside: facade +
+  NOW HIRING, lot, cars, drive-thru lane + `menuBoard`, a pond that digs itself `setPond(dig, fill)` + `setLaneFlood`, `hippoLane`
+  sign; far ≥ 320). `engine/simhud.js` `makeSimHud(story.sim)` = the "What if" sim layout (question alone in the middle, then it
+  glides up once and stays as the header; a left HUD per beat with a coloured bar, label, big number + unit, coloured sub-label; bold
+  white subtitles in the lower third; the Scribe end card) — hide the core `title/hud/sub/end` elements when you use it. `makeScreen`
+  (scribe.js) takes `{n, name, subject}` (problem count, the student's name, a CHEMISTRY · 20 PROBLEMS label; defaults = 049).
+- **Chemistry worksheets (055, user steer Nov 9: not always math):** `layoutHand` takes `_x` = subscript (CH_4, H_2O); `makeSheet`
+  problems take `lewis: 'H2O'|'CO2'` = a Lewis structure drawn by the pen (atoms in the hand, bond lines, lone-pair dots) next to the
+  answer. The demo hand has NO capital O (it falls back to a small o: CO_2 reads "Co₂", cobalt) — build one per video from the o +
+  the C's cap height (055 shots.js, `G.O`), as Scribe's own sheet has a capital-O box for exactly this.
+- **A scripted replace that appends `// comment` after the code it matched still comments out the REST of that line (055, twice):**
+  `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
+  very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with

@@ -34,3 +34,15 @@ It started with absurd landmark what-ifs and **switched to a recurring character
 ## Take for EDStudio
 Steal the **job/place template** for lane 3: a hero visiting our existing sets (supermarket, wedding, pool, plane).
 Add what Hugo lacks, a warm good ending, which @whatif.goodending shows holds a ~275K median.
+
+## Beat sheet: "Hugo's first shift did not go well" (75 s, studied Nov 8 2026 for the 055 Scribe dupe; 1.1M views by then)
+No narrator (TikTok: no speech detected); a soft tonal bed + foley. Layout: a small kicker "SIMULATION · DRIVE-THRU", the title
+"**What if** a hippo worked at a burger joint?" pinned at the top for the whole reel, a left HUD per beat (coloured bar, letter-spaced
+label, big number + unit, coloured sub-label), one white subtitle per beat at mid-frame, a dark end card asking which animal to hire next.
+One beat ≈ 5 s: First day on the job (HIPPO WEIGHT 1,500 kg / AVERAGE STAFF 75 KG) → The floor was not ready (FLOOR LOAD / TILES RATED
+400 KG) → One size fits… nobody (UNIFORM FIT 65→4 % / XXXL ORDERED) → Can I take your order? (JAW GAPE 150° / HUMAN JAW 40°) →
+Drive-thru, hippo style (ORDERS 0→1 / FIRST CUSTOMER SHAKEN) → Things heat up at the grill + "Relax. It's natural sunscreen." (KITCHEN
+38 °C) → Hippos must stay wet (WATER 899 L / KITCHEN NOW A POND) → Fastest employee. Technically. (SPEED 30 km/h / FASTER THAN THE BUS)
+→ Salad bar: closed. (SALAD EATEN 40 kg / A HIPPO'S NIGHTLY GRAZE) → Complaints department: closed. (CUSTOMERS 38→0 / LUNCH RUSH) →
+The manager has questions. (DAMAGE £48,000 / DAY ONE) → New hire, new rules. (POND 12 m / BREAK ROOM UPGRADED) → Busiest drive-thru
+in town. (ORDERS 2,400 / A NEW RECORD) → Displacement: 1.5 tonnes. (WATER LEVEL +30 cm / CARS NOW BOATS) → end card.

@@ -216,3 +216,22 @@ const lewis0 = sheet.items.findIndex((i) => i.pi === 1);          // weight of e
 - The posted cut is the no-music one (a trending sound goes under it in the app): `sh tools/nomusic-copy.sh videos/NNN-slug` →
   out/nomusic.mp4 + out/upload-nomusic.mp4. Check it stands on voice + SFX: 056's only quiet stretches without music were the
   intended near-silent VHS rewind and the last fade; ambience beds under every scene kept voice pauses at ~−21 dBFS.
+
+## 055: a hippo's first shift (toy3d dupe of @okwhatifcrazy's 1.1M-view hippo reel), 60 s
+- The original has NO narrator (TikTok's `claInfo.noCaptionReason` 3 = no speech; read it from `__UNIVERSAL_DATA_FOR_REHYDRATION__`):
+  so no ElevenLabs. Its text layout (kicker + pinned "What if" title, a left HUD per beat with a sub-label, deadpan subtitles) became
+  `engine/simhud.js`; the question still opens alone in the middle (CLAUDE.md) and glides up to the header.
+- The plug sits where the original turns ("the manager has questions" → "new hire, new rules"): last chance = a HANDWRITTEN worksheet
+  → pencils snap in his jaws → one photo (phone viewfinder showing the sheet) → the laptop app (HUD count rolls on the SAME times as
+  the screen's solve count: they disagreed in the first stills) → his handwriting stroke by stroke → 20/20, promoted → back to the
+  original's ending (the pond drive-thru + the displacement flood). Scribe on screen at 33.8 s (56 %).
+- Toy3d staging lessons: a vertical frame can't hold a 12 m pond from a 3/4 crane — go near top-down; a salad bar / door frame / table
+  bottles in the lens line were hidden per shot (film cheats); a hippo's dark nostrils read as a second pair of eyes from the front
+  (smaller, pinker nostrils + bigger eyes fixed it); POV inserts (sheet, laptop, handwriting) hide the hippo, whose head is where the
+  camera sits.
+- Music (user steer Nov 8): a minimal soft bed under SFX-led foley; `out/nomusic.mp4` = the picture with sfx + amb only (for a
+  trending sound at upload).
+- Revision (user, Nov 9: "this shit is all math homework still… bio, chemistry?"): the worksheet became night-class CHEMISTRY —
+  the grill burner's combustion balanced in his hand (CH₄ + 2O₂ → CO₂ + 2H₂O), H₂O and CO₂ Lewis structures drawn by the pen, moles,
+  kelvin, pH. Only 28.4–44.8 s was re-rendered (`render.mjs --from/--to` writes out/silent.mp4 = the segment: save the full one
+  first, splice with ffmpeg `trim=start_frame/end_frame` + concat at shot cuts, then `tools/mux.mjs`).
