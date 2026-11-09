@@ -55,3 +55,26 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - Toon add-ons on the torso: `toon.armL.g.parent` is the torso group (the body's child order is not stable).
 - Cuts are cheap in a promo: one framing per beat as its own shot (with a 2-key slow push) beat chaining framings across a room —
   planRail turned far-apart framings into passes and the "HANDWRITTEN" close-up became a pan across the bookshelves.
+
+## 058: "How to f*cking survive f*cking finals week" (the f-word explainer → Scribe), 47 s
+- Format (user's pick): a deadpan how-to narrator who puts "fucking" in front of every other word; six numbered steps, one toon gag
+  each, the obstacle (the professor: forty problems, HANDWRITTEN, due at midnight) at ~46–53 %, Scribe on screen at 61 %. No single
+  viral original was found to dupe (web search; TikTok search doesn't load logged out in the built-in browser).
+- **Uncensored voice, censored text** (script.json, opt-in, additive): `"swap": {"fucking": "F*CKING"}` makes narrate.py show a
+  spoken word differently in the one-word captions, `"wordColor": {"F*CKING": "#ff4f6a"}` (copied into story.json) makes
+  `engine/build/captions.js` draw that word in its own colour, also inside a joined caption ("Your F*CKING"). The caption.md says f*cking.
+- Pace: 39 f-words make the read long in syllables (each is two): Adam v3 at stability 0.5 + tempo 1.4 measured 4.57 syl/s; tempo
+  1.6 (free) → 5.2 syl/s, 47 s. 946 chars for 12 beats. large-v3 check_voice only flagged numerals ("600" for "six hundred").
+- Every F*CKING gets a tiny camera kick (`kick(t, 0.1, 0.18)` on every "fucking" word time) — the rhythm is felt in the picture.
+- Sets: the 049 library (jack-o'-lantern hidden, the calendar swapped to a DECEMBER/FINALS page by finding its PlaneGeometry 0.62 ×
+  0.72, the old sleeping bag + pillow hidden by geometry), kitchen.js for the coffee + the study group (day) and the buried group
+  (night: sun 0, hemi 0.28, the window view plane tinted dark), the 049 office. `makeScreen(G, icon, sheet, { name })` (058,
+  default 'Tyler') puts the student's name on the app's avatar + handwriting row.
+- Music (manager relay of a user steer, Nov 8: "most of our background music is bad"): a minimal soft bed — a quiet mallet
+  ostinato in C (C–G–Am–F) + soft kick/clap/hats at 120 bpm, a pad under it, music stem −13 dB (049: −8); the foley carries the
+  gags. Deliver `out/nomusic.mp4` too (voice + sfx + amb stems, no music) so a trending sound can go under it at upload.
+- Lessons: a lying toon (rx −π/2, rotY π/2, head toward −x) reads upright only from the FEET end, high, looking down along the
+  body (the body runs up the vertical frame; from the side the face is turned 90°). A chugged carafe tilted toward the lens
+  covers the whole face: tilt it sideways (rotation z) with its mouth at the corner of his mouth. A table chair between the lens
+  and the counter hid half the coffee shot (hide `KIT.chairs[i]` per shot). A pizza lid opened to vertical hid the faces behind
+  it: flip it flat (−3.05 rad).

@@ -1,0 +1,46 @@
+{
+ "text": "Your fucking study group? Still on fucking flashcards.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Your",
+   "t0": 0.0,
+   "t1": 0.16
+  },
+  {
+   "w": "fucking",
+   "t0": 0.2,
+   "t1": 0.48
+  },
+  {
+   "w": "study",
+   "t0": 0.533,
+   "t1": 0.8
+  },
+  {
+   "w": "group?",
+   "t0": 0.853,
+   "t1": 1.2
+  },
+  {
+   "w": "Still",
+   "t0": 1.307,
+   "t1": 1.84
+  },
+  {
+   "w": "on",
+   "t0": 1.893,
+   "t1": 2.0
+  },
+  {
+   "w": "fucking",
+   "t0": 2.06,
+   "t1": 2.48
+  },
+  {
+   "w": "flashcards.",
+   "t0": 2.56,
+   "t1": 3.6
+  }
+ ]
+}
