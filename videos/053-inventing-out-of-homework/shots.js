@@ -524,7 +524,10 @@ export async function build(studio, story) {
       const W0 = 940, sc = W0 / 1024, ox = -W0 / 2, oy = -W0 * 1325 / 1024 / 2;
       SET.paper2d(I, 0, 0, W0, { canvas: sheet.canvas, lw: 6 });
       pen2d(ox + tip[0] * sc, oy + tip[1] * sc, 1.0);
-      if (t > T.his && t < T.his + 1.3) { ctx.save(); ctx.globalAlpha = 1 - u01(t, T.his + 1.1, T.his + 1.3); SET.nameTag(I, 'HIS HANDWRITING', 60, oy + tip[1] * sc - 175, { size: 58, fill: '#ffe14d', pop: pop(t, T.his) }); ctx.restore(); }
+      // Leo watching from below the caption band (the desk under the page was empty)
+      const lyH = S.cam.y + (1420 - 960) / S.cam.z, lp = { x: 230, y: lyH + 404 * 1.25, s: 1.25, t: tt, turn: -0.5, look: [-0.7, -0.9], eyes: t > T.his + 0.5 ? 'happy' : 'wide', mouth: 'grin', arms: { L: ARM.down, R: ARM.down }, shadow: false };
+      put(leo, lp, 'leo');
+      if (t > T.his && t < T.his + 1.5) { ctx.save(); ctx.globalAlpha = 1 - u01(t, T.his + 1.3, T.his + 1.5); SET.nameTag(I, 'HIS HANDWRITING', 120, oy + tip[1] * sc + 120, { size: 58, fill: '#ffe14d', pop: pop(t, T.his) }); ctx.restore(); }
     }
     if (id === 'print') {
       const top = bedroom(t); deskLamp(560, top);
