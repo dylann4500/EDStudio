@@ -1,0 +1,66 @@
+{
+ "text": "The professor fucking checks it. That's your fucking handwriting. A fucking plus.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "The",
+   "t0": 0.0,
+   "t1": 0.08
+  },
+  {
+   "w": "professor",
+   "t0": 0.128,
+   "t1": 0.56
+  },
+  {
+   "w": "fucking",
+   "t0": 0.6,
+   "t1": 0.88
+  },
+  {
+   "w": "checks",
+   "t0": 0.949,
+   "t1": 1.36
+  },
+  {
+   "w": "it.",
+   "t0": 1.413,
+   "t1": 1.72
+  },
+  {
+   "w": "That's",
+   "t0": 1.76,
+   "t1": 2.0
+  },
+  {
+   "w": "your",
+   "t0": 2.032,
+   "t1": 2.16
+  },
+  {
+   "w": "fucking",
+   "t0": 2.2,
+   "t1": 2.48
+  },
+  {
+   "w": "handwriting.",
+   "t0": 2.54,
+   "t1": 3.28
+  },
+  {
+   "w": "A",
+   "t0": 3.4,
+   "t1": 3.52
+  },
+  {
+   "w": "fucking",
+   "t0": 3.58,
+   "t1": 4.0
+  },
+  {
+   "w": "plus.",
+   "t0": 4.144,
+   "t1": 4.96
+  }
+ ]
+}

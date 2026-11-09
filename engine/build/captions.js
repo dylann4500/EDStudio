@@ -42,6 +42,9 @@ export function createBuildOverlay(story) {
   });
   const words = story.words || [];
   let wi = 0, shown = null, fitted = false;
+  // 058 (opt-in): story.wordColor {"F*CKING": "#ff4f6a"} draws those caption words in their own colour (also inside a joined "The F*CKING")
+  const WC = story.wordColor || null, esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const paint = (text) => { if (!WC) { word.textContent = text; return; } word.innerHTML = text.split(' ').map((p) => (WC[p] ? `<span style="color:${WC[p]}">${esc(p)}</span>` : esc(p))).join(' '); };
 
   function measureText(o) { // width of the text itself (block is full-width)
     const r = document.createRange(); r.selectNodeContents(o.el); return r.getBoundingClientRect().width;
@@ -54,7 +57,7 @@ export function createBuildOverlay(story) {
     while (wi < words.length - 1 && t >= words[wi + 1].t0) wi++;
     const w = words[wi];
     if (w && t >= w.t0 && t < w.t1) {
-      if (shown !== wi) { word.textContent = w.w; shown = wi; }
+      if (shown !== wi) { paint(w.w); shown = wi; }
       const u = clamp((t - w.t0) / 0.075);
       word.style.opacity = 1; word.style.transform = `translateY(-50%) scale(${0.86 + 0.14 * easeOutBack(u)})`;
     } else word.style.opacity = 0;

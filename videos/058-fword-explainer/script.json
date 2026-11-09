@@ -1,0 +1,181 @@
+{
+  "title": "How to survive finals week (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 270
+  },
+  "lead": 0.04,
+  "gap": 0.07,
+  "tail": 4.5,
+  "maxPause": 0.2,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.6,
+  "joinLen": 4,
+  "swap": {
+    "fucking": "F*CKING"
+  },
+  "wordColor": {
+    "F*CKING": "#ff4f6a"
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.1,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "How to fucking survive fucking finals week.",
+      "callouts": [
+        {
+          "at": "finals",
+          "text": "FINALS WEEK",
+          "style": "term",
+          "until": "week"
+        }
+      ]
+    },
+    {
+      "id": "coffee",
+      "say": "Step fucking one: fucking coffee. Not a fucking cup. The whole fucking pot. Now your fucking eye does this.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 1 · COFFEE",
+          "style": "label"
+        },
+        {
+          "at": "pot",
+          "text": "GLUG GLUG",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.235
+          ],
+          "hold": 0.36
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "say": "Step fucking two: the fucking library. That's your fucking bed. That's your fucking kitchen. You fucking live here now.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 2 · MOVE IN",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "group",
+      "say": "Step fucking three: the fucking study group. Five fucking people. One fucking pizza. Zero fucking studying.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 3 · STUDY GROUP",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "cards",
+      "say": "Step fucking four: fucking flashcards. Six hundred fucking flashcards. The fucking flashcards win.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 4 · FLASHCARDS",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "prof",
+      "say": "Step fucking five: the fucking professor. Forty fucking problems. All fucking handwritten. Due at fucking midnight.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 5 · THE PROFESSOR",
+          "style": "label"
+        },
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "y": 0.205,
+          "hold": 0.95
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "You're fucking cooked.",
+      "callouts": []
+    },
+    {
+      "id": "scribe",
+      "say": "So you fucking open Scribe. One fucking photo. It fucking solves all forty.",
+      "callouts": [
+        {
+          "at": "scribe",
+          "text": "SCRIBE",
+          "style": "term",
+          "hold": 1.3,
+          "y": 0.16
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "Then it fucking writes them in your fucking handwriting. Stroke by fucking stroke.",
+      "callouts": [
+        {
+          "at": "handwriting",
+          "text": "YOUR HANDWRITING",
+          "style": "term",
+          "hold": 1.5
+        }
+      ]
+    },
+    {
+      "id": "match",
+      "say": "The professor fucking checks it. That's your fucking handwriting. A fucking plus.",
+      "callouts": []
+    },
+    {
+      "id": "friends",
+      "say": "Your fucking study group? Still on fucking flashcards.",
+      "callouts": []
+    },
+    {
+      "id": "sleep",
+      "say": "Step fucking six: fucking sleep.",
+      "callouts": [
+        {
+          "at": "step",
+          "text": "STEP 6 · SLEEP",
+          "style": "label"
+        }
+      ]
+    }
+  ]
+}

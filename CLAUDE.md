@@ -400,6 +400,9 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Censored captions over an uncensored voice (058, script.json opt-in):** `"swap": {"fucking": "F*CKING"}` (narrate.py shows a spoken
+  word differently in the one-word captions) + `"wordColor": {"F*CKING": "#ff4f6a"}` (captions.js colours that word, even inside a
+  joined caption). `makeScreen(G, icon, sheet, { name })` names the student in the Scribe app (default 'Tyler'). docs/PROMO.md → 058.
 - **Lighthouse kit (039, `engine/build/lighthouse.js`):** open sea (a JS mirror of the shader waves: `seaH`/`floatPose`, an
   exaggerated curve `R`, a big wave), 7 moods, a cutaway rock lighthouse that grows (`setGrow` clip plane) and leans, a hatch ladder
   to the lantern, Fresnel lens/mirror/beams, boats (tug/sailboat/cruise/freighter/barge), gull, foam spray crown, far coast. A camera

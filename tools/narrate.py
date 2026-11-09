@@ -424,8 +424,9 @@ def layout(slug, cfg, wj):
         beats[wb['id']] = {'t0': round(t0, 3), 't1': round(t1, 3), 's0': wb['t0'], 's1': wb['t1'], 'i': i,
                            'w': [[norm(w['w']), w['t0'], w['t1']] for w in wb['words']]}  # shots.js syncs gags to spoken words
         order.append(wb['id'])
+        swap = cfg.get('swap', {})   # 058, opt-in: {"fucking": "F*CKING"} = the caption shows a spoken word differently (censored on screen)
         for w in wb['words']:
-            d = display(w['w'])
+            d = swap.get(norm(w['w'])) or display(w['w'])
             if d:  # 'p': the word ends a clause ("it," "Gary.") — captions never join across it ("It Gary" in v2)
                 words.append({'w': d, 't0': w['t0'], 't1': w['t1'], 'p': bool(re.search(r'[.,!?:;]["\')]*$', w['w'].strip()))})
         sb = next(b for b in cfg['beats'] if b['id'] == wb['id'])
@@ -476,6 +477,8 @@ def layout(slug, cfg, wj):
              'beats': beats, 'order': order, 'words': words, 'callouts': callouts}
     if cfg.get('debugView'):
         story['debugView'] = cfg['debugView']
+    if cfg.get('wordColor'):   # 058, opt-in: {"F*CKING": "#ff4f6a"} = caption words drawn in their own colour (engine/build/captions.js)
+        story['wordColor'] = cfg['wordColor']
     json.dump(story, open(os.path.join(vd, 'story.json'), 'w'), indent=1)
     print(f'story.json: {dur:.1f} s, {len(words)} words ({len(words) / dur:.2f} w/s), {len(callouts)} callouts')
     for bid in order:
