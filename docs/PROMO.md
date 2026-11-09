@@ -109,3 +109,26 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   covers the whole face: tilt it sideways (rotation z) with its mouth at the corner of his mouth. A table chair between the lens
   and the counter hid half the coffee shot (hide `KIT.chairs[i]` per shot). A pizza lid opened to vertical hid the faces behind
   it: flip it flat (−3.05 rad).
+
+## 062: "How f*cking airplanes f*cking fly" (f-word explainer #2 → Scribe), 48 s (scratch voice; ready to voice)
+- Same harness as 058 (script.json swap/wordColor, a kick on every F*CKING, hard cuts, 058's end card), new places: the planespotter
+  under a landing jet, the security line (shoes → belt → pants → still beeps), the cutaway engine at the gate (a ramp agent's cap goes
+  through it and out of the back on fire), the takeoff roll (blue arrows = the air shoved DOWN, then a giant yellow LIFT arrow), the
+  cockpit in the clouds (throttle doubled → 4× lift → the plane rockets up), the cabin (turbulence + coffee splash, one pretzel, the
+  landing) → pivot at 55 %: the one guy who claps is your physics teacher (ten lift problems, handwritten) → Scribe at 65 % → the pen
+  DRAWS the free-body diagram arrow by arrow on "lift, weight, thrust, drag" (manager steer: that's the money shot) → the homework
+  folds into a paper plane that lands on the teacher's head (A+), he claps. 36 shots. Kit: `engine/build/airport.js` (CLAUDE.md).
+- **`B.W(beat, word)` takes the FIRST match:** "You fold **it** into a plane. **It** flies" — `W('fold','it')` started the flight
+  shot 1.4 s early. Use `W(beat, word, 2)` (and mirror it in make_cues.py) whenever a word repeats in a beat.
+- **Toon heads vs a vertical frame:** the frame is only ≈ 0.43 × distance wide at fov 42, so a toon head (0.54 m; 0.6 m ×1.12) fills
+  it from 1.2 m. Close-ups need ≥ 1.6–2 m or fov 50+; a two-shot of toons 0.5 m apart needs ~3 m.
+- **plane.js's cabin is sized for the wooden rig:** seat backs (1.22 m) hide a seated toon's mouth, the trays sit behind the row in
+  front, and toon arms are too short to clap above their own heads. Fixes: toons ×1.12 in the cabin (never two side by side), shoot
+  faces from the front aisle (camera ~1.7 m high) or across from the left seats, POV/insert shots for anything on a tray, and put the
+  action that must read full-body (the clapper) STANDING IN THE AISLE.
+- A coffee splash on a toon: the toon's `mud` shells cover the whole head (it read as leopard spots from behind) — use a partial
+  sphere decal on the front of the face only (062 `coffeeMask`: splats + drips, eyes and mouth left clear).
+- Flow arrows (makeArrows) streaming past a wingtip read as nothing from 30 m; chunky force arrows (blue = air pushed down under the
+  trailing edge, yellow = lift pushing up under the wing) read instantly.
+- ElevenLabs (Nov 9, 01:20): the fresh free-tier key returned 401 `detected_unusual_activity` ("Free Tier access has been
+  disabled") on the first call, 0 chars spent — an account flag only the user can clear (paid plan / support). Finish on scratch.
