@@ -1,0 +1,51 @@
+{
+ "text": "Here's some economics. Mommy? Limited supply. Very high demand.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Here's",
+   "t0": 0.08,
+   "t1": 0.48
+  },
+  {
+   "w": "some",
+   "t0": 0.48,
+   "t1": 0.56
+  },
+  {
+   "w": "economics.",
+   "t0": 0.56,
+   "t1": 1.76
+  },
+  {
+   "w": "Mommy?",
+   "t0": 2.0,
+   "t1": 2.56
+  },
+  {
+   "w": "Limited",
+   "t0": 3.28,
+   "t1": 3.68
+  },
+  {
+   "w": "supply.",
+   "t0": 3.68,
+   "t1": 4.4
+  },
+  {
+   "w": "Very",
+   "t0": 4.88,
+   "t1": 5.2
+  },
+  {
+   "w": "high",
+   "t0": 5.2,
+   "t1": 5.44
+  },
+  {
+   "w": "demand.",
+   "t0": 5.44,
+   "t1": 6.16
+  }
+ ]
+}
