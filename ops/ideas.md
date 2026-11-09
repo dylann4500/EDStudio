@@ -63,7 +63,7 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 053 | Day N of inventing my way out of homework (Scribe, NEW flat 2D style) | scribe | assigned Nov 8 (Scribe manager) |
 | 054 | Goth anime cheat tutor (Scribe, anime/pixel look, after @allythetutor) | scribe | reserved Nov 8 for the 049 session (feat/goth-tutor) |
 | 055 | DUPE: "Hugo's first shift did not go well" (@okwhatifcrazy TikTok, 1.1M) + Scribe (toy3d) | scribe | assigned Nov 8 |
-| 056 | DUPE: "How a Wooden Plank Becomes a Bridge" (@wemakebuild, 1.85M likes) + Scribe (toon/build) | scribe | assigned Nov 8 |
+| 056 | DUPE: "What if you didn't shower for 365 days?" (@whatifpov, 51K likes day 1) + Scribe (toon) — replaced plank→bridge (user: no builder-format reels) | scribe | assigned Nov 8 |
 | 057 | DUPE: "What if your speed DOUBLED every 3 seconds?" (@whatifpov, 264K likes) → your HOMEWORK doubles + Scribe (pixel) | scribe | assigned Nov 8 |
 | 058 | "Fucking" between every word explainer (user's pick) + Scribe (toon) | scribe | assigned Nov 8 |
 
