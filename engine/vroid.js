@@ -18,7 +18,7 @@ const ramp = () => (RAMP ??= toonRamp([0.7, 0.72, 0.82, 0.97, 1, 1, 1, 1]));
 const V3 = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
 
 // pose presets: bone → direction in her frame (mirrored for the other side by negating x)
-const ARMS = {
+export const ARMS = {   // exported (064, additive): videos blend two presets via update's armL/armR
   rest: { L: [[0.24, -1, 0.04], [0.12, -1, 0.14]] },
   hip: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]] },
   shades: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.5, 0.82, 0.12], [0.72, 0.42, 0.1]] },
@@ -42,7 +42,7 @@ const SHAPES = { relax: [0.25, 0.25, 0.32, 0.38, 0.42], open: [0.05, 0.04, 0.04,
   point: [0.8, 0.02, 1.35, 1.4, 1.35], peace: [0.9, 0.02, 0.02, 1.4, 1.35], hold: [0.45, 0.55, 0.65, 0.75, 0.8],
   kiss: [0.35, 0.3, 0.35, 0.45, 0.5], beckon: [0.8, 0.85, 1.35, 1.4, 1.35] };
 
-export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1.0, thigh = 1.0, emissiveFloor = 0.22 } = {}) {
+export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1.0, thigh = 1.0, calf = 1.0, head = 1.0, eyes = 1.0, emissiveFloor = 0.22 } = {}) {
   const gltf = await new GLTFLoader().loadAsync(url);
   const P = gltf.parser, J = P.json, X = J.extensions.VRMC_vrm;
   const model = gltf.scene, root = new THREE.Group(); root.add(model);
@@ -90,6 +90,9 @@ export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1
   // ---- proportions
   for (const s of springs.filter((s) => s.name === 'Bust')) s.js[0].n.scale.setScalar(bust);
   for (const k of ['leftUpperLeg', 'rightUpperLeg']) if (H[k]) H[k].scale.set(thigh, 1, thigh);
+  for (const k of ['leftLowerLeg', 'rightLowerLeg']) if (H[k]) H[k].scale.set(calf / thigh, 1, calf / thigh);   // children inherit the thigh scale
+  if (H.head) H.head.scale.setScalar(head);                       // a slightly bigger head = cuter anime proportions
+  for (const k of ['leftEye', 'rightEye']) if (H[k]) H[k].scale.set(eyes, eyes, 1);   // bigger irises in x/y only (scaling z pushed them out through the lids = goggles)
   // ---- aim posing
   model.updateMatrixWorld(true);
   const NEXT = { hips: 'spine', spine: 'chest', chest: 'upperChest', upperChest: 'neck', neck: 'head', leftShoulder: 'leftUpperArm', rightShoulder: 'rightUpperArm',

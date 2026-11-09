@@ -588,6 +588,19 @@ videos/NNN-slug/
   blending each column's skin above/below, then draw triangle cups + strings. Proportions = `makeVroid({bust: 1.2, thigh: 1.18})`.
   "Mommy" moments = a push-in that stays in (`bump`) + pixel hearts + a wink/kiss + a breath before the word. **Check
   stations against voxbeach's dunes** (a dune swallowed the desk: the shot rendered as flat sand).
+  **064 (3 AM POV, Nov 9, user: "not informative… comfort you… make her thicker, bigger eyes, cuter but still goth"):** a cuter,
+  thicker Vex IN CODE (no VRoid trip): `makeVroid({bust: 1.22, thigh: 1.4, calf: 1.15, head: 1.07, eyes: 1.12})` + `vex-body2.png`
+  (the bikini atlas minus the inner-thigh strip that read as a flap). Eyes scale x/y only (`setScalar` pushed the eyeballs out
+  through the lids = goggles); half-lidded = `relaxed ≈ 0.15–0.35` + `blink ≈ 0.12` (relaxed 0.5 + blink 0.25 shut her eyes).
+  Night: `voxbeach.setNight(1)` (navy sky, 700 stars at 5 px — 2 px vanished under the 4 px pixel pass, a pixel moon via
+  `setSun(camPos, dir)` up-left of the aim) — **never call `setMood` after it** (setNight clears the mood cache, setMood(0)
+  repaints a day sky). Night faces: a fill light AT the lens with intensity ∝ d^1.6 (camera→subject) = the same exposure at
+  any distance (a fixed fill 0.4 m ahead blew close-ups white and hot-spotted the paper in the macro; off when she's not in shot).
+  Smooth gestures: `ARMS` is exported; 064 `glide()` re-evaluates the shot's pose fn 0.04–0.32 s back and blends the arm
+  directions over 0.28 s via `armL/armR` (pure, no state) — pose switches no longer snap. `makeScreen` on a `subjectSheet`:
+  leave `subject` unset (a string subject printed the class line twice over the pack's). Shrink the magic pen's glow in a macro
+  (`pen.glow` 0.022, it hid the H of H–O–H). Copy: the Scribe beat stays the product demo; the rest is comfort/tease (roast the
+  homework → "aww" → "come here" → a wink → Scribe → "mommy won't tell" → bed) — flirty, adult, no kink lines, no promises.
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
@@ -759,6 +772,8 @@ videos/NNN-slug/
   placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
   `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
+  064 hit it AGAIN through a Python `replace` that added `// comment` before `const c = …` on a one-line block (the coffee and the
+  mug handle vanished, no error): grep `//.*(const|let) [A-Za-z_]+ = ` too.
   It misses `…}); // note foo.bar(x);` (no `;` inside the comment before the code): also run
   `grep -nE "//.*[A-Za-z_]+(\.[A-Za-z_]+)*\([^)]*\);\s*$|//.*[A-Za-z_]+\.[A-Za-z_.]+ = [^;]+;\s*$"` and read each hit (039 lost a character to it).
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.

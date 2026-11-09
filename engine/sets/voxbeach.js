@@ -97,5 +97,20 @@ export function buildVoxBeach(studio, opts = {}) {
   }
   /** place the pixel sun in the sky relative to the camera: dir = direction from the camera (world), at 250 m */
   const setSun = (camPos, dir) => { sunS.position.copy(camPos).addScaledVector(dir.clone().normalize(), 250).sub(root.position); };
-  return { root, sun, hemi, house: H, DIMS, setMood, setSun, sunSprite: sunS };
+  // night (064, "3 AM"): navy sky, stars, the pixel sun swaps for a pale moon, moonlight + a low violet bounce. setNight(0) = day.
+  const moonT = pixelTex(24, 24, (g) => { g.fillStyle = '#f2f0ff'; g.beginPath(); g.arc(12, 12, 11, 0, 7); g.fill(); g.fillStyle = '#c9c6e0'; for (const [x, y, r] of [[8, 9, 2.5], [15, 14, 3], [10, 16, 1.6], [16, 7, 1.4]]) { g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); } }, { k: 4 });
+  const starPos = []; for (let i = 0; i < 700; i++) { const a = i * 2.39996, e = 0.15 + ((i * 0.618) % 1) * 1.25; starPos.push(Math.cos(a) * Math.cos(e) * 280, Math.sin(e) * 280, Math.sin(a) * Math.cos(e) * 280); }
+  const starG = new THREE.BufferGeometry(); starG.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+  const stars = new THREE.Points(starG, new THREE.PointsMaterial({ color: 0xffffff, size: 5, sizeAttenuation: false, fog: false, transparent: true, opacity: 0.9, depthWrite: false })); stars.visible = false; stars.renderOrder = -1; root.add(stars);
+  const NIGHT = ['#060a20', '#121b46', '#2a3870'];
+  let nightK = -1;
+  function setNight(k) {
+    if (Math.abs(k - nightK) < 1e-3) return; nightK = k; moodK = -1;
+    const g2 = sg.createLinearGradient(0, 0, 0, 256); [0, 0.55, 1].forEach((u, i) => g2.addColorStop(u, mixC(SKY[0][i], NIGHT[i], k))); sg.fillStyle = g2; sg.fillRect(0, 0, 4, 256); skyT.needsUpdate = true;
+    sun.color.set(mixC('#fff3e0', '#a8b8ff', k)); sun.intensity = 2.0 - 0.75 * k;
+    hemi.color.set(mixC('#dcecff', '#5a5a9a', k)); hemi.groundColor.set(mixC('#f0dcae', '#3a2a40', k)); hemi.intensity = 1.45 - 0.7 * k;
+    cm.emissive.set(mixC('#c8dcf0', '#2a3060', k)); cm.color.set(mixC('#ffffff', '#5a6290', k));
+    stars.visible = k > 0.5; sunS.material.map = k > 0.5 ? moonT : sunT; sunS.material.needsUpdate = true; sunS.scale.setScalar(k > 0.5 ? 14 : 18);
+  }
+  return { root, sun, hemi, house: H, DIMS, setMood, setSun, setNight, sunSprite: sunS };
 }
