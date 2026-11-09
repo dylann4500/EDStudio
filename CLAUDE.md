@@ -533,6 +533,18 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **Penguins + Antarctic sea ice (063, `engine/build/penguins.js`, toon look):** `makePenguin({tuft, bow, fat, chest, ear})` = an
+  emperor penguin with the toon face kit (`set({x, z, rotY, waddle, lie 0..1 = belly slide, flipL/flipR {z out, x fwd}, head, eyes
+  'open'|'wide'|'half'|'closed'|'happy'|'spiral'|'x', look, brows, mouth 'flat'|'o'|'scream'|'smile', drift (snowed in to the beak),
+  ice (frozen in a block), frost (cap + icicles), thin (starving), pouch (the brood fold over an egg), hot, shades, squash, t})`;
+  `makePenguinCrowd(parent, n)` = an instanced huddle of hundreds (`set(i, {...})` + `commit(n)`), `makeEgg()` (greenish, oversized:
+  a cream egg vanished on white snow), `makeLeopardSeal()` (`set({rise, open, lunge})`, a toothy grin), `buildIce(studio)` = colony
+  plain, a floe edge + a tongue at `D.edgeX/tongueX` with open water, ice cliffs + bergs, mountains inland (−x), pastel polar sky,
+  `setNight(k)` (stars + an aurora for a time-lapse), `setWeather(k)` (blizzard fog, geometric), `aimSun`, `update(t, camera)`; far ≥ 2600.
+  Pair with winter.js `makeSnowfall` (center the box ~6 m AHEAD of the lens). An egg on a penguin's feet sits at local z ≈ 0.27 (the
+  belly hides anything further back). scribe.js (063, additive): a problem `{chain: ['algae', 'krill', …], u, gap}` = a hand-drawn
+  food chain (each label written + circled, hand arrows between) — make it the LAST problem and lift the macro lens off the pen tip
+  to frame the whole row as it's drawn; `makeScreen(…, {subject: 'Biology'})` = a subject chip + "BIOLOGY · showing work + diagrams".
 - **Sim style — Sims-like realistic 3D (052, `engine/sim/`; docs/STYLES.md → sim; template `videos/_sim-template`):** @officialwriteit's
   hit look. `buildSimHouse(studio)` = a dollhouse-cut ranch house (front walls gone at z = 0, floor `FY` 0.62 on joists over a crawlspace,
   a cut soil slab, pink ceiling insulation, a gable roof cut through its rafters; rooms bedroom | hall | kitchen | living, `D.rooms`) with

@@ -109,3 +109,20 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   covers the whole face: tilt it sideways (rotation z) with its mouth at the corner of his mouth. A table chair between the lens
   and the counter hid half the coffee shot (hide `KIT.chairs[i]` per shot). A pizza lid opened to vertical hid the faces behind
   it: flip it flat (−3.05 rad).
+
+## 063: "How f*cking penguins f*cking survive f*cking Antarctica" (f-word explainer #3 → Scribe, biology), 46 s
+- 058's script.json/voice/bed, new topic: a deadpan nature doc on emperor penguins (snowed in on every F-word → the huddle: frozen on
+  the edge, crowd-surfed into the +37 °C middle in shades → the egg: Mom flips it onto Dad's feet and leaves, two months of polar
+  night, no food, a fish dream → the belly slide + a strike through ten penguins → the leopard seal: "never go in first. Push Kevin"
+  → the one walking the wrong way), the pivot at 57 % (the biology teacher wants the penguin worksheet HANDWRITTEN), Scribe on screen
+  at 67 %, the pen DRAWS the food chain on the worksheet (manager steer, Nov 9: show a figure, the screen says Biology), A+, and the
+  wrong-way penguin looks back at the lens before the end card. Facts sourced in caption.md (AAD, Gilbert et al. 2006).
+- Kit: `engine/build/penguins.js` (CLAUDE.md cheat sheet). Office → biology classroom by swapping the board + diploma textures
+  (PlaneGeometry 3.4 × 1.7 and 0.7 × 0.52); the library calendar → a November page. Library at LO = [300, 0, 0], office at
+  [360, 0, 0], ice at the origin: 058's code already used `L()`/`O()` for every world position, so parking them was a one-liner.
+- Eleven: 951 chars for 12 beats ("You're fucking cooked." reused 058's cached take); tempo 1.6 → 45.9 s.
+- Lessons: a cream egg on white snow is invisible — greenish + 25 % bigger + in FRONT of the belly; the leopard seal's first head
+  (stacked skull + jaw spheres, teeth inside the skull) read as a burger: one big ellipsoid head, eyes half out of the surface on
+  top, fangs on an arc just outside the snout; additive steam/dust puffs near a lens turn a close-up milky (keep `alpha ≤ 0.45`,
+  short life, and no stream in a face shot); `B.W(beat, 'fucking', n)` — count the f-words per beat before keying a shot on one
+  (the strike was keyed to the 3rd of 4).
