@@ -554,6 +554,18 @@ videos/NNN-slug/
   `render.mjs --qc` lists faces under the caption band. ≈0.08 s/frame at 30 fps (the cheapest look). `npm run new -- NNN --from
   _flat2d-template` now also copies script.json + make_cues.py.
 
+- **@whatifpov text layer + VHS rewind (056, Scribe dupe):** script.json `"mode": "pov"` (+ a `"sub"` line per beat, numerals allowed:
+  "Day 3: nobody notices.") → `tools/narrate.py` passes both to story.json and `engine/main.js` skips its own overlay; shots.js draws
+  `createPov({title, rewind, hud: {show, label, value(t), facts: [[t, text, warn]], bpm(t)}, subs, end})` (`engine/build/pov.js`: serif
+  question title, top-left HUD = caps label / big serif "Day N" / a tracked-caps fact line (amber = warning) / a red-dot BPM + static
+  ECG, italic serif subtitles at 66 %, the ⏪ icon, the Scribe end card) and `addVhsPass(studio).set(k, t)` (`engine/build/vhs.js`:
+  tracking tears, a rolling noise bar, chroma split, scanlines). **Cold open + rewind for free:** keep `update(t)` pure and render
+  the picture at a remapped story time τ — the cold open replays a LATER state (τ = the train after it emptied), the rewind plays
+  earlier shots backwards (τ runs down through 3–4 shots in 0.8 s) under the VHS pass. 056 shots.js also has: a fly swarm
+  (instanced bodies + flapping wings orbiting a point, `flee` scatters them), wavy stink-line sprites drawn AFTER the camera and
+  pushed away from the lens (they crossed faces otherwise), soap-bubble sprites, a homework tower (`makeStack(n)` of paper reams,
+  `setN(k)`), a POV forearm + coffee cup in camera space (cup tilted by the camera pitch so it stays upright), a 10-ft pole.
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with

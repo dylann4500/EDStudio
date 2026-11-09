@@ -157,3 +157,8 @@ clock line ("T+0:36") because a stack of paper needs ~33 doublings to bury a sch
   - tinyplanetlab sells **emotion** (toy-like family characters, a counter with emotional meaning, piano).
 - **Takeaway:** whatifpov proves the same visual kit can go viral (264K likes in 5 days on a brand-new account) when the counter *is* the plot
   and the stake is "you".
+
+## Dupes made from it
+- **056 (Scribe promo, Nov 8 2026):** the 365-day shower post, beat for beat in the toon look, with this text layer rebuilt as
+  `engine/build/pov.js` (+ `engine/build/vhs.js` for the rewind). House-rule changes: the HUD sits top-left (not mid-left), the title
+  is alone (no HUD under it), the fact line is 24 px and the BPM line 22 px (the reference's 18 px BPM was unreadable). See docs/PROMO.md → 056.
