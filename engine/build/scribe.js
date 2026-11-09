@@ -33,7 +33,10 @@ export function layoutHand(G, text, { x, y, u = 24, lineH = 2.4, seed = 1, track
     if (!vars) { cx += 0.5 * u; continue; }
     const v = vars[Math.floor(rnd() * vars.length) % vars.length], uu = sup ? u * 0.62 : u;
     const base = cy - (sup ? 0.8 * u : 0) + (rnd() - 0.5) * 0.14 * u * jit;
-    const w = v.w * uu, h = v.h * uu, bottom = base - v.d * uu;
+    // descentRatio = how far the glyph's foot sits BELOW the baseline (y/g/p > 0, '=' < 0; the Scribe app's render.js: top =
+    // heightRatio - descentRatio). Canvas y runs down, so the foot is base + d. Until Nov 8 this was base - d: every y/g/p floated
+    // up ("busy" on the app screen had its y up in the logo) and '=' sank below the line.
+    const w = v.w * uu, h = v.h * uu, bottom = base + v.d * uu;
     out.push({ c: v.c, x: cx, y: bottom - h, w, h, rot: (rnd() - 0.5) * 0.06 * jit });
     cx += w + track * uu + (rnd() - 0.5) * 0.08 * u * jit;
   }
