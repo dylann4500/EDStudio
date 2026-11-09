@@ -61,11 +61,17 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 051 | Everyone in my town has a number above their head (Scribe, toon story look) | scribe | assigned Nov 8 (Scribe manager) |
 | 052 | Upgrading my bedroom every day until I never have to leave it (Scribe, NEW sim style) | scribe | assigned Nov 8 (Scribe manager) |
 | 053 | Day N of inventing my way out of homework (Scribe, NEW flat 2D style) | scribe | assigned Nov 8 (Scribe manager) |
-| 054 | Goth anime cheat tutor (Scribe, anime/pixel look, after @allythetutor) | scribe | reserved Nov 8 for the 049 session (feat/goth-tutor) |
+| 054 | Goth anime tutor (anime/pixel look, after @allythetutor): v1 = straight plug; v2 = "What happens to your body if you don't sleep for 24 hours?" (biology, indirect) | scribe | 049/054 session (feat/goth-tutor) |
 | 055 | DUPE: "Hugo's first shift did not go well" (@okwhatifcrazy TikTok, 1.1M) + Scribe (toy3d) | scribe | assigned Nov 8 |
 | 056 | DUPE: "What if you didn't shower for 365 days?" (@whatifpov, 51K likes day 1) + Scribe (toon) — replaced plank→bridge (user: no builder-format reels) | scribe | assigned Nov 8 |
 | 057 | DUPE: "What if your speed DOUBLED every 3 seconds?" (@whatifpov, 264K likes) → your HOMEWORK doubles + Scribe (pixel) | scribe | assigned Nov 8 |
 | 058 | "Fucking" between every word explainer (user's pick) + Scribe (toon) | scribe | assigned Nov 8 |
+| 059 | NEW voxel style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
+| 060 | NEW isometric-diorama style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
+| 061 | NEW motion-graphics explainer style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
+| 062 | "How fucking airplanes fucking fly" — f-word explainer #2, hard pivot to Scribe (physics + free-body diagrams) (toon) | scribe | assigned Nov 9 (user: "we need more fucking ones") |
+| 063 | "How fucking penguins fucking survive Antarctica" — f-word explainer #3, hard pivot to Scribe (biology) (toon) | scribe | assigned Nov 9 |
+| 064 | Goth tutor Vex does the f-word explainer (anime/pixel look, after 054 v2) | scribe | reserved Nov 9 for the 049/054 session |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:

@@ -1,0 +1,56 @@
+{
+ "text": "Then my teacher emails. Forty problems. Handwritten only. Due tomorrow.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Then",
+   "t0": 0.0,
+   "t1": 0.16
+  },
+  {
+   "w": "my",
+   "t0": 0.213,
+   "t1": 0.32
+  },
+  {
+   "w": "teacher",
+   "t0": 0.37,
+   "t1": 0.72
+  },
+  {
+   "w": "emails.",
+   "t0": 0.8,
+   "t1": 1.68
+  },
+  {
+   "w": "Forty",
+   "t0": 1.747,
+   "t1": 2.08
+  },
+  {
+   "w": "problems.",
+   "t0": 2.151,
+   "t1": 2.72
+  },
+  {
+   "w": "Handwritten",
+   "t0": 2.848,
+   "t1": 3.6
+  },
+  {
+   "w": "only.",
+   "t0": 3.696,
+   "t1": 4.36
+  },
+  {
+   "w": "Due",
+   "t0": 4.43,
+   "t1": 4.64
+  },
+  {
+   "w": "tomorrow.",
+   "t0": 4.711,
+   "t1": 5.52
+  }
+ ]
+}

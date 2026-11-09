@@ -1,0 +1,405 @@
+{
+ "tone": "promo",
+ "style": "mg",
+ "title": {
+  "html": "What if every human on Earth clapped at the <em>same time</em>?",
+  "in": 0.15,
+  "out": 2.9
+ },
+ "fps": 30,
+ "duration": 50.67,
+ "look": {
+  "mg": true
+ },
+ "hudLabel": "EVERYONE CLAPS IN",
+ "hud": [
+  {
+   "t0": 2.9,
+   "t1": 4.2,
+   "label": "EVERYONE CLAPS IN",
+   "to": 0.0,
+   "r0": 2.9,
+   "r1": 4.2,
+   "ease": "linear",
+   "dec": 2,
+   "unit": " S",
+   "time": "SANTA MONICA BEACH, CALIFORNIA",
+   "from": 1.3
+  },
+  {
+   "t0": 4.2,
+   "t1": 6.35,
+   "label": "PEOPLE CLAPPING",
+   "text": "8,300,000,000",
+   "time": "IN THE SAME INSTANT",
+   "from": 0,
+   "to": 0
+  },
+  {
+   "t0": 6.35,
+   "t1": 7.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 1029.0,
+   "r0": 6.35,
+   "r1": 7.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 2 S",
+   "from": 737.4499999999998
+  },
+  {
+   "t0": 7.2,
+   "t1": 8.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 1371.9999999999998,
+   "r0": 7.2,
+   "r1": 8.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 3 S",
+   "from": 1029.0
+  },
+  {
+   "t0": 8.2,
+   "t1": 9.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 1714.9999999999998,
+   "r0": 8.2,
+   "r1": 9.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 4 S",
+   "from": 1371.9999999999998
+  },
+  {
+   "t0": 9.2,
+   "t1": 10.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 2057.9999999999995,
+   "r0": 9.2,
+   "r1": 10.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 5 S",
+   "from": 1714.9999999999998
+  },
+  {
+   "t0": 10.2,
+   "t1": 11.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 2400.9999999999995,
+   "r0": 10.2,
+   "r1": 11.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 6 S",
+   "from": 2057.9999999999995
+  },
+  {
+   "t0": 11.2,
+   "t1": 12.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 2743.9999999999995,
+   "r0": 11.2,
+   "r1": 12.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 7 S",
+   "from": 2400.9999999999995
+  },
+  {
+   "t0": 12.2,
+   "t1": 13.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 3087.0,
+   "r0": 12.2,
+   "r1": 13.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 8 S",
+   "from": 2743.9999999999995
+  },
+  {
+   "t0": 13.2,
+   "t1": 14.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 3430.0,
+   "r0": 13.2,
+   "r1": 14.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 9 S",
+   "from": 3087.0
+  },
+  {
+   "t0": 14.2,
+   "t1": 15.2,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 3773.0,
+   "r0": 14.2,
+   "r1": 15.2,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 10 S",
+   "from": 3430.0
+  },
+  {
+   "t0": 15.2,
+   "t1": 16.03,
+   "label": "THE CLAP'S SOUND HAS TRAVELED",
+   "to": 4057.6900000000005,
+   "r0": 15.2,
+   "r1": 16.03,
+   "ease": "linear",
+   "unit": " M",
+   "time": "IN 11 S",
+   "from": 3773.0
+  },
+  {
+   "t0": 16.03,
+   "t1": 18.59,
+   "label": "NEW YORK'S CLAP ARRIVES IN",
+   "to": 11539.714052478135,
+   "r0": 16.03,
+   "r1": 18.59,
+   "ease": "linear",
+   "fmt": "hms",
+   "time": "AT 343 M/S, IF IT COULD GET HERE",
+   "from": 11542.274052478135
+  },
+  {
+   "t0": 18.59,
+   "t1": 21.75,
+   "label": "ENERGY IN ALL 8.3B CLAPS",
+   "to": 8000000000.0,
+   "r0": 18.69,
+   "r1": 20.29,
+   "unit": " J",
+   "time": "ABOUT 60 GALLONS OF GAS",
+   "age": "THE SOUND: UNDER 0.1 % OF IT",
+   "from": 0
+  },
+  {
+   "t0": 21.75,
+   "t1": 23.35,
+   "label": "THINGS THE CLAP CHANGED",
+   "text": "0",
+   "time": "PHYSICALLY: NOTHING",
+   "from": 0,
+   "to": 0
+  },
+  {
+   "t0": 23.35,
+   "t1": 25.91,
+   "label": "THINGS THE CLAP CHANGED",
+   "text": "0",
+   "time": "STILL 0. SO WHAT IS THAT?",
+   "from": 0,
+   "to": 0
+  },
+  {
+   "t0": 25.91,
+   "t1": 34.62,
+   "label": "PHYSICS PROBLEMS LEFT",
+   "text": "40",
+   "time": "HANDWRITTEN \u00b7 DUE 11:59 PM",
+   "from": 0,
+   "to": 0
+  },
+  {
+   "t0": 34.62,
+   "t1": 39.92,
+   "label": "PHYSICS PROBLEMS LEFT",
+   "to": 0,
+   "r0": 35.32,
+   "r1": 36.77,
+   "ease": "linear",
+   "time": "IN YOUR HANDWRITING",
+   "from": 40
+  },
+  {
+   "t0": 39.92,
+   "t1": 43.92,
+   "label": "PEOPLE CLAPPING",
+   "to": 8300000000.0,
+   "r0": 40.47,
+   "r1": 43.82,
+   "geo": true,
+   "time": "FOR YOU",
+   "from": 1
+  },
+  {
+   "t0": 43.92,
+   "t1": 46.42,
+   "label": "THINGS THE CLAP CHANGED",
+   "text": "1",
+   "time": "YOUR HOMEWORK: DONE",
+   "from": 0,
+   "to": 0
+  }
+ ],
+ "subs": [
+  [
+   4.32,
+   6.27,
+   "8.3 billion people clap at *once*."
+  ],
+  [
+   6.41,
+   8.57,
+   "Every seagull on the beach takes off."
+  ],
+  [
+   8.71,
+   11.13,
+   "Every car alarm on Ocean Avenue goes off."
+  ],
+  [
+   11.27,
+   13.69,
+   "Your clap reaches Venice Beach 9 seconds later."
+  ],
+  [
+   13.83,
+   15.95,
+   "So the clap rolls on, like *thunder*."
+  ],
+  [
+   16.09,
+   18.51,
+   "New York's clap would take over 3 hours."
+  ],
+  [
+   18.65,
+   21.67,
+   "All that clapping: the energy in 60 gallons of gas."
+  ],
+  [
+   21.81,
+   23.27,
+   "Minutes later\u2026"
+  ],
+  [
+   23.41,
+   25.83,
+   "\u2026why is every phone on the beach buzzing?"
+  ],
+  [
+   25.97,
+   28.69,
+   "Every physics teacher on Earth just assigned the clap."
+  ],
+  [
+   28.83,
+   30.24,
+   "And yes. It's *handwritten*."
+  ],
+  [
+   30.38,
+   32.54,
+   "It's never the clap. It's the homework."
+  ],
+  [
+   32.68,
+   34.54,
+   "So you snap one photo."
+  ],
+  [
+   34.68,
+   36.94,
+   "Scribe solves all 40 problems\u2026"
+  ],
+  [
+   37.08,
+   39.84,
+   "\u2026and writes them in *your* handwriting."
+  ],
+  [
+   39.98,
+   41.94,
+   "You start a slow clap."
+  ],
+  [
+   42.08,
+   43.84,
+   "Everyone joins in."
+  ],
+  [
+   43.98,
+   46.34,
+   "Here's the second clap, slowed down."
+  ]
+ ],
+ "end": {
+  "in": 46.42,
+  "html": ""
+ },
+ "finalFade": [
+  46.22,
+  46.52,
+  0
+ ],
+ "T": {
+  "earth": 0.0,
+  "ready": 2.9,
+  "clap": 4.2,
+  "gulls": 6.35,
+  "alarms": 8.65,
+  "venice": 11.21,
+  "thunder": 13.77,
+  "newyork": 16.03,
+  "energy": 18.59,
+  "later": 21.75,
+  "buzz": 23.35,
+  "teacher": 25.91,
+  "handwritten": 28.77,
+  "never": 30.32,
+  "photo": 32.62,
+  "solve": 34.62,
+  "write": 37.02,
+  "slowclap": 39.92,
+  "joins": 42.02,
+  "slowmo": 43.92,
+  "end": 46.42
+ },
+ "E": {
+  "clap": 4.2,
+  "shutter": 33.57,
+  "venice_hit": 13.529,
+  "gulls_go": 6.7,
+  "alarm0": 8.95,
+  "stamp": 29.07,
+  "scan0": 34.62,
+  "solve0": 35.32,
+  "solve1": 36.77,
+  "write0": 37.12,
+  "write1": 39.72,
+  "slow0": 40.47,
+  "join0": 42.17,
+  "mo_clap": 45.37,
+  "app_home": 31.42
+ },
+ "order": [
+  "earth",
+  "ready",
+  "clap",
+  "gulls",
+  "alarms",
+  "venice",
+  "thunder",
+  "newyork",
+  "energy",
+  "later",
+  "buzz",
+  "teacher",
+  "handwritten",
+  "never",
+  "photo",
+  "solve",
+  "write",
+  "slowclap",
+  "joins",
+  "slowmo",
+  "end"
+ ]
+}

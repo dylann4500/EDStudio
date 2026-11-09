@@ -34,3 +34,29 @@ It started with absurd landmark what-ifs and **switched to a recurring character
 ## Take for EDStudio
 Steal the **job/place template** for lane 3: a hero visiting our existing sets (supermarket, wedding, pool, plane).
 Add what Hugo lacks, a warm good ending, which @whatif.goodending shows holds a ~275K median.
+
+## Beat sheet: "Hugo's first shift did not go well" (75 s, studied Nov 8 2026 for the 055 Scribe dupe; 1.1M views by then)
+No narrator (TikTok: no speech detected); a soft tonal bed + foley. Layout: a small kicker "SIMULATION · DRIVE-THRU", the title
+"**What if** a hippo worked at a burger joint?" pinned at the top for the whole reel, a left HUD per beat (coloured bar, letter-spaced
+label, big number + unit, coloured sub-label), one white subtitle per beat at mid-frame, a dark end card asking which animal to hire next.
+One beat ≈ 5 s: First day on the job (HIPPO WEIGHT 1,500 kg / AVERAGE STAFF 75 KG) → The floor was not ready (FLOOR LOAD / TILES RATED
+400 KG) → One size fits… nobody (UNIFORM FIT 65→4 % / XXXL ORDERED) → Can I take your order? (JAW GAPE 150° / HUMAN JAW 40°) →
+Drive-thru, hippo style (ORDERS 0→1 / FIRST CUSTOMER SHAKEN) → Things heat up at the grill + "Relax. It's natural sunscreen." (KITCHEN
+38 °C) → Hippos must stay wet (WATER 899 L / KITCHEN NOW A POND) → Fastest employee. Technically. (SPEED 30 km/h / FASTER THAN THE BUS)
+→ Salad bar: closed. (SALAD EATEN 40 kg / A HIPPO'S NIGHTLY GRAZE) → Complaints department: closed. (CUSTOMERS 38→0 / LUNCH RUSH) →
+The manager has questions. (DAMAGE £48,000 / DAY ONE) → New hire, new rules. (POND 12 m / BREAK ROOM UPGRADED) → Busiest drive-thru
+in town. (ORDERS 2,400 / A NEW RECORD) → Displacement: 1.5 tonnes. (WATER LEVEL +30 cm / CARS NOW BOATS) → end card.
+
+## Beat sheet: "Italy fixed the Leaning Tower of Pisa… with pizza 🍕" (75 s, 1.4M views / 157K likes / 14.1K shares, studied Nov 9 2026 for the 060 dupe)
+No narrator (no speech detected); a soft bed + foley. Layout: kicker `SIMULATION · PISA, ITALY · T+00:07` (a running clock), the title
+"**What if** Italy rebuilt the Leaning Tower of Pisa with pizza?" pinned top-left from frame 0, a left HUD per beat (coloured bar, label,
+thin number + unit, coloured sub-label), one white subtitle per beat mid-low, a dark end card "Which landmark should Italy rebuild next?
+TELL US IN THE COMMENTS". Beats (s): 0 One tourist pushed a little too hard (LEAN 4 → 59° · TOWER · TIPPING; the tower topples) → 5 Italy
+has one way to fix things (PLAN: PIZZA · ITALY · DETERMINED; a chef at a MINISTRY OF PIZZA lectern; a TORRE DI PISA PROGETTO 2 blueprint
+stamped REBUILD WITH PIZZA) → 11 Step one: the dough (FLOUR 19 → 80 tons; chefs knead a giant ball in a field) → 17 Step two: the toss
+(TOSS HEIGHT 0 → 105 ft · SPIN 30 RPM → CATCH · CLEAN) → 23 Step three: toppings. No pineapple. (a sauce tanker, a mozzarella hopper,
+MOZZARELLA 40 tons · PINEAPPLE · DENIED) → 30 Step four: the Colosseum becomes an oven (brick dome + chimney; OVEN 451 → 485 °C) → 37 The
+foundation arrives by air (a cargo plane; DROP HEIGHT 3,000 ft · FREE FALL · NO PARACHUTE) → 44 Then they stack. And stack. (a tower
+crane; PIZZAS STACKED 1 → 94 · TOWER · RISING) → 53 Finishing touches (a giant pizza cutter cuts the windows, WINDOWS CUT → 97; a basil
+leaf on top) → 58 It's perfect. Completely straight. (LEAN 0.00°) → 60 Nobody can do the pose (the tourist in yellow) → 64 Then a pigeon
+fixes it (LEAN 0.00 → 3.97° · BACK TO NORMAL) → 70 end card.

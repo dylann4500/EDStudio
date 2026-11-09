@@ -10,3 +10,4 @@ videos/*/audio.wav
 package-lock.json
 videos/*/voice/scratch-*
 videos/*/voice.wav
+exports/

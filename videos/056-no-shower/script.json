@@ -1,0 +1,129 @@
+{
+  "title": "No shower for 365 days (Scribe)",
+  "tone": "promo",
+  "mode": "pov",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 200
+  },
+  "lead": 0.12,
+  "gap": 0.32,
+  "tail": 5.6,
+  "maxPause": 0.22,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.3,
+  "joinLen": 4,
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.1,
+    "saturation": 1.1,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "What if you didn't shower for three hundred sixty-five days?",
+      "gap": 0.95
+    },
+    {
+      "id": "due",
+      "say": "Homework's due at eight.",
+      "sub": "Homework's due at eight."
+    },
+    {
+      "id": "skip",
+      "say": "Skip the shower. Just this once.",
+      "sub": "Skip the shower. Just this once."
+    },
+    {
+      "id": "d3",
+      "say": "Day three: nobody notices.",
+      "sub": "Day 3: nobody notices."
+    },
+    {
+      "id": "d10",
+      "say": "Day ten: never this shiny.",
+      "sub": "Day 10: never this shiny."
+    },
+    {
+      "id": "d30",
+      "say": "Day thirty: the smell arrives.",
+      "sub": "Day 30: the smell arrives."
+    },
+    {
+      "id": "blind",
+      "say": "Everyone smells it but you.",
+      "sub": "Everyone smells it but you."
+    },
+    {
+      "id": "d80",
+      "say": "Day eighty: people cross the street.",
+      "sub": "Day 80: people cross the street."
+    },
+    {
+      "id": "crust",
+      "say": "Winter: a brown crust.",
+      "sub": "Winter: a brown crust."
+    },
+    {
+      "id": "train",
+      "say": "Day one-eighty: the train car empties.",
+      "sub": "Day 180: the train car empties."
+    },
+    {
+      "id": "flies",
+      "say": "Spring: the flies find your homework.",
+      "sub": "Spring: the flies find your homework."
+    },
+    {
+      "id": "prof",
+      "say": "Day two-twenty: your professor won't come within ten feet.",
+      "sub": "Day 220: your professor won't come within ten feet."
+    },
+    {
+      "id": "forty",
+      "say": "But he wants forty problems. Handwritten. By morning.",
+      "sub": "But he wants 40 problems. Handwritten. By morning."
+    },
+    {
+      "id": "scribe",
+      "say": "So you open Scribe. One photo.",
+      "sub": "So you open Scribe. One photo.",
+      "gap": 0.45
+    },
+    {
+      "id": "hand",
+      "say": "All forty, solved. Written in your handwriting.",
+      "sub": "All 40, solved. Written in your handwriting.",
+      "gap": 0.5
+    },
+    {
+      "id": "shower",
+      "say": "Day two twenty-one: you finally shower.",
+      "sub": "Day 221: you finally shower.",
+      "gap": 2.0
+    },
+    {
+      "id": "hours",
+      "say": "It takes three hours.",
+      "sub": "It takes three hours."
+    }
+  ]
+}

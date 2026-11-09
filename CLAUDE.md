@@ -400,6 +400,9 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Censored captions over an uncensored voice (058, script.json opt-in):** `"swap": {"fucking": "F*CKING"}` (narrate.py shows a spoken
+  word differently in the one-word captions) + `"wordColor": {"F*CKING": "#ff4f6a"}` (captions.js colours that word, even inside a
+  joined caption). `makeScreen(G, icon, sheet, { name })` names the student in the Scribe app (default 'Tyler'). docs/PROMO.md → 058.
 - **Lighthouse kit (039, `engine/build/lighthouse.js`):** open sea (a JS mirror of the shader waves: `seaH`/`floatPose`, an
   exaggerated curve `R`, a big wave), 7 moods, a cutaway rock lighthouse that grows (`setGrow` clip plane) and leans, a hatch ladder
   to the lantern, Fresnel lens/mirror/beams, boats (tug/sailboat/cruise/freighter/barge), gull, foam spray crown, far coast. A camera
@@ -515,6 +518,43 @@ videos/NNN-slug/
   banner, podium), the neighbor's house with a lean-out window (`nwin.open`), pool → stadium (`rows[]`, `seats`), Mom's table, a
   clock tower that rises, far halls + grad chairs (`setDay(1)`). `makeDayHud` = an "upgrade every day" HUD (DAY number + a count or
   clock line that ROLL, the Scribe end card; classes are `dh-*` because index.html already styles `.sub/.num/.hud`). Lessons: docs/PROMO.md.
+- `engine/sets/school.js` (057): a sunny HIGH-SCHOOL FRONT built with pixel textures — road along x (z 6–13) + crosswalk, near
+  sidewalk (z 3–6, top `SW_H`), lawn + entrance path, 2-floor brick school (x ±24, facade z −12) with a portico on four columns,
+  double doors, a WESTFIELD HIGH SCHOOL band + clock, a gym block, a side wing, flagpole with a waving flag `DIMS.flag`, a FINALS
+  WEEK marquee, benches, bike rack, lamp posts (none in front of the lot), a parking lot of `cars` (makeCar, nose −z), a yellow
+  SCHOOL BUS at the curb, `houses` across the street, hills + clouds; `aimSun`, `update(t)` (flag), own `fog` (save it).
+- **A doubling premise that needs more doublings than real time allows (057):** keep "every 3 seconds" honest with a STORY CLOCK —
+  T(t) piecewise-linear (real time for the first two beats to set the rule, then fast-forward), value = 2^(T/3), and a HUD clock
+  line ("T+0:36") so the math checks out. 1 sheet → a buried school is ~31 doublings (1:33 of story time in 21 s of screen).
+- **Voxel / blocky-game look (059, `engine/voxel/`, template `videos/_voxel-template`, docs/STYLES.md → voxel):** `VoxGrid` +
+  `meshGrid(G, {bs})` = one merged mesh per grid of 1 m blocks (16 px NEAREST tiles from `blockAtlas()`, culled faces, baked corner
+  AO); `boxModel(boxes, {bs})` / `itemFromCanvas` = colour-voxel props at any grain; `makeVoxPerson({...})` = a square-headed person
+  (8 × 8 px faces, `FACES`, `ARMS` presets, `pose({walk, scale, armL/R, legL/R, head, face})`, `gripWorld`, `eyeWorld` for POV);
+  `voxWorld` (sky, block clouds, sun from −z: `W.aim(x, z, half)` per shot), `buildVoxTown` (street + houses + MAPLE HIGH SCHOOL,
+  `setBanner`, crushable `cars`), `buildVoxClassroom` (Room 4 + printer), `buildVoxBedroom`. `look`: neutral tone map, bloom 0.04, no
+  grain. scribe.js `punnettFig()` + makeSheet `fig` (059, additive) = a hand-drawn Punnett square for biology sheets.
+
+- **Isometric tilt-shift diorama look (060, `engine/iso/`; template `videos/_iso-template`; docs/STYLES.md → iso):** each place is a
+  floating slab `makeBase({shape, w, d, h, top, soil})` (world on `B.world`, y = 0; cut soil strata on the sides; `B.update(t)` bobs)
+  or a dollhouse room `makeRoom({w, d, h, floor, windows})`, over `isoBackdrop` (screen-space gradient void), lit by `isoLights`
+  (`focus(x, z, half)` per shot), shot with `isoCam(studio, isoAt(t, keys))` (long lens framed by WIDTH: `frame` m, az/el degrees)
+  and blurred by `addTiltShift(studio)` (a depth-aware pass before bloom: `ts.focusOn(worldPoint)` every frame, `ts.set({range:
+  frame·0.09·k, ramp: frame·0.36·k})` per shot, k 2–3 for screen/paper inserts). People: `makeMini` (rig × 0.6, big head),
+  `makePeg` (jointed toy figure with hats), `makePegCrowd` (instanced). Props: trees, houses, stalls, crane, plane, truck
+  (`engine/iso/props.js`), Italy landmarks (`italy.js`: Pisa tower `setLean`, Duomo, Baptistery, city wall, Colosseum `setOven`),
+  room furniture (`room.js`), analytic puffs (`fx.js`). Text: `makeIsoHud(story.iso)` (the @okwhatifcrazy landmark layout: kicker
+  with a T+ clock, pinned title, left HUD per beat, subtitles, Scribe end card). DOM text is never blurred. Render ≈ 0.07 s/frame with motionBlur 2 (060's 60 s reel ≈ 2.5 min).
+
+- **Motion-graphics look (`engine/mg/`, docs/STYLES.md → mg; template `videos/_mg-template`; proof reel 061):** a Kurzgesagt-like
+  flat vector explainer on Canvas 2D (no WebGL, ≈0.07 s/frame). `createMG(studio)` → `M.render(t, SHOTS)` with transitions
+  (`tr.kind` cut|fade|zoom|zoomout|slide|iris|wipe), `M.view(g, cam, depth, fn)` parallax layers; `draw.js` soft-gradient shapes +
+  long shadows (`shape/circle/rrect/line(k draw-on)/ring/glow`); `people.js` round-headed `makeFolk` (IK arms `{to: [x, y]}`,
+  `clapArms`, `drawHandsPOV`), `makeCrowd`/`drawCrowd`; `geo.js` `makeWorld()` globe with people-dots + flat maps + great circles;
+  `charts.js` bars/lineChart/gauge; `type.js` `ktext`/`label`; `scenes.js` space/beach/street; `scribe2d.js` `makeWorksheet`
+  (handwritten answers AND figures, stroke by stroke) + `scribeApp` (the app as a phone screen); `overlay.js` `mgOverlay(story)` =
+  the whatif title/HUD/subtitles restyled with kinetic words; `endcard.js` the Scribe card. core.js HUD gained `fmt: 'hms'`
+  (an h:mm:ss countdown); synth.py gained `hand_clap`, `mass_clap`, `phone_buzz`, `gull_cry`, `shutter`.
+  In-world labels stay out of the HUD box (x < 600, y 430–690) and faces out of the subtitle band: `render.mjs --qc`.
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer
@@ -562,6 +602,79 @@ videos/NNN-slug/
   talk, face, headA, bob, sway})` billboards it and swaps face frames (auto-blink). It sits in any voxel set under the pixel
   pass (`engine/sets/voxbeach.js` = the benchmark's beach house; dev scene `videos/_puppet-dev`). A cowboy-shot cut-out ends
   at the thighs: frame its bottom edge out of shot (or use full-body art for wides). Generation on a busy Mac: ~1–7 min/image.
+- **Penguins + Antarctic sea ice (063, `engine/build/penguins.js`, toon look):** `makePenguin({tuft, bow, fat, chest, ear})` = an
+  emperor penguin with the toon face kit (`set({x, z, rotY, waddle, lie 0..1 = belly slide, flipL/flipR {z out, x fwd}, head, eyes
+  'open'|'wide'|'half'|'closed'|'happy'|'spiral'|'x', look, brows, mouth 'flat'|'o'|'scream'|'smile', drift (snowed in to the beak),
+  ice (frozen in a block), frost (cap + icicles), thin (starving), pouch (the brood fold over an egg), hot, shades, squash, t})`;
+  `makePenguinCrowd(parent, n)` = an instanced huddle of hundreds (`set(i, {...})` + `commit(n)`), `makeEgg()` (greenish, oversized:
+  a cream egg vanished on white snow), `makeLeopardSeal()` (`set({rise, open, lunge})`, a toothy grin), `buildIce(studio)` = colony
+  plain, a floe edge + a tongue at `D.edgeX/tongueX` with open water, ice cliffs + bergs, mountains inland (−x), pastel polar sky,
+  `setNight(k)` (stars + an aurora for a time-lapse), `setWeather(k)` (blizzard fog, geometric), `aimSun`, `update(t, camera)`; far ≥ 2600.
+  Pair with winter.js `makeSnowfall` (center the box ~6 m AHEAD of the lens). An egg on a penguin's feet sits at local z ≈ 0.27 (the
+  belly hides anything further back). scribe.js (063, additive): a problem `{chain: ['algae', 'krill', …], u, gap}` = a hand-drawn
+  food chain (each label written + circled, hand arrows between) — make it the LAST problem and lift the macro lens off the pen tip
+  to frame the whole row as it's drawn; `makeScreen(…, {subject: 'Biology'})` = a subject chip + "BIOLOGY · showing work + diagrams".
+- **Sim style — Sims-like realistic 3D (052, `engine/sim/`; docs/STYLES.md → sim; template `videos/_sim-template`):** @officialwriteit's
+  hit look. `buildSimHouse(studio)` = a dollhouse-cut ranch house (front walls gone at z = 0, floor `FY` 0.62 on joists over a crawlspace,
+  a cut soil slab, pink ceiling insulation, a gable roof cut through its rafters; rooms bedroom | hall | kitchen | living, `D.rooms`) with
+  handles for a bedroom you upgrade (`H.bed.g` moves the bed + its children, lamp, switch, clock, calendar, side-window sash, `setDay`).
+  `makeSim({...})` = a realistic-proportion person on **rig.js's skeleton** (drive it with `applyPose`; then `simFace` for jaw/eyes/brows,
+  `legsOut` for sitting up in bed, `lift(p, FY)` to stand on the raised floor). `simMat(kind)` = real-world canvas materials,
+  `simLights` = IBL + soft sun, `SIM_LOOK` = the grade, `engine/sim/props.js` = upgrade props (mini fridge, rope/pulley, swing desk,
+  half-pipe chute, robot arm, drone, printer, rails…), `makeSimHud` = sim-styled one-word captions + DAY counter + Scribe end card.
+  ~0.1 s/frame at 30 fps.
+
+- **Flat 2D cartoon look (053, `engine/flat2d/`, docs/STYLES.md → flat2d; template `videos/_flat2d-template`):** Canvas 2D, no
+  WebGL — `const S = await createStage(studio)` lays a 2D canvas over the idle GL one (studio.render → no-op) under `#ui` (the build
+  one-word captions stay on top). `S.begin(t, {x, y, z, r}, hits)` → draw the world with `S.I` (`makeInk`: `shape/rect/ellipse/limb/
+  line/text`, outlines boil 8×/s, one cel-shade step) → `S.screen()` for frame-px overlays → `S.end()`; `shotAt(t, SHOTS, K)` cuts on
+  words. Cast: `makePuppet({kind: 'kid'|'teen'|'adult', hairStyle, top, bottom, extras: {goggles, glasses, freckles}})` → `draw(I,
+  pose)` (eyes/brows/mouth sets, `ARM.*` presets, `hand/foot/headAt/seatY`, `talkAt` mouth flaps); sets.js rooms + furniture +
+  laptop2d/phone2d/tablet2d/paper2d (Scribe's `makeSheet().canvas`), `nameTag`, `board` (the INVENTIONS counter); fx.js (burst, puffs,
+  explosion, confetti…); critters.js (dog, robot dog); `drawEndCard(S, icon, age)`. `S.face(P.headAt(pose))` + `S.qcCaptions` →
+  `render.mjs --qc` lists faces under the caption band. ≈0.08 s/frame at 30 fps (the cheapest look). `npm run new -- NNN --from
+  _flat2d-template` now also copies script.json + make_cues.py.
+
+- **@whatifpov text layer + VHS rewind (056, Scribe dupe):** script.json `"mode": "pov"` (+ a `"sub"` line per beat, numerals allowed:
+  "Day 3: nobody notices.") → `tools/narrate.py` passes both to story.json and `engine/main.js` skips its own overlay; shots.js draws
+  `createPov({title, rewind, hud: {show, label, value(t), facts: [[t, text, warn]], bpm(t)}, subs, end})` (`engine/build/pov.js`: serif
+  question title, top-left HUD = caps label / big serif "Day N" / a tracked-caps fact line (amber = warning) / a red-dot BPM + static
+  ECG, italic serif subtitles at 66 %, the ⏪ icon, the Scribe end card) and `addVhsPass(studio).set(k, t)` (`engine/build/vhs.js`:
+  tracking tears, a rolling noise bar, chroma split, scanlines). **Cold open + rewind for free:** keep `update(t)` pure and render
+  the picture at a remapped story time τ — the cold open replays a LATER state (τ = the train after it emptied), the rewind plays
+  earlier shots backwards (τ runs down through 3–4 shots in 0.8 s) under the VHS pass. 056 shots.js also has: a fly swarm
+  (instanced bodies + flapping wings orbiting a point, `flee` scatters them), wavy stink-line sprites drawn AFTER the camera and
+  pushed away from the lens (they crossed faces otherwise), soap-bubble sprites, a homework tower (`makeStack(n)` of paper reams,
+  `setN(k)`), a POV forearm + coffee cup in camera space (cup tilted by the camera pitch so it stays upright), a 10-ft pole.
+- **Scribe subject packs (Nov 9, `engine/build/subjects.js`; docs/PROMO.md → Subject packs):** `subjectSheet(G, 'chemistry' |
+  'biology' | 'physics' | 'economics' | 'math', over)` = a ready worksheet written in Scribe's hand WITH its pen-drawn figure
+  (balanced equation + Lewis H₂O + ICE · Punnett Bb × Bb + food chain + labelled cell · ramp FBD + plane FBD · supply shift + payoff
+  matrix · 049's calculus page); `makeScreen(G, icon, sheet)` then shows the class line + one captioned tile per problem. Build your
+  own page with `makeSheet({ rich: true, problems: [{ q, h, a, fig: ({ k, y }) => FIG.x(k, …) }] })`; scribe.js adds `writeHand`
+  (`_sub`, `^{..}`, pen-drawn O → ⇌ ° μ × $ % and H — the demo hand's H reads "lt") and `penKit` (line, arrow, grid, ring…).
+  All packs on one frame: `videos/_subjects-demo/packs.jpg`. **After any scribe.js change run `node tools/scribe-check.mjs`**
+  (every shipped reel's sheets + screens must stay pixel-identical to main's).
+
+- **Hippo + burger joint + sim text layout (055, Scribe dupe of @okwhatifcrazy's hippo reel):** `engine/hippo.js` `makeHippo({name})`
+  → `{g, headG, jawL, legs, cap, badge.set(text, gold), anchors.{mouth, nose, head, back, jaw}, update(t, s)}` with `s = {walk|run +
+  dist, open 0..1 (1 = a real 150° gape: 35 % head up + 65 % jaw down), chew, pitch/yaw/roll, eyes 'open'|'closed'|'happy'|'wide'|'sad',
+  lids, lookX/Y, ears 0..1 (pinned back), squeeze 0..1 (cartoon squash through a door), lean (+ nose down; −0.3 + `y` 0.27 = rearing
+  at a counter so the yawn clears it), sink (m, into water), wet 0..1, wag}`; 4 m long, 1.6 m wide, 1.7 m to the ears; set
+  `g.rotation.order = 'YXZ'` to roll him (belly flop). `engine/sets/burger.js` `buildBurger(studio)` = CHOMPY'S inside and out
+  (dining room with booths + 4-tops `tables[i] = {g, chairs, cond}`, counter + registers + menu boards, kitchen, FIZZ fountain
+  `nozzles`, salad bar `setEaten(0..1)`, `doorFrame` that can pop off, `setFlood`, `setMess`, `setNight` (chairs up), outside: facade +
+  NOW HIRING, lot, cars, drive-thru lane + `menuBoard`, a pond that digs itself `setPond(dig, fill)` + `setLaneFlood`, `hippoLane`
+  sign; far ≥ 320). `engine/simhud.js` `makeSimHud(story.sim)` = the "What if" sim layout (question alone in the middle, then it
+  glides up once and stays as the header; a left HUD per beat with a coloured bar, label, big number + unit, coloured sub-label; bold
+  white subtitles in the lower third; the Scribe end card) — hide the core `title/hud/sub/end` elements when you use it. `makeScreen`
+  (scribe.js) takes `{n, name, subject}` (problem count, the student's name, a CHEMISTRY · 20 PROBLEMS label; defaults = 049).
+- **Chemistry worksheets (055, user steer Nov 9: not always math):** `layoutHand` takes `_x` = subscript (CH_4, H_2O); `makeSheet`
+  problems take `lewis: 'H2O'|'CO2'` = a Lewis structure drawn by the pen (atoms in the hand, bond lines, lone-pair dots) next to the
+  answer. The demo hand has NO capital O (it falls back to a small o: CO_2 reads "Co₂", cobalt) — build one per video from the o +
+  the C's cap height (055 shots.js, `G.O`), as Scribe's own sheet has a capital-O box for exactly this.
+- **A scripted replace that appends `// comment` after the code it matched still comments out the REST of that line (055, twice):**
+  `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
+  very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every

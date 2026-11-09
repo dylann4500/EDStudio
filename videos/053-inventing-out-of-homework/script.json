@@ -1,0 +1,122 @@
+{
+  "title": "Day N of inventing my way out of homework (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 290
+  },
+  "lead": 0.04,
+  "gap": 0.05,
+  "tail": 4.8,
+  "maxPause": 0.17,
+  "pauseFloor": -45,
+  "fps": 30,
+  "motionBlur": 1,
+  "tempo": 1.55,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "flat2d": true
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "My little brother has invented something every day to get out of homework.",
+      "callouts": []
+    },
+    {
+      "id": "intro",
+      "say": "This is Leo. He's nine.",
+      "callouts": []
+    },
+    {
+      "id": "dog",
+      "say": "Day one. A robot dog that eats homework. It ate Dad's slipper. Dad was still wearing it.",
+      "callouts": []
+    },
+    {
+      "id": "drone",
+      "say": "Day nine. A pencil drone that does his homework. It drew a mustache on Mom.",
+      "callouts": []
+    },
+    {
+      "id": "clone",
+      "say": "Day twenty-three. A clone machine, so a second Leo can do it. It cloned the dog. Eleven times.",
+      "callouts": []
+    },
+    {
+      "id": "time",
+      "say": "Day forty. A time machine, back to before homework. Nineteen eighty-two. They had MORE homework.",
+      "callouts": []
+    },
+    {
+      "id": "teacher",
+      "say": "Then Mrs. Grimm drops thirty problems. Handwritten. Due tomorrow. And she knows his handwriting.",
+      "callouts": [
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "until": "tomorrow",
+          "y": 0.62
+        }
+      ]
+    },
+    {
+      "id": "boom",
+      "say": "Invention forty-one. A robot arm to fake his handwriting. It lasted four seconds.",
+      "callouts": []
+    },
+    {
+      "id": "scribe",
+      "say": "So I showed him Scribe. He wrote one practice page, so it learns his handwriting.",
+      "callouts": []
+    },
+    {
+      "id": "photo",
+      "say": "One photo of the worksheet. Scribe reads all thirty and solves them, step by step.",
+      "callouts": []
+    },
+    {
+      "id": "write",
+      "say": "Then it writes them out in HIS handwriting, stroke by stroke, like a real pen.",
+      "callouts": []
+    },
+    {
+      "id": "print",
+      "say": "He prints it. Done before dinner.",
+      "callouts": []
+    },
+    {
+      "id": "match",
+      "say": "Next morning, Mrs. Grimm checks every page. Perfect match.",
+      "callouts": [
+        {
+          "at": "perfect",
+          "text": "PERFECT MATCH",
+          "style": "stamp",
+          "hold": 1.4,
+          "y": 0.205
+        }
+      ]
+    },
+    {
+      "id": "payoff",
+      "say": "Now Leo calls it invention forty-two. The first one that ever worked. And he takes all the credit.",
+      "callouts": []
+    }
+  ]
+}

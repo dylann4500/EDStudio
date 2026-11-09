@@ -1,0 +1,199 @@
+{
+ "title": "iso template - 10 s toy town: soft F-major pluck bounce + town ambience (copy 060's make_cues.py for a full reel)",
+ "duration": 10.0,
+ "target_lufs": -14.0,
+ "limiter_ceiling_dbtp": -1.5,
+ "end_fade": [
+  9.6,
+  10.0
+ ],
+ "stem_gain_db": {
+  "music": -17.0,
+  "sfx": 5.0,
+  "amb": 6.0
+ },
+ "stem_dynamics": {
+  "music": {
+   "limit_dbfs": -6.0,
+   "lim_win": 0.015
+  },
+  "sfx": {
+   "comp_thr_dbfs": -14.0,
+   "ratio": 2.5,
+   "win": 0.004,
+   "limit_dbfs": -5.0
+  }
+ },
+ "sfx_lowpass_hz": 5200,
+ "shots": [
+  0,
+  5.2,
+  10
+ ],
+ "music": {
+  "gain_db": 0.0,
+  "reverb_db": -14.0,
+  "pad_db": 2.0,
+  "pad_reverb_db": -8.0,
+  "mallet_db": -4.0,
+  "drums_db": -8.0,
+  "instrument": "pluck",
+  "leveler": {
+   "thr_rel_db": 4.0,
+   "ratio": 2.0,
+   "tau": 0.3
+  },
+  "end": 10.0,
+  "chords": [
+   [
+    2.6,
+    "F"
+   ],
+   [
+    4.505,
+    "C"
+   ],
+   [
+    6.41,
+    "Dm"
+   ],
+   [
+    8.314,
+    "C"
+   ],
+   [
+    10.219,
+    "F"
+   ]
+  ],
+  "sections": [
+   {
+    "t0": 2.6,
+    "t1": 10.0,
+    "style": "bounce",
+    "step": 0.47619047619047616,
+    "vel": [
+     [
+      2.6,
+      0.26
+     ],
+     [
+      10.0,
+      0.26
+     ]
+    ],
+    "bass_hold": 1.5,
+    "stab_hold": 0.85
+   }
+  ],
+  "melody": [],
+  "mallet_melody": [],
+  "pad": [
+   {
+    "t0": 2.6,
+    "t1": 9.8,
+    "notes": [
+     41,
+     53,
+     60,
+     65,
+     69
+    ],
+    "level": 1.6,
+    "attack": 0.6,
+    "release": 0.8,
+    "cutoff": 900,
+    "hp": 40
+   },
+   {
+    "t0": 0.2,
+    "t1": 3.0,
+    "notes": [
+     53,
+     60,
+     65,
+     69
+    ],
+    "level": 1.7,
+    "attack": 0.5,
+    "release": 0.5,
+    "cutoff": 800,
+    "hp": 40
+   }
+  ],
+  "drums": [],
+  "drum_patterns": [
+   {
+    "t0": 2.6,
+    "t1": 9.6,
+    "step": 0.9523809523809523,
+    "pattern": [
+     1
+    ],
+    "vel": 0.26,
+    "kind": "kick"
+   },
+   {
+    "t0": 2.6,
+    "t1": 9.6,
+    "step": 0.23809523809523808,
+    "pattern": [
+     0.5,
+     0.3
+    ],
+    "vel": 0.16,
+    "kind": "tick"
+   }
+  ]
+ },
+ "ambience": [
+  {
+   "sound": "city_day",
+   "t0": 0.0,
+   "t1": 10.0,
+   "fade_in": 0.4,
+   "fade_out": 0.5,
+   "gain_db": -27,
+   "args": {
+    "murmur": 0.45,
+    "traffic": 0.3
+   },
+   "seed": 1
+  },
+  {
+   "sound": "crowd_cheer",
+   "t0": 0.0,
+   "t1": 10.0,
+   "fade_in": 0.4,
+   "fade_out": 0.5,
+   "gain_db": -33,
+   "args": {
+    "excite": 0.12
+   },
+   "seed": 2
+  }
+ ],
+ "events": [
+  {
+   "t": 1.2,
+   "sound": "car_horn",
+   "gain_db": -26,
+   "pan": 0.3,
+   "args": {
+    "dur": 0.2,
+    "pitch": 1.2,
+    "distance": 2.0
+   }
+  },
+  {
+   "t": 5.3,
+   "sound": "metal_groan",
+   "gain_db": -24,
+   "pan": 0.2,
+   "args": {
+    "dur": 1.8,
+    "pitch": 0.9
+   }
+  }
+ ]
+}

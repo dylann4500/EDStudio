@@ -1,0 +1,19 @@
+{
+  "tone": "promo",
+  "style": "mg",
+  "fps": 30,
+  "duration": 10.5,
+  "title": { "html": "What if <em>everyone</em> clapped at once?", "in": 0.1, "out": 2.6 },
+  "hudLabel": "PEOPLE CLAPPING",
+  "hud": [
+    { "t0": 2.6, "t1": 5.4, "from": 0, "to": 8300000000, "r0": 2.7, "r1": 4.3, "time": "IN THE SAME INSTANT" },
+    { "t0": 5.4, "t1": 6.4, "from": 8300000000, "to": 8300000000, "label": "PEOPLE CLAPPING", "time": "WHERE DOES IT GO?" }
+  ],
+  "subs": [
+    [2.8, 4.3, "8.3 billion people clap at *once*."],
+    [4.5, 5.4, "The sound rolls out."],
+    [5.6, 6.4, "Almost all of it is *heat*."]
+  ],
+  "end": { "in": 6.5, "html": "" },
+  "finalFade": [6.4, 6.6, 0]
+}

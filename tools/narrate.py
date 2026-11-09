@@ -6,6 +6,9 @@
     python3 -I tools/narrate.py 024-hole-subway --layout   re-lay out story.json from words.json (callout edits; no voicing)
     python3 -I tools/narrate.py --voices                   list your ElevenLabs voices (name, id, labels)
     python3 -I tools/narrate.py --sample "text" id1 id2…   voice one line with several ElevenLabs voices -> scratchpad/sample-*.mp3
+    python3 -I tools/narrate.py 058-slug --fish [--fish-voice ID]   voice with Fish Audio (FISH_API_KEY) instead of ElevenLabs
+    python3 -I tools/narrate.py --fish-voices "deep narrator"     search Fish Audio's public voices (most used first)
+    python3 -I tools/narrate.py --fish-sample "text" id1 id2…     voice one line with several Fish voices -> $TMPDIR/fish-sample-*.mp3
 
 Why: build reels (docs/BUILD.md) are carried by a fast narrator, and the captions show ONE word at a time, so every word needs
 a time. ElevenLabs' /with-timestamps endpoint returns per-character times with the audio; the scratch voice (until the user
@@ -13,7 +16,7 @@ sets ELEVENLABS_API_KEY in the env, ~/.config/edstudio/.env, or a git-ignored .e
 Clips are cached by a hash of (voice settings, text): re-running only voices beats whose text changed (ElevenLabs bills per char).
 shots.js animates in beat-local time (story.beats[id]), so re-voicing stretches the animation automatically.
 """
-import base64, hashlib, json, os, re, subprocess, sys, urllib.request, urllib.error, wave
+import base64, hashlib, json, os, re, subprocess, sys, urllib.parse, urllib.request, urllib.error, wave
 import numpy as np
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
@@ -21,8 +24,8 @@ SR = 44100
 API = 'https://api.elevenlabs.io/v1'
 
 
-def api_key():
-    k = os.environ.get('ELEVENLABS_API_KEY')
+def api_key(name='ELEVENLABS_API_KEY'):
+    k = os.environ.get(name)
     if k:
         return k.strip()
     roots = [os.path.expanduser('~/.config/edstudio'), ROOT]  # outside any repo first: a key there can never be committed
@@ -36,7 +39,7 @@ def api_key():
         env = os.path.join(r, '.env')
         if os.path.exists(env):
             for line in open(env):
-                m = re.match(r'\s*ELEVENLABS_API_KEY\s*=\s*["\']?([^"\'\s]+)', line)
+                m = re.match(r'\s*' + name + r'\s*=\s*["\']?([^"\'\s]+)', line)
                 if m:
                     return m.group(1)
     return None
@@ -51,6 +54,106 @@ def http_json(url, key, body=None):
             return json.loads(r.read())
     except urllib.error.HTTPError as e:
         sys.exit(f'ElevenLabs {e.code}: {e.read().decode(errors="replace")[:400]}')
+
+
+# ---- Fish Audio (Nov 9 2026: ElevenLabs' free tier got blocked; the user switched to a Fish Audio key) ------------------
+# FISH_API_KEY in the env, ~/.config/edstudio/.env or the repo's .env (same lookup as ElevenLabs). Per reel: script.json
+# "voice": {"provider": "fish", ...} or the CLI flag --fish (re-voices a reel written for ElevenLabs without editing it). Voice
+# settings come from script.json "fish": {"reference_id": "<Fish voice model id>", "model": "s2.1-pro", "speed": 1.0,
+# "temperature": 0.7, "tempo": <atempo at assembly, default = script.json tempo>} — or --fish-voice <id>, or FISH_VOICE_ID in
+# the .env. Word times come from /v1/tts/stream/with-timestamp (SSE: audio chunks + per-text-chunk word segments).
+FISH_API = 'https://api.fish.audio'
+
+
+def fish_cfg(cfg):
+    f = dict(cfg.get('fish') or {})
+    if os.environ.get('FISH_VOICE_OVERRIDE'):   # --fish-voice <id> on the command line
+        f['reference_id'] = os.environ['FISH_VOICE_OVERRIDE']
+    if not f.get('reference_id'):
+        f['reference_id'] = os.environ.get('FISH_VOICE_ID') or api_key('FISH_VOICE_ID')
+    f.setdefault('model', 's2.1-pro')
+    return f
+
+
+def fish_get(path, key):
+    req = urllib.request.Request(FISH_API + path, headers={'Authorization': f'Bearer {key}'})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        sys.exit(f'Fish Audio {e.code}: {e.read().decode(errors="replace")[:400]}')
+
+
+def fish_tts(text, f, key):
+    """One Fish Audio take with word timings: (mp3 bytes, [{text, start, end}] in seconds on the take's own timeline)."""
+    body = {'text': text, 'format': 'mp3', 'mp3_bitrate': 192, 'sample_rate': 44100, 'latency': 'normal',
+            'temperature': f.get('temperature', 0.7), 'top_p': f.get('top_p', 0.7), 'language': f.get('language', 'en'),
+            'prosody': {'speed': f.get('speed', 1.0), 'volume': 0}}
+    if f.get('reference_id'):
+        body['reference_id'] = f['reference_id']
+    req = urllib.request.Request(FISH_API + '/v1/tts/stream/with-timestamp', data=json.dumps(body).encode(), method='POST',
+                                 headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json',
+                                          'model': f.get('model', 's2.1-pro'), 'Accept': 'text/event-stream'})
+    audio, aligns = bytearray(), {}
+    try:
+        with urllib.request.urlopen(req, timeout=300) as r:
+            for raw in r:
+                line = raw.decode('utf-8', 'replace').strip()
+                if not line.startswith('data:'):
+                    continue
+                payload = line[5:].strip()
+                if not payload or payload == '[DONE]':
+                    continue
+                ev = json.loads(payload)
+                if ev.get('audio_base64'):
+                    audio += base64.b64decode(ev['audio_base64'])
+                if ev.get('alignment'):   # the latest cumulative snapshot for this text chunk: replace, don't append
+                    aligns[ev.get('chunk_seq', 0)] = (ev.get('chunk_audio_offset_sec', 0.0), ev['alignment'])
+    except urllib.error.HTTPError as e:
+        sys.exit(f'Fish Audio {e.code}: {e.read().decode(errors="replace")[:400]}')
+    segs = []
+    for seq in sorted(aligns):
+        off, al = aligns[seq]
+        segs += [{'text': s['text'], 'start': off + s['start'], 'end': off + s['end']} for s in al.get('segments', [])]
+    if not audio:
+        sys.exit('Fish Audio returned no audio')
+    return bytes(audio), segs
+
+
+def words_from_segments(text, segs):
+    """Fish segments -> [{w, t0, t1}] for each whitespace token of OUR text (captions show our spelling, not the TTS's
+    normalized one). Tokens are matched to segments in order on letters/digits; unmatched tokens share their neighbours' gap."""
+    import difflib
+    toks = text.split()
+    if not segs:
+        return []
+    seg_words = []
+    for s in segs:   # a segment may hold several words: split it, its time shared by letter count
+        parts = s['text'].split() or [s['text']]
+        L = sum(max(1, len(norm(p))) for p in parts); t = s['start']
+        for p in parts:
+            d = (s['end'] - s['start']) * max(1, len(norm(p))) / L
+            seg_words.append({'n': norm(p), 't0': t, 't1': t + d}); t += d
+    a, b = [norm(t) for t in toks], [s['n'] for s in seg_words]
+    times = [None] * len(toks)
+    for blk in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks():
+        for k in range(blk.size):
+            times[blk.a + k] = (seg_words[blk.b + k]['t0'], seg_words[blk.b + k]['t1'])
+    end = seg_words[-1]['t1']
+    i = 0
+    while i < len(toks):   # fill runs of unmatched tokens between the matched neighbours, by syllables
+        if times[i] is not None:
+            i += 1; continue
+        j = i
+        while j < len(toks) and times[j] is None:
+            j += 1
+        lo = times[i - 1][1] if i else seg_words[0]['t0']
+        hi = times[j][0] if j < len(toks) else end
+        syl = [syllables(t) for t in toks[i:j]]; tot = sum(syl) or 1; t = lo
+        for k, sy in enumerate(syl):
+            d = (hi - lo) * sy / tot; times[i + k] = (t, t + d); t += d
+        i = j
+    return [{'w': tok, 't0': t0, 't1': max(t1, t0 + 0.02)} for tok, (t0, t1) in zip(toks, times)]
 
 
 def decode(path, tempo=1.0):
@@ -328,11 +431,15 @@ def clip_stem(vdir, provider, cfg, beat):
         if not v.get('voice_id'):
             sys.exit('script.json voice.voice_id is empty — pick one with: python3 -I tools/narrate.py --voices')
         sig = json.dumps([v['voice_id'], v.get('model'), v.get('settings'), text], sort_keys=True)
+    elif provider == 'fish':
+        f = fish_cfg(cfg)
+        sig = json.dumps([f.get('reference_id'), f.get('model'), f.get('speed', 1.0), f.get('temperature', 0.7),
+                          f.get('top_p', 0.7), text], sort_keys=True)
     else:
         s = cfg.get('scratch', {})
         sig = json.dumps([s.get('voice'), s.get('rate'), text], sort_keys=True)
     h = hashlib.sha1(sig.encode()).hexdigest()[:10]
-    return os.path.join(vdir, f"{'eleven' if provider == 'eleven' else 'scratch'}-{beat['id']}-{h}")
+    return os.path.join(vdir, f"{provider if provider in ('eleven', 'fish') else 'scratch'}-{beat['id']}-{h}")
 
 
 def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
@@ -352,6 +459,12 @@ def voice_beat(vdir, provider, cfg, beat, prev_text, next_text, key):
         r = http_json(f"{API}/text-to-speech/{v['voice_id']}/with-timestamps?output_format=mp3_44100_128", key, body)
         open(stem + '.mp3', 'wb').write(base64.b64decode(r['audio_base64']))
         words = words_from_alignment(r.get('alignment') or r['normalized_alignment'])
+        ext = '.mp3'
+    elif provider == 'fish':
+        spoken = untag(text)   # Eleven v3 [audio tags] mean nothing to Fish: never send or time them
+        audio, segs = fish_tts(spoken, fish_cfg(cfg), key)
+        open(stem + '.mp3', 'wb').write(audio)
+        words = words_from_segments(spoken, segs) or estimate_words(spoken, decode(stem + '.mp3'))
         ext = '.mp3'
     else:
         s = cfg.get('scratch', {})
@@ -381,7 +494,8 @@ def narrate(slug, provider, key):
         path, words, new = voice_beat(vdir, provider, cfg, b, prev_t, next_t, key)
         fresh += new
         # script.json "tempo": speed the delivery up at assembly (pitch kept; free — no re-voicing); word times scale with it
-        tempo = cfg.get('tempo', 1.0) if provider == 'eleven' else 1.0
+        tempo = (cfg.get('tempo', 1.0) if provider == 'eleven' else
+                 fish_cfg(cfg).get('tempo', cfg.get('tempo', 1.0)) if provider == 'fish' else 1.0)
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
@@ -424,11 +538,14 @@ def layout(slug, cfg, wj):
         beats[wb['id']] = {'t0': round(t0, 3), 't1': round(t1, 3), 's0': wb['t0'], 's1': wb['t1'], 'i': i,
                            'w': [[norm(w['w']), w['t0'], w['t1']] for w in wb['words']]}  # shots.js syncs gags to spoken words
         order.append(wb['id'])
+        swap = cfg.get('swap', {})   # 058, opt-in: {"fucking": "F*CKING"} = the caption shows a spoken word differently (censored on screen)
         for w in wb['words']:
-            d = display(w['w'])
+            d = swap.get(norm(w['w'])) or display(w['w'])
             if d:  # 'p': the word ends a clause ("it," "Gary.") — captions never join across it ("It Gary" in v2)
                 words.append({'w': d, 't0': w['t0'], 't1': w['t1'], 'p': bool(re.search(r'[.,!?:;]["\')]*$', w['w'].strip()))})
         sb = next(b for b in cfg['beats'] if b['id'] == wb['id'])
+        if 'sub' in sb:   # 056: the beat's on-screen subtitle line (numerals: "Day 3: nobody notices.") for the pov text layer
+            beats[wb['id']]['sub'] = sb['sub']
         for c in sb.get('callouts', []):
             hits = [k for k, w in enumerate(wb['words']) if norm(w['w']) == norm(c['at'])]
             nth = c.get('nth', 1)
@@ -471,11 +588,14 @@ def layout(slug, cfg, wj):
         nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
         w['t1'] = round(min(nxt, w['t1'] + 0.35) if nxt - w['t1'] > 0.12 else nxt, 3)
     short = [w['w'] for w in words if w['t1'] - w['t0'] < 0.1]
-    story = {'tone': 'build', 'mode': 'build', 'title': cfg.get('title', ''), 'fps': cfg.get('fps', 60), 'motionBlur': cfg.get('motionBlur', 2), 'duration': round(dur, 2),
+    story = {'tone': 'build', 'mode': cfg.get('mode', 'build'),   # 056: 'pov' = the @whatifpov text layer (engine/build/pov.js), driven by shots.js
+              'title': cfg.get('title', ''), 'fps': cfg.get('fps', 60), 'motionBlur': cfg.get('motionBlur', 2), 'duration': round(dur, 2),
              'look': cfg.get('look', {}), 'voice': {'provider': wj['provider'], 'file': 'voice.wav'},
              'beats': beats, 'order': order, 'words': words, 'callouts': callouts}
     if cfg.get('debugView'):
         story['debugView'] = cfg['debugView']
+    if cfg.get('wordColor'):   # 058, opt-in: {"F*CKING": "#ff4f6a"} = caption words drawn in their own colour (engine/build/captions.js)
+        story['wordColor'] = cfg['wordColor']
     json.dump(story, open(os.path.join(vd, 'story.json'), 'w'), indent=1)
     print(f'story.json: {dur:.1f} s, {len(words)} words ({len(words) / dur:.2f} w/s), {len(callouts)} callouts')
     for bid in order:
@@ -506,12 +626,37 @@ def main():
                           {'text': text, 'model_id': 'eleven_multilingual_v2'})
             p = os.path.join(out, f'sample-{vid}.mp3'); open(p, 'wb').write(base64.b64decode(r['audio_base64'])); print(p)
         return
+    if a[0] in ('--fish-voices', '--fish-sample'):
+        fk = api_key('FISH_API_KEY')
+        if not fk:
+            sys.exit('no FISH_API_KEY (env, ~/.config/edstudio/.env, or .env at the repo root)')
+        if a[0] == '--fish-voices':   # --fish-voices "deep male narrator" → public voice models, most used first
+            q = urllib.parse.urlencode({'title': ' '.join(a[1:]), 'page_size': 20, 'sort_by': 'task_count', 'language': 'en'})
+            for m in fish_get(f'/model?{q}', fk).get('items', []):
+                print(f"{m['_id']}  {m.get('title', '')[:40]:<40} uses {m.get('task_count', 0):>9}  {','.join(m.get('tags', [])[:4])}")
+            return
+        text, ids = a[1], a[2:] or [None]   # --fish-sample "text" id1 id2 … → scratchpad/fish-sample-<id>.mp3
+        out = os.environ.get('TMPDIR', '/tmp')
+        for vid in ids:
+            audio, _ = fish_tts(text, {'reference_id': vid, 'model': 's2.1-pro'}, fk)
+            p = os.path.join(out, f'fish-sample-{vid or "default"}.mp3'); open(p, 'wb').write(audio); print(p)
+        return
     slug = os.path.basename(a[0].rstrip('/'))
     vd = os.path.join(ROOT, 'videos', slug)
     if '--layout' in a:
         cfg = json.load(open(os.path.join(vd, 'script.json')))
         return layout(slug, cfg, json.load(open(os.path.join(vd, 'words.json'))))
     sc = json.load(open(os.path.join(vd, 'script.json')))
+    if '--fish-voice' in a:
+        os.environ['FISH_VOICE_OVERRIDE'] = a[a.index('--fish-voice') + 1]
+    if '--scratch' not in a and ('--fish' in a or sc['voice'].get('provider') == 'fish'):
+        fk = api_key('FISH_API_KEY')
+        fcached = all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'fish', sc, b) + '.json') for b in sc['beats'])
+        if not fk and not fcached:
+            sys.exit('no FISH_API_KEY (env, ~/.config/edstudio/.env, or .env at the repo root) — or run with --scratch')
+        print(f"voice: Fish Audio ({fish_cfg(sc).get('reference_id') or 'default voice'}, {fish_cfg(sc)['model']})")
+        cfg, wj = narrate(slug, 'fish', fk)
+        return layout(slug, cfg, wj)
     want = '--scratch' not in a and sc['voice'].get('provider') == 'eleven'
     # a clone without a key can still rebuild a finished reel: its committed voice/eleven-* takes cover every beat
     cached = want and all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'eleven', sc, b) + '.json') for b in sc['beats'])

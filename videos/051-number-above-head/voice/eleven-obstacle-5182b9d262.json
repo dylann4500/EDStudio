@@ -1,0 +1,46 @@
+{
+ "text": "Forty calc problems. Handwritten only. Due at midnight.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Forty",
+   "t0": 0.0,
+   "t1": 0.36
+  },
+  {
+   "w": "calc",
+   "t0": 0.4,
+   "t1": 0.56
+  },
+  {
+   "w": "problems.",
+   "t0": 0.622,
+   "t1": 1.44
+  },
+  {
+   "w": "Handwritten",
+   "t0": 1.504,
+   "t1": 2.0
+  },
+  {
+   "w": "only.",
+   "t0": 2.096,
+   "t1": 2.84
+  },
+  {
+   "w": "Due",
+   "t0": 2.93,
+   "t1": 3.2
+  },
+  {
+   "w": "at",
+   "t0": 3.253,
+   "t1": 3.36
+  },
+  {
+   "w": "midnight.",
+   "t0": 3.413,
+   "t1": 4.08
+  }
+ ]
+}

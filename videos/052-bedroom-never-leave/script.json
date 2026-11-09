@@ -1,0 +1,249 @@
+{
+  "title": "Upgrading my bedroom every day until I never have to leave it (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 290
+  },
+  "lead": 0.04,
+  "gap": 0.06,
+  "tail": 4.55,
+  "maxPause": 0.17,
+  "pauseFloor": -45,
+  "fps": 30,
+  "motionBlur": 1,
+  "tempo": 1.4,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.0,
+    "toneMapping": "neutral",
+    "bloom": 0.05,
+    "bloomThreshold": 0.97,
+    "vignette": 0.1,
+    "grain": 0.008,
+    "warm": 0.03,
+    "saturation": 0.9,
+    "lift": 0.008,
+    "fill": 0.18,
+    "fillColor": 16774376
+  },
+  "debugView": {
+    "center": [
+      -3.5,
+      0,
+      -2.2
+    ],
+    "height": 12
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "I upgraded my bedroom every day until I never had to leave it.",
+      "callouts": []
+    },
+    {
+      "id": "fridge",
+      "say": "Day one: a mini fridge, right in arm's reach.",
+      "callouts": [
+        {
+          "at": "mini",
+          "text": "MINI FRIDGE",
+          "style": "label",
+          "until": "reach"
+        }
+      ]
+    },
+    {
+      "id": "pulley",
+      "say": "Day two: a pulley, so I never touch a light switch again.",
+      "callouts": [
+        {
+          "at": "pulley",
+          "text": "LIGHT PULLEY",
+          "style": "label",
+          "until": "again"
+        }
+      ]
+    },
+    {
+      "id": "desk",
+      "say": "Day four: a desk that swings right over the bed.",
+      "callouts": [
+        {
+          "at": "desk",
+          "text": "SWING DESK",
+          "style": "label",
+          "until": "bed"
+        }
+      ]
+    },
+    {
+      "id": "chute",
+      "say": "Day seven: a snack chute, straight from the kitchen. Mom hates it.",
+      "callouts": [
+        {
+          "at": "snack",
+          "text": "SNACK CHUTE",
+          "style": "label",
+          "until": "kitchen"
+        }
+      ]
+    },
+    {
+      "id": "arm",
+      "say": "Day nine: a robot arm. It feeds me. It scratches my back.",
+      "callouts": [
+        {
+          "at": "robot",
+          "text": "ROBOT ARM",
+          "style": "label",
+          "until": "back"
+        }
+      ]
+    },
+    {
+      "id": "tv",
+      "say": "Day ten: a TV on the ceiling.",
+      "callouts": [
+        {
+          "at": "tv",
+          "text": "CEILING TV",
+          "style": "label",
+          "until": "ceiling"
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "say": "Day twelve: the bed drives to the window, so I can still touch grass.",
+      "callouts": [
+        {
+          "at": "bed",
+          "text": "BED ON RAILS",
+          "style": "label",
+          "until": "grass"
+        }
+      ]
+    },
+    {
+      "id": "drone",
+      "say": "Day fifteen: a drone, for deliveries. Pizza lands right in my lap.",
+      "callouts": [
+        {
+          "at": "drone",
+          "text": "DELIVERY DRONE",
+          "style": "label",
+          "until": "deliveries"
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "say": "Then my teacher emails. Forty problems. Handwritten only. Due tomorrow.",
+      "callouts": [
+        {
+          "at": "forty",
+          "text": "40 PROBLEMS",
+          "style": "label",
+          "until": "problems"
+        },
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "until": "only"
+        },
+        {
+          "at": "due",
+          "text": "DUE TOMORROW",
+          "style": "label",
+          "until": "tomorrow"
+        }
+      ]
+    },
+    {
+      "id": "refuse",
+      "say": "Handwritten means finding a pen. I refuse to leave this bed.",
+      "callouts": []
+    },
+    {
+      "id": "scribe",
+      "say": "So I open Scribe. One photo of the worksheet, and it solves all forty.",
+      "callouts": [
+        {
+          "at": "solves",
+          "text": "{n}/40 SOLVED",
+          "style": "label",
+          "roll": [
+            0,
+            40
+          ],
+          "rollDur": 0.9,
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "Then it writes every answer in my handwriting, stroke by stroke.",
+      "callouts": [
+        {
+          "at": "my",
+          "text": "MY HANDWRITING",
+          "style": "term",
+          "until": "stroke",
+          "nth": 1
+        }
+      ]
+    },
+    {
+      "id": "deliver",
+      "say": "The printer prints it. The drone flies it to school.",
+      "callouts": []
+    },
+    {
+      "id": "match",
+      "say": "My teacher checks it against my old homework. Perfect match.",
+      "callouts": [
+        {
+          "at": "perfect",
+          "text": "PERFECT MATCH",
+          "style": "stamp",
+          "hold": 1.1,
+          "y": 0.2
+        }
+      ]
+    },
+    {
+      "id": "house",
+      "say": "Day thirty: I upgraded the whole house. Every room feeds this bed.",
+      "callouts": [
+        {
+          "at": "whole",
+          "text": "THE WHOLE HOUSE",
+          "style": "label",
+          "until": "bed"
+        }
+      ]
+    },
+    {
+      "id": "last",
+      "say": "I haven't stood up since October.",
+      "callouts": []
+    }
+  ]
+}

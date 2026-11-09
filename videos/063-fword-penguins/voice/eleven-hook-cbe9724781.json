@@ -1,0 +1,41 @@
+{
+ "text": "How fucking penguins fucking survive fucking Antarctica.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "How",
+   "t0": 0.0,
+   "t1": 0.24
+  },
+  {
+   "w": "fucking",
+   "t0": 0.29,
+   "t1": 0.64
+  },
+  {
+   "w": "penguins",
+   "t0": 0.72,
+   "t1": 1.28
+  },
+  {
+   "w": "fucking",
+   "t0": 1.33,
+   "t1": 1.68
+  },
+  {
+   "w": "survive",
+   "t0": 1.75,
+   "t1": 2.24
+  },
+  {
+   "w": "fucking",
+   "t0": 2.28,
+   "t1": 2.56
+  },
+  {
+   "w": "Antarctica.",
+   "t0": 2.625,
+   "t1": 3.6
+  }
+ ]
+}

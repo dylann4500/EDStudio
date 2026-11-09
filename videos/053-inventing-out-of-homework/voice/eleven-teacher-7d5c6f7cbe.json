@@ -1,0 +1,76 @@
+{
+ "text": "Then Mrs. Grimm drops thirty problems. Handwritten. Due tomorrow. And she knows his handwriting.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Then",
+   "t0": 0.0,
+   "t1": 0.16
+  },
+  {
+   "w": "Mrs.",
+   "t0": 0.24,
+   "t1": 0.64
+  },
+  {
+   "w": "Grimm",
+   "t0": 0.667,
+   "t1": 0.8
+  },
+  {
+   "w": "drops",
+   "t0": 0.867,
+   "t1": 1.2
+  },
+  {
+   "w": "thirty",
+   "t0": 1.246,
+   "t1": 1.52
+  },
+  {
+   "w": "problems.",
+   "t0": 1.591,
+   "t1": 2.4
+  },
+  {
+   "w": "Handwritten.",
+   "t0": 2.512,
+   "t1": 3.6
+  },
+  {
+   "w": "Due",
+   "t0": 3.68,
+   "t1": 3.92
+  },
+  {
+   "w": "tomorrow.",
+   "t0": 3.982,
+   "t1": 4.8
+  },
+  {
+   "w": "And",
+   "t0": 4.88,
+   "t1": 5.12
+  },
+  {
+   "w": "she",
+   "t0": 5.18,
+   "t1": 5.36
+  },
+  {
+   "w": "knows",
+   "t0": 5.413,
+   "t1": 5.68
+  },
+  {
+   "w": "his",
+   "t0": 5.72,
+   "t1": 5.84
+  },
+  {
+   "w": "handwriting.",
+   "t0": 5.9,
+   "t1": 6.88
+  }
+ ]
+}

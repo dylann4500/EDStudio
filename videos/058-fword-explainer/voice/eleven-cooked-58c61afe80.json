@@ -1,0 +1,21 @@
+{
+ "text": "You're fucking cooked.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "You're",
+   "t0": 0.0,
+   "t1": 0.24
+  },
+  {
+   "w": "fucking",
+   "t0": 0.29,
+   "t1": 0.64
+  },
+  {
+   "w": "cooked.",
+   "t0": 0.731,
+   "t1": 1.44
+  }
+ ]
+}
