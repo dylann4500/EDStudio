@@ -6,7 +6,8 @@ Everything that matters lives in files (`ops/`, `docs/lanes/`), so any new Claud
 
 Started Oct 26 2026 by the user's request: *"create videos like other videos have been created, pass them through TRIBE v2,
 optimize until they score high, post them at the same time every day, on three accounts, different videos, with the course link
-in every caption, plus a Claude doing continuous market research."*
+in every caption, plus a Claude doing continuous market research."* (Nov 8: the course link is retired — captions carry NO links or plugs,
+they tanked TikTok reach; CLAUDE.md → User's taste.)
 
 ## 1. Who does what
 
@@ -61,7 +62,7 @@ the tick starts producers for it. TikTok's scheduler accepts posts 15 min to 10 
   the 60 fps copy goes blocky for about a second in the hardest screen shake (026's crash), so check that frame before uploading.
 - **`tools/preview-copy.sh`** → `out/preview.mp4` (H.264 720p ≤ 4.5 MB, plays on any phone, small enough to text).
 - **`tools/caption.py videos/NNN-slug`** — prints the paste-ready caption, or fails if it breaks the house format
-  (course line as its own block, 5 hashtags incl. #animation, 👇 question, "Send this to…").
+  (5 hashtags incl. #animation, 👇 question, "Send this to…", and NO link or plug line — user rule Nov 8).
 
 ## 4. The producer brief (template)
 
@@ -78,7 +79,7 @@ brief, filled in. The number and premise are reserved in `ops/ideas.md` before t
 > **≤ 70 s total** (TRIBE's audio encoder runs out of GPU memory above that; 016's 71.4 s cut failed).
 > **TRIBE gate:** `sh tools/tribe-score.sh videos/NNN-slug cut1` in the background → `TARGET MET` (beat 013: whole-brain ≥ 0.0448,
 > first 60 s ≥ 0.0421, no dead zone). Not met → one fix pass on the weakest beats → `cut2`; a `cut3` pass only if still not met; then report.
-> **Deliverables:** final.mp4, caption.md (course line as its own block), tribe-cutN.txt, out/upload.mp4, out/preview.mp4. Commit the
+> **Deliverables:** final.mp4, caption.md (no links, no plugs), tribe-cutN.txt, out/upload.mp4, out/preview.mp4. Commit the
 > video folder + additive engine changes on your branch. **Don't merge to main, don't push.**
 > **Hands off:** never post, never use the user's Chrome, never email. If blocked, SendMessage the manager (`local_…`).
 > **Final message (≤ 25 lines):** branch; paths; duration; TRIBE headline; caption in full; one line per beat; anything to check.
@@ -194,7 +195,7 @@ last fire). Each tick, in order:
 2. Claude desktop app (Code tab) with: **Claude in Chrome** connected to your Chrome, the **Gmail** connector, scheduled tasks.
 3. In Chrome: sign in to TikTok (add each account via *Switch account → Add account*) and to Gmail. Claude never types
    passwords, so you do this once yourself.
-4. Edit the accounts/lanes table (§2) and `docs/lanes/` for your accounts; keep the course line or replace it with your own
+4. Edit the accounts/lanes table (§2) and `docs/lanes/` for your accounts; captions carry no links (user rule, Nov 8: links in captions tank TikTok reach)
    (`tools/caption.py`, `tools/new-video.mjs`, `tools/render.mjs`).
 5. Tell Claude: **"/operation setup"**. It creates the research task, arms the tick, seeds `ops/ideas.md`, and starts producers.
 6. Tell your phone agent (or yourself) the answer format: email your own address `YES <code>` or `NO <code> + notes`.

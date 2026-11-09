@@ -26,8 +26,8 @@ Curious → cinematic: synth pluck/mallet ostinato, sub drones, soft taiko on th
 (wind, sirens, rumble). Low-passed and soft, like every EDStudio mix. Quiet open; music enters on SECOND 0.
 
 ## Caption
-Hook + emoji · 2–3 sentences with one real fact · question CTA 👇 · "Send this to your ___" · blank · the course line ·
-blank · 5 hashtags incl. #animation (e.g. #whatif #science #physics #space #animation). Sources as an HTML comment.
+Hook + emoji · 2–3 sentences with one real fact · question CTA 👇 · "Send this to your ___" · blank ·
+5 hashtags incl. #animation (e.g. #whatif #science #physics #space #animation). Sources as an HTML comment. No links or plugs (user rule, Nov 8).
 
 ## First video: 017 "What if gravity turned off for 5 seconds?" (reference build)
 - **Shape (69.4 s, TRIBE target met on v4):** title over a stadium → the moment it happens (a goal, the crowd mid-jump) → SECOND 0 → a slow-motion ladder

@@ -63,7 +63,7 @@ actions, items" — a new action, prop or effect on almost every phrase, and let
 9. **Audio**: `make_cues.py` computes every cue from story.json (copy 039's) → `python3 -I audio/synth.py NNN-slug`.
    Check: −14 LUFS, `music dropouts: none`, voice on top (measure stems: voice ≈ −15, sfx ≈ −20, music ≈ −24 LUFS).
 10. **Render** `node tools/render.mjs NNN-slug` (60 fps + blur, ~25 min), QC (docs/BUILD.md checklist) — scan the ACTUAL
-    render (1 fps sheet + the last 8 s at 2.5 fps), not only stills — write caption.md (house format + course line), commit the
+    render (1 fps sheet + the last 8 s at 2.5 fps), not only stills — write caption.md (house format, no links/plugs), commit the
     folder incl. script.json, words.json, make_cues.py and only the `voice/eleven-*` takes the current script uses (older
     takes stay local). Merge to main / push only when the user says so (or the manager's brief does).
     Paste the caption in the report. If the narration was the scratch voice, say so and give the one-command upgrade path.
