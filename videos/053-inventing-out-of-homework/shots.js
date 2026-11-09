@@ -353,12 +353,14 @@ export async function build(studio, story) {
     }
     if (id === 'drone1' || id === 'drone2') {
       kitchen(t);
+      const stache = (c) => { const rx = mom.B.rx, ry = mom.B.ry, w = rx * 0.28, h = ry * 0.115; return { x0: c[0] - w / 2, y0: c[1] + ry * 0.275, w, h }; };   // ≈ the nose's width, right under it
       const mp = { x: -40, y: mom.seatY(-90), s: 1, t: tt, sit: true, turn: id === 'drone2' ? 0 : 0.2, eyes: t > T.mustache ? 'angry' : t > T.drew ? 'wide' : 'half', brows: t > T.mustache ? 'angry' : 'neutral', mouth: t > T.mom ? 'teeth' : t > T.drew ? 'o' : 'smile', arms: { L: ARM.hold, R: ARM.hold },
-        face: (I2, F) => {   // the mustache the drone draws: two curls, growing with the pencil
+        face: (I2, F) => {   // the mustache the drone draws: a small square toothbrush mustache under her nose, pencil-dense
           const g = u01(t, T.drew, T.mom - 0.05); if (g <= 0) return;
-          const { c, rx, ry } = F, mx = c[0], my = c[1] + ry * 0.36, pts = [];
-          for (let i = 0; i <= 60 * g; i++) { const u = i / 60, sd = u < 0.5 ? -1 : 1, v = u < 0.5 ? 1 - u * 2 : (u - 0.5) * 2, a = v * PI * 1.6; pts.push([mx + sd * (rx * 0.42 * v + Math.sin(a) * rx * 0.1), my - Math.cos(a) * ry * 0.06 + v * v * ry * 0.04]); }
-          I2.line(pts, { lw: 9, line: '#3a3a3a', sub: false });
+          const { c } = F, M = stache(c), pts = [];
+          I2.ctx.fillStyle = '#3a3a3a'; I2.ctx.fillRect(M.x0 + 1.5, M.y0 + 1.5, Math.max(0, M.w * g - 3), M.h - 3);   // dense graphite block…
+          for (let x = M.x0, k = 0; x <= M.x0 + M.w * g; x += 1.8, k++) pts.push([x, k % 2 ? M.y0 + M.h : M.y0]);   // …with hand-scribbled edges, left to right
+          if (pts.length > 1) I2.line(pts, { lw: 3.5, line: '#2e2e2e', sub: false, wob: 0.5 });
         } };
       put(mom, mp, 'mom'); SET.mug(I, 130, -40, 0.9, { color: '#4f86c6' });
       // the table in front of Mom
@@ -367,10 +369,15 @@ export async function build(studio, story) {
       // the drone: flies over the worksheet, then veers to Mom's lip
       const lip = mom.headAt(mp); let dx, dy, tilt;
       if (t < T.it2) { const u = u01(t, T.pencil - 0.2, T.it2); dx = lerp(-700, -230, ob(u, 1.2)) + Math.sin(t * 9) * 20; dy = -330 + Math.sin(t * 6) * 30 - (t > T.does ? -60 * Math.abs(Math.sin(t * 14)) : 0); tilt = 0.08; }
-      else { const u = u01(t, T.it2, T.drew); dx = lerp(-230, lip.x + 215, ob(u, 1.1)) + Math.sin(t * 30) * 8 * (t > T.drew ? 1 : 0); dy = lerp(-330, lip.y + 95, u) + (t > T.drew ? Math.sin(t * 24) * 8 : 0); tilt = 0.15; }
+      else {   // the pencil tip rides the mustache as it fills in; the drone is drawn flipped in x AND y (body below-right of the tip,
+               // rotors under the pencil, clear of her eyes), so the world tip = centre − local tip; it backs off once the mustache is done
+        const M = stache([lip.x, lip.y]), u = u01(t, T.it2, T.drew), g = u01(t, T.drew, T.mom - 0.05), away = ob(u01(t, T.mom - 0.05, T.mom + 0.3), 1.2);
+        const DS = 0.5, DT = 0.5, tx = M.x0 + M.w * g, ty = M.y0 + M.h / 2 + (t > T.drew && g < 1 ? Math.sin(t * 46) * M.h * 0.45 : 0);
+        dx = lerp(-230, tx + Math.cos(DT) * 150 * DS, ob(u, 1.1)) + away * 230; dy = lerp(-330, ty + (Math.sin(DT) * 150 * DS - 15 * DS), u) + away * 90; tilt = DT;
+      }
       if (id === 'drone1') put(leo, { x: -500, y: 330, s: 1.0, t: tt, turn: 0.45, look: [0.8, -0.3], eyes: 'open', mouth: t > T.does ? 'grin' : 'smirk', arms: { L: ARM.hold, R: ARM.hold }, sweat: 0 }, 'leo');
       if (id === 'drone1') controller(...leo.hand({ x: -500, y: 330, s: 1, arms: { L: ARM.hold, R: ARM.hold } }, 'R'), 0.8);
-      if (id === 'drone2') { ctx.save(); ctx.translate(dx, dy); ctx.scale(-1, 1); pencilDrone(0, 0, 0.6, t, 0.25); ctx.restore(); } else pencilDrone(dx, dy, 0.8, t, tilt);
+      if (id === 'drone2') { ctx.save(); ctx.translate(dx, dy); ctx.scale(-1, -1); pencilDrone(0, 0, 0.5, t, tilt); ctx.restore(); } else pencilDrone(dx, dy, 0.8, t, tilt);
       if (id === 'drone2' && t > T.mom) FX.vein(I, lip.x + 90, lip.y - 110, 1.2);
       if (id === 'drone1') SET.nameTag(I, 'HOMEWORK DRONE', -230, -700, { size: 50, sub: 'INVENTION #9', pop: pop(t, Math.max(T.pencil, T.day9 + 1.2)) });
     }
