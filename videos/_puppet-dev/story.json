@@ -1,0 +1,3 @@
+{ "tone": "build", "mode": "build", "title": "puppet dev", "fps": 30, "duration": 8,
+  "look": { "exposure": 1.0, "bloom": 0.06, "bloomThreshold": 0.98, "fill": 0.0, "toneMapping": "neutral", "vignette": 0.1, "grain": 0.0, "warm": 0.0, "saturation": 1.0, "lift": 0.0 },
+  "beats": {}, "order": [], "words": [], "callouts": [] }

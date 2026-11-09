@@ -512,6 +512,20 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
+  in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
+  So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
+  diffusers on MPS, venv `~/.cache/edstudio/sdxl` (python 3.12; model in the HF cache, ~7 GB, run with `HF_HUB_OFFLINE=1`).
+  Character block `CHAR` + quality tail + negative live in gen.py; prompts are encoded in 75-token chunks (SDXL's CLIP stops
+  at 77 — the long character block silently cut the pose + background until then). Jobs: txt2img (+ `hires`), img2img
+  (`init` + `strength`), inpaint (`init` + `mask` ellipses: blink / talk frames; the result is composited back so ONLY the
+  mask changes — the VAE round trip shifts colours elsewhere = flicker on a swap). Put composition tags FIRST (1girl, solo,
+  cowboy shot, pose, white background) then `{char}`. `tools/anime/cut.py` = rembg isnet-anime cut-out (variants reuse the
+  base alpha). `engine/puppet.js` `makePuppet({base, faces, height, rig})` = the cut-out on a subdivided plane whose vertex
+  shader breathes the chest, sways hair ellipses, tilts/bobs the head round the neck and leans the body; `update(t, {camera,
+  talk, face, headA, bob, sway})` billboards it and swaps face frames (auto-blink). It sits in any voxel set under the pixel
+  pass (`engine/sets/voxbeach.js` = the benchmark's beach house; dev scene `videos/_puppet-dev`). A cowboy-shot cut-out ends
+  at the thighs: frame its bottom edge out of shot (or use full-body art for wides). Generation on a busy Mac: ~1–7 min/image.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every

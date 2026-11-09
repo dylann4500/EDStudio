@@ -6,12 +6,15 @@ transitions between places (beach, microwave, data-center corridor, a cutaway po
 Theirs is a "good girl" tutor that teaches. Ours is the opposite: **a goth, rebellious "mommy" cheat-tutor** who tells you how
 not to get caught, and the answer is always Scribe.
 
-## The character
-- Working name **Vex** (alternatives: Ink, Raven). `engine/goth.js` → `makeGoth({ outfit: 'bikini' | 'goth' })`.
-- Bikini look for the beach scenes (like the ref): black bandeau + bottom with Scribe-red ties, choker with the red pen-nib
-  charm (Scribe's logo nib), red-rimmed round shades pushed up on her head, platform sandals, spiked cuffs.
-- Alt "street goth" look for indoor scenes: corset + tartan mini + stockings + platform boots.
-- Expressions: smirk, wink + tongue, eye-roll, bored half-lid, talk (lip flap). Poses: point, peace, hand on hip.
+## The character (v3, Nov 8: matches the user's benchmark image)
+- Working name **Vex**. A 2-D anime illustration, not a 3-D model: the user's bar is a polished anime picture (auburn messy
+  layered hair, black rectangular shades pushed up, heavy winged liner + purple shadow, plum lips, studded choker with a cross,
+  layered silver chains, black lace/fishnet O-ring halter bikini with a bat charm, chain belt, side-tie bottoms, studded cuffs,
+  black nails). v1 (engine/goth.js) and v2 (Blender body + engine/anime.js) were code-built 3-D and never got close.
+- Pipeline: `tools/anime/gen.py` (Animagine XL 4.0 on the Mac's GPU) → poses + face frames (blink / talk / wink by inpainting
+  only the face) → `tools/anime/cut.py` cut-out → `engine/puppet.js` (breath, hair sway, head tilt, face swaps) standing in voxel
+  sets under the pixel pass (`engine/sets/voxbeach.js` = the benchmark's beach house). Dev scene: `videos/_puppet-dev`.
+- Each new pose = one generation + 3 face inpaints (~5–15 min on a busy Mac). Plan ~6–8 poses per reel.
 
 ## Format (copied from the ref)
 - Pixel pass (5 px blocks) + mosaic swell at every cut; a voxel world (pixel textures via `engine/pixeltex.js`).
