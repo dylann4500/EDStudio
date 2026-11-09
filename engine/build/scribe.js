@@ -33,7 +33,10 @@ export function layoutHand(G, text, { x, y, u = 24, lineH = 2.4, seed = 1, track
     if (!vars) { cx += 0.5 * u; continue; }
     const v = vars[Math.floor(rnd() * vars.length) % vars.length], uu = sup ? u * 0.62 : u;
     const base = cy - (sup ? 0.8 * u : 0) + (rnd() - 0.5) * 0.14 * u * jit;
-    const w = v.w * uu, h = v.h * uu, bottom = base - v.d * uu;
+    // descentRatio = how far the glyph's foot sits BELOW the baseline (y/g/p > 0, '=' < 0; the Scribe app's render.js: top =
+    // heightRatio - descentRatio). Canvas y runs down, so the foot is base + d. Until Nov 8 this was base - d: every y/g/p floated
+    // up ("busy" on the app screen had its y up in the logo) and '=' sank below the line.
+    const w = v.w * uu, h = v.h * uu, bottom = base + v.d * uu;
     out.push({ c: v.c, x: cx, y: bottom - h, w, h, rot: (rnd() - 0.5) * 0.06 * jit });
     cx += w + track * uu + (rnd() - 0.5) * 0.08 * u * jit;
   }
@@ -119,17 +122,17 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
 }
 
 /** Scribe on a laptop (1280 × 800): modes home | scan | solve | write | done; k = progress 0..1 inside a mode. */
-export function makeScreen(G, icon, sheet, { w = 1280, h = 800 } = {}) {
+export function makeScreen(G, icon, sheet, { w = 1280, h = 800, name = 'Tyler' } = {}) {   // 050: name = the signature + avatar letter (additive; default unchanged)
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const g = canvas.getContext('2d'), tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const RED = '#9a1c25', CREAM = '#f3f1eb';
   const busy = layoutHand(G, 'busy', { x: 0, y: 0, u: 52, seed: 5 });
-  const sig = layoutHand(G, 'Tyler', { x: 0, y: 0, u: 30, seed: 7 });
+  const sig = layoutHand(G, name, { x: 0, y: 0, u: 30, seed: 7 });
   const hand = (list, ox, oy, s = 1) => { for (const it of list) g.drawImage(it.c, ox + it.x * s, oy + it.y * s, it.w * s, it.h * s); };
   const bar = () => {
     g.fillStyle = '#fbfaf6'; g.fillRect(0, 0, w, 78); g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(0, 78, w, 2);
     g.drawImage(icon, 30, 15, 48, 48); g.fillStyle = '#1d1d1d'; g.font = '34px Georgia, serif'; g.fillText('Scribe', 88, 52);
-    g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText('T', w - 50, 47); g.textAlign = 'left';
+    g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText(name[0].toUpperCase(), w - 50, 47); g.textAlign = 'left';
   };
   const button = (x, y, bw, bh, text) => { g.fillStyle = RED; g.beginPath(); g.roundRect(x, y, bw, bh, 16); g.fill(); g.fillStyle = '#fff'; g.font = '600 30px Inter, Arial'; g.textAlign = 'center'; g.fillText(text, x + bw / 2, y + bh / 2 + 11); g.textAlign = 'left'; };
   let lastKey = '';

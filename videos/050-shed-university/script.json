@@ -1,0 +1,260 @@
+{
+  "title": "Shed to University (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 290
+  },
+  "lead": 0.04,
+  "gap": 0.05,
+  "tail": 4.45,
+  "maxPause": 0.17,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.55,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.12,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "I upgraded my backyard shed every day until it became a university.",
+      "callouts": []
+    },
+    {
+      "id": "day1",
+      "say": "Day one. One desk. One whiteboard. One student. Me.",
+      "callouts": []
+    },
+    {
+      "id": "day3",
+      "say": "Day three. A second floor. The fire exit is a trampoline.",
+      "callouts": [
+        {
+          "at": "trampoline",
+          "text": "BOING!",
+          "style": "sfx",
+          "pos": [
+            0.68,
+            0.34
+          ],
+          "hold": 0.7
+        }
+      ]
+    },
+    {
+      "id": "day8",
+      "say": "Day eight. A bell tower. The neighbor loves it.",
+      "callouts": [
+        {
+          "at": "neighbor",
+          "text": "BONG!",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.21
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "day15",
+      "say": "Day fifteen. A mascot. It's the raccoon from our trash can. Full scholarship.",
+      "callouts": [
+        {
+          "at": "full",
+          "text": "FULL SCHOLARSHIP",
+          "style": "money",
+          "until": "scholarship",
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "day30",
+      "say": "Day thirty. Bricks. Columns. Real colleges have columns.",
+      "callouts": [
+        {
+          "at": "columns",
+          "text": "THUNK!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.34
+          ],
+          "hold": 0.55
+        }
+      ]
+    },
+    {
+      "id": "day45",
+      "say": "Day forty-five. Students show up. I did not invite them. My mom is the dining hall.",
+      "callouts": []
+    },
+    {
+      "id": "day60",
+      "say": "Day sixty. A stadium, where the neighbor's pool used to be.",
+      "callouts": [
+        {
+          "at": "be",
+          "text": "BONK!",
+          "style": "sfx",
+          "pos": [
+            0.72,
+            0.22
+          ],
+          "hold": 0.6
+        }
+      ]
+    },
+    {
+      "id": "inspector",
+      "say": "Then the inspector shows up. Every student hands in forty problems. Handwritten. By midnight. Including the dean. I'm the dean.",
+      "callouts": [
+        {
+          "at": "forty",
+          "text": "40 PROBLEMS",
+          "style": "label",
+          "hold": 1.0,
+          "y": 0.3
+        },
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "hold": 0.6,
+          "y": 0.33
+        },
+        {
+          "at": "midnight",
+          "text": "DUE 11:59 PM",
+          "style": "label",
+          "hold": 0.6,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "I'm cooked. So I one-shot it with Scribe.",
+      "callouts": [
+        {
+          "at": "cooked",
+          "text": "COOKED",
+          "style": "stamp",
+          "hold": 0.5,
+          "y": 0.68
+        }
+      ]
+    },
+    {
+      "id": "solve",
+      "say": "One photo of the sheet. Scribe solves all forty.",
+      "callouts": [
+        {
+          "at": "photo",
+          "text": "SNAP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.33
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "solves",
+          "text": "{n}/40 SOLVED",
+          "style": "label",
+          "roll": [
+            0,
+            40
+          ],
+          "rollDur": 0.9,
+          "hold": 1.4,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "It writes every answer in my handwriting, stroke by stroke. Even the graph.",
+      "callouts": [
+        {
+          "at": "writes",
+          "text": "MY HANDWRITING",
+          "style": "term",
+          "until": "handwriting",
+          "y": 0.4
+        }
+      ]
+    },
+    {
+      "id": "match",
+      "say": "The inspector holds it next to my old notes. [excited] Perfect MATCH. Accredited!",
+      "callouts": [
+        {
+          "at": "perfect",
+          "text": "PERFECT MATCH",
+          "style": "stamp",
+          "hold": 0.9,
+          "y": 0.255
+        },
+        {
+          "at": "accredited",
+          "text": "ACCREDITED",
+          "style": "stamp",
+          "hold": 1.0,
+          "y": 0.255
+        }
+      ]
+    },
+    {
+      "id": "payoff",
+      "say": "Day one hundred. Ivy on every wall. A clock tower. Ten thousand students. Graduation.",
+      "callouts": [
+        {
+          "at": "ten",
+          "text": "{n} STUDENTS",
+          "style": "label",
+          "roll": [
+            0,
+            10000
+          ],
+          "rollDur": 0.9,
+          "hold": 1.5,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "last",
+      "say": "The raccoon graduates top of the class. The neighbor wants his pool back.",
+      "callouts": []
+    }
+  ]
+}
