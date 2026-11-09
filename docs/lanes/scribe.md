@@ -47,7 +47,7 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   ICE table), biology (a Punnett square, a labelled cell), physics (a free-body diagram with ΣF), economics (a supply-and-demand
   shift, a payoff matrix), and math at most one reel in four. Show the subject's FIGURE being drawn by the pen — that's the money
   shot. All true per the Scribe README (§Physics, §Chemistry, §Biology, §Economics). Ready-made sheets: `engine/build/subjects.js`
-  (when merged); until then build the sheet with `makeSheet` (printed questions + handwritten answers + the figure as pen strokes).
+  (`subjectSheet(G, 'chemistry')` etc.; docs/PROMO.md → Subject packs; all packs on one frame: `videos/_subjects-demo/packs.jpg`).
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the

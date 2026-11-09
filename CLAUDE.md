@@ -565,6 +565,14 @@ videos/NNN-slug/
   (instanced bodies + flapping wings orbiting a point, `flee` scatters them), wavy stink-line sprites drawn AFTER the camera and
   pushed away from the lens (they crossed faces otherwise), soap-bubble sprites, a homework tower (`makeStack(n)` of paper reams,
   `setN(k)`), a POV forearm + coffee cup in camera space (cup tilted by the camera pitch so it stays upright), a 10-ft pole.
+- **Scribe subject packs (Nov 9, `engine/build/subjects.js`; docs/PROMO.md → Subject packs):** `subjectSheet(G, 'chemistry' |
+  'biology' | 'physics' | 'economics' | 'math', over)` = a ready worksheet written in Scribe's hand WITH its pen-drawn figure
+  (balanced equation + Lewis H₂O + ICE · Punnett Bb × Bb + food chain + labelled cell · ramp FBD + plane FBD · supply shift + payoff
+  matrix · 049's calculus page); `makeScreen(G, icon, sheet)` then shows the class line + one captioned tile per problem. Build your
+  own page with `makeSheet({ rich: true, problems: [{ q, h, a, fig: ({ k, y }) => FIG.x(k, …) }] })`; scribe.js adds `writeHand`
+  (`_sub`, `^{..}`, pen-drawn O → ⇌ ° μ × $ % and H — the demo hand's H reads "lt") and `penKit` (line, arrow, grid, ring…).
+  All packs on one frame: `videos/_subjects-demo/packs.jpg`. **After any scribe.js change run `node tools/scribe-check.mjs`**
+  (every shipped reel's sheets + screens must stay pixel-identical to main's).
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every

@@ -37,6 +37,8 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   product end card). It lives in `#ui`, so it is captured crisp like the captions; everything pops in once, nothing pulses.
 - `scribe.js`: `loadHand`, `layoutHand` (`^x` superscript), `makeSheet` (worksheet canvas; `draw(p)` writes p items, glyph by glyph,
   graphs as hand strokes; items carry `pi` = problem index so shots can key "the sevens" / "the graph" to words), `makeScreen`.
+  Nov 9: + `writeHand` (subscripts, pen-drawn symbols), `penKit` (pen figures), `makeSheet({rich: true})`, `makeScreen({subject})`
+  and `subjects.js` (ready chemistry / biology / physics / economics pages) → **Subject packs** below.
 - `library.js`: `buildLibraryRoom` (desk, laptop with lid hinge + screen canvas + logo on the back, worksheet, can tower, a rotting
   jack-o'-lantern, wall clock `setClock`, crossed-out November calendar, sleeping bag) and `buildOffice` (chalkboard, diploma).
 
@@ -58,6 +60,50 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - Toon add-ons on the torso: `toon.armL.g.parent` is the torso group (the body's child order is not stable).
 - Cuts are cheap in a promo: one framing per beat as its own shot (with a 2-key slow push) beat chaining framings across a room —
   planRail turned far-apart framings into passes and the "HANDWRITTEN" close-up became a pan across the bookshelves.
+
+## Subject packs: how to pick and use one (Nov 9, `engine/build/subjects.js`)
+The user (Nov 9): "this shit is all math homework still… are we gonna do bio homework, chemistry homework?" Rotate the subject every
+reel (docs/lanes/scribe.md) and fit it to the story; each pack is a ready page whose FIGURE the pen draws in order with the rest.
+All of them on one frame: `videos/_subjects-demo/packs.jpg` (re-render: `node tools/render.mjs _subjects-demo --stills 200 --full`).
+
+| key | page (problems, `pi` order) | the money shot | fits stories about |
+|---|---|---|---|
+| `chemistry` | CHEM 1A · PS 4: balance CH₄ + 2O₂ → CO₂ + 2H₂O (boxed) · Lewis H₂O · molar mass CO₂ = 44.01 g/mol · ICE H₂ + I₂ ⇌ 2HI (Kc = 49 → [HI] = 0.78 M) | H–Ö–H with its lone pairs, the ICE grid | labs, fire, cooking, mad science |
+| `biology` | BIO 1 · PS 6: Punnett Bb × Bb (1 BB : 2 Bb : 1 bb, 3 black : 1 white) · food chain grass → cricket → frog → hawk · labelled animal cell | the Punnett grid filling in | pets, animals, nature, babies/genes |
+| `physics` | PHYS 1 · PS 5: FBD of a 5.0 kg block on a 30° ramp (mg, N, f_k) + ΣF = ma → a = 3.2 m/s² · a plane's FBD (L = W, T = D) · F = ma for a car (3.0 × 10³ N) | the force arrows on the ramp | cars, sports, falling, flying, the gym |
+| `economics` | ECON 1 · PS 3: a frost shifts S → S′ (P₁ → P₂ up, Q₁ → Q₂ down, dotted drops) + 4 lines of reasoning · payoff matrix, best responses underlined, Nash (Low, Low) circled | the supply curve jumping left | money, hustles, business, rivalries |
+| `math` | 049's calculus page, byte for byte | the parabola | at most one reel in four |
+
+```js
+import { subjectSheet, FIG } from '@engine/build/subjects.js';
+const sheet = subjectSheet(G, 'chemistry', { name: 'Max' });   // any makeSheet option overrides the pack's: name, seed, title, note, page
+const screen = makeScreen(G, icon, sheet);                        // "CHEMISTRY · PROBLEM SET 4" + one tile per problem (Balance, Lewis…)
+sheet.draw(p);                                                    // p = 0 → sheet.total, as for 049's sheet
+const lewis0 = sheet.items.findIndex((i) => i.pi === 1);          // weight of everything before problem 2 = where to start p for "the Lewis structure"
+```
+- **Lengths** (glyph = 1 unit, a pen stroke = its length / 55 px): chemistry 286, biology 238, physics 188, economics 243, math 73.
+  The demo writes each page in 4.6 s; to show only the figure, sum the weights up to its first item and ramp p from there.
+- **The 40-problem drama:** `makeScreen(G, icon, sheet, { n: 40 })` keeps the class line with 049's 40 tiles; `{ subject: false }`
+  is 049's screen exactly.
+- **A page of your own:** `makeSheet(G, { rich: true, problems: [{ q: '1.  …\n     …', h: 1.4, a: 'answer', fig: ({ k, y }) => [...] }] })`.
+  `h` = row height weight, `q` may have `\n`, `a` goes through `writeHand`, `fig(ctx)` returns pen/glyph items in writing order
+  (`ctx.k` = a `penKit`, `ctx.y` = the row's top). `FIG.punnett / ice / lewis ('H2O'|'CO2') / fbdRamp / fbdDot / market (4 shifts) /
+  payoff / foodChain / animalCell` work their numbers out from the inputs (the cross, m/θ/μ, the curves, the payoffs), so a figure
+  can't contradict its own working; `penKit`: `line arrow dashed poly ellipse dot pair text grid ring box under label vecArrow`.
+- **Handwriting markup (writeHand):** `_2` / `_{net}` subscript, `^2` / `^{2-}` superscript; hand.json lacks a capital O (H₂0 reads
+  as zero), ⇌, °, μ, ×, $, % — the pen draws them where they stand (README §Chemistry), → too (the 29 px glyph is a smudge at reel
+  size; `penArrow: false` keeps it). This demo hand's H is two loose strokes that read as "lt" ("Clt₄"), so rich sheets and penKit
+  draw H with the pen as well (`penGlyphs: 'H'`).
+- **Content stays inside what Scribe does** (its README §Physics / §Chemistry / §Biology / §Economics, cited in subjects.js): FBDs
+  for every ΣF, Lewis structures with lone pairs, ICE tables, Punnett squares with the ratios under them, food chains, labelled
+  animal cells, market shifts with P₁/P₂ dropped to the axes, payoff matrices with underlined best responses and a circled Nash.
+- **Old reels are untouched:** `node tools/scribe-check.mjs` (sandbox off) rebuilds every makeSheet / makeScreen / layoutHand call
+  in videos/*/shots.js with the working tree's scribe.js AND main's and compares pixels: 25 cases identical (049–058) on Nov 9;
+  050's laptop + sheet frames also rendered byte-identical. Run it after ANY scribe.js change.
+- Lessons: an answer ring is a superellipse (a plain ellipse big enough to hold a line of text ran into the line above and struck
+  through the next question); centre text in a cell with `k.text(…, { valign: 'middle' })` (this hand's ink sits ~0.9 u above its
+  baseline); keep ~35–45 px between a ringed answer and the text before it; this hand's `=` sits at cap mid-height, so lowercase
+  after a tall `ΣF =` looks dropped — that is the real glyph metric, leave it.
 
 ## 050: Scribe ("I upgraded my backyard shed every day until it became a university"), 51.7 s
 - The @officialwriteit "upgrade X every day" format in the toon look: a DAY counter, a new upgrade + gag every ~3 s (desk + whiteboard

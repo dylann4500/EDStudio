@@ -1,0 +1,18 @@
+{
+  "tone": "promo",
+  "mode": "pov",
+  "title": "Scribe subject packs (demo)",
+  "fps": 30,
+  "duration": 35.0,
+  "look": {
+    "exposure": 1.0,
+    "bloom": 0.0,
+    "fill": 0.0,
+    "toneMapping": "neutral",
+    "vignette": 0.0,
+    "grain": 0.0,
+    "warm": 0.0,
+    "saturation": 1.0,
+    "lift": 0.0
+  }
+}
