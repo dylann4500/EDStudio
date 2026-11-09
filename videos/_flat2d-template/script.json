@@ -1,0 +1,14 @@
+{
+  "title": "flat2d template",
+  "tone": "promo",
+  "voice": {"provider": "eleven", "voice_id": "pNInz6obpgDQGcFmaJgB", "name": "Adam", "model": "eleven_v3", "settings": {"stability": 0.0, "similarity_boost": 0.8}},
+  "scratch": {"voice": "Eddy (English (US))", "rate": 290},
+  "lead": 0.04, "gap": 0.05, "tail": 5.4, "maxPause": 0.17, "pauseFloor": -45,
+  "fps": 30, "motionBlur": 1, "tempo": 1.55, "joinLen": 4,
+  "yellShelf": {"db": -4, "hz": 5000},
+  "look": {"flat2d": true},
+  "beats": [
+    {"id": "hook", "say": "My little brother invents something every day.", "callouts": []},
+    {"id": "gag", "say": "Today: a robot dog that eats homework. It lasted four seconds.", "callouts": []}
+  ]
+}
