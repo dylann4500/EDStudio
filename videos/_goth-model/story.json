@@ -1,0 +1,3 @@
+{ "tone": "build", "mode": "build", "title": "goth tutor model sheet", "fps": 30, "motionBlur": 1, "duration": 30,
+  "look": { "exposure": 1.0, "bloom": 0.12, "fill": 0.6, "toneMapping": "neutral", "vignette": 0.12, "grain": 0.006, "warm": 0.05, "saturation": 1.08, "lift": 0.01 },
+  "beats": {}, "order": [], "words": [], "callouts": [] }
