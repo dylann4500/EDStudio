@@ -1425,6 +1425,26 @@
    }
   },
   {
+   "t": 25.35,
+   "sound": "keyboard_type",
+   "gain_db": -17,
+   "pan": 0.3,
+   "args": {
+    "dur": 2.6,
+    "rate": 15.0
+   }
+  },
+  {
+   "t": 25.5,
+   "sound": "scan_beep",
+   "gain_db": -21,
+   "pan": 0.3,
+   "args": {
+    "pitch": 0.9,
+    "dur": 0.12
+   }
+  },
+  {
    "t": 25.6,
    "sound": "knock",
    "gain_db": -18,
@@ -1453,12 +1473,32 @@
    }
   },
   {
+   "t": 26.35,
+   "sound": "scan_beep",
+   "gain_db": -21,
+   "pan": 0.3,
+   "args": {
+    "pitch": 1.02,
+    "dur": 0.12
+   }
+  },
+  {
    "t": 26.8,
    "sound": "knock",
    "gain_db": -18,
    "pan": 0.4,
    "args": {
     "pitch": 1.6
+   }
+  },
+  {
+   "t": 27.2,
+   "sound": "scan_beep",
+   "gain_db": -21,
+   "pan": 0.3,
+   "args": {
+    "pitch": 1.1400000000000001,
+    "dur": 0.12
    }
   },
   {

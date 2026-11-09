@@ -110,6 +110,8 @@ e(24.5, "breath", -20, 0.0, dur=0.6, inhale=False)              # a satisfied si
 # DAMAGE: clipboard taps, a tense hum of the room
 for k in range(4): e(25.6 + k * 0.6, "knock", -18, 0.4, pitch=1.6)
 e(26.0, "low_swell", -22, 0.0, dur=1.6, pitch=0.6)
+e(25.35, "keyboard_type", -17, 0.3, dur=2.6, rate=15.0)          # the receipt printer chattering out the damage bill
+for k in range(3): e(25.5 + k * 0.85, "scan_beep", -21, 0.3, pitch=0.9 + 0.12 * k, dur=0.12)
 # THE SHEET + the gulp
 e(EV['slap'], "knock", -10, 0.0, pitch=0.7); e(EV['slap'] + 0.01, "blanket_rustle", -16, 0.0, dur=0.25, intensity=0.9); e(EV['slap'] + 0.02, "giant_step", -18, 0.0, size=0.3)
 e(EV['gulp'], "fish_blub", -14, 0.0, n_bub=1, dur=0.4)
