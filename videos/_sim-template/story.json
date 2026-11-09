@@ -1,0 +1,16 @@
+{
+ "tone": "promo",
+ "mode": "build",
+ "title": "sim template",
+ "fps": 30,
+ "motionBlur": 1,
+ "duration": 10.0,
+ "look": { "exposure": 1.0, "toneMapping": "neutral", "bloom": 0.05, "bloomThreshold": 0.97, "vignette": 0.1, "grain": 0.008, "warm": 0.03, "saturation": 0.9, "lift": 0.008, "fill": 0.18, "fillColor": 16774376 },
+ "words": [
+  { "w": "Day", "t0": 0.2, "t1": 0.5 }, { "w": "one", "t0": 0.5, "t1": 0.9 },
+  { "w": "A", "t0": 1.1, "t1": 1.25 }, { "w": "mini", "t0": 1.25, "t1": 1.55 }, { "w": "fridge", "t0": 1.55, "t1": 2.1 },
+  { "w": "Day", "t0": 5.2, "t1": 5.5 }, { "w": "two", "t0": 5.5, "t1": 5.9 }
+ ],
+ "callouts": [ { "text": "MINI FRIDGE", "style": "label", "t0": 1.2, "t1": 3.2 } ],
+ "debugView": { "center": [-3.5, 0, -2.2], "height": 12 }
+}
