@@ -551,8 +551,8 @@ export async function build(studio, story) {
       sheet.draw(sheetTotal);
       const PX = -40, PY = 440, PW = 500, PH = PW * 1325 / 1024;
       ctx.save(); ctx.translate(PX, PY); ctx.rotate(-0.04); SET.paper2d(I, 0, 0, PW, { canvas: sheet.canvas }); goldStar(170, -230, 80, id === 'match2' ? pop(t, T.perfect + 0.05) : 0); ctx.restore();
-      const u = u01(t, T.next, T.page), mx = id === 'match1' ? lerp(-180, 60, u) : 60, my = id === 'match1' ? lerp(300, 420, u) : 420;
-      magnifier(mx, my, 135, 0.7, () => { ctx.save(); ctx.translate(mx, my); ctx.scale(1.9, 1.9); ctx.translate(-mx, -my); ctx.translate(PX, PY); ctx.rotate(-0.04); ctx.drawImage(sheet.canvas, -PW / 2, -PH / 2, PW, PH); ctx.restore(); });
+      const u = u01(t, T.next, T.page), mx = id === 'match1' ? lerp(-150, -90, u) : -90, my = id === 'match1' ? lerp(320, 440, u) : 440;
+      magnifier(mx, my, 135, 0.7, () => { ctx.save(); ctx.scale(1.9, 1.9); ctx.translate(-mx, -my); ctx.translate(PX, PY); ctx.rotate(-0.04); ctx.drawImage(sheet.canvas, -PW / 2, -PH / 2, PW, PH); ctx.restore(); });
     }
     if (id === 'pay1' || id === 'pay2' || id === 'pay3') {
       classroom(t, { h: 9, m: 30 });
