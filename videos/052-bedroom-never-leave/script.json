@@ -223,7 +223,8 @@
           "at": "perfect",
           "text": "PERFECT MATCH",
           "style": "stamp",
-          "hold": 1.1
+          "hold": 1.1,
+          "y": 0.2
         }
       ]
     },

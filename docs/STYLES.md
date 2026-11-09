@@ -72,6 +72,12 @@ the proof reel instead: `--from 052-bedroom-never-leave` (copies script.json + m
   (052's chute pan tracks the bag's x at z ≈ 2.9) or the hall disappears behind its wall.
 - Screen inserts: a 0.32 m laptop screen needs the lens ~0.8 m out at fov 40 (0.6 m cropped the left of the email).
 - A gag the wide can't show gets its own angle: "touch grass" only read from OUTSIDE the window (hand on the window box).
+- Long hair = an OPEN shell around the sides + back only: CylinderGeometry's theta 0 is +z (the face), so the opening goes at theta 0
+  (052 v1 put it at +x and the teacher read as wearing a balaclava, manager review). The template lineup (t 206/207) checks it front +
+  three-quarter; check every new hair style there before a reel.
+- A seated close-up has three bands to clear: the DAY counter (10–15 %), a stamp (29 %, or its own `y`) and the caption (52 %). Aim so
+  the face sits at 31–38 % (052 teacher: look y ≈ face − 0.2 m at 1.4 m, fov 44) and lift the stamp to `y: 0.2` if she looks up.
+- Lineup frames render in one page after story frames: reset state each frame (`legsShow`, visibility) or a leg hidden at t = 1 stays hidden at t = 200.
 - Arms crossed with rig.js presets: `A(-0.42, 0.1, -1.7, 1.3)` + `A(-0.55, 0.1, -1.6, -1.3)` (the hand-on-chest pair read as prayer hands).
 **Render time:** ~0.10 s per frame at 1080×1920, 30 fps, motionBlur 1 (≈ 3 s per second of video; 052's 52.9 s ≈ 2.7 min on an M5 Pro).
 

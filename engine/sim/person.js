@@ -129,9 +129,10 @@ function makeSimHead(o) {
       for (const s of [-1, 1]) { const sb = mesh(new THREE.BoxGeometry(0.008, 0.03, 0.022), mHair, hair, s * 0.074, 0.008, 0.02); sb.rotation.y = s * 0.2; }
     }
     if (st === 'bun') { mesh(new THREE.SphereGeometry(0.042, 18, 12), mHair, hair, 0, 0.07, -0.1); const b = mesh(new THREE.SphereGeometry(0.07, 20, 12), mHair, hair, 0, 0.0, -0.04); b.scale.set(1.12, 1.05, 1.0); }
-    if (st === 'long') {   // a fall of hair behind the shoulders
-      const back = mesh(new THREE.CylinderGeometry(0.085, 0.1, 0.24, 20, 1, true, PI * 0.62, PI * 1.76), mHair, hair, 0, -0.07, -0.012); back.scale.set(1, 1, 0.9);
-      for (const s of [-1, 1]) { const side = mesh(new THREE.SphereGeometry(0.05, 14, 10), mHair, hair, s * 0.068, -0.02, 0.005); side.scale.set(0.45, 1.5, 0.95); }
+    if (st === 'long') {   // a fall of hair behind the shoulders: an open shell around the sides + back ONLY (CylinderGeometry theta 0 = +z = the face;
+      // 052 v1 had the opening at +x, so the shell wrapped the cheeks + chin like a balaclava). Opening ±68° around the face, edges behind the cheeks.
+      const back = mesh(new THREE.CylinderGeometry(0.088, 0.105, 0.26, 24, 1, true, PI * 0.38, PI * 1.24), mHair, hair, 0, -0.075, -0.015); back.scale.set(1, 1, 0.92);
+      for (const s of [-1, 1]) { const lock = mesh(new THREE.SphereGeometry(0.045, 14, 10), mHair, hair, s * 0.076, -0.06, -0.035); lock.scale.set(0.35, 1.6, 0.7); }   // locks behind the ears, never in front of the jaw
     }
   }
   if (o.beard) { const bd = mesh(skullGeo(32, PI * 0.42, 0.04, PI * 0.58, PI / 2 - 1.35, 2.7), sk(o.beard, { rough: 0.92 }), g); bd.position.z = 0.002; }
