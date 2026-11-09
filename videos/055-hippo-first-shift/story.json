@@ -1,0 +1,337 @@
+{
+ "tone": "promo",
+ "fps": 30,
+ "duration": 60.0,
+ "look": {
+  "exposure": 1.05,
+  "bloom": 0.18,
+  "fill": 0.55,
+  "vignette": 0.22,
+  "grain": 0.02,
+  "warm": 0.6,
+  "saturation": 1.08
+ },
+ "sim": {
+  "kicker": "SIMULATION · FIRST SHIFT",
+  "title": {
+   "html": "<em>What if</em> a hippo worked at a burger joint?",
+   "in": 0.15,
+   "dock": 2.3,
+   "out": 55.8
+  },
+  "hudIn": 2.75,
+  "hudOut": 55.8,
+  "hud": [
+   {
+    "t0": 0.0,
+    "t1": 4.6,
+    "label": "HIPPO WEIGHT",
+    "from": 0,
+    "to": 1500,
+    "unit": " kg",
+    "fmt": "int",
+    "sub": "AVERAGE COWORKER: 80 KG",
+    "color": "gold",
+    "r0": 2.9,
+    "r1": 4.2
+   },
+   {
+    "t0": 4.6,
+    "t1": 8.0,
+    "label": "FLOOR LOAD",
+    "from": 0,
+    "to": 1500,
+    "unit": " kg",
+    "fmt": "int",
+    "sub": "TILES RATED: 400 KG",
+    "color": "red",
+    "r0": 4.95,
+    "r1": 7.35
+   },
+   {
+    "t0": 8.0,
+    "t1": 11.4,
+    "label": "UNIFORM FIT",
+    "from": 65,
+    "to": 4,
+    "unit": " %",
+    "fmt": "int",
+    "sub": "XXXL ORDERED",
+    "color": "gold",
+    "r0": 8.35,
+    "r1": 10.75
+   },
+   {
+    "t0": 11.4,
+    "t1": 14.8,
+    "label": "JAW GAPE",
+    "from": 0,
+    "to": 150,
+    "unit": "°",
+    "fmt": "int",
+    "sub": "HUMAN JAW: 40°",
+    "color": "red",
+    "r0": 12.4,
+    "r1": 13.25
+   },
+   {
+    "t0": 14.8,
+    "t1": 18.2,
+    "label": "WATER",
+    "from": 0,
+    "to": 900,
+    "unit": " L",
+    "fmt": "int",
+    "sub": "KITCHEN NOW A POND",
+    "color": "blue",
+    "r0": 15.4,
+    "r1": 18.0,
+    "ease": "linear"
+   },
+   {
+    "t0": 18.2,
+    "t1": 21.6,
+    "label": "SPEED",
+    "from": 0,
+    "to": 30,
+    "unit": " km/h",
+    "fmt": "int",
+    "sub": "HUMAN JOG: 10 KM/H",
+    "color": "gold",
+    "r0": 18.55,
+    "r1": 20.95
+   },
+   {
+    "t0": 21.6,
+    "t1": 25.0,
+    "label": "SALAD EATEN",
+    "from": 0,
+    "to": 40,
+    "unit": " kg",
+    "fmt": "int",
+    "sub": "A HIPPO'S NIGHTLY GRAZE",
+    "color": "green",
+    "r0": 21.9,
+    "r1": 24.4,
+    "ease": "linear"
+   },
+   {
+    "t0": 25.0,
+    "t1": 28.4,
+    "label": "DAMAGE",
+    "from": 0,
+    "to": 48000,
+    "unit": "",
+    "fmt": "money",
+    "sub": "DAY ONE",
+    "color": "red",
+    "r0": 25.35,
+    "r1": 27.75
+   },
+   {
+    "t0": 28.4,
+    "t1": 31.4,
+    "label": "MATH PROBLEMS",
+    "from": 20,
+    "to": 20,
+    "unit": "",
+    "fmt": "int",
+    "sub": "DUE 8 AM · HANDWRITTEN",
+    "color": "red",
+    "r0": 28.75,
+    "r1": 31.0
+   },
+   {
+    "t0": 31.4,
+    "t1": 33.8,
+    "label": "PENCILS SNAPPED",
+    "from": 0,
+    "to": 12,
+    "unit": "",
+    "fmt": "int",
+    "sub": "BITE FORCE: 1,800 PSI",
+    "color": "red",
+    "r0": 31.9,
+    "r1": 33.5
+   },
+   {
+    "t0": 33.8,
+    "t1": 37.4,
+    "label": "PROBLEMS SOLVED",
+    "from": 0,
+    "to": 20,
+    "unit": "",
+    "fmt": "int",
+    "sub": "EVERY STEP SHOWN",
+    "color": "green",
+    "r0": 35.65,
+    "r1": 36.85,
+    "ease": "linear"
+   },
+   {
+    "t0": 37.4,
+    "t1": 41.2,
+    "label": "LINES WRITTEN",
+    "from": 0,
+    "to": 20,
+    "unit": "",
+    "fmt": "int",
+    "sub": "IN HIS OWN HANDWRITING",
+    "color": "green",
+    "r0": 37.6,
+    "r1": 40.5,
+    "ease": "linear"
+   },
+   {
+    "t0": 41.2,
+    "t1": 44.8,
+    "label": "SCORE",
+    "from": 0,
+    "to": 100,
+    "unit": " %",
+    "fmt": "int",
+    "sub": "MANAGER BY 8:05 AM",
+    "color": "gold",
+    "r0": 41.6,
+    "r1": 42.25
+   },
+   {
+    "t0": 44.8,
+    "t1": 48.4,
+    "label": "POND",
+    "from": 0,
+    "to": 12,
+    "unit": " m",
+    "fmt": "int",
+    "sub": "BREAK ROOM UPGRADED",
+    "color": "blue",
+    "r0": 44.95,
+    "r1": 46.55,
+    "ease": "linear"
+   },
+   {
+    "t0": 48.4,
+    "t1": 52.0,
+    "label": "ORDERS",
+    "from": 0,
+    "to": 2400,
+    "unit": "",
+    "fmt": "int",
+    "sub": "A NEW RECORD",
+    "color": "gold",
+    "r0": 48.75,
+    "r1": 51.15
+   },
+   {
+    "t0": 52.0,
+    "t1": 55.8,
+    "label": "SPLASH",
+    "from": 0,
+    "to": 4,
+    "unit": " m",
+    "fmt": "int",
+    "sub": "CARS NOW BOATS",
+    "color": "blue",
+    "r0": 53.35,
+    "r1": 53.9
+   }
+  ],
+  "subs": [
+   [
+    2.85,
+    4.5,
+    "First day on the job."
+   ],
+   [
+    4.75,
+    7.9,
+    "The floor was not ready."
+   ],
+   [
+    8.15,
+    11.3,
+    "One size fits... nobody."
+   ],
+   [
+    11.55,
+    14.7,
+    "Can I take your order?"
+   ],
+   [
+    14.95,
+    18.1,
+    "Hippos must stay wet."
+   ],
+   [
+    18.35,
+    21.5,
+    "Fastest employee. Technically."
+   ],
+   [
+    21.75,
+    24.9,
+    "Salad bar: closed."
+   ],
+   [
+    25.15,
+    28.3,
+    "The manager has questions."
+   ],
+   [
+    28.55,
+    31.3,
+    "Last chance: night-class math. Handwritten."
+   ],
+   [
+    31.55,
+    33.7,
+    "Every pencil: snapped."
+   ],
+   [
+    33.95,
+    37.3,
+    "One photo. Scribe solved all 20."
+   ],
+   [
+    37.55,
+    41.1,
+    "Written in HIS handwriting. Stroke by stroke."
+   ],
+   [
+    41.35,
+    44.7,
+    "20 out of 20. Promoted."
+   ],
+   [
+    44.95,
+    48.3,
+    "New boss, new rules."
+   ],
+   [
+    48.55,
+    51.9,
+    "Busiest drive-thru in town."
+   ],
+   [
+    52.15,
+    55.7,
+    "Displacement: 1.5 tonnes."
+   ]
+  ],
+  "end": {
+   "t": 55.849999999999994,
+   "icon": "/videos/049-scribe-promo/scribe-icon.png",
+   "tag": "Your homework, in your handwriting.",
+   "url": "tryscribe.ink",
+   "offer": "10 free assignments ✦"
+  }
+ },
+ "debugView": {
+  "center": [
+   0,
+   0,
+   2
+  ],
+  "height": 16
+ }
+}

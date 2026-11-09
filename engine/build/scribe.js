@@ -119,17 +119,17 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
 }
 
 /** Scribe on a laptop (1280 × 800): modes home | scan | solve | write | done; k = progress 0..1 inside a mode. */
-export function makeScreen(G, icon, sheet, { w = 1280, h = 800 } = {}) {
+export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n: N = 40, name = 'Tyler' } = {}) {   // 055: n problems + the student's name (defaults = 049)
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const g = canvas.getContext('2d'), tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const RED = '#9a1c25', CREAM = '#f3f1eb';
   const busy = layoutHand(G, 'busy', { x: 0, y: 0, u: 52, seed: 5 });
-  const sig = layoutHand(G, 'Tyler', { x: 0, y: 0, u: 30, seed: 7 });
+  const sig = layoutHand(G, name, { x: 0, y: 0, u: 30, seed: 7 });
   const hand = (list, ox, oy, s = 1) => { for (const it of list) g.drawImage(it.c, ox + it.x * s, oy + it.y * s, it.w * s, it.h * s); };
   const bar = () => {
     g.fillStyle = '#fbfaf6'; g.fillRect(0, 0, w, 78); g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(0, 78, w, 2);
     g.drawImage(icon, 30, 15, 48, 48); g.fillStyle = '#1d1d1d'; g.font = '34px Georgia, serif'; g.fillText('Scribe', 88, 52);
-    g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText('T', w - 50, 47); g.textAlign = 'left';
+    g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText(name[0], w - 50, 47); g.textAlign = 'left';
   };
   const button = (x, y, bw, bh, text) => { g.fillStyle = RED; g.beginPath(); g.roundRect(x, y, bw, bh, 16); g.fill(); g.fillStyle = '#fff'; g.font = '600 30px Inter, Arial'; g.textAlign = 'center'; g.fillText(text, x + bw / 2, y + bh / 2 + 11); g.textAlign = 'left'; };
   let lastKey = '';
@@ -151,9 +151,9 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800 } = {}) {
       if (mode === 'scan') { const sy = 556 * k; g.fillStyle = 'rgba(154,28,37,.18)'; g.fillRect(0, 0, 430, sy); g.fillStyle = RED; g.fillRect(-8, sy - 3, 446, 6); }
       g.restore();
       g.fillStyle = '#1d1d1d'; g.font = '44px Georgia, serif';
-      const n = mode === 'solve' ? Math.round(40 * k) : 0;
-      g.fillText(mode === 'scan' ? 'Reading 40 problems…' : n >= 40 ? 'All 40 solved.' : `Solving… ${n}/40`, 680, 190);
-      for (let i = 0; i < 40; i++) {
+      const n = mode === 'solve' ? Math.round(N * k) : 0;
+      g.fillText(mode === 'scan' ? `Reading ${N} problems…` : n >= N ? `All ${N} solved.` : `Solving… ${n}/${N}`, 680, 190);
+      for (let i = 0; i < N; i++) {
         const cx = 680 + (i % 8) * 64, cy = 240 + Math.floor(i / 8) * 64, done = i < n;
         g.fillStyle = done ? '#2f9e5b' : '#e3ddd0'; g.beginPath(); g.roundRect(cx, cy, 54, 54, 10); g.fill();
         g.fillStyle = done ? '#fff' : '#8a8578'; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText(done ? '✓' : String(i + 1), cx + 27, cy + 35); g.textAlign = 'left';
@@ -161,7 +161,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800 } = {}) {
       g.fillStyle = '#e3ddd0'; g.beginPath(); g.roundRect(680, 590, 500, 18, 9); g.fill(); g.fillStyle = RED; g.beginPath(); g.roundRect(680, 590, 500 * (mode === 'scan' ? k * 0.15 : 0.15 + 0.85 * k), 18, 9); g.fill();
     } else if (mode === 'write' || mode === 'done') {
       g.drawImage(sheet.canvas, 150, 110, 500, 647); g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 2; g.strokeRect(150, 110, 500, 647);
-      g.fillStyle = '#1d1d1d'; g.font = '46px Georgia, serif'; g.fillText(mode === 'done' ? 'Done. 40/40.' : 'Writing it in', 720, 200);
+      g.fillStyle = '#1d1d1d'; g.font = '46px Georgia, serif'; g.fillText(mode === 'done' ? `Done. ${N}/${N}.` : 'Writing it in', 720, 200);
       if (mode !== 'done') g.fillText('your handwriting…', 720, 258);
       g.fillStyle = '#6b665c'; g.font = '500 24px Inter, Arial';
       g.fillText('Handwriting', 720, 330); hand(sig, 900, 330, 1);
