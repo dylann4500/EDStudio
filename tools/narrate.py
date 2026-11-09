@@ -429,6 +429,8 @@ def layout(slug, cfg, wj):
             if d:  # 'p': the word ends a clause ("it," "Gary.") — captions never join across it ("It Gary" in v2)
                 words.append({'w': d, 't0': w['t0'], 't1': w['t1'], 'p': bool(re.search(r'[.,!?:;]["\')]*$', w['w'].strip()))})
         sb = next(b for b in cfg['beats'] if b['id'] == wb['id'])
+        if 'sub' in sb:   # 056: the beat's on-screen subtitle line (numerals: "Day 3: nobody notices.") for the pov text layer
+            beats[wb['id']]['sub'] = sb['sub']
         for c in sb.get('callouts', []):
             hits = [k for k, w in enumerate(wb['words']) if norm(w['w']) == norm(c['at'])]
             nth = c.get('nth', 1)
@@ -471,7 +473,8 @@ def layout(slug, cfg, wj):
         nxt = words[k + 1]['t0'] if k + 1 < len(words) else dur
         w['t1'] = round(min(nxt, w['t1'] + 0.35) if nxt - w['t1'] > 0.12 else nxt, 3)
     short = [w['w'] for w in words if w['t1'] - w['t0'] < 0.1]
-    story = {'tone': 'build', 'mode': 'build', 'title': cfg.get('title', ''), 'fps': cfg.get('fps', 60), 'motionBlur': cfg.get('motionBlur', 2), 'duration': round(dur, 2),
+    story = {'tone': 'build', 'mode': cfg.get('mode', 'build'),   # 056: 'pov' = the @whatifpov text layer (engine/build/pov.js), driven by shots.js
+              'title': cfg.get('title', ''), 'fps': cfg.get('fps', 60), 'motionBlur': cfg.get('motionBlur', 2), 'duration': round(dur, 2),
              'look': cfg.get('look', {}), 'voice': {'provider': wj['provider'], 'file': 'voice.wav'},
              'beats': beats, 'order': order, 'words': words, 'callouts': callouts}
     if cfg.get('debugView'):

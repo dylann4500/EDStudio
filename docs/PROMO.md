@@ -55,3 +55,23 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - Toon add-ons on the torso: `toon.armL.g.parent` is the torso group (the body's child order is not stable).
 - Cuts are cheap in a promo: one framing per beat as its own shot (with a 2-key slow push) beat chaining framings across a room —
   planRail turned far-apart framings into passes and the "HANDWRITTEN" close-up became a pan across the bookshelves.
+
+## 056: Scribe dupe of @whatifpov's "What if you didn't shower for 365 days?" (45 s, toon look + the reference's text layer)
+- Copy the format, not the skin: cold open on the gross end state (the train car emptied around you, HUD hidden under the title) →
+  0.8 s VHS rewind (⏪, Day 183 → 1, near-silence + tape hiss) → "Homework's due at eight. Skip the shower. Just this once." → one
+  escalation per shot with the reference's own fact lines (sebum, bacteria make the smell, nose-blind, dermatitis neglecta, body
+  lice), seasons as the time cue (street.js `setSeason`), the train car emptying → our plug: the reason is homework; Day 220 the
+  professor (clothespin on his nose) hands over 40 handwritten problems on a 10-ft pole → Scribe at 64 % → "Day 221: you finally
+  shower. It takes three hours." (the counter rewinds to Day 0) → the end card over the steamy bathroom.
+- **Eleven reads slower than the scratch estimate:** Adam v3 at tempo 1.12 put Scribe at 71 %. Tempo 1.3 + gap 0.32 tightened the
+  ladder for free (cached takes); a 2 s gap after the shower line + a longer tail moved the plug to 64 % without cutting a beat.
+- The centered title hid the crowd packed at the vanishing point of the subway car: title block at 41 % + the camera pitched up
+  so the far end sits at ~58 %.
+- Steam = fx `smoke` in white, but ≥ 0.5 m puffs (grow 2) whited out a 2.6 m bathroom: 0.22–0.45 m, ~12/s, kept behind the subject.
+- Toon "hands behind the head" (049's lean-back arms) reads as hands in front of the chest from the side: arms spread along the
+  seat back (`{x: 0.35, z: 1.45, el: 0.25}`) says "the whole car is mine".
+- A toon face from 1.2 m fills a vertical frame edge to edge: face close-ups at 1.6–2.2 m, fov 34–40.
+- The top-left HUD covers a laptop screen's logo/nav when the screen sits high (049's screenCam): look at the screen centre, d 1.75.
+- `finally` is a Python keyword: a word-time dict in make_cues.py can't use it as a kwarg (rename it).
+- No music under the cold open: a soft pre-roll pad tripped synth.py's dropout check; letting the bed ENTER on Day 1 passes.
+- Deliverable for a trending sound: `out/nomusic.mp4` = `out/silent.mp4` + amix(voice, sfx, amb stems, `normalize=0`), AAC 192k.

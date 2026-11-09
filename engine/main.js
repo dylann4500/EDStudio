@@ -11,7 +11,10 @@ try {
   const story = await (await fetch(base + 'story.json')).json();
   const studio = createStudio(document.getElementById('gl'), story.look || {});
   // build genre (docs/BUILD.md): word-by-word center captions + callouts instead of title/HUD/subtitles
-  const overlay = story.mode === 'build' ? createBuildOverlay(story) : createOverlay(story);
+  // 056: mode 'pov' = shots.js draws its own text layer (engine/build/pov.js); the default title/HUD/subtitle elements stay hidden
+  const overlay = story.mode === 'build' ? createBuildOverlay(story)
+    : story.mode === 'pov' ? (['title', 'hud', 'sub', 'end'].forEach((id) => { const e = document.getElementById(id); if (e) e.style.display = 'none'; }), { update() {} })
+    : createOverlay(story);
   const mod = await import(base + 'shots.js');
   const video = await mod.build(studio, story);
 
