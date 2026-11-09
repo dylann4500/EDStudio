@@ -14,7 +14,7 @@
  "sim": {
   "kicker": "SIMULATION · FIRST SHIFT",
   "title": {
-   "html": "<em>What if</em> a hippo worked at a burger joint?",
+   "html": "<em>What if</em> a hippo got a job at a burger joint?",
    "in": 0.15,
    "dock": 2.3,
    "out": 55.8
@@ -30,7 +30,7 @@
     "to": 1500,
     "unit": " kg",
     "fmt": "int",
-    "sub": "AVERAGE COWORKER: 80 KG",
+    "sub": "≈ 19 COWORKERS",
     "color": "gold",
     "r0": 2.9,
     "r1": 4.2
@@ -43,7 +43,7 @@
     "to": 1500,
     "unit": " kg",
     "fmt": "int",
-    "sub": "TILES RATED: 400 KG",
+    "sub": "TILES: NOT RATED FOR THIS",
     "color": "red",
     "r0": 4.95,
     "r1": 7.35
@@ -56,7 +56,7 @@
     "to": 4,
     "unit": " %",
     "fmt": "int",
-    "sub": "XXXL ORDERED",
+    "sub": "LARGEST SIZE: XL",
     "color": "gold",
     "r0": 8.35,
     "r1": 10.75
@@ -69,7 +69,7 @@
     "to": 150,
     "unit": "°",
     "fmt": "int",
-    "sub": "HUMAN JAW: 40°",
+    "sub": "WIDEST OF ANY MAMMAL",
     "color": "red",
     "r0": 12.4,
     "r1": 13.25
@@ -82,7 +82,7 @@
     "to": 900,
     "unit": " L",
     "fmt": "int",
-    "sub": "KITCHEN NOW A POND",
+    "sub": "MOP: OVERWHELMED",
     "color": "blue",
     "r0": 15.4,
     "r1": 18.0,
@@ -106,10 +106,10 @@
     "t1": 25.0,
     "label": "SALAD EATEN",
     "from": 0,
-    "to": 40,
+    "to": 35,
     "unit": " kg",
     "fmt": "int",
-    "sub": "A HIPPO'S NIGHTLY GRAZE",
+    "sub": "≈ ONE NIGHT OF GRASS",
     "color": "green",
     "r0": 21.9,
     "r1": 24.4,
@@ -123,7 +123,7 @@
     "to": 48000,
     "unit": "",
     "fmt": "money",
-    "sub": "DAY ONE",
+    "sub": "FIRST 4 HOURS",
     "color": "red",
     "r0": 25.35,
     "r1": 27.75
@@ -203,7 +203,7 @@
     "to": 12,
     "unit": " m",
     "fmt": "int",
-    "sub": "BREAK ROOM UPGRADED",
+    "sub": "STAFF POOL: OPEN",
     "color": "blue",
     "r0": 44.95,
     "r1": 46.55,
@@ -217,7 +217,7 @@
     "to": 2400,
     "unit": "",
     "fmt": "int",
-    "sub": "A NEW RECORD",
+    "sub": "BEST DAY SINCE 1987",
     "color": "gold",
     "r0": 48.75,
     "r1": 51.15
@@ -230,7 +230,7 @@
     "to": 4,
     "unit": " m",
     "fmt": "int",
-    "sub": "CARS NOW BOATS",
+    "sub": "PARKING: AFLOAT",
     "color": "blue",
     "r0": 53.35,
     "r1": 53.9
@@ -240,42 +240,42 @@
    [
     2.85,
     4.5,
-    "First day on the job."
+    "Otis starts today."
    ],
    [
     4.75,
     7.9,
-    "The floor was not ready."
+    "The tiles had other plans."
    ],
    [
     8.15,
     11.3,
-    "One size fits... nobody."
+    "Uniform size: optimistic."
    ],
    [
     11.55,
     14.7,
-    "Can I take your order?"
+    "Customer service: intense."
    ],
    [
     14.95,
     18.1,
-    "Hippos must stay wet."
+    "Hydration break. Mandatory."
    ],
    [
     18.35,
     21.5,
-    "Fastest employee. Technically."
+    "Order up. In two seconds."
    ],
    [
     21.75,
     24.9,
-    "Salad bar: closed."
+    "He ate the whole salad bar."
    ],
    [
     25.15,
     28.3,
-    "The manager has questions."
+    "Denise wants a word."
    ],
    [
     28.55,
@@ -305,17 +305,17 @@
    [
     44.95,
     48.3,
-    "New boss, new rules."
+    "Manager's first rule: a pond."
    ],
    [
     48.55,
     51.9,
-    "Busiest drive-thru in town."
+    "The line goes around the block."
    ],
    [
     52.15,
     55.7,
-    "Displacement: 1.5 tonnes."
+    "1,500 kilos. One cannonball."
    ]
   ],
   "end": {

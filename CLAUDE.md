@@ -516,6 +516,22 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **Hippo + burger joint + sim text layout (055, Scribe dupe of @okwhatifcrazy's hippo reel):** `engine/hippo.js` `makeHippo({name})`
+  → `{g, headG, jawL, legs, cap, badge.set(text, gold), anchors.{mouth, nose, head, back, jaw}, update(t, s)}` with `s = {walk|run +
+  dist, open 0..1 (1 = a real 150° gape: 35 % head up + 65 % jaw down), chew, pitch/yaw/roll, eyes 'open'|'closed'|'happy'|'wide'|'sad',
+  lids, lookX/Y, ears 0..1 (pinned back), squeeze 0..1 (cartoon squash through a door), lean (+ nose down; −0.3 + `y` 0.27 = rearing
+  at a counter so the yawn clears it), sink (m, into water), wet 0..1, wag}`; 4 m long, 1.6 m wide, 1.7 m to the ears; set
+  `g.rotation.order = 'YXZ'` to roll him (belly flop). `engine/sets/burger.js` `buildBurger(studio)` = CHOMPY'S inside and out
+  (dining room with booths + 4-tops `tables[i] = {g, chairs, cond}`, counter + registers + menu boards, kitchen, FIZZ fountain
+  `nozzles`, salad bar `setEaten(0..1)`, `doorFrame` that can pop off, `setFlood`, `setMess`, `setNight` (chairs up), outside: facade +
+  NOW HIRING, lot, cars, drive-thru lane + `menuBoard`, a pond that digs itself `setPond(dig, fill)` + `setLaneFlood`, `hippoLane`
+  sign; far ≥ 320). `engine/simhud.js` `makeSimHud(story.sim)` = the "What if" sim layout (question alone in the middle, then it
+  glides up once and stays as the header; a left HUD per beat with a coloured bar, label, big number + unit, coloured sub-label; bold
+  white subtitles in the lower third; the Scribe end card) — hide the core `title/hud/sub/end` elements when you use it. `makeScreen`
+  (scribe.js) takes `{n, name}` (problem count + the student's name; defaults = 049).
+- **A scripted replace that appends `// comment` after the code it matched still comments out the REST of that line (055, twice):**
+  `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
+  very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every

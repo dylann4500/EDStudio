@@ -296,7 +296,7 @@ export function buildBurger(studio, opts = {}) {
   // booths along the left windows, 4-top tables with chairs, ketchup/mustard on every table
   const mSeat = mat(0xc93a2c, 0.5), mTable = mat(0xf2e6cf, 0.35);
   const tables = [], chairs = [], booths = [];
-  const condiments = (p, x, z) => { cyl(0.03, 0.03, 0.16, mat(0xd8392b, 0.4), x - 0.05, D.tableTop + 0.08, z, p, 10); cyl(0.03, 0.03, 0.16, mat(0xf4c430, 0.4), x + 0.05, D.tableTop + 0.08, z, p, 10); rbox(0.1, 0.11, 0.06, 0.01, mSteel, x, D.tableTop + 0.055, z + 0.1, p); };
+  const condiments = (p0, x, z) => { const p = new THREE.Group(); p0.add(p); cyl(0.03, 0.03, 0.16, mat(0xd8392b, 0.4), x - 0.05, D.tableTop + 0.08, z, p, 10); cyl(0.03, 0.03, 0.16, mat(0xf4c430, 0.4), x + 0.05, D.tableTop + 0.08, z, p, 10); rbox(0.1, 0.11, 0.06, 0.01, mSteel, x, D.tableTop + 0.055, z + 0.1, p); return p; };
   for (const z of [1.9, 3.6, 5.2]) {
     const g = new THREE.Group(); g.position.set(-6.15, 0, z); b.add(g); booths.push(g);
     box(1.3, 0.05, 0.75, mTable, 0.0, D.tableTop, 0, g); cyl(0.05, 0.05, D.tableTop, mSteel, 0, D.tableTop / 2, 0, g, 10);
@@ -312,8 +312,8 @@ export function buildBurger(studio, opts = {}) {
   for (const [x, z] of [[-3.7, 2.5], [-3.7, 4.7], [-1.9, 4.7]]) {
     const g = new THREE.Group(); g.position.set(x, 0, z); b.add(g);
     box(0.95, 0.05, 0.95, mTable, 0, D.tableTop, 0, g); cyl(0.05, 0.05, D.tableTop, mSteel, 0, D.tableTop / 2, 0, g, 10); cyl(0.3, 0.32, 0.03, mSteel, 0, 0.015, 0, g, 16);
-    condiments(g, 0, 0);
-    const T2 = { g, x, z, top: D.tableTop, chairs: [] }; tables.push(T2);
+    const cond = condiments(g, 0, 0);
+    const T2 = { g, x, z, top: D.tableTop, chairs: [], cond }; tables.push(T2);
     for (const [dx, dz, ry] of [[0, 0.68, Math.PI], [0, -0.68, 0], [0.68, 0, -Math.PI / 2], [-0.68, 0, Math.PI / 2]]) { const c = chair(x + dx, z + dz, ry); c.table = T2; T2.chairs.push(c); }
   }
   // chairs flipped up on the tables (night): built once, shown by setNight

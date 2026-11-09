@@ -1,32 +1,32 @@
-// VIDEO 055 — "What if a hippo worked at a burger joint?"  (Scribe promo, toy3d style; a dupe of @okwhatifcrazy's
+// VIDEO 055 — "What if a hippo got a job at a burger joint?"  (Scribe promo, toy3d style; a dupe of @okwhatifcrazy's
 // "Hugo's first shift did not go well 🦛🍔", TikTok 1.1M views, docs/reference/okwhatifcrazy.md)
 // Same premise, beat order and rhythm as the original: a hippo's first shift at a burger joint, one gag per beat with a HUD
 // stat (label + number + sub-label) and a deadpan subtitle; the wreck → the manager → a new rule → the drive-thru pond → the
-// displacement flood. Ours: OTIS the hippo at CHOMPY'S, Denise the manager, our art + lines. The Scribe plug sits where the
+// displacement flood. Ours: OTIS the hippo at CHOMPY'S, Denise the manager, our art, title, subtitles and HUD sub-labels. The Scribe plug sits where the
 // original turns ("the manager has questions" → "new hire, new rules"): one last chance = a HANDWRITTEN night-class math
 // worksheet by 8 AM; every pencil snaps in his jaws; one photo → Scribe solves all 20 → written in HIS handwriting, stroke by
 // stroke → 20/20, promoted → the pond drive-thru. Scribe on screen at 33.8 s (56 %).
 // No narrator (the original has none — TikTok reports no speech): subtitles + HUD + foley + a soft bed.
 //
 // Facts in the HUD (checked Nov 8 2026):
-//   adult common hippos weigh ~1,300–3,200 kg (San Diego Zoo Wildlife Alliance, "Hippopotamus" fact sheet) → 1,500 kg
-//   jaws open to ~150° (widely cited: e.g. National Geographic / ZSL) vs a human's ~40°
-//   hippos run up to ~30 km/h (19 mph) on land (San Diego Zoo; National Geographic)
-//   they graze ~35–40 kg of grass a night (San Diego Zoo: "about 80 pounds")
-//   bite force ~1,800 psi (National Geographic, Brady Barr's measurement)
+//   adult common hippos weigh ~1,000–1,500 kg+ (encyclopedias; National Geographic: males far heavier) → 1,500 kg
+//   jaws open to 150° — Guinness World Records, "Widest gape for a mammal" (common hippo, 150°); a human's ~40°
+//   top speed ~30 km/h (19 mph) over short distances (National Geographic)
+//   ~35 kg (80 lb) of grass a night (National Geographic) → SALAD EATEN 35 kg
+//   bite force ~1,800 psi, measured on females (Popular Science, "10 most powerful animal bites on the planet")
 //   Gag numbers (tiles rated 400 kg, $48,000, 2,400 orders, splash 4 m) are the original's kind of joke stats, not claims.
 // Product claims (docs/lanes/scribe.md, the Scribe README): a photo of the homework → every problem solved with worked steps →
 //   written in the student's own handwriting, stroke by stroke. "10 free assignments" (the site's offer) only on the end card.
 //
 // Shot list (seconds)               | where            | what happens
-//  0.0– 4.6 arrive   First day       | outside          | Otis trots across the lot under NOW HIRING, jams in the door, pops through (frame falls)
-//  4.6– 8.0 floor    The floor…      | dining room      | ant's-eye: every step cracks the tiles; he stops, looks down, sinks a little
-//  8.0–11.4 uniform  One size…       | dining room      | Denise stretches a polo over his snout — it rips; a tiny cap lands on his head
-// 11.4–14.8 order    Can I take…     | counter          | side view: a customer orders, Otis yawns a 150° yawn, the man's hair blows back
-// 14.8–18.2 soda     Stay wet        | FIZZ fountain    | he jams every lever with his face: six jets, the floor floods
-// 18.2–21.6 charge   Fastest…        | dining room      | he charges with a tray on his back, plows through a table; the burger lands on a plate
-// 21.6–25.0 salad    Salad bar…      | salad bar        | he inhales the whole bar; a customer with an empty plate
-// 25.0–28.4 damage   The manager…    | wrecked room     | Denise with a clipboard, Otis's guilty face (mess, puddles, tipped chairs)
+//  0.0– 4.6 arrive   Otis starts     | outside          | Otis trots across the lot under NOW HIRING, jams in the door, pops through (frame falls)
+//  4.6– 8.0 floor    The tiles…      | dining room      | ant's-eye: every step cracks the tiles; he stops, looks down, sinks a little
+//  8.0–11.4 uniform  Uniform size…  | dining room      | Denise stretches a polo over his snout — it rips; a tiny cap lands on his head
+// 11.4–14.8 order    Customer svc…   | counter          | side view: a customer orders, Otis yawns a 150° yawn, the man's hair blows back
+// 14.8–18.2 soda     Hydration…      | FIZZ fountain    | he jams every lever with his face: six jets, the floor floods
+// 18.2–21.6 charge   Order up…       | dining room      | he charges with a tray on his back, plows through a table; the burger lands on a plate
+// 21.6–25.0 salad    Whole salad bar | salad bar        | he inhales the whole bar; a customer with an empty plate
+// 25.0–28.4 damage   Denise…         | wrecked room     | Denise with a clipboard, Otis's guilty face (mess, puddles, tipped chairs)
 // 28.4–29.9 sheet    Last chance…    | counter          | she slaps down the worksheet: HANDWRITTEN WORK ONLY, due 8 AM
 // 29.9–31.4 gulp                     | counter          | Otis gulps
 // 31.4–33.8 pencil   Every pencil…   | night, table     | chairs up, a desk lamp: pencil after pencil snaps in his jaws
@@ -35,9 +35,9 @@
 // 37.4–39.8 write    His handwriting | the worksheet    | the answers write themselves, glyph by glyph, a red pen nib on the tip
 // 39.8–41.2 watch                    | night            | Otis watching, eyes go happy
 // 41.2–44.8 promo    20/20 Promoted  | morning          | Denise holds up the sheet: A+; a gold MANAGER cap, confetti, applause
-// 44.8–48.4 dig      New boss…       | outside          | time-lapse: the crew digs a pond by the drive-thru, it fills, HIPPO LANE
-// 48.4–52.0 lane     Busiest…        | the pond         | Otis in the pond hands bags into car windows; the queue rolls
-// 52.0–60.0 flop     Displacement…   | the pond         | a happy belly flop: a splash, the lane floods, cars float. End card 55.85
+// 44.8–48.4 dig      First rule: pond| outside          | time-lapse: the crew digs a pond by the drive-thru, it fills, HIPPO LANE
+// 48.4–52.0 lane     Around the block| the pond         | Otis in the pond hands bags into car windows; the queue rolls
+// 52.0–60.0 flop     One cannonball  | the pond         | a happy belly flop: a splash, the lane floods, cars float. End card 55.85
 import * as THREE from 'three';
 import { K, clamp, lerp, rng, mat, mk, canvasTex, easeIO, smooth, walkLegs, faceToward } from '@engine/core.js';
 import { makePerson, basePose, applyPose, blink, makeHead } from '@engine/rig.js';
@@ -82,23 +82,23 @@ export const EV = {
 // cameras: keys = [[t, pos, aim], …] (world coords; eased between keys); fov
 export const CAMS = {
   arrive:  { keys: [[0, [0.4, 1.2, 18.6], [-0.7, 1.9, 8.0]], [2.6, [0.3, 1.2, 17.2], [-0.3, 1.8, 7.6]], [4.6, [0.25, 1.25, 16.4], [-0.1, 1.7, 7.0]]], fov: 52 },
-  floor:   { keys: [[4.6, [0.9, 0.5, 1.3], [0.35, 0.92, 4.3]], [8.0, [0.85, 0.45, 1.4], [0.3, 0.82, 4.3]]], fov: 64 },
+  floor:   { keys: [[4.6, [0.95, 0.5, 1.25], [0.35, 0.92, 4.3]], [8.0, [0.85, 0.46, 1.55], [0.3, 0.84, 4.4]]], fov: 64 },
   uniform: { keys: [[8.0, [2.9, 1.5, 4.6], [-0.1, 1.3, 2.65]], [11.4, [2.7, 1.48, 4.4], [-0.1, 1.3, 2.65]]], fov: 52 },
-  order:   { keys: [[11.4, [3.3, 1.55, 3.6], [1.35, 1.42, 0.65]], [14.8, [3.15, 1.5, 3.35], [1.35, 1.45, 0.65]]], fov: 54 },
+  order:   { keys: [[11.4, [3.3, 1.55, 3.6], [1.6, 1.48, 0.35]], [14.8, [3.15, 1.5, 3.35], [1.6, 1.5, 0.35]]], fov: 54 },
   soda:    { keys: [[14.8, [4.9, 1.55, 4.9], [5.8, 1.2, 1.9]], [18.2, [4.95, 1.5, 4.6], [5.8, 1.18, 1.9]]], fov: 54 },
-  charge:  { keys: [[18.2, [-5.4, 1.65, 2.2], [1.5, 1.0, 2.4]], [21.6, [-5.4, 1.7, 2.3], [-1.4, 0.9, 3.0]]], fov: 56 },
+  charge:  { keys: [[18.2, [-5.4, 1.65, 2.2], [1.5, 1.0, 2.4]], [21.6, [-5.4, 1.7, 2.3], [-1.8, 0.95, 2.5]]], fov: 56 },
   salad:   { keys: [[21.6, [0.3, 1.6, 5.5], [3.4, 1.05, 4.0]], [25.0, [0.5, 1.55, 5.4], [3.7, 1.05, 4.0]]], fov: 54 },
   damage:  { keys: [[25.0, [3.3, 1.55, 4.9], [-0.6, 1.2, 2.6]], [28.4, [2.6, 1.48, 4.3], [-0.4, 1.25, 2.65]]], fov: 54 },
   sheet:   { keys: [[28.4, [-0.5, 1.75, 1.2], [-0.5, 1.09, 0.48]], [29.9, [-0.5, 1.7, 1.12], [-0.5, 1.09, 0.5]]], fov: 46 },
-  gulp:    { keys: [[29.9, [-0.25, 1.48, -0.05], [-0.5, 1.15, 2.4]], [31.4, [-0.3, 1.46, 0.15], [-0.5, 1.15, 2.4]]], fov: 50 },
-  pencil:  { keys: [[31.4, [-3.3, 1.28, 4.0], [-3.72, 1.0, 2.5]], [33.8, [-3.35, 1.25, 3.85], [-3.72, 1.0, 2.5]]], fov: 48 },
-  photo:   { keys: [[33.8, [-3.5, 1.18, 3.55], [-3.7, 1.0, 2.6]], [35.0, [-3.52, 1.16, 3.45], [-3.7, 1.0, 2.6]]], fov: 44 },
+  gulp:    { keys: [[29.9, [0.25, 1.78, -1.0], [-0.5, 1.3, 2.3]], [31.4, [0.2, 1.74, -0.8], [-0.5, 1.3, 2.3]]], fov: 50 },
+  pencil:  { keys: [[31.4, [-3.25, 1.36, 4.35], [-3.72, 1.0, 2.5]], [33.8, [-3.3, 1.33, 4.2], [-3.72, 1.0, 2.5]]], fov: 48 },
+  photo:   { keys: [[33.8, [-3.55, 1.14, 3.55], [-3.7, 0.84, 2.75]], [35.0, [-3.57, 1.13, 3.45], [-3.7, 0.84, 2.75]]], fov: 44 },
   laptop:  { keys: [[35.0, [-3.4, 1.29, 1.86], [-3.4, 0.912, 2.955]], [37.4, [-3.4, 1.26, 1.94], [-3.4, 0.912, 2.955]]], fov: 36 },
   write:   { keys: [[37.4, [-3.62, 1.42, 1.9], [-3.62, 0.79, 2.42]], [39.8, [-3.62, 1.36, 1.98], [-3.62, 0.79, 2.42]]], fov: 42 },
   watch:   { keys: [[39.8, [-1.7, 1.2, 3.3], [-3.65, 1.0, 2.2]], [41.2, [-1.85, 1.18, 3.15], [-3.65, 1.05, 2.2]]], fov: 50 },
   promo:   { keys: [[41.2, [1.6, 1.5, 5.6], [0.2, 1.35, 2.6]], [44.8, [1.5, 1.48, 5.3], [0.2, 1.35, 2.6]]], fov: 56 },
   dig:     { keys: [[44.8, [16.6, 16.0, 9.6], [17.5, 0.0, -1.6]], [48.4, [16.9, 17.2, 9.0], [17.5, 0.0, -2.0]]], fov: 60 },
-  lane:    { keys: [[48.4, [13.0, 1.6, -9.2], [11.2, 0.8, 0.8]], [52.0, [12.8, 1.6, -8.6], [11.2, 0.8, 0.8]]], fov: 52 },
+  lane:    { keys: [[48.4, [16.4, 1.05, -3.4], [10.4, 0.8, 0.2]], [52.0, [16.0, 1.08, -3.2], [10.4, 0.8, 0.2]]], fov: 54 },
   flop:    { keys: [[52.0, [5.6, 4.0, 9.6], [13.6, 0.3, -1.0]], [55.8, [5.0, 4.6, 10.5], [13.5, 0.2, -1.0]], [60.0, [4.8, 4.9, 11.0], [13.5, 0.2, -1.0]]], fov: 56 },
 };
 const shotAt = (t) => SHOTS.find((s) => t >= s.t0 && t < s.t1) || SHOTS[SHOTS.length - 1];
@@ -298,7 +298,7 @@ export async function build(studio, story) {
   for (let i = 0; i < saladN; i++) saladIM.setColorAt(i, new THREE.Color([0x6fbf4a, 0xd9412f, 0xf28a2a, 0xb9e08a, 0xd9a860, 0xf4d03a][i % 6]));
   const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler(), _s = new THREE.Vector3(), _p = new THREE.Vector3(), ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
 
-  function chargeWalk(t) { return walkLegs(t, [3.8, -1.7], [{ t0: 18.3, t1: 18.8, pts: [[3.75, 0.7]] }, { t0: 18.8, t1: 20.5, pts: [[2.9, 2.2], [0.0, 2.3], [-1.6, 2.3]] }]); }
+  function chargeWalk(t) { return walkLegs(t, [3.8, -1.7], [{ t0: 18.3, t1: 18.8, pts: [[3.75, 0.7]] }, { t0: 18.8, t1: 20.5, pts: [[2.9, 2.2], [0.4, 2.3], [-0.9, 2.3]] }]); }
 
   // ---------------------------------------------------------------- poses
   const seat = (r, x, z, ry, extra = {}) => { const p = basePose(); Object.assign(p, { x, z, y: SEAT_Y, rotY: ry, footFwd: 0.42, lean: 0.08, armA: A(-0.5, 0.05, -1.3, 0.4), armB: A(-0.5, 0.05, -1.3, -0.4) }, extra); applyPose(r, p); return p; };
@@ -317,6 +317,7 @@ export async function build(studio, story) {
     for (const s of shovels) s.visible = false;
     for (const q of queue) q.car.g.visible = false;
     clip.visible = false; burger.visible = false; tray.visible = false; plate.visible = false; shirt.visible = false;
+    T0.cond.visible = !night;
     lamp.visible = night; lampLight.intensity = night ? 3.6 : 0; if (night) { B.lights.hemi.intensity = 0.5; B.lights.inner2.intensity = 0; } deskSheet.visible = night; cup.visible = night; cupPencils.forEach((p) => (p.visible = night));
     laptop.visible = night; scrLight.intensity = 0; counterSheet.visible = false; heldSheet.visible = false; mouthPencil.visible = false; phone.g.visible = false;
     flash.visible = false; flashLight.intensity = 0; nib.visible = false; bags.forEach((b) => (b.visible = false)); halves.visible = night;
@@ -383,11 +384,11 @@ export async function build(studio, story) {
         const ph = EV.snaps.findIndex((s) => t < s + 0.5);
         S.pitch = -0.42 + 0.04 * Math.sin(t * 5); S.eyes = EV.snaps.some((s) => t > s - 0.05 && t < s + 0.25) ? 'closed' : 'wide'; S.ears = 0.5;
         S.open = EV.snaps.reduce((o, s) => o + K(t, [[s - 0.45, 0], [s - 0.25, 0.1], [s - 0.02, 0.1], [s, 0]]), 0);
-        if (!EV.snaps.some((s) => t >= s && t < s + 0.2)) { otis.update(t, { ...S }); otis.g.position.set(ox, oy, oz); otis.g.rotation.set(0, ry, 0); otis.g.updateMatrixWorld(true); const m = otis.anchors.mouth.getWorldPosition(new THREE.Vector3()); mouthPencil.position.copy(m); mouthPencil.rotation.set(0, 0, PI / 2 + 0.08); mouthPencil.position.add(V3(0, 0.0, -0.08)); mouthPencil.visible = true; }
+        if (!EV.snaps.some((s) => t >= s && t < s + 0.2)) { otis.update(t, { ...S }); otis.g.position.set(ox, oy, oz); otis.g.rotation.set(0, ry, 0); otis.g.updateMatrixWorld(true); const m = otis.anchors.mouth.getWorldPosition(new THREE.Vector3()); mouthPencil.position.copy(m); mouthPencil.rotation.set(0, 0, PI / 2 + 0.08); mouthPencil.position.add(V3(0, 0.02, 0.04)); mouthPencil.visible = true; }
       } else if (C === 'photo') {
         S.pitch = -0.28; S.eyes = t > EV.flash && t < EV.flash + 0.2 ? 'closed' : 'wide'; S.open = 0.04;
         otis.update(t, { ...S }); otis.g.position.set(ox, oy, oz); otis.g.rotation.set(0, ry, 0); otis.g.updateMatrixWorld(true);
-        const m = otis.anchors.mouth.getWorldPosition(new THREE.Vector3()); phone.g.visible = true; phone.g.position.copy(m).add(V3(0.0, 0.08, 0.02)); phone.g.rotation.set(PI / 2, 0, 0, 'YXZ');
+        const m = otis.anchors.mouth.getWorldPosition(new THREE.Vector3()); phone.g.visible = true; phone.g.position.copy(m).add(V3(0.0, 0.17, 0.09)); phone.g.rotation.set(PI / 2, 0, 0, 'YXZ');
         const fk = t >= EV.flash ? Math.exp(-(t - EV.flash) * 9) : 0; flash.visible = fk > 0.01; flash.position.copy(m).add(V3(0, -0.06, 0.12)); flash.scale.setScalar(0.6 * fk + 0.05); flashLight.position.copy(flash.position); flashLight.intensity = 30 * fk;
       } else {
         S.pitch = -0.2; S.eyes = t < EV.happy ? 'wide' : 'happy'; S.wag = t > EV.happy ? 1 : 0; S.ears = t < EV.happy ? 0.3 : 0;
@@ -498,7 +499,7 @@ export async function build(studio, story) {
       if (C === 'lane') {
         otis.g.updateMatrixWorld(true); const m = otis.anchors.mouth.getWorldPosition(new THREE.Vector3());
         EV.bags.forEach((tb, k) => { const b = bags[k]; const car = queue[k === 0 ? 0 : 1].car.g; const win = V3(BD.lane.x + 0.85, 1.15, car.position.z - 0.2); const u = clamp((t - tb) / 0.45);
-          if (t < tb - 0.6 || t > tb + 1.2) return; b.visible = u < 1; if (u <= 0) b.position.copy(m); else { b.position.lerpVectors(m, win, u); b.position.y += Math.sin(PI * u) * 0.5; } });
+          if (t < tb - 0.6 || t > tb + 1.2) return; b.visible = u < 1; if (u <= 0) b.position.copy(m); else { b.position.lerpVectors(m, win, u); b.position.y += Math.sin(PI * u) * 1.1; b.rotation.set(u * 4, u * 2, 0); } });
       }
     }
 
@@ -517,6 +518,7 @@ export async function build(studio, story) {
       screen.draw({ mode, k: clamp(k) }); scrLight.intensity = C === 'laptop' ? 0.8 : 0.35;
       lid.rotation.x = t < 34.75 ? 1.5 : -0.32 + 1.82 * (1 - clamp((t - 34.75) / 0.3)) ** 2;
     }
+    if (C === 'write' || C === 'laptop') { halves.visible = false; cup.visible = false; cupPencils.forEach((p) => (p.visible = false)); }
     const wp = t < EV.write0 ? 0 : t < 41.2 ? sheet.total * clamp((t - EV.write0) / (EV.write1 - EV.write0)) : sheet.total;
     const tip = sheet.draw(wp);
     if (C === 'write' && t > EV.write0 - 0.2 && t < EV.write1 + 0.3) {

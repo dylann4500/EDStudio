@@ -63,7 +63,7 @@ export function makeHippo(o = {}) {
   mk(new RoundedBoxGeometry(0.86, 0.06, 0.76, 2, 0.03), mPink, headG, 0, -0.13, 0.8);    // palate (seen when the mouth opens)
   for (const s of [-1, 1]) {
     mk(new THREE.SphereGeometry(0.15, 18, 12), mSkin, headG, s * 0.22, 0.26, 1.02).scale.set(1, 0.72, 1);   // nostril bumps
-    const nos = mk(new THREE.SphereGeometry(0.05, 12, 8), mDark, headG, s * 0.22, 0.355, 1.06); nos.scale.set(1.25, 0.35, 0.7); nos.rotation.y = s * 0.5;
+    const nos = mk(new THREE.SphereGeometry(0.034, 12, 8), mat(0x6a4450, 0.6), headG, s * 0.2, 0.352, 1.07); nos.scale.set(1.3, 0.3, 0.6); nos.rotation.y = s * 0.5;
     mk(new THREE.SphereGeometry(0.13, 14, 10), mPink, headG, s * 0.45, -0.02, 0.86).scale.set(0.5, 0.62, 0.9);  // cheek blush
     for (let k = 0; k < 3; k++) mk(new THREE.SphereGeometry(0.012, 6, 4), mDark, headG, s * (0.36 + k * 0.035), 0.06 - k * 0.04, 1.13);  // whisker dots
     const up = mk(new THREE.ConeGeometry(0.036, 0.11, 10), mTooth, headG, s * 0.34, -0.17, 1.02); up.rotation.x = Math.PI;              // upper canines
@@ -75,13 +75,13 @@ export function makeHippo(o = {}) {
   for (const s of [-1, 1]) {
     const e = new THREE.Group(); e.position.set(s * 0.27, 0.36, 0.3); headG.add(e);
     mk(new THREE.SphereGeometry(0.135, 18, 12), mSkin, e, 0, -0.03, -0.02).scale.set(1, 0.85, 1);
-    const white = mk(new THREE.SphereGeometry(0.085, 18, 12), mat(0xfbf7f1, 0.3), e, s * 0.012, 0.03, 0.06);
-    const pupil = mk(new THREE.SphereGeometry(0.05, 14, 10), mDark, e, s * 0.012, 0.035, 0.115); pupil.scale.set(1, 1.1, 0.6);
-    const glint = new THREE.Mesh(new THREE.SphereGeometry(0.013, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.position.set(s * 0.012 + 0.018, 0.06, 0.142); e.add(glint);
+    const white = mk(new THREE.SphereGeometry(0.095, 18, 12), mat(0xfbf7f1, 0.3), e, s * 0.012, 0.03, 0.06);
+    const pupil = mk(new THREE.SphereGeometry(0.062, 14, 10), mDark, e, s * 0.012, 0.035, 0.122); pupil.scale.set(1, 1.1, 0.6);
+    const glint = new THREE.Mesh(new THREE.SphereGeometry(0.013, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.position.set(s * 0.012 + 0.02, 0.065, 0.155); e.add(glint);
     const lid = new THREE.Group(); lid.position.set(s * 0.012, 0.03, 0.06); e.add(lid);
-    mk(new THREE.SphereGeometry(0.093, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2), mSkin, lid);
+    mk(new THREE.SphereGeometry(0.103, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2), mSkin, lid);
     const lidLo = new THREE.Group(); lidLo.position.copy(lid.position); e.add(lidLo);   // a lower lid for the "happy" squint
-    mk(new THREE.SphereGeometry(0.092, 18, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), mSkin, lidLo);
+    mk(new THREE.SphereGeometry(0.102, 18, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), mSkin, lidLo);
     eyes.push({ e, white, pupil, glint, lid, lidLo, s });
   }
   // ears: tiny, with pink insides
@@ -168,8 +168,8 @@ export function makeHippo(o = {}) {
     for (const E of eyes) {
       E.lid.rotation.x = lerp(-0.85, 1.62, lid);
       E.lidLo.rotation.x = lerp(0.85, -0.25, lo); E.lidLo.visible = lo > 0.01;
-      E.white.scale.setScalar(sc); E.pupil.position.x = E.s * 0.012 + 0.022 * (s.lookX ?? 0); E.pupil.position.y = 0.035 + 0.022 * (s.lookY ?? 0) * sc;
-      E.pupil.scale.set(sc * 0.95, sc * 1.05, 0.6); E.glint.position.x = E.pupil.position.x + 0.018; E.glint.position.y = E.pupil.position.y + 0.025;
+      E.white.scale.setScalar(sc); E.pupil.position.x = E.s * 0.012 + 0.024 * (s.lookX ?? 0); E.pupil.position.y = 0.035 + 0.024 * (s.lookY ?? 0) * sc;
+      E.pupil.scale.set(sc * 0.95, sc * 1.05, 0.6); E.glint.position.x = E.pupil.position.x + 0.02; E.glint.position.y = E.pupil.position.y + 0.03;
       E.glint.visible = lid < 0.6;
     }
     // ears: a flick every few seconds, pinned back with s.ears
