@@ -107,6 +107,7 @@ const PEN_SYMS = {
 };
 
 /** A hand-drawn polyline (a wobbly sketch): pts in canvas px. */
+const TAU2 = Math.PI * 2;
 const BOLD = [[0, 0], [0.9, 0], [0, 0.9], [-0.6, 0.4]];   // a ballpoint is darker than the 29 px masks: draw each glyph four times, offset
 const wobble = (pts, seed = 3, amp = 1.6) => { let R = seed; const r = () => (R = (R * 16807) % 2147483647) / 2147483647 - 0.5; return pts.map(([x, y]) => [x + r() * amp, y + r() * amp]); };
 
@@ -161,6 +162,23 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
       }
       const ans = P.a ? layoutHand(G, P.a, { x: ax, y: ay + 20, u: 28, seed: seed * 19 + i }).map((q) => ({ ...q, kind: 'g' })) : [];
       (P.pre ? pre : items).push(...[...ans, ...its.filter(Boolean)].map((q) => ({ ...q, pi: i })));
+    } else if (P.chain) {   // 063 (additive): a hand-drawn food chain — each organism written + circled, hand arrows between them
+      const cu = P.u ?? 26, cy = y + (P.dy ?? 104), out = []; let cx = P.x0 ?? 118;
+      P.chain.forEach((label, k) => {
+        const hs = layoutHand(G, label, { x: cx, y: cy, u: cu, seed: seed * 31 + i * 7 + k }).map((q) => ({ ...q, kind: 'g' }));
+        const x0 = Math.min(...hs.map((q) => q.x)), x1 = Math.max(...hs.map((q) => q.x + q.w)), y0 = Math.min(...hs.map((q) => q.y)), y1 = Math.max(...hs.map((q) => q.y + q.h));
+        const ex = (x0 + x1) / 2, ey = (y0 + y1) / 2, rx = (x1 - x0) / 2 + 16, ry = (y1 - y0) / 2 + 14, ring = [];
+        for (let j = 0; j <= 30; j++) { const a = -2.2 + (j / 30) * (TAU2 + 0.35); ring.push([ex + Math.cos(a) * rx, ey + Math.sin(a) * ry]); }
+        out.push(...hs, { kind: 'p', pts: wobble(ring, seed * 37 + k, 1.4), w: 6, line: 3.4 });
+        if (k < P.chain.length - 1) {
+          const ax0 = x1 + 22, ax1 = ax0 + (P.gap ?? 54), ay = ey + 2;
+          out.push({ kind: 'p', pts: wobble([[ax0, ay], [(ax0 + ax1) / 2, ay - 3], [ax1, ay]], seed * 41 + k, 1), w: 3, line: 4 },
+            { kind: 'p', pts: wobble([[ax1 - 13, ay - 10], [ax1, ay], [ax1 - 13, ay + 10]], seed * 43 + k, 0.8), w: 2, line: 4 });
+          cx = ax1 + 26;
+        } else cx = x1;
+      });
+      if (P.caption) out.push(...layoutHand(G, P.caption, { x: P.x0 ?? 118, y: cy + 70, u: 24, seed: seed * 47 + i }).map((q) => ({ ...q, kind: 'g' })));
+      (P.pre ? pre : items).push(...out.map((q) => ({ ...q, pi: i })));
     } else if (P.a) {
       const hs = layoutHand(G, P.a, { x: ax, y: ay, u: 30, seed: seed * 23 + i }).map((q) => ({ ...q, kind: 'g' }));
       (P.pre ? pre : items).push(...hs.map((q) => ({ ...q, pi: i })));
@@ -326,6 +344,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n, name = 'Tyler
   const bar = () => {
     g.fillStyle = '#fbfaf6'; g.fillRect(0, 0, w, 78); g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(0, 78, w, 2);
     g.drawImage(icon, 30, 15, 48, 48); g.fillStyle = '#1d1d1d'; g.font = '34px Georgia, serif'; g.fillText('Scribe', 88, 52);
+    if (subject) { g.font = '600 26px Inter, Arial'; const tw = g.measureText(subject).width; g.fillStyle = '#e7f2e4'; g.beginPath(); g.roundRect(w / 2 - tw / 2 - 26, 18, tw + 52, 44, 22); g.fill(); g.fillStyle = '#2f7d46'; g.textAlign = 'center'; g.fillText(subject, w / 2, 49); g.textAlign = 'left'; }
     g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText(name[0].toUpperCase(), w - 50, 47); g.textAlign = 'left';
   };
   const button = (x, y, bw, bh, text) => { g.fillStyle = RED; g.beginPath(); g.roundRect(x, y, bw, bh, 16); g.fill(); g.fillStyle = '#fff'; g.font = '600 30px Inter, Arial'; g.textAlign = 'center'; g.fillText(text, x + bw / 2, y + bh / 2 + 11); g.textAlign = 'left'; };
@@ -372,6 +391,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n, name = 'Tyler
       if (SL) { g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.fillText(SL.toUpperCase(), 722, 140); }
       g.fillStyle = '#1d1d1d'; g.font = '46px Georgia, serif'; g.fillText(mode === 'done' ? `Done. ${N}/${N}.` : 'Writing it in', 720, 200);
       if (mode !== 'done') g.fillText('your handwriting…', 720, 258);
+      if (subject) { g.fillStyle = '#2f7d46'; g.font = '600 26px Inter, Arial'; g.fillText(subject + ' · diagrams drawn by hand', 720, mode === 'done' ? 256 : 300); }
       g.fillStyle = '#6b665c'; g.font = '500 24px Inter, Arial';
       g.fillText('Handwriting', 720, 330); hand(sig, 900, 330, 1);
       g.fillText('Messiness', 720, 390); for (let i = 0; i < 5; i++) { g.fillStyle = i < 4 ? RED : '#d8d1c3'; g.fillRect(900 + i * 34, 372, 26, 22); }

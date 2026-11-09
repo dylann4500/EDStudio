@@ -1,0 +1,46 @@
+{
+ "text": "In your fucking handwriting. Stroke by fucking stroke.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "In",
+   "t0": 0.0,
+   "t1": 0.08
+  },
+  {
+   "w": "your",
+   "t0": 0.112,
+   "t1": 0.24
+  },
+  {
+   "w": "fucking",
+   "t0": 0.3,
+   "t1": 0.72
+  },
+  {
+   "w": "handwriting.",
+   "t0": 0.787,
+   "t1": 1.6
+  },
+  {
+   "w": "Stroke",
+   "t0": 1.703,
+   "t1": 2.32
+  },
+  {
+   "w": "by",
+   "t0": 2.4,
+   "t1": 2.56
+  },
+  {
+   "w": "fucking",
+   "t0": 2.63,
+   "t1": 3.12
+  },
+  {
+   "w": "stroke.",
+   "t0": 3.2,
+   "t1": 3.76
+  }
+ ]
+}
