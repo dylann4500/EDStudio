@@ -122,7 +122,7 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
 }
 
 /** Scribe on a laptop (1280 × 800): modes home | scan | solve | write | done; k = progress 0..1 inside a mode. */
-export function makeScreen(G, icon, sheet, { w = 1280, h = 800, name = 'Tyler' } = {}) {   // 050: name = the signature + avatar letter (additive; default unchanged)
+export function makeScreen(G, icon, sheet, { w = 1280, h = 800, name = 'Tyler' } = {}) {   // name (050/052, additive): the signature + avatar initial; default unchanged
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const g = canvas.getContext('2d'), tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const RED = '#9a1c25', CREAM = '#f3f1eb';

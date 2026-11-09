@@ -522,6 +522,15 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **Sim style — Sims-like realistic 3D (052, `engine/sim/`; docs/STYLES.md → sim; template `videos/_sim-template`):** @officialwriteit's
+  hit look. `buildSimHouse(studio)` = a dollhouse-cut ranch house (front walls gone at z = 0, floor `FY` 0.62 on joists over a crawlspace,
+  a cut soil slab, pink ceiling insulation, a gable roof cut through its rafters; rooms bedroom | hall | kitchen | living, `D.rooms`) with
+  handles for a bedroom you upgrade (`H.bed.g` moves the bed + its children, lamp, switch, clock, calendar, side-window sash, `setDay`).
+  `makeSim({...})` = a realistic-proportion person on **rig.js's skeleton** (drive it with `applyPose`; then `simFace` for jaw/eyes/brows,
+  `legsOut` for sitting up in bed, `lift(p, FY)` to stand on the raised floor). `simMat(kind)` = real-world canvas materials,
+  `simLights` = IBL + soft sun, `SIM_LOOK` = the grade, `engine/sim/props.js` = upgrade props (mini fridge, rope/pulley, swing desk,
+  half-pipe chute, robot arm, drone, printer, rails…), `makeSimHud` = sim-styled one-word captions + DAY counter + Scribe end card.
+  ~0.1 s/frame at 30 fps.
 
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
