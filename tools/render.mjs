@@ -50,7 +50,7 @@ if (story.end && story.duration - (story.end.in + 0.5) < 3.5) console.warn(`⚠�
   if (!txt || txt.includes('<hook line')) console.warn('⚠️  caption.md is ' + (txt ? 'still the template' : 'missing') + ' — write it (hook + emoji, 2–3 sentences, question CTA 👇, "Send this to your ___", 5 hashtags incl. #animation) and paste it in your report');
   else if (/https?:\/\/|www\.|payhip|tryscribe|link in (my )?bio|free assignments?/i.test(txt.replace(/<!--[\s\S]*?-->/g, ''))) console.warn('⚠️  caption.md has a link or a plug — captions carry NO links/plugs (user rule, Nov 8: they tank TikTok reach); the plug lives only in the video'); }
 // build genre: say loudly when the narration is still the scratch voice (docs/BUILD.md → Upgrading the scratch voice)
-if (story.mode === 'build' && story.voice && story.voice.provider !== 'eleven') console.warn('ℹ️  narration is the SCRATCH voice (macOS say) — set ELEVENLABS_API_KEY, re-run tools/narrate.py + make_cues.py + synth.py before publishing');
+if (story.mode === 'build' && story.voice && !['eleven', 'fish'].includes(story.voice.provider)) console.warn('ℹ️  narration is the SCRATCH voice (macOS say) — set ELEVENLABS_API_KEY, re-run tools/narrate.py + make_cues.py + synth.py before publishing');
 const preview = !!flag('preview', false);
 const fps = Number(flag('fps', preview ? 15 : story.fps || 30));
 const t0 = Number(flag('from', 0)), t1 = Number(flag('to', story.duration));
