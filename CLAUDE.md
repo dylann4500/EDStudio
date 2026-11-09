@@ -526,6 +526,16 @@ videos/NNN-slug/
 - **A doubling premise that needs more doublings than real time allows (057):** keep "every 3 seconds" honest with a STORY CLOCK —
   T(t) piecewise-linear (real time for the first two beats to set the rule, then fast-forward), value = 2^(T/3), and a HUD clock
   line ("T+0:36") so the math checks out. 1 sheet → a buried school is ~31 doublings (1:33 of story time in 21 s of screen).
+- **Isometric tilt-shift diorama look (060, `engine/iso/`; template `videos/_iso-template`; docs/STYLES.md → iso):** each place is a
+  floating slab `makeBase({shape, w, d, h, top, soil})` (world on `B.world`, y = 0; cut soil strata on the sides; `B.update(t)` bobs)
+  or a dollhouse room `makeRoom({w, d, h, floor, windows})`, over `isoBackdrop` (screen-space gradient void), lit by `isoLights`
+  (`focus(x, z, half)` per shot), shot with `isoCam(studio, isoAt(t, keys))` (long lens framed by WIDTH: `frame` m, az/el degrees)
+  and blurred by `addTiltShift(studio)` (a depth-aware pass before bloom: `ts.focusOn(worldPoint)` every frame, `ts.set({range:
+  frame·0.09·k, ramp: frame·0.36·k})` per shot, k 2–3 for screen/paper inserts). People: `makeMini` (rig × 0.6, big head),
+  `makePeg` (jointed toy figure with hats), `makePegCrowd` (instanced). Props: trees, houses, stalls, crane, plane, truck
+  (`engine/iso/props.js`), Italy landmarks (`italy.js`: Pisa tower `setLean`, Duomo, Baptistery, city wall, Colosseum `setOven`),
+  room furniture (`room.js`), analytic puffs (`fx.js`). Text: `makeIsoHud(story.iso)` (the @okwhatifcrazy landmark layout: kicker
+  with a T+ clock, pinned title, left HUD per beat, subtitles, Scribe end card). DOM text is never blurred. Render ≈ 0.07 s/frame with motionBlur 2 (060's 60 s reel ≈ 2.5 min).
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer

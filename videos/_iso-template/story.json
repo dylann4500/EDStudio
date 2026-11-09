@@ -1,0 +1,17 @@
+{
+ "tone": "promo",
+ "title": "iso template",
+ "fps": 30,
+ "duration": 10.0,
+ "look": { "exposure": 1.12, "bloom": 0.16, "bloomThreshold": 0.9, "vignette": 0.22, "grain": 0.012, "warm": 0.1, "saturation": 1.22, "lift": 0.01, "fill": 0 },
+ "iso": {
+  "kicker": "SIMULATION · TOY TOWN · T+{T}",
+  "title": { "html": "<em>What if</em> your whole town fit on a table?", "in": 0.1, "dock": 2.6, "out": 9.6 },
+  "hudIn": 3.0, "hudOut": 9.6,
+  "hud": [
+   { "t0": 0, "t1": 10, "label": "TOWN SCALE", "from": 1, "to": 87, "r0": 3.2, "r1": 6.0, "unit": ":1", "fmt": "int", "sub": "MODEL RAILWAY · H0", "color": "gold" }
+  ],
+  "subs": [ [3.2, 6.2, "Everyone fits in one photo."], [6.4, 9.6, "The crane is the size of a pencil."] ]
+ },
+ "debugView": { "center": [0, 0, 0], "height": 40 }
+}
