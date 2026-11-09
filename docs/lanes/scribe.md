@@ -42,8 +42,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the
-  reel), and deliver `out/nomusic.mp4` too (voice + SFX + ambience stems onto `out/silent.mp4`) so a trending sound can go
-  under it at upload. When a bed is used: **upbeat, fast, percussive** (user steer on 049: 140 bpm four-on-the-floor + claps + hats + a marimba arp, music ≈ −21 LUFS
+  reel), and run `sh tools/nomusic-copy.sh videos/NNN-slug` → `out/nomusic.mp4` + `out/upload-nomusic.mp4` (every stem except
+  music.wav, on final.mp4's picture). **The no-music cut is what we post** (user, Nov 8: "yes, trending sounds"): add a
+  trending TikTok / Instagram sound in the app at upload, low under the voice. When a bed is used: **upbeat, fast, percussive** (user steer on 049: 140 bpm four-on-the-floor + claps + hats + a marimba arp, music ≈ −21 LUFS
   under a −16 voice). Continuous, never harsh (CLAUDE.md sound rules still hold).
 - **No TRIBE gate** for promos (volume wins; @officialwriteit posts 5–9 a day). The QC checklist, still sheets and the full-res
   final still apply.
