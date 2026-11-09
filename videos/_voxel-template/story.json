@@ -1,0 +1,14 @@
+{
+  "tone": "promo",
+  "style": "voxel",
+  "look": { "exposure": 1.0, "toneMapping": "neutral", "bloom": 0.04, "bloomThreshold": 0.98, "grain": 0, "vignette": 0.1, "saturation": 1.08, "warm": 0.2, "fill": 0.25, "lift": 0.0 },
+  "fps": 30,
+  "duration": 10.0,
+  "title": { "html": "What if your whole town was made of <em>blocks</em>?", "in": -0.5, "out": 2.4 },
+  "hud": [],
+  "subs": [
+    [2.8, 5.6, "Just walking to school."],
+    [6.0, 9.4, "Homework first, though."]
+  ],
+  "debugView": { "center": [-20, 0, 6], "height": 60 }
+}

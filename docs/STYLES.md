@@ -12,8 +12,9 @@ stays procedural (Three.js → headless Chrome → ffmpeg), deterministic (`rng`
 | **anime** (pixel) | a polished 2-D anime illustration (generated locally with Animagine XL 4.0, `tools/anime/gen.py`, CreativeML Open RAIL++-M) animated as a puppet in voxel sets under the pixel pass | `engine/puppet.js`, `engine/sets/voxbeach.js` (branch `feat/goth-tutor`) | — | 054 (in progress; replaced a procedural cel-shaded model the user rejected) | building |
 | **sim** | Sims-like realistic 3D: realistic proportions, cutaway house/ground slab, clean daylight (@officialwriteit's hit look) | `engine/sim/` (person.js, house.js, props.js, mats.js, look.js, hud.js) | `npm run new -- NNN-slug --from _sim-template` (narrated: `--from 052-bedroom-never-leave`) | 052 | built (branch `claude/052-sim-style-bedroom-d80346`) |
 | **flat2d** | flat 2D cartoon (Canvas 2D, no WebGL): boiling ink outlines, flat fills + one cel step, big-headed puppets, bold in-world labels | `engine/flat2d/` (stage, ink, puppet, sets, fx, critters, endcard) | `npm run new -- NNN-slug --from _flat2d-template` | 053 | ready (branch `claude/053-flat2d-style-inventions-021e30`) |
+| **voxel** | a blocky-game world: everything is 1 m cubes with 16 px pixel-art tiles + baked corner AO, square-headed people with 8 × 8 pixel faces, flat chunky clouds, bright flat daylight, crisp edges | `engine/voxel/` (tex, vox, person, world, props, town, rooms) | `npm run new -- NNN-slug --from _voxel-template` (a whatifpov-style promo: `--from 059-voxel-giant-doubling`) | 059 | built (branch `claude/059-voxel-style-9b1f2e`) |
 
-Ideas for later builders: voxel/blocky (their counter-over-heads town), claymation (soft subsurface + thumbprint noise + 12 fps
+Ideas for later builders: claymation (soft subsurface + thumbprint noise + 12 fps
 stepped motion), paper cut-out (layered card planes, drop shadows), whiteboard doodle (line-draw reveal), low-poly flat-shaded,
 retro VHS/90s cartoon, 2.5D diorama/tilt-shift.
 
@@ -139,6 +140,77 @@ Gotchas (each cost a stills round on 053):
   to the side, not up (it covered the face).
 - **Screen inserts:** let the camera ride the pen tip (053 `paper`) so the line being written stays at ~37 % of the frame, big.
 - Music: soft bed only (manager relay, Nov 8) + `tools/nomusic-copy.sh` for the posted cut; 053's make_cues.py is the template.
+
+### voxel — the blocky-game world (059 "What if you DOUBLED in size every 3 seconds?")
+**Look:** a world built from 1 m blocks, each face a 16 × 16 px pixel-art tile sampled NEAREST (crisp texels up close), with baked
+ambient occlusion in every block corner (the soft dark creases that make a block world read) and a fixed per-direction face shade;
+square-headed people (8 × 8 × 8 px head, 8 × 12 × 4 torso, 4 × 12 × 4 limbs, 32 px tall) painted from one 64 × 64 "skin" canvas with
+8 × 8 pixel faces; flat chunky clouds (instanced slabs); one crisp sun + a sky hemi, neutral tone mapping, almost no bloom, no grain.
+Our own tiles, palette, outfits and faces (no game's assets or characters). Text stays DOM (`#ui`), never in the render.
+**Start:** `npm run new -- NNN-slug --from _voxel-template` (10 s: a tracked street walk + the bedroom; t ≥ 200 = a lineup of every
+arm preset × face, t = 203 a wide of the town). For a whatifpov-format promo fork 059 instead (`--from 059-voxel-giant-doubling`,
+copies make_cues.py too): the HUD/⏪/end-card DOM layer, the VHS rewind pass, the Scribe phone app (`makeApp`, portrait) and a
+doubling clock are all in its shots.js.
+**API (all in `engine/voxel/`, one import: `import * as V from '@engine/voxel/index.js'`):**
+- `tex.js` — `blockAtlas()` (the shared atlas: 60+ tiles in 32 px cells with wrapped borders so mipmaps don't bleed), `BLOCKS` (grass,
+  dirt, stone, cobble, asphalt, road_line, crosswalk, sidewalk, water, log, leaves(_b/_pink), hedge, brick(_tan), planks(_light/_dark),
+  plaster(_cream), concrete, siding_white/blue/yellow/mint/pink/gray, roof_red/gray/blue/brown, window(_dark/_lit), glass, tower_glass/
+  stone, door/door_top/door_red/door_glass, metal, bookshelf, chalkboard, checker, floor_tile, carpet(_red), wallpaper(_blue), hay,
+  pumpkin, plain, smooth + cross sprites tuft/flower_*), `tileTexture(name, repeat)` (one tile as a repeating texture: ground planes),
+  `pixelCanvas(w, h, draw)` + `nearestTex(canvas)` (signs, posters, item sprites), `SOLID_COLORS`.
+- `vox.js` — `new VoxGrid()` (sparse, grows to fit; block coords = metres / bs): `set/get/fill(x0,y0,z0,x1,y1,z1, b, {ifEmpty})`,
+  `walls`, `blob(cx,cy,cz, rx,ry,rz, b, jag, seed)` (crowns, bushes), `stamp(grid, ox,oy,oz, {rot, flipX})`; blocks by name or
+  `colorBlock(hex)` (any colour = the plain tile tinted) / `tintBlock(name, hex)`. `meshGrid(G, {bs, ao, faceShade})` → ONE merged
+  mesh per grid (+ cross plants + water): hidden faces culled, per-corner AO, a flipped quad diagonal where AO is uneven.
+  `boxModel([[x0,y0,z0,x1,y1,z1,hex], …], {bs})` = a colour-voxel prop at any grain (cars 0.25 m, desks 0.125 m, a printer 1/14 m),
+  `itemFromCanvas(canvas, {bs, depth})` = a pixel sprite extruded into a held item, `instanceModel(model, [{x,y,z,s,r}], parent)`.
+- `person.js` — `makeVoxPerson({height, skin, hair, hairStyle: 'short'|'long'|'bob'|'spiky'|'messy'|'buzz'|'bun'|'ponytail'|'cap'|'afro'|
+  'bald', eyes, top: 'tee'|'hoodie'|'shirt'|'cardigan'|'dress'|'vest', shirt, under, tie, logo, sleeves, pants, shorts, shoes, shoeH,
+  glasses, beard, blush, cap, backpack})` → `P.pose({x, y, z, rotY, scale, walk: P.phaseFor(dist, scale), stride, lean, twist, crouch,
+  head: {yaw, pitch, roll}, armL/armR: {x, z, bend} | ARMS.*, legL/legR: {x, z, bend}, face})`; faces `FACES` = idle, blink, happy, grin,
+  shock, scream, worried, angry, talk, smirk, wow, sleepy (`P.setFace`); `ARMS` presets (down, point, pointUp, wave, cheer, phone, hold,
+  reach, shock, shrug, hips, facepalm, megaphone); `P.hand.L/R` groups, `P.gripWorld(side, along, fwd)` (a point in the fist; fwd 2 =
+  the fist's top face when the forearm is raised), `P.eyeWorld(out, fwd)` (POV cameras), `P.headMesh`/`P.torso` (hide them for POV),
+  `randomOutfit(seed, extra)` for crowds. Figure faces +z; armL = its left (+x); arm x < 0 swings forward, z > 0 raises outward, bend
+  < 0 lifts the forearm; head pitch > 0 looks down.
+- `world.js` — `voxWorld(studio, {size, clouds: {y, cell, thick, area, cover, clear: [[x, z, r]]} | false, far: {forest, hills,
+  city, cityAt, citySpread}, fogNear, fogFar})` → ground to the horizon, gradient sky dome that follows the camera, flat block
+  clouds, sun + hemi (`W.aim(x, z, half)` per shot = where the crisp shadows fall), sky-coloured fog (`W.setFog(near, far)`),
+  instanced far forests / green hills / a downtown of window-textured towers; `voxTree(kind)`, `VOX_LOOK` (story.look values).
+- `town.js` — `buildVoxTown(studio, {school, world})`: a main street along x (road z −4…4, sidewalks at z ±6, a side street at
+  x = −60), two rows of gabled houses with yards, hedges, trees, flower beds, driveways, lamp posts, mailboxes, curb + driveway cars
+  (`T.cars[i].setCrush(k)`), a hoop, hydrants, benches, and MAPLE HIGH SCHOOL (x 62–111, front at z = 17 with an entrance block +
+  clock tower, `T.clock.set(h, m)`, a plaza, flag `T.flag`, bus `T.bus`); `T.setBanner(canvas, {w, h, x, z})` lays a canvas on the
+  school roof (readable from a giant's POV); `T.D` dims; `stampHouse / stampTree / stampSchool` reuse the prefabs in your own grid.
+- `rooms.js` — `buildVoxClassroom(studio, {board})` (Room 4: chalkboard `setBoard(lines)`, 12 desks, teacher's desk + apple, a
+  printer on a cart `C.printer` (`userData.out` = where pages land), clock, posters, windows with a painted view + real lawn) and
+  `buildVoxBedroom(studio)` (bed, desk + lamp, chair, window, poster, rug, bookshelf). Open front (+z) = the camera side.
+- `props.js` — `voxCar(color)`, `voxBus()`, `voxLamp()`, `voxHoop()`, `voxMailbox()`, `voxHydrant()`, `voxBench()`, `voxFlagpole()`
+  (`wave(t)`), `voxDesk()`, `voxPrinter()`, `voxPencil()`, `voxPaper(tex)` (a sheet as a thin box, any canvas on top: makeSheet),
+  `voxPhone(tex)` (screen faces +z; `lookAt(eye)` it), `voxSign(canvas)`, `textCanvas(lines, {w, h, bg, fg, font})`.
+**Gotchas (each cost a stills round on 059):**
+- **The sun must come from the camera side:** the first sheet lit everything from behind (sun from +z, cameras on the street looking
+  +z at the north side) and every face was in shade. `voxLights` now defaults to a sun from −z; aim your cameras with the sun behind.
+- **Props parented to a scaled rig scale twice:** `hand.localToWorld(offset)` already applies the rig's scale — 0.1·s offsets put the
+  phone 1.6 km away (a speck). Pass offsets in the rig's own units, or place unscaled props in world space at `gripWorld()` points.
+- **POV hands:** at ±6 px the hands sit outside a 74° vertical frame's ±20° width; bring the arms inward (`z ≈ −0.45…−0.6`), put
+  the camera 1 px BEHIND the eyes (`eyeWorld(v, −1)`), hide `headMesh` + hair + `torso` (the hoodie drawstrings poked into the
+  frame), and aim between the hands and a point ahead (lerp 0.5–0.6).
+- **Flat props on a raised fist:** the fist's top face is tilted with the forearm — orient the sheet to the forearm's +z (`onFist`
+  in 059) or it sinks into the block. A narrow zoom (fov 42 → 4.5°) must aim exactly at the prop: a 10 % lerp toward the other fist
+  pushed it out of frame.
+- **A giant several km tall:** park him km away (4.2 km in 059) or one leg fills the frame; `camera.far` ≥ 60 km, fog 2.5–26 km,
+  `W.aim(x, z, 0.6·H)`. Clouds between the lens and his face: carve a hole with `clouds.clear`.
+- **Readable screens next to the HUD and the subtitle:** the HUD owns 23–36 % on the left, the italic subtitle 66–69 %; 059's phone
+  sits right-aligned from 33 % to 99 % of the frame, and the app puts the important figure (the Punnett square) in the card's TOP third
+  (42–60 % of the frame). A paper on a tray reads upright only when its text lines run along the camera's right vector (059: yaw −0.78).
+- **Picking a prop by position:** "the first car with z > 2" found a driveway car 12 m behind the curb — the crunch shot showed a lawn.
+- **A giant seen through a classroom window reads as a grey wall** (the leg at km scale is a flat jeans block): 059 dropped it for a
+  shake + the teacher's shock. Show scale from outside, not through a 2 m window.
+- Biology sheets: scribe.js's `punnettFig()` (additive, makeSheet's new `fig` option) draws a Punnett square stroke by stroke; keep
+  the square inside its problem's row (rowH = (1325 − 340) / n) or it collides with the next question.
+**Render time:** 059 (41.2 s, 30 fps, 1080 × 1920, no motion blur): 1,236 frames in 92 s ≈ **0.075 s per frame** (≈ 2.2 s per
+second of video; a still sheet of 15 frames ≈ 3 s) — cheaper than sim, about flat2d's cost. The whole town is one draw call.
 
 ### pixel (057 homework doubling — the first reel in it)
 - **Block size: 8 px at 1080 wide** (135 blocks across). The template's 5 px is invisible on a phone (a 5 px block is under 2 pt

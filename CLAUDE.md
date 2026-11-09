@@ -526,6 +526,13 @@ videos/NNN-slug/
 - **A doubling premise that needs more doublings than real time allows (057):** keep "every 3 seconds" honest with a STORY CLOCK —
   T(t) piecewise-linear (real time for the first two beats to set the rule, then fast-forward), value = 2^(T/3), and a HUD clock
   line ("T+0:36") so the math checks out. 1 sheet → a buried school is ~31 doublings (1:33 of story time in 21 s of screen).
+- **Voxel / blocky-game look (059, `engine/voxel/`, template `videos/_voxel-template`, docs/STYLES.md → voxel):** `VoxGrid` +
+  `meshGrid(G, {bs})` = one merged mesh per grid of 1 m blocks (16 px NEAREST tiles from `blockAtlas()`, culled faces, baked corner
+  AO); `boxModel(boxes, {bs})` / `itemFromCanvas` = colour-voxel props at any grain; `makeVoxPerson({...})` = a square-headed person
+  (8 × 8 px faces, `FACES`, `ARMS` presets, `pose({walk, scale, armL/R, legL/R, head, face})`, `gripWorld`, `eyeWorld` for POV);
+  `voxWorld` (sky, block clouds, sun from −z: `W.aim(x, z, half)` per shot), `buildVoxTown` (street + houses + MAPLE HIGH SCHOOL,
+  `setBanner`, crushable `cars`), `buildVoxClassroom` (Room 4 + printer), `buildVoxBedroom`. `look`: neutral tone map, bloom 0.04, no
+  grain. scribe.js `punnettFig()` + makeSheet `fig` (059, additive) = a hand-drawn Punnett square for biology sheets.
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer

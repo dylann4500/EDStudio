@@ -166,6 +166,9 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
       (P.pre ? pre : items).push(...hs.map((q) => ({ ...q, pi: i })));
       if (P.cross) { const xs = hs.slice(0, P.cross); const x0 = xs[0].x - 4, x1 = xs[xs.length - 1].x + xs[xs.length - 1].w + 4, yy = ay - 10; (P.pre ? pre : items).push({ kind: 'p', pts: wobble([[x0, yy], [x1, yy - 4]], seed * 29 + i, 1), w: 3, line: 3, pi: i }); }
     }
+    // 059 (additive): a hand-drawn figure after the answer — P.fig({G, x, y, top, rowH, seed, wobble, layoutHand}) → items
+    // ({kind:'g'} glyphs from layoutHand, {kind:'p', pts, w} pen strokes). punnettFig() below draws a Punnett square.
+    if (P.fig) (P.pre ? pre : items).push(...P.fig({ G, x: ax, y: ay, top: y, rowH, seed: seed * 31 + i, wobble, layoutHand }).map((q) => ({ ...q, pi: i })));
     y += rowH;
   });
   const weight = (it) => (it.kind === 'p' ? it.w : 1);
@@ -284,6 +287,27 @@ export function penKit(G, seed = 1, { u = 26, line = 3.6, amp = 1, penGlyphs = '
       return [...k.arrow(from, to, o), ...shift(its, lx - b.cx + (ux > 0.3 ? b.w / 2 : ux < -0.3 ? -b.w / 2 : 0), ly - b.cy + (uy > 0.3 ? b.h / 2 : uy < -0.3 ? -b.h / 2 : 0))]; },
   };
   return k;
+}
+
+/**
+ * 059 (biology): a Punnett square drawn by the pen, for makeSheet's `fig` option. ox/oy = the square's top-left offset from the
+ * answer origin (canvas px), cell = cell size; parents = [top, left] genotypes ('Bb' → alleles B, b). Writing order: the grid,
+ * the parents' alleles, the four offspring, then `under` (e.g. '3 : 1') below the square. Returns fig(args) → items.
+ */
+export function punnettFig({ ox = 360, oy = -40, cell = 92, parents = ['Bb', 'Bb'], under = '', u = 30 } = {}) {
+  return ({ G, x, y, seed, wobble: wb, layoutHand: lh }) => {
+    const X = x + ox, Y = y + oy, n = cell, out = [];
+    const line = (a, b, k) => out.push({ kind: 'p', pts: wb([a, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], b], seed * 7 + k, 1.6), w: 4, line: 4.2 });
+    line([X, Y], [X + 2 * n, Y], 1); line([X + 2 * n, Y], [X + 2 * n, Y + 2 * n], 2); line([X + 2 * n, Y + 2 * n], [X, Y + 2 * n], 3); line([X, Y + 2 * n], [X, Y], 4);
+    line([X + n, Y - 6], [X + n, Y + 2 * n + 6], 5); line([X - 6, Y + n], [X + 2 * n + 6, Y + n], 6);
+    const top = parents[0].split(''), left = parents[1].split('');
+    const txt = (s, cx, cy, k, uu = u) => { const it = lh(G, s, { x: 0, y: 0, u: uu, seed: seed * 13 + k }); const w = it.length ? it[it.length - 1].x + it[it.length - 1].w : 0; out.push(...it.map((q) => ({ ...q, x: q.x + cx - w / 2, y: q.y + cy + uu * 0.42, kind: 'g' }))); };
+    top.forEach((a, k) => txt(a, X + n * (k + 0.5), Y - n * 0.32, 10 + k));
+    left.forEach((a, k) => txt(a, X - n * 0.3, Y + n * (k + 0.5), 20 + k));
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) { const g2 = [left[r], top[c]].sort((p, q) => (p === p.toUpperCase() ? -1 : 0) - (q === q.toUpperCase() ? -1 : 0)).join(''); txt(g2, X + n * (c + 0.5), Y + n * (r + 0.5), 30 + r * 2 + c, u * 1.05); }
+    if (under) txt(under, X + n, Y + 2 * n + n * 0.5, 40, u * 1.1);
+    return out;
+  };
 }
 
 /** Scribe on a laptop (1280 × 800): modes home | scan | solve | write | done; k = progress 0..1 inside a mode. */

@@ -1,0 +1,24 @@
+{
+  "tone": "promo",
+  "style": "voxel",
+  "reference": "@whatifpov 'What if you DOUBLED in size after every 3 seconds?' (instagram.com/whatifpov/reel/DemVHQDooNo, 108.5K likes; docs/reference/whatifpov.md)",
+  "look": { "exposure": 1.0, "toneMapping": "neutral", "bloom": 0.04, "bloomThreshold": 0.98, "grain": 0, "vignette": 0.1, "saturation": 1.08, "warm": 0.2, "fill": 0.3, "lift": 0.0 },
+  "fps": 30,
+  "duration": 41.2,
+  "title": { "html": "What if you <em>doubled</em> in size every 3 seconds?", "in": -0.5, "out": 2.0 },
+  "hud": [],
+  "subs": [
+    [3.3, 5.85, "Just walking to school."],
+    [6.25, 8.85, "Every 3 seconds, you double."],
+    [9.25, 11.85, "Your pencil didn't grow."],
+    [12.25, 14.85, "Cars crunch like soda cans."],
+    [15.25, 17.85, "Taller than your school."],
+    [18.2, 20.85, "40 problems. Handwritten. Due at 8."],
+    [21.25, 23.85, "Your homework is a grain of rice."],
+    [24.25, 26.85, "One photo with Scribe."],
+    [27.25, 29.85, "Solved… in YOUR handwriting."],
+    [30.25, 32.85, "Printed in Room 4. On time."],
+    [33.25, 35.85, "Your head is in the clouds."]
+  ],
+  "debugView": { "center": [40, 0, 6], "height": 120 }
+}
