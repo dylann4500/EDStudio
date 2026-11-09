@@ -104,6 +104,26 @@ Frame is 1080×1920. y = % of frame height from the top; x = % of width. Measure
   (`#shorts` means it's cross-posted to YouTube Shorts.)
 - At most one CTA, and only when the topic is taggable ("TAG that tall friend!"). The monetization link lives in the bio.
 
+## The speed reel, shot by shot (measured Nov 8 from 1-fps frame grids; 34.2 s, 1080×1920)
+| t (s) | shot | subtitle | HUD |
+|---|---|---|---|
+| 0–2.0 | POV hands running, white-out at the end of the street | — (title only) | 1,654 → 2,415 °C (rising) |
+| 2.0–3.2 | rewind: an aerial street, a front view of the runner, the side view, POV coffee — each ~0.3 s, played backward | — | 573 → 28 → 3.9 mph |
+| 3.2–6.5 | POV: one blocky hand + coffee cup, walking a sunny sidewalk | Just walking. 3 mph | 3.1 → 5.0 mph, WALKING PACE |
+| 6.5–9.5 | side tracking shot of you running past storefronts | Every 3 seconds, it doubles. | 7 → 11 mph |
+| 9.5–12.5 | POV: the coffee flies out of the hand | Don't spill your coffee. | 14 → 22 mph |
+| 12.5–15.5 | a bystander turns to watch you pass | Faster than Usain Bolt. | 28 → 45 mph |
+| 15.5–18.5 | low POV on the road, passing cars | You overtake the traffic. | 56 → 90 mph, FASTER THAN CITY TRAFFIC |
+| 18.5–21.5 | front view, sun glare, debris | Hurricane wind in your face. | 113 → 179 mph, CATEGORY 2 HURRICANE WIND |
+| 21.5–24.5 | rear follow, motion blur | Your legs become a blur. | 226 → 358 mph |
+| 24.5–27.5 | aerial down the avenue | Faster than a train. | 451 → 717 mph |
+| 27.5–30.5 | static sidewalk, a car flips, windows burst | You outrun your own sound. / Every window bursts. | Mach 1.18 → 1.87 |
+| 30.5–32.5 | streaked POV | Your sleeves start smoking. | AIR HITTING YOU 344 → 535 °C |
+| 32.5–34.2 | POV hands, white-out (= frame 0) | Hotter than lava. | 837 → 1,400 °C → loops to 1,654 |
+The ⏪ icon sits top-left (x≈10 %, y≈12 %) only during the rewind; the title box stays up through the rewind (~0–3.5 s).
+Our dupe: `videos/057-homework-doubles` (homework doubling, Scribe promo, pixel style) — same beat grid; its HUD adds a story
+clock line ("T+0:36") because a stack of paper needs ~33 doublings to bury a school (see that shots.js header).
+
 ## What not to copy
 - **Abstract or other-people premises** (AI takeover, zombies, clones). Keep the stake on the viewer's own body or daily life.
 - **Multi-metric HUDs.** The AI video switched between 5 unrelated counters and flopped (695). Use one number, plus at most one consequence switch.

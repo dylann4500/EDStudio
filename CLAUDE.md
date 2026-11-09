@@ -509,6 +509,14 @@ videos/NNN-slug/
   the roof floodlights (MeshBasic boxes 5 × 0.9) and reuse `lights.sun` as the far floodlight bank (036 `stadScene`).
   A camera near a goal: the net spans x 52.5–54.5, |z| < 3.66 — 036's first close-up of the home end sat inside it.
 
+- `engine/sets/school.js` (057): a sunny HIGH-SCHOOL FRONT built with pixel textures — road along x (z 6–13) + crosswalk, near
+  sidewalk (z 3–6, top `SW_H`), lawn + entrance path, 2-floor brick school (x ±24, facade z −12) with a portico on four columns,
+  double doors, a WESTFIELD HIGH SCHOOL band + clock, a gym block, a side wing, flagpole with a waving flag `DIMS.flag`, a FINALS
+  WEEK marquee, benches, bike rack, lamp posts (none in front of the lot), a parking lot of `cars` (makeCar, nose −z), a yellow
+  SCHOOL BUS at the curb, `houses` across the street, hills + clouds; `aimSun`, `update(t)` (flag), own `fog` (save it).
+- **A doubling premise that needs more doublings than real time allows (057):** keep "every 3 seconds" honest with a STORY CLOCK —
+  T(t) piecewise-linear (real time for the first two beats to set the rule, then fast-forward), value = 2^(T/3), and a HUD clock
+  line ("T+0:36") so the math checks out. 1 sheet → a buried school is ~31 doublings (1:33 of story time in 21 s of screen).
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer
