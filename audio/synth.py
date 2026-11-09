@@ -3348,6 +3348,24 @@ def sfx_portal_wub(rng, dur=0.9, pitch=1.0, swallow=0.0):
 SFX.update({"portal_wub": (sfx_portal_wub, "prop")})
 
 
+def sfx_boing(rng, pitch=1.0, dur=0.55):
+    """050: a cartoon spring boing (a trampoline): a round tone that swoops up then wobbles down on a fast, dying vibrato,
+    + a soft thump at the contact. Low-passed at 2.2 kHz — never a whistle."""
+    n = nsamp(dur + 0.1)
+    t = tvec(n)
+    f0 = 150.0 * pitch
+    glide = 1.0 + 1.1 * (1 - np.exp(-t / 0.035)) * np.exp(-t / 0.4)
+    vib = 1.0 + 0.16 * np.sin(2 * np.pi * 15 * t) * np.exp(-t / 0.22)
+    ph = np.cumsum(f0 * glide * vib) / SR
+    tone = np.sin(2 * np.pi * ph) + 0.25 * np.sin(4 * np.pi * ph)
+    env = (1 - np.exp(-t / 0.004)) * np.exp(-t / (dur * 0.42))
+    thump = np.sin(2 * np.pi * 70 * t) * np.exp(-t / 0.05) * 0.6
+    return Sound(norm(fades(lp(tone * env + thump, 2200), 0.0005, 0.06)), onsets=[(0.0, "soft")])
+
+
+SFX.update({"boing": (sfx_boing, "prop")})
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("video", nargs="?", help="video folder under videos/ (reads videos/<video>/cues.json, writes videos/<video>/audio.wav)")

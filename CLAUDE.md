@@ -509,6 +509,12 @@ videos/NNN-slug/
   the roof floodlights (MeshBasic boxes 5 × 0.9) and reuse `lights.sun` as the far floodlight bank (036 `stadScene`).
   A camera near a goal: the net spans x 52.5–54.5, |z| < 3.66 — 036's first close-up of the home end sat inside it.
 
+- **Backyard → university kit (050, Scribe promo, `engine/build/campus.js` + `engine/build/dayhud.js`):** `buildCampus(studio)` = a
+  sunny backyard whose shed upgrades in stages (shed `front` wall to hide for a classroom shot, `floor2`, `roof`, cardboard `sign`;
+  trampoline, trash can `lid`, gnome, bell tower `swing`), a brick hall (`body` grows, `cols[4]` drop, `top` drops, `ivy[]` pop,
+  banner, podium), the neighbor's house with a lean-out window (`nwin.open`), pool → stadium (`rows[]`, `seats`), Mom's table, a
+  clock tower that rises, far halls + grad chairs (`setDay(1)`). `makeDayHud` = an "upgrade every day" HUD (DAY number + a count or
+  clock line that ROLL, the Scribe end card; classes are `dh-*` because index.html already styles `.sub/.num/.hud`). Lessons: docs/PROMO.md.
 - **Low-poly pixel-art look (`engine/pixel.js`, `engine/pixeltex.js`; template `videos/_pixel-template`):** `const pixel =
   addPixelPass(studio)` in build() appends a post pass after the grade; `pixel.set(n)` renders every frame in n×n blocks (1 = off,
   3–6 = the crunchy pixel-art look at 1080 wide), `pixel.set(n, {levels: 24})` posterizes, `{avg: 4}` averages each block (softer
