@@ -17,6 +17,10 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
   rejected them: "much easier to follow" without) + hard impact kicks (`makeKick`, engine/build/cuts.js) at 60 fps + motion blur; improved by a
   5-subagent review loop (`docs/BUILD-REVIEW.md`, brief templates inside). Exempt from the opening question card, HUD, lower-third subtitles,
   "no popping text" and the end card (see BUILD.md for what still holds).
+- **promo** (a product ad in the build look, `videos/049-scribe-promo`) — **follow `docs/PROMO.md`**: copy a reference ad's story beat for
+  beat but reach the product sooner, ElevenLabs narrator at ~the reference's pace, toon look, hard cuts between places (one gliding rail
+  each), no build loop/Gary; product claims checked against the product's own repo/site. Kit: `engine/build/island.js`, `brprops.js`
+  (instanced toon crowd, chutes, beams, blimp, plane, crate), `brhud.js` (battle-royale HUD + product end card), `scribe.js`, `library.js`.
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts (build reels excepted:
