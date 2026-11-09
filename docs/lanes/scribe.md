@@ -36,7 +36,7 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **45–65 s**, 1080×1920. 60 fps + motion blur in the build/toon look; 30 fps is fine for other styles.
 - **Narrated** (ElevenLabs, Adam v3, docs/PROMO.md pace ≈ 3.9 words/s). The hook is spoken on frame 1; no silent title card.
   Captions: one word at a time in the center (`engine/build/captions.js`) unless your style has a better native caption.
-- **ElevenLabs budget (free tier until the user upgrades — 6.4K chars left until Nov 29, and free = non-commercial):** draft and
+- **ElevenLabs budget (a new FREE-tier key since Nov 8: 10K chars, resets Dec 9, shared by every producer; free = non-commercial):** draft and
   time everything with the scratch voice (`python3 -I tools/narrate.py NNN-slug --scratch` = macOS `say`, free), lock the script, then voice it ONCE with Eleven (≤ 1,300 chars). Tempo changes are free; beats are cached, so re-voice only the
   beat you changed. If the quota runs out, finish on the scratch voice, say so in your report, and the manager re-voices later.
 - **Music: upbeat, fast, percussive** (user steer on 049: 140 bpm four-on-the-floor + claps + hats + a marimba arp, music ≈ −21 LUFS
