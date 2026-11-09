@@ -80,4 +80,6 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - **The handwriting macro whip-panned into blur at 60 fps + motion blur** when 049's tight pen-tracker chased six problems in
   1.6 s: frame the line being written from ~0.55 m (camera keyed to the tip averaged over 0.4 s, x pinned near the page's
   left half, aimed a little down the page so the line sits above the subtitle) and write only problems 1–4 on camera.
-- Deliverable for a trending sound: `out/nomusic.mp4` = `out/silent.mp4` + amix(voice, sfx, amb stems, `normalize=0`), AAC 192k.
+- The posted cut is the no-music one (a trending sound goes under it in the app): `sh tools/nomusic-copy.sh videos/NNN-slug` →
+  out/nomusic.mp4 + out/upload-nomusic.mp4. Check it stands on voice + SFX: 056's only quiet stretches without music were the
+  intended near-silent VHS rewind and the last fade; ambience beds under every scene kept voice pauses at ~−21 dBFS.
