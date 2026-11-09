@@ -108,6 +108,7 @@ const PEN_SYMS = {
 
 /** A hand-drawn polyline (a wobbly sketch): pts in canvas px. */
 const TAU2 = Math.PI * 2;
+const TAU = Math.PI * 2;
 const BOLD = [[0, 0], [0.9, 0], [0, 0.9], [-0.6, 0.4]];   // a ballpoint is darker than the 29 px masks: draw each glyph four times, offset
 const wobble = (pts, seed = 3, amp = 1.6) => { let R = seed; const r = () => (R = (R * 16807) % 2147483647) / 2147483647 - 0.5; return pts.map(([x, y]) => [x + r() * amp, y + r() * amp]); };
 
@@ -121,7 +122,8 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
   const items = [], pre = [];
   const nameIt = layoutHand(G, name, { x: 196, y: 196, u: 26, seed: seed * 3 + 1 }).map((q) => ({ ...q, kind: 'g' }));
   pre.push(...nameIt);
-  let y = 300; const rowH = (h - 340) / Math.max(1, problems.length);
+  // 062 (additive): P.rows = how many row heights a problem takes (default 1, so old sheets lay out exactly as before)
+  let y = 300; const rowH = (h - 340) / Math.max(1, problems.reduce((s2, P) => s2 + (P.rows ?? 1), 0));
   // rich (subject packs, Nov 9): rows sized by P.h (relative weights, default 1), answers through writeHand, P.fig(ctx) figures
   const sumH = problems.reduce((s, P) => s + (P.h ?? 1), 0), rowAt = (P) => (rich ? (h - 340) * (P.h ?? 1) / Math.max(1, sumH) : rowH);
   const printed = [];
@@ -179,6 +181,21 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
       });
       if (P.caption) out.push(...layoutHand(G, P.caption, { x: P.x0 ?? 118, y: cy + 70, u: 24, seed: seed * 47 + i }).map((q) => ({ ...q, kind: 'g' })));
       (P.pre ? pre : items).push(...out.map((q) => ({ ...q, pi: i })));
+    } else if (P.fbd) {   // 062: a free-body diagram drawn by hand — a little plane + four labelled arrows (items tagged body|lift|weight|thrust|drag|work)
+      const cx = P.fbd.x ?? 700, cy = y + (P.fbd.dy ?? 200), A = P.fbd.len ?? 120, S2 = seed * 31 + i;
+      const T = (tag, list) => list.map((q) => ({ ...q, tag, pi: i }));
+      const stroke = (pts, wt, k) => ({ kind: 'p', pts: wobble(pts, S2 + k, 1.1), w: wt });
+      const fus = []; for (let k = 0; k <= 28; k++) { const a = (k / 28) * TAU; fus.push([cx + Math.cos(a) * 74 * (Math.cos(a) > 0 ? 1 : 0.92), cy + Math.sin(a) * (Math.cos(a) > 0 ? 15 : 18)]); }
+      const body = [stroke(fus, 9, 1), stroke([[cx - 58, cy - 12], [cx - 80, cy - 48], [cx - 62, cy - 48], [cx - 38, cy - 14]], 4, 2), stroke([[cx + 14, cy + 4], [cx - 22, cy + 30], [cx - 40, cy + 30], [cx - 16, cy + 6]], 4, 3)];
+      const arrow = (x0, y0, x1, y1, k) => { const dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, hx = -uy, hy = ux, hs = 20;
+        return [stroke([[x0, y0], [x1, y1]], 6, k), stroke([[x1 - ux * hs + hx * hs * 0.6, y1 - uy * hs + hy * hs * 0.6], [x1, y1], [x1 - ux * hs - hx * hs * 0.6, y1 - uy * hs - hy * hs * 0.6]], 3, k + 1)].map((q) => ({ ...q, line: 5 })); };
+      const lab = (text, x, yy, k) => layoutHand(G, text, { x, y: yy, u: 26, seed: S2 * 7 + k }).map((q) => ({ ...q, kind: 'g' }));
+      const lift = [...arrow(cx, cy - 22, cx, cy - 22 - A, 10), ...lab('Lift', cx + 16, cy - A + 6, 1)];
+      const weight = [...arrow(cx, cy + 22, cx, cy + 22 + A, 20), ...lab('Weight', cx + 16, cy + A + 4, 2)];
+      const thrust = [...arrow(cx + 82, cy, cx + 82 + A * 0.85, cy, 30), ...lab('Thrust', cx + 92, cy - 18, 3)];
+      const drag = [...arrow(cx - 88, cy, cx - 88 - A * 0.85, cy, 40), ...lab('Drag', cx - 88 - A * 0.85, cy - 18, 4)];
+      const work = P.a ? layoutHand(G, P.a, { x: ax, y: ay + 6, u: 28, seed: seed * 19 + i }).map((q) => ({ ...q, kind: 'g' })) : [];
+      (P.pre ? pre : items).push(...T('body', body), ...T('lift', lift), ...T('weight', weight), ...T('thrust', thrust), ...T('drag', drag), ...T('work', work));
     } else if (P.a) {
       const hs = layoutHand(G, P.a, { x: ax, y: ay, u: 30, seed: seed * 23 + i }).map((q) => ({ ...q, kind: 'g' }));
       (P.pre ? pre : items).push(...hs.map((q) => ({ ...q, pi: i })));
@@ -187,7 +204,7 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
     // 059 (additive): a hand-drawn figure after the answer — P.fig({G, x, y, top, rowH, seed, wobble, layoutHand}) → items
     // ({kind:'g'} glyphs from layoutHand, {kind:'p', pts, w} pen strokes). punnettFig() below draws a Punnett square.
     if (P.fig) (P.pre ? pre : items).push(...P.fig({ G, x: ax, y: ay, top: y, rowH, seed: seed * 31 + i, wobble, layoutHand }).map((q) => ({ ...q, pi: i })));
-    y += rowH;
+    y += rowH * (P.rows ?? 1);
   });
   const weight = (it) => (it.kind === 'p' ? it.w : 1);
   const total = items.reduce((s, it) => s + weight(it), 0);
@@ -348,6 +365,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n, name = 'Tyler
     g.fillStyle = '#e8e2d6'; g.beginPath(); g.arc(w - 50, 39, 22, 0, 7); g.fill(); g.fillStyle = RED; g.font = '600 22px Inter, Arial'; g.textAlign = 'center'; g.fillText(name[0].toUpperCase(), w - 50, 47); g.textAlign = 'left';
   };
   const button = (x, y, bw, bh, text) => { g.fillStyle = RED; g.beginPath(); g.roundRect(x, y, bw, bh, 16); g.fill(); g.fillStyle = '#fff'; g.font = '600 30px Inter, Arial'; g.textAlign = 'center'; g.fillText(text, x + bw / 2, y + bh / 2 + 11); g.textAlign = 'left'; };
+  const chip = (x, y) => { if (!subject) return; g.font = '600 24px Inter, Arial'; const tw = g.measureText(subject.toUpperCase()).width + 36; g.fillStyle = 'rgba(154,28,37,.12)'; g.beginPath(); g.roundRect(x, y - 30, tw, 40, 20); g.fill(); g.fillStyle = RED; g.fillText(subject.toUpperCase(), x + 18, y - 2); };
   let lastKey = '';
   function draw({ mode = 'home', k = 0 } = {}) {
     const key = mode + ':' + Math.round(k * 40);
@@ -366,7 +384,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n, name = 'Tyler
       g.save(); g.translate(170, 140); g.rotate(-0.03); g.drawImage(sheet.canvas, 0, 0, 430, 556); g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 2; g.strokeRect(0, 0, 430, 556);
       if (mode === 'scan') { const sy = 556 * k; g.fillStyle = 'rgba(154,28,37,.18)'; g.fillRect(0, 0, 430, sy); g.fillStyle = RED; g.fillRect(-8, sy - 3, 446, 6); }
       g.restore();
-      if (subject) { g.fillStyle = RED; g.font = '700 24px Inter, Arial'; g.fillText(`${subject.toUpperCase()} · ${N} PROBLEMS`, 680, 132); }
+      if (SL) { g.fillStyle = RED; g.font = '700 24px Inter, Arial'; g.fillText(`${SL.toUpperCase()} · ${N} PROBLEMS`, 680, 132); }
       g.fillStyle = '#1d1d1d'; g.font = '44px Georgia, serif';
       const n = mode === 'solve' ? Math.round(N * k) : 0;
       g.fillText(mode === 'scan' ? `Reading ${N} problem${N === 1 && S ? '' : 's'}…` : n >= N ? `All ${N} solved.` : `Solving… ${n}/${N}`, 680, 190);

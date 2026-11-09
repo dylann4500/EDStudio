@@ -1,0 +1,246 @@
+{
+  "title": "How airplanes fly (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "fish",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 270
+  },
+  "lead": 0.04,
+  "gap": 0.07,
+  "tail": 4.5,
+  "maxPause": 0.2,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.6,
+  "joinLen": 4,
+  "swap": {
+    "fucking": "F*CKING"
+  },
+  "wordColor": {
+    "F*CKING": "#ff4f6a"
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.1,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "How fucking airplanes fucking fly.",
+      "callouts": [
+        {
+          "at": "airplanes",
+          "text": "HOW PLANES FLY",
+          "style": "term",
+          "until": "fly"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "say": "The fucking airport. Shoes fucking off. Belt fucking off. Pants fucking down. Still fucking beeps.",
+      "callouts": [
+        {
+          "at": "airport",
+          "text": "THE AIRPORT",
+          "style": "label",
+          "hold": 1.1
+        },
+        {
+          "at": "beeps",
+          "text": "BEEP BEEP",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.25
+          ],
+          "hold": 0.5
+        }
+      ]
+    },
+    {
+      "id": "engines",
+      "say": "The fucking engines suck in air, set it on fucking fire, and throw it out the fucking back.",
+      "callouts": [
+        {
+          "at": "engines",
+          "text": "THE ENGINE",
+          "style": "label"
+        },
+        {
+          "at": "back",
+          "text": "THRUST",
+          "style": "term",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "wing",
+      "say": "This is the fucking wing. It shoves the fucking air down.",
+      "callouts": [
+        {
+          "at": "wing",
+          "text": "THE WING",
+          "style": "label"
+        }
+      ]
+    },
+    {
+      "id": "lift",
+      "say": "The air shoves the fucking plane up. That's fucking lift.",
+      "callouts": [
+        {
+          "at": "lift",
+          "text": "LIFT",
+          "style": "term",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "say": "Twice the fucking speed? Four times the fucking lift.",
+      "callouts": [
+        {
+          "at": "twice",
+          "text": "2X SPEED",
+          "style": "label",
+          "until": "four"
+        },
+        {
+          "at": "four",
+          "text": "4X LIFT",
+          "style": "term",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "turb",
+      "say": "Turbulence? Just fucking bumpy air. The plane's fucking fine. Your fucking coffee isn't.",
+      "callouts": [
+        {
+          "at": "turbulence",
+          "text": "TURBULENCE",
+          "style": "label",
+          "hold": 1.1
+        },
+        {
+          "at": "isnt",
+          "text": "SPLASH",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.66
+          ],
+          "hold": 0.4
+        }
+      ]
+    },
+    {
+      "id": "snack",
+      "say": "Your fucking snack: one fucking pretzel.",
+      "callouts": []
+    },
+    {
+      "id": "land",
+      "say": "It fucking lands. One fucking guy claps.",
+      "callouts": [
+        {
+          "at": "claps",
+          "text": "CLAP CLAP",
+          "style": "sfx",
+          "pos": [
+            0.28,
+            0.64
+          ],
+          "hold": 0.45
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "say": "It's your fucking physics teacher. Ten fucking lift problems. Fucking handwritten.",
+      "callouts": [
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "y": 0.205,
+          "hold": 0.95
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "You're fucking cooked.",
+      "callouts": []
+    },
+    {
+      "id": "scribe",
+      "say": "So you fucking open Scribe. One fucking photo. It fucking solves all ten.",
+      "callouts": [
+        {
+          "at": "scribe",
+          "text": "SCRIBE",
+          "style": "term",
+          "hold": 1.3,
+          "y": 0.16
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "It fucking draws the fucking diagram: lift, weight, thrust, fucking drag. In your fucking handwriting.",
+      "callouts": [
+        {
+          "at": "handwriting",
+          "text": "YOUR HANDWRITING",
+          "style": "term",
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "fold",
+      "say": "You fold it into a fucking plane. It fucking flies. One fucking guy claps.",
+      "callouts": [
+        {
+          "at": "claps",
+          "text": "CLAP CLAP",
+          "style": "sfx",
+          "pos": [
+            0.28,
+            0.64
+          ],
+          "hold": 0.6
+        }
+      ]
+    }
+  ],
+  "fish": {
+    "reference_id": "c5f56a6cc2ec4fa8920cb4c5889a3fb7",
+    "name": "Slax",
+    "model": "s2.1-pro",
+    "tempo": 1.84
+  }
+}

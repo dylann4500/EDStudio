@@ -574,6 +574,22 @@ videos/NNN-slug/
   belly hides anything further back). scribe.js (063, additive): a problem `{chain: ['algae', 'krill', …], u, gap}` = a hand-drawn
   food chain (each label written + circled, hand arrows between) — make it the LAST problem and lift the macro lens off the pen tip
   to frame the whole row as it's drawn; `makeScreen(…, {subject: 'Biology'})` = a subject chip + "BIOLOGY · showing work + diagrams".
+
+- **Airport kit (062, `engine/build/airport.js`, toon look):** `buildAirfield(studio)` = ONE world at the origin: runway along +x
+  (threshold x 0, 45 m, markings, edge + approach lights), a perimeter fence across the approach with a planespotter spot outside it
+  (`AD.spot`), apron + gate (`AD.gate`: park jet.js `makeAirliner` there nose +x), a glass AIRPORT terminal + jet bridges, tower,
+  hangar, tug + carts, fuel truck, cones, windsock, far hills; a camera-following sky (`setMood('day'|'air')`) and a CLOUD LAYER for
+  flight shots (`'air'` shows a deck at `AD.cloudY` and hides the ground). `buildSecurity(studio)` = a checkpoint (walk-through
+  arch `detector.setLight('green'|'red')`, x-ray belt + `bins[]`, stanchions, SECURITY sign, departures board). `makeCockpit()` =
+  a flight deck (x = nose): live panel `setSpeed(knots, alt, pitch)`, `setThrottle(0..1)`, seats `S.seatL/R`, yokes, windshield —
+  parent it to the airliner body at its nose, hide the airliner's own parts, and set `camera.up` to the plane's up (the world tilts,
+  not the cockpit). `relivery(air, name)` repaints jet.js's GARY AIR livery + fin logo. Props: `makePretzel`, `makePretzelBag`
+  (`open(k)`), `makeCup` (`setLevel`), `makePaperPlane(map)`, `makeWand`, `makeSuitcase`, `makeTug`, `makeBoxers(toon)` (heart
+  boxers + the dropped pants round the ankles). jet.js's `makeEngine` doubles as a closed turbofan on any shot: full `set({...})` +
+  `updateClip()` then `clip.constant = 1e6` (no cut); leave the clip for the cutaway. `engine/build/scribe.js` (062, additive):
+  problems take `rows: n` (taller rows) and `fbd: {x, dy, len}` = a hand-drawn free-body diagram (a little plane + labelled
+  Lift/Weight/Thrust/Drag arrows, items tagged `body|lift|weight|thrust|drag|work` so shots key each arrow to its spoken word);
+  `makeScreen(…, { subject: 'Physics' })` adds a subject chip to the solve/write panels.
 - **Sim style — Sims-like realistic 3D (052, `engine/sim/`; docs/STYLES.md → sim; template `videos/_sim-template`):** @officialwriteit's
   hit look. `buildSimHouse(studio)` = a dollhouse-cut ranch house (front walls gone at z = 0, floor `FY` 0.62 on joists over a crawlspace,
   a cut soil slab, pink ceiling insulation, a gable roof cut through its rafters; rooms bedroom | hall | kitchen | living, `D.rooms`) with
