@@ -28,11 +28,19 @@ const ARMS = {
   wave: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.85, 0.3, 0.2], [-0.12, 1, 0.12]] },
   shrug: { L: [[0.75, -0.62, 0.1], [0.35, 0.15, 0.9]] },
   cross: { L: [[0.3, -0.85, 0.35], [-0.95, 0.05, 0.25]], R: [[-0.3, -0.85, 0.32], [0.95, 0.12, 0.28]] },
+  // the seductive set (054 v2): finger to the lips, a kiss at the lips / blown out, beckoning, leaning in, a hair flip
+  shh: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.2, -0.78, 0.52], [0.48, 0.74, 0.42]] },
+  kiss: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.24, -0.66, 0.66], [0.42, 0.66, 0.6]] },
+  kissOut: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.3, -0.2, 0.95], [-0.15, 0.1, 1]] },
+  beckon: { L: [[0.62, -0.72, -0.18], [-0.72, -0.62, 0.22]], R: [[-0.28, -0.5, 0.82], [-0.08, 0.25, 1]] },
+  lean: { L: [[0.22, -0.8, 0.55], [0.06, -0.88, 0.45]], R: [[-0.22, -0.8, 0.55], [-0.06, -0.88, 0.45]] },
+  hairflip: { L: [[0.5, 0.82, 0.12], [-0.72, 0.42, 0.1]], R: [[-0.62, -0.72, -0.18], [0.72, -0.62, 0.22]] },
 };
-const HANDS = { rest: 'relax', hip: 'relax', shades: 'relax', point: 'point', peace: 'peace', phone: 'hold', wave: 'open', shrug: 'open', cross: 'relax' };
+const HANDS = { rest: 'relax', hip: 'relax', shades: 'relax', point: 'point', peace: 'peace', phone: 'hold', wave: 'open', shrug: 'open', cross: 'relax', shh: 'point', kiss: 'kiss', kissOut: 'open', beckon: 'beckon', lean: 'relax', hairflip: 'relax' };
 // finger curl per pose: [thumb, index, middle, ring, little] (radians per joint)
 const SHAPES = { relax: [0.25, 0.25, 0.32, 0.38, 0.42], open: [0.05, 0.04, 0.04, 0.05, 0.06], fist: [0.9, 1.35, 1.4, 1.4, 1.35],
-  point: [0.8, 0.02, 1.35, 1.4, 1.35], peace: [0.9, 0.02, 0.02, 1.4, 1.35], hold: [0.45, 0.55, 0.65, 0.75, 0.8] };
+  point: [0.8, 0.02, 1.35, 1.4, 1.35], peace: [0.9, 0.02, 0.02, 1.4, 1.35], hold: [0.45, 0.55, 0.65, 0.75, 0.8],
+  kiss: [0.35, 0.3, 0.35, 0.45, 0.5], beckon: [0.8, 0.85, 1.35, 1.4, 1.35] };
 
 export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1.0, thigh = 1.0, emissiveFloor = 0.22 } = {}) {
   const gltf = await new GLTFLoader().loadAsync(url);
@@ -146,7 +154,7 @@ export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1
       bob = Math.abs(Math.sin(ph)) * 0.022 * amp;
       dirs.hips = [0.05 * sL * amp, 1, 0]; dirs.spine = [-0.06 * sL * amp, 1, 0.04]; dirs['twist.spine'] = 0.12 * sL * amp;
     } else {
-      dirs.hips = [Math.sin(sw) * 0.35, 1, 0]; dirs.spine = [-Math.sin(sw) * 0.4, 1, -0.02 + breath + lean * 0.3]; dirs.chest = [-Math.sin(sw) * 0.12, 1, 0.02 + breath + lean * 0.3];
+      dirs.hips = [Math.sin(sw) * 0.35, 1, 0]; dirs.spine = [-Math.sin(sw) * 0.4, 1, -0.02 + breath + lean * 0.6]; dirs.chest = [-Math.sin(sw) * 0.12, 1, 0.02 + breath + lean * 0.5];
       dirs.leftUpperLeg = [0.07 + Math.sin(sw) * 0.25, -1, 0.1]; dirs.leftLowerLeg = [0.04, -1, -0.04];
       dirs.rightUpperLeg = [-0.02 + Math.sin(sw) * 0.25, -1, 0.0]; dirs.rightLowerLeg = [-0.02 + Math.sin(sw) * 0.2, -1, 0.0];
     }
@@ -155,7 +163,7 @@ export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1
     Object.assign(dirs, p.aim || {});
     aim(dirs);
     model.position.y = bob;
-    const hs = { L: HANDS[p.pose] && p.pose !== 'point' && p.pose !== 'peace' && p.pose !== 'phone' ? HANDS[p.pose] : 'relax', R: HANDS[p.pose] || 'relax', ...(p.hands || {}) };
+    const RONLY = ['point', 'peace', 'phone', 'shh', 'kiss', 'kissOut', 'beckon'], hs = { L: HANDS[p.pose] && !RONLY.includes(p.pose) ? HANDS[p.pose] : 'relax', R: HANDS[p.pose] || 'relax', ...(p.hands || {}) };
     shapeHand('left', hs.L); shapeHand('right', hs.R);
     // eyes look (bone type lookAt), face
     for (const k of ['leftEye', 'rightEye']) if (H[k]) { const [lx, ly] = p.look || [0, 0]; H[k].quaternion.copy(REST[k]).multiply(qT.setFromEuler(new THREE.Euler(-ly * 0.25, lx * 0.3, 0))); }

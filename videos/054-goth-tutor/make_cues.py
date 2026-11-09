@@ -16,19 +16,17 @@ B, D = story['beats'], story['duration']
 norm = lambda w: ''.join(c for c in w.lower() if c.isalnum())
 def W(beat, word, n=1): return [w[1] for w in B[beat]['w'] if w[0] == norm(word)][n - 1]
 
-T = dict(tell1=B['tell1']['t0'], more=W('tell1', 'more'), handwritten=W('tell1', 'handwritten'), and1=W('tell1', 'and'), crime=W('tell1', 'crime'),
-         tell2=B['tell2']['t0'], em=W('tell2', 'em'), dashes=W('tell2', 'dashes'), delve=W('tell2', 'delve'), nobody=W('tell2', 'nobody'),
-         tell3=B['tell3']['t0'], d1=W('tell3', 'd'), d2=W('tell3', 'd', 2), hundred=W('tell3', 'hundred'), overnight=W('tell3', 'overnight'),
-         turn=B['turn']['t0'], scribe=B['scribe']['t0'], then=W('scribe', 'then'), snap=W('scribe', 'snap'), it=W('scribe', 'it'), solves=W('scribe', 'solves'), and2=W('scribe', 'and'),
-         messy=W('scribe', 'your', 3), payoff=B['payoff']['t0'], your=W('payoff', 'your'), perfect=W('payoff', 'perfect'), end=B['end']['t0'], me=W('end', 'me'),
-         let=W('hook', 'let'), babe=W('hook', 'babe'))
-T['card'] = T['me'] + 0.35
-CUTS = [T['tell1'], T['more'] - 0.05, T['and1'] - 0.05, T['tell2'], T['em'] - 0.05, T['nobody'] - 0.05, T['tell3'], T['overnight'] - 0.05, T['turn'], T['scribe'],
-        T['then'] - 0.05, T['it'] - 0.05, T['and2'] - 0.05, T['messy'] - 0.05, T['payoff'], T['your'] - 0.05, T['perfect'] - 0.05, T['end']]
+T = dict(come=W('hook', 'come'), mommy1=W('hook', 'mommy'), h17=B['h17']['t0'], drinks=W('h17', 'drinks'), h20=B['h20']['t0'], thats=W('h20', 'thats'), chips=W('h20', 'chips'),
+         h22=B['h22']['t0'], naps=W('h22', 'naps'), withW=W('h22', 'with'), h24=B['h24']['t0'], forty=W('h24', 'forty'), so=W('h24', 'so'), gone=W('h24', 'gone'),
+         turn=B['turn']['t0'], mommy2=W('turn', 'mommy'), you=W('turn', 'you'), scribe=B['scribe']['t0'], scribeW=W('scribe', 'scribe'), and2=W('scribe', 'and'), even=W('scribe', 'even'),
+         payoff=B['payoff']['t0'], mommy3=W('payoff', 'mommys'), end=B['end']['t0'], dreams=W('end', 'dreams'))
+T['card'] = T['dreams'] + 0.55
+CUTS = [T['h17'], T['h20'], T['h22'], T['h24'], T['forty'] - 0.05, T['so'] - 0.05, T['turn'], T['scribe'], T['scribeW'] - 0.05, T['and2'] - 0.05, T['even'] - 0.05, T['payoff'], T['end']]
+T['let'] = T['come']; T['perfect'] = T['even']
 
 # ---------------------------------------------------------------- music: minimal "MIDNIGHT TUTOR" (100 bpm, A minor)
 BPM = 100; BEAT = 60 / BPM
-IN = T['let'] - 0.05
+IN = T['come'] - 0.05
 chords, cur = [], IN
 while cur < D - 0.8:
     for sym in ['Am', 'F', 'Dm', 'E']:
@@ -59,47 +57,34 @@ def e(t, sound, gain, pan=0.0, **args):
 for c in CUTS: e(c, "pop", -25, 0.0, pitch=1.7)                                   # pixel blip on each mosaic cut
 e(0.05, "pop", -20, 0.0, pitch=1.3)                                                 # the title card
 for c in story['callouts']: e(c['t0'], "scan_beep", -24, 0.2, pitch=1.4, dur=0.12)
-e(T['babe'] - 0.35, "breath", -22, 0.0, dur=0.6, inhale=True)
-# tell 1: chalk underline, the crime scene
-e(T['handwritten'] + 0.02, "chalk_write", -20, -0.1, dur=0.35, strokes=2)
-e(T['crime'], "knock", -16, -0.2); e(T['crime'] + 0.12, "knock", -17, 0.2)
-e(T['crime'] + 0.05, "siren", -30, 0.4, dur=0.9, cycles=0.6)
-# tell 2: phone taps, highlighter pops on the em dashes, the circle round "delve", the meter alarm
-e(T['tell2'] + 0.4, "plip", -24, 0.2); e(T['tell2'] + 0.65, "plip", -25, 0.2)
-for k in range(3): e(T['em'] + 0.25 + k * 0.3, "pop", -19, -0.2 + 0.2 * k, pitch=1.1 + 0.1 * k)
-e(T['delve'], "pen_scribble", -18, 0.0, dur=0.4)
-e(T['nobody'] - 0.35, "alarm_beep", -27, 0.1)
-# tell 3: chalk grades + the "?!" boing
-for k in ('d1', 'd2'): e(T[k], "chalk_write", -18, 0.0, dur=0.32, strokes=2)
-e(T['hundred'], "chalk_write", -17, 0.1, dur=0.4, strokes=3); e(T['hundred'] + 0.35, "boing", -20, 0.2, pitch=1.2, dur=0.45)
-# the turn: a close whisper
-e(T['turn'] - 0.25, "breath", -20, 0.0, dur=0.7, inhale=True)
-e(T['turn'], "low_swell", -24, 0.0, dur=1.3, pitch=1.2)
-# Scribe: practice page, the snap, solving ticks, the pen writing
-for k in range(5): e(T['scribe'] + 0.15 + k * 0.62, "pen_scribble", -22, -0.1, dur=0.55)
-e(T['snap'], "latch_click", -16, 0.1, kind="close", bright=1.4); e(T['snap'] + 0.01, "flash_swish", -20, 0.1, dur=0.18, peak=0.5)
-k, t = 0, T['solves']
+# every "mommy": a breath in just before, a soft sparkle as the hearts pop
+for m in (T['mommy1'], T['mommy2'], T['mommy3']):
+    e(m - 0.45, "breath", -21, 0.0, dur=0.55, inhale=True)
+    e(m + 0.05, "gold_chime", -26, 0.15, notes=[88, 93], spacing=0.06, vel=0.22, dur=0.5)
+e(T['you'] + 0.1, "gold_chime", -26, -0.1, notes=[86, 91], spacing=0.07, vel=0.22, dur=0.5)   # the blown kiss
+e(T['dreams'] + 0.05, "gold_chime", -25, 0.1, notes=[81, 86, 93], spacing=0.08, vel=0.24, dur=0.6)
+# hour 17: an ice clink in the cocktail; hour 20: the chip bag crinkle + a crunch; hour 22: a nodding-off swell, then a jolt
+e(T['h17'] + 0.3, "metal_clang", -30, -0.3, size=0.2, pitch=2.2)
+e(T['h20'] + 0.4, "blanket_rustle", -22, 0.3, dur=0.6, intensity=0.9); e(T['chips'] + 0.05, "crumble", -20, 0.2)
+e(T['naps'], "low_swell", -24, 0.0, dur=1.2, pitch=0.8); e(T['withW'] + 0.02, "boing", -22, 0.0, pitch=1.3, dur=0.35)
+# hour 24: the SAVE FAILED glitch
+for k in range(4): e(T['forty'] + k * 0.11, "zap", -27, 0.1, dur=0.08)
+e(T['gone'], "low_swell", -24, 0.0, dur=0.9, pitch=0.7)
+# Scribe: the phone shutter, solve ticks, the pen writing (the graph)
+e(T['scribe'] + 0.4, "latch_click", -16, 0.1, kind="close", bright=1.4); e(T['scribe'] + 0.41, "flash_swish", -20, 0.1, dur=0.18, peak=0.5)
+k, t = 0, T['scribeW'] + 0.25
 while t < T['and2'] - 0.1: e(t, "scan_beep", -26, 0.15, pitch=1.6 + 0.02 * (k % 6), dur=0.07); t += 0.16; k += 1
 t = T['and2']
 while t < T['payoff'] - 0.3: e(t, "pen_scribble", -21, 0.0, dur=0.6); t += 0.55
-# payoff: paper slide, the magnifier, PERFECT MATCH
-e(T['payoff'] + 0.15, "flash_swish", -22, -0.2, dur=0.4, peak=0.3)
-e(T['perfect'] + 0.05, "gold_chime", -21, 0.1, notes=[81, 84, 88], spacing=0.07, vel=0.3)
 e(T['card'], "gold_chime", -23, 0.0, notes=[69, 76, 81], spacing=0.09, vel=0.28)
 
 amb = [
-    {"sound": "surf", "t0": 0.0, "t1": T['tell1'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -26, "args": {"size": 0.7}, "seed": 1},
-    {"sound": "room_tone", "t0": T['tell1'], "t1": T['tell2'], "fade_in": 0.1, "fade_out": 0.1, "gain_db": -36, "seed": 2},
-    {"sound": "room_tone", "t0": T['tell2'], "t1": T['tell3'], "fade_in": 0.1, "fade_out": 0.1, "gain_db": -34, "seed": 3},
-    {"sound": "clock", "t0": T['tell2'], "t1": T['tell3'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -38, "pan": 0.2, "seed": 4},
-    {"sound": "kids_laugh", "t0": T['tell3'], "t1": T['turn'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -40, "seed": 5},
-    {"sound": "room_tone", "t0": T['turn'], "t1": T['payoff'], "fade_in": 0.1, "fade_out": 0.1, "gain_db": -34, "seed": 6},
-    {"sound": "clock", "t0": T['turn'], "t1": T['payoff'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -40, "pan": -0.2, "seed": 7},
-    {"sound": "room_tone", "t0": T['payoff'], "t1": T['end'], "fade_in": 0.1, "fade_out": 0.1, "gain_db": -36, "seed": 8},
-    {"sound": "surf", "t0": T['end'], "t1": D, "fade_in": 0.3, "fade_out": 0.8, "gain_db": -27, "args": {"size": 0.6}, "seed": 9},
+    {"sound": "surf", "t0": 0.0, "t1": T['scribe'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -26, "args": {"size": 0.7}, "seed": 1},
+    {"sound": "surf", "t0": T['scribe'], "t1": T['payoff'], "fade_in": 0.2, "fade_out": 0.2, "gain_db": -32, "args": {"size": 0.5}, "seed": 2},
+    {"sound": "surf", "t0": T['payoff'], "t1": D, "fade_in": 0.3, "fade_out": 0.8, "gain_db": -27, "args": {"size": 0.6}, "seed": 3},
 ]
 cues = {
-    "title": "054 - Scribe promo: goth cheat-tutor (minimal MIDNIGHT TUTOR bed, 100 bpm A minor, pixel foley + Sarah)",
+    "title": "054 v2 - 24 hours without sleep (Vex, minimal MIDNIGHT TUTOR bed, 100 bpm A minor, pixel foley + Sarah)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
     "stem_gain_db": {"music": -11.0, "sfx": 2.5, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -6.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},

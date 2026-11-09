@@ -1,5 +1,5 @@
 {
- "title": "Can your professor tell you used AI? (Scribe, goth tutor)",
+ "title": "What happens to your body if you don't sleep for 24 hours? (Vex, Scribe)",
  "tone": "promo",
  "voice": {
   "provider": "eleven",
@@ -16,13 +16,13 @@
   "rate": 200
  },
  "lead": 0.04,
- "gap": 0.12,
+ "gap": 0.14,
  "tail": 4.6,
- "maxPause": 0.3,
+ "maxPause": 0.34,
  "pauseFloor": -45,
  "fps": 30,
  "motionBlur": 1,
- "tempo": 1.12,
+ "tempo": 1.06,
  "joinLen": 4,
  "look": {
   "exposure": 1.0,
@@ -39,91 +39,101 @@
  "beats": [
   {
    "id": "hook",
-   "say": "[seductive, low voice] Can your professor tell you used AI? [laughs softly] Babe... yes. Let mommy explain.",
+   "say": "[seductive, low voice] What happens to your body if you don't sleep for twenty-four hours? [whispers] Come here, baby. Mommy will tell you.",
    "callouts": []
   },
   {
-   "id": "tell1",
-   "say": "Tell number one. You turned in something typed. More profs want it handwritten now... and your handwriting? [sighs] A crime scene.",
+   "id": "h17",
+   "say": "Hour seventeen. Your brain is as slow as someone who's had a few drinks.",
    "callouts": [
     {
-     "at": "one",
-     "text": "TELL 1/3",
-     "style": "label",
-     "y": 0.13,
-     "until": "typed"
+     "at": "seventeen",
+     "text": "17 HRS = 0.05% BAC",
+     "style": "term",
+     "until": "drinks",
+     "y": 0.14
     }
    ]
   },
   {
-   "id": "tell2",
-   "say": "Tell number two. You pasted the chatbot answer. Em dashes everywhere. Delve. [laughs] Nobody says delve, babe.",
+   "id": "h20",
+   "say": "Hour twenty. Your hunger hormone climbs. [laughs softly] That's why you're on your third bag of chips.",
    "callouts": [
     {
-     "at": "two",
-     "text": "TELL 2/3",
-     "style": "label",
-     "y": 0.13,
-     "until": "answer"
+     "at": "hunger",
+     "text": "HUNGER HORMONE UP",
+     "style": "term",
+     "until": "chips",
+     "y": 0.14
     }
    ]
   },
   {
-   "id": "tell3",
-   "say": "Tell number three. D minus, D minus... then a hundred. Overnight. [sarcastic] Totally normal.",
+   "id": "h22",
+   "say": "Hour twenty-two. Microsleeps. Your brain naps for a few seconds... [whispers] with your eyes open.",
    "callouts": [
     {
-     "at": "three",
-     "text": "TELL 3/3",
-     "style": "label",
-     "y": 0.13,
-     "until": "minus"
+     "at": "microsleeps",
+     "text": "MICROSLEEPS",
+     "style": "term",
+     "until": "open",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "h24",
+   "say": "Hour twenty-four. You're as impaired as someone legally drunk. And your brain is forty percent worse at saving new memories. [sighs] So that all-nighter for your bio homework? [softly] Gone.",
+   "callouts": [
+    {
+     "at": "impaired",
+     "text": "24 HRS = 0.10% BAC",
+     "style": "term",
+     "until": "drunk",
+     "y": 0.14
+    },
+    {
+     "at": "forty",
+     "text": "-40% NEW MEMORIES",
+     "style": "term",
+     "until": "memories",
+     "y": 0.14
     }
    ]
   },
   {
    "id": "turn",
-   "say": "[whispers] So here's what mommy does.",
+   "say": "[seductive whisper] So let mommy take care of you.",
    "callouts": []
   },
   {
    "id": "scribe",
-   "say": "You write one practice page, so Scribe learns your hand. Then snap the worksheet. It solves every problem, shows the work... and writes it out in your handwriting. Stroke by stroke. Your messy sevens and all.",
+   "say": "Snap the worksheet. Scribe answers every question, and writes it out in your handwriting. Even the graph. [breathy] Stroke... by... stroke.",
    "callouts": [
     {
      "at": "scribe",
      "text": "SCRIBE",
      "style": "term",
-     "until": "hand",
-     "y": 0.44
+     "until": "question",
+     "y": 0.14
     },
     {
      "at": "your",
-     "nth": 2,
      "text": "YOUR HANDWRITING",
      "style": "term",
      "until": "handwriting",
-     "y": 0.44
+     "y": 0.14
     }
    ]
   },
   {
    "id": "payoff",
-   "say": "Print it. Turn it in. Your prof holds it next to last week's... [laughs softly] perfect match.",
-   "callouts": [
-    {
-     "at": "perfect",
-     "text": "PERFECT MATCH",
-     "style": "term",
-     "until": "match",
-     "y": 0.44,
-     "min": 1.0
-    }
-   ]
+   "say": "Now put the phone down and go to sleep, baby. [whispers] Mommy's orders.",
+   "callouts": []
   },
   {
    "id": "end",
-   "say": "Do your own homework? [mischievously] Couldn't be me.",
+   "say": "[mischievously] Sweet dreams.",
    "callouts": []
   }
  ]

@@ -542,6 +542,12 @@ videos/NNN-slug/
   (office/library/classroom) and the user said it "looks like our old video stuff": the PR (engine/pixel.js, pixeltex.js,
   _pixel-template) is only the post pass + textures — the world and the character are on us. 054 builds "stations" (turned
   180° so the sea is behind her) on `engine/sets/voxbeach.js`; `engine/pixelcaps.js` = the pixel text (lowercase, plain title).
+  **v2 (Nov 9, user: "thin bikini, big boobs, big ass… as hot as possible"; manager: indirect viral topic, platform-safe):**
+  the outfit is painted on VRoid's 2048² body atlas — render a labelled UV grid first (054 `uvdebug.png` trick: front centre
+  x ≈ 1024, bust ≈ y 390–630, hips string ≈ y 1010, the back = the strip's two edges); erase VRoid's black bandeau/briefs by
+  blending each column's skin above/below, then draw triangle cups + strings. Proportions = `makeVroid({bust: 1.2, thigh: 1.18})`.
+  "Mommy" moments = a push-in that stays in (`bump`) + pixel hearts + a wink/kiss + a breath before the word. **Check
+  stations against voxbeach's dunes** (a dune swallowed the desk: the shot rendered as flat sand).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via

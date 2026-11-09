@@ -65,9 +65,12 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
     if (P.graph) {   // axes + a parabola through (1,0) and (3,0), drawn as hand strokes
       const ox = 600, oy = y + 150, sx = 46, sy = 30;
       const axes = [[[ox - 40, oy], [ox + 260, oy]], [[ox + 0, oy + 70], [ox + 0, oy - 150]]].map((L, k) => ({ kind: 'p', pts: wobble(L, seed * 11 + k, 1.2), w: 5 }));
-      const par = []; for (let k = 0; k <= 40; k++) { const X = -0.3 + 4.6 * (k / 40), Y = X * X - 4 * X + 3; par.push([ox + X * sx, oy - Y * sy]); }
+      // P.graph: true = the parabola y = x² − 4x + 3; or { fn: X → Y, x0, x1, label, xl, yl } (054: alertness vs hours awake)
+      const GR = typeof P.graph === 'object' ? P.graph : { fn: (X) => X * X - 4 * X + 3, x0: -0.3, x1: 4.3, label: 'y=x^2-4x+3' };
+      const par = []; for (let k = 0; k <= 40; k++) { const X = GR.x0 + (GR.x1 - GR.x0) * (k / 40), Y = GR.fn(X); par.push([ox + X * sx, oy - Y * sy]); }
       const curve = { kind: 'p', pts: wobble(par, seed * 13, 1.0), w: 14 };
-      const lab = layoutHand(G, 'y=x^2-4x+3', { x: ox + 150, y: oy - 110, u: 20, seed: seed * 17 + i }).map((q) => ({ ...q, kind: 'g' }));
+      const lab = [GR.label && [GR.label, ox + 150, oy - 110], GR.yl && [GR.yl, ox + 8, oy - 158], GR.xl && [GR.xl, ox + 150, oy + 40]].filter(Boolean)
+        .flatMap(([txt, lx, ly], j) => layoutHand(G, txt, { x: lx, y: ly, u: 20, seed: seed * 17 + i + j }).map((q) => ({ ...q, kind: 'g' })));
       const ans = P.a ? layoutHand(G, P.a, { x: ax, y: ay + 20, u: 28, seed: seed * 19 + i }).map((q) => ({ ...q, kind: 'g' })) : [];
       (P.pre ? pre : items).push(...[...ans, ...axes, curve, ...lab].map((q) => ({ ...q, pi: i })));
     } else if (P.a) {
