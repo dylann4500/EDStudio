@@ -13,10 +13,11 @@ stays procedural (Three.js → headless Chrome → ffmpeg), deterministic (`rng`
 | **sim** | Sims-like realistic 3D: realistic proportions, cutaway house/ground slab, clean daylight (@officialwriteit's hit look) | `engine/sim/` (person.js, house.js, props.js, mats.js, look.js, hud.js) | `npm run new -- NNN-slug --from _sim-template` (narrated: `--from 052-bedroom-never-leave`) | 052 | built (branch `claude/052-sim-style-bedroom-d80346`) |
 | **flat2d** | flat 2D cartoon (Canvas 2D, no WebGL): boiling ink outlines, flat fills + one cel step, big-headed puppets, bold in-world labels | `engine/flat2d/` (stage, ink, puppet, sets, fx, critters, endcard) | `npm run new -- NNN-slug --from _flat2d-template` | 053 | ready (branch `claude/053-flat2d-style-inventions-021e30`) |
 | **voxel** | a blocky-game world: everything is 1 m cubes with 16 px pixel-art tiles + baked corner AO, square-headed people with 8 × 8 pixel faces, flat chunky clouds, bright flat daylight, crisp edges | `engine/voxel/` (tex, vox, person, world, props, town, rooms) | `npm run new -- NNN-slug --from _voxel-template` (a whatifpov-style promo: `--from 059-voxel-giant-doubling`) | 059 | built (branch `claude/059-voxel-style-9b1f2e`) |
+| **iso** | isometric tilt-shift DIORAMA: floating slabs of world with a cut soil edge over a gradient void, miniature low-poly buildings + tiny people, a long lens at ~35° that drifts, a depth-aware tilt-shift blur | `engine/iso/` (tiltshift, base, camera, look, people, props, room, italy, fx, hud) | `npm run new -- NNN-slug --from _iso-template` | 060 | built (branch `claude/060-isometric-style-37e0d0`) |
 
 Ideas for later builders: claymation (soft subsurface + thumbprint noise + 12 fps
 stepped motion), paper cut-out (layered card planes, drop shadows), whiteboard doodle (line-draw reveal), low-poly flat-shaded,
-retro VHS/90s cartoon, 2.5D diorama/tilt-shift.
+retro VHS/90s cartoon.
 
 ## How to add a style (the contract a style-builder session delivers)
 1. **Engine, additive:** a new module or folder (`engine/<style>.js` or `engine/<style>/`). New options only; never change the
@@ -225,3 +226,65 @@ second of video; a still sheet of 15 frames ≈ 3 s) — cheaper than sim, about
 - Render time (057: two sets + 700 instanced sheets, 30 fps): 1,242 full-size frames in 143–237 s (≈ 0.1–0.2 s per frame), so
   a 41 s reel renders in ~3–4 min; the HEVC upload copies take longer than the render when the Mac is shared.
 
+
+### iso — the isometric tilt-shift diorama (060 "What if Italy rebuilt the Leaning Tower of Pisa with pizza?")
+**Look:** every place is a chunky slab of world cut out of the ground and floating in a soft gradient void — the world on top,
+a cut edge of soil strata on the sides (grass lip with a ragged fringe, roots, sandy/clay layers, pebbles, grey rock), rounded
+edges, a soft shadow far below — shot from above at ~35° on a long lens (a near-orthographic photo of a tabletop miniature),
+with a strong depth-aware tilt-shift blur (sharp at the subject, melting toward the near soil edge and the far side), warm
+saturated toy colours, peg-figure crowds and toy-proportioned rig heroes, and a gentle drift. Rooms are dollhouse slices (floor +
+two walls with visible thickness). Text = @okwhatifcrazy's landmark layout (kicker with a running T+ clock, pinned "What if"
+title, a left HUD per beat, one bold subtitle per beat) in DOM — never blurred.
+**Start:** `npm run new -- NNN-slug --from _iso-template` (10 s toy town, no narration) → stills → `node tools/render.mjs NNN-slug`.
+For a full reel copy 060 (`videos/060-iso-pisa-pizza`: 5 dioramas parked at `OFF[...]`, one visible per shot, SHOTS with
+keyframed iso cameras + a focus point, a make_cues.py that reads the event constants from shots.js, the Scribe product
+sequence: phone viewfinder → laptop app → the page written with Scribe's real glyphs + a free-body diagram spliced into the
+writing order).
+**API (all in `engine/iso/`, additive; rig.js/core.js defaults untouched):**
+- `tiltshift.js` — `addTiltShift(studio, {blur, range, ramp, band, bandH, bandMix, debug})` inserts a pass BEFORE bloom (linear
+  HDR): a colour-less depth render (sprites, `transparent && !depthWrite` meshes and `userData.noDepth` objects left out; shadow
+  maps not re-rendered), CoC from |z − focus| − range (full blur `ramp` m further) + an optional screen-y strip, a half-res
+  golden-angle gather (far samples can't bleed over sharper near pixels) and a full-res composite. Per frame: `ts.focusOn([x,y,z])`
+  (world), per shot `ts.set({ range: frame·0.09·k, ramp: frame·0.36·k })` — scale the depth band with the frame width (k ≈ 1 for
+  dioramas, 2–3 for screen/paper inserts). `debug: true` tints the CoC.
+- `camera.js` — `isoCam(studio, {target, az, el, frame, fov})` frames by WIDTH (m across the frame at the target; fov 16° default,
+  near/far from the frame); `isoAt(t, [[t, {tx, ty, tz, az, el, frame}], …], {drift})` = an eased keyframed shot; `isoView` = the maths.
+- `look.js` — `ISO_LOOK` (story.look values: ACES, exposure 1.12, saturation 1.22, warm 0.1, bloom 0.16, fill 0), `isoLights(studio,
+  {sun, half})` (RoomEnvironment IBL + hemi + a 4096 soft sun; `focus(x, z, half)` per shot, `setNight(k)`), `isoBackdrop(studio,
+  {top, bottom, glow, glowA})` (screen-space gradient void; `set()` per place), `makeMotes()` (bokeh dust for parallax).
+- `base.js` — `makeBase({shape: 'square'|'round', w, d, r, h, top, topMap, soil: 'earth'|'sand'|'rock'|'paving', seed})` → `{g, world
+  (y = 0 = top), slab, update(t) (bob), D}`; `soilTexture`, `groundTexture` (tileable speckle), `makeFloatShadow(w, d, y)`.
+- `people.js` — `makeMini(o)` = rig.js person × 0.6 with a big head (`mini.pose(p)`: p in parent units, dist/speed in metres),
+  `makePeg({top, pants, hat: 'chef'|'cap'|'hard'|'sun', apron, scale})` (jointed figure: `set({x, z, rotY, walk, armL, armR, spreadL,
+  spreadR, hop, lean, headYaw})`), `makePegCrowd(parent, n, {seed, s})` (instanced, 4 draw calls: `set(i, {x, y, z, rotY, hop})` + `commit()`).
+- `props.js` — makeTree('round'|'cypress'|'pine'|'bush'), makeHouse (ochre walls + shutters + terracotta), makeLamp, makeBench,
+  makeStall (striped awning + souvenirs), makeCar, makeFence, makeFlagPole, makeCrane (lattice tower crane: `setSlew/setTrolley/setHook`,
+  `hook`), makePlane (cargo plane, `setProps(t)`, rear `door`), makeTruck({tank}), windowTex.
+- `room.js` — `makeRoom({w, d, h, wall, wall2, floor: 'wood'|'tile'|'terrazzo'|'carpet', windows: [{side, at, y, w, h, view: 'night'|'day'}]})`
+  (real openings from boxes + a view card; `walls.back/left` to hide per shot), isoDesk, isoChair({seatH}) (rig proper seat), isoBed,
+  isoShelf, isoRug (a group: keep its 12 mm lift), isoPoster(tex), isoDeskLamp ({light}).
+- `italy.js` — makePisaTower (`setLean(deg)` pivots on the low foot: 3.97 → 90 = fallen), makeDuomo, makeBaptistery, makeCityWall,
+  makeColosseum (`setOven(build, glow)`: brick dome + chimney + glowing arcades), `arcadeTex`.
+- `fx.js` — `makePuffs(parent)` analytic puff bursts/streams (`burst({t0, at, n, …})`, `stream(...)`, `update(t)`), `boing(u)`, `kick(t, times, amp)`.
+- `hud.js` — `makeIsoHud(story.iso)` = kicker (`{T}` = running clock) + the question alone in the middle that glides up to the header,
+  a left HUD per beat (`label, from/to, r0/r1, unit, fmt int|dec|text, sub, sub2 + subAt, color`), subtitles, the Scribe end card
+  (`ask` line on top). Hides the core text layer; load `ISO_FONTS` in build().
+**Gotchas (each cost a stills round on 060):**
+- **A hero who faces a landmark hides behind it** from most azimuths (he pushes the tower, his face points at it). His face shows
+  only with the lens within ±90° of where he faces, and the landmark blocks it while the angle between the lens and his line to the
+  landmark is under asin(r / d). 060's push shot at az 86 showed only the tower; az 60 shows him in profile-front.
+- **Stair-step "blur artifacts" on a rug were z-fighting**: `rug.position.set(x, 0, z)` overwrote its 12 mm lift. Tell blur bugs
+  from scene bugs with `ts.set({blur: 0})` before touching the shader (isoRug now returns a group).
+- **Inserts need a deeper focus band** (`dof` 2–3): at k = 1 a 0.3 m laptop screen and a sheet of paper were soft.
+- **Over-the-shoulder at desk scale fails** (the head fills a long lens): shoot the phone top-down (el ≈ 84, az 180 so the top of the
+  page is up) and hide the person — the viewfinder canvas shows the worksheet.
+- **A flat disc in the sky is a blob**: texture it (flour, bubbles) and tilt it toward the lens (a YXZ group: y = camera az, x = 0.5).
+- **Text bands:** docked title 11–23 %, HUD (left) 28–37 %, subtitles 67–71 %. Keep subjects in 38–64 % (a tossed disc under the HUD
+  and a plane under the title were the first-sheet misses); a long-lens camera's `ty` keyframes are how you keep a rising object there.
+- The depth pass draws alpha-tested meshes as full quads (the override material ignores alphaTest): fine for arcades, but a big
+  alpha-cut card in front of the subject would read as sharp/blurred by its quad — flag it `userData.noDepth`.
+- Each place is its own island at `OFF[...]` (one visible per shot): islands can have different scales (060's piazza is toy scale with
+  1 m people, Luca's room is real scale) — the tilt-shift scales with the frame, so the look stays consistent.
+**Render time:** ≈ 0.07 s per frame at 1080×1920, 30 fps, motionBlur 2 (two sub-frames, each with the tilt-shift's extra depth
+pass + half-res gather) on an M5 Pro: 060's 59.6 s (1,788 frames) rendered in ~130 s of frames, ~2.5 min with the encode; a 25-still
+sheet takes ~4 s. The tilt-shift is cheap (half-res gather, ≤ 260 taps); shadows at 4096 cost more than the blur.

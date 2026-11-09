@@ -46,3 +46,17 @@ Drive-thru, hippo style (ORDERS 0→1 / FIRST CUSTOMER SHAKEN) → Things heat u
 → Salad bar: closed. (SALAD EATEN 40 kg / A HIPPO'S NIGHTLY GRAZE) → Complaints department: closed. (CUSTOMERS 38→0 / LUNCH RUSH) →
 The manager has questions. (DAMAGE £48,000 / DAY ONE) → New hire, new rules. (POND 12 m / BREAK ROOM UPGRADED) → Busiest drive-thru
 in town. (ORDERS 2,400 / A NEW RECORD) → Displacement: 1.5 tonnes. (WATER LEVEL +30 cm / CARS NOW BOATS) → end card.
+
+## Beat sheet: "Italy fixed the Leaning Tower of Pisa… with pizza 🍕" (75 s, 1.4M views / 157K likes / 14.1K shares, studied Nov 9 2026 for the 060 dupe)
+No narrator (no speech detected); a soft bed + foley. Layout: kicker `SIMULATION · PISA, ITALY · T+00:07` (a running clock), the title
+"**What if** Italy rebuilt the Leaning Tower of Pisa with pizza?" pinned top-left from frame 0, a left HUD per beat (coloured bar, label,
+thin number + unit, coloured sub-label), one white subtitle per beat mid-low, a dark end card "Which landmark should Italy rebuild next?
+TELL US IN THE COMMENTS". Beats (s): 0 One tourist pushed a little too hard (LEAN 4 → 59° · TOWER · TIPPING; the tower topples) → 5 Italy
+has one way to fix things (PLAN: PIZZA · ITALY · DETERMINED; a chef at a MINISTRY OF PIZZA lectern; a TORRE DI PISA PROGETTO 2 blueprint
+stamped REBUILD WITH PIZZA) → 11 Step one: the dough (FLOUR 19 → 80 tons; chefs knead a giant ball in a field) → 17 Step two: the toss
+(TOSS HEIGHT 0 → 105 ft · SPIN 30 RPM → CATCH · CLEAN) → 23 Step three: toppings. No pineapple. (a sauce tanker, a mozzarella hopper,
+MOZZARELLA 40 tons · PINEAPPLE · DENIED) → 30 Step four: the Colosseum becomes an oven (brick dome + chimney; OVEN 451 → 485 °C) → 37 The
+foundation arrives by air (a cargo plane; DROP HEIGHT 3,000 ft · FREE FALL · NO PARACHUTE) → 44 Then they stack. And stack. (a tower
+crane; PIZZAS STACKED 1 → 94 · TOWER · RISING) → 53 Finishing touches (a giant pizza cutter cuts the windows, WINDOWS CUT → 97; a basil
+leaf on top) → 58 It's perfect. Completely straight. (LEAN 0.00°) → 60 Nobody can do the pose (the tourist in yellow) → 64 Then a pigeon
+fixes it (LEAN 0.00 → 3.97° · BACK TO NORMAL) → 70 end card.

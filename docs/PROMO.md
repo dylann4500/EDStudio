@@ -235,3 +235,18 @@ const lewis0 = sheet.items.findIndex((i) => i.pi === 1);          // weight of e
   the grill burner's combustion balanced in his hand (CH₄ + 2O₂ → CO₂ + 2H₂O), H₂O and CO₂ Lewis structures drawn by the pen, moles,
   kelvin, pH. Only 28.4–44.8 s was re-rendered (`render.mjs --from/--to` writes out/silent.mp4 = the segment: save the full one
   first, splice with ffmpeg `trim=start_frame/end_frame` + concat at shot cuts, then `tools/mux.mjs`).
+
+## 060: "What if Italy rebuilt the Leaning Tower of Pisa with pizza?" (iso diorama dupe of @okwhatifcrazy, 1.4M views), 59.6 s
+- Original (tiktok.com/@okwhatifcrazy/video/7694373909105347863, 75 s, studied Nov 9 with in-page frame grids in the built-in
+  browser — logged out works; `claInfo.noCaptionReason: 3` = no speech, so no ElevenLabs): beat sheet in docs/reference/okwhatifcrazy.md.
+  Ours keeps all 13 beats at ~4 s each (75 → 55 s before the card) and inserts the plug where the rebuild would stall: after the
+  foundation lands, "Then the city wants proof it won't lean" (an inspector's STOP · SHOW THE MATH sign, PERMIT BLOCKED) → Luca's night
+  room ("40 physics problems. Handwritten. By morning.") → one photo (phone viewfinder) → the laptop app with a PHYSICS chip (SOLVED
+  0 → 40) → the page written stroke by stroke: lever arm, a free-body diagram (weight from the centre of mass, the pivot, N, the lever
+  arm d, θ), torque → "Permit: approved." → back to the original's beats (stack, finishing touches, straight, the pose, the pigeon).
+  Obstacle at 51 %, Scribe on screen at 60 %.
+- Manager steer (Nov 9): every reel shows the subject's FIGURE being drawn — the FBD strokes are spliced into makeSheet's writing
+  order (`addFBD` in 060 shots.js: push items with `pi` after problem 1's, recompute the total) — no change to scribe.js.
+- Physics on the page is real (W ≈ 1.45×10^8 N, centre of mass ≈ 22.6 m up, d = 22.6 sin 3.97° ≈ 1.56 m, torque ≈ 2.3×10^8 N·m,
+  d < base radius 7.7 m → stable); sources in caption.md's comment.
+- Music: a minimal soft F-major pluck bounce (stem −17 dB under SFX-led foley); `tools/nomusic-copy.sh` makes the posted cut.
