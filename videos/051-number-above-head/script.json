@@ -1,0 +1,220 @@
+{
+  "title": "Everyone in my town has a number above their head (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "eleven",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "name": "Adam",
+    "model": "eleven_v3",
+    "settings": {
+      "stability": 0.0,
+      "similarity_boost": 0.8
+    }
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 290
+  },
+  "lead": 0.04,
+  "gap": 0.05,
+  "tail": 4.45,
+  "maxPause": 0.17,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "tempo": 1.55,
+  "joinLen": 4,
+  "yellShelf": {
+    "db": -4,
+    "hz": 5000
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.1,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "In my town, everyone has a number above their head. It's how many hours of homework they have left.",
+      "callouts": []
+    },
+    {
+      "id": "dog",
+      "say": "My dog is at zero. He ate it.",
+      "callouts": []
+    },
+    {
+      "id": "pres",
+      "say": "The class president is always at zero. Always. Nobody trusts her.",
+      "callouts": [
+        {
+          "at": "nobody",
+          "text": "SUS",
+          "style": "sfx",
+          "pos": [
+            0.74,
+            0.62
+          ],
+          "hold": 0.9
+        }
+      ]
+    },
+    {
+      "id": "couple",
+      "say": "These two always match, down to the minute. That's not love. That's copying.",
+      "callouts": [
+        {
+          "at": "copying",
+          "text": "COPYING",
+          "style": "stamp",
+          "hold": 0.9,
+          "y": 0.7
+        }
+      ]
+    },
+    {
+      "id": "subway",
+      "say": "This guy is at nine thousand. He's forty-two. He dropped out in 2009. It's still going up.",
+      "callouts": []
+    },
+    {
+      "id": "party",
+      "say": "At parties, nobody can lie. Yeah, I'm all caught up. Sixty-one.",
+      "callouts": [
+        {
+          "at": "sixtyone",
+          "text": "CAP",
+          "style": "stamp",
+          "hold": 0.7,
+          "y": 0.7
+        }
+      ]
+    },
+    {
+      "id": "lounge",
+      "say": "Teachers have one too. Mister Dawson's is grading. Four hundred hours.",
+      "callouts": []
+    },
+    {
+      "id": "tyler",
+      "say": "And me? Three hundred twelve. Then finals week hits. Five hundred. Eight hundred.",
+      "callouts": [
+        {
+          "at": "finals",
+          "text": "FINALS WEEK",
+          "style": "stamp",
+          "hold": 0.9,
+          "y": 0.62
+        }
+      ]
+    },
+    {
+      "id": "obstacle",
+      "say": "Forty calc problems. Handwritten only. Due at midnight.",
+      "callouts": [
+        {
+          "at": "forty",
+          "text": "40 PROBLEMS",
+          "style": "label",
+          "hold": 1.0,
+          "y": 0.3
+        },
+        {
+          "at": "handwritten",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "hold": 0.6,
+          "y": 0.33
+        },
+        {
+          "at": "midnight",
+          "text": "DUE 11:59 PM",
+          "style": "label",
+          "hold": 0.6,
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "I'm cooked. So I open Scribe.",
+      "callouts": [
+        {
+          "at": "cooked",
+          "text": "COOKED",
+          "style": "stamp",
+          "hold": 0.45,
+          "y": 0.7
+        }
+      ]
+    },
+    {
+      "id": "solve",
+      "say": "One photo of the worksheet. Scribe solves all forty.",
+      "callouts": [
+        {
+          "at": "photo",
+          "text": "SNAP!",
+          "style": "sfx",
+          "pos": [
+            0.7,
+            0.33
+          ],
+          "hold": 0.6
+        },
+        {
+          "at": "solves",
+          "text": "{n}/40 SOLVED",
+          "style": "label",
+          "roll": [
+            0,
+            40
+          ],
+          "rollDur": 0.9,
+          "hold": 1.4,
+          "y": 0.72
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "Then it writes them out in MY handwriting, stroke by stroke. Even my lazy sevens.",
+      "callouts": [
+        {
+          "at": "my",
+          "text": "YOUR HANDWRITING",
+          "style": "term",
+          "until": "handwriting",
+          "y": 0.3
+        }
+      ]
+    },
+    {
+      "id": "zero",
+      "say": "My number drops to... [shouting] ZERO. The whole library turns around.",
+      "callouts": []
+    },
+    {
+      "id": "reveal",
+      "say": "Turns out the class president had Scribe all along.",
+      "callouts": []
+    },
+    {
+      "id": "spread",
+      "say": "By Friday, the whole town has it. Zero. Zero. Zero.",
+      "callouts": []
+    },
+    {
+      "id": "dawson",
+      "say": "Except Mister Dawson. Now he has to grade all of it.",
+      "callouts": []
+    }
+  ]
+}
