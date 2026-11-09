@@ -39,6 +39,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **ElevenLabs budget (a new FREE-tier key since Nov 8: 10K chars, resets Dec 9, shared by every producer; the user cleared the plan's use with ElevenLabs, Nov 8 — don't raise its terms):** draft and
   time everything with the scratch voice (`python3 -I tools/narrate.py NNN-slug --scratch` = macOS `say`, free), lock the script, then voice it ONCE with Eleven (≤ 1,300 chars). Tempo changes are free; beats are cached, so re-voice only the
   beat you changed. If the quota runs out, finish on the scratch voice, say so in your report, and the manager re-voices later.
+- **The f-word explainer is a series (user, Nov 9, on 058: "we need more fucking ones like that, even if it's like unrelated scenes
+  that go to Scribe, it's just funny"):** a deadpan explainer of ANY topic with "fucking" between every word, then a hard pivot to
+  Scribe at ~60–70 %. Fork `npm run new -- NNN-slug --from 058-fword-explainer`; keep the homework in a subject Scribe covers.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the

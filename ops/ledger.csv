@@ -39,3 +39,5 @@ id,slug,title,lane,account,slot_pt,status,producer,branch,wc_mean,wc_mean_first6
 059,059-voxel,NEW voxel style + a viral dupe + Scribe,scribe,Scribe IG + TikTok,,building,,,,,,,,,,,,,,style builder
 060,060-isometric,NEW isometric-diorama style + a viral dupe + Scribe,scribe,Scribe IG + TikTok,,building,,,,,,,,,,,,,,style builder
 061,061-motion-graphics,NEW motion-graphics explainer style + a viral dupe + Scribe,scribe,Scribe IG + TikTok,,building,,,,,,,,,,,,,,style builder
+062,062-fword-airplanes,F-word explainer: how airplanes fly + Scribe,scribe,Scribe IG + TikTok,,building,,,,,,,,,,,,,,toon; forked from 058
+063,063-fword-penguins,F-word explainer: how penguins survive Antarctica + Scribe,scribe,Scribe IG + TikTok,,building,,,,,,,,,,,,,,toon; forked from 058

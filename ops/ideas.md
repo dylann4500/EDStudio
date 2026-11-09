@@ -69,6 +69,8 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 059 | NEW voxel style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
 | 060 | NEW isometric-diorama style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
 | 061 | NEW motion-graphics explainer style + a viral dupe (builder picks from its shortlist) + Scribe | scribe | assigned Nov 9 |
+| 062 | "How fucking airplanes fucking fly" — f-word explainer #2, hard pivot to Scribe (physics + free-body diagrams) (toon) | scribe | assigned Nov 9 (user: "we need more fucking ones") |
+| 063 | "How fucking penguins fucking survive Antarctica" — f-word explainer #3, hard pivot to Scribe (biology) (toon) | scribe | assigned Nov 9 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
