@@ -231,3 +231,12 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
   Result: −15 LUFS, LRA 3.5, `music dropouts: none`.
 - New SFX: `alarm_beep` (n, pitch — soft round double-beeps, low-passed) and `cartoon_splash` (renamed from water_splash at merge — 017 owns that name; size — a whump + a burst + falling rain,
   low-passed). Reference script: `videos/020-butt-doubling/make_cues.py`.
+
+## Everyone-claps foley (061, motion-graphics what-if dupe, no narrator)
+- New sounds (end of synth.py): `hand_clap` (size 0.3–1.6, pitch: a band-passed air burst + a small body thump; pitch 0.55 =
+  the slow-motion clap), `mass_clap` (dur, size, tail: the whole planet's clap from a crowded beach — a 40 ms wall of claps + a
+  soft 55 Hz boom, then farther claps keep arriving, thinning and losing their highs = rolling thunder), `phone_buzz`
+  (dur, pulses: a 168 Hz motor rattle), `gull_cry` (pitch: a falling nasal 'keow', low-passed at 2.4 kHz), `shutter`.
+- The mix: SFX-led like the original; a soft C–G–Am–F pad from frame 1 + a mallet ostinato that enters ON the clap, ~13 dB
+  under the foley (music stem −13 dB). Applause + crowd_cheer beds carry the ending into the end card. The posted cut is
+  `out/nomusic.mp4`.

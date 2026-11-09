@@ -3366,6 +3366,78 @@ def sfx_boing(rng, pitch=1.0, dur=0.55):
 SFX.update({"boing": (sfx_boing, "prop")})
 
 
+
+def sfx_hand_clap(rng, size=1.0, pitch=1.0):
+    """061: one hand clap — a short band-passed noise burst (the air jet between the palms, ~1–2 kHz) over a tiny low body
+    thump; `size` 0.3 = a light clap … 1.5 = a big slow celebratory clap. Low-passed at 4.2 kHz, never a crack."""
+    n = nsamp(0.25)
+    t = tvec(n)
+    burst = bp(white(n, rng), 700 * pitch, 2600 * pitch) * np.exp(-t / (0.006 + 0.004 * size)) * (1 - np.exp(-t / 0.0006))
+    body = np.sin(2 * np.pi * 180 * pitch * t) * np.exp(-t / 0.018) * 0.35 * size
+    room = lp(white(n, rng), 1800) * np.exp(-t / 0.06) * 0.06 * size
+    return Sound(norm(fades(lp(unit_rms(burst) + body + room, 4200), 0.0003, 0.05)), onsets=[(0.0, "transient")])
+
+
+def sfx_mass_clap(rng, dur=4.0, size=1.0, tail=1.0):
+    """061: everyone on Earth claps at once, heard from a crowded beach: hundreds of claps inside ~40 ms (one huge clap with a
+    soft low boom under it), then the claps from farther and farther away keep arriving — a rolling, thinning roar that decays
+    like thunder over `dur` (tail scales it). Soft and low-passed: an event, never a gunshot."""
+    n = nsamp(dur)
+    t = tvec(n)
+    out = np.zeros((2, n))
+    k = nsamp(0.012)
+    for ch in range(2):
+        # arrival density: a wall in the first 40 ms, then ~1/t thinning (people farther away)
+        dens = 9000.0 * np.exp(-t / 0.03) + 900.0 * tail * np.exp(-t / (0.9 * tail)) / (1 + t * 2.5) + 40.0 * np.exp(-t / (1.8 * tail))
+        imp = (rng.random(n) < dens / SR) * rng.uniform(0.25, 1.0, n) * (0.35 + 0.65 * np.exp(-t / (0.5 * tail)))
+        kern = rng.standard_normal(k) * np.exp(-np.arange(k) / (k / 4.0))
+        x = bp(np.convolve(imp, kern)[:n], 500, 3000)
+        far = lp(x, 900) * np.clip(t / 0.3, 0, 1)            # distant claps lose their highs
+        out[ch] = 0.75 * x * np.exp(-t / 0.25) + 0.6 * far
+    boom = np.sin(2 * np.pi * 55 * t + 1.5 * np.exp(-t / 0.08)) * np.exp(-t / 0.35) * (1 - np.exp(-t / 0.004))
+    rumble = lp(brown(n, rng), 160) * np.exp(-t / (1.1 * tail)) * np.clip(t / 0.05, 0, 1)
+    out += 0.5 * size * unit_rms(boom) * np.std(out) + 0.6 * unit_rms(rumble) * np.std(out)
+    out = lp(out, 3800)
+    return Sound(norm(fades(out, 0.0005, 0.4)), onsets=[(0.0, "transient")])
+
+
+def sfx_phone_buzz(rng, dur=0.9, pulses=2):
+    """061: a phone vibrating in a hand/pocket: a ~170 Hz motor rattle in `pulses` short bursts. Soft, low-passed."""
+    n = nsamp(dur)
+    t = tvec(n)
+    seg = dur / max(1, pulses)
+    gate = np.clip(np.sin(np.pi * ((t % seg) / (seg * 0.62))), 0, 1) * ((t % seg) < seg * 0.62)
+    motor = np.sin(2 * np.pi * 168 * t + 0.4 * np.sin(2 * np.pi * 9 * t)) + 0.4 * np.sign(np.sin(2 * np.pi * 168 * t))
+    rattle = bp(white(n, rng), 200, 900) * 0.3
+    return Sound(norm(fades(lp((unit_rms(motor) + rattle) * gate, 1100), 0.003, 0.03)), onsets=[(0.0, "soft")])
+
+
+def sfx_gull_cry(rng, pitch=1.0, dur=0.55):
+    """061: a seagull's 'keow' — a falling, nasal glide (two formants), low-passed hard so it's beachy, never shrill."""
+    n = nsamp(dur)
+    t = tvec(n)
+    f = (900 - 380 * (t / dur)) * pitch * (1 + 0.03 * np.sin(2 * np.pi * 23 * t))
+    ph = np.cumsum(f) / SR
+    tone = np.tanh(2.2 * np.sin(2 * np.pi * ph)) + 0.4 * np.sin(4 * np.pi * ph)
+    env = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 0.7
+    y = bp(tone, 500 * pitch, 2600 * pitch) * env
+    return Sound(norm(fades(lp(y, 2400), 0.01, 0.05)), onsets=[(0.0, "soft")])
+
+
+def sfx_shutter(rng):
+    """061: a phone camera shutter: two soft mechanical clicks 60 ms apart (low-passed, no snap)."""
+    n = nsamp(0.2)
+    t = tvec(n)
+    y = np.zeros(n)
+    for d, a in ((0.0, 1.0), (0.06, 0.7)):
+        tt = np.clip(t - d, 0, None)
+        y += a * bp(white(n, rng), 800, 3200) * np.exp(-tt / 0.004) * (t >= d)
+    return Sound(norm(fades(lp(y, 3600), 0.0003, 0.02)), onsets=[(0.0, "transient")])
+
+
+SFX.update({"hand_clap": (sfx_hand_clap, "prop"), "mass_clap": (sfx_mass_clap, "prop"), "phone_buzz": (sfx_phone_buzz, "prop"),
+            "gull_cry": (sfx_gull_cry, "prop"), "shutter": (sfx_shutter, "ui")})   # 061
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("video", nargs="?", help="video folder under videos/ (reads videos/<video>/cues.json, writes videos/<video>/audio.wav)")

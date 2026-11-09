@@ -14,6 +14,7 @@ stays procedural (Three.js → headless Chrome → ffmpeg), deterministic (`rng`
 | **flat2d** | flat 2D cartoon (Canvas 2D, no WebGL): boiling ink outlines, flat fills + one cel step, big-headed puppets, bold in-world labels | `engine/flat2d/` (stage, ink, puppet, sets, fx, critters, endcard) | `npm run new -- NNN-slug --from _flat2d-template` | 053 | ready (branch `claude/053-flat2d-style-inventions-021e30`) |
 | **voxel** | a blocky-game world: everything is 1 m cubes with 16 px pixel-art tiles + baked corner AO, square-headed people with 8 × 8 pixel faces, flat chunky clouds, bright flat daylight, crisp edges | `engine/voxel/` (tex, vox, person, world, props, town, rooms) | `npm run new -- NNN-slug --from _voxel-template` (a whatifpov-style promo: `--from 059-voxel-giant-doubling`) | 059 | built (branch `claude/059-voxel-style-9b1f2e`) |
 | **iso** | isometric tilt-shift DIORAMA: floating slabs of world with a cut soil edge over a gradient void, miniature low-poly buildings + tiny people, a long lens at ~35° that drifts, a depth-aware tilt-shift blur | `engine/iso/` (tiltshift, base, camera, look, people, props, room, italy, fx, hud) | `npm run new -- NNN-slug --from _iso-template` | 060 | built (branch `claude/060-isometric-style-37e0d0`) |
+| **mg** (motion graphics) | Kurzgesagt-like flat vector explainer: soft-gradient shapes with long subtle shadows on a deep-blue backdrop, round-headed people, a globe of people-dots, charts/maps/counters that build themselves, kinetic words, parallax + zoom/iris/wipe transitions | `engine/mg/` (stage, draw, people, icons, charts, geo, type, overlay, fx, scenes, scribe2d, endcard) | `npm run new -- NNN-slug --from _mg-template` | 061 (everyone claps) | built (branch `claude/061-motion-graphics-style-ffbeda`) |
 
 Ideas for later builders: claymation (soft subsurface + thumbprint noise + 12 fps
 stepped motion), paper cut-out (layered card planes, drop shadows), whiteboard doodle (line-draw reveal), low-poly flat-shaded,
@@ -288,3 +289,63 @@ writing order).
 **Render time:** ≈ 0.07 s per frame at 1080×1920, 30 fps, motionBlur 2 (two sub-frames, each with the tilt-shift's extra depth
 pass + half-res gather) on an M5 Pro: 060's 59.6 s (1,788 frames) rendered in ~130 s of frames, ~2.5 min with the encode; a 25-still
 sheet takes ~4 s. The tilt-shift is cheap (half-res gather, ≤ 260 taps); shadows at 4096 cost more than the blur.
+
+### mg — motion graphics (061 "What if every human on Earth clapped at the same time?")
+**Look:** a Kurzgesagt-style explainer drawn with Canvas 2D (no WebGL, like flat2d): every shape is a point list filled with a soft
+two-tone gradient (lighter top-left) and, where it sits on a backdrop, a long 45° shadow that fades out; no outlines. A deep-blue
+starfield is the house backdrop; bright places (a golden-hour beach, a palm avenue) use the same palette (`PAL`). Round-headed
+people (head = 40·s px, dot eyes, sleeves + skin hands), a hologram-free Earth (ocean gradient, flat land, terminator, glowing
+people-dots), maps from Natural Earth 110m, charts that build, icons. Text is the whatif overlay (title → HUD → lower-third
+subtitles, steady, top-left HUD) restyled in Fredoka/Inter with kinetic word-by-word rises (`engine/mg/overlay.js`); in-world
+labels are pills with leader lines. Static film grain + vignette on top. Constant motion: every shot pushes/pans, layers parallax.
+**Render cost: ≈0.07 s per frame at 30 fps (2.1 s per second of video; 061's 50.7 s = 1,520 frames in 105 s).** Stills are instant.
+**Start:** `npm run new -- NNN-slug --from _mg-template` (10.5 s: title over the globe → zoom into a beach crowd + POV clap →
+wipe to a bar chart → the Scribe end card; copies make_cues.py too) → `python3 -I videos/NNN-slug/make_cues.py` →
+`python3 -I audio/synth.py NNN-slug` → stills / `--qc` → render → `sh tools/nomusic-copy.sh`. For a full reel copy 061: its
+`make_story.py` writes story.json from a beat table (subtitle, seconds) and event times `T`/`E` that shots.js and make_cues.py
+both read, so a retime moves picture and foley together. Text-led like the what-if accounts (no narrator, 0 Eleven chars).
+API (`engine/mg/`, all new files; shared code only gained `fmt: 'hms'` in core.js and five synth sounds):
+- `stage.js` — `createMG(studio)` → `M.render(t, SHOTS)`: SHOTS = `[{t0, id, draw(g, t), tr: {kind: 'cut'|'fade'|'zoom'|'zoomout'|'slide'|'iris'|'wipe', dur, x, y, dir, color}}]`
+  (transitions draw both shots into buffers; 'zoom' flies through (x, y) and reveals the next shot in a growing circle);
+  `M.view(g, cam, depth, fn)` = a parallax layer (depth 1 focal, 3 far, 0.7 foreground; cam = {x, y, z, r} = the world point at
+  the frame centre); `M.sky`, `M.stars`, `M.flash`, `M.hits = [[t, px, dur]]` (shake), `M.markS(x, y, r, name)` / `M.mark` +
+  `M.qc(update, story)` → `render.mjs --qc` lists faces under the subtitle band or the HUD box; `PAL` (the palette).
+- `ease.js` — `E.*` easings (io3, outExpo, back, spring…), `tw(t, t0, dur, ease)`, `env`, `seqv` (keyframes: numbers/arrays/hex),
+  `morph(A, B, k)` (any two closed shapes), `mixc`/`shade`, `rng`/`hash`/`noise1`, `roll` (rolling numbers).
+- `draw.js` — `shape(g, pts, {fill, light, grad, gdir, shadow, glow, hi, alpha, flat})`, `circle/rrect/ellipse/poly/star`,
+  `line(g, pts, {w, color, k (draw-on), dash, glow})`, `ring`, `glow`, `contact`, `cloud`, `qpts`, `blobPts`, `longShadow`, `hull`.
+- `people.js` — `makeFolk({skin, shirt, pants, hair, hairStyle: short|bob|long|bun|curly|spiky|cap|bald, glasses, dress, seed})`
+  → `draw(g, {x, y (feet), s, arms: {L, R: {a, e} | {to: [x, y] in head radii}}, eyes: open|happy|closed|wide|half, look, mouth:
+  smile|grin|o|flat|frown, blink, bob, lean, flat, hold(g, hand, R)})` returns `{head: [x, y, r] screen px, hands}`; `ARMS.*`,
+  `clapArms(k)`, `clapCycle(t, t0, hz)`, `makeCrowd(seed, n, {x0, x1, y0, y1, s0, s1})` + `drawCrowd(g, crowd, t, fn, {haze})`,
+  `drawHandsPOV(g, k, {y, rise, spread, sleeve})` (the viewer's own hands: 0 apart … 1 clapping).
+- `icons.js` — gull (flying) + gullStand, car (`lights` = hazard flash), phone (`screen` callback) + handPhone, laptop, building,
+  palm, ferris, sun, speaker, check, pin, plane, paperStack, pencil, gascan, battery, clockFace, siren, ear.
+- `charts.js` — `bars`, `lineChart` (draws on), `axes`, `gauge`, `meter`, `progressRing`. `type.js` — `txt`, `ktext` (rise|wipe|
+  scale|type per word), `label` (pill + leader line + sub line), `bigNum`. `fx.js` — `soundRings`, `burst`, `confetti`, `makeFlock`
+  + `flock`, `sparkle`, `buzz`.
+- `geo.js` — `makeWorld()` → `W.globe(g, x, y, r, {lon0, lat0, dots, dotFn(d, i, p), highlight: {ADM0: colour}, night})` (the
+  people-dots: a land grid + clusters on 60 big cities), `W.globeXY`, `W.project`, `W.mapView/mapXY/map` (flat maps by country
+  code), `gcPts`/`gcKm` (great circles), `CITIES`.
+- `scenes.js` — `space` (starfield + planets), `beach` (golden-hour beach: sun, headland, sea bands with moving foam, pier +
+  Ferris wheel, sand) + `beachFG` (foreground palms), `street` (buildings, palms, road).
+- `scribe2d.js` — `makeWorksheet(G, {title, note, name, problems: [{q, a: ['line', …], box, fig(F)}]})`: answers AND figures
+  (F.line/arc/curve/dot/text) written stroke by stroke in Scribe's glyphs; `draw(p)` returns the pen tip. `scribeApp(g, x, y, w, h,
+  {mode: home|camera|scan|solve|write|done, k, sheet, icon, n, name})` = the app as a phone screen. `endcard.js` —
+  `drawEndCard(M, g, icon, age, {top: ['fact line', …], tag, url, offer})`.
+Gotchas (each cost a stills round on 061):
+- **The HUD box (x < 600, y 430–690) eats in-world labels and chart titles.** Put titles at y ≥ 700 or right of x ≈ 440, pin labels
+  to the RIGHT of their pin, and keep a page/phone's important top row out of it (phones live at x ≈ 680).
+- **Hero faces vs the subtitle band (1270–1430):** a 1.5-scale person standing at world y 640 with cam.y 150 put the face at
+  y 1305. Frame with cam.y ≈ feetY − 320 at z 1.2 (head ≈ 1060) and run `--qc`.
+- **A phone's notch covers the app's header:** start an app screen ~0.11·w below the top (`scribeApp(g, x0, y0 + sw * 0.11, …)`)
+  and give the phone `bg` the app's colour.
+- **The first POV hands read as fists:** separate fingers (rounded capsules with small gaps, a slight fan) + a thumb angled out.
+- **'zoom' transitions showed the incoming frame's rectangular edge** (drawn small over the old one) — it now reveals inside a
+  growing circle. Chart value labels sit on the bar tops: leave ~70 px between a title and the tallest bar.
+- Notification/app text overflows silently (canvas clips at the card edge): keep lines ≤ ~24 characters at 0.055·w.
+- Small rings centred on people's chests read as targets/buttons; put sound rings at the hands or high above the crowd.
+- `make_story.py`'s per-second HUD loop hung on float equality (`int(a − CLAP)` stuck at the boundary): step an integer counter.
+- Audio: the five new synth sounds (`hand_clap`, `mass_clap` = the whole planet's clap with a rolling thunder tail, `phone_buzz`,
+  `gull_cry`, `shutter`) live at the end of synth.py; the masking warnings in the onset table (overlapping alarms, cries under the
+  flock) are fine.
