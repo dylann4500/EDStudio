@@ -2,7 +2,7 @@
 
 We gave a hippo a job at a burger joint 🦛
 
-#whatif #hippo #homework #simulation #fyp
+#whatif #hippo #homework #chemistry #fyp
 
 <!-- Scribe promo dupe of @okwhatifcrazy's "Hugo's first shift did not go well 🦛🍔" (TikTok, 1.1M views): same premise, beat order and
 gag rhythm; our hippo (Otis), our burger joint (CHOMPY'S), our lines. No link and no plug in the caption (user rule, Nov 8): Scribe

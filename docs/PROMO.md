@@ -73,3 +73,7 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   camera sits.
 - Music (user steer Nov 8): a minimal soft bed under SFX-led foley; `out/nomusic.mp4` = the picture with sfx + amb only (for a
   trending sound at upload).
+- Revision (user, Nov 9: "this shit is all math homework still… bio, chemistry?"): the worksheet became night-class CHEMISTRY —
+  the grill burner's combustion balanced in his hand (CH₄ + 2O₂ → CO₂ + 2H₂O), H₂O and CO₂ Lewis structures drawn by the pen, moles,
+  kelvin, pH. Only 28.4–44.8 s was re-rendered (`render.mjs --from/--to` writes out/silent.mp4 = the segment: save the full one
+  first, splice with ffmpeg `trim=start_frame/end_frame` + concat at shot cuts, then `tools/mux.mjs`).

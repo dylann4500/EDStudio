@@ -528,7 +528,11 @@ videos/NNN-slug/
   sign; far ≥ 320). `engine/simhud.js` `makeSimHud(story.sim)` = the "What if" sim layout (question alone in the middle, then it
   glides up once and stays as the header; a left HUD per beat with a coloured bar, label, big number + unit, coloured sub-label; bold
   white subtitles in the lower third; the Scribe end card) — hide the core `title/hud/sub/end` elements when you use it. `makeScreen`
-  (scribe.js) takes `{n, name}` (problem count + the student's name; defaults = 049).
+  (scribe.js) takes `{n, name, subject}` (problem count, the student's name, a CHEMISTRY · 20 PROBLEMS label; defaults = 049).
+- **Chemistry worksheets (055, user steer Nov 9: not always math):** `layoutHand` takes `_x` = subscript (CH_4, H_2O); `makeSheet`
+  problems take `lewis: 'H2O'|'CO2'` = a Lewis structure drawn by the pen (atoms in the hand, bond lines, lone-pair dots) next to the
+  answer. The demo hand has NO capital O (it falls back to a small o: CO_2 reads "Co₂", cobalt) — build one per video from the o +
+  the C's cap height (055 shots.js, `G.O`), as Scribe's own sheet has a capital-O box for exactly this.
 - **A scripted replace that appends `// comment` after the code it matched still comments out the REST of that line (055, twice):**
   `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
   very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.

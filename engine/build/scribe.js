@@ -20,19 +20,19 @@ export async function loadHand(url, ink = '#1b2760') {
   return G;
 }
 
-/** Lay out handwriting: `^x` = superscript x. Returns glyph items {c, x, y, w, h} in writing order (canvas px, y down). */
+/** Lay out handwriting: `^x` = superscript x, `_x` = subscript x (055: H_2O). Returns glyph items {c, x, y, w, h} in writing order (canvas px, y down). */
 export function layoutHand(G, text, { x, y, u = 24, lineH = 2.4, seed = 1, track = 0.14, jit = 1 } = {}) {
   let R = seed * 7919 + 17; const rnd = () => (R = (R * 16807) % 2147483647) / 2147483647;
   const out = []; let cx = x, cy = y;
   for (let i = 0; i < text.length; i++) {
-    let ch = text[i], sup = false;
-    if (ch === '^') { sup = true; ch = text[++i]; }
+    let ch = text[i], sup = false, sub = false;
+    if (ch === '^') { sup = true; ch = text[++i]; } else if (ch === '_') { sub = true; ch = text[++i]; }   // 055: subscripts, small + low
     if (ch === '\n') { cx = x; cy += lineH * u; continue; }
     if (ch === ' ') { cx += (0.55 + rnd() * 0.15) * u; continue; }
     const vars = G[ch] || G[ch.toLowerCase()] || G[ch.toUpperCase()] || (ch === 'O' ? G['0'] : null) || (ch === '−' ? G['-'] : null) || (ch === '×' ? G.x : null);
     if (!vars) { cx += 0.5 * u; continue; }
-    const v = vars[Math.floor(rnd() * vars.length) % vars.length], uu = sup ? u * 0.62 : u;
-    const base = cy - (sup ? 0.8 * u : 0) + (rnd() - 0.5) * 0.14 * u * jit;
+    const v = vars[Math.floor(rnd() * vars.length) % vars.length], uu = sup || sub ? u * 0.62 : u;
+    const base = cy - (sup ? 0.8 * u : 0) + (sub ? 0.3 * u : 0) + (rnd() - 0.5) * 0.14 * u * jit;
     // descentRatio = how far the glyph's foot sits BELOW the baseline (y/g/p > 0, '=' < 0; the Scribe app's render.js: top =
     // heightRatio - descentRatio). Canvas y runs down, so the foot is base + d. Until Nov 8 this was base - d: every y/g/p floated
     // up ("busy" on the app screen had its y up in the logo) and '=' sank below the line.
@@ -70,6 +70,24 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
       const lab = layoutHand(G, 'y=x^2-4x+3', { x: ox + 150, y: oy - 110, u: 20, seed: seed * 17 + i }).map((q) => ({ ...q, kind: 'g' }));
       const ans = P.a ? layoutHand(G, P.a, { x: ax, y: ay + 20, u: 28, seed: seed * 19 + i }).map((q) => ({ ...q, kind: 'g' })) : [];
       (P.pre ? pre : items).push(...[...ans, ...axes, curve, ...lab].map((q) => ({ ...q, pi: i })));
+    } else if (P.lewis) {   // 055: a Lewis structure drawn by the pen — atoms in the hand, bond lines, lone-pair dots — + a short answer
+      const ox = 660, oy = y + 62, U = 36;
+      const atom = (ch, cx, cy, s) => { const it = layoutHand(G, ch, { x: 0, y: 0, u: U, seed: s, jit: 0.4 })[0]; return it ? { ...it, x: cx - it.w / 2, y: cy - it.h / 2, kind: 'g' } : null; };
+      const bond = (x0, y0, x1, y1, s) => ({ kind: 'p', pts: wobble([[x0, y0], [(x0 + x1) / 2, (y0 + y1) / 2], [x1, y1]], s, 0.9), w: 3, line: 4.5 });
+      const dot = (x, yy) => ({ kind: 'p', pts: [[x, yy], [x + 0.7, yy + 0.5]], w: 0.6, line: 9 });
+      const its = [];
+      if (P.lewis === 'H2O') {   // bent: O with two single bonds to H and two lone pairs
+        its.push(atom('O', ox, oy, seed * 31 + i), bond(ox - 24, oy + 14, ox - 82, oy + 42, seed * 43), atom('H', ox - 104, oy + 54, seed * 37 + i),
+          bond(ox + 24, oy + 14, ox + 82, oy + 42, seed * 47), atom('H', ox + 104, oy + 54, seed * 41 + i),
+          dot(ox - 32, oy - 26), dot(ox - 18, oy - 36), dot(ox + 18, oy - 36), dot(ox + 32, oy - 26));
+      } else if (P.lewis === 'CO2') {   // linear: O=C=O, two lone pairs on each O
+        const cy = oy + 14;
+        its.push(atom('O', ox - 124, cy, seed * 53 + i), bond(ox - 102, cy - 6, ox - 24, cy - 6, seed * 59), bond(ox - 102, cy + 6, ox - 24, cy + 6, seed * 61), atom('C', ox, cy, seed * 67 + i),
+          bond(ox + 24, cy - 6, ox + 102, cy - 6, seed * 71), bond(ox + 24, cy + 6, ox + 102, cy + 6, seed * 73), atom('O', ox + 124, cy, seed * 79 + i));
+        for (const x0 of [ox - 124, ox + 124]) its.push(dot(x0 - 9, cy - 34), dot(x0 + 9, cy - 34), dot(x0 - 9, cy + 34), dot(x0 + 9, cy + 34));
+      }
+      const ans = P.a ? layoutHand(G, P.a, { x: ax, y: ay + 20, u: 28, seed: seed * 19 + i }).map((q) => ({ ...q, kind: 'g' })) : [];
+      (P.pre ? pre : items).push(...[...ans, ...its.filter(Boolean)].map((q) => ({ ...q, pi: i })));
     } else if (P.a) {
       const hs = layoutHand(G, P.a, { x: ax, y: ay, u: 30, seed: seed * 23 + i }).map((q) => ({ ...q, kind: 'g' }));
       (P.pre ? pre : items).push(...hs.map((q) => ({ ...q, pi: i })));
@@ -122,7 +140,7 @@ export function makeSheet(G, { title = 'MATH 1B · PROBLEM SET 9', note = 'Due N
 }
 
 /** Scribe on a laptop (1280 × 800): modes home | scan | solve | write | done; k = progress 0..1 inside a mode. */
-export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n: N = 40, name = 'Tyler' } = {}) {   // 055: n problems + the student's name (defaults = 049)
+export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n: N = 40, name = 'Tyler', subject = '' } = {}) {   // 055: n problems, the student's name, a subject label (defaults = 049)
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const g = canvas.getContext('2d'), tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const RED = '#9a1c25', CREAM = '#f3f1eb';
@@ -153,6 +171,7 @@ export function makeScreen(G, icon, sheet, { w = 1280, h = 800, n: N = 40, name 
       g.save(); g.translate(170, 140); g.rotate(-0.03); g.drawImage(sheet.canvas, 0, 0, 430, 556); g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 2; g.strokeRect(0, 0, 430, 556);
       if (mode === 'scan') { const sy = 556 * k; g.fillStyle = 'rgba(154,28,37,.18)'; g.fillRect(0, 0, 430, sy); g.fillStyle = RED; g.fillRect(-8, sy - 3, 446, 6); }
       g.restore();
+      if (subject) { g.fillStyle = RED; g.font = '700 24px Inter, Arial'; g.fillText(`${subject.toUpperCase()} · ${N} PROBLEMS`, 680, 132); }
       g.fillStyle = '#1d1d1d'; g.font = '44px Georgia, serif';
       const n = mode === 'solve' ? Math.round(N * k) : 0;
       g.fillText(mode === 'scan' ? `Reading ${N} problems…` : n >= N ? `All ${N} solved.` : `Solving… ${n}/${N}`, 680, 190);

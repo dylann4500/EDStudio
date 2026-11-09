@@ -4,7 +4,7 @@
 // stat (label + number + sub-label) and a deadpan subtitle; the wreck → the manager → a new rule → the drive-thru pond → the
 // displacement flood. Ours: OTIS the hippo at CHOMPY'S, Denise the manager, our art, title, subtitles and HUD sub-labels. The Scribe plug sits where the
 // original turns ("the manager has questions" → "new hire, new rules"): one last chance = a HANDWRITTEN night-class math
-// worksheet by 8 AM; every pencil snaps in his jaws; one photo → Scribe solves all 20 → written in HIS handwriting, stroke by
+// CHEMISTRY worksheet by 8 AM (user steer Nov 9: not always math — a balanced combustion equation + two Lewis structures); every pencil snaps in his jaws; one photo → Scribe solves all 20 → written in HIS handwriting, stroke by
 // stroke → 20/20, promoted → the pond drive-thru. Scribe on screen at 33.8 s (56 %).
 // No narrator (the original has none — TikTok reports no speech): subtitles + HUD + foley + a soft bed.
 //
@@ -191,23 +191,26 @@ export async function build(studio, story) {
   const shade = mk(new THREE.ConeGeometry(0.11, 0.13, 18, 1, true), mat(0x2f6a4a, 0.5, { side: THREE.DoubleSide }), lamp, -0.08, 0.38, -0.02); shade.rotation.z = 0.6;
   mk(new THREE.SphereGeometry(0.03, 10, 8), new THREE.MeshBasicMaterial({ color: 0xfff1c8 }), lamp, -0.1, 0.35, -0.02);
   const lampLight = new THREE.PointLight(0xffdcaa, 0, 5, 1.5); lampLight.position.set(-0.15, 0.32, -0.12); lamp.add(lampLight);
-  const sheet = makeSheet(G, { title: 'NIGHT CLASS · MATH 101 · WORKSHEET 4', note: 'Due 8:00 AM  ·  HANDWRITTEN WORK ONLY', name: 'Otis', seed: 5, page: 'p. 1 of 4',
+  // a capital O for formulas: the demo hand only has a small o (and 0), and Scribe's own sheet has a capital-O box for exactly this
+  // (README §Chemistry: "without it a formula's oxygen is the writer's zero"). Built here, not in the engine, so other reels are untouched.
+  if (!G.O && G.o && G.C) { const kC = G.C[0].h / G.o[0].h; G.O = G.o.map((v) => ({ ...v, w: v.w * kC * 1.05, h: v.h * kC, d: G.C[0].d })); }
+  const sheet = makeSheet(G, { title: 'NIGHT CLASS · CHEM 101 · WORKSHEET 4', note: 'Due 8:00 AM  ·  HANDWRITTEN WORK ONLY', name: 'Otis', seed: 5, page: 'p. 1 of 4',
     problems: [
-      { q: '1.  Solve:  3x + 7 = 22', a: '3x = 15   x = 5' },
-      { q: '2.  Simplify:  4(2y - 3) + 5y', a: '8y - 12 + 5y = 13y - 12' },
-      { q: '3.  One burger costs 6.49. How much are 12?', a: '12 x 6.49 = 77.88' },
-      { q: '4.  Solve:  x² - 9 = 0', a: 'x^2 = 9   x = ±3' },
-      { q: '5.  Slope through (1, 2) and (3, 8)', a: 'm = (8-2)/(3-1) = 3' },
-      { q: '6.  Graph  y = x² - 4x + 3', a: 'roots: x = 1, 3', graph: true },
+      { q: '1.  Balance the grill burner:  CH₄ + O₂ → CO₂ + H₂O', a: 'CH_4 + 2O_2 → CO_2 + 2H_2O' },
+      { q: '2.  Draw the Lewis structure of H₂O.', a: 'bent', lewis: 'H2O' },
+      { q: '3.  How many moles in 36 g of H₂O?  (M = 18 g/mol)', a: 'n = 36 / 18 = 2 mol' },
+      { q: '4.  Fryer oil at 180 °C. In kelvin?', a: '180 + 273 = 453 K' },
+      { q: '5.  pH of 0.01 M HCl (the fryer cleaner)', a: 'pH = -log(0.01) = 2' },
+      { q: '6.  Draw the Lewis structure of CO₂.', a: 'linear', lewis: 'CO2' },
     ] });
-  const screen = makeScreen(G, icon, sheet, { n: 20, name: 'Otis' });
+  const screen = makeScreen(G, icon, sheet, { n: 20, name: 'Otis', subject: 'Chemistry' });
   const SW = 0.43, SH = 0.43 * 1325 / 1024;
   const sheetMat = new THREE.MeshStandardMaterial({ map: sheet.tex, roughness: 0.9, color: 0xd6d2ca });
   const stampTex = canvasTex(512, 160, (g, w, h) => { g.strokeStyle = 'rgba(200,30,30,.85)'; g.lineWidth = 10; g.strokeRect(10, 10, w - 20, h - 20); g.fillStyle = 'rgba(200,30,30,.85)'; g.font = '900 66px Inter, Arial'; g.textAlign = 'center'; g.fillText('HANDWRITTEN', w / 2, 76); g.font = '900 44px Inter, Arial'; g.fillText('ONLY · DUE 8 AM', w / 2, 132); });
   const aplusTex = canvasTex(256, 256, (g, w, h) => { g.strokeStyle = 'rgba(205,25,25,.92)'; g.lineWidth = 12; g.beginPath(); g.arc(w / 2, h / 2, 110, 0, 7); g.stroke(); g.fillStyle = 'rgba(205,25,25,.92)'; g.font = '900 120px Inter, Arial'; g.textAlign = 'center'; g.fillText('A+', w / 2, 168); });
   const sheetMesh = (stamp = true) => {
     const m = new THREE.Mesh(new THREE.PlaneGeometry(SW, SH), sheetMat); m.receiveShadow = true; scene.add(m);
-    if (stamp) { const s = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.0625), new THREE.MeshBasicMaterial({ map: stampTex, transparent: true, depthWrite: false })); s.position.set(0.09, SH / 2 - 0.15, 0.002); s.rotation.z = 0.12; m.add(s); }
+    if (stamp) { const s = new THREE.Mesh(new THREE.PlaneGeometry(0.17, 0.053), new THREE.MeshBasicMaterial({ map: stampTex, transparent: true, depthWrite: false })); s.position.set(0.115, SH / 2 - 0.085, 0.002); s.rotation.z = 0.1; m.add(s); }
     return m;
   };
   const deskSheet = sheetMesh(); deskSheet.rotation.set(-PI / 2, 0, PI); deskSheet.position.set(T0.x + 0.06, BD.tableTop + 0.027, T0.z - 0.12);
