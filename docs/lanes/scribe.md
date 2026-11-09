@@ -55,6 +55,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   script.json `"voice": {"provider": "fish"}` + `"fish": {"reference_id": …, "speed": 1.0, "tempo": …}`). Word timings come
   from Fish's /v1/tts/stream/with-timestamp, so the one-word captions still work. Never use a library voice that clones a real
   person (the Fish library is full of them: Elon, Markiplier, rappers): generic narrators only. Find more with `--fish-voices`.
+  **The narrator is "Slax"** (`c5f56a6cc2ec4fa8920cb4c5889a3fb7`, user's pick Nov 9: "use slax its the funnies") — it's the
+  default (`FISH_VOICE_ID` in the .env), so `--fish` alone uses it. Vex (054/064) keeps her own female voice.
 - **What actually posts (uploads session, Nov 9):** TikTok's web uploader has no trending sounds, so it posts `upload.mp4` WITH our
   music when one exists — make the music decent and always ship both `upload.mp4` and `upload-nomusic.mp4`.
 - **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the
