@@ -55,3 +55,31 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - Toon add-ons on the torso: `toon.armL.g.parent` is the torso group (the body's child order is not stable).
 - Cuts are cheap in a promo: one framing per beat as its own shot (with a 2-key slow push) beat chaining framings across a room —
   planRail turned far-apart framings into passes and the "HANDWRITTEN" close-up became a pan across the bookshelves.
+
+## 050: Scribe ("I upgraded my backyard shed every day until it became a university"), 51.7 s
+- The @officialwriteit "upgrade X every day" format in the toon look: a DAY counter, a new upgrade + gag every ~3 s (desk + whiteboard
+  → a 2nd floor whose fire exit is a trampoline into the trash can → a bell tower the neighbor "loves" → the trash-can raccoon on a full
+  scholarship → bricks + columns (one flattens the gnome) → students nobody invited, Mom as the dining hall → a stadium on the
+  neighbor's pool), the obstacle at 47 % (the accreditation inspector: forty problems, handwritten, by midnight, the dean too — "I'm the
+  dean"), the laptop with the Scribe logo on screen at 57 %, "I'm cooked. So I one-shot it with Scribe", day 100 (ivy, a clock tower,
+  10,000 students, caps flying), the raccoon graduates top of the class, the neighbor wants his pool back. 29 shots, 1,027 Eleven chars.
+- Kit (additive): `engine/build/campus.js` `buildCampus(studio)` (the backyard → university set: shed with a removable front wall,
+  `floor2`, roof, cardboard sign; trampoline, trash can, gnome, bell tower; the brick hall (`body` grows, `cols` drop, `top` drops,
+  `ivy[]` pops, banner, podium); our house + deck, the neighbor's house with a lean-out window, pool → stadium (`rows` pop,
+  `seats` for the crowd), Mom's table, the clock tower, far halls, lamp posts, grad chairs; `setDay(1)` = the day-100 dressing) and
+  `engine/build/dayhud.js` `makeDayHud` (DAY box whose number ROLLS, a count line or a clock line, the Scribe end card). synth.py
+  gained `boing` (a cartoon trampoline spring). `makeScreen(…, { name })` signs the app's handwriting row with the hero's name.
+- **The engine's index.html styles `.sub`, `.num`, `.hud`** (subtitles/HUD of the other tones): a HUD class named `.sub` rendered
+  the STUDENTS line at the subtitle spot in italic serif. Prefix every class of a new overlay (dayhud uses `dh-*`).
+- **A crowd that "shows up" must start near the door:** walkers starting 8–12 m outside the gate at 3 m/s were still outside when
+  the shot ended (and the queue at Mom's table was empty). Start them ~3 m out, stagger 0.03 s, and let the queue walk in first.
+- **Lenses inside seated rows:** the day-100 quad has 120 grads on chairs + 640 tiny grads behind — four of the first cameras sat
+  inside a row (a cap or a head filling the frame). Put ground cameras in the aisle (x ≈ 0.4) or above the heads (y ≥ 3).
+- **A prop held overhead (a protest sign) can't ride a raised hand's frame** — the stick pointed sideways out of shot. Place it in
+  world space at the hand every frame, upright.
+- **Someone leaning out of a window of a SOLID house box:** the body stays inside the box (hidden), only head + shoulders cross the
+  facade (root ~0.4 m behind it, lean 0.5) — at 0.0 m the legs hung below the sill outside the wall.
+- **`B.W(beat, 'the', n)` counts every "the" in the beat** ("…top of the class. The neighbor…" = the 3rd): the last shot started
+  0.6 s early on the 2nd. Anchor shots on a rarer word when you can.
+- Music (user, Nov 8: minimal): a 140 bpm bed at stem −11 dB, drums −7, mallet −6, foley carries the reel; a soft kick + hat build
+  and a 1.0-level riser pad under the hook keep the dropout check clean (a quieter pre-roll failed it three times).

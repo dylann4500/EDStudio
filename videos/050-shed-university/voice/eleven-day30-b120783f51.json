@@ -1,0 +1,46 @@
+{
+ "text": "Day thirty. Bricks. Columns. Real colleges have columns.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Day",
+   "t0": 0.0,
+   "t1": 0.16
+  },
+  {
+   "w": "thirty.",
+   "t0": 0.24,
+   "t1": 1.12
+  },
+  {
+   "w": "Bricks.",
+   "t0": 1.253,
+   "t1": 2.4
+  },
+  {
+   "w": "Columns.",
+   "t0": 2.46,
+   "t1": 3.16
+  },
+  {
+   "w": "Real",
+   "t0": 3.216,
+   "t1": 3.44
+  },
+  {
+   "w": "colleges",
+   "t0": 3.502,
+   "t1": 4.0
+  },
+  {
+   "w": "have",
+   "t0": 4.032,
+   "t1": 4.16
+  },
+  {
+   "w": "columns.",
+   "t0": 4.23,
+   "t1": 4.8
+  }
+ ]
+}
