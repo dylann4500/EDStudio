@@ -76,9 +76,12 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   posted ones: `POV you get 2x gay every second 💅 #fyp #homework #gay #school #funnyreels`. Scribe shows up in the VIDEO
   (end card, on-screen product), never in the caption. `python3 -I tools/caption.py videos/NNN-slug` must pass. Paste the
   caption in full in your report.
+- **A LIVE post's caption can be edited in TikTok Studio (pencil icon; it re-enters a short review); a scheduled post can't (Nov 9).**
 - **Posting by hand in TikTok Studio (web, Nov 8):** pick each hashtag from the suggestion list (type `#tag`, wait ~3 s, Enter)
   so it links — a plain typed tag stays plain text, and Enter before the list loads inserts a line break. Scheduled posts
-  can't be edited (only deleted + re-uploaded). The Chrome extension's file upload caps at 10 MB per call: split a bigger
+  can't be edited (only deleted + re-uploaded); a LIVE post's caption can (Posts → pencil → Save; it re-enters review, and
+  the list may show an emoji as `\ud83d…` until you reload — the saved text is fine, Nov 9 on 064). The web uploader has no
+  trending sounds (only a stock library), so post the `_with-music` file unless the user adds a sound in the phone app. The Chrome extension's file upload caps at 10 MB per call: split a bigger
   video into ≤ 9 MB parts, push each into a temporary page file input, rebuild a `File` in the page and set it on TikTok's input.
 - Copy the reference's FORMAT and beats freely; all art, lines and characters are ours. No real brands' logos besides Scribe
   (fictional detectors/teachers/apps are fine), nothing that impersonates a real person.
