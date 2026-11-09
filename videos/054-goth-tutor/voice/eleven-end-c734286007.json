@@ -1,0 +1,16 @@
+{
+ "text": "[mischievously] Sweet dreams.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Sweet",
+   "t0": 0.424,
+   "t1": 0.48
+  },
+  {
+   "w": "dreams.",
+   "t0": 0.606,
+   "t1": 1.68
+  }
+ ]
+}

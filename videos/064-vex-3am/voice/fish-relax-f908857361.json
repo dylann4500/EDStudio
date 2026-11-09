@@ -1,0 +1,41 @@
+{
+ "text": "There you go. Shoulders down. Finally relaxing.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "There",
+   "t0": 0.16,
+   "t1": 0.4
+  },
+  {
+   "w": "you",
+   "t0": 0.4,
+   "t1": 0.64
+  },
+  {
+   "w": "go.",
+   "t0": 0.64,
+   "t1": 1.12
+  },
+  {
+   "w": "Shoulders",
+   "t0": 1.6,
+   "t1": 2.24
+  },
+  {
+   "w": "down.",
+   "t0": 2.24,
+   "t1": 2.96
+  },
+  {
+   "w": "Finally",
+   "t0": 3.52,
+   "t1": 4.0
+  },
+  {
+   "w": "relaxing.",
+   "t0": 4.0,
+   "t1": 5.04
+  }
+ ]
+}

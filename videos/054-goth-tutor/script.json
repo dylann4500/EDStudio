@@ -1,0 +1,140 @@
+{
+ "title": "What happens to your body if you don't sleep for 24 hours? (Vex, Scribe)",
+ "tone": "promo",
+ "voice": {
+  "provider": "eleven",
+  "voice_id": "EXAVITQu4vr4xnSDxMaL",
+  "name": "Sarah",
+  "model": "eleven_v3",
+  "settings": {
+   "stability": 0.0,
+   "similarity_boost": 0.8
+  }
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.14,
+ "tail": 4.6,
+ "maxPause": 0.34,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.06,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "[seductive, low voice] What happens to your body if you don't sleep for twenty-four hours? [whispers] Come here, baby. Mommy will tell you.",
+   "callouts": []
+  },
+  {
+   "id": "h17",
+   "say": "Hour seventeen. Your brain is as slow as someone who's had a few drinks.",
+   "callouts": [
+    {
+     "at": "seventeen",
+     "text": "17 HRS = 0.05% BAC",
+     "style": "term",
+     "until": "drinks",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "h20",
+   "say": "Hour twenty. Your hunger hormone climbs. [laughs softly] That's why you're on your third bag of chips.",
+   "callouts": [
+    {
+     "at": "hunger",
+     "text": "HUNGER HORMONE UP",
+     "style": "term",
+     "until": "chips",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "h22",
+   "say": "Hour twenty-two. Microsleeps. Your brain naps for a few seconds... [whispers] with your eyes open.",
+   "callouts": [
+    {
+     "at": "microsleeps",
+     "text": "MICROSLEEPS",
+     "style": "term",
+     "until": "open",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "h24",
+   "say": "Hour twenty-four. You're as impaired as someone legally drunk. And your brain is forty percent worse at saving new memories. [sighs] So that all-nighter for your bio homework? [softly] Gone.",
+   "callouts": [
+    {
+     "at": "impaired",
+     "text": "24 HRS = 0.10% BAC",
+     "style": "term",
+     "until": "drunk",
+     "y": 0.14
+    },
+    {
+     "at": "forty",
+     "text": "-40% NEW MEMORIES",
+     "style": "term",
+     "until": "memories",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "say": "[seductive whisper] So let mommy take care of you.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Snap the worksheet. Scribe answers every question, and writes it out in your handwriting. Even the graph. [breathy] Stroke... by... stroke.",
+   "callouts": [
+    {
+     "at": "scribe",
+     "text": "SCRIBE",
+     "style": "term",
+     "until": "question",
+     "y": 0.14
+    },
+    {
+     "at": "your",
+     "text": "YOUR HANDWRITING",
+     "style": "term",
+     "until": "handwriting",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "payoff",
+   "say": "Now put the phone down and go to sleep, baby. [whispers] Mommy's orders.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "[mischievously] Sweet dreams.",
+   "callouts": []
+  }
+ ]
+}

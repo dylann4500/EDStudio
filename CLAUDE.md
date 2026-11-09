@@ -562,6 +562,59 @@ videos/NNN-slug/
   over 0.36 s): `pixel.set(Math.max(PIXEL, mosaicAt(t, CUTS)))` every frame. Pair it with crisp texel textures: `pixelTex(w, h,
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
+- **VRoid anime characters = the anime look (054 Vex, Nov 9; supersedes the 2-D puppets below):** the user wants a real animated 3-D
+  character like the reference reels ("an actual character rendered sprite that could move around… not a still image"). Build her
+  in **VRoid Studio** (installed; a Unity app that ignores background clicks → needs full-screen control, ~30 min: ask the user
+  first) from presets: face/eyes/eyeliner/lips/eyelid colour = makeup, hairstyle + hex colour, body sliders (drag with
+  mouse-down → move → up; typing into the value boxes doesn't stick), Outfit → Tops/Bottoms = none leaves VRoid's black
+  bandeau + briefs (= a bikini). Export → VRM 1.0 (faces +z) → `videos/NNN/x.vrm`; save the `.vroid` project in ~/Documents.
+  `engine/vroid.js` `makeVroid(url, {textures, bust, thigh})` reads VRMC_vrm itself (no new dependency): humanoid bones, expression
+  presets (happy/relaxed/angry/sad/surprised, aa/ih/ou/ee/oh visemes, blink/blinkLeft), cel shading (MToon's unlit fallback →
+  MeshToonMaterial + emissive floor so shadows keep their hue) + an ink hull; `update(t, {x, z, rotY, pose, walk:{dist,speed},
+  lean, tilt, nod, turn, look, mouth, vowel, face, hands, aim})` = AIM posing (bone directions in her frame) + finger shapes
+  (relax/open/fist/point/peace/hold) + a walk cycle + procedural hair/bust sway. `dressGoth(V)` = shades, choker + cross, chains,
+  chain belt, O-ring bat charm, side ties, spiked cuffs. Swap a texture at runtime (`textures: {Body_00_SKIN: png}`) — 054's
+  goth lace bikini is painted on the 2048² body atlas (`vex-body.png`). Lip-sync = the active word's vowels (054 `lips()`).
+  **The Ally (@allythetutor) look the user means = ONE sunny voxel beach for the whole reel** (pixel sun, block clouds, stilt huts
+  with red/blue roofs, dunes, grass tufts, the sea BEHIND her — cameras look toward the sea, key light from behind the lens),
+  every fact a prop/diorama on the sand beside her, the pixel pass at ~4 px, a small yellow pixel-font title + yellow fact
+  cards at the top, one-word lowercase white pixel captions at ~72 %. 054's first cut used 3 px blocks + our old indoor sets
+  (office/library/classroom) and the user said it "looks like our old video stuff": the PR (engine/pixel.js, pixeltex.js,
+  _pixel-template) is only the post pass + textures — the world and the character are on us. 054 builds "stations" (turned
+  180° so the sea is behind her) on `engine/sets/voxbeach.js`; `engine/pixelcaps.js` = the pixel text (lowercase, plain title).
+  **v2 (Nov 9, user: "thin bikini, big boobs, big ass… as hot as possible"; manager: indirect viral topic, platform-safe):**
+  the outfit is painted on VRoid's 2048² body atlas — render a labelled UV grid first (054 `uvdebug.png` trick: front centre
+  x ≈ 1024, bust ≈ y 390–630, hips string ≈ y 1010, the back = the strip's two edges); erase VRoid's black bandeau/briefs by
+  blending each column's skin above/below, then draw triangle cups + strings. Proportions = `makeVroid({bust: 1.2, thigh: 1.18})`.
+  "Mommy" moments = a push-in that stays in (`bump`) + pixel hearts + a wink/kiss + a breath before the word. **Check
+  stations against voxbeach's dunes** (a dune swallowed the desk: the shot rendered as flat sand).
+  **064 (3 AM POV, Nov 9, user: "not informative… comfort you… make her thicker, bigger eyes, cuter but still goth"):** a cuter,
+  thicker Vex IN CODE (no VRoid trip): `makeVroid({bust: 1.22, thigh: 1.4, calf: 1.15, head: 1.07, eyes: 1.12})` + `vex-body2.png`
+  (the bikini atlas minus the inner-thigh strip that read as a flap). Eyes scale x/y only (`setScalar` pushed the eyeballs out
+  through the lids = goggles); half-lidded = `relaxed ≈ 0.15–0.35` + `blink ≈ 0.12` (relaxed 0.5 + blink 0.25 shut her eyes).
+  Night: `voxbeach.setNight(1)` (navy sky, 700 stars at 5 px — 2 px vanished under the 4 px pixel pass, a pixel moon via
+  `setSun(camPos, dir)` up-left of the aim) — **never call `setMood` after it** (setNight clears the mood cache, setMood(0)
+  repaints a day sky). Night faces: a fill light AT the lens with intensity ∝ d^1.6 (camera→subject) = the same exposure at
+  any distance (a fixed fill 0.4 m ahead blew close-ups white and hot-spotted the paper in the macro; off when she's not in shot).
+  Smooth gestures: `ARMS` is exported; 064 `glide()` re-evaluates the shot's pose fn 0.04–0.32 s back and blends the arm
+  directions over 0.28 s via `armL/armR` (pure, no state) — pose switches no longer snap. `makeScreen` on a `subjectSheet`:
+  leave `subject` unset (a string subject printed the class line twice over the pack's). Shrink the magic pen's glow in a macro
+  (`pen.glow` 0.022, it hid the H of H–O–H). Copy: the Scribe beat stays the product demo; the rest is comfort/tease (roast the
+  homework → "aww" → "come here" → a wink → Scribe → "mommy won't tell" → bed) — flirty, adult, no kink lines, no promises.
+- **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
+  in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
+  So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
+  diffusers on MPS, venv `~/.cache/edstudio/sdxl` (python 3.12; model in the HF cache, ~7 GB, run with `HF_HUB_OFFLINE=1`).
+  Character block `CHAR` + quality tail + negative live in gen.py; prompts are encoded in 75-token chunks (SDXL's CLIP stops
+  at 77 — the long character block silently cut the pose + background until then). Jobs: txt2img (+ `hires`), img2img
+  (`init` + `strength`), inpaint (`init` + `mask` ellipses: blink / talk frames; the result is composited back so ONLY the
+  mask changes — the VAE round trip shifts colours elsewhere = flicker on a swap). Put composition tags FIRST (1girl, solo,
+  cowboy shot, pose, white background) then `{char}`. `tools/anime/cut.py` = rembg isnet-anime cut-out (variants reuse the
+  base alpha). `engine/puppet.js` `makePuppet({base, faces, height, rig})` = the cut-out on a subdivided plane whose vertex
+  shader breathes the chest, sways hair ellipses, tilts/bobs the head round the neck and leans the body; `update(t, {camera,
+  talk, face, headA, bob, sway})` billboards it and swaps face frames (auto-blink). It sits in any voxel set under the pixel
+  pass (`engine/sets/voxbeach.js` = the benchmark's beach house; dev scene `videos/_puppet-dev`). A cowboy-shot cut-out ends
+  at the thighs: frame its bottom edge out of shot (or use full-body art for wides). Generation on a busy Mac: ~1–7 min/image.
 - **Penguins + Antarctic sea ice (063, `engine/build/penguins.js`, toon look):** `makePenguin({tuft, bow, fat, chest, ear})` = an
   emperor penguin with the toon face kit (`set({x, z, rotY, waddle, lie 0..1 = belly slide, flipL/flipR {z out, x fwd}, head, eyes
   'open'|'wide'|'half'|'closed'|'happy'|'spiral'|'x', look, brows, mouth 'flat'|'o'|'scream'|'smile', drift (snowed in to the beak),
@@ -735,6 +788,8 @@ videos/NNN-slug/
   placement and `letter.visible = true` vanished). After scripted edits run this check — it must print nothing:
   `grep -nE "//[^'\"]*;\s+[A-Za-z_.]+(\(|\s*=|\.)" videos/NNN-*/shots.js engine/**/*.js | grep -v ":\s*//"` — it silently comments the code out
   (that once deleted the main light). Re-render stills after every batch of edits.
+  064 hit it AGAIN through a Python `replace` that added `// comment` before `const c = …` on a one-line block (the coffee and the
+  mug handle vanished, no error): grep `//.*(const|let) [A-Za-z_]+ = ` too.
   It misses `…}); // note foo.bar(x);` (no `;` inside the comment before the code): also run
   `grep -nE "//.*[A-Za-z_]+(\.[A-Za-z_]+)*\([^)]*\);\s*$|//.*[A-Za-z_]+\.[A-Za-z_.]+ = [^;]+;\s*$"` and read each hit (039 lost a character to it).
 - **Doors/furniture must not block the camera or the key light.** The bedroom door swings out into the hallway for this reason.
