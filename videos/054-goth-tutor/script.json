@@ -1,0 +1,25 @@
+{
+  "title": "Can your professor tell you used AI? (Scribe, goth tutor)",
+  "tone": "promo",
+  "voice": { "provider": "eleven", "voice_id": "pFZP5JQG7iQjIQuC4Bku", "name": "Lily", "model": "eleven_v3",
+             "settings": { "stability": 0.0, "similarity_boost": 0.8 } },
+  "scratch": { "voice": "Samantha", "rate": 200 },
+  "lead": 0.04, "gap": 0.12, "tail": 4.6, "maxPause": 0.3, "pauseFloor": -45,
+  "fps": 30, "motionBlur": 1, "tempo": 1.12, "joinLen": 4,
+  "look": { "exposure": 1.0, "bloom": 0.06, "bloomThreshold": 0.98, "fill": 0.0, "toneMapping": "neutral", "vignette": 0.1, "grain": 0.0, "warm": 0.0, "saturation": 1.04, "lift": 0.0 },
+  "beats": [
+    { "id": "hook", "say": "[seductive, low voice] Can your professor tell you used AI? [laughs softly] Babe... yes. Let mommy explain.", "callouts": [] },
+    { "id": "tell1", "say": "Tell number one. You turned in something typed. More profs want it handwritten now... and your handwriting? [sighs] A crime scene.",
+      "callouts": [ { "at": "one", "text": "TELL #1", "style": "label", "y": 0.3, "until": "typed" }, { "at": "handwritten", "text": "HANDWRITTEN ONLY", "style": "term", "until": "now", "y": 0.3 } ] },
+    { "id": "tell2", "say": "Tell number two. You pasted the chatbot answer. Em dashes everywhere. Delve. [laughs] Nobody says delve, babe.",
+      "callouts": [ { "at": "two", "text": "TELL #2", "style": "label", "y": 0.3, "until": "answer" } ] },
+    { "id": "tell3", "say": "Tell number three. D minus, D minus... then a hundred. Overnight. [sarcastic] Totally normal.",
+      "callouts": [ { "at": "three", "text": "TELL #3", "style": "label", "y": 0.3, "until": "minus" } ] },
+    { "id": "turn", "say": "[whispers] So here's what mommy does.", "callouts": [] },
+    { "id": "scribe", "say": "You write one practice page, so Scribe learns your hand. Then snap the worksheet. It solves every problem, shows the work... and writes it out in your handwriting. Stroke by stroke. Your messy sevens and all.",
+      "callouts": [ { "at": "scribe", "text": "SCRIBE", "style": "term", "until": "hand", "y": 0.3 }, { "at": "your", "nth": 2, "text": "YOUR HANDWRITING", "style": "term", "until": "handwriting", "y": 0.3 } ] },
+    { "id": "payoff", "say": "Print it. Turn it in. Your prof holds it next to last week's... [laughs softly] perfect match.",
+      "callouts": [ { "at": "perfect", "text": "PERFECT MATCH", "style": "term", "until": "match", "y": 0.3, "min": 1.0 } ] },
+    { "id": "end", "say": "Do your own homework? [mischievously] Couldn't be me.", "callouts": [] }
+  ]
+}
