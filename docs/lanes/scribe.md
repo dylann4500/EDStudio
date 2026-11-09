@@ -48,6 +48,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   shift, a payoff matrix), and math at most one reel in four. Show the subject's FIGURE being drawn by the pen — that's the money
   shot. All true per the Scribe README (§Physics, §Chemistry, §Biology, §Economics). Ready-made sheets: `engine/build/subjects.js`
   (`subjectSheet(G, 'chemistry')` etc.; docs/PROMO.md → Subject packs; all packs on one frame: `videos/_subjects-demo/packs.jpg`).
+- **Vary format, place AND the Scribe feature between reels (user, Nov 9: "make sure there's some variance between them"):** not
+  POV after POV. Rotate formats (POV, "rating your ___ 1–10", GRWM/storytime, tier list, doubling, day-N counter, explainer) and
+  show a different real feature each time: one practice sheet → your handwriting, the messiness slider, pencil vs ballpoint ink,
+  filling a worksheet's blanks/tables, photo/PDF upload, Download PDF, drawn figures (README §Worksheets, §Teaching it your handwriting).
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
