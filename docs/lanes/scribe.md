@@ -50,6 +50,13 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   (`subjectSheet(G, 'chemistry')` etc.; docs/PROMO.md → Subject packs; all packs on one frame: `videos/_subjects-demo/packs.jpg`).
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
+- **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
+  the old key in `~/.config/edstudio/.env`. Voice a reel with `python3 -I tools/narrate.py NNN-slug --fish --fish-voice <id>` (or
+  script.json `"voice": {"provider": "fish"}` + `"fish": {"reference_id": …, "speed": 1.0, "tempo": …}`). Word timings come
+  from Fish's /v1/tts/stream/with-timestamp, so the one-word captions still work. Never use a library voice that clones a real
+  person (the Fish library is full of them: Elon, Markiplier, rappers): generic narrators only. Find more with `--fish-voices`.
+- **What actually posts (uploads session, Nov 9):** TikTok's web uploader has no trending sounds, so it posts `upload.mp4` WITH our
+  music when one exists — make the music decent and always ship both `upload.mp4` and `upload-nomusic.mp4`.
 - **Music (user, Nov 8): "most of the background music's kind of ass."** Keep our bed minimal under the voice (SFX carry the
   reel), and run `sh tools/nomusic-copy.sh videos/NNN-slug` → `out/nomusic.mp4` + `out/upload-nomusic.mp4` (every stem except
   music.wav, on final.mp4's picture). **The no-music cut is what we post** (user, Nov 8: "yes, trending sounds"): add a
