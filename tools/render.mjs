@@ -48,6 +48,9 @@ if (story.end && story.duration - (story.end.in + 0.5) < 3.5) console.warn(`⚠�
 // house rule: every video ships with a real caption (user: "make sure every video generation has a caption")
 { const cap = path.join(videoDir, 'caption.md'); const txt = fs.existsSync(cap) ? fs.readFileSync(cap, 'utf8') : '';
   if (!txt || txt.includes('<hook line')) console.warn('⚠️  caption.md is ' + (txt ? 'still the template' : 'missing') + ' — write it (hook + emoji, 2–3 sentences, question CTA 👇, "Send this to your ___", 5 hashtags incl. #animation) and paste it in your report');
+  else if (story.tone === 'promo' || txt.includes('tryscribe.ink') || (fs.existsSync(path.join(videoDir, 'script.json')) && /"tone":\s*"promo"/.test(fs.readFileSync(path.join(videoDir, 'script.json'), 'utf8')))) { // Scribe promos (user, Nov 8): no course plug, the tryscribe.ink line instead
+    if (txt.includes('payhip.com')) console.warn('⚠️  caption.md has the course line — Scribe promos never plug the course (user rule, Nov 8): delete it');
+    if (!txt.includes('tryscribe.ink')) console.warn('⚠️  caption.md is missing the tryscribe.ink line (Scribe promo)'); }
   else if (!txt.includes('payhip.com/b/rim0Q')) console.warn('⚠️  caption.md is missing the course line — add "🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q" after "Send this to your ___" (user rule)'); }
 // build genre: say loudly when the narration is still the scratch voice (docs/BUILD.md → Upgrading the scratch voice)
 if (story.mode === 'build' && story.voice && story.voice.provider !== 'eleven') console.warn('ℹ️  narration is the SCRATCH voice (macOS say) — set ELEVENLABS_API_KEY, re-run tools/narrate.py + make_cues.py + synth.py before publishing');

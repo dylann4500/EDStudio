@@ -56,6 +56,12 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 046 | What if all the oceans drained at once? | science / @ed_.studios | queued Oct 30 (Sat 1 PM) |
 | 047 | What if Pip was the ring bearer at the wedding? (Pip ep. 8) | pip / @ed._.sims | queued Oct 30 (Sat 1 PM) |
 | 048 | What if the street flooded and Pip went back for the ducklings? (Pip ep. 9) | pip / @ed._.sims | queued Oct 30 (Sat 6 PM) |
+| 049 | No Nut November battle royale → Scribe (Scribe promo #1) | scribe / Scribe IG + TikTok | made Nov 8 (049 session), merged |
+| 050 | Upgrading my backyard shed every day until it's a university (Scribe, toon/build look) | scribe | assigned Nov 8 (Scribe manager) |
+| 051 | Everyone in my town has a number above their head (Scribe, toon story look) | scribe | assigned Nov 8 (Scribe manager) |
+| 052 | Upgrading my bedroom every day until I never have to leave it (Scribe, NEW sim style) | scribe | assigned Nov 8 (Scribe manager) |
+| 053 | Day N of inventing my way out of homework (Scribe, NEW flat 2D style) | scribe | assigned Nov 8 (Scribe manager) |
+| 054 | Goth anime cheat tutor (Scribe, anime/pixel look, after @allythetutor) | scribe | reserved Nov 8 for the 049 session (feat/goth-tutor) |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:
@@ -80,3 +86,13 @@ Classic tier ("everyone on Earth…"):
 ## Backlog: lane 3 (@ed._.sims)
 Hero: Pip the corgi puppy (`docs/lanes/lane3.md`); every episode ends well. Build `makePet` + `livingroom.js` before ep. 1.
 - What if Pip's kid left for college and he waited by the door every day? (DAYS WAITED 0 → 98, Thanksgiving reunion. 001's emotional format with a pet + "waited by the door" from the 1M birthday)
+
+## Backlog: Scribe promos (docs/lanes/scribe.md) — manager assigns concept × style
+Viral formats to plug Scribe into (from docs/reference/officialwriteit.md + trends); the obstacle is always handwriting.
+- Upgrading my desk / dorm / locker / backpack / car every day until finals (their 2M + 1.4M format)
+- Stay in bed for 30 days for $10,000 (MrBeast-style challenge; handwritten homework is the only way out)
+- Last to leave the library wins (challenge; Scribe = the cheat code)
+- 1 vs 100 students: who finishes the problem set first (crowd sim)
+- POV: your handwriting is so bad the teacher calls your parents (Scribe learns a NEATER version? check the claim first)
+- What if homework doubled every hour (our what-if harness; Scribe keeps up)
+- Day 1 vs day 100 of senior year (time skip, counter)

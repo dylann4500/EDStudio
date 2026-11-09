@@ -523,7 +523,10 @@ videos/NNN-slug/
   the video, and paste the caption text (paste-ready, without the sources comment) in the report next to the file path.
   `tools/render.mjs` warns when caption.md is missing or still the template. If a revision changes what the video shows,
   update the caption to match.
-- **Every caption carries the course link (user rule, Oct 23)** — this exact line as its own block — a blank line after
+- **Scribe promos never plug the course (user rule, Nov 8):** "don't plug the course… we're just promoting Scribe now". A promo
+  caption (`"tone": "promo"` in story/script.json, or one that sells tryscribe.ink) carries the tryscribe.ink line INSTEAD of the
+  course line; `tools/caption.py` fails and `render.mjs` warns if the course line is there. Lane brief: `docs/lanes/scribe.md`.
+- **Every (non-promo) caption carries the course link (user rule, Oct 23)** — this exact line as its own block — a blank line after
   "Send this to your ___", the line, a blank line, then the hashtags (question + share = one block, the course offer = another): `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q`
   (the user's "AI 3D Animation Masterclass Prompt Vault" for people who want to make their own reels). Keep the URL as
   written (short, no https://) — Instagram doesn't make caption links clickable, so it must be easy to read and type.
@@ -907,4 +910,4 @@ and write the docs while waiting; you can still re-render while queued (the scri
       the music never drops out mid-video (no 50 ms window of the music stem > 10 dB under its median, see audio/README.md).
 - [ ] End card fully visible ≥ 3.5 s before the video ends (no render warning).
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
-- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", a blank line, the course-link line (payhip.com/b/rim0Q) as its own block, exactly 5 hashtags incl. #animation.
+- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", a blank line, the course-link line (payhip.com/b/rim0Q) as its own block (Scribe promos: the tryscribe.ink line instead, never the course), exactly 5 hashtags incl. #animation.
