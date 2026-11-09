@@ -256,7 +256,7 @@ export async function build(studio, story) {
   const LID0 = t.open - 0.05, LID1 = t.open + 0.3, FLASH = t.photo + 0.05, SOLVE0 = T0('hand') + 0.05, SOLVE1 = t.solved + 0.35, WRITE0 = t.written - 0.1, WRITE1 = T0('shower') - 0.15;
   kick(FLASH, 0.35); kick(t.by + 0.05, 0.7); kick(t.empties, 0.5); kick(t.smell + 0.25, 0.35); kick(t.cross, 0.3);
   const items = sheet.items, N = sheet.total, cum = []; { let a = 0; for (const it of items) { a += it.kind === 'p' ? it.w : 1; cum.push(a); } }
-  const writeP = (tt) => N * smooth(u01(tt, WRITE0, WRITE1));
+  const writeP = (tt) => N * 0.62 * u01(tt, WRITE0, WRITE1) ** 1.15;   // on camera it writes problems 1–4 at a readable pace (the rest happens off-screen)
   fx.stream('spark', WRITE0, WRITE1, { pos: Lw(LD.sheet[0], Y + 0.03, LD.sheet[1]), box: [0.3, 0.02, 0.35], rate: 16, color: 0xffe08a, speed: [0.1, 0.4], size: [0.008, 0.016], life: [0.2, 0.4], g: 0 });
   const shotHand = new THREE.Group(); LIB.root.add(shotHand);
   { const sleeve = mk(new THREE.CapsuleGeometry(0.045, 0.2, 4, 10), std(0xffffff, 0.6, { map: crustTex }), shotHand, 0, -0.02, -0.17); sleeve.rotation.x = PI / 2; mk(new THREE.SphereGeometry(0.068, 14, 10), std(0xffffff, 0.6, { map: crustTex }), shotHand, 0, 0, 0); }
@@ -313,7 +313,7 @@ export async function build(studio, story) {
   const tipCache = new Map();
   function sheetTipAt(p) { const k = Math.round(p * 4) / 4; if (tipCache.has(k)) return tipCache.get(k); let acc = 0, tip = [sheet.w / 2, sheet.h / 2]; for (const it of items) { const wt = it.kind === 'p' ? it.w : 1; if (acc >= k) break; const f = Math.min(1, (k - acc) / wt); tip = it.kind === 'g' ? [it.x + it.w * f, it.y + it.h * 0.6] : it.pts[Math.min(it.pts.length - 1, Math.floor((it.pts.length - 1) * f))]; acc += wt; } tipCache.set(k, tip); return tip; }
   const tipWorld = (p) => { const tip = sheetTipAt(p); const v = V((tip[0] / sheet.w - 0.5) * 0.432, (0.5 - tip[1] / sheet.h) * 0.559, 0); LIB.sheet.updateWorldMatrix(true, false); return LIB.sheet.localToWorld(v).toArray(); };
-  function macroCam(tt) { const s = [0, 0.08, 0.16, 0.24, 0.32].map((d) => tipWorld(writeP(tt - d))), m = [0, 1, 2].map((c) => s.reduce((a, v) => a + v[c], 0) / s.length); return { pos: add(m, [-0.06, 0.3, 0.2]), look: add(m, [0.01, 0, -0.02]), fov: 44 }; }
+  function macroCam(tt) { const s = [0, 0.1, 0.2, 0.3, 0.4].map((d) => tipWorld(writeP(tt - d))), m = [0, 1, 2].map((c) => s.reduce((a, v) => a + v[c], 0) / s.length); m[0] = lerp(m[0], LO[0] + LD.sheet[0] - 0.05, 0.75); return { pos: add(m, [-0.02, 0.52, 0.2]), look: add(m, [0.0, 0, 0.06]), fov: 44 }; }   // a steady frame on the line being written, kept above the subtitle (a tight pen-tracker whip-panned into blur at 60 fps)
 
   // ---------------------------------------------------------------- the text layer (@whatifpov grammar)
   const subs = story.order.filter((id) => story.beats[id].sub).map((id, i, arr) => { const nx = arr[i + 1]; const t1 = Math.min(S1(id) + 0.6, nx ? S0(nx) - 0.08 : ENDC - 0.05); return { t0: S0(id) - 0.06, t1, text: story.beats[id].sub }; });

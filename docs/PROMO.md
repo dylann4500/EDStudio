@@ -77,4 +77,7 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
 - The top-left HUD covers a laptop screen's logo/nav when the screen sits high (049's screenCam): look at the screen centre, d 1.75.
 - `finally` is a Python keyword: a word-time dict in make_cues.py can't use it as a kwarg (rename it).
 - No music under the cold open: a soft pre-roll pad tripped synth.py's dropout check; letting the bed ENTER on Day 1 passes.
+- **The handwriting macro whip-panned into blur at 60 fps + motion blur** when 049's tight pen-tracker chased six problems in
+  1.6 s: frame the line being written from ~0.55 m (camera keyed to the tip averaged over 0.4 s, x pinned near the page's
+  left half, aimed a little down the page so the line sits above the subtitle) and write only problems 1–4 on camera.
 - Deliverable for a trending sound: `out/nomusic.mp4` = `out/silent.mp4` + amix(voice, sfx, amb stems, `normalize=0`), AAC 192k.
