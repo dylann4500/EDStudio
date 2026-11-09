@@ -523,14 +523,14 @@ videos/NNN-slug/
   the video, and paste the caption text (paste-ready, without the sources comment) in the report next to the file path.
   `tools/render.mjs` warns when caption.md is missing or still the template. If a revision changes what the video shows,
   update the caption to match.
-- **Scribe promos never plug the course (user rule, Nov 8):** "don't plug the course… we're just promoting Scribe now". A promo
-  caption (`"tone": "promo"` in story/script.json, or one that sells tryscribe.ink) carries the tryscribe.ink line INSTEAD of the
-  course line; `tools/caption.py` fails and `render.mjs` warns if the course line is there. Lane brief: `docs/lanes/scribe.md`.
-- **Every (non-promo) caption carries the course link (user rule, Oct 23)** — this exact line as its own block — a blank line after
-  "Send this to your ___", the line, a blank line, then the hashtags (question + share = one block, the course offer = another): `🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q`
-  (the user's "AI 3D Animation Masterclass Prompt Vault" for people who want to make their own reels). Keep the URL as
-  written (short, no https://) — Instagram doesn't make caption links clickable, so it must be easy to read and type.
-  Never put it in the video itself. `tools/render.mjs` warns when it's missing.
+- **Captions NEVER carry a link or a plug (user rule, Nov 8 — supersedes the Oct 23 course-link rule and the tryscribe.ink
+  caption line):** "a lot of my videos never performed well because we put links in them… TikTok is gonna destroy our videos if
+  they have links or very clear advertisement in the captions. In the videos, it can't tell." So: no URL of any kind (no
+  payhip.com course line, no tryscribe.ink, no "link in bio"), no "try Scribe / 10 free assignments" pitch, no sales line. A
+  caption = hook + emoji, optionally 1–2 short sentences / a 👇 question / "Send this to your ___", then the hashtags — e.g. the
+  Scribe TikToks: `What if your balls doubled in size every minute? 😳 #fyp #balls #homework #college #cheating`. The plug lives
+  ONLY in the video (end card, on-screen product). `tools/caption.py` fails and `render.mjs` warns on any link or plug line.
+  Scribe lane brief: `docs/lanes/scribe.md`.
 - **Opening = the main question alone, centered in the middle of the screen** (story.json `title`, ~3–3.6 s). No HUD, no
   subtitles, no other text while it's up (the engine hides them until `title.out`). Then the story begins.
 - **Never use a "TOLD BY YOUR ___" tag or any other subtext/tagline.** The engine no longer supports `tag`; don't add one.
@@ -910,4 +910,4 @@ and write the docs while waiting; you can still re-render while queued (the scri
       the music never drops out mid-video (no 50 ms window of the music stem > 10 dB under its median, see audio/README.md).
 - [ ] End card fully visible ≥ 3.5 s before the video ends (no render warning).
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
-- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", a blank line, the course-link line (payhip.com/b/rim0Q) as its own block (Scribe promos: the tryscribe.ink line instead, never the course), exactly 5 hashtags incl. #animation.
+- [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", a blank line, exactly 5 hashtags (incl. #animation, except Scribe promos). NO link and NO plug line anywhere (no payhip.com, no tryscribe.ink — user rule Nov 8: links in captions tank TikTok reach).

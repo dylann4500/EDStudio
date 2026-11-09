@@ -45,4 +45,4 @@ time-lapse + camera shake + boom), new sets instead of the old street, a steady 
 019 (everyone dances, 0.081): synchronized crowds of CLOSE faces scored ~2× a huge far crowd of tiny instanced fans.
 
 ## Caption
-Hook + emoji · 2–3 sentence summary · question CTA 👇 · "Send this to your ___" · blank · the course line · blank · 5 hashtags incl. #animation.
+Hook + emoji · 2–3 sentence summary · question CTA 👇 · "Send this to your ___" · blank · 5 hashtags incl. #animation. No links or plugs (user rule, Nov 8).

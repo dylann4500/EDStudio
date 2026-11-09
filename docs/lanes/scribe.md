@@ -43,9 +43,16 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   under a −16 voice). Continuous, never harsh (CLAUDE.md sound rules still hold).
 - **No TRIBE gate** for promos (volume wins; @officialwriteit posts 5–9 a day). The QC checklist, still sheets and the full-res
   final still apply.
-- **Caption:** hook + emoji, 2–3 sentences, a 👇 question, "Send this to your ___", a blank line, the Scribe line (e.g.
-  `✍️ Scribe: your homework, in your handwriting. 10 free assignments 👉 tryscribe.ink`), a blank line, 5 hashtags.
-  **No course line.** `python3 -I tools/caption.py videos/NNN-slug` must pass. Paste the caption in full in your report.
+- **Caption: NO link, NO plug** (user rule, Nov 8: "TikTok is gonna destroy our videos if they have links or very clear
+  advertisement in the captions. In the videos, it can't tell… never plug it"). No tryscribe.ink, no "10 free assignments", no
+  course line, no "link in bio". Write the hook (the video's opening question) + one emoji, then 5 hashtags — the shape of the
+  posted ones: `POV you get 2x gay every second 💅 #fyp #homework #gay #school #funnyreels`. Scribe shows up in the VIDEO
+  (end card, on-screen product), never in the caption. `python3 -I tools/caption.py videos/NNN-slug` must pass. Paste the
+  caption in full in your report.
+- **Posting by hand in TikTok Studio (web, Nov 8):** pick each hashtag from the suggestion list (type `#tag`, wait ~3 s, Enter)
+  so it links — a plain typed tag stays plain text, and Enter before the list loads inserts a line break. Scheduled posts
+  can't be edited (only deleted + re-uploaded). The Chrome extension's file upload caps at 10 MB per call: split a bigger
+  video into ≤ 9 MB parts, push each into a temporary page file input, rebuild a `File` in the page and set it on TikTok's input.
 - Copy the reference's FORMAT and beats freely; all art, lines and characters are ours. No real brands' logos besides Scribe
   (fictional detectors/teachers/apps are fine), nothing that impersonates a real person.
 

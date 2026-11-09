@@ -1,31 +1,32 @@
 """Print a video's paste-ready caption and check the house format; exit 1 (nothing printed) if it breaks a rule.
 
 Usage: python3 -I tools/caption.py videos/NNN-slug
-Strips the `# Caption` heading and the <!-- sources --> comment. Rules (CLAUDE.md → caption + QC checklist): a question
-CTA with 👇, a "Send this to…" line, the course line as its own block (blank line before and after), and a last line of
-exactly 5 hashtags including #animation. The manager runs this before every post and refuses a caption that fails.
-Scribe promos ("tone": "promo" in story.json or script.json, or a tryscribe.ink caption; user rule Nov 8 2026: "don't plug the course, we're just promoting Scribe now"):
-NO course line, a tryscribe.ink line instead, and 5 hashtags (no #animation requirement).
+Strips the `# Caption` heading and the <!-- sources --> comment. Rules (CLAUDE.md → caption + QC checklist):
+- NO links and NO plugs, ever (user rule, Nov 8 2026: "TikTok is gonna destroy our videos if they have links or very clear
+  advertisement in the captions… never plug it"). That retires the Oct 23 course line (payhip.com) and the tryscribe.ink line.
+- Regular reels: a question CTA with 👇, a "Send this to…" line, and a last line of exactly 5 hashtags including #animation.
+- Scribe promos ("tone": "promo" in story.json or script.json): hook + emoji, then a last line of 5 hashtags (no #animation).
+The manager runs this before every post and refuses a caption that fails.
 """
 import json
 import re
 import sys
 from pathlib import Path
 
-COURSE = "🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q"
-PRODUCT = "tryscribe.ink"
+# A URL / domain, or a plug phrase. "#ai" etc. are hashtags, not domains (the lookbehind skips "#").
+LINK = re.compile(r"https?://|www\.|(?<![#\w])[\w-]+\.(com|ink|io|co|net|org|app|ai|gg|me|ly|link|page|shop)\b", re.I)
+PLUG = re.compile(r"payhip|tryscribe|link in (my )?bio|free assignments?|free trial|sign up|use code|learn how 👉", re.I)
 
 
 def is_promo(vdir, txt=""):
-    """A Scribe promo: "tone": "promo" in story.json or script.json (build-look promos keep tone "build" in story.json),
-    or a caption that already sells tryscribe.ink."""
+    """A Scribe promo: "tone": "promo" in story.json or script.json (build-look promos keep tone "build" in story.json)."""
     for f in ("story.json", "script.json"):
         try:
             if json.loads((vdir / f).read_text()).get("tone") == "promo":
                 return True
         except Exception:
             pass
-    return PRODUCT in txt
+    return False
 
 
 def main():
@@ -38,21 +39,13 @@ def main():
     errs = []
     if "<hook line" in txt:
         errs.append("still the template")
-    if "👇" not in txt:
+    if not promo and "👇" not in txt:
         errs.append("no question CTA with 👇")
-    if not any(l.startswith("Send this to") for l in lines):
+    if not promo and not any(l.startswith("Send this to") for l in lines):
         errs.append('no "Send this to…" line')
-    if promo:
-        if "payhip.com" in txt:
-            errs.append("Scribe promo captions carry NO course line (user rule, Nov 8)")
-        if PRODUCT not in txt:
-            errs.append("Scribe promo caption needs the tryscribe.ink line")
-    elif COURSE not in lines:
-        errs.append("course line missing or altered")
-    else:
-        i = lines.index(COURSE)
-        if not (i > 0 and lines[i - 1] == "" and i + 1 < len(lines) and lines[i + 1] == ""):
-            errs.append("course line is not its own block (needs a blank line before and after)")
+    for l in lines:
+        if LINK.search(l) or PLUG.search(l):
+            errs.append(f"no links or plugs in captions (user rule, Nov 8): {l!r}")
     tags = lines[-1].split()
     if len(tags) != 5 or not all(t.startswith("#") for t in tags) or ("#animation" not in tags and not promo):
         errs.append(f"last line must be exactly 5 hashtags incl. #animation (got: {lines[-1]!r})")

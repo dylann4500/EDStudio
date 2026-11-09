@@ -96,7 +96,7 @@ Its own identity, **cozy**: music box/`bell` + soft piano over a warm pad.
 - 2–3 short story lines that end on a curiosity gap ("…or did they? 👀").
 - A question CTA that picks the next episode 👇.
 - "Send this to your dog person".
-- Blank line, the course line, blank line.
+- A blank line (no course line, no links — user rule, Nov 8).
 - 5 hashtags: `#animation #whatif #dogsoftiktok #corgi #<topic>`.
 
 ## Engine (built in ep. 1, video 021 — reuse it; additive changes only)
