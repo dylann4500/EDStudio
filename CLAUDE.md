@@ -517,6 +517,17 @@ videos/NNN-slug/
   draw, {k, repeat})` paints at k× and keeps each block's MAJORITY colour (hard edges, no muddy blends), NEAREST-magnified;
   `speckle(g, w, h, base, palette, n, seed)` = seeded texture noise. Scaffold: `npm run new -- NNN-slug --from _pixel-template`.
 
+- **Flat 2D cartoon look (053, `engine/flat2d/`, docs/STYLES.md → flat2d; template `videos/_flat2d-template`):** Canvas 2D, no
+  WebGL — `const S = await createStage(studio)` lays a 2D canvas over the idle GL one (studio.render → no-op) under `#ui` (the build
+  one-word captions stay on top). `S.begin(t, {x, y, z, r}, hits)` → draw the world with `S.I` (`makeInk`: `shape/rect/ellipse/limb/
+  line/text`, outlines boil 8×/s, one cel-shade step) → `S.screen()` for frame-px overlays → `S.end()`; `shotAt(t, SHOTS, K)` cuts on
+  words. Cast: `makePuppet({kind: 'kid'|'teen'|'adult', hairStyle, top, bottom, extras: {goggles, glasses, freckles}})` → `draw(I,
+  pose)` (eyes/brows/mouth sets, `ARM.*` presets, `hand/foot/headAt/seatY`, `talkAt` mouth flaps); sets.js rooms + furniture +
+  laptop2d/phone2d/tablet2d/paper2d (Scribe's `makeSheet().canvas`), `nameTag`, `board` (the INVENTIONS counter); fx.js (burst, puffs,
+  explosion, confetti…); critters.js (dog, robot dog); `drawEndCard(S, icon, age)`. `S.face(P.headAt(pose))` + `S.qcCaptions` →
+  `render.mjs --qc` lists faces under the caption band. ≈0.08 s/frame at 30 fps (the cheapest look). `npm run new -- NNN --from
+  _flat2d-template` now also copies script.json + make_cues.py.
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with

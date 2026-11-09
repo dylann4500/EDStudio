@@ -19,7 +19,7 @@ const src = path.join(ROOT, 'videos', from), dst = path.join(ROOT, 'videos', slu
 if (!fs.existsSync(src)) { console.error('source not found: ' + src); process.exit(1); }
 if (fs.existsSync(dst)) { console.error('already exists: ' + dst); process.exit(1); }
 fs.mkdirSync(dst, { recursive: true });
-for (const f of ['story.json', 'shots.js', 'cues.json', 'caption.md']) {
+for (const f of ['story.json', 'shots.js', 'cues.json', 'caption.md', 'script.json', 'make_cues.py']) {   // script.json + make_cues.py: narrated templates (_flat2d-template)
   if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dst, f));
 }
 if (!fs.existsSync(path.join(dst, 'caption.md'))) fs.writeFileSync(path.join(dst, 'caption.md'), '# Caption\n\n<hook line + emoji>\n\n<2–3 sentence summary>\n\n<question CTA> 👇\nSend this to your ___\n\n#tag1 #tag2 #tag3 #tag4 #animation\n');
