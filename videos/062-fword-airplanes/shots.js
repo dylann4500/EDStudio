@@ -362,7 +362,7 @@ export async function build(studio, story) {
     { id: 'fold', t0: t.you - 0.04, set: 'cab', frames: [
       { t: t.you, pos: C(0.02, 1.64, 0.32), look: C(0.55, 1.22, -1.5), fov: 50 },
       { t: t.it5 - 0.12, pos: C(0.06, 1.62, 0.05), look: C(0.58, 1.24, -1.5), fov: 50, stop: true } ] },
-    { id: 'fly', t0: t.it5 - 0.06, set: 'cab', cam: (tt) => { const p = planeAt(tt), base = C(0.3, 0.95, -1.0); return { pos: C(0.05, 1.68, 1.75), look: [lerp(base[0], p[0], 0.3), lerp(base[1], p[1], 0.3), lerp(base[2], p[2], 0.3)], fov: 56 }; } },
+    { id: 'fly', t0: t.it5 - 0.06, set: 'cab', cam: (tt) => { const p = planeAt(tt), base = C(0.3, 0.72, -1.0); return { pos: C(0.05, 1.68, 1.75), look: [lerp(base[0], p[0], 0.3), lerp(base[1], p[1], 0.3), lerp(base[2], p[2], 0.3)], fov: 56 }; } },
     { id: 'clap', t0: t.one4 - 0.06, set: 'cab', frames: [
       { t: t.one4, pos: C(0.02, 1.72, 1.4), look: C(0.3, 0.8, -1.0), fov: 54 },
       { t: ENDCARD + 2, pos: C(0.0, 1.76, 1.7), look: C(0.3, 0.8, -1.0), fov: 56, stop: true } ] },

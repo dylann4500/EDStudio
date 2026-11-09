@@ -110,7 +110,7 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   and the counter hid half the coffee shot (hide `KIT.chairs[i]` per shot). A pizza lid opened to vertical hid the faces behind
   it: flip it flat (−3.05 rad).
 
-## 062: "How f*cking airplanes f*cking fly" (f-word explainer #2 → Scribe), 48 s (scratch voice; ready to voice)
+## 062: "How f*cking airplanes f*cking fly" (f-word explainer #2 → Scribe), 46 s, Fish Audio "Slax"
 - Same harness as 058 (script.json swap/wordColor, a kick on every F*CKING, hard cuts, 058's end card), new places: the planespotter
   under a landing jet, the security line (shoes → belt → pants → still beeps), the cutaway engine at the gate (a ramp agent's cap goes
   through it and out of the back on fire), the takeoff roll (blue arrows = the air shoved DOWN, then a giant yellow LIFT arrow), the
@@ -132,3 +132,7 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   trailing edge, yellow = lift pushing up under the wing) read instantly.
 - ElevenLabs (Nov 9, 01:20): the fresh free-tier key returned 401 `detected_unusual_activity` ("Free Tier access has been
   disabled") on the first call, 0 chars spent — an account flag only the user can clear (paid plan / support). Finish on scratch.
+- **Voiced with Fish Audio (Nov 9, main a7f2afc):** `--fish --fish-voice c5f56a6cc2ec4fa8920cb4c5889a3fb7` ("Slax", the user's pick).
+  At script.json's tempo 1.6 Slax read 4.76 syl/s (058: 5.46); `"fish": {"tempo": 1.84}` (atempo at assembly — not in the clip
+  hash, so free) matched it at 5.45 syl/s, 46.1 s. Measure pace as syllables/s over the spoken span (first word → last word): the
+  caption-word count in narrate's summary is after `joinLen` merges ("Your F*CKING" = 1), not the spoken word count.

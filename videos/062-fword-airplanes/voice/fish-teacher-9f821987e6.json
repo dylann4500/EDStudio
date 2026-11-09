@@ -1,0 +1,61 @@
+{
+ "text": "It's your fucking physics teacher. Ten fucking lift problems. Fucking handwritten.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "It's",
+   "t0": 0.0,
+   "t1": 0.16
+  },
+  {
+   "w": "your",
+   "t0": 0.16,
+   "t1": 0.48
+  },
+  {
+   "w": "fucking",
+   "t0": 0.48,
+   "t1": 1.04
+  },
+  {
+   "w": "physics",
+   "t0": 1.04,
+   "t1": 1.6
+  },
+  {
+   "w": "teacher.",
+   "t0": 1.6,
+   "t1": 2.08
+  },
+  {
+   "w": "Ten",
+   "t0": 2.4,
+   "t1": 2.8
+  },
+  {
+   "w": "fucking",
+   "t0": 3.04,
+   "t1": 3.52
+  },
+  {
+   "w": "lift",
+   "t0": 3.52,
+   "t1": 4.0
+  },
+  {
+   "w": "problems.",
+   "t0": 4.0,
+   "t1": 4.64
+  },
+  {
+   "w": "Fucking",
+   "t0": 4.88,
+   "t1": 5.36
+  },
+  {
+   "w": "handwritten.",
+   "t0": 5.36,
+   "t1": 6.24
+  }
+ ]
+}

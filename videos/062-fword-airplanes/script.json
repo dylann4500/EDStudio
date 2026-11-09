@@ -2,7 +2,7 @@
   "title": "How airplanes fly (Scribe)",
   "tone": "promo",
   "voice": {
-    "provider": "eleven",
+    "provider": "fish",
     "voice_id": "pNInz6obpgDQGcFmaJgB",
     "name": "Adam",
     "model": "eleven_v3",
@@ -236,5 +236,11 @@
         }
       ]
     }
-  ]
+  ],
+  "fish": {
+    "reference_id": "c5f56a6cc2ec4fa8920cb4c5889a3fb7",
+    "name": "Slax",
+    "model": "s2.1-pro",
+    "tempo": 1.84
+  }
 }

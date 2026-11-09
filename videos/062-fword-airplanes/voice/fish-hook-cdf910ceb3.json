@@ -1,0 +1,31 @@
+{
+ "text": "How fucking airplanes fucking fly.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "How",
+   "t0": 0.0,
+   "t1": 0.32
+  },
+  {
+   "w": "fucking",
+   "t0": 0.32,
+   "t1": 0.96
+  },
+  {
+   "w": "airplanes",
+   "t0": 0.96,
+   "t1": 1.6
+  },
+  {
+   "w": "fucking",
+   "t0": 1.6,
+   "t1": 2.08
+  },
+  {
+   "w": "fly.",
+   "t0": 2.08,
+   "t1": 2.8
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "text": "Your fucking snack: one fucking pretzel.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Your",
+   "t0": 0.0,
+   "t1": 0.24
+  },
+  {
+   "w": "fucking",
+   "t0": 0.24,
+   "t1": 0.8
+  },
+  {
+   "w": "snack:",
+   "t0": 0.8,
+   "t1": 1.44
+  },
+  {
+   "w": "one",
+   "t0": 1.68,
+   "t1": 2.08
+  },
+  {
+   "w": "fucking",
+   "t0": 2.08,
+   "t1": 2.64
+  },
+  {
+   "w": "pretzel.",
+   "t0": 2.64,
+   "t1": 3.36
+  }
+ ]
+}
