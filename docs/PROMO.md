@@ -41,6 +41,9 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   jack-o'-lantern, wall clock `setClock`, crossed-out November calendar, sleeping bag) and `buildOffice` (chalkboard, diploma).
 
 ## Lessons (each cost a stills round)
+- **Glyph descent sign (fixed Nov 8, the user spotted it):** `layoutHand` placed each glyph's foot at base − descentRatio·u, so
+  y/g/p floated UP (the app screen's handwritten "busy" had its y up in the logo) and '=' sank. descentRatio is how far the foot
+  sits BELOW the baseline (the Scribe app's render.js: top = heightRatio − descentRatio); canvas y runs down → base + d·u.
 - **Props parented to a parked set root take LOCAL coordinates** (again): the professor's two sheets were placed with `O(...)`
   world coords inside the office root at x = 3040 → they rendered 3 km away and the gag was invisible.
 - **Additive light columns add up**: 20–30 elimination beams at once turned frames milky white. Base intensity 0.2 (outer) / 0.42
