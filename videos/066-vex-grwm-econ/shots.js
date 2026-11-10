@@ -296,6 +296,17 @@ export async function build(studio, story) {
     const y = h.N.clone(), f = VEX.bpos('head').sub(compact.position), z = f.addScaledVector(y, -f.dot(y)).normalize(), x = y.clone().cross(z);
     compact.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z)); compact.lid.rotation.x = -1.95;
   }
+  // the kiss (054's 'kiss' preset ended on her chest with the forearm inside her bust at 067's proportions): fingertips AT her lips,
+  // elbow out, blended in and out by w; the hand direction blends from the forearm's
+  function kissPose(t, P, w) {
+    VEX.root.getWorldQuaternion(qRoot); VEX.H.head.getWorldQuaternion(qHead);
+    const hu = V(0, 1, 0).applyQuaternion(qHead), hf = V(0, 0, 1).applyQuaternion(qHead), hl = V(1, 0, 0).applyQuaternion(qHead);
+    const base = armsOf(P.kissFrom || 'hip').R, Q = { ...P }, lip = lipLine(0.5).addScaledVector(hu, 0.006).addScaledVector(hf, 0.02);
+    holdPose(t, Q, 'right', { target: lip, axis: nrm([0.95, hu], [0.15, hl]), palmN: hf.clone().negate(), grip: 'pinch', pole: fromHer(-0.9, -0.35, 0.75), shape: [0.35, 0.3, 0.35, 0.45, 0.5] });   // elbow out AND forward: the forearm rises in front of her chest, not along it
+    const hd = V(...base[1]).normalize().lerp(V(...Q.aim.rightHand), w);
+    Object.assign(P, { armR: mixArm(base, Q.armR, w), aim: { ...(P.aim || {}), rightHand: hd.toArray(), 'twist.rightHand': Q.aim['twist.rightHand'] * w, 'twist.rightLowerArm': Q.aim['twist.rightLowerArm'] * w }, hands: { ...(P.hands || {}), R: Q.hands.R } });
+    VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+  }
   function holds(t, sh, P) {
     VEX.root.getWorldQuaternion(qRoot);
     const frame = () => { VEX.H.head.getWorldQuaternion(qHead); return { hu: V(0, 1, 0).applyQuaternion(qHead), hf: V(0, 0, 1).applyQuaternion(qHead), hl: V(1, 0, 0).applyQuaternion(qHead) }; };
@@ -370,7 +381,7 @@ export async function build(studio, story) {
     { id: 'graph', t0: T.even - 0.15, sheetCam: () => graphC, h: 0.3, write: 1 },
     { id: 'download', t0: T.download, screen: 0.78, mode: 'download' },
     { id: 'turned', t0: T.turned - 0.1, vex: (t) => ({ ...VC, pose: 'peace', tilt: -0.14, sway: 0.2, face: { happy: 0.5, blink: lids(t), blinkLeft: t > T.turned + 0.3 ? 1 : 0 } }), cam: (t) => ({ pos: [0.12, 1.45, -0.6], look: [0.1, 1.38, -1.92], fov: 44 }) },
-    { id: 'end', t0: T.end, vex: (t) => ({ ...VC, pose: t > T.baby - 0.15 ? 'kissOut' : t > T.mommy3 - 0.3 ? 'kiss' : 'hip', tilt: -0.12, sway: 0.2, face: { relaxed: 0.4, blink: lids(t), blinkLeft: t > T.baby + 0.2 ? 1 : 0 } }), cam: (t) => { const k = bump(t, T.mommy3 - 0.1, 1.0); return { pos: [0.15, 1.42 + 0.05 * k, 0.5 - 0.9 * k], look: [0.1, 1.28 + 0.14 * k, -1.92], fov: 46 }; } },
+    { id: 'end', t0: T.end, kiss: (t) => ease(u01(t, T.mommy3 - 0.3, T.mommy3 - 0.02)) * (1 - ease(u01(t, T.baby - 0.15, T.baby + 0.13))), vex: (t) => ({ ...VC, pose: t > T.baby - 0.15 ? 'kissOut' : t > T.mommy3 - 0.3 ? 'kiss' : 'hip', tilt: -0.12, sway: 0.2, face: { relaxed: 0.4, blink: lids(t), blinkLeft: t > T.baby + 0.2 ? 1 : 0 } }), cam: (t) => { const k = bump(t, T.mommy3 - 0.1, 1.0); return { pos: [0.15, 1.42 + 0.05 * k, 0.5 - 0.9 * k], look: [0.1, 1.28 + 0.14 * k, -1.92], fov: 46 }; } },
   ];
   SH.forEach((s2, i) => (s2.t1 = SH[i + 1]?.t0 ?? story.duration));
   const CUTS = SH.slice(1).map((s2) => s2.t0);
@@ -403,14 +414,14 @@ export async function build(studio, story) {
     compact.position.set(...COMPACT_TABLE); compact.quaternion.identity(); compact.lid.rotation.x = -1.9;
     latte.position.set(...LATTE_TABLE); latte.quaternion.identity();
     VEX.root.visible = !!sh.vex;
-    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)), P = { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }; VEX.update(t, P); VEX.root.updateMatrixWorld(true); if (sh.hold) holds(t, sh, P); }
+    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)), P = { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }; VEX.update(t, P); VEX.root.updateMatrixWorld(true); if (sh.hold) holds(t, sh, P); if (sh.kiss && sh.kiss(t) > 0) { P.kissFrom = t > T.baby - 0.15 ? 'kissOut' : 'hip'; kissPose(t, P, sh.kiss(t)); } }
     fx(t, !!sh.vex);
     pencil.visible = !!sh.write;
     if (sh.write) { const p = sheetPt(tip[0], tip[1]); pencil.position.set(p.x, p.y + 0.003 + 0.005 * Math.abs(Math.sin(t * 23)), p.z); pencil.rotation.set(-0.5, 0, -0.3); }   // leaning AWAY from the lens (toward it, the 20 cm pencil filled the macro frame)
     pixel.set(Math.max(sh.screen ? 1 : sh.sheetCam ? 2 : PIXEL, mosaicAt(t, CUTS)));
-    if (DBG && sh.vex && ['side', 'side2', 'above', 'close'].includes(DBG)) {   // prop checks (render --cam side|side2|above|close): look at the held prop from her right, her left, above, up close
-      const fo = liner.visible ? liner.position : lipstick.visible ? lipstick.position : sh.hold === 'latte' ? latte.position.clone().add(V(0, 0.08, 0)) : VEX.bpos('head');
-      const off = { side: fromHer(-0.55, 0.02, 0.08), side2: fromHer(0.55, 0.02, 0.08), above: fromHer(0.05, 0.5, 0.25), close: fromHer(0.04, 0.02, 0.42) }[DBG];
+    if (DBG && sh.vex && ['side', 'side2', 'above', 'close', 'wide', 'wide2'].includes(DBG)) {   // prop checks (render --cam side|side2|above|close): look at the held prop from her right, her left, above, up close
+      const fo = DBG.startsWith('wide') ? VEX.bpos('upperChest').add(V(0, 0.05, 0)) : liner.visible ? liner.position : lipstick.visible ? lipstick.position : sh.hold === 'latte' ? latte.position.clone().add(V(0, 0.08, 0)) : VEX.bpos('head');
+      const off = { side: fromHer(-0.55, 0.02, 0.08), side2: fromHer(0.55, 0.02, 0.08), above: fromHer(0.05, 0.5, 0.25), close: fromHer(0.04, 0.02, 0.42), wide: fromHer(-1.1, 0.05, 0.25), wide2: fromHer(1.1, 0.05, 0.25) }[DBG];   // wide/wide2: her whole upper body from each side (arms vs chest)
       studio.setCamera(fo.clone().add(off).toArray(), fo.toArray(), 40, 0, 0); pixel.set(1);
     }
     ov.update(t);
