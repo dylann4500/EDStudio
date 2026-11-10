@@ -144,8 +144,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     `654f19c7820c4c26a0ac74c0fbfeb70e` (Fish, "funny"); rotate it with Slax `c5f56a6cc2ec4fa8920cb4c5889a3fb7`. Fast-paced:
     `"fish": {"speed": 1.1, "temperature": 0.6}` + `maxPause 0.2`. The jokes stay about the TOPIC, never about the accent or
     ethnicity (no stereotype lines, no fake "broken English" in the script). "Chinese accent" `fe2e4e24a3a544dc95e8e5eb7dba7c82`
-    sounds like Uncle Roger (a real comedian's character): NOT used in Scribe ads unless the user confirms (a sound-alike of a
-    famous person in an ad reads as an endorsement).
+    sounds like Uncle Roger (a real comedian's character); the user was told a famous sound-alike in an ad can read as an
+    endorsement and chose to use it anyway (Nov 10) — it rotates with "chinese" and Slax. Never name or reference Uncle Roger,
+    his catchphrases or his bits in a script, caption or on screen.
   - **Vex = Dolly** `ce3b16c14af54adebba5ebe50a3d4417` until the user sends their own cute-girl voices. **Not breathy/sexy by
     default, just a normal cute girl narrating at a regular pace** ("right now it's too slow"): `"fish": {"speed": 1.2,
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
