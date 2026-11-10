@@ -502,6 +502,11 @@ def narrate(slug, provider, key):
             x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
             if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)
                 x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'], soft_db=b.get('pauseSoft'))
+        ep = b.get('endPad', cfg.get('endPad'))   # 067, opt-in: a breathy voice (Fish "Mommy") trails seconds of sighs after its last word
+        if ep is not None and words:              # → end each clip ep s after the last word (30 ms fade); internal pauses untouched
+            cut = min(len(x), int((words[-1]['t1'] + ep) * SR))
+            if cut < len(x):
+                x = x[:cut].copy(); F = min(cut, int(0.03 * SR)); x[cut - F:] *= np.linspace(1, 0, F).astype(x.dtype)
         ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
         if ys and TAG.search(b['say']):
             x = shelf_tail(x, words, b, b.get('shelf', ys.get('db', -4)), ys.get('hz', 5000))
