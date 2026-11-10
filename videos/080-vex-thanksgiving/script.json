@@ -1,0 +1,155 @@
+{
+ "title": "What Thanksgiving dinner does to your body, hour by hour (Vex explainer, Scribe dark mode; lighter persona)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "headPad": 0.1,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Thanksgiving dinner. Here's what it actually does to your body, hour by hour.",
+   "callouts": []
+  },
+  {
+   "id": "plate",
+   "say": "Four PM, plate two. About three thousand calories. That's a day and a half of food.",
+   "callouts": [
+    {
+     "at": "three",
+     "text": "3,000 CALORIES",
+     "style": "term",
+     "until": "calories",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "stomach",
+   "say": "Your stomach starts out the size of your fist. It can stretch to hold up to four liters.",
+   "callouts": [
+    {
+     "at": "four",
+     "text": "UP TO 4 LITERS",
+     "style": "term",
+     "until": "liters",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "myth",
+   "say": "Six PM. Everyone blames the turkey. But it has about as much tryptophan as chicken.",
+   "callouts": [
+    {
+     "at": "tryptophan",
+     "text": "TRYPTOPHAN: SAME-ISH",
+     "style": "term",
+     "until": "chicken",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "say": "It's the sheer size of the meal, and all those carbs.",
+   "callouts": [
+    {
+     "at": "sheer",
+     "text": "FOOD COMA",
+     "style": "stamp",
+     "until": "carbs",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pivot",
+   "say": "And the bio homework's still due Monday. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So I open Scribe. Dark mode, obviously. It writes it in my handwriting, feedback loop and all.",
+   "callouts": [
+    {
+     "at": "dark",
+     "text": "DARK MODE",
+     "style": "term",
+     "until": "obviously",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "fatty",
+   "say": "Ten PM. A meal this fatty can sit in your stomach six hours or longer.",
+   "callouts": [
+    {
+     "at": "six",
+     "text": "6+ HOURS",
+     "style": "term",
+     "until": "longer",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "leftovers",
+   "say": "Two AM, leftovers. Out over two hours? The USDA says toss them.",
+   "callouts": [
+    {
+     "at": "usda",
+     "text": "USDA: 2-HOUR RULE",
+     "style": "term",
+     "until": "them",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "So close the fridge and go to bed. I'm watching you.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 1.0,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}
