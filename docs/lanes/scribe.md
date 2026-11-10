@@ -134,6 +134,11 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   the educational informative ones where the goth mommy's just explaining it to me is really good"). Model: `videos/076-vex-energy-drinks`
   (a topic college students live, sourced numbers, an hour-by-hour HUD, Vex in the place, the "Mommy" voice, Scribe ~55 %).
 
+- **Scribe features the Vex reels have already shown** (pick a different one next time, README in `~/Documents/GitHub/math hw grift`):
+  snap → solve → write (064, 070), practice sheet + Messiness slider (065), PDF upload + fill + pencil ink + Download PDF (066),
+  Shuffle (072), pen/ink picker (075), typed problem in the composer (076), follow-up prompts (077), dark mode (078 AND 080 —
+  used twice, retire it for a while), scanned-pages chip of 12 pages (074).
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.
