@@ -228,7 +228,9 @@ canvas sprites sized for the lens every frame.
 **Start:** `npm run new -- NNN-slug --from _rbx-template` (10 s, no narration: walk + wave + "hi chat" → hop the bricks → lava → the
 oof → respawn at the checkpoint; t ≥ 200 = lineups of faces, arm presets, dogs + debris, a course wide). For a narrated meme reel
 fork 069 (`--from 069-rbx-corgi-loose`: script.json with the f-word swap, make_cues.py, the stadium/bedroom/classroom sets parked at
-offsets, the Scribe sequence — app on a laptop, a POV phone, the pen writing a Punnett square — and the brhud end card); copy
+offsets, the Scribe sequence — a POV phone photo, the app on a laptop that scans, solves and then WRITES the page on screen with its own pen
+  cursor (`drawCursor` at `sheet.draw`'s tip, the Punnett square appearing, then Done + Download PDF; lane rule Nov 9: never a pencil
+  on paper) — and the brhud end card); copy
 `voice/` only if you keep the lines.
 **API (`import * as R from '@engine/rbx/index.js'`; all new files, no shared defaults changed):**
 - `mats.js` — `S` (one stud, m), `rbxEnv(studio)` (scene.environment), `plastic(color, {rough, map, normalMap, env})` (cached),
@@ -255,7 +257,8 @@ offsets, the Scribe sequence — app on a laptop, a POV phone, the pen writing a
 - `props.js` — `makeBlockDog({coat, white, dark (tricolour saddle), jersey, number, scale})` (a corgi: `pose({x, z, rotY, run: phaseFor(d,
   scale), sit, mouth, look, headRoll, wag, t})`), `rbxCrowd(parent, seats, {seed})` (instanced seated crowd, 4 draw calls; `update(t, f)`
   with f → {jump, arms, turn, hide}), `rbxDesk`, `rbxChair` (userData.seat), `rbxLaptop(tex)` (hinge −0.28 open, screen faces +z),
-  `rbxPhone(tex)`, `rbxPaper(tex)` (top of the page → −z), `rbxLamp` (light), `rbxBed`, `rbxPen` (origin = the nib).
+  `rbxPhone(tex)`, `rbxPaper(tex)` (top of the page → −z), `rbxLamp` (light), `rbxBed`, `rbxPen` (origin = the nib; never for
+  Scribe's writing — the app writes the page on screen, docs/lanes/scribe.md).
 - `fx.js` — `makeRbxFX(scene)`: `confetti(t0, pos)`, `puff(t0, pos)`, `studs(t0, pos)` (plastic bits), `pow(t0, pos, 'OOF!')` (a comic
   starburst sized for the lens), `update(t, camera)` — all analytic.
 - `stadium.js` — `buildStadium(studio, {world})`: a blocky football stadium, field along x (`yardX(40)` = the 40 on the +x half; painted

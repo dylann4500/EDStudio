@@ -1536,12 +1536,26 @@
    }
   },
   {
-   "t": 38.072,
-   "sound": "pen_scribble",
-   "gain_db": -15,
-   "pan": -0.05,
+   "t": 38.005,
+   "sound": "pop",
+   "gain_db": -20,
+   "pan": 0.2,
    "args": {
-    "dur": 0.6
+    "pitch": 1.3
+   }
+  },
+  {
+   "t": 38.025,
+   "sound": "gold_chime",
+   "gain_db": -18,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     84,
+     91
+    ],
+    "spacing": 0.06,
+    "vel": 0.35
    }
   },
   {

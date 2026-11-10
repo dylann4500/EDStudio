@@ -8,8 +8,9 @@
 // (the 40, the 45, midfield) → handler 1 dives, misses: OOF (the avatar breaks into parts) → handler 2, same → the players wait,
 // the jumbotron says DELAYED, she zooms past their legs → handler 3 gets her on the 40 → Ollie breaks the ribbon (a crown) → Quinn
 // held up like a trophy, the stadium erupts → the team's post on a fan's phone → hard pivot (60 %): you, at night, 20 genetics
-// problems, handwritten, due at midnight → pull a Quinn (dog ears) → one photo → Scribe solves all 20 → your own handwriting,
-// stroke by stroke, the Punnett square drawn (corgi coat genetics: fluffy is recessive) → the teacher dives for a mistake: OOF →
+// problems, handwritten, due at midnight → pull a Quinn (dog ears) → one photo → Scribe solves all 20 → the app writes the page
+// on screen in your own handwriting, stroke by stroke, the Punnett square appearing (corgi coat genetics: fluffy is recessive) → Done,
+// Download PDF → the teacher dives for a mistake: OOF →
 // A+ → "still a good student, though" → the Scribe end card.
 // Scribe facts (README + tryscribe.ink): a photo/PDF → every problem solved with worked steps → written in the student's own
 // handwriting, stroke by stroke, with the diagrams biology needs (Punnett squares).
@@ -144,7 +145,6 @@ export async function build(studio, story) {
   const camPhone = R.rbxPhone(sheet.tex, { w: 0.085, h: 0.17 }); scene.add(camPhone.g);   // the viewfinder shows the sheet
   const postPhone = R.rbxPhone(phoneTex.tex, { w: 0.085, h: 0.17 }); scene.add(postPhone.g);
   const povArms = [0, 1].map(() => { const g = new THREE.Group(); R.part([0.34 * 0.55, 0.34 * 0.55, 0.62], { color: 0x2f7cf6, parent: g, pos: [0, 0, 0.31], radius: 0.03 }); R.part([0.34 * 0.56, 0.34 * 0.56, 0.12], { color: 0xf5cd30, parent: g, pos: [0, 0, 0.64], radius: 0.03 }); scene.add(g); return g; });
-  const pen = R.rbxPen(); pen.g.scale.setScalar(0.55); scene.add(pen.g);
   const flash = new THREE.Sprite(new THREE.SpriteMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false, fog: false })); flash.renderOrder = 40; scene.add(flash);
   const hearts = makeHearts(scene);
 
@@ -210,7 +210,12 @@ export async function build(studio, story) {
     { id: 'ears', t0: t.so, set: 'br', cam: (tt) => { const u = u01(tt, t.so, t.snap); const p = bw(1.05, 1.72, 1.05 - 0.3 * u); return { pos: p, look: aimF(p, bw(0.9, 1.66, -1.75), 0.36, 46), fov: 46 }; } },
     { id: 'photo', t0: t.snap, set: 'br', cam: (tt) => { const u = smooth(u01(tt, t.snap, t.scribe)); const p = bw(0.88, 1.42 - 0.04 * u, -0.38); return { pos: p, look: bw(0.88, 0.79, -0.8), fov: 46 }; } },
     { id: 'app', t0: t.scribe, set: 'br', cam: (tt) => { const u = smooth(u01(tt, t.scribe, t.in)); const s = laptopScreenWorld(), n = V(0, 0, 1).applyQuaternion(laptop.screen.getWorldQuaternion(new THREE.Quaternion())); const rr = V(1, 0, 0).applyQuaternion(laptop.screen.getWorldQuaternion(new THREE.Quaternion())), dd = 1.08 - 0.1 * u, c = s.clone().addScaledVector(rr, 0.075); const p = [c.x + n.x * dd, c.y + n.y * dd + 0.03, c.z + n.z * dd]; return { pos: p, look: [c.x, c.y - 0.02, c.z], fov: 40 }; } },
-    { id: 'pen', t0: t.in, set: 'br', cam: (tt) => { let cx = 0, cz = 0; for (let k = 0; k < 6; k++) { const q = tipWorld(writeP(tt - k * 0.12)); cx += q[0] / 6; cz += q[2] / 6; } cx = lerp(cx, PAPER_POS[0] - 0.02, 0.45); cz = lerp(cz, PAPER_POS[2] - 0.06, 0.35); const p = [cx + 0.01, BO[1] + 0.79 + 0.46, cz + 0.12]; return { pos: p, look: [cx, BO[1] + 0.79, cz - 0.075], fov: 44 }; } },
+    { id: 'pen', t0: t.in, set: 'br', cam: (tt) => {      // the app writes the page ON SCREEN (lane rule, Nov 9): ride the cursor
+      const k = smooth(u01(tt, t.in, t.in + 1.1)) * (1 - smooth(u01(tt, DONE - 0.12, t.your - 0.02))), F = screenFrame();
+      let tv = 0; for (let j = 0; j < 6; j++) tv += tipScreen(sheetTipAt(writeP(tt - j * 0.1)))[1] / 6;
+      const tgt = F.at(lerp(0.5, 0.315, k), lerp(0.5, clamp(tv, 0.3, 0.8), k)), d = lerp(0.82, 0.43, k);
+      const p = tgt.clone().addScaledVector(F.n, d).addScaledVector(F.up, 0.02); return { pos: p.toArray(), look: aimF(p.toArray(), tgt.toArray(), lerp(0.5, 0.38, k), 44), fov: 44 };
+    } },
     { id: 'teach', t0: t.your, set: 'cl', cam: (tt) => { const k = smooth(u01(tt, TLAUNCH - 0.1, TLAND)); const u = smooth(u01(tt, t.your, t.misses)); const p = cw(0.95, 1.4, 3.0 - 0.25 * u); return { pos: p, look: aimF(p, cw(0.6, 1.2, -1.9), 0.42, 52), fov: 52 }; } },
     { id: 'aplus', t0: t.misses, set: 'cl', cam: (tt) => { const u = smooth(u01(tt, t.misses, t.stillE)); const p = cw(1.9 - 0.4 * u, 0.85 + 0.25 * u, 2.4 - 0.6 * u); return { pos: p, look: aimF(p, cw(0.6, 0.85, -1.8), 0.52, 46), fov: 46 }; } },
     { id: 'gg', t0: t.stillE, set: 'cl', cam: (tt) => { const d = CL.D.desks[4], u = smooth(u01(tt, t.stillE, END)); const p = cw(d.x + 0.45, 1.55, d.z - 2.5 + 0.35 * u); return { pos: p, look: aimF(p, cw(d.x, 1.62, d.chair[2]), 0.4, 46), fov: 46 }; } },
@@ -219,13 +224,30 @@ export async function build(studio, story) {
   window.EDSTUDIO_CUTS = SH.slice(1).map((s) => s.t0);
 
   // ---------------------------------------------------------------- the pen + paper helpers
+  const DONE = t.too + 0.16;                                         // the page is finished → Done. 20/20 · Download PDF
   const writeP = (tt) => (tt < t.in - 0.05 ? 0 : P1 * clamp((tt - (t.in - 0.05)) / (t.too + 0.2 - t.in)));
   const PAPER_POS = bw(0.88, 0.781, -0.78);
   const tipCache = new Map();
   function sheetTipAt(p) { const k = Math.round(p * 4) / 4; if (tipCache.has(k)) return tipCache.get(k); let acc = 0, tip = [sheet.w / 2, sheet.h / 2]; for (const it of sheet.items) { const wt = it.kind === 'p' ? it.w : 1; if (acc >= k) break; const f = Math.min(1, (k - acc) / wt); tip = it.kind === 'g' ? [it.x + it.w * f, it.y + it.h * 0.6] : it.pts[Math.min(it.pts.length - 1, Math.floor((it.pts.length - 1) * f))]; acc += wt; } tipCache.set(k, tip); return tip; }
-  // the paper lies flat with its top toward −z: canvas x → world +x, canvas y → world +z
-  const tipWorld = (p) => { const tip = sheetTipAt(p); return [PAPER_POS[0] + (tip[0] / sheet.w - 0.5) * 0.216, PAPER_POS[1] + 0.002, PAPER_POS[2] + (tip[1] / sheet.h - 0.5) * 0.279]; };
+  // (the desk paper lies flat with its top toward −z: canvas x → world +x, canvas y → world +z)
   const LAP = bw(0.25, 0.781, -1.05);
+  const SCR_W = 0.5 * 0.92, SCR_H = 0.34 * 0.86;                 // rbxLaptop screen plane (w·0.92 × d·0.86) showing the 1280 × 800 app canvas
+  function screenFrame() {
+    laptop.g.updateMatrixWorld(true); const q = laptop.screen.getWorldQuaternion(new THREE.Quaternion()), c = laptop.screen.getWorldPosition(new THREE.Vector3());
+    const r = V(1, 0, 0).applyQuaternion(q), up = V(0, 1, 0).applyQuaternion(q), n = V(0, 0, 1).applyQuaternion(q);
+    return { c, r, up, n, at: (u, v) => c.clone().addScaledVector(r, (u - 0.5) * SCR_W).addScaledVector(up, (0.5 - v) * SCR_H) };
+  }
+  const tipScreen = (tip) => [(150 + tip[0] * 500 / sheet.w) / 1280, (110 + tip[1] * 647 / sheet.h) / 800];
+  /** the app's on-screen pen cursor at the page's write head (drawn into the app canvas after makeScreen's write-mode redraw) */
+  function drawCursor(tip, tt) {
+    const g = screen.canvas.getContext('2d'), x = 150 + tip[0] * 500 / sheet.w, y = 110 + tip[1] * 647 / sheet.h;
+    const gl = g.createRadialGradient(x, y, 0, x, y, 26); gl.addColorStop(0, 'rgba(255,214,120,.85)'); gl.addColorStop(1, 'rgba(255,214,120,0)'); g.fillStyle = gl; g.beginPath(); g.arc(x, y, 26, 0, 7); g.fill();
+    g.save(); g.translate(x, y); g.rotate(-0.62 + 0.04 * Math.sin(tt * 30));
+    g.fillStyle = '#1d1d1d'; g.beginPath(); g.moveTo(0, 0); g.lineTo(-7, -20); g.lineTo(7, -20); g.closePath(); g.fill();
+    g.fillStyle = '#9a1c25'; g.beginPath(); g.roundRect(-9, -98, 18, 80, 6); g.fill(); g.fillStyle = '#f5c33b'; g.fillRect(-9, -84, 18, 8);
+    g.fillStyle = 'rgba(255,255,255,.35)'; g.fillRect(-5, -94, 4, 70); g.restore();
+    screen.tex.needsUpdate = true;
+  }
   function laptopScreenWorld() { laptop.screen.updateWorldMatrix(true, false); return laptop.screen.getWorldPosition(new THREE.Vector3()); }
 
   // ---------------------------------------------------------------- per-frame
@@ -241,7 +263,7 @@ export async function build(studio, story) {
   function hideAll() {
     for (const d of dogs) d.root.visible = false;
     for (const p of [...H, ...players, ref, ...owners, you, teacher]) p.root.visible = false;
-    for (const o of [stack, deskPaper, classPaper, aPlus, laptop.g, camPhone.g, postPhone.g, ...povArms, pen.g, magnifier]) o.visible = false;
+    for (const o of [stack, deskPaper, classPaper, aPlus, laptop.g, camPhone.g, postPhone.g, ...povArms, magnifier]) o.visible = false;
     ears.visible = false; flash.material.opacity = 0; crown.visible = false; hearts.hide();
   }
   function useSet(set) {
@@ -339,12 +361,12 @@ export async function build(studio, story) {
       stack.visible = id === 'room' || id === 'stack' || id === 'cry'; sheet.draw(tt > t.in - 0.1 ? writeP(tt) : 0);
       if (stack.visible) { const y0 = bw(0, 0.781, 0)[1], fall = id === 'stack' ? 1 - easeInQ(u01(tt, t.twenty, STACK_HIT)) : 0, [sx, sy] = squash(tt, STACK_HIT, 0.3); stack.position.set(...bw(0.62, 0, -0.95)); stack.position.y = y0 + 0.9 * fall; stack.scale.set(sx, sy, sx); stack.visible = id !== 'room' || tt > t.twenty; }
       if (id === 'room') { you.root.updateMatrixWorld(true); const a = you.hand.L.getWorldPosition(V(0, 0, 0)), b = you.hand.R.getWorldPosition(V(0, 0, 0)); postPhone.g.visible = true; postPhone.g.position.copy(a.add(b).multiplyScalar(0.5)).add(V(0, 0.1, 0.06)); postPhone.g.rotation.set(0.55, PI, 0); phoneTex.draw(tt, { liked: true, likeT: 0 }); }
-      deskPaper.visible = id === 'photo' || id === 'pen' || id === 'app'; deskPaper.position.set(...PAPER_POS);
-      laptop.g.visible = !(id === 'photo' || id === 'pen'); laptop.g.position.set(...LAP); laptop.g.rotation.y = PI + 0.35;
-      const mode = tt < t.scribe ? 'home' : tt < t.solves ? 'scan' : tt < t.in - 0.15 ? 'solve' : 'write';
+      deskPaper.visible = id === 'photo' || id === 'app'; deskPaper.position.set(...PAPER_POS);
+      laptop.g.visible = id !== 'photo'; laptop.g.position.set(...LAP); laptop.g.rotation.y = PI + 0.35;
+      const mode = tt < t.scribe ? 'home' : tt < t.solves ? 'scan' : tt < t.in - 0.15 ? 'solve' : tt < DONE ? 'write' : 'done';
       screen.draw({ mode, k: mode === 'scan' ? u01(tt, t.scribe, t.solves) : mode === 'solve' ? u01(tt, t.solves, t.in - 0.2) : 0 });
+      if (mode === 'write' && tt > t.in - 0.05) drawCursor(sheetTipAt(writeP(tt)), tt);
       if (id === 'photo') { camPhone.screen.material.color.setScalar(tt > t.photo ? 1 + 2.5 * Math.exp(-(tt - t.photo) * 9) : 1); flash.material.opacity = tt > t.photo ? 0.85 * Math.exp(-(tt - t.photo) * 7) : 0; }
-      if (id === 'pen') { const tip = tipWorld(writeP(tt)), sc = tt > t.in ? 0.0025 * Math.sin(tt * 55) : 0; pen.g.visible = true; pen.g.position.set(tip[0] + sc, tip[1], tip[2]); pen.glow.material.opacity = 0.55 + 0.25 * Math.sin(tt * 18); }
       const lx = BO[0] + 0.9; Wd.aim(lx, BO[2] - 1, 4); BR.setClock(11, tt > t.midnight ? 59 : 58);
     }
 

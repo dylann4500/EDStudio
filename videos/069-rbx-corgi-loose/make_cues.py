@@ -10,7 +10,7 @@ hats, a warm pad; per the lane: upbeat, fast, percussive, low under the voice), 
 that murmurs at the start line, roars when she breaks loose and erupts at the catch), and toy foley on every gag: little paws, the
 gate clunk, whooshes, our own "oof" (a padded thud + a bonk + plastic bits clattering, never the game's sound), the ribbon snap +
 confetti pops, a like-pop on the phone. The pivot cuts to night: crickets, a ticking clock, the bed drops to Am–F–C–G and comes back
-up for Scribe (chime, scan beeps, pen scribbles), the teacher's oof, the A+ chime, applause under the end card. Soft + low-passed."""
+up for Scribe (chime, scan beeps, the app's pen scribbling the page on screen, a Done chime), the teacher's oof, the A+ chime, applause under the end card. Soft + low-passed."""
 import json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -42,6 +42,7 @@ ENDCARD = t['though'] + 0.5
 STACK_HIT = t['twenty'] + 0.22
 TLAUNCH, TLAND = t['mistake'] - 0.12, t['misses']
 APLUS = t['stillE'] - 0.5
+DONE = t['too'] + 0.16                     # the app's page is finished → Done. 20/20 · Download PDF
 NIGHT0, CLASS0 = t['meanwhile'], t['your']
 
 # ---------------------------------------------------------------- music: a game-lobby bounce, 140 bpm, C major (night run: Am–F–C–G)
@@ -132,8 +133,9 @@ e(t['scribe'] + 0.02, "gold_chime", -15, 0.2, notes=[76, 83, 88], spacing=0.08, 
 for k in range(12): e(t['solves'] + k * (t['in_'] - 0.2 - t['solves']) / 12, "scan_beep", -22, 0.2, pitch=1.4 + 0.05 * (k % 5), dur=0.07)
 e(t['in_'] - 0.18, "gold_chime", -16, 0.2, notes=[84, 88, 91, 96], spacing=0.05, vel=0.45)
 k = 0
-while t['in_'] + k * 0.55 < t['your'] - 0.2:
+while t['in_'] + k * 0.55 < DONE - 0.3:
     e(t['in_'] + k * 0.55, "pen_scribble", -15, -0.1 + 0.05 * (k % 3), dur=0.6); k += 1
+e(DONE, "pop", -20, 0.2, pitch=1.3); e(DONE + 0.02, "gold_chime", -18, 0.2, notes=[84, 91], spacing=0.06, vel=0.35)
 # END: the teacher's dive, oof, A+, end card
 e(t['dives'], "breath", -18, 0.0, dur=0.4, inhale=True)
 e(TLAUNCH, "flash_swish", -15, 0.0, dur=0.5, peak=0.9); oof(TLAND, 0.0, 1.0)
