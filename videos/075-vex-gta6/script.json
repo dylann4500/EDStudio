@@ -1,0 +1,120 @@
+{
+ "title": "Why GTA 6 took 13 years (Vex explainer, Scribe; GTA VI launches Nov 19 2026; pen + ink picker)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Dolly (Fish library voice, user pick Nov 9)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ },
+ "headPad": 0.1,
+ "endPad": 0.2,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "GTA six drops November nineteenth. Thirteen years after GTA five. Here's why it took so long.",
+   "callouts": []
+  },
+  {
+   "id": "team",
+   "say": "Eight years of work, and Rockstar nearly doubled, to forty-seven hundred people.",
+   "callouts": [
+    {
+     "at": "nearly",
+     "text": "2,441 TO 4,711 STAFF",
+     "style": "term",
+     "until": "people",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "mocap",
+   "say": "Real actors play the characters, in suits covered in dots. There's even a team in LA just for the randoms on the street.",
+   "callouts": [
+    {
+     "at": "suits",
+     "text": "MOTION CAPTURE",
+     "style": "term",
+     "until": "dots",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pivot",
+   "say": "Thirteen years for one game. Your stats professor gave you till Friday. Handwritten. Rude.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So Scribe writes it in my handwriting, chart and all. Don't like blue? Switch the pen. Purple fountain pen, and it rewrites the whole page.",
+   "callouts": []
+  },
+  {
+   "id": "money",
+   "say": "Analysts guess it cost over a billion dollars. GTA five? About two hundred sixty-five million.",
+   "callouts": [
+    {
+     "at": "analysts",
+     "text": "$1B+ \u00b7 ESTIMATE",
+     "style": "term",
+     "until": "million",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "And it made a billion in three days. See you on the nineteenth.",
+   "callouts": [
+    {
+     "at": "billion",
+     "text": "$1B IN 3 DAYS",
+     "style": "term",
+     "until": "days",
+     "y": 0.14
+    }
+   ]
+  }
+ ],
+ "fish": {
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.58,
+  "tempo": 1.12
+ },
+ "swap": {
+  "six": "6",
+  "five": "5"
+ }
+}

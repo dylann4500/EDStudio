@@ -678,6 +678,18 @@ videos/NNN-slug/
   (072 moved its "five drops" fact after Scribe as the closer). **Scribe writes ON SCREEN, never a pen on paper by itself** (user,
   Nov 9): a portrait phone screen canvas (fits the vertical frame) where `sheet.draw(p)` lands stroke by stroke with an on-screen pen
   cursor at the tip, then the desk row (pages · Shuffle · Replay · Export PDF); the camera rides the screen (`phoneCam(u, v, d)`).
+- **Mocap stage + neon beach strip (075, Vex "Why GTA 6 took 13 years" explainer):** `engine/sets/mocap.js` `buildMocap(studio)` = a
+  performance-capture stage (taped 9 m volume, a truss ring of ~30 cameras with red IR rings `update(t)`, crash mats, a pipe-frame car
+  buck `D.buck` (`seatY`, `wheel`), apple boxes, suit rack, QUIET sign, a big retarget screen `wall` + three video-village `monitors`
+  (canvas textures; `drawSolve(ctx, w, h, joints2d)` = a dot-and-bone skeleton), the director's desk `D.desk` facing −x with a phone on
+  a stand (`phScr`/`phT` 720 × 1500 = the Scribe screen), 4 `actors` = makePerson rigs in black marker suits). `engine/sets/neonstrip.js`
+  `buildNeonStrip(studio)` = a generic 1980s Florida beach boulevard at sunset (pastel deco hotels with neon word signs, palms
+  `makePalm`, low coupes `makeCoupe`, a banded synthwave sun over the sea at −z, umbrellas, a lifeguard tower, `walkers` rigs,
+  `aimSun`, own `fog`, far ≥ 700). Lessons: **`Vector3.project(studio.camera)` inside update() needs `studio.camera.updateMatrixWorld()`
+  after `setCamera`** (matrixWorldInverse is a frame stale: 075's NPC tags landed where the previous shot's camera was); a vertical
+  frame shows a 16:9 screen only in part — pan across it (075 `screen`); a moving car's lane must stay ≥ 2 m off every lens in its
+  time window (075's first coupe drove through the sunset camera); keep pixel cards above the caption word (panel bottom ≤ 0.675 of
+  the frame: 072's cards ran to 0.745, under the word). `engine/pixelcaps.js` gained `$` (additive).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
