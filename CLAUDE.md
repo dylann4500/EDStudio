@@ -690,6 +690,17 @@ videos/NNN-slug/
   (072 moved its "five drops" fact after Scribe as the closer). **Scribe writes ON SCREEN, never a pen on paper by itself** (user,
   Nov 9): a portrait phone screen canvas (fits the vertical frame) where `sheet.draw(p)` lands stroke by stroke with an on-screen pen
   cursor at the tip, then the desk row (pages · Shuffle · Replay · Export PDF); the camera rides the screen (`phoneCam(u, v, d)`).
+  **076 (Nov 9, energy drinks, hour-by-hour explainer):** a HANDHELD CAN that stands upright = attach it to `leftHand` with its axis
+  along the knuckle line (index − little proximal; a fist holds a cylinder that way), centred in the palm (`cross(fwd, axis)` for the
+  left hand), then search `aim: {'twist.leftLowerArm': tw, leftHand: dir}` per arm preset at build for the can's most upright axis and
+  blend tw/dir with the arm glide (076 `CANFIX`); the knuckle-line can with no twist search sat at 45°. Card beats: frame her face at
+  ≈ 0.27–0.36 of the frame (cards 0.44–0.69, a clock HUD at 0.165–0.235 left) — close-ups go only where no card shows. A dropped prop =
+  a copy that starts at the held one's world pose at the release time (pose her at that t once at build). Half-size `--stills` garble
+  the pixel callouts after a colon (downsampling); check them with `--full`. Scribe feature shown: a TYPED problem (README §The
+  composer) → the desk's waiting page (logo + "Be patient…" in the hand) → the page. Made-up can brands only (BZZT, ZOOMR, YIKES…).
+  **Lights BEHIND Vex blow her skin to flat white** (076 review): her toon ramp starts at 0.7, so a point light at her back still
+  lights her front at 70 %; the fridge glow 0.6 m behind her turned her face into a white mask. Keep glow lights inside the prop
+  (cabinet) with a short `distance` that ends before her, and compare cheek RGB against a shaded reference shot (076: ~235/213/205).
 - **Mocap stage + neon beach strip (075, Vex "Why GTA 6 took 13 years" explainer):** `engine/sets/mocap.js` `buildMocap(studio)` = a
   performance-capture stage (taped 9 m volume, a truss ring of ~30 cameras with red IR rings `update(t)`, crash mats, a pipe-frame car
   buck `D.buck` (`seatY`, `wheel`), apple boxes, suit rack, QUIET sign, a big retarget screen `wall` + three video-village `monitors`
