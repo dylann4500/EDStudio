@@ -60,6 +60,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   `5233336f5f44460ea0902b0802375451` (soft, breathy), Authentic Conversational Storyteller `da1eeaa6379e491da2ea7d203d2d4b05`, plus
   Slax for the f-word series. Rotate them so each reel sounds different. Vex uses Dolly or Mommy ONLY — the Storyteller voice's own
   description says "a young girl", so it never voices a flirty reel.
+- **Posting = the user's call (Nov 9: "Hold for my review"):** a finished reel goes to the user first (phone preview + caption);
+  the manager queues it with the TikTok uploads session only after they OK it, quoting that OK.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
