@@ -1,0 +1,56 @@
+{
+ "text": "That makes microscopic tears in your muscle fibers. Totally normal.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "That",
+   "t0": 0.24,
+   "t1": 0.4
+  },
+  {
+   "w": "makes",
+   "t0": 0.4,
+   "t1": 0.72
+  },
+  {
+   "w": "microscopic",
+   "t0": 0.72,
+   "t1": 1.6
+  },
+  {
+   "w": "tears",
+   "t0": 1.6,
+   "t1": 2.0
+  },
+  {
+   "w": "in",
+   "t0": 2.0,
+   "t1": 2.08
+  },
+  {
+   "w": "your",
+   "t0": 2.08,
+   "t1": 2.16
+  },
+  {
+   "w": "muscle",
+   "t0": 2.16,
+   "t1": 2.56
+  },
+  {
+   "w": "fibers.",
+   "t0": 2.64,
+   "t1": 3.28
+  },
+  {
+   "w": "Totally",
+   "t0": 3.92,
+   "t1": 4.32
+  },
+  {
+   "w": "normal.",
+   "t0": 4.32,
+   "t1": 4.88
+  }
+ ]
+}

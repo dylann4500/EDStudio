@@ -1,0 +1,155 @@
+{
+ "title": "What one leg day does to your body, hour by hour (Vex explainer, Scribe dark mode; lighter persona)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "headPad": 0.1,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Your first leg day in months. Here's what it actually does to your body, hour by hour.",
+   "callouts": []
+  },
+  {
+   "id": "squat",
+   "say": "Seven PM. Squats. Every time you go down, your quads stretch under load.",
+   "callouts": [
+    {
+     "at": "stretch",
+     "text": "STRETCH UNDER LOAD",
+     "style": "term",
+     "until": "load",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "tears",
+   "say": "That makes microscopic tears in your muscle fibers. Totally normal.",
+   "callouts": [
+    {
+     "at": "microscopic",
+     "text": "MICRO-TEARS",
+     "style": "term",
+     "until": "fibers",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "myth",
+   "say": "And tomorrow's soreness? Not lactic acid. That's gone in about an hour.",
+   "callouts": [
+    {
+     "at": "not",
+     "text": "NOT LACTIC ACID",
+     "style": "term",
+     "until": "hour",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "peak",
+   "say": "It peaks one to three days later. Stairs? Good luck.",
+   "callouts": [
+    {
+     "at": "peaks",
+     "text": "PEAKS AT 24-72 H",
+     "style": "term",
+     "until": "later",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pivot",
+   "say": "And I can't even sit down for my anatomy homework. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Scribe does it for me. Dark mode, obviously. In my handwriting, diagram and all.",
+   "callouts": [
+    {
+     "at": "dark",
+     "text": "DARK MODE",
+     "style": "term",
+     "until": "obviously",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "rebuild",
+   "say": "Meanwhile, repair mode. Protein synthesis stays up for up to two days, rebuilding the fibers.",
+   "callouts": [
+    {
+     "at": "protein",
+     "text": "PROTEIN SYNTHESIS: UP 48 H",
+     "style": "term",
+     "until": "days",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "bout",
+   "say": "And your next leg day won't hurt nearly as much. One session protects you for weeks.",
+   "callouts": [
+    {
+     "at": "protects",
+     "text": "REPEATED BOUT EFFECT",
+     "style": "term",
+     "until": "weeks",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "So don't skip the next one. I'll know.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 1.0,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}
