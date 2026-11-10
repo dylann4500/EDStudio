@@ -60,6 +60,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   `5233336f5f44460ea0902b0802375451` (soft, breathy), Authentic Conversational Storyteller `da1eeaa6379e491da2ea7d203d2d4b05`, plus
   Slax for the f-word series. Rotate them so each reel sounds different. Vex uses Dolly or Mommy ONLY — the Storyteller voice's own
   description says "a young girl", so it never voices a flirty reel.
+- **The user posts by hand (Nov 9: "from now on I'm going to post them manually… scheduled uploads from the Claude are like
+  driving down views"):** no uploader session, no scheduling. Deliver: preview + paste-ready caption + exports/ file paths.
 - **Posting = the user's call (Nov 9: "Hold for my review"):** a finished reel goes to the user first (phone preview + caption);
   the manager queues it with the TikTok uploads session only after they OK it, quoting that OK.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
