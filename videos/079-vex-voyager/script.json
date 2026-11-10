@@ -1,0 +1,128 @@
+{
+ "title": "A spaceship from 1977 is about to be one light-day away (Vex explainer on Voyager 1 crossing one light-day from Earth on Nov 18 2026; Scribe dark mode + a two-page assignment)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Dolly (generic Fish library voice, breathy British; the user's pick, alternating with Mommy)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Next week, a spaceship from nineteen seventy-seven gets so far away that saying hi takes a whole day.",
+   "callouts": []
+  },
+  {
+   "id": "lightday",
+   "say": "It's Voyager One. On November eighteenth, it hits one light-day: sixteen billion miles. Even light needs twenty-four hours to get there.",
+   "callouts": [
+    {
+     "at": "sixteen",
+     "text": "16 BILLION MILES",
+     "style": "term",
+     "until": "miles",
+     "y": 0.14
+    },
+    {
+     "at": "twentyfour",
+     "text": "24 HOURS ONE WAY",
+     "style": "term",
+     "until": "there",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "dish",
+   "say": "So we talk to it through dishes like this one. Seventy meters wide.",
+   "callouts": [
+    {
+     "at": "seventy",
+     "text": "70 M DISH",
+     "style": "term",
+     "until": "wide",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "radio",
+   "say": "Its radio? About as strong as a fridge bulb. What reaches us is less than a billionth of a billionth of a watt.",
+   "callouts": []
+  },
+  {
+   "id": "pivot",
+   "say": "Forty-nine years, still working. You can't finish one worksheet? Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So Scribe works out the light-day problem in my handwriting. Both pages. Dark mode, obviously.",
+   "callouts": [
+    {
+     "at": "dark",
+     "text": "DARK MODE",
+     "style": "term",
+     "until": "obviously",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "record",
+   "say": "Meanwhile, it carries a golden record: hello in fifty-five languages, in case anyone finds it.",
+   "callouts": [
+    {
+     "at": "fiftyfive",
+     "text": "55 LANGUAGES",
+     "style": "term",
+     "until": "finds",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "It loses four watts every year. Until it goes quiet, I'm listening.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
+  "model": "s2.1-pro",
+  "speed": 1.08,
+  "temperature": 0.58,
+  "tempo": 1.12
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ },
+ "headPad": 0.1
+}
