@@ -211,6 +211,24 @@ doubling clock are all in its shots.js.
   shake + the teacher's shock. Show scale from outside, not through a 2 m window.
 - Biology sheets: scribe.js's `punnettFig()` (additive, makeSheet's new `fig` option) draws a Punnett square stroke by stroke; keep
   the square inside its problem's row (rowH = (1325 − 340) / n) or it collides with the next question.
+**068 additions (`engine/voxel/bear.js` + `videos/068-mc-november-bear/shots.js`, "Remember November 2026" meme reel, narrated):**
+- `makeVoxBear({bs})` — a blocky polar bear on a small skeleton (front legs on the body, rear legs on the root, a hinged jaw with a
+  tongue, a blink-able eye group, happy arcs, brows). `mode: 'sit'` computes the hip height so the rump rests on the ground and
+  stretches the planted front legs (the "Polar Bear 2026" pose); `'upright'` = standing, front legs are arms in WORLD angles; walk
+  with `phaseFor(dist, scale)`. Sing / whisper = `jaw` flapped from the narration's word times (068 `jawSing(t, beat, fromWord)`).
+- Narrated voxel reels: script.json `"fps": 30, "motionBlur": 1` + narrate.py's build captions work unchanged (068 is the template:
+  one-word captions + term/label/stamp callouts over voxel shots). Put readable props (phone app, calendar, board) ABOVE the
+  caption band (52 %): the phone's important figure in the card's top third, a clock aimed ~0.1 m low, a callout `"y": 0.125` when
+  the default term band (20 %) sits on an app header.
+- **Gotchas (each cost a stills round):** a lying rig (root.rotation.x = −π/2) under a duvet hid the face in every framing —
+  sit her up against the headboard with a quilt slab to her nose instead (ducking = raise the slab); a prop added to a set's root
+  takes LOCAL coords (the chip bag vanished 400 m away); the classroom desks face the wrong way for seated kids (rotation.y = 0);
+  a chair back poked through the bear walking in (hide the empty desk); a lens inside a wall block sees into the room (block faces
+  are culled from behind) = a free "from the hallway" POV behind someone walking in; a vertical frame from 5 m only fits ~2.7 m
+  of chalkboard — write 3–4 short lines (≤ 13 chars) on the board, not one long line.
+- Night: swap `W.sky.material.map` for a star canvas (zenith = canvas top, horizon ≈ 81 % down for the 0.62π dome), fog navy,
+  hemi ≈ 1.5 + sun ≈ 1.9 cool white from the camera side — faces still read. Snow = instanced pixel cubes around the camera
+  (drop flakes within 1.6 m of the lens or they read as white blocks).
 **Render time:** 059 (41.2 s, 30 fps, 1080 × 1920, no motion blur): 1,236 frames in 92 s ≈ **0.075 s per frame** (≈ 2.2 s per
 second of video; a still sheet of 15 frames ≈ 3 s) — cheaper than sim, about flat2d's cost. The whole town is one draw call.
 
