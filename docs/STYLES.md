@@ -15,6 +15,7 @@ stays procedural (Three.js → headless Chrome → ffmpeg), deterministic (`rng`
 | **voxel** | a blocky-game world: everything is 1 m cubes with 16 px pixel-art tiles + baked corner AO, square-headed people with 8 × 8 pixel faces, flat chunky clouds, bright flat daylight, crisp edges | `engine/voxel/` (tex, vox, person, world, props, town, rooms) | `npm run new -- NNN-slug --from _voxel-template` (a whatifpov-style promo: `--from 059-voxel-giant-doubling`) | 059 | built (branch `claude/059-voxel-style-9b1f2e`) |
 | **iso** | isometric tilt-shift DIORAMA: floating slabs of world with a cut soil edge over a gradient void, miniature low-poly buildings + tiny people, a long lens at ~35° that drifts, a depth-aware tilt-shift blur | `engine/iso/` (tiltshift, base, camera, look, people, props, room, italy, fx, hud) | `npm run new -- NNN-slug --from _iso-template` | 060 | built (branch `claude/060-isometric-style-37e0d0`) |
 | **mg** (motion graphics) | Kurzgesagt-like flat vector explainer: soft-gradient shapes with long subtle shadows on a deep-blue backdrop, round-headed people, a globe of people-dots, charts/maps/counters that build themselves, kinetic words, parallax + zoom/iris/wipe transitions | `engine/mg/` (stage, draw, people, icons, charts, geo, type, overlay, fx, scenes, scribe2d, endcard) | `npm run new -- NNN-slug --from _mg-template` | 061 (everyone claps) | built (branch `claude/061-motion-graphics-style-ffbeda`) |
+| **rbx** (blocky avatars) | a blocky-avatar game look (our own design, no game's assets/names/UI): classic blocky avatars (rounded-cylinder head with a printed face decal, box torso + stiff box limbs, bright shirt/pants, hair + hats), glossy plastic, a grey studded baseplate under a bright painted sky, obby props, floating name tags, chat bubbles + a chat log, the "oof" (the avatar breaks into its parts) | `engine/rbx/` (mats, avatar, world, obby, chat, props, fx, stadium, rooms) | `npm run new -- NNN-slug --from _rbx-template` (narrated meme reel: `--from 069-rbx-corgi-loose`) | 069 (runaway corgi meme) | built (branch `claude/069-roblox-style-meme-432a88`) |
 
 Ideas for later builders: claymation (soft subsurface + thumbprint noise + 12 fps
 stepped motion), paper cut-out (layered card planes, drop shadows), whiteboard doodle (line-draw reveal), low-poly flat-shaded,
@@ -233,6 +234,83 @@ doubling clock are all in its shots.js.
   (drop flakes within 1.6 m of the lens or they read as white blocks).
 **Render time:** 059 (41.2 s, 30 fps, 1080 × 1920, no motion blur): 1,236 frames in 92 s ≈ **0.075 s per frame** (≈ 2.2 s per
 second of video; a still sheet of 15 frames ≈ 3 s) — cheaper than sim, about flat2d's cost. The whole town is one draw call.
+
+### rbx — the blocky-avatar game (069 "This corgi had one f*cking job", the runaway corgi at the Nov 8 NFL halftime corgi race)
+**Look:** a generic blocky-avatar sandbox game in our own design: classic blocky avatars ~5.2 studs tall (S = 0.34 m: 2-stud legs,
+a 2 × 2 × 1 torso, 1 × 2 × 1 arms, a rounded-cylinder head with a printed face DECAL — two oval eyes + an arc smile, swapped per
+emotion), box limbs that swing stiffly from the shoulder/hip (no elbows, no knees), bright shirt/pants colours with a pants-coloured
+waistband, a shirt print, hair and hats as simple accessory meshes; smooth slightly glossy plastic (a RoomEnvironment IBL gives every
+part a soft highlight); a grey studded baseplate under a bright painted sky with puffy clouds; obby props; floating name tags; chat
+bubbles + a translucent chat log; the "oof" = the avatar breaks into its parts, which bounce and settle flat. Neutral tone mapping
+(ACES greyed the sky). No game's logo, name, sounds or UI: our own faces, palette, tag/bubble/log design, and our own "oof" sound
+(a padded thud + a bonk + plastic bits, 069 make_cues.py `oof()`). All text that must read is DOM (captions, chat log, end card) or
+canvas sprites sized for the lens every frame.
+**Start:** `npm run new -- NNN-slug --from _rbx-template` (10 s, no narration: walk + wave + "hi chat" → hop the bricks → lava → the
+oof → respawn at the checkpoint; t ≥ 200 = lineups of faces, arm presets, dogs + debris, a course wide). For a narrated meme reel
+fork 069 (`--from 069-rbx-corgi-loose`: script.json with the f-word swap, make_cues.py, the stadium/bedroom/classroom sets parked at
+offsets, the Scribe sequence — a POV phone photo, the app on a laptop that scans, solves and then WRITES the page on screen with its own pen
+  cursor (`drawCursor` at `sheet.draw`'s tip, the Punnett square appearing, then Done + Download PDF; lane rule Nov 9: never a pencil
+  on paper) — and the brhud end card); copy
+`voice/` only if you keep the lines.
+**API (`import * as R from '@engine/rbx/index.js'`; all new files, no shared defaults changed):**
+- `mats.js` — `S` (one stud, m), `rbxEnv(studio)` (scene.environment), `plastic(color, {rough, map, normalMap, env})` (cached),
+  `neon(color, k)`, `matFor(kind, color)` (plastic | smooth | neon | studs | wood | grass | brick | metal | sand | glass),
+  `part([w, h, d], {color, mat, top: 'studs', parent, pos, rot, radius})` (UVs in studs via `boxUV`: one stud per texture repeat at any
+  size), `cyl(r, h, {...})`, `studMaps()` (stud colour + normal tile), `canvasTexture`, `shade`, `prng`.
+- `avatar.js` — `makeAvatar({skin, shirt, pants, shoes, sleeve 0..1, print: 'star'|'heart'|'bolt'|'stripe'|'number:7'|'text:HI'|fn,
+  printColor, tie, belt, hair: 'short'|'swoop'|'spiky'|'long'|'pony'|'bun'|'afro'|'buzz'|'none', hairColor, hat: 'cap'|'beanie'|
+  'tophat'|'crown'|'headphones'|'party'|'hardhat'|'halo'|'helmet'|'dogears'|'bandana', hatColor, hatColor2, glasses, face})` →
+  `P.pose({x, y, z, rotY, scale, walk: P.phaseFor(dist), run, stride, idle: t, jump 0..1 (both arms up), sit + seat (seat top y),
+  climb, lean, twist, tilt, tip + tipDir (a stiff fall: π/2 = flat on the ground; dives), bob, armL/armR/legL/legR {a forward, s outward,
+  t twist}, head {yaw, pitch, roll}, face, noHat, visible})`; `P.shatter(t, t0, pose0, {dir, power, up, floor, seed})` = the oof
+  (stateless: simulates the parts from t0 every frame); `P.addHat(kind, c1, c2)` (a toggled second accessory), `P.hand.L/R`,
+  `P.headWorld`, `P.tagWorld`; `FACES` (smile grin open shock scream angry worried smirk happy wink cool cry dizzy talk sleepy evil shy
+  meh oof), `ARMS` (down point up out hips hold phone cheer shrug facepalm + wave(t) flail(t) dance(t)), `makeHat(kind)` (on anything),
+  `headShell(yb(θ))` (a shell that hugs the head from a hairline up), `DIM`.
+- `world.js` — `rbxWorld(studio, {size, color, fog, sun, sky, plate})` → `{root, sky, plate, lights: {sun, hemi, aim}, aim(x, z, half),
+  setFog, update(t)}`; `RBX_LOOK` (story.look), `SKY`, `rbxSky`, `baseplate`, `rbxLights`, `rbxTree('round'|'pine')`.
+- `obby.js` — `makeSpinner({len})` (update(t)), `makeKillBrick`, `makeLava([w, d])` (update(t)), `makeCheckpoint({n, color})` (setOn, update),
+  `makeTruss(h)`, `makeJumpPad()` (setPress), `makeCoin()` (update(t, y0)), `makeSign(lines, {w, h, bg, fg})`, `obbyCourse(parent, steps)`.
+- `chat.js` — `makeTags(scene)` → `add(avatar | object, name, {color, px, sub, at(v)})` + `update(camera)` (steady on-screen size,
+  clamped 26–70 px); `makeBubbles(scene)` → `say(target, text, t0, t1, {px, at})` + `update(camera, t)` (boing in, float out, stacks);
+  `makeChatLog({lines: [[t, user, colour, text]], top, max, show})` (DOM, `rbx-*` classes) + `update(t)`; `sizeFor(camera, pos, px)`.
+- `props.js` — `makeBlockDog({coat, white, dark (tricolour saddle), jersey, number, scale})` (a corgi: `pose({x, z, rotY, run: phaseFor(d,
+  scale), sit, mouth, look, headRoll, wag, t})`), `rbxCrowd(parent, seats, {seed})` (instanced seated crowd, 4 draw calls; `update(t, f)`
+  with f → {jump, arms, turn, hide}), `rbxDesk`, `rbxChair` (userData.seat), `rbxLaptop(tex)` (hinge −0.28 open, screen faces +z),
+  `rbxPhone(tex)`, `rbxPaper(tex)` (top of the page → −z), `rbxLamp` (light), `rbxBed`, `rbxPen` (origin = the nib; never for
+  Scribe's writing — the app writes the page on screen, docs/lanes/scribe.md).
+- `fx.js` — `makeRbxFX(scene)`: `confetti(t0, pos)`, `puff(t0, pos)`, `studs(t0, pos)` (plastic bits), `pow(t0, pos, 'OOF!')` (a comic
+  starburst sized for the lens), `update(t, camera)` — all analytic.
+- `stadium.js` — `buildStadium(studio, {world})`: a blocky football stadium, field along x (`yardX(40)` = the 40 on the +x half; painted
+  numbers read from the +z sideline), 12-row stands + end stands with `crowd`/`endCrowd`, a padded wall with our own ad boards, a
+  jumbotron at the −x end (`setScreen(lines, bg)`), goal posts, a race START gate (`gateBar`) + FINISH arch with a ribbon (`snap(k)`),
+  a dashed lane line (`setLane(i, k)`), a TV camera. `rooms.js` — `rbxBedroom({clock})` (night: window with a moon, desk in the room so
+  the sitter faces +z, lamp, shelf, corgi poster, clock `setClock`, bed + plush, `moon` light) and `rbxClassroom({board})` (chalkboard,
+  sunny windows, teacher's desk, 6 student desks `D.desks[i] = {x, z, chair, g, ch}`).
+**Gotchas (each cost a stills round on 069):**
+- **ACES turned the bright blue sky grey** and 26 overlapping painted clouds covered the band a level camera sees (elevation 0–25°):
+  `neutral` tone mapping + 16 separate small cumulus with blue between them.
+- **Avatars are 1.36 m wide across the arms:** a lineup at 1.05 m spacing interpenetrated (z-fighting stripes); use ≥ 1.6 m.
+- **The baseplate at y = 0 z-fights any floor slab** (turf, a room floor): drop it (`W.plate.position.y = −0.3`) or hide it indoors.
+- **A night interior in the same scene as a day set:** the world's sun/hemi reach it too — set sun ≈ 0.25 (blue), hemi ≈ 0.4 (dark
+  blue), the room's lamp + moon on, hide the sky dome, background dark, `scene.environmentIntensity` 0.3 per shot (069 `useSet`).
+- **POV arms read as giant blocks** (0.19 m boxes 0.2 m from the lens filled the frame): a phone held in front of the lens alone reads
+  fine (069 `povPhone`, the phone 0.27–0.29 m out, oriented with the camera's quaternion).
+- **`pose()` sets `root.visible`** — pass `visible: false` for a rig a POV shot must hide (setting `root.visible` before pose is undone).
+- **A sitting handler holding the dog at his chest hid his face:** put the dog on the turf in front of him (arms 'hold' reach it).
+- **Arms-up hands only reach the top of the head** (blocky proportions): a dog "held overhead" sits on his head — lift it ~0.34 m
+  above the hands and shoot from low (0.6 m) with the head at 72 % so the dog clears the one-word caption.
+- **Painted yard numbers read upright only from their own sideline** (as in real stadiums): frame them from the sideline side.
+- **A POV lens in the stands ends up inside a jumping spectator** (069's phone shot went solid purple mid-shot): hide every `rbxCrowd`
+  seat within ~1.8 m of the lens (`f → { hide: true }`), including the rows behind it.
+- **A laptop screen is wider than a vertical frame at < 1 m:** back off to ~1 m (fov 40) and favour the side with the progress tiles.
+- **Dives:** `tip` rotates the body about the feet, so a dive = root flies a parabola while tip goes 0 → π/2 in the first half; the
+  landing pose (tip π/2, arms up) is `pose0` for `shatter()`. Shoot a dive along its line (he flies at the lens) — a side camera lost him.
+- Faces vs the one-word caption (52 %): `aimF(pos, subj, f, fov)` in 069 shots.js puts a point at a frame fraction; heads at 36–40 %
+  or 62–72 %.
+**Render time:** ≈ 0.08 s per frame at 1080×1920, 30 fps, motionBlur 2 (two sub-frames per frame) on the shared Mac: 069's 47.4 s
+(1,421 frames) took ~1:50 of frames, 2:10 with the encode (≈ 2.7 s per second of video); a 34-still sheet ≈ 7 s. The stadium's ~4,000
+instanced spectators are rewritten every frame and still cost almost nothing.
 
 ### pixel (057 homework doubling — the first reel in it)
 - **Block size: 8 px at 1080 wide** (135 blocks across). The template's 5 px is invisible on a phone (a 5 px block is under 2 pt

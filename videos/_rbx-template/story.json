@@ -1,0 +1,12 @@
+{
+  "tone": "promo",
+  "style": "rbx",
+  "mode": "pov",
+  "look": { "exposure": 1.0, "toneMapping": "neutral", "bloom": 0.14, "bloomThreshold": 0.9, "grain": 0, "vignette": 0.12, "saturation": 1.12, "warm": 0.08, "fill": 0.35, "lift": 0.0 },
+  "fps": 30,
+  "duration": 10.0,
+  "title": { "html": "", "in": -1, "out": -1 },
+  "hud": [],
+  "subs": [],
+  "debugView": { "center": [0, 0, -2], "height": 30 }
+}
