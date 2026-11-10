@@ -675,6 +675,9 @@ videos/NNN-slug/
   a copy that starts at the held one's world pose at the release time (pose her at that t once at build). Half-size `--stills` garble
   the pixel callouts after a colon (downsampling); check them with `--full`. Scribe feature shown: a TYPED problem (README §The
   composer) → the desk's waiting page (logo + "Be patient…" in the hand) → the page. Made-up can brands only (BZZT, ZOOMR, YIKES…).
+  **Lights BEHIND Vex blow her skin to flat white** (076 review): her toon ramp starts at 0.7, so a point light at her back still
+  lights her front at 70 %; the fridge glow 0.6 m behind her turned her face into a white mask. Keep glow lights inside the prop
+  (cabinet) with a short `distance` that ends before her, and compare cheek RGB against a shaded reference shot (076: ~235/213/205).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
