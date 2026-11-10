@@ -667,6 +667,16 @@ videos/NNN-slug/
   (072 moved its "five drops" fact after Scribe as the closer). **Scribe writes ON SCREEN, never a pen on paper by itself** (user,
   Nov 9): a portrait phone screen canvas (fits the vertical frame) where `sheet.draw(p)` lands stroke by stroke with an on-screen pen
   cursor at the tip, then the desk row (pages · Shuffle · Replay · Export PDF); the camera rides the screen (`phoneCam(u, v, d)`).
+  **077 (Nov 9): explainer #2 on THIS WEEK's news** (Starship Flight 15, NET Fri Nov 13: the first try at catching the SHIP with the
+  tower's arms) — the topic is checked against 2+ dated sources the same day (caption.md comment), the company is never named on screen
+  and all hardware is our own generic toy version. Feature = **FOLLOW-UP PROMPTS** (README §Follow-ups): after the page writes itself,
+  "show more steps on 2" is typed in the docked "Ask Scribe" composer → a new round under the first, problem 1 drawn at once and only
+  problem 2 rewritten at a hand's pace (two `makeSheet`s with the same seed + P1; `p = p1Weight + …` where p1Weight sums the `pi === 0`
+  item weights). Subject physics (a braking booster's FBD). Dolly at Fish speed 1.08 + tempo 1.12 (speed 0.95 ran 69.7 s for 121 words);
+  her British "caught" transcribed as "called" — re-worded to "done that" (check_voice large-v3).
+  **Gotchas (077):** a prop's stand in front of the screen plane = a black block over the phone in every phone close-up (keep the
+  tripod post + clamp BEHIND the screen); `makeVoxPerson().pose()` resets root position/rotation from `p.x/p.z/p.rotY` — pass them
+  on every call or the whole crowd snaps to the origin.
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
@@ -694,6 +704,18 @@ videos/NNN-slug/
   food chain (each label written + circled, hand arrows between) — make it the LAST problem and lift the macro lens off the pen tip
   to frame the whole row as it's drawn; `makeScreen(…, {subject: 'Biology'})` = a subject chip + "BIOLOGY · showing work + diagrams".
 
+- **Launch beach + rockets (077, `engine/sets/launchbeach.js`, pixel/Vex look):** `buildLaunchBeach(studio)` = a sunset public viewing
+  beach (she stands at the origin facing +z; sand, dunes + grass, the Gulf on +x with foam, rope fence + LAUNCH VIEWING sign, blocky
+  spectators filming `L.people`, chairs, coolers, tent, RV, `voxCar`s on a road, gulls, a rocket sandcastle, a tripod phone `L.phone`
+  whose screen faces +z) and the pad behind her (−z): `makeCatchTower()` = a 146 m lattice tower with two chopstick arms (`setArms(open
+  0..1)`, `setArmY(y)`; the arms reach +x, so the catch point `D.catch` sits RIGHT of the tower from the beach), launch mount, tank farm,
+  an older tower, assembly bay, floodlights, a camera-following dusk sky dome + pixel sun (`L.sky.material.color` darkens it for "edge of
+  space" shots), `aim(cx, cz, half)`, own `fog` (save it; swap in a 1200–9000 m fog for shots 1 km up). Props: `makeBooster()` (72 m,
+  33 engines, 3 grid fins, catch pins ±z; caught: origin y = armY + 2.25 − 62.5), `makeShip()` (52 m, black tile belly = local +x,
+  flaps; `rotation.z = −π/2` = belly flop; caught: origin y = armY + 2.25 − 33.55), `makePlume()` (`set(k, L, r, t)`), `makePuffs(parent,
+  n, {fire})`. 077 shots.js: `placeShip(cg, rotZ)` (pose by the CG so the flip turns about its middle), orbit + reentry on tech.js
+  `buildSpace` scaled ×20 and TILTED so the sun stands high over +y (rotate `SP.root`, copy the new sun dir into `SP.lights`/`SP.atm`
+  uSun; no `camera.up` change needed), plasma puffs on the belly, a 33-engine glow ripple (instanced circles under the bells).
 - **Airport kit (062, `engine/build/airport.js`, toon look):** `buildAirfield(studio)` = ONE world at the origin: runway along +x
   (threshold x 0, 45 m, markings, edge + approach lights), a perimeter fence across the approach with a planespotter spot outside it
   (`AD.spot`), apron + gate (`AD.gate`: park jet.js `makeAirliner` there nose +x), a glass AIRPORT terminal + jet bridges, tower,
