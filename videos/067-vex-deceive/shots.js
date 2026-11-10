@@ -199,7 +199,7 @@ export async function build(studio, story) {
   const SH = [
     { id: 'hook', t0: 0, vex: (t) => ({ ...VC, pose: 'hip', tilt: 0.12, sway: 0.15, face: DOM(t, { blinkLeft: t > T.mommy1 + 0.3 && t < T.mommy1 + 0.9 ? 1 : 0 }) }), cam: (t) => ({ pos: [0.05, 1.5, 0.4 - 0.3 * u01(t, 0, T.phone)], look: [0.0, 1.38, -0.95], fov: 44 }) },
     { id: 'phone', t0: T.phone, vex: (t) => ({ ...VC, pose: 'phone', tilt: 0.15, nod: 0.2, look: [0.1, -0.5], sway: 0.12, hands: { R: 'hold' }, face: DOM(t) }), p: [[0.3, 1.32, 0.9], [0.22, 1.32, 0.7]], a: [[0.0, 1.22, -0.95], [0.0, 1.24, -0.95]], fov: 48, hold: 'phone' },
-    { id: 'clock', t0: T.my + 0.7, cam: () => ({ pos: [0.05, 3.25, -3.55], look: [0.0, 3.55, -4.87], fov: 34 }) },
+    { id: 'clock', t0: T.my + 0.2, cam: () => ({ pos: [0.05, 3.25, -3.55], look: [0.0, 3.55, -4.87], fov: 34 }) },
     { id: 'phone2', t0: T.why1 - 0.1, vex: (t) => ({ ...VC, pose: 'phone', tilt: -0.08, sway: 0.1, hands: { R: 'hold' }, face: DOM(t) }), cam: () => ({ pos: [0.02, 1.57, -0.25], look: [0.0, 1.52, -0.95], fov: 40 }), hold: 'phone' },
     { id: 'chap', t0: T.chapter, vex: (t) => ({ ...VC, pose: 'hip', tilt: 0.1, sway: 0.18, face: DOM(t) }), p: [[-0.35, 1.35, 0.85], [-0.25, 1.35, 0.65]], a: [[0.0, 1.22, -0.95], [0.0, 1.24, -0.95]], fov: 48 },
     { id: 'wrap', t0: T.why2 - 0.1, cam: (t) => { const k = ease(u01(t, T.why2, T.theres)); return { pos: [-1.0, TOP + 0.5 - 0.12 * k, -0.62 - 0.1 * k], look: [-1.2, TOP + 0.03, -1.05], fov: 42 }; } },
@@ -233,7 +233,7 @@ export async function build(studio, story) {
     else cam = { pos: lerp3(sh.p[0], sh.p[1], ease(k)), look: lerp3(sh.a[0], sh.a[1], ease(k)), fov: sh.fov };
     studio.setCamera(cam.pos, cam.look, cam.fov, 0, 0);
     { const d = Math.max(0.6, studio.camera.position.distanceTo(V(...cam.look))); fill.position.copy(studio.camera.position).add(V(0, 0.15, 0)); fill.intensity = sh.vex ? Math.min(1.6, 0.24 * Math.pow(d, 1.6)) : 0.1; }
-    drawClock(4 + 3.2 * ease(u01(t, T.my + 0.75, T.why1 - 0.2)));
+    drawClock(4 + 3.2 * ease(u01(t, T.my + 0.25, T.why1 - 0.12)));
     if (sh.mode === 'ink' || t >= T.purple - 0.2) drawScreen('ink', u01(t, T.purple - 0.3, T.purple + 0.6)); else drawScreen('solve', u01(t, T.scribeW - 0.05, T.drew - 0.2));
     const tip = sheet.draw(writeP(t));
     VEX.root.visible = !!sh.vex;

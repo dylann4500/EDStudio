@@ -410,6 +410,26 @@ def shelf_tail(x, words, beat, db, hz, fade=0.03):
     return out
 
 
+def soften_breaths(x, words, db=-9.0, keep=0.25, margin=0.06, ramp=0.02):
+    """067 (user, Nov 9: "a tiny bit less breathing and moaning"), script.json "breath": {"db", "keep", "margin"}, opt-in: between two
+    words (the span margin s clear of both word stamps) the take is turned down by db (20 ms ramps), and a gap longer than keep s has
+    its middle cut so it lasts keep s. Words are never touched; a beat with "breathy": true keeps its sighs."""
+    if len(words) < 2:
+        return x, words
+    x = x.copy(); g = 10 ** (db / 20); R = max(1, int(ramp * SR)); cuts = []
+    for a, b in zip(words, words[1:]):
+        g0, g1 = a['t1'] + margin, b['t0'] - margin
+        if g1 - g0 > 2 * ramp:
+            i0, i1 = int(g0 * SR), int(g1 * SR)
+            env = np.full(i1 - i0, g, dtype=np.float32); env[:R] = np.linspace(1, g, R); env[-R:] = np.linspace(g, 1, R)
+            x[i0:i1] *= env
+        gap = b['t0'] - a['t1']
+        if gap > keep and g1 - g0 > gap - keep + 0.03:
+            mid = (g0 + g1) / 2; half = (gap - keep) / 2
+            cuts.append((mid - half, mid + half))
+    return cut_out(x, words, cuts)
+
+
 def trim(x, words, pad=0.04):
     """Cut leading/trailing silence from a clip; shift its word times to match."""
     loud = np.nonzero(np.abs(x) > 10 ** (-46 / 20))[0]
@@ -498,6 +518,9 @@ def narrate(slug, provider, key):
                  fish_cfg(cfg).get('tempo', cfg.get('tempo', 1.0)) if provider == 'fish' else 1.0)
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
+        bc = cfg.get('breath')   # 067, opt-in: softer, shorter breaths between words (beat "breathy": true opts out)
+        if bc and not b.get('breathy'):
+            x, words = soften_breaths(x, words, bc.get('db', -9.0), bc.get('keep', 0.25), bc.get('margin', 0.06))
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
             x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
             if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)

@@ -625,6 +625,11 @@ videos/NNN-slug/
   `shadeBody`) is a runtime canvas pass on the body atlas: blurred rose strokes (cleavage line, inner-cup shade, under-cup crescents)
   multiplied on once — same coverage. `dressGoth` now returns `M.shades` (the hair shades); a clone on her eyes in neon pink reads as
   party shades (black ones read as a censor bar).
+  **Breath, user (Nov 9, on 067): "a tiny bit less breathing and moaning… we don't want to scare off our viewers" — the default for
+  EVERY Vex reel:** script.json `"endPad": 0.2`, `"maxPause": 0.25`, `"breath": {"db": -9, "keep": 0.25, "margin": 0.06}` (narrate.py
+  `soften_breaths`, opt-in: between two words the take drops 9 dB and any gap over 0.25 s loses its middle; words untouched; a beat
+  with `"breathy": true` keeps its sigh), Fish `"temperature": 0.58`. 067 went 46.9 → 39.4 s with the same lines. Lower temperature
+  slurred one take ("mommy deceive" → "mom need to see"): run check_voice and re-roll a bad take (move its voice/ files aside).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
