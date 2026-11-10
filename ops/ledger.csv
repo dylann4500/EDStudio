@@ -52,6 +52,6 @@ id,slug,title,lane,account,slot_pt,status,producer,branch,wc_mean,wc_mean_first6
 072,072-vex-data-center,How an AI data center actually works,scribe,@www.tryscribe.ink,,made,,feat/goth-tutor,,,,,,,,,,,,Vex explainer; sourced facts; econ (demand shift) + Shuffle; on-screen writing; Mommy voice; in exports/TO-UPLOAD; NOT POSTING (user Nov 9: a friend already did data centers) — moved to exports/_not-posting
 073,073-vex-build,Vex build reel: How a ___ Becomes a ___ (Vex as the builder/narrator),scribe,@www.tryscribe.ink,,building,,,,,,,,,,,,,,Vex in the build format; new session
 074,074-vex-sim,Vex what-if simulation (Vex reacts inside a sim),scribe,@www.tryscribe.ink,,building,,,,,,,,,,,,,,Vex in a what-if sim; new session
-075,075-vex-explainer,Vex explainer: current games/entertainment/internet topic,scribe,@www.tryscribe.ink,,building,,,,,,,,,,,,,,replaces the shelved 072 topic; new session Nov 9
+075,075-vex-gta6,Why GTA 6 took 13 years,scribe,@www.tryscribe.ink,,made,,claude/075-vex-explainer-3bd67d,,,,,,,,,,,,"replaces the shelved 072 topic; new session Nov 9; Vex explainer, Dolly, stats bar chart + pen/ink picker; 52.9 s; merged Nov 9; in exports/TO-UPLOAD"
 076,076-vex-explainer,Vex explainer: current money/body/everyday-life topic,scribe,@www.tryscribe.ink,,building,,,,,,,,,,,,,,replaces the shelved 072 topic; new session Nov 9
 077,077-vex-explainer,Vex explainer: current science/space/tech topic,scribe,@www.tryscribe.ink,,building,,,,,,,,,,,,,,replaces the shelved 072 topic; new session Nov 9
