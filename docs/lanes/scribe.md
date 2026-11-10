@@ -147,6 +147,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     sounds like Uncle Roger (a real comedian's character); the user was told a famous sound-alike in an ad can read as an
     endorsement and chose to use it anyway (Nov 10) — it rotates with "chinese" and Slax. Never name or reference Uncle Roger,
     his catchphrases or his bits in a script, caption or on screen.
+    **082 (first reel in "chinese", Nov 10):** at speed 1.1 it read 2.7 words/s; `"fish": {"tempo": 1.27}` (assembly atempo,
+    free, not in the clip hash) brought it to 3.4 w/s. Whisper large-v3 misheard its contractions ("Water's" → "What is",
+    "You're" → "Y'all"): write them out ("Water is", "You are") and re-voice only that beat; TERMs (magnetron, lone pairs,
+    wavelength) came through clean.
   - **Vex = Dolly** `ce3b16c14af54adebba5ebe50a3d4417` until the user sends their own cute-girl voices. **Not breathy/sexy by
     default, just a normal cute girl narrating at a regular pace** ("right now it's too slow"): `"fish": {"speed": 1.2,
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,

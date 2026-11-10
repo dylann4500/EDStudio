@@ -889,6 +889,19 @@ videos/NNN-slug/
   `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
   very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.
 
+- **Microwave kit (082, f-word explainer, all in `videos/082-cn-fword-microwaves/shots.js`, copy it):** `makeMicrowave()` = a
+  real-size countertop microwave (origin bottom-centre, door +z on a left hinge `door.rotation.y = −1.45` open; `CAV` = the cavity box;
+  a right bay with a finned magnetron (`magGlowM` emissive), waveguide, transformer, fan; a perforated-mesh door window (alpha holes)
+  + glass; keypad + a live display `setDisplay('3:00'|'BEEP')`; a turntable `plate`; `cutaway(on)` hides the top + cavity ceiling;
+  `light` intensity ∝ s² when you scale it). Scale the group ×10 for a set INSIDE the oven (a toon stands on the turntable; cameras
+  inside the cavity need `near` 0.01). `makeBurrito()` (two halves that split; the cut face = a lava ring round a frozen core;
+  `bitten(n)`), `makeWater({face})` (H₂O at 104.5°, a toon face on the O, `setHeat(k)` glow), `signSprite('−'|'+')`, `makeFork()`
+  (`tips` for charge glows), `makeBowl()` (mac & cheese), `makeBolt(parent)` (a jagged lightning bolt of posed unit cylinders,
+  re-seeded per 1/24 s), a two-plate field that flips (`flipPhase`: every molecule follows `tanh(4 sin φ)`), a 1945 radar lab
+  shown sepia by a CSS filter on the canvas (the render screenshots the page, the DOM captions stay unfiltered), a portrait phone
+  Scribe screen (home → viewfinder + flash → 3 tiles → the page written with a nib → Download PDF) and `phoneCam(u, v, d, fov, fy)`:
+  `fy` puts the macro target at that frame height (0.7 = below the one-word caption; at 0.5 the caption sat on the Lewis structure).
+  A giant face at a door window: scale the toon so BOTH eyes fit the window (×10 only showed the nose; ×5 read).
 - **Blocky-avatar game look (069, `engine/rbx/`, docs/STYLES.md → rbx; template `videos/_rbx-template`):** `import * as R from
   '@engine/rbx/index.js'`. `R.rbxWorld(studio)` = studded grey baseplate + painted sky + sun/hemi + plastic IBL (`W.aim(x, z, half)`
   per shot; story.look = `R.RBX_LOOK`, neutral tone mapping). `R.makeAvatar({skin, shirt, pants, sleeve, print, hair, hat, face})` →

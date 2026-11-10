@@ -1,0 +1,216 @@
+{
+  "title": "How microwaves work (Scribe)",
+  "tone": "promo",
+  "voice": {
+    "provider": "fish"
+  },
+  "scratch": {
+    "voice": "Eddy (English (US))",
+    "rate": 270
+  },
+  "lead": 0.04,
+  "gap": 0.1,
+  "tail": 4.6,
+  "maxPause": 0.2,
+  "pauseFloor": -45,
+  "fps": 60,
+  "motionBlur": 2,
+  "joinLen": 4,
+  "swap": {
+    "fucking": "F*CKING"
+  },
+  "wordColor": {
+    "F*CKING": "#ff4f6a"
+  },
+  "look": {
+    "exposure": 1.04,
+    "bloom": 0.2,
+    "fill": 0.5,
+    "toneMapping": "neutral",
+    "vignette": 0.16,
+    "grain": 0.012,
+    "warm": 0.06,
+    "saturation": 1.12,
+    "lift": 0.012
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "say": "How fucking microwaves fucking work.",
+      "callouts": [
+        {
+          "at": "microwaves",
+          "text": "HOW MICROWAVES WORK",
+          "style": "term",
+          "until": "work"
+        }
+      ]
+    },
+    {
+      "id": "mag",
+      "say": "A fucking magnetron fires microwaves into a metal fucking box.",
+      "callouts": [
+        {
+          "at": "magnetron",
+          "text": "MAGNETRON",
+          "style": "term",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "say": "Water is a tiny fucking magnet.",
+      "callouts": [
+        {
+          "at": "magnet",
+          "text": "POLAR MOLECULE",
+          "style": "term",
+          "hold": 1.1
+        }
+      ]
+    },
+    {
+      "id": "spin",
+      "say": "The field flips billions of times a second, so the water fucking spins. Spinning is fucking heat.",
+      "callouts": [
+        {
+          "at": "billions",
+          "text": "2.45 BILLION / SEC",
+          "style": "label",
+          "hold": 1.2
+        },
+        {
+          "at": "heat",
+          "text": "DIELECTRIC HEATING",
+          "style": "term",
+          "hold": 1.1
+        }
+      ]
+    },
+    {
+      "id": "deep",
+      "say": "But it only cooks an inch deep. Outside: fucking lava. Middle: fucking frozen.",
+      "callouts": [
+        {
+          "at": "inch",
+          "text": "~1 INCH DEEP",
+          "style": "label",
+          "hold": 1.0
+        },
+        {
+          "at": "lava",
+          "text": "SIZZLE",
+          "style": "sfx",
+          "pos": [
+            0.76,
+            0.63
+          ],
+          "hold": 0.5
+        },
+        {
+          "at": "frozen",
+          "text": "CRUNCH",
+          "style": "sfx",
+          "pos": [
+            0.24,
+            0.63
+          ],
+          "hold": 0.5
+        }
+      ]
+    },
+    {
+      "id": "spots",
+      "say": "Waves bounce around and leave cold spots, so the plate fucking spins.",
+      "callouts": [
+        {
+          "at": "waves",
+          "text": "STANDING WAVES",
+          "style": "term",
+          "hold": 1.2
+        }
+      ]
+    },
+    {
+      "id": "fork",
+      "say": "Fork in there? Charge piles up on the points. Fucking lightning.",
+      "callouts": [
+        {
+          "at": "lightning",
+          "text": "ARCING",
+          "style": "term",
+          "hold": 1.0
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "say": "Invented by fucking accident: a radar guy's candy bar melted in his pocket.",
+      "callouts": [
+        {
+          "at": "invented",
+          "text": "1945",
+          "style": "label",
+          "hold": 1.2
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "say": "Now chemistry homework: draw the water molecule. By fucking hand.",
+      "callouts": [
+        {
+          "at": "hand",
+          "text": "HANDWRITTEN ONLY",
+          "style": "stamp",
+          "y": 0.205,
+          "hold": 0.95
+        }
+      ]
+    },
+    {
+      "id": "cooked",
+      "say": "You are fucking microwaved.",
+      "callouts": []
+    },
+    {
+      "id": "scribe",
+      "say": "So you open Scribe. One fucking photo. It solves the whole fucking sheet.",
+      "callouts": [
+        {
+          "at": "scribe",
+          "text": "SCRIBE",
+          "style": "term",
+          "hold": 1.3,
+          "y": 0.16
+        }
+      ]
+    },
+    {
+      "id": "hand",
+      "say": "It draws the water molecule, bent, two lone pairs, does the wavelength math, all in your fucking handwriting.",
+      "callouts": [
+        {
+          "at": "handwriting",
+          "text": "YOUR HANDWRITING",
+          "style": "term",
+          "hold": 1.4
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "say": "Homework: done. Burrito: still fucking frozen.",
+      "callouts": []
+    }
+  ],
+  "fish": {
+    "reference_id": "654f19c7820c4c26a0ac74c0fbfeb70e",
+    "name": "chinese",
+    "model": "s2.1-pro",
+    "speed": 1.1,
+    "temperature": 0.6,
+    "tempo": 1.27
+  }
+}
