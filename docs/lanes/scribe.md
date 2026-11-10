@@ -58,7 +58,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   only as it actually happened), no Minecraft/Roblox logos or names on screen (generic blocky look).
 - **Fish voices (user's picks, Nov 9):** Dolly `ce3b16c14af54adebba5ebe50a3d4417` (breathy British), Mommy
   `5233336f5f44460ea0902b0802375451` (soft, breathy), Authentic Conversational Storyteller `da1eeaa6379e491da2ea7d203d2d4b05`, plus
-  Slax for the f-word series. Rotate them so each reel sounds different. **Vex: a notch less breathy** (user, Nov 9: "a tiny
+  Slax for the f-word series. **Who gets which voice (user, Nov 9): narration = a MALE voice (Fish "Slax", or ElevenLabs Adam
+  if a paid key returns), never a female one; Vex = a female voice (Dolly or Mommy). The Storyteller voice is out.** **Vex: a notch less breathy** (user, Nov 9: "a tiny
   bit less breathing and moaning… we don't want to scare off our viewers"): endPad ≈ 0.2 s, mid-line breaths capped (maxPause
   ≈ 0.25 s + pauseFloor, or a gate ~8–10 dB on breaths), Fish temperature ≈ 0.55–0.6.
   **Experiment (user, Nov 9):** fewer "mommy" lines — "the fact there's a hot anime girl talking about this stuff is already
