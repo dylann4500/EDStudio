@@ -74,6 +74,9 @@ new idea against every line in "Made / assigned": the same premise with a new nu
 | 064 | Goth tutor Vex does the f-word explainer (anime/pixel look, after 054 v2) | scribe | reserved Nov 9 for the 049/054 session |
 | 065 | Vex #3 (goth mommy, anime/pixel): "rating your study habits 1–10" format, her bedroom/dorm; biology Punnett square; shows handwriting learned from one practice sheet + the messiness slider | scribe | assigned Nov 9 to the 049/054 session (overnight) |
 | 066 | Vex #4 (goth mommy, anime/pixel): "GRWM for the econ final" / storytime format, library or café at golden hour; supply-and-demand shift; shows worksheet blanks + table filled, pencil ink, Download PDF | scribe | assigned Nov 9 to the 049/054 session (overnight) |
+| 067 | Vex #5: a real-world meme/trend in her persona; NEW look (bigger cuter eyes, still dominant; visible cleavage definition); Fish voice "Mommy" | scribe | assigned Nov 9 to the 049/054 session |
+| 068 | Minecraft-style (voxel) take on a current real-world meme/trend + Scribe at the end; Fish voice "Authentic Conversational Storyteller" | scribe | assigned Nov 9 |
+| 069 | Roblox-style (NEW blocky-avatar look) take on a current real-world meme/trend + Scribe at the end; Fish voice "Dolly" | scribe | assigned Nov 9 |
 
 ## Backlog: unhinged (@ed._.studios)
 Weird tier (user steer Oct 26: "what if your ballsack doubled in size every minute" level). Assign these first, in order:

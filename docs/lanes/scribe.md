@@ -52,6 +52,14 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   POV after POV. Rotate formats (POV, "rating your ___ 1–10", GRWM/storytime, tier list, doubling, day-N counter, explainer) and
   show a different real feature each time: one practice sheet → your handwriting, the messiness slider, pencil vs ballpoint ink,
   filling a worksheet's blanks/tables, photo/PDF upload, Download PDF, drawn figures (README §Worksheets, §Teaching it your handwriting).
+- **Real-world memes and trends (user, Nov 9: "Roblox and Minecraft… real world memes or trends… somehow plugging in Scribe at
+  the end"):** this week's viral moments, redone in a blocky-game look, with a hard pivot to Scribe. Lines we hold: nothing built on
+  child-abuse or sexual-misconduct stories (e.g. predator stings), no invented claims about real people (a public figure's moment
+  only as it actually happened), no Minecraft/Roblox logos or names on screen (generic blocky look).
+- **Fish voices (user's picks, Nov 9):** Dolly `ce3b16c14af54adebba5ebe50a3d4417` (breathy British), Mommy
+  `5233336f5f44460ea0902b0802375451` (soft, breathy), Authentic Conversational Storyteller `da1eeaa6379e491da2ea7d203d2d4b05`, plus
+  Slax for the f-word series. Rotate them so each reel sounds different. Vex uses Dolly or Mommy ONLY — the Storyteller voice's own
+  description says "a young girl", so it never voices a flirty reel.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
