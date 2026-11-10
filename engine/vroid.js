@@ -123,7 +123,7 @@ export async function makeVroid(url, { textures = {}, outline = 0.0022, bust = 1
   const FING = ['Thumb', 'Index', 'Middle', 'Ring', 'Little'], SEG = { Thumb: ['Metacarpal', 'Proximal', 'Distal'], other: ['Proximal', 'Intermediate', 'Distal'] };
   const SPREAD = [0, 0.1, 0.02, -0.06, -0.14];
   function shapeHand(side, shape) {
-    const S = SHAPES[shape] || SHAPES.relax, s = side === 'left' ? 1 : -1;
+    const S = Array.isArray(shape) ? shape : SHAPES[shape] || SHAPES.relax, s = side === 'left' ? 1 : -1;   // 066 fix (additive): a raw [thumb, index, middle, ring, little] curl
     FING.forEach((f, fi) => (SEG[f] || SEG.other).forEach((seg, si) => {
       const b = H[`${side}${f}${seg}`]; if (!b) return;
       const c = S[fi] * (si === 0 ? 0.8 : si === 1 ? 1.15 : 0.9);
