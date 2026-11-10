@@ -1,0 +1,61 @@
+{
+ "text": "Scribe solves all twelve pages, in my handwriting. Lewis structures included.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Scribe",
+   "t0": 0.16,
+   "t1": 0.8
+  },
+  {
+   "w": "solves",
+   "t0": 0.8,
+   "t1": 1.68
+  },
+  {
+   "w": "all",
+   "t0": 1.84,
+   "t1": 2.24
+  },
+  {
+   "w": "twelve",
+   "t0": 2.24,
+   "t1": 2.64
+  },
+  {
+   "w": "pages,",
+   "t0": 2.64,
+   "t1": 3.36
+  },
+  {
+   "w": "in",
+   "t0": 3.92,
+   "t1": 4.16
+  },
+  {
+   "w": "my",
+   "t0": 4.16,
+   "t1": 4.24
+  },
+  {
+   "w": "handwriting.",
+   "t0": 4.24,
+   "t1": 5.12
+  },
+  {
+   "w": "Lewis",
+   "t0": 6.16,
+   "t1": 6.64
+  },
+  {
+   "w": "structures",
+   "t0": 7.2,
+   "t1": 8.0
+  },
+  {
+   "w": "included.",
+   "t0": 8.08,
+   "t1": 8.8
+  }
+ ]
+}

@@ -1,0 +1,111 @@
+{
+ "title": "What if it rained homework? (Vex lives through a what-if sim: drizzle -> showers -> buried cars -> paper tornado -> flooded town -> paper tsunami -> one Scribe scan -> the rain flies back up)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Dolly (generic Fish library voice, breathy British; the user's pick, alternating with Mommy)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "What if it rained homework? Like, actually rained.",
+   "callouts": []
+  },
+  {
+   "id": "drizzle",
+   "say": "It starts as a drizzle. One worksheet. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "showers",
+   "say": "Then showers. The umbrella is not helping.",
+   "callouts": []
+  },
+  {
+   "id": "noon",
+   "say": "By noon, the cars are gone. Buried in chemistry.",
+   "callouts": []
+  },
+  {
+   "id": "tornado",
+   "say": "Then a tornado. Made entirely of essays.",
+   "callouts": []
+  },
+  {
+   "id": "flood",
+   "say": "By four, the whole town is underwater. I'm surfing a desk.",
+   "callouts": []
+  },
+  {
+   "id": "wave",
+   "say": "And then... the big one.",
+   "callouts": []
+  },
+  {
+   "id": "pivot",
+   "say": "Relax, babe. I don't panic. I scan.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Scribe solves all twelve pages, in my handwriting. Lewis structures included.",
+   "callouts": [
+    {
+     "at": "twelve",
+     "text": "12 PAGES. ONE SCAN.",
+     "style": "term",
+     "until": "pages",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "clear",
+   "say": "Turns out it only rains when it's not done.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "Tomorrow's forecast? Zero percent homework. You're welcome.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}

@@ -400,6 +400,18 @@ videos/NNN-slug/
   music/ambience ducked under it, + construction foley (§6b: dig, crumble, splash, clunk, knock, pop, zap, plip, grate;
   beds water_rush, drill, fan, train). `renderer.localClippingEnabled` is on in the subway set (clip planes reveal the
   tunnel/track as they're built).
+- **Vex in a what-if sim + the paper-weather kit (074, "What if it rained homework?", `videos/074-vex-sim-homework-rain/shots.js`):**
+  voxbeach at the origin + `buildVoxTown` parked at x 4000 in one scene (`useSet`: toggle roots, swap fog, far 800 / 12500); a storm
+  that greys both skies (own gradient canvases swapped onto the domes) and dims both light rigs; a pixel weather-alert HUD (time ·
+  rolling SHEETS FALLEN · condition · depth, img elements redrawn only when the text changes). Copy: `makeRain` (instanced sheets
+  that fall OR fly back up in a box that follows the lens; skip sheets < 0.7–1.4 m from it), `makeLitter` (sheets lying on a surface),
+  a 520 m paper SEA plane whose vertices bob, a paper TORNADO (two streaky open cylinders scrolling in u + 2,600 orbiting sheets), a
+  35 m paper WAVE (a curling profile extruded 220 m, vertex-coloured: white crest, dark curl underside — without that it read as a
+  grey hill), Vex's umbrella (opens, flips inside out) and phone placed at her right grip every frame, a sheet that lands on her
+  head (`VEX.attach('head', …)`), and the Scribe app on a portrait phone canvas (scanner → "Scanned pages · 12 pages" chip →
+  solving tiles → the page written ON SCREEN with a pen cursor + a zoom onto the Lewis figure → Download PDF), filmed POV with the
+  head bone scaled to 0.001 (the lens sits where her eyes are). Town cameras stay on the street (z ≈ −8…0): south-side houses fill
+  z −12…−20 and a 3/4 crane there rendered a brick wall.
 - **Censored captions over an uncensored voice (058, script.json opt-in):** `"swap": {"fucking": "F*CKING"}` (narrate.py shows a spoken
   word differently in the one-word captions) + `"wordColor": {"F*CKING": "#ff4f6a"}` (captions.js colours that word, even inside a
   joined caption). `makeScreen(G, icon, sheet, { name })` names the student in the Scribe app (default 'Tyler'). docs/PROMO.md → 058.
@@ -868,6 +880,9 @@ videos/NNN-slug/
   branches register one name with different parameters, keep the name and route by the arguments (`amb_fire`: `intensity` → 033,
   `size` → 037). After a merge, re-synthesize every reel whose sounds were touched and `cmp` audio.wav with the shipped one.
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
+- **Anything aimed at the camera (`lookAt(camera.position)`) must be posed AFTER `setCamera` in update() (074):** before it, the
+  camera still holds the previous frame — in a still batch that is another shot's camera, so 074's held worksheet turned edge-on and
+  hid behind her. Same for billboards/cards placed from the camera position.
 - **A sky dome that follows the camera in `onBeforeRender` must convert the camera into its root's LOCAL space** when the set is parked
   at an offset (`root.worldToLocal`) — 029's harbor sky copied the world position into a child of a root at x = 6000 and rendered
   pure black. city.js gets away with it only because it stays at the origin. Also set `frustumCulled = false` on it.
