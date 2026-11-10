@@ -82,6 +82,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   properly"):** every handheld prop is parented to the hand bone with a real grip; things that touch the face TOUCH it (a lipstick
   on the lip, a liner at the eye corner, a straw at the lips) and never pass inside; cups and phones never intersect the body.
   Check with stills every 0.25 s through each prop beat + a side debug view before the full render.
+- **Vex can headline ANY format (user, Nov 9: "explainer vids are really good… we can do that too with goth mommy, because it's
+  just funny when she's the character. Builder vids or simulation… anything really"):** explainers (how a data center works),
+  build reels with Vex as the builder/narrator, what-if sims, trends. The builder-format ban is for generic builder reels; with
+  Vex as the character it's allowed. Vex keeps her female voice (Dolly/Mommy), the new look and the prop rules.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
