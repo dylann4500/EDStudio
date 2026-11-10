@@ -1,0 +1,56 @@
+{
+ "text": "Forty-nine years, still working. You can't finish one worksheet? Cute.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Forty-nine",
+   "t0": 0.16,
+   "t1": 0.8
+  },
+  {
+   "w": "years,",
+   "t0": 0.8,
+   "t1": 1.36
+  },
+  {
+   "w": "still",
+   "t0": 1.68,
+   "t1": 2.0
+  },
+  {
+   "w": "working.",
+   "t0": 2.0,
+   "t1": 2.56
+  },
+  {
+   "w": "You",
+   "t0": 3.6,
+   "t1": 3.84
+  },
+  {
+   "w": "can't",
+   "t0": 3.84,
+   "t1": 4.16
+  },
+  {
+   "w": "finish",
+   "t0": 4.16,
+   "t1": 4.48
+  },
+  {
+   "w": "one",
+   "t0": 4.48,
+   "t1": 4.72
+  },
+  {
+   "w": "worksheet?",
+   "t0": 4.72,
+   "t1": 5.36
+  },
+  {
+   "w": "Cute.",
+   "t0": 6.08,
+   "t1": 6.72
+  }
+ ]
+}

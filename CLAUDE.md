@@ -762,6 +762,23 @@ videos/NNN-slug/
   n, {fire})`. 077 shots.js: `placeShip(cg, rotZ)` (pose by the CG so the flip turns about its middle), orbit + reentry on tech.js
   `buildSpace` scaled ×20 and TILTED so the sun stands high over +y (rotate `SP.root`, copy the new sun dir into `SP.lights`/`SP.atm`
   uSun; no `camera.up` change needed), plasma puffs on the belly, a 33-engine glow ripple (instanced circles under the bells).
+- **Deep-space dish station + a toy 1977 probe (079, Vex "Voyager 1 one light-day away" explainer, pixel look):**
+  `engine/sets/dishstation.js` `buildDishStation(studio)` = a desert antenna complex at dusk (she stands on a gravel VISITOR OVERLOOK
+  at the origin facing +z: camp table `S.table` with a portrait tablet group `S.tablet` (screen faces +z — add your screen mesh), a
+  lantern (emissive only, no light behind her), chair, cooler, telescope, her car; a chain-link fence at z −16 with a gate + signs;
+  `makeDish({R, f, axisY})` = a 70 m Cassegrain dish (pedestal, alidade, panel paraboloid, backup truss, quadripod + subreflector,
+  feed cone, red beacon; `setPoint(az, el)`, `focus()`, `boresight()`), two 34 m dishes, a DEEP SPACE STATION building + lot, poles,
+  Joshua trees, creosote/rocks (instanced), a ring of mountains, a dusk dome (sun just set behind the lens) + 900 star points ≥ 5 px;
+  `S.waves(t, k)` = faint rings converging into the big dish; `aim`, own `fog`, far ≥ 2600). `engine/sets/deepspace.js`
+  `buildDeepSpace(studio)` = a star shell (points ≥ 4.5 px so the 4 px pixel pass keeps them), the Sun as a bright star + Earth a blue
+  dot, `makeVoyager()` (3.7 m dish = local +z aimed home, foil bus, the golden record on the +y face `recordAt()`, power + science
+  booms, 13 m mast), `waves(t, k, len)` = wavefronts leaving the dish. **Film a probe with `camera.up` = its dish axis** and the lens
+  off to the side (079 `ring3`): any view along the dish axis reads as a flat white pie; to make it "fly away", move it along the
+  lens's look direction, not its real heading. 079 shots.js: a portrait TABLET Scribe desk (`drawTablet`: home composer → prompt
+  bubble + "2 pages · Shuffle · Replay · Export PDF" row → two `makeSheet` pages stacked and scrolled → the account menu's
+  Theme · Light/Dark/System with the moon tapped and the desk cross-fading to DARK MODE while the pages stay white, README §Dark mode).
+  **A pixel callout with a decimal point ("16.1 BILLION MILES") rendered with dropped glyph columns** although its canvas was right
+  ("16 BILLION MILES" was fine): crop every callout from a `--full` still before the render.
 - **Airport kit (062, `engine/build/airport.js`, toon look):** `buildAirfield(studio)` = ONE world at the origin: runway along +x
   (threshold x 0, 45 m, markings, edge + approach lights), a perimeter fence across the approach with a planespotter spot outside it
   (`AD.spot`), apron + gate (`AD.gate`: park jet.js `makeAirliner` there nose +x), a glass AIRPORT terminal + jet bridges, tower,
