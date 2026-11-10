@@ -2088,6 +2088,49 @@ def leveler(x, thr_rel_db=4.0, ratio=2.0, tau=0.25):
     return x * db2lin(gr), float(-gr.min())
 
 
+def asset_path(rel):
+    """A repo-relative asset path that may be gitignored (exports/music/…): look in this checkout, then in the MAIN checkout
+    (worktrees don't carry gitignored files)."""
+    rel = os.path.expanduser(rel)
+    if os.path.isabs(rel):
+        return rel
+    p = os.path.join(ROOT, rel)
+    if os.path.exists(p):
+        return p
+    try:
+        common = subprocess.run(["git", "-C", ROOT, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                                capture_output=True, text=True, check=True).stdout.strip()
+        q = os.path.join(os.path.dirname(common), rel)
+        if os.path.exists(q):
+            return q
+    except Exception:
+        pass
+    raise SystemExit(f"music file not found: {rel} (the user's tracks live in the main checkout's gitignored exports/music/)")
+
+
+def music_preset(M):
+    """Nov 10, opt-in: cues.json "music": {"preset": "phonk" | "cute" | "auto"} from tools/presets.json → file settings
+    (keys set in cues.json win). "auto" = the music paired with script.json's voice preset (vex → cute, narrator-* → phonk).
+    A preset with several files picks one by a stable hash of the video folder name, or "pick": i."""
+    name = M.get("preset")
+    if not name:
+        return M
+    P = json.load(open(os.path.join(ROOT, "tools", "presets.json")))
+    if name == "auto":
+        sp = os.path.join(OUT_DIR or "", "script.json")
+        voice = json.load(open(sp)).get("preset") if os.path.exists(sp) else None
+        name = (P["voices"].get(voice) or {}).get("music")
+        if not name:
+            return M
+    Q = P["music"][name]
+    files = Q["files"]
+    i = M.get("pick", sum(map(ord, os.path.basename(os.path.normpath(OUT_DIR or "x")))) % len(files))
+    out = {k: v for k, v in Q.items() if k.startswith("file_")}
+    out.update({k: v for k, v in M.items() if k != "preset"})
+    out.setdefault("file", asset_path(files[i % len(files)]))
+    return out
+
+
 def file_music(M, n_total, log=print):
     """Nov 10, opt-in: a pre-made track as the music bed. cues.json "music": {"file": "/abs/or/~/path.mp3",
     "file_start": s into the track, "file_in": s into the video where it enters, "file_gain_db", "file_fade_in",
@@ -2125,8 +2168,9 @@ def file_music(M, n_total, log=print):
 
 
 def render_music(M, n_total, log=print):
+    M = music_preset(M)                                 # Nov 10, opt-in: "preset": "phonk" | "cute" | "auto"
     mallet, strs = [], []
-    notes = compose(M, mallet, strs)
+    notes = compose(M, mallet, strs) if ("chords" in M or not M.get("file")) else []   # a file-only bed (preset/file, no score)
     dry = np.zeros((2, n_total))
     t0 = time.time()
     inst = M.get("instrument", "piano")      # per-video sound identity: piano (emotional/funny) | pluck | bell (sims, tech, wonder)
@@ -3331,7 +3375,8 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
             a0, a1 = on[0] + 10, min(len(wdb), on[-1] - 10)       # ignore the entrance + the final fade
             med = np.median(wdb[a0:a1]) if a1 > a0 else 0
             drops = [i * 0.05 for i in range(a0, a1) if wdb[i] < med - 12]
-            log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s  <-- FIX (music must never cut out)"))
+            filebed = bool(cues["music"].get("file") or cues["music"].get("preset"))   # the user's own track: its rests are the song's, not a gap we made
+            log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s" + ("  (file bed: the track's own rests, OK)" if filebed else "  <-- FIX (music must never cut out)")))
             if drops:  # grouped ranges, so you know which section to fill (a pad / a longer note / a pickup)
                 grp = []
                 for d in drops:

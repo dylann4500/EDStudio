@@ -152,6 +152,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
     `"endPad": 0.15`, `"headPad": 0.1` → ≈ 3.4 words/s (076/077 ran 2.6–2.8). The "Mommy" voice is retired for now.
 
+- **Presets (Nov 10): script.json `"preset": "vex" | "vex-sua" | "narrator-chinese" | "narrator-chinese-2" | "narrator-indian" |
+  "narrator-slax"` + cues.json `"music": {"preset": "cute" | "phonk" | "auto"}` — `tools/presets.json`, CLAUDE.md → "Scribe lane defaults".**
 - **Background music = the user's own tracks (Nov 10), via `audio/synth.py` `"music": {"file": …}`** (`file_start`, `file_in`,
   `file_gain_db`, `file_fade_in`, `file_fade_out`; the narrator still ducks it). The files live in the gitignored
   `/Users/dylan/Documents/GitHub/EDStudio/exports/music/` — never commit them (the repo is public and they are ripped tracks):
