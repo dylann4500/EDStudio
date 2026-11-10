@@ -137,7 +137,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **Scribe features the Vex reels have already shown** (pick a different one next time, README in `~/Documents/GitHub/math hw grift`):
   snap → solve → write (064, 070), practice sheet + Messiness slider (065), PDF upload + fill + pencil ink + Download PDF (066),
   Shuffle (072), pen/ink picker (075), typed problem in the composer (076), follow-up prompts (077), dark mode (078 AND 080 —
-  used twice, retire it for a while), scanned-pages chip of 12 pages (074).
+  used twice, retire it for a while), scanned-pages chip of 12 pages (074), yellow legal pad paper (071), FINISH NOW while the pen
+  writes (081). Not shown yet: the Aa handwriting picker, the Text size / Thickness sliders, Replay, Edit on a prompt, renaming the thread.
 
 - **Voices + pace (user, Nov 10 — supersedes the Nov 9 voice lines above where they differ):**
   - **Narrated non-Vex reels:** the user's new favourite is the Chinese-accent English narrator **"chinese"**
@@ -151,6 +152,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     default, just a normal cute girl narrating at a regular pace** ("right now it's too slow"): `"fish": {"speed": 1.2,
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
     `"endPad": 0.15`, `"headPad": 0.1` → ≈ 3.4 words/s (076/077 ran 2.6–2.8). The "Mommy" voice is retired for now.
+  - **Sua shy voice** `ef74d84f8059411fa5794eeeb20f2254` (user pick, Nov 10; 081): the same settings at `speed 1.0` = 3.6 words/s while
+    speaking (149 words in 41 s of speech); check_voice large-v3 matched every beat (only digit spellings differ).
 
 - **Presets (Nov 10): script.json `"preset": "vex" | "vex-sua" | "narrator-chinese" | "narrator-chinese-2" | "narrator-indian" |
   "narrator-slax"` + cues.json `"music": {"preset": "cute" | "phonk" | "auto"}` — `tools/presets.json`, CLAUDE.md → "Scribe lane defaults".**
