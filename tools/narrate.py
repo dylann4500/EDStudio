@@ -421,26 +421,24 @@ def head_cut(x, words, pad):
     return y, [{'w': w['w'], 't0': max(0.0, w['t0'] - a / SR), 't1': max(0.0, w['t1'] - a / SR)} for w in words]
 
 
-def duck_gaps(x, words, db, guard=0.06, ramp=0.03):
-    """Less audible breathing (Nov 9, user: "a tiny bit less breathing and moaning… we don't want to scare off our viewers"),
-    script.json "breathDuck": dB (opt-in, e.g. -9): everything between two words, before the first and after the last, is turned
-    down by db with `ramp` s ramps that stay `guard` s clear of each word (Fish's word times matched the audio within ~20 ms)."""
-    if not words:
-        return x
-    g = 10 ** (db / 20); env = np.ones(len(x), np.float32)
-    spans = [(0.0, words[0]['t0'])] + [(a['t1'], b['t0']) for a, b in zip(words, words[1:])] + [(words[-1]['t1'], len(x) / SR)]
-    for k, (s0, s1) in enumerate(spans):
-        a = s0 + (guard if k else 0.0); b = s1 - (guard if k < len(spans) - 1 else 0.0)
-        if b - a < 2 * ramp + 0.02:
-            continue
-        i0, i1, R = int(a * SR), min(len(x), int(b * SR)), int(ramp * SR)
-        seg = np.full(i1 - i0, g, np.float32)
-        if k:   # ramp down after a word (the clip's head starts ducked)
-            seg[:R] = np.linspace(1, g, R)
-        if k < len(spans) - 1:   # ramp back up before the next word
-            seg[-R:] = np.minimum(seg[-R:], np.linspace(g, 1, R))
-        env[i0:i1] = np.minimum(env[i0:i1], seg)
-    return x * env
+def soften_breaths(x, words, db=-9.0, keep=0.25, margin=0.06, ramp=0.02):
+    """067 (user, Nov 9: "a tiny bit less breathing and moaning"), script.json "breath": {"db", "keep", "margin"}, opt-in: between two
+    words (the span margin s clear of both word stamps) the take is turned down by db (20 ms ramps), and a gap longer than keep s has
+    its middle cut so it lasts keep s. Words are never touched; a beat with "breathy": true keeps its sighs."""
+    if len(words) < 2:
+        return x, words
+    x = x.copy(); g = 10 ** (db / 20); R = max(1, int(ramp * SR)); cuts = []
+    for a, b in zip(words, words[1:]):
+        g0, g1 = a['t1'] + margin, b['t0'] - margin
+        if g1 - g0 > 2 * ramp:
+            i0, i1 = int(g0 * SR), int(g1 * SR)
+            env = np.full(i1 - i0, g, dtype=np.float32); env[:R] = np.linspace(1, g, R); env[-R:] = np.linspace(g, 1, R)
+            x[i0:i1] *= env
+        gap = b['t0'] - a['t1']
+        if gap > keep and g1 - g0 > gap - keep + 0.03:
+            mid = (g0 + g1) / 2; half = (gap - keep) / 2
+            cuts.append((mid - half, mid + half))
+    return cut_out(x, words, cuts)
 
 
 def trim(x, words, pad=0.04):
@@ -533,6 +531,9 @@ def narrate(slug, provider, key):
         x, words = trim(decode(path, tempo), words)
         if cfg.get('headPad') is not None and words:   # Nov 9, opt-in: drop an ad-libbed hum/inhale before the first scripted word
             x, words = head_cut(x, words, cfg['headPad'])
+        bc = cfg.get('breath')   # 067, opt-in: softer, shorter breaths between words (beat "breathy": true opts out)
+        if bc and not b.get('breathy'):
+            x, words = soften_breaths(x, words, bc.get('db', -9.0), bc.get('keep', 0.25), bc.get('margin', 0.06))
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
             # Nov 9, opt-in "pauseByWords": a breathy voice fills its pauses with breath (−26…−45 dBFS), so no gap is ever true
             # silence and the floor-guarded cuts never fire; Fish's word times are exact, so cut those gaps by the timestamps alone
@@ -544,8 +545,6 @@ def narrate(slug, provider, key):
             cut = min(len(x), int((words[-1]['t1'] + ep) * SR))
             if cut < len(x):
                 x = x[:cut].copy(); F = min(cut, int(0.03 * SR)); x[cut - F:] *= np.linspace(1, 0, F).astype(x.dtype)
-        if cfg.get('breathDuck'):   # Nov 9, opt-in: breaths between words sit breathDuck dB lower
-            x = duck_gaps(x, words, cfg['breathDuck'])
         ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
         if ys and TAG.search(b['say']):
             x = shelf_tail(x, words, b, b.get('shelf', ys.get('db', -4)), ys.get('hz', 5000))
