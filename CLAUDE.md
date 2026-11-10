@@ -630,6 +630,12 @@ videos/NNN-slug/
   `soften_breaths`, opt-in: between two words the take drops 9 dB and any gap over 0.25 s loses its middle; words untouched; a beat
   with `"breathy": true` keeps its sigh), Fish `"temperature": 0.58`. 067 went 46.9 → 39.4 s with the same lines. Lower temperature
   slurred one take ("mommy deceive" → "mom need to see"): run check_voice and re-roll a bad take (move its voice/ files aside).
+  **071 (Nov 9, user: "cut down on the mommy stuff… the big titty hot anime girl is already good enough… experiment"): the LIGHTER
+  persona** — no mommy/baby lines, no sighs, Vex confident and teasing (and a hook/caption without "mommy", to compare against
+  064–067). Format "Me vs My Insta Feed": a DOM canvas post frame (a generic avatar/likes/caption layout, never a real app's logo) +
+  a CSS `filter` on `studio.renderer.domElement` per shot (feed warm/saturated, reality flat) — the render screenshots the page, so
+  CSS filters land in the video; MY FEED / REALITY pixel labels. Canvas text: no emoji (headless Chrome may lack a colour-emoji font).
+  A yellow legal pad = the sheet canvas MULTIPLIED onto a yellow, ruled, red-margined canvas (no scribe.js change).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
