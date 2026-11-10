@@ -1087,3 +1087,35 @@ as a record of what the cut style needs, if it is ever tried again.
 - **Render the 60 fps final while the reviewers score**: copy the scored folder's story/shots/audio/words/cues into a throwaway
   `videos/NNNz-tmp/` (shots.js imports via `@engine`, so the slug doesn't matter), render it there, `cmp` the inputs against the
   committed state, and move final.mp4 in only if the gates pass — the reviewers' 30 fps file stays untouched and ~25 min are saved.
+
+## Lessons from 073 (dorm desk → homework factory: Vex as the builder + narrator, Scribe promo)
+- **Vex in a toon build set works without the pixel pass**: `makeVroid` (067/071's look) + the build captions + `engine/build/dorm.js` (a
+  two-floor dorm cut open at z = 0: her room upstairs, the toon victim's loft bed downstairs, a slab that bows with `setSag`, a steel
+  I-beam, a conduit, a breaker panel). The vertical frame loves two stacked rooms: one wide shows both floors and the gag goes straight down.
+- **Her face sits high (24–32 % of the frame) in medium shots**, right under the TERM band (20 %) and the stamp band (29 %): give TERM
+  callouts `y: 0.115` (top) or 0.36, stamps `y: 0.62`, labels 0.38–0.43, and run `--qc` with HER face in the list (`VEX.bpos('head')`).
+- **Vex can't take toon pain** (no spiral eyes / squash): she builds with props on her hand bones (drill, phone) and commands the rest
+  (points, the beam slides in); the failures land on the toon downstairs (coffee, plaster, the ducked beam, the final bonk). That split
+  kept her persona (deadpan, teasing) and the genre's hurt-character comedy.
+- **Fish "Mommy" at tempo 1.2 reads ≈ 3.1 words/s** (whisper large-v3 matched every beat); 039's 4.2 w/s bar doesn't fit a breathy
+  female voice. Density landed at ≈ 3.9 visual events/s with word-keyed fill (per-book paper bits, per-breaker sparks, per-page printer puffs).
+- **tools/scenes.py and a one-room set**: a wide anchors the count and swallows every close after it. Alternate sides by ≥ 35° (yaw
+  −20 ↔ +20), and use pitch for new looks (a top-down book drop, a low angle up a book tower). A top-down lens must stay under the
+  ceiling: pitch 52 at 2.9 m put the camera inside the roof slab (a blurred concrete band across the frame) — 40° at 2.4 m cleared it.
+- **The in-app write (user rule Nov 9)**: `makeScreen(...).draw({mode: 'write'})` repaints the whole canvas every call, so draw the pen
+  cursor on `screen.canvas` AFTER it (at `150 + tip[0]·500/sheet.w, 110 + tip[1]·647/sheet.h`) and set `screen.tex.needsUpdate`. Its
+  other modes cache by `mode + round(k·40)`: after painting your own frames on the canvas (a desktop, an install dialog), pass a k that
+  changes the key or `home` won't redraw. Pan the lens across the screen per mode (scan → tiles at x ≈ 905 → the page at x ≈ 400 → the
+  free-body diagram) with `lead: 0.02, maxLead: 0.04` holds.
+- **A blackout needs one thing that glows**: the grey conduit vanished in the dark — emissive pink while it draws (and fading after the
+  breaker flips) made "I run my own line" read. Dim the key/hemi with the room lights, or a cutaway set stays lit by its front key.
+- **A point light 0.5 m above a VRoid head blows out her skin** (the pendant); keep room lights ≥ 1 m from her head.
+- **Without the pixel pass, Vex's bikini atlas shows a flaw the 4 px blocks hid**: at `thigh: 1.4` the lower half of the BACK panel
+  (the black squares at the atlas seam, x 450–592 / 1458–1600, y ≤ 1170) folds forward between her thighs and reads as a dark tab
+  hanging from the front. 073's `shadeBody` ends the back panel at y 1095 (skin fill + the red hem): check a 4× crop of her hips in
+  any non-pixel Vex reel.
+- **One review round (a single reviewer agent on the 15 fps preview, logic · comedy · camera · look):** 6 · 6 · 6 · 7. Its fixes, all
+  taken: a label + a finger-push that landed at her hips (moved to the desk / her side), the phone + flash glow on her chest (a pink
+  case held over the stack, a small flash on the phone), the panel and gauge hanging on the window glass (window moved), the rail
+  through the roof parapet (parapet removed), no coffee for "done before my coffee is" (a coffee maker on the fridge, 4 % brewed),
+  captions over Derek's eyes and over the free-body diagram (looks lowered / the screen look shifted), "Cute." on a wide (pushed in).
