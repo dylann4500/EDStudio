@@ -410,6 +410,21 @@ def shelf_tail(x, words, beat, db, hz, fade=0.03):
     return out
 
 
+def edge_cut(x, words, head, tail, fade=0.08):
+    """Breathy voices (Nov 9, script.json "edgePad": [head, tail], opt-in): Fish's "Mommy" voice ad-libs a hum or a long breath
+    before the first and after the last scripted word ("Mmm, studying in bed? … Mommy does it too, mmm, mmm" = +3 s). Keep only
+    head s before the first word and tail s after the last (short fade-in, `fade` s fade-out); word times follow."""
+    if not words:
+        return x, words
+    a = max(0, int((words[0]['t0'] - head) * SR)); b = min(len(x), int((words[-1]['t1'] + tail) * SR))
+    if b - a < int(0.1 * SR):
+        return x, words
+    y = x[a:b].copy(); fi, fo = min(len(y), int(0.01 * SR)), min(len(y), int(fade * SR))
+    y[:fi] *= np.linspace(0, 1, fi); y[len(y) - fo:] *= np.linspace(1, 0, fo)
+    off = a / SR
+    return y, [{'w': w['w'], 't0': max(0.0, w['t0'] - off), 't1': min(len(y) / SR, max(0.0, w['t1'] - off))} for w in words]
+
+
 def trim(x, words, pad=0.04):
     """Cut leading/trailing silence from a clip; shift its word times to match."""
     loud = np.nonzero(np.abs(x) > 10 ** (-46 / 20))[0]
@@ -498,8 +513,12 @@ def narrate(slug, provider, key):
                  fish_cfg(cfg).get('tempo', cfg.get('tempo', 1.0)) if provider == 'fish' else 1.0)
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
+        if cfg.get('edgePad'):   # Nov 9, opt-in: drop ad-libbed hums/breaths before the first and after the last scripted word
+            x, words = edge_cut(x, words, *cfg['edgePad'])
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
-            x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
+            # Nov 9, opt-in "pauseByWords": a breathy voice fills its pauses with breath (−26…−45 dBFS), so no gap is ever true
+            # silence and the floor-guarded cuts never fire; Fish's word times are exact, so cut those gaps by the timestamps alone
+            x, words = squeeze(x, words, cfg['maxPause'], floor_db=None if cfg.get('pauseByWords') else cfg.get('pauseFloor'))
             if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)
                 x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'], soft_db=b.get('pauseSoft'))
         ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
