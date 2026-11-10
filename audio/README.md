@@ -240,3 +240,10 @@ motif at each beat, a lift to Bb for the twist, half-speed arp for the punch lin
 - The mix: SFX-led like the original; a soft C–G–Am–F pad from frame 1 + a mallet ostinato that enters ON the clap, ~13 dB
   under the foley (music stem −13 dB). Applause + crowd_cheer beds carry the ending into the end card. The posted cut is
   `out/nomusic.mp4`.
+
+## A pre-made track as the music bed (Nov 10, opt-in)
+`cues.json` → `"music": {"file": "/abs/path.mp3", "file_start": 0, "file_in": 0.3, "file_gain_db": -6, "file_fade_in": 0.5,
+"file_fade_out": 2.0}` (`synth.py file_music`): decodes any audio file, places it from `file_in`, loops it with a 1 s crossfade
+when the video is longer, and adds it to the music stem, so voice ducking, ducks and the dropout check all still apply (synth
+parts can still play on top). Scribe lane tracks live in the gitignored `exports/music/` — never commit a ripped/licensed track
+(the repo is public); see docs/lanes/scribe.md → "Background music".

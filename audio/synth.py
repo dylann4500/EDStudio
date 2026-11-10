@@ -2088,6 +2088,42 @@ def leveler(x, thr_rel_db=4.0, ratio=2.0, tau=0.25):
     return x * db2lin(gr), float(-gr.min())
 
 
+def file_music(M, n_total, log=print):
+    """Nov 10, opt-in: a pre-made track as the music bed. cues.json "music": {"file": "/abs/or/~/path.mp3",
+    "file_start": s into the track, "file_in": s into the video where it enters, "file_gain_db", "file_fade_in",
+    "file_fade_out" (s before the video's end)}. Loops (1 s crossfade) if the video is longer than the track.
+    Keep licensed/ripped tracks OUT of git (exports/music/ is gitignored) — the repo is public."""
+    path = os.path.expanduser(M["file"])
+    raw = subprocess.run([FFMPEG, "-v", "error", "-i", path, "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
+                         capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, dtype=np.float32).reshape(-1, 2).T.astype(np.float64)
+    x = x[:, nsamp(M.get("file_start", 0.0)):]
+    out = np.zeros((2, n_total))
+    pos, xf, first = nsamp(M.get("file_in", 0.0)), nsamp(1.0), True
+    if x.shape[1] <= 2 * xf:
+        raise SystemExit(f"music file too short: {path}")
+    while pos < n_total:
+        take = min(x.shape[1], n_total - pos)
+        seg = x[:, :take].copy()
+        if not first:                                    # a loop seam: 1 s crossfade, old tail out / new copy in
+            k = min(xf, take)
+            out[:, pos:pos + k] *= np.linspace(1, 0, k)
+            seg[:, :k] *= np.linspace(0, 1, k)
+        out[:, pos:pos + take] += seg
+        if pos + take >= n_total:
+            break
+        pos, first = pos + take - xf, False
+    fi = nsamp(M.get("file_fade_in", 0.0))
+    if fi > 0:
+        a = nsamp(M.get("file_in", 0.0))
+        out[:, a:a + fi] *= np.linspace(0, 1, min(fi, n_total - a))
+    fo = nsamp(M.get("file_fade_out", 0.0))
+    if fo > 0:
+        out[:, n_total - fo:] *= np.linspace(1, 0, fo)
+    log(f"  music file: {os.path.basename(path)} ({x.shape[1] / SR:.1f} s used from {M.get('file_start', 0)} s)")
+    return out * db2lin(M.get("file_gain_db", 0.0))
+
+
 def render_music(M, n_total, log=print):
     mallet, strs = [], []
     notes = compose(M, mallet, strs)
@@ -2139,6 +2175,8 @@ def render_music(M, n_total, log=print):
     pad = render_pad(M.get("pad", []), n_total)
     pad = pad + db2lin(M.get("pad_reverb_db", -5)) * convolve(pad, hall_ir())
     music = piano + db2lin(M.get("pad_db", -6)) * pad
+    if M.get("file"):                                   # Nov 10, opt-in: a pre-made track (file_music) under/instead of the synth score
+        music = music + file_music(M, n_total, log)
     if M.get("leveler"):
         music, lg = leveler(music, **M["leveler"])
         log(f"  music leveller max GR {lg:.1f} dB")

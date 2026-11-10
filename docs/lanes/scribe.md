@@ -152,6 +152,15 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
     `"endPad": 0.15`, `"headPad": 0.1` → ≈ 3.4 words/s (076/077 ran 2.6–2.8). The "Mommy" voice is retired for now.
 
+- **Background music = the user's own tracks (Nov 10), via `audio/synth.py` `"music": {"file": …}`** (`file_start`, `file_in`,
+  `file_gain_db`, `file_fade_in`, `file_fade_out`; the narrator still ducks it). The files live in the gitignored
+  `/Users/dylan/Documents/GitHub/EDStudio/exports/music/` — never commit them (the repo is public and they are ripped tracks):
+  - **Chinese / Indian-accent narrated reels:** `tiki-phonk.mp3` (TIKI TIKI phonk, slowed) — ONLY for those reels.
+  - **Vex / goth girl reels (all of them, from now on):** cute tracks — `zoom-up-kahimi-karie.mp3`, `cute-circus.mp3` (alternate;
+    the user will send more). Never the phonk on a Vex reel.
+  Mix: music under the voice at about −18…−14 dB, the voice duck ~−6 dB; still deliver `upload-nomusic.mp4` so the user can
+  swap in the official sound in-app if a platform mutes the ripped track.
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.
