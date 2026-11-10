@@ -86,6 +86,12 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   just funny when she's the character. Builder vids or simulation… anything really"):** explainers (how a data center works),
   build reels with Vex as the builder/narrator, what-if sims, trends. The builder-format ban is for generic builder reels; with
   Vex as the character it's allowed. Vex keeps her female voice (Dolly/Mommy), the new look and the prop rules.
+- **Show the handwriting being generated IN THE APP, on screen (user, Nov 9: "some of the animations are a pencil doing it on
+  paper, but can't we show it just being generated on the computer like the app would actually do?"):** Scribe writes the page
+  on screen, stroke by stroke (README: "draws them on screen as if a pen were doing it"), then exports a PDF. So the money shot
+  is the phone/laptop screen close-up: `makeScreen(...)` in write mode with `sheet.draw(p)` filling the page inside the app, an
+  on-screen pen cursor at `sheet.draw.tip`, the figure appearing on the page. NEVER a real pencil writing on physical paper by
+  itself (that's not what the product does). Paper may appear only as the printed/turned-in result after Download PDF.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to

@@ -43,6 +43,8 @@ one gliding `planRail` per place), the 5-reviewer gate. The product claims must 
   jack-o'-lantern, wall clock `setClock`, crossed-out November calendar, sleeping bag) and `buildOffice` (chalkboard, diploma).
 
 ## Lessons (each cost a stills round)
+- **The handwriting is generated on screen, not by a pencil on paper (user, Nov 9).** A floating pen writing on a physical worksheet
+  misstates the product; show the page writing itself inside the app screen (makeScreen write mode + sheet.draw), then the PDF.
 - **Glyph descent sign (fixed Nov 8, the user spotted it):** `layoutHand` placed each glyph's foot at base − descentRatio·u, so
   y/g/p floated UP (the app screen's handwritten "busy" had its y up in the logo) and '=' sank. descentRatio is how far the foot
   sits BELOW the baseline (the Scribe app's render.js: top = heightRatio − descentRatio); canvas y runs down → base + d·u.
