@@ -1,0 +1,41 @@
+{
+ "text": "Tomorrow's forecast? Zero percent homework. You're welcome.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Tomorrow's",
+   "t0": 0.16,
+   "t1": 0.64
+  },
+  {
+   "w": "forecast?",
+   "t0": 0.64,
+   "t1": 1.44
+  },
+  {
+   "w": "Zero",
+   "t0": 2.56,
+   "t1": 2.88
+  },
+  {
+   "w": "percent",
+   "t0": 2.88,
+   "t1": 3.28
+  },
+  {
+   "w": "homework.",
+   "t0": 3.36,
+   "t1": 4.0
+  },
+  {
+   "w": "You're",
+   "t0": 4.96,
+   "t1": 5.2
+  },
+  {
+   "w": "welcome.",
+   "t0": 5.2,
+   "t1": 5.76
+  }
+ ]
+}
