@@ -126,6 +126,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - Copy the reference's FORMAT and beats freely; all art, lines and characters are ours. No real brands' logos besides Scribe
   (fictional detectors/teachers/apps are fine), nothing that impersonates a real person.
 
+- **Off-limits topic: AI data centers / AI infrastructure** (user, Nov 9: a friend already made that video and copying it would
+  be "shameless"; our 072 is shelved). The Vex EXPLAINER format (072: sourced numbers, Vex in the place, pixel diagram cards,
+  Scribe by ~60 %) stays: use it for OTHER topics that are current this week for 18–24-year-olds (075–077).
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.
