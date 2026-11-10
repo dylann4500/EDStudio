@@ -1,0 +1,56 @@
+{
+ "text": "Meanwhile, you: twenty fucking genetics problems. Handwritten. Due at midnight.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Meanwhile,",
+   "t0": 0.0,
+   "t1": 0.9600000000000001
+  },
+  {
+   "w": "you:",
+   "t0": 1.12,
+   "t1": 1.68
+  },
+  {
+   "w": "twenty",
+   "t0": 2.0,
+   "t1": 2.4
+  },
+  {
+   "w": "fucking",
+   "t0": 2.4,
+   "t1": 3.04
+  },
+  {
+   "w": "genetics",
+   "t0": 3.04,
+   "t1": 3.52
+  },
+  {
+   "w": "problems.",
+   "t0": 3.52,
+   "t1": 4.24
+  },
+  {
+   "w": "Handwritten.",
+   "t0": 4.56,
+   "t1": 5.28
+  },
+  {
+   "w": "Due",
+   "t0": 5.6,
+   "t1": 5.92
+  },
+  {
+   "w": "at",
+   "t0": 5.92,
+   "t1": 6.0
+  },
+  {
+   "w": "midnight.",
+   "t0": 6.0,
+   "t1": 6.56
+  }
+ ]
+}

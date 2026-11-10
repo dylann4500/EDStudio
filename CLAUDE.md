@@ -717,6 +717,17 @@ videos/NNN-slug/
   `gShape.holes.push(hole)` vanished (the pond rendered as grass) and so did a banner's `side = DoubleSide`. Put the comment at the
   very end of the line, and run both comment greps (Hard-won rules) after every scripted edit.
 
+- **Blocky-avatar game look (069, `engine/rbx/`, docs/STYLES.md → rbx; template `videos/_rbx-template`):** `import * as R from
+  '@engine/rbx/index.js'`. `R.rbxWorld(studio)` = studded grey baseplate + painted sky + sun/hemi + plastic IBL (`W.aim(x, z, half)`
+  per shot; story.look = `R.RBX_LOOK`, neutral tone mapping). `R.makeAvatar({skin, shirt, pants, sleeve, print, hair, hat, face})` →
+  `P.pose({x, z, rotY, walk: P.phaseFor(d), run, jump, sit + seat, tip (dive/fall), armL/armR {a forward, s outward}, head, face})`,
+  `P.shatter(t, t0, pose0, {dir})` = the "oof" (parts tumble + settle, stateless), `R.FACES` / `R.ARMS`, `P.addHat('dogears')`.
+  `R.makeTags/makeBubbles/makeChatLog` (name tags, chat bubbles sized for the lens, a DOM chat log), obby props (`makeSpinner`,
+  `makeLava`, `makeCheckpoint`, `makeTruss`, `makeCoin`, `makeSign`), `makeBlockDog` (a corgi), `rbxCrowd` (instanced seated crowd),
+  `makeRbxFX` (confetti, puffs, plastic bits, `pow('OOF!')`), `buildStadium` (football stadium, jumbotron `setScreen`, race gate +
+  finish ribbon), `rbxBedroom` (night) / `rbxClassroom`. Our own design only: no game's logo/name/UI/sounds (our "oof" = thud + bonk +
+  plastic bits). `pose()` resets `root.visible` (pass `visible`); drop the baseplate under any floor slab (z-fight).
+
 ## User's taste (direct feedback — non-negotiable)
 - **Every video delivery includes its caption, pasted in full in the final message** (user: "where's the caption? make sure every
   video generation has a caption"). That means every first cut AND every revision: write or update `caption.md`, commit it with
