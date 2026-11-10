@@ -1,0 +1,133 @@
+{
+ "title": "How you catch a rocket with chopsticks (Vex explainer on Starship Flight 15, the first ship-catch try, Fri Nov 13; Scribe follow-up prompts)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Dolly (generic Fish library voice, breathy British; the user's pick, alternating with Mommy)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "This Friday, they try to catch a falling spaceship. With chopsticks.",
+   "callouts": []
+  },
+  {
+   "id": "tower",
+   "say": "This tower is the catcher. Its two arms are literally called the chopsticks.",
+   "callouts": []
+  },
+  {
+   "id": "booster",
+   "say": "The bottom half is the booster: seventy-two meters tall, thirty-three engines. It falls back from the edge of space, brakes, and slides right between the arms.",
+   "callouts": [
+    {
+     "at": "seventytwo",
+     "text": "72 M · 33 ENGINES",
+     "style": "term",
+     "until": "engines",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "catches",
+   "say": "They've done that three times.",
+   "callouts": [
+    {
+     "at": "three",
+     "text": "3 CATCHES SO FAR",
+     "style": "term",
+     "until": "times",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "ship",
+   "say": "Friday's new trick is the top half. The ship circles Earth about fourteen times, then hits the air at over seventeen thousand miles an hour.",
+   "callouts": [
+    {
+     "at": "fourteen",
+     "text": "14 ORBITS",
+     "style": "term",
+     "until": "times",
+     "y": 0.14
+    },
+    {
+     "at": "seventeen",
+     "text": "17,500 MPH",
+     "style": "term",
+     "until": "hour",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pivot",
+   "say": "Catching a spaceship? Ambitious. Your physics homework? Also due Friday. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So Scribe draws the free-body diagram in my handwriting. Want more steps? Just ask. It rewrites only that problem.",
+   "callouts": [
+    {
+     "at": "ask",
+     "text": "FOLLOW-UP PROMPTS",
+     "style": "term",
+     "until": "problem",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "flip",
+   "say": "Meanwhile, the ship falls belly first, flips upright, and the arms catch it.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "Catch, refuel, fly again. I'll be watching from the beach.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
+  "model": "s2.1-pro",
+  "speed": 1.08,
+  "temperature": 0.58,
+  "tempo": 1.12
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ },
+ "headPad": 0.1
+}

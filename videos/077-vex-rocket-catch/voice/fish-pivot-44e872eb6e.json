@@ -1,0 +1,61 @@
+{
+ "text": "Catching a spaceship? Ambitious. Your physics homework? Also due Friday. Cute.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Catching",
+   "t0": 0.16,
+   "t1": 0.48
+  },
+  {
+   "w": "a",
+   "t0": 0.48,
+   "t1": 0.5
+  },
+  {
+   "w": "spaceship?",
+   "t0": 0.48,
+   "t1": 1.2
+  },
+  {
+   "w": "Ambitious.",
+   "t0": 2.08,
+   "t1": 2.96
+  },
+  {
+   "w": "Your",
+   "t0": 3.84,
+   "t1": 4.24
+  },
+  {
+   "w": "physics",
+   "t0": 4.24,
+   "t1": 4.64
+  },
+  {
+   "w": "homework?",
+   "t0": 4.64,
+   "t1": 5.2
+  },
+  {
+   "w": "Also",
+   "t0": 5.84,
+   "t1": 6.24
+  },
+  {
+   "w": "due",
+   "t0": 6.24,
+   "t1": 6.4
+  },
+  {
+   "w": "Friday.",
+   "t0": 6.4,
+   "t1": 6.96
+  },
+  {
+   "w": "Cute.",
+   "t0": 7.84,
+   "t1": 8.16
+  }
+ ]
+}
