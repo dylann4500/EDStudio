@@ -155,6 +155,17 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   - **Sua shy voice** `ef74d84f8059411fa5794eeeb20f2254` (user pick, Nov 10; 081): the same settings at `speed 1.0` = 3.6 words/s while
     speaking (149 words in 41 s of speech); check_voice large-v3 matched every beat (only digit spellings differ).
 
+- **Presets (Nov 10): script.json `"preset": "vex" | "vex-sua" | "narrator-chinese" | "narrator-chinese-2" | "narrator-indian" |
+  "narrator-slax"` + cues.json `"music": {"preset": "cute" | "phonk" | "auto"}` — `tools/presets.json`, CLAUDE.md → "Scribe lane defaults".**
+- **Background music = the user's own tracks (Nov 10), via `audio/synth.py` `"music": {"file": …}`** (`file_start`, `file_in`,
+  `file_gain_db`, `file_fade_in`, `file_fade_out`; the narrator still ducks it). The files live in the gitignored
+  `/Users/dylan/Documents/GitHub/EDStudio/exports/music/` — never commit them (the repo is public and they are ripped tracks):
+  - **Chinese / Indian-accent narrated reels:** `tiki-phonk.mp3` (TIKI TIKI phonk, slowed) — ONLY for those reels.
+  - **Vex / goth girl reels (all of them, from now on):** cute tracks — `zoom-up-kahimi-karie.mp3`, `cute-circus.mp3` (alternate;
+    the user will send more). Never the phonk on a Vex reel.
+  Mix: music under the voice at about −18…−14 dB, the voice duck ~−6 dB; still deliver `upload-nomusic.mp4` so the user can
+  swap in the official sound in-app if a platform mutes the ripped track.
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.

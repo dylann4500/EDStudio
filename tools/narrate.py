@@ -65,6 +65,24 @@ def http_json(url, key, body=None):
 FISH_API = 'https://api.fish.audio'
 
 
+def load_script(vd):
+    """script.json with its voice preset applied (Nov 10, opt-in): "preset": "vex" | "vex-sua" | "narrator-chinese" | … from
+    tools/presets.json fills the Fish voice ("fish") and pacing keys (maxPause, gap, breath, endPad, headPad); anything the
+    script.json sets itself wins. No "preset" = unchanged behaviour."""
+    cfg = json.load(open(os.path.join(vd, 'script.json')))
+    name = cfg.get('preset')
+    if not name:
+        return cfg
+    P = json.load(open(os.path.join(ROOT, 'tools', 'presets.json')))['voices'].get(name)
+    if not P:
+        sys.exit(f"unknown voice preset '{name}' (see tools/presets.json)")
+    for k, v in P.get('script', {}).items():
+        cfg.setdefault(k, v)
+    cfg['fish'] = {**P.get('fish', {}), **(cfg.get('fish') or {})}
+    cfg.setdefault('voice', {}).setdefault('provider', 'fish')
+    return cfg
+
+
 def fish_cfg(cfg):
     f = dict(cfg.get('fish') or {})
     if os.environ.get('FISH_VOICE_OVERRIDE'):   # --fish-voice <id> on the command line
@@ -515,7 +533,7 @@ def write_wav(path, x):
 
 def narrate(slug, provider, key):
     vd = os.path.join(ROOT, 'videos', slug)
-    cfg = json.load(open(os.path.join(vd, 'script.json')))
+    cfg = load_script(vd)
     vdir = os.path.join(vd, 'voice'); os.makedirs(vdir, exist_ok=True)
     beats = cfg['beats']
     clips, fresh = [], 0
@@ -687,9 +705,9 @@ def main():
     slug = os.path.basename(a[0].rstrip('/'))
     vd = os.path.join(ROOT, 'videos', slug)
     if '--layout' in a:
-        cfg = json.load(open(os.path.join(vd, 'script.json')))
+        cfg = load_script(vd)
         return layout(slug, cfg, json.load(open(os.path.join(vd, 'words.json'))))
-    sc = json.load(open(os.path.join(vd, 'script.json')))
+    sc = load_script(vd)
     if '--fish-voice' in a:
         os.environ['FISH_VOICE_OVERRIDE'] = a[a.index('--fish-voice') + 1]
     if '--scratch' not in a and ('--fish' in a or sc['voice'].get('provider') == 'fish'):

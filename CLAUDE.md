@@ -968,6 +968,19 @@ videos/NNN-slug/
 - **No flickering, pulsing, dimming or popping text.** Every text element fades in once and out once; the HUD stays at a steady
   opacity the whole time (numbers may roll, nothing else changes). Anything that blinks or breathes is distracting.
 
+## Scribe lane defaults: voice + music (user, Nov 10 — apply these without being asked)
+A fresh session making a Scribe reel picks the voice and music from the request, via **`tools/presets.json`**:
+- **"goth mommy" / goth girl / Vex / e-girl explainer** → script.json `"preset": "vex"` (Fish Dolly at a REGULAR pace, a normal
+  cute girl, NOT breathy — ~3.4 words/s; `"vex-sua"` = the Sua voice) + cues.json `"music": {"preset": "cute"}` (the user's cute
+  tracks: ZOOM UP – Kahimi Karie / cute circus; never the phonk under Vex).
+- **"Chinese narrator" / "Indian narrator" / accent narration / the funny f-word explainers** → `"preset": "narrator-chinese"`
+  (the user's favourite, #8), `"narrator-chinese-2"` (#7) or `"narrator-indian"` + `"music": {"preset": "phonk"}` (the TIKI TIKI
+  phonk, ONLY under these). The comedy is about the topic, never the accent or ethnicity. Plain f-word narration = `"narrator-slax"`.
+- `"music": {"preset": "auto"}` takes the music paired with script.json's voice preset. Keys set in script.json / cues.json win.
+- The tracks are the user's ripped MP3s in the main checkout's **gitignored `exports/music/`** (worktrees find them through
+  `asset_path`): never commit them (this repo is public). Add new tracks the user sends to that folder + the preset's `files`.
+- Every delivery still includes `out/upload-nomusic.mp4` (a platform may mute a ripped track). More lane rules: docs/lanes/scribe.md.
+
 ## Hard-won rules (each one cost a debugging round)
 - **Never rename a sound a shipped reel uses (Nov 8, merging 033 into main):** synth.py seeds every bed's noise with its NAME
   (`seeded("amb", sound, seed)`), so 033's fire renamed to `fire_roar` re-rolled its whole ambience (stem corr 0.44). When two
