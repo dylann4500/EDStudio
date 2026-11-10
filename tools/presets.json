@@ -104,13 +104,14 @@
   },
   "music": {
     "phonk": {
-      "_doc": "TIKI TIKI phonk (slowed) — ONLY under the Chinese/Indian-accent narrator reels.",
+      "_doc": "TIKI TIKI phonk (slowed) — ONLY under the Chinese/Indian-accent narrator reels. Starts 55 s into the track (the intro has a near-silent break at 5–7 s and a soft bridge at 44–55 s; 084); loops for longer reels. Land it ~7–10 dB under the voice.",
       "files": [
         "exports/music/tiki-phonk.mp3"
       ],
       "file_gain_db": -6,
       "file_in": 0.2,
-      "file_fade_out": 2.0
+      "file_fade_out": 2.0,
+      "file_start": 55.0
     },
     "cute": {
       "_doc": "Cute tracks for every Vex / goth girl reel (the user will send more: add them to files). Picked per video by a stable hash of the folder name, or \"pick\": i. Tracks differ in loudness (cute circus is ~4 dB quieter than ZOOM UP): measure the stems and land the music ~8 dB under the voice (081 ZOOM UP file_gain_db -8.5, 083 cute circus -4.5, both with stem music -11).",
