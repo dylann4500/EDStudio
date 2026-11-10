@@ -1,0 +1,120 @@
+{
+ "title": "How an AI data center actually works (Vex explainer, Scribe; lighter persona with teasing lines)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice; alternating with Dolly)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "This is where your chatbot answers come from. Let me show you around.",
+   "callouts": []
+  },
+  {
+   "id": "rack",
+   "say": "Every one of these racks holds seventy-two GPUs, and pulls about a hundred and thirty kilowatts. That's over a hundred homes. One rack.",
+   "callouts": [
+    {
+     "at": "seventytwo",
+     "text": "72 GPUs · 132 kW",
+     "style": "term",
+     "until": "kilowatts",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "campus",
+   "say": "The new campuses run a full gigawatt. That's about eight hundred thousand homes, on one campus.",
+   "callouts": [
+    {
+     "at": "gigawatt",
+     "text": "1 GW · 800,000 HOMES",
+     "style": "term",
+     "until": "campus",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "heat",
+   "say": "And almost all of that power turns into heat. Liquid pipes carry it out to the cooling towers. So yes, your answer was literally warm.",
+   "callouts": []
+  },
+  {
+   "id": "pivot",
+   "say": "All that compute, and your professor still wants it handwritten. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So Scribe writes it in my handwriting, graph and all. And if it looks too neat, hit Shuffle. It writes the whole page out another way.",
+   "callouts": [
+    {
+     "at": "shuffle",
+     "text": "SHUFFLE",
+     "style": "term",
+     "until": "way",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "prompt",
+   "say": "One answer costs about a quarter of a watt-hour, and five drops of water.",
+   "callouts": [
+    {
+     "at": "quarter",
+     "text": "0.24 Wh · 5 DROPS",
+     "style": "term",
+     "until": "water",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "Class dismissed.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}

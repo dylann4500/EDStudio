@@ -642,6 +642,15 @@ videos/NNN-slug/
   lips) and never passes inside; cups, phones and books never intersect her body. Check it before the full render with stills every
   0.25 s through each prop beat PLUS a side debug view (071: a temporary camera override in update() for two still times, rendered,
   then the file restored from a copy).
+  **072 (Nov 9): the EXPLAINER format** ("explainer vids are really good… like data centers… with goth mommy"): true, sourced numbers
+  (caption.md comment), Vex in the place (an AI data hall: two rack rows whose LEDs are ONE InstancedMesh blinking by `hash(i,
+  floor(t·rate))`, thin red/blue coolant pipes with scrolling textures, a compute tray that slides OUT only for its close-up — pulled
+  out it sat between the lens and her), a campus aerial at dusk, and **pixel diagram cards**: an overlay canvas drawn at 270 × 480 and
+  shown ×4 with `image-rendering: pixelated` (houses lighting up, a counter, a steaming chat bubble, a battery + drops), placed low
+  (y ≈ 0.41–0.69) so her face clears them. **Scribe on screen by ~60 %** (docs/lanes/scribe.md): an explainer runs long — reorder
+  (072 moved its "five drops" fact after Scribe as the closer). **Scribe writes ON SCREEN, never a pen on paper by itself** (user,
+  Nov 9): a portrait phone screen canvas (fits the vertical frame) where `sheet.draw(p)` lands stroke by stroke with an on-screen pen
+  cursor at the tip, then the desk row (pages · Shuffle · Replay · Export PDF); the camera rides the screen (`phoneCam(u, v, d)`).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via

@@ -1,0 +1,16 @@
+{
+ "text": "Class dismissed.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Class",
+   "t0": 0.24,
+   "t1": 0.64
+  },
+  {
+   "w": "dismissed.",
+   "t0": 0.64,
+   "t1": 1.6
+  }
+ ]
+}
