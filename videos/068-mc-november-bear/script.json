@@ -36,5 +36,5 @@
     { "id": "dec", "say": "Then it leaned in and whispered: remember, December is fucking coming.",
       "callouts": [ { "at": "december", "text": "DECEMBER 2026", "style": "term", "until": "coming" } ] }
   ],
-  "fish": { "reference_id": "da1eeaa6379e491da2ea7d203d2d4b05", "name": "Authentic Conversational Storyteller", "model": "s2.1-pro", "tempo": 1.2 }
+  "fish": { "reference_id": "c5f56a6cc2ec4fa8920cb4c5889a3fb7", "name": "Slax", "model": "s2.1-pro", "tempo": 1.36 }
 }

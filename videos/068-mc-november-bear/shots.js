@@ -9,7 +9,7 @@
 // Scribe claims (docs/lanes/scribe.md): a photo of the homework → every problem solved → written out in the student's own
 // handwriting, stroke by stroke, with the figures chemistry needs (a Lewis structure) → a PDF. Subject: chemistry (packs rotate).
 //
-// Shots key to the narration's word times (story.json from tools/narrate.py, Fish "Authentic Conversational Storyteller", tempo 1.2):
+// Shots key to the narration's word times (story.json from tools/narrate.py, Fish "Slax", tempo 1.36 — the lane narrates with a male voice; the first cut used the Storyteller voice):
 //   hook   snow at night, the bear sits up (the 2023 pose) → close: it sings "remember, November 2026 is coming"
 //   nobody POV her phone in bed (the bear video) → her confused face          places  the calendar flips 2023→2026 · a chip bag
 //          "BEST BY NOV 2026" · asleep, the bear's face in the window           doom    1960 film: a scientist + his doomsday curve

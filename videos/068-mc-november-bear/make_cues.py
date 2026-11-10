@@ -165,7 +165,7 @@ amb = [
 ]
 
 cues = {
-    "title": "068 - Scribe promo: Remember November 2026 (music-box lore in A minor → classroom bop 124 bpm + place sound + gag foley + storyteller narrator)",
+    "title": "068 - Scribe promo: Remember November 2026 (music-box lore in A minor → classroom bop 124 bpm + place sound + gag foley + Slax narrator)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
     "stem_gain_db": {"music": -13.0, "sfx": 3.5, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -9.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},
