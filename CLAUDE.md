@@ -534,6 +534,14 @@ videos/NNN-slug/
   `setBanner`, crushable `cars`), `buildVoxClassroom` (Room 4 + printer), `buildVoxBedroom`. `look`: neutral tone map, bloom 0.04, no
   grain. scribe.js `punnettFig()` + makeSheet `fig` (059, additive) = a hand-drawn Punnett square for biology sheets.
 
+- **Voxel polar bear + night/1960 kit (068, `engine/voxel/bear.js`, reel `videos/068-mc-november-bear`):** `makeVoxBear()` = a blocky
+  polar bear (bs 1/20, ~2.5 m) — `pose({mode: 'four'|'sit'|'upright', walk: phaseFor(d, s), pitch, head, jaw 0..1, eyes:
+  'open'|'blink'|'happy'|'squint'|'wide', pawL/pawR: {x: WORLD angle, 0 = down}})`, `eyeWorld()`, `pawWorld()`. 068 shots.js has a
+  night `voxWorld` (snow ground, a star + aurora sky texture swapped onto `W.sky`, moonlight via `W.hemi`/`W.sun`, pixel flakes that
+  follow the camera), a 1960 film ShaderPass (warm grey + grain + vignette), a dream-bubble sprite, a bedside clock + flipping wall
+  calendar, and the Scribe app as a portrait phone canvas (cam → flash → scan → 40 tiles → write with a zoom onto the Lewis figure).
+  **Seated students in `buildVoxClassroom`: set each desk group's `rotation.y = 0`** (the set turns them so the chair faces the
+  board; kids would sit with their backs to it) — find them by `room.D.desks` positions.
 - **Isometric tilt-shift diorama look (060, `engine/iso/`; template `videos/_iso-template`; docs/STYLES.md → iso):** each place is a
   floating slab `makeBase({shape, w, d, h, top, soil})` (world on `B.world`, y = 0; cut soil strata on the sides; `B.update(t)` bobs)
   or a dollhouse room `makeRoom({w, d, h, floor, windows})`, over `isoBackdrop` (screen-space gradient void), lit by `isoLights`

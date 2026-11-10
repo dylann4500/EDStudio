@@ -1,0 +1,61 @@
+{
+ "text": "Then it leaned in and whispered: remember, December is fucking coming.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Then",
+   "t0": 0.0,
+   "t1": 0.24
+  },
+  {
+   "w": "it",
+   "t0": 0.24,
+   "t1": 0.4
+  },
+  {
+   "w": "leaned",
+   "t0": 0.4,
+   "t1": 0.8
+  },
+  {
+   "w": "in",
+   "t0": 0.8,
+   "t1": 0.96
+  },
+  {
+   "w": "and",
+   "t0": 0.96,
+   "t1": 1.04
+  },
+  {
+   "w": "whispered:",
+   "t0": 1.04,
+   "t1": 1.6
+  },
+  {
+   "w": "remember,",
+   "t0": 1.6,
+   "t1": 2.32
+  },
+  {
+   "w": "December",
+   "t0": 2.56,
+   "t1": 3.04
+  },
+  {
+   "w": "is",
+   "t0": 3.04,
+   "t1": 3.2
+  },
+  {
+   "w": "fucking",
+   "t0": 3.2,
+   "t1": 3.6
+  },
+  {
+   "w": "coming.",
+   "t0": 3.6,
+   "t1": 4.0
+  }
+ ]
+}

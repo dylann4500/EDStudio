@@ -6,3 +6,4 @@ export * from './world.js';
 export * from './props.js';
 export * from './town.js';
 export * from './rooms.js';
+export * from './bear.js';
