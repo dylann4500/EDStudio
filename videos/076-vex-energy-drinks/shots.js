@@ -180,7 +180,9 @@ export async function build(studio, story) {
   // lights: cool fluorescent hemi + ceiling points, the fridge glow, a shadow key
   const hemiIn = new THREE.HemisphereLight(0xeef4ff, 0x6a6458, 1.15); IN.add(hemiIn);
   for (const [x, z] of [[-2.6, -3.4], [0, -3.4], [2.6, -3.4], [-2.6, 0], [0, 0], [2.6, 0]]) { const L = new THREE.PointLight(0xf4f8ff, 1.6, 6, 1.5); L.position.set(x, 2.8, z); IN.add(L); }
-  for (const x of [-2, 0, 2]) { const L = new THREE.PointLight(0xbfe8ff, 2.4, 3.2, 1.6); L.position.set(x, 1.6, -4.3); IN.add(L); }
+  // the fridge glow lives INSIDE the cabinets with a short reach: Vex's toon ramp gives even a back light 70 % on her front, so lights
+  // behind her at the old z −4.3 flooded her skin to flat white (manager review, Nov 9)
+  for (const x of [-2.2, -0.7, 0.8, 2.3]) { const L = new THREE.PointLight(0xbfe8ff, 1.8, 1.25, 1.6); L.position.set(x, 1.1, -5.15); IN.add(L); }
   const key = new THREE.DirectionalLight(0xfff4e8, 0.7); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: 0.5, far: 24 }); scene.add(key, key.target);
 
   // ---------------------------------------------------------------- the store, outside at sunrise (facade at z 3; she stands on the sidewalk)
@@ -475,7 +477,7 @@ export async function build(studio, story) {
     studio.setCamera(cam.pos, cam.look, cam.fov, t, amp);
     { const f = V(...cam.look).sub(V(...cam.pos)).setY(0).normalize(), side = V(f.z, 0, -f.x), tg = V(...cam.look);
       key.target.position.copy(tg); key.position.copy(tg).addScaledVector(f, -3).addScaledVector(side, -1.5).add(V(0, 3, 0)); key.intensity = sh.set === 'in' ? 0.7 : 0;
-      const d = Math.max(0.6, studio.camera.position.distanceTo(tg)); fill.position.copy(studio.camera.position).add(V(0, 0.15, 0)); fill.intensity = sh.vex ? Math.min(1.6, 0.26 * Math.pow(d, 1.6)) * (sh.set === 'out' ? 0.6 : 1) : 0; }
+      const d = Math.max(0.6, studio.camera.position.distanceTo(tg)); fill.position.copy(studio.camera.position).add(V(0, 0.15, 0)); fill.intensity = sh.vex ? Math.min(1.6, 0.26 * Math.pow(d, 1.6)) * (sh.set === 'out' ? 0.6 : d < 1.2 ? 0.8 : 1) : 0; }
     // life: slush swirls, hot dogs roll, fridge LEDs steady
     slushTex.forEach((tx, i) => (tx.offset.y = t * (0.25 + i * 0.07)));
     dogs.forEach((d, i) => (d.rotation.y = t * 3 + i));
