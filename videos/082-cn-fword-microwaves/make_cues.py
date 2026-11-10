@@ -5,6 +5,8 @@
 Every time comes from story.json (the narration's word times) with the SAME formulas as shots.js, so a re-voice keeps every sound on
 its picture.
 
+Music (Nov 10, user via the manager): the user's own TIKI TIKI phonk (slowed), tools/presets.json "phonk" — ONLY for the accent-narrator
+reels; the synth score below is kept for reference but not used. Mix: the track ~14 dB under the voice while he talks (stem −13 dB), voice duck −6 dB.
 Sound identity: "DEADPAN EXPLAINER, 3 AM DORM EDITION" — the voice and the foley carry it (user, Nov 8: the no-music cut is what gets
 posted under a trending sound). The microwave's own hum is the bed under every microwave shot (a lamp-hum drone + the cooling fan in
 the magnetron bay), the dorm has its night room tone, 1945 a ticking clock. Music: a small, bouncy pluck ostinato in G (G–D–Em–C,
@@ -84,9 +86,12 @@ END_D = D - 0.6
 drum_patterns = [{"t0": IN, "t1": END_D, "step": BEAT, "pattern": [1], "vel": [[IN, 0.34], [TENSE0, 0.24], [TENSE1, 0.36], [D, 0.3]], "kind": "kick"},
                  {"t0": IN + BEAT, "t1": END_D, "step": 2 * BEAT, "pattern": [1], "vel": [[IN, 0.2], [TENSE0, 0.13], [TENSE1, 0.22], [D, 0.2]], "kind": "clap"},
                  {"t0": IN, "t1": END_D, "step": BEAT / 4, "pattern": [0.4, 0.2, 0.7, 0.25], "vel": [[IN, 0.24], [TENSE0, 0.16], [TENSE1, 0.26], [D, 0.24]], "kind": "tick"}]
-music = {"gain_db": 0.0, "reverb_db": -13.0, "pad_db": 3.0, "pad_reverb_db": -6.0, "mallet_db": -1.0, "drums_db": -6.0, "instrument": "pluck",
+score = {"gain_db": 0.0, "reverb_db": -13.0, "pad_db": 3.0, "pad_reverb_db": -6.0, "mallet_db": -1.0, "drums_db": -6.0, "instrument": "pluck",
          "leveler": {"thr_rel_db": 4.0, "ratio": 2.0, "tau": 0.3}, "end": D, "chords": chords, "sections": sections, "melody": [],
-         "mallet_melody": sorted(mallet), "pad": pad, "drums": drums, "drum_patterns": drum_patterns}
+         "mallet_melody": sorted(mallet), "pad": pad, "drums": drums, "drum_patterns": drum_patterns}   # the synth score (unused since Nov 10)
+# Nov 10 (user, via the manager): the accent-narrator reels run on the user's own TIKI TIKI phonk (slowed) instead of a synth score —
+# tools/presets.json "phonk" (the file lives in the gitignored exports/music/, never committed). Foley + impacts stay in the sfx stem.
+music = {"preset": "phonk", "end": D}
 
 # ---------------------------------------------------------------- foley
 ev = []
@@ -162,13 +167,13 @@ amb = [
 ]
 
 cues = {
-    "title": "082 - Scribe promo: how f*cking microwaves f*cking work (bouncy G-major pluck bed 132 bpm + microwave hum + gag foley + the 'chinese' narrator)",
+    "title": "082 - Scribe promo: how f*cking microwaves f*cking work (the user's tiki phonk bed + microwave hum + gag foley + the 'chinese' narrator)",
     "duration": D, "target_lufs": -14.0, "limiter_ceiling_dbtp": -1.5, "end_fade": [D - 0.35, D],
     "stem_gain_db": {"music": -13.0, "sfx": 3.5, "amb": 5.0, "voice": 0.0},
     "stem_dynamics": {"music": {"limit_dbfs": -9.0, "lim_win": 0.015}, "sfx": {"comp_thr_dbfs": -14.0, "ratio": 2.5, "win": 0.004, "limit_dbfs": -5.0},
                       "voice": {"comp_thr_dbfs": -10.0, "ratio": 3.0, "win": 0.006, "limit_dbfs": -2.5}},
     "sfx_lowpass_hz": 5200,
-    "voice": {"file": "voice.wav", "gain_db": 0.0, "duck_db": -8.0, "amb_duck_db": -5.0, "presence_db": 2.0, "hp": 75},
+    "voice": {"file": "voice.wav", "gain_db": 0.0, "duck_db": -6.0, "amb_duck_db": -5.0, "presence_db": 2.0, "hp": 75},
     "shots": [B[b]['t0'] for b in story['order']] + [D],
     "music": music, "ambience": amb, "events": sorted(ev, key=lambda x: x.get('t', x.get('t0'))),
 }
