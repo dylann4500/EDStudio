@@ -23,22 +23,23 @@ Claude Code writes, builds, renders, checks and publishes faceless short-form vi
 <i>toddlers</i> · <i>no nukes</i> · <i>height doubled</i> (13K). Views on TikTok as of Oct 26, 2026. Last two: build reels
 <i>flashlight → lighthouse</i> · <i>hair dryer → jet engine</i>.</sub>
 
-[Get started](GET-STARTED.md) · [How a video is made](#how-a-video-is-made) · [Build reels](#build-reels) · [The operation](#run-a-channel-the-operation) · [License](#license)
+[Get started](GET-STARTED.md) · [Animation styles](#animation-styles) · [How a video is made](#how-a-video-is-made) · [Build reels](#build-reels) · [The operation](#run-a-channel-the-operation) · [License](#license)
 
 </div>
 
 ## What it is
 
-Each video is a Three.js scene that headless Chrome renders frame by frame. Python synthesizes the music and sound effects,
-and ffmpeg encodes everything to 1080×1920. There's no stock footage and no AI video, and nothing paid is required (build
-reels can use an ElevenLabs narrator; without a key they fall back to the free macOS voice). Claude Code does the work:
+Each video is a Three.js (or Canvas 2D) scene that headless Chrome renders frame by frame, in one of nine animation styles
+(below). Python synthesizes the music and sound effects, and ffmpeg encodes everything to 1080×1920. There's no stock footage
+and no AI video, and nothing paid is required (narrated reels can use an ElevenLabs or Fish Audio voice; without a key they
+fall back to the free macOS voice). Claude Code does the work:
 - it writes the story and the 3D shots;
 - it reviews still frames and fixes what looks wrong;
 - it mixes the audio, renders and runs a QC checklist.
 
 The repo also runs as a channel: a manager Claude assigns ideas to parallel producer sessions, scores each video with a
 brain-response model, sends you a preview to approve on your phone, and schedules the post. The rule book Claude follows is
-[`CLAUDE.md`](CLAUDE.md), written down one lesson at a time over 44 videos.
+[`CLAUDE.md`](CLAUDE.md), written down one lesson at a time over 70 videos.
 
 ## What it can do
 
@@ -47,14 +48,15 @@ brain-response model, sends you a preview to approve on your phone, and schedule
 <td width="50%" valign="top">
 
 **Many formats, one engine**<br>
-Funny "what if everyone on Earth…" sims, science what-ifs with sourced numbers, a recurring-character series, emotional
-stories, biographies and narrated build reels ("How a ___ Becomes a ___"). Each format has its own pacing, HUD and sound identity ([`docs/TONES.md`](docs/TONES.md)).
+Funny "what if everyone on Earth…" sims, science what-ifs with sourced numbers, recurring-character series, emotional
+stories, biographies, narrated build reels ("How a ___ Becomes a ___"), dupes of viral formats and product promo reels
+([`docs/PROMO.md`](docs/PROMO.md)). Each format has its own pacing, HUD and sound identity ([`docs/TONES.md`](docs/TONES.md)).
 
 </td>
 <td width="50%" valign="top">
 
 **A growing 3D world**<br>
-49 sets (street, suburb, supermarket, classroom, plane, pool, Mars, war room, 1800s frontier…) plus 8 build-reel cutaways, a posable character rig
+52 sets (street, suburb, supermarket, classroom, plane, pool, Mars, war room, 1800s frontier…) plus the build-reel cutaways, a posable character rig
 with crowds, kids, giants and toddlers, a prop library, and a hologram globe with Natural Earth borders.
 
 </td>
@@ -92,6 +94,32 @@ Daily research, several videos building at once, a phone preview for your yes, a
 </td>
 </tr>
 </table>
+
+## Animation styles
+
+One engine, nine looks. Every style is real, merged code with a starter template, and each one shipped at least one finished
+reel. The full contract (what a new style has to deliver) and per-style notes are in [`docs/STYLES.md`](docs/STYLES.md).
+
+<table>
+<tr>
+<td align="center" width="33%"><img src="docs/media/styles/toy3d.jpg" width="150" alt="toy3d: a hippo outside a burger joint"><br><b>toy3d</b><br><sub>toy-like rig people, warm sets, many places<br><code>engine/rig.js</code> · <code>engine/sets/</code></sub></td>
+<td align="center" width="33%"><img src="docs/media/styles/toon.jpg" width="150" alt="toon: a shed upgraded into a brick university"><br><b>toon</b><br><sub>big-headed cast, 60 fps camera + kicks, one word on screen at a time<br><code>engine/build/</code> · <code>/new-build</code></sub></td>
+<td align="center" width="33%"><img src="docs/media/styles/pixel.jpg" width="150" alt="pixel: a street outside a school, rendered in chunky blocks"><br><b>pixel</b><br><sub>any 3D scene in chunky n×n blocks + mosaic cuts<br><code>engine/pixel.js</code> · <code>_pixel-template</code></sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/media/styles/sim.jpg" width="150" alt="sim: a cut-away bedroom in a dollhouse house"><br><b>sim</b><br><sub>Sims-like realistic people, cut-away dollhouse sets<br><code>engine/sim/</code> · <code>_sim-template</code></sub></td>
+<td align="center"><img src="docs/media/styles/flat2d.jpg" width="150" alt="flat2d: a cartoon kid inventor in thick outlines"><br><b>flat2d</b><br><sub>flat 2D cartoon (Canvas 2D), boiling ink outlines<br><code>engine/flat2d/</code> · <code>_flat2d-template</code></sub></td>
+<td align="center"><img src="docs/media/styles/voxel.jpg" width="150" alt="voxel: a blocky giant towering over a blocky town"><br><b>voxel</b><br><sub>a blocky-game world of 1 m cubes and pixel-art tiles<br><code>engine/voxel/</code> · <code>_voxel-template</code></sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/media/styles/iso.jpg" width="150" alt="iso: a floating tilt-shift diorama of Pisa"><br><b>iso</b><br><sub>isometric tilt-shift dioramas floating over a gradient<br><code>engine/iso/</code> · <code>_iso-template</code></sub></td>
+<td align="center"><img src="docs/media/styles/mg.jpg" width="150" alt="mg: a flat vector beach crowd clapping"><br><b>mg</b> (motion graphics)<br><sub>Kurzgesagt-like flat vector explainers, live charts and counters<br><code>engine/mg/</code> · <code>_mg-template</code></sub></td>
+<td align="center"><img src="docs/media/styles/anime.jpg" width="150" alt="anime: an anime tutor character in a sunny library"><br><b>anime</b><br><sub>a VRoid Studio character (VRM) on voxel sets, pixel captions<br><code>engine/vroid.js</code> · <code>engine/pixelcaps.js</code></sub></td>
+</tr>
+</table>
+
+Start a reel in any style with `npm run new -- NNN-slug --from _<style>-template` (toon reels start from `/new-build`, anime
+from an existing reel such as `--from 067-vex-deceive`). A Roblox-like blocky-avatar style is in production.
 
 ## How a video is made
 
@@ -221,11 +249,11 @@ picks it up with `/operation resume`. Claude never types passwords, never solves
 
 | Layer | Used |
 |---|---|
-| 3D | three.js 0.170, plus our own rig, sets, props and globe (`engine/`) |
+| 3D / 2D | three.js 0.170, plus our own rig, sets, props and globe (`engine/`); Canvas 2D for flat2d + mg; VRM characters via three's GLTFLoader (`engine/vroid.js`) |
 | Rendering | puppeteer-core 23 driving installed Chrome (WebGL2); ffmpeg (bundled via `@ffmpeg-installer`) |
 | Text overlay | HTML/CSS in the page, with the Inter and Newsreader fonts (`@fontsource`) |
 | Audio | Python 3, numpy, scipy (`audio/synth.py`) |
-| Narration (build reels) | ElevenLabs Adam on Eleven v3, optional; macOS `say` as the free scratch voice (`tools/narrate.py`) |
+| Narration | `tools/narrate.py`: ElevenLabs (Eleven v3) or Fish Audio (`--fish`, word-level timestamps), both optional; macOS `say` as the free scratch voice |
 | Scoring | TRIBE v2 (PyTorch, V-JEPA 2, w2v-BERT), local, optional |
 | Automation | Claude Code: `/new-video`, `/new-build`, `/new-biography`, `/operation`, parallel sessions, scheduled tasks, Claude in Chrome |
 
@@ -261,12 +289,16 @@ Flags: `--preview` (fast draft), `--from 20 --to 28` (time range), `--cam top` (
 ## Repository layout
 
 ```
-engine/            core (renderer, timeline helpers, text overlay), rig, props, sets/ (49 locations), globe, sky
-engine/build/      the build-reel kit: one-take camera rail, word captions, toon cast, effects, 8 cutaway sets
-videos/            one folder per video: story.json + shots.js + cues.json + caption.md + final.mp4
+engine/            core (renderer, timeline helpers, text overlay), rig, props, sets/ (52 locations), globe, sky,
+                   pixel.js (pixel pass), vroid.js + vrm.js (anime characters), pixelcaps.js
+engine/build/      the build-reel kit: one-take camera rail, word captions, toon cast, effects, cutaway sets, Scribe app kit
+engine/<style>/    sim/, flat2d/, voxel/, iso/, mg/: one folder per animation style (docs/STYLES.md)
+videos/            one folder per video: story.json + shots.js + cues.json + caption.md + final.mp4;
+                   _<style>-template/ folders are the starting point for each style
 audio/             synth.py: procedural music + sound-effects library
 tools/             render, stills sheet, new video, doctor, TRIBE lock, upload/preview copies, caption check
-docs/              FORMAT.md + TONES.md (style), BUILD.md + BUILD-REVIEW.md (build reels), lanes/ (one brief per channel), OPERATION.md, reference/, media/
+docs/              FORMAT.md + TONES.md (style), STYLES.md (the animation styles), BUILD.md + BUILD-REVIEW.md (build reels),
+                   PROMO.md (promo reels), lanes/ (one brief per channel), OPERATION.md, reference/, media/
 ops/               the operation's state: ledger, idea backlog, research digests
 tribe-experiment/  local TRIBE v2 scoring, plus the study against real views
 brand/             channel handles, bios and avatars
@@ -284,8 +316,9 @@ CLAUDE.md          the rule book for AI agents: style, engine cheat sheet, hard-
 
 ## Status and limits
 
-- **Voices only in build reels.** Every other format carries on-screen text, music and sound effects only. A build reel's
-  real narrator needs an ElevenLabs key; without one, `narrate.py` uses the macOS `say` voice (a scratch stand-in, macOS only).
+- **Narration is optional.** Build reels and promo reels are narrated; the what-if formats carry on-screen text, music and
+  sound effects only. A real narrator needs an ElevenLabs or Fish Audio key; without one, `narrate.py` uses the macOS `say`
+  voice (a scratch stand-in, macOS only).
 - **One machine does all the work.** Renders and TRIBE runs are local, and TRIBE runs one at a time (20–60 min each), so
   output per day is bounded by that computer.
 - **The brain score isn't proven to predict views** (see the third engineering note). It's logged so it can be tested.
