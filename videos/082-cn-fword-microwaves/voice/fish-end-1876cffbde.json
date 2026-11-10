@@ -1,0 +1,36 @@
+{
+ "text": "Homework: done. Burrito: still fucking frozen.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Homework:",
+   "t0": 0.16,
+   "t1": 1.28
+  },
+  {
+   "w": "done.",
+   "t0": 1.28,
+   "t1": 1.68
+  },
+  {
+   "w": "Burrito:",
+   "t0": 2.08,
+   "t1": 2.72
+  },
+  {
+   "w": "still",
+   "t0": 2.96,
+   "t1": 3.2
+  },
+  {
+   "w": "fucking",
+   "t0": 3.2,
+   "t1": 3.6
+  },
+  {
+   "w": "frozen.",
+   "t0": 3.6,
+   "t1": 4.08
+  }
+ ]
+}

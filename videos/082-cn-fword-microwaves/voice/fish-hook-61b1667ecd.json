@@ -1,0 +1,31 @@
+{
+ "text": "How fucking microwaves fucking work.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "How",
+   "t0": 0.08,
+   "t1": 0.32
+  },
+  {
+   "w": "fucking",
+   "t0": 0.32,
+   "t1": 0.64
+  },
+  {
+   "w": "microwaves",
+   "t0": 0.64,
+   "t1": 1.2
+  },
+  {
+   "w": "fucking",
+   "t0": 1.2,
+   "t1": 1.52
+  },
+  {
+   "w": "work.",
+   "t0": 1.52,
+   "t1": 2.0
+  }
+ ]
+}
