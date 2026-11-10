@@ -1,0 +1,93 @@
+{
+ "title": "Why would I deceive you? (Vex, Scribe; the Nov 2026 'Why would I deceive you?' trend, a sunny campus library)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice, the user's pick Nov 9)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.4,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Why would mommy deceive you?",
+   "callouts": []
+  },
+  {
+   "id": "phone",
+   "say": "Just five minutes on my phone. Why would I deceive you?",
+   "callouts": []
+  },
+  {
+   "id": "chapter",
+   "say": "I read the whole chapter. Why would I deceive you? There's no reason for me to do that.",
+   "callouts": []
+  },
+  {
+   "id": "party",
+   "say": "I'm staying in tonight. Why would I deceive you?",
+   "callouts": []
+  },
+  {
+   "id": "physics",
+   "say": "And I did my physics homework all by myself... Okay. That one was a lie.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "I snapped one page of the textbook. Scribe solved every problem, drew every force diagram, and wrote it in my handwriting. In purple ink, obviously.",
+   "callouts": [
+    {
+     "at": "scribe",
+     "text": "SCRIBE",
+     "style": "term",
+     "until": "problem",
+     "y": 0.14
+    },
+    {
+     "at": "purple",
+     "text": "PURPLE INK",
+     "style": "term",
+     "until": "obviously",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "Mommy would never lie to you, baby.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.7,
+  "tempo": 1.0
+ },
+ "endPad": 0.35
+}

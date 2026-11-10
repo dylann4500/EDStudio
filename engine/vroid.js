@@ -237,5 +237,6 @@ export function dressGoth(V) {
     for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, sp = mk(new THREE.ConeGeometry(0.005, 0.014, 5), M.silver, cf, 0, Math.cos(a) * 0.036, Math.sin(a) * 0.036, false); sp.rotation.x = a + Math.PI / 2; }
     const br = mk(new THREE.TorusGeometry(0.03, 0.005, 6, 16), M.plum, cf, -s * 0.03, 0, 0, false); br.rotation.y = Math.PI / 2;
   }
+  M.shades = sg;   // 067 (additive): the hair shades group, so a video can hide it (and wear a clone on the eyes)
   return M;
 }
