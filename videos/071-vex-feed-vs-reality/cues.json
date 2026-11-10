@@ -1,0 +1,683 @@
+{
+ "title": "071 - my study feed vs reality (Vex, FEED vs REALITY bed, 96 bpm F major pluck, apartment, feed sparkles / reality thuds + Fish Dolly)",
+ "duration": 49.85,
+ "target_lufs": -14.0,
+ "limiter_ceiling_dbtp": -1.5,
+ "end_fade": [
+  49.5,
+  49.85
+ ],
+ "stem_gain_db": {
+  "music": -11.0,
+  "sfx": 2.5,
+  "amb": 5.0,
+  "voice": 0.0
+ },
+ "stem_dynamics": {
+  "music": {
+   "limit_dbfs": -6.0,
+   "lim_win": 0.015
+  },
+  "sfx": {
+   "comp_thr_dbfs": -14.0,
+   "ratio": 2.5,
+   "win": 0.004,
+   "limit_dbfs": -5.0
+  },
+  "voice": {
+   "comp_thr_dbfs": -10.0,
+   "ratio": 3.0,
+   "win": 0.006,
+   "limit_dbfs": -2.5
+  }
+ },
+ "sfx_lowpass_hz": 5200,
+ "voice": {
+  "file": "voice.wav",
+  "gain_db": 0.0,
+  "duck_db": -8.0,
+  "amb_duck_db": -5.0,
+  "presence_db": 2.0,
+  "hp": 75
+ },
+ "shots": [
+  0.0,
+  5.366,
+  14.209,
+  22.203,
+  28.877,
+  32.929,
+  40.074,
+  49.85
+ ],
+ "music": {
+  "gain_db": 0.0,
+  "reverb_db": -10.0,
+  "pad_db": 2.0,
+  "pad_reverb_db": -5.0,
+  "mallet_db": -5.0,
+  "drums_db": -7.0,
+  "instrument": "pluck",
+  "leveler": {
+   "thr_rel_db": 4.0,
+   "ratio": 2.0,
+   "tau": 0.3
+  },
+  "end": 49.85,
+  "chords": [
+   [
+    5.316,
+    "Fmaj7"
+   ],
+   [
+    7.816,
+    "Dm7"
+   ],
+   [
+    10.316,
+    "Gm7"
+   ],
+   [
+    12.816,
+    "C7"
+   ],
+   [
+    15.316,
+    "Fmaj7"
+   ],
+   [
+    17.816,
+    "Dm7"
+   ],
+   [
+    20.316,
+    "Gm7"
+   ],
+   [
+    22.816,
+    "C7"
+   ],
+   [
+    25.316,
+    "Fmaj7"
+   ],
+   [
+    27.816,
+    "Dm7"
+   ],
+   [
+    30.316,
+    "Gm7"
+   ],
+   [
+    32.816,
+    "C7"
+   ],
+   [
+    35.316,
+    "Fmaj7"
+   ],
+   [
+    37.816,
+    "Dm7"
+   ],
+   [
+    40.316,
+    "Gm7"
+   ],
+   [
+    42.816,
+    "C7"
+   ],
+   [
+    45.316,
+    "Fmaj7"
+   ],
+   [
+    47.816,
+    "Dm7"
+   ],
+   [
+    50.316,
+    "Fmaj7"
+   ]
+  ],
+  "sections": [
+   {
+    "t0": 5.316,
+    "t1": 49.85,
+    "style": "arp",
+    "step": 0.3125,
+    "pattern": [
+     0,
+     2,
+     1,
+     3,
+     2,
+     1,
+     3,
+     2
+    ],
+    "vel": [
+     [
+      5.316,
+      0.24
+     ],
+     [
+      32.929,
+      0.28
+     ],
+     [
+      40.074,
+      0.26
+     ],
+     [
+      49.85,
+      0.22
+     ]
+    ]
+   }
+  ],
+  "melody": [],
+  "mallet_melody": [
+   [
+    36.923,
+    77,
+    0.28,
+    0.14
+   ],
+   [
+    37.023,
+    84,
+    0.3,
+    0.3
+   ]
+  ],
+  "pad": [
+   {
+    "t0": 0.2,
+    "t1": 49.65,
+    "notes": [
+     41,
+     53,
+     57,
+     60,
+     64
+    ],
+    "level": 3.0,
+    "attack": 1.6,
+    "release": 1.2,
+    "cutoff": 800,
+    "hp": 30
+   }
+  ],
+  "drums": [
+   [
+    5.316,
+    0.3,
+    "boom"
+   ],
+   [
+    32.929,
+    0.3,
+    "boom"
+   ]
+  ],
+  "drum_patterns": [
+   {
+    "t0": 5.316,
+    "t1": 49.25,
+    "step": 1.25,
+    "pattern": [
+     1
+    ],
+    "vel": 0.4,
+    "kind": "kick"
+   },
+   {
+    "t0": 5.941,
+    "t1": 49.25,
+    "step": 1.25,
+    "pattern": [
+     1
+    ],
+    "vel": 0.26,
+    "kind": "clap"
+   },
+   {
+    "t0": 5.316,
+    "t1": 49.25,
+    "step": 0.3125,
+    "pattern": [
+     0.5,
+     0.25
+    ],
+    "vel": 0.22,
+    "kind": "tick"
+   }
+  ]
+ },
+ "ambience": [
+  {
+   "sound": "room_tone",
+   "t0": 0.0,
+   "t1": 49.85,
+   "fade_in": 0.3,
+   "fade_out": 0.8,
+   "gain_db": -33,
+   "seed": 11
+  },
+  {
+   "sound": "lamp_hum",
+   "t0": 0.0,
+   "t1": 49.85,
+   "fade_in": 0.3,
+   "fade_out": 0.8,
+   "gain_db": -44,
+   "seed": 12
+  }
+ ],
+ "events": [
+  {
+   "t": 0.05,
+   "sound": "pop",
+   "gain_db": -21,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.3
+   }
+  },
+  {
+   "t": 5.366,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 5.396,
+   "sound": "gold_chime",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     86,
+     93
+    ],
+    "spacing": 0.05,
+    "vel": 0.2,
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 5.866,
+   "sound": "scan_beep",
+   "gain_db": -29,
+   "pan": 0.25,
+   "args": {
+    "pitch": 1.9,
+    "dur": 0.05
+   }
+  },
+  {
+   "t": 9.887,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 9.937,
+   "sound": "low_swell",
+   "gain_db": -25,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.7,
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 11.187,
+   "sound": "breath",
+   "gain_db": -30,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.6,
+    "inhale": true
+   }
+  },
+  {
+   "t": 14.209,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 14.239,
+   "sound": "gold_chime",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     86,
+     93
+    ],
+    "spacing": 0.05,
+    "vel": 0.2,
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 14.709,
+   "sound": "scan_beep",
+   "gain_db": -29,
+   "pan": 0.25,
+   "args": {
+    "pitch": 1.9,
+    "dur": 0.05
+   }
+  },
+  {
+   "t": 16.659,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 16.709,
+   "sound": "low_swell",
+   "gain_db": -25,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.7,
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 17.059,
+   "sound": "blanket_rustle",
+   "gain_db": -28,
+   "pan": -0.2,
+   "args": {
+    "dur": 0.3,
+    "intensity": 0.4
+   }
+  },
+  {
+   "t": 20.008,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 22.203,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 22.233,
+   "sound": "gold_chime",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     86,
+     93
+    ],
+    "spacing": 0.05,
+    "vel": 0.2,
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 22.703,
+   "sound": "scan_beep",
+   "gain_db": -29,
+   "pan": 0.25,
+   "args": {
+    "pitch": 1.9,
+    "dur": 0.05
+   }
+  },
+  {
+   "t": 25.048,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 25.098,
+   "sound": "low_swell",
+   "gain_db": -25,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.7,
+    "pitch": 0.6
+   }
+  },
+  {
+   "t": 25.348,
+   "sound": "knock",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "pitch": 0.7
+   }
+  },
+  {
+   "t": 27.603,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 28.877,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 28.907,
+   "sound": "gold_chime",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     86,
+     93
+    ],
+    "spacing": 0.05,
+    "vel": 0.2,
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 29.377,
+   "sound": "scan_beep",
+   "gain_db": -29,
+   "pan": 0.25,
+   "args": {
+    "pitch": 1.9,
+    "dur": 0.05
+   }
+  },
+  {
+   "t": 30.949,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 32.929,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 33.029,
+   "sound": "pen_scribble",
+   "gain_db": -21,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
+   "t": 33.579,
+   "sound": "pen_scribble",
+   "gain_db": -22,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
+   "t": 34.129,
+   "sound": "pen_scribble",
+   "gain_db": -22,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.6
+   }
+  },
+  {
+   "t": 35.283,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 36.893,
+   "sound": "latch_click",
+   "gain_db": -21,
+   "pan": 0.1,
+   "args": {
+    "kind": "open",
+    "bright": 1.5
+   }
+  },
+  {
+   "t": 36.903,
+   "sound": "scan_beep",
+   "gain_db": -25,
+   "pan": 0.2,
+   "args": {
+    "pitch": 1.4,
+    "dur": 0.12
+   }
+  },
+  {
+   "t": 38.213,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 40.074,
+   "sound": "pop",
+   "gain_db": -26,
+   "pan": 0.0,
+   "args": {
+    "pitch": 1.7
+   }
+  },
+  {
+   "t": 40.104,
+   "sound": "gold_chime",
+   "gain_db": -26,
+   "pan": 0.2,
+   "args": {
+    "notes": [
+     86,
+     93
+    ],
+    "spacing": 0.05,
+    "vel": 0.2,
+    "dur": 0.4
+   }
+  },
+  {
+   "t": 40.574,
+   "sound": "scan_beep",
+   "gain_db": -29,
+   "pan": 0.25,
+   "args": {
+    "pitch": 1.9,
+    "dur": 0.05
+   }
+  },
+  {
+   "t": 45.004,
+   "sound": "latch_click",
+   "gain_db": -18,
+   "pan": 0.0,
+   "args": {
+    "kind": "close",
+    "bright": 1.4
+   }
+  },
+  {
+   "t": 45.014,
+   "sound": "flash_swish",
+   "gain_db": -22,
+   "pan": 0.0,
+   "args": {
+    "dur": 0.18,
+    "peak": 0.45
+   }
+  },
+  {
+   "t": 45.454,
+   "sound": "gold_chime",
+   "gain_db": -23,
+   "pan": 0.0,
+   "args": {
+    "notes": [
+     65,
+     72,
+     77
+    ],
+    "spacing": 0.09,
+    "vel": 0.28
+   }
+  }
+ ]
+}

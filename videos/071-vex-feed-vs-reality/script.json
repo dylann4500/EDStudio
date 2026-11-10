@@ -1,0 +1,91 @@
+{
+ "title": "My study feed vs reality (Vex, Scribe; the 'Me vs My Insta Feed' trend, her apartment; lighter persona, no mommy lines)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Dolly (generic Fish library voice, breathy British; the user's pick, alternating with Mommy)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "My study feed versus my actual life. Let's be honest.",
+   "callouts": []
+  },
+  {
+   "id": "morning",
+   "say": "My feed: five AM study session. Candles. Matcha. Reality: it's five PM, and I just woke up.",
+   "callouts": []
+  },
+  {
+   "id": "notes",
+   "say": "My feed: colour-coded notes. Reality: one sticky note that says, homework, question mark.",
+   "callouts": []
+  },
+  {
+   "id": "snacks",
+   "say": "My feed: healthy study snacks. Reality: cold pizza. From Tuesday.",
+   "callouts": []
+  },
+  {
+   "id": "turn",
+   "say": "But my homework? Looks exactly the same in both.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Scribe writes it in my handwriting, and I even pick the paper. Yellow legal pad, because it looks expensive.",
+   "callouts": [
+    {
+     "at": "yellow",
+     "text": "YELLOW LEGAL PAD",
+     "style": "term",
+     "until": "pad",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "My feed says effortless. Honestly? It is. Try to keep up.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}
