@@ -667,6 +667,14 @@ videos/NNN-slug/
   (072 moved its "five drops" fact after Scribe as the closer). **Scribe writes ON SCREEN, never a pen on paper by itself** (user,
   Nov 9): a portrait phone screen canvas (fits the vertical frame) where `sheet.draw(p)` lands stroke by stroke with an on-screen pen
   cursor at the tip, then the desk row (pages · Shuffle · Replay · Export PDF); the camera rides the screen (`phoneCam(u, v, d)`).
+  **076 (Nov 9, energy drinks, hour-by-hour explainer):** a HANDHELD CAN that stands upright = attach it to `leftHand` with its axis
+  along the knuckle line (index − little proximal; a fist holds a cylinder that way), centred in the palm (`cross(fwd, axis)` for the
+  left hand), then search `aim: {'twist.leftLowerArm': tw, leftHand: dir}` per arm preset at build for the can's most upright axis and
+  blend tw/dir with the arm glide (076 `CANFIX`); the knuckle-line can with no twist search sat at 45°. Card beats: frame her face at
+  ≈ 0.27–0.36 of the frame (cards 0.44–0.69, a clock HUD at 0.165–0.235 left) — close-ups go only where no card shows. A dropped prop =
+  a copy that starts at the held one's world pose at the release time (pose her at that t once at build). Half-size `--stills` garble
+  the pixel callouts after a colon (downsampling); check them with `--full`. Scribe feature shown: a TYPED problem (README §The
+  composer) → the desk's waiting page (logo + "Be patient…" in the hand) → the page. Made-up can brands only (BZZT, ZOOMR, YIKES…).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via

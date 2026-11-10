@@ -1,0 +1,142 @@
+{
+ "title": "What 3 energy drinks do to your body, hour by hour (Vex explainer, Scribe typed-problem; lighter persona)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "headPad": 0.1,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Three energy drinks before an exam. Here's what they actually do to you, hour by hour.",
+   "callouts": []
+  },
+  {
+   "id": "can1",
+   "say": "Eleven PM, can one. Two hundred milligrams of caffeine.",
+   "callouts": [
+    {
+     "at": "two",
+     "text": "CAN 1 \u00b7 200 MG",
+     "style": "term",
+     "until": "caffeine",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "block",
+   "say": "It doesn't give you energy. It blocks adenosine, your sleepy signal. You're still tired. You just can't feel it.",
+   "callouts": [
+    {
+     "at": "blocks",
+     "text": "ADENOSINE: BLOCKED",
+     "style": "term",
+     "until": "signal",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "can3",
+   "say": "Two AM, can three. Six hundred milligrams. The FDA's safe amount is four hundred a day.",
+   "callouts": [
+    {
+     "at": "six",
+     "text": "600 MG \u00b7 FDA: 400 A DAY",
+     "style": "term",
+     "until": "day",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pivot",
+   "say": "And the chem homework is still due at eight. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So I type it into Scribe. It writes it in my handwriting, graph and all.",
+   "callouts": [
+    {
+     "at": "type",
+     "text": "JUST TYPE IT",
+     "style": "term",
+     "until": "scribe",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "morning",
+   "say": "But caffeine's half-life is about five hours. At eight AM, a whole can's still in you.",
+   "callouts": [
+    {
+     "at": "halflife",
+     "text": "HALF-LIFE: ABOUT 5 H",
+     "style": "term",
+     "until": "hours",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "crash",
+   "say": "And when it wears off, the adenosine hits all at once. That's the crash.",
+   "callouts": [
+    {
+     "at": "crash",
+     "text": "CRASH",
+     "style": "stamp",
+     "until": "crash",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "So put the can down and go to bed. I'll know.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 1.0,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}
