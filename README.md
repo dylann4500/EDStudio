@@ -29,7 +29,7 @@ Claude Code writes, builds, renders, checks and publishes faceless short-form vi
 
 ## What it is
 
-Each video is a Three.js (or Canvas 2D) scene that headless Chrome renders frame by frame, in one of nine animation styles
+Each video is a Three.js (or Canvas 2D) scene that headless Chrome renders frame by frame, in one of ten animation styles
 (below). Python synthesizes the music and sound effects, and ffmpeg encodes everything to 1080×1920. There's no stock footage
 and no AI video, and nothing paid is required (narrated reels can use an ElevenLabs or Fish Audio voice; without a key they
 fall back to the free macOS voice). Claude Code does the work:
@@ -97,7 +97,7 @@ Daily research, several videos building at once, a phone preview for your yes, a
 
 ## Animation styles
 
-One engine, nine looks. Every style is real, merged code with a starter template, and each one shipped at least one finished
+One engine, ten looks. Every style is real, merged code with a starter template, and each one shipped at least one finished
 reel. The full contract (what a new style has to deliver) and per-style notes are in [`docs/STYLES.md`](docs/STYLES.md).
 
 <table>
@@ -116,10 +116,15 @@ reel. The full contract (what a new style has to deliver) and per-style notes ar
 <td align="center"><img src="docs/media/styles/mg.jpg" width="150" alt="mg: a flat vector beach crowd clapping"><br><b>mg</b> (motion graphics)<br><sub>Kurzgesagt-like flat vector explainers, live charts and counters<br><code>engine/mg/</code> · <code>_mg-template</code></sub></td>
 <td align="center"><img src="docs/media/styles/anime.jpg" width="150" alt="anime: an anime tutor character in a sunny library"><br><b>anime</b><br><sub>a VRoid Studio character (VRM) on voxel sets, pixel captions<br><code>engine/vroid.js</code> · <code>engine/pixelcaps.js</code></sub></td>
 </tr>
+<tr>
+<td align="center"><img src="docs/media/styles/rbx.jpg" width="150" alt="rbx: a blocky avatar carrying a corgi off a football field"><br><b>rbx</b> (blocky avatars)<br><sub>a blocky-avatar sandbox game: studded baseplates, chat log, the "oof"<br><code>engine/rbx/</code> · <code>_rbx-template</code></sub></td>
+<td></td>
+<td></td>
+</tr>
 </table>
 
 Start a reel in any style with `npm run new -- NNN-slug --from _<style>-template` (toon reels start from `/new-build`, anime
-from an existing reel such as `--from 067-vex-deceive`). A Roblox-like blocky-avatar style is in production.
+from an existing reel such as `--from 067-vex-deceive`).
 
 ## How a video is made
 
