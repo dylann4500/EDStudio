@@ -783,6 +783,17 @@ videos/NNN-slug/
   camera pushing onto the row, the paper staying white with a hairline edge). Lessons: a cool LED gym light turned her skin grey
   (205/185/180) — warm hemi/points to land ≈ 226/199/188; a seated voxel extra and the plyo boxes each ended up in front of a lens
   (check extras against every camera); a black bench pad vanished on the dark rubber floor (maroon reads).
+- **Vex in the 073 dorm, explainer look (081, "What scrolling in bed does to your brain", `videos/081-vex-doomscroll/shots.js`):**
+  `buildDorm` under the pixel pass works as a Vex explainer set (her goth room upstairs at `P0 = {x 0.32, z −1.5, y D.FY}`, the cut-open
+  dollhouse wide with Derek on his loft). Copy: **her phone in her LEFT hand** (long side along the knuckle line, back on the palm, screen
+  = the palm normal; forearm twist + wrist searched per hold so the screen faces her eyes: `HOLD.look/waist` + `FIX`); **phone POV without
+  her fingers over the screen** = a copy of the phone (`povPhone`) set each POV frame to the held phone's world matrix (her pose frozen),
+  then Vex hidden — riding the in-hand phone put huge finger blobs across the page; **face-anchored framing** (`faceFrame`: the cam gives
+  `pos`, `at: [x, z]`, `frac`; the look height is solved so her eye bones land at that fraction — fixed per-shot guessing off the head bone);
+  **Derek lying on his back** = a carrier `rotation.y = π/2` (head toward his pillow, −x) + `set({rx: −π/2, head: {x: 0.55}})` (chin to
+  chest, so his face reads from a lens at his feet side), placed by its Box3 on `D.loftTop`; his phone drops on his face (BONK + spiral eyes
+  + `makeDizzy`). Light: 073's dorm turned her cheeks lavender (240/218/223) — hemi `0xd6c6f0`, key ×0.6, a warm lens fill `0xffdcc4`
+  → 235/207/202. Voice: Fish "Sua shy voice" at speed 1.0 + the brief's pause/breath caps = 3.6 words/s while speaking, 47 s for 149 words.
 - **Thanksgiving house (080, `engine/sets/feast.js`, pixel/Vex look):** `buildFeast(studio)` = ONE open-plan ground floor along x: DINING
   (a table spread for 8 — `makeTurkey()` on a platter with `setCarved(0..1)`, mashed potatoes, stuffing, cranberry with can ridges, green bean
   + sweet potato casseroles, rolls, gravy boat, pumpkin + apple lattice pies, taper candles, a gourd runner; `settings[i]` place settings,
@@ -969,6 +980,19 @@ videos/NNN-slug/
 
 - **No flickering, pulsing, dimming or popping text.** Every text element fades in once and out once; the HUD stays at a steady
   opacity the whole time (numbers may roll, nothing else changes). Anything that blinks or breathes is distracting.
+
+## Scribe lane defaults: voice + music (user, Nov 10 — apply these without being asked)
+A fresh session making a Scribe reel picks the voice and music from the request, via **`tools/presets.json`**:
+- **"goth mommy" / goth girl / Vex / e-girl explainer** → script.json `"preset": "vex"` (Fish Dolly at a REGULAR pace, a normal
+  cute girl, NOT breathy — ~3.4 words/s; `"vex-sua"` = the Sua voice) + cues.json `"music": {"preset": "cute"}` (the user's cute
+  tracks: ZOOM UP – Kahimi Karie / cute circus; never the phonk under Vex).
+- **"Chinese narrator" / "Indian narrator" / accent narration / the funny f-word explainers** → `"preset": "narrator-chinese"`
+  (the user's favourite, #8), `"narrator-chinese-2"` (#7) or `"narrator-indian"` + `"music": {"preset": "phonk"}` (the TIKI TIKI
+  phonk, ONLY under these). The comedy is about the topic, never the accent or ethnicity. Plain f-word narration = `"narrator-slax"`.
+- `"music": {"preset": "auto"}` takes the music paired with script.json's voice preset. Keys set in script.json / cues.json win.
+- The tracks are the user's ripped MP3s in the main checkout's **gitignored `exports/music/`** (worktrees find them through
+  `asset_path`): never commit them (this repo is public). Add new tracks the user sends to that folder + the preset's `files`.
+- Every delivery still includes `out/upload-nomusic.mp4` (a platform may mute a ripped track). More lane rules: docs/lanes/scribe.md.
 
 ## Hard-won rules (each one cost a debugging round)
 - **Never rename a sound a shipped reel uses (Nov 8, merging 033 into main):** synth.py seeds every bed's noise with its NAME

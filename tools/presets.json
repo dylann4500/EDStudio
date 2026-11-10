@@ -1,0 +1,53 @@
+{
+  "_doc": "Scribe-lane voice + music presets (user, Nov 10). script.json \"preset\": \"<voice>\" fills the Fish voice + pacing keys (anything set in script.json wins); cues.json \"music\": {\"preset\": \"<music>\" | \"auto\"} picks the bed (auto = the voice preset's music). Music files are the user's ripped tracks in the GITIGNORED exports/music/ of the main checkout — never commit them (the repo is public). See CLAUDE.md → 'Scribe lane defaults'.",
+  "voices": {
+    "vex": {
+      "_doc": "Vex / goth girl / 'goth mommy' default: Fish Dolly at a REGULAR pace, a normal cute girl, not breathy (~3.4 words/s).",
+      "fish": {"reference_id": "ce3b16c14af54adebba5ebe50a3d4417", "model": "s2.1-pro", "speed": 1.2, "temperature": 0.58, "tempo": 1.0},
+      "script": {"maxPause": 0.15, "gap": 0.1, "breath": {"db": -12, "keep": 0.15, "margin": 0.05}, "endPad": 0.15, "headPad": 0.1},
+      "music": "cute"
+    },
+    "vex-sua": {
+      "_doc": "Vex in the 'Sua shy voice' the user linked (Nov 10; 081). Already quick: keep speed ~1.0.",
+      "fish": {"reference_id": "ef74d84f8059411fa5794eeeb20f2254", "model": "s2.1-pro", "speed": 1.0, "temperature": 0.58, "tempo": 1.0},
+      "script": {"maxPause": 0.15, "gap": 0.1, "breath": {"db": -12, "keep": 0.15, "margin": 0.05}, "endPad": 0.15, "headPad": 0.1},
+      "music": "cute"
+    },
+    "narrator-chinese": {
+      "_doc": "The user's favourite narrator (#8 'chinese'): fast, funny. Jokes stay about the TOPIC, never the accent.",
+      "fish": {"reference_id": "654f19c7820c4c26a0ac74c0fbfeb70e", "model": "s2.1-pro", "speed": 1.1, "temperature": 0.6},
+      "script": {"maxPause": 0.2, "gap": 0.1},
+      "music": "phonk"
+    },
+    "narrator-chinese-2": {
+      "_doc": "#7 'Chinese accent' (sounds like Uncle Roger; the user okayed it for ads Nov 10). Never reference Uncle Roger or his bits.",
+      "fish": {"reference_id": "fe2e4e24a3a544dc95e8e5eb7dba7c82", "model": "s2.1-pro", "speed": 1.1, "temperature": 0.6},
+      "script": {"maxPause": 0.2, "gap": 0.1},
+      "music": "phonk"
+    },
+    "narrator-indian": {
+      "_doc": "Indian-accent narrator, default = 'Amir' (fast, friendly). Alternates from the Nov 10 audition: 'Funny Indian accent' 8e468a7c906648e3bb4cb7c08185b14a (panicky, high), 'Mark' edb4d200ed2f4eb8b9b58dd042e21c6a (young, hyped).",
+      "fish": {"reference_id": "7cccb9161ca24b13861f77f038aaa97a", "model": "s2.1-pro", "speed": 1.1, "temperature": 0.6},
+      "script": {"maxPause": 0.2, "gap": 0.1},
+      "music": "phonk"
+    },
+    "narrator-slax": {
+      "_doc": "Slax, the original f-word narrator (American). Synth score or no music; the phonk is for the accent narrators only.",
+      "fish": {"reference_id": "c5f56a6cc2ec4fa8920cb4c5889a3fb7", "model": "s2.1-pro", "speed": 1.1, "temperature": 0.6},
+      "script": {"maxPause": 0.2, "gap": 0.1},
+      "music": null
+    }
+  },
+  "music": {
+    "phonk": {
+      "_doc": "TIKI TIKI phonk (slowed) — ONLY under the Chinese/Indian-accent narrator reels.",
+      "files": ["exports/music/tiki-phonk.mp3"],
+      "file_gain_db": -6, "file_in": 0.2, "file_fade_out": 2.0
+    },
+    "cute": {
+      "_doc": "Cute tracks for every Vex / goth girl reel (the user will send more: add them to files). Picked per video by a stable hash of the folder name, or \"pick\": i.",
+      "files": ["exports/music/zoom-up-kahimi-karie.mp3", "exports/music/cute-circus.mp3"],
+      "file_gain_db": -6, "file_in": 0.2, "file_fade_out": 2.0
+    }
+  }
+}

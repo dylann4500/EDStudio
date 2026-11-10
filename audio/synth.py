@@ -2088,9 +2088,89 @@ def leveler(x, thr_rel_db=4.0, ratio=2.0, tau=0.25):
     return x * db2lin(gr), float(-gr.min())
 
 
+def asset_path(rel):
+    """A repo-relative asset path that may be gitignored (exports/music/…): look in this checkout, then in the MAIN checkout
+    (worktrees don't carry gitignored files)."""
+    rel = os.path.expanduser(rel)
+    if os.path.isabs(rel):
+        return rel
+    p = os.path.join(ROOT, rel)
+    if os.path.exists(p):
+        return p
+    try:
+        common = subprocess.run(["git", "-C", ROOT, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                                capture_output=True, text=True, check=True).stdout.strip()
+        q = os.path.join(os.path.dirname(common), rel)
+        if os.path.exists(q):
+            return q
+    except Exception:
+        pass
+    raise SystemExit(f"music file not found: {rel} (the user's tracks live in the main checkout's gitignored exports/music/)")
+
+
+def music_preset(M):
+    """Nov 10, opt-in: cues.json "music": {"preset": "phonk" | "cute" | "auto"} from tools/presets.json → file settings
+    (keys set in cues.json win). "auto" = the music paired with script.json's voice preset (vex → cute, narrator-* → phonk).
+    A preset with several files picks one by a stable hash of the video folder name, or "pick": i."""
+    name = M.get("preset")
+    if not name:
+        return M
+    P = json.load(open(os.path.join(ROOT, "tools", "presets.json")))
+    if name == "auto":
+        sp = os.path.join(OUT_DIR or "", "script.json")
+        voice = json.load(open(sp)).get("preset") if os.path.exists(sp) else None
+        name = (P["voices"].get(voice) or {}).get("music")
+        if not name:
+            return M
+    Q = P["music"][name]
+    files = Q["files"]
+    i = M.get("pick", sum(map(ord, os.path.basename(os.path.normpath(OUT_DIR or "x")))) % len(files))
+    out = {k: v for k, v in Q.items() if k.startswith("file_")}
+    out.update({k: v for k, v in M.items() if k != "preset"})
+    out.setdefault("file", asset_path(files[i % len(files)]))
+    return out
+
+
+def file_music(M, n_total, log=print):
+    """Nov 10, opt-in: a pre-made track as the music bed. cues.json "music": {"file": "/abs/or/~/path.mp3",
+    "file_start": s into the track, "file_in": s into the video where it enters, "file_gain_db", "file_fade_in",
+    "file_fade_out" (s before the video's end)}. Loops (1 s crossfade) if the video is longer than the track.
+    Keep licensed/ripped tracks OUT of git (exports/music/ is gitignored) — the repo is public."""
+    path = os.path.expanduser(M["file"])
+    raw = subprocess.run([FFMPEG, "-v", "error", "-i", path, "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
+                         capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, dtype=np.float32).reshape(-1, 2).T.astype(np.float64)
+    x = x[:, nsamp(M.get("file_start", 0.0)):]
+    out = np.zeros((2, n_total))
+    pos, xf, first = nsamp(M.get("file_in", 0.0)), nsamp(1.0), True
+    if x.shape[1] <= 2 * xf:
+        raise SystemExit(f"music file too short: {path}")
+    while pos < n_total:
+        take = min(x.shape[1], n_total - pos)
+        seg = x[:, :take].copy()
+        if not first:                                    # a loop seam: 1 s crossfade, old tail out / new copy in
+            k = min(xf, take)
+            out[:, pos:pos + k] *= np.linspace(1, 0, k)
+            seg[:, :k] *= np.linspace(0, 1, k)
+        out[:, pos:pos + take] += seg
+        if pos + take >= n_total:
+            break
+        pos, first = pos + take - xf, False
+    fi = nsamp(M.get("file_fade_in", 0.0))
+    if fi > 0:
+        a = nsamp(M.get("file_in", 0.0))
+        out[:, a:a + fi] *= np.linspace(0, 1, min(fi, n_total - a))
+    fo = nsamp(M.get("file_fade_out", 0.0))
+    if fo > 0:
+        out[:, n_total - fo:] *= np.linspace(1, 0, fo)
+    log(f"  music file: {os.path.basename(path)} ({x.shape[1] / SR:.1f} s used from {M.get('file_start', 0)} s)")
+    return out * db2lin(M.get("file_gain_db", 0.0))
+
+
 def render_music(M, n_total, log=print):
+    M = music_preset(M)                                 # Nov 10, opt-in: "preset": "phonk" | "cute" | "auto"
     mallet, strs = [], []
-    notes = compose(M, mallet, strs)
+    notes = compose(M, mallet, strs) if ("chords" in M or not M.get("file")) else []   # a file-only bed (preset/file, no score)
     dry = np.zeros((2, n_total))
     t0 = time.time()
     inst = M.get("instrument", "piano")      # per-video sound identity: piano (emotional/funny) | pluck | bell (sims, tech, wonder)
@@ -2139,6 +2219,8 @@ def render_music(M, n_total, log=print):
     pad = render_pad(M.get("pad", []), n_total)
     pad = pad + db2lin(M.get("pad_reverb_db", -5)) * convolve(pad, hall_ir())
     music = piano + db2lin(M.get("pad_db", -6)) * pad
+    if M.get("file"):                                   # Nov 10, opt-in: a pre-made track (file_music) under/instead of the synth score
+        music = music + file_music(M, n_total, log)
     if M.get("leveler"):
         music, lg = leveler(music, **M["leveler"])
         log(f"  music leveller max GR {lg:.1f} dB")
@@ -3293,7 +3375,8 @@ def verify(cues, proc, gr, notes, expected, duck=None, log=print):
             a0, a1 = on[0] + 10, min(len(wdb), on[-1] - 10)       # ignore the entrance + the final fade
             med = np.median(wdb[a0:a1]) if a1 > a0 else 0
             drops = [i * 0.05 for i in range(a0, a1) if wdb[i] < med - 12]
-            log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s  <-- FIX (music must never cut out)"))
+            filebed = bool(cues["music"].get("file") or cues["music"].get("preset"))   # the user's own track: its rests are the song's, not a gap we made
+            log(f"music dropouts (>12 dB under median, {a0 * 0.05:.1f}-{a1 * 0.05:.1f}s): " + ("none" if not drops else f"{len(drops)} windows, first at {drops[0]:.2f}s" + ("  (file bed: the track's own rests, OK)" if filebed else "  <-- FIX (music must never cut out)")))
             if drops:  # grouped ranges, so you know which section to fill (a pad / a longer note / a pickup)
                 grp = []
                 for d in drops:
