@@ -58,7 +58,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   only as it actually happened), no Minecraft/Roblox logos or names on screen (generic blocky look).
 - **Fish voices (user's picks, Nov 9):** Dolly `ce3b16c14af54adebba5ebe50a3d4417` (breathy British), Mommy
   `5233336f5f44460ea0902b0802375451` (soft, breathy), Authentic Conversational Storyteller `da1eeaa6379e491da2ea7d203d2d4b05`, plus
-  Slax for the f-word series. Rotate them so each reel sounds different. Vex uses Dolly or Mommy ONLY — the Storyteller voice's own
+  Slax for the f-word series. Rotate them so each reel sounds different. **Vex: a notch less breathy** (user, Nov 9: "a tiny
+  bit less breathing and moaning… we don't want to scare off our viewers"): endPad ≈ 0.2 s, mid-line breaths capped (maxPause
+  ≈ 0.25 s + pauseFloor, or a gate ~8–10 dB on breaths), Fish temperature ≈ 0.55–0.6. Vex uses Dolly or Mommy ONLY — the Storyteller voice's own
   description says "a young girl", so it never voices a flirty reel.
 - **Focus from Nov 9 (user: "I'm going to be focusing on Roblox and Minecraft videos and memes and current events, and the goth
   mommy videos, because those are going to be high converting"):** most new reels = (a) Roblox-/Minecraft-style takes on this
