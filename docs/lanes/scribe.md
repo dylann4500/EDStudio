@@ -170,6 +170,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   - **Chinese / Indian-accent narrated reels:** `tiki-phonk.mp3` (TIKI TIKI phonk, slowed) — ONLY for those reels.
   - **Vex / goth girl reels (all of them, from now on):** cute tracks — `zoom-up-kahimi-karie.mp3`, `cute-circus.mp3` (alternate;
     the user will send more). Never the phonk on a Vex reel.
+  `tiki-phonk.mp3` has a sparse intro with a near-silent break at 5–7 s (synth's dropout check flags it) and a soft bridge at 44–55 s:
+  start it at `"file_start": 55.0` for a dense bed under a ≤ 60 s reel (084). A soft cue before 0.06 s crashes synth's onset check: start
+  the first SFX at ≥ 0.1 s.
   Mix: measure the stems (ffmpeg ebur128 on out/stems/music.wav vs voice.wav) and land the music ≈ 8 dB under the voice
   (081: file_gain_db −8.5 with stem_gain_db music −11.5 → music −23 / voice −15 LUFS; −2.5 sat only 4 dB under and fought the words); still deliver `upload-nomusic.mp4` so the user can
   swap in the official sound in-app if a platform mutes the ripped track.

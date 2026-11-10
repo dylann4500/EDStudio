@@ -435,6 +435,18 @@ videos/NNN-slug/
   crates: `set({rack, brace, spin})`, `braceEnds`), `makeTextbook`, `makeDeskLamp`, `makeMiniFridge`, `makeKettle`, `makePowerStrip`,
   `makeCord`/`makeConduit` (draw-on tubes), `makePanel`, `makePrinter`, `makeConveyor`, `makeChute`, `makeDrill`, `makePhone`,
   `makePaperStack`, `makeIBeam`. Lessons: docs/BUILD.md → Lessons from 073.
+- **1944 kit (084, `engine/build/ww2.js`, toon look; reel `videos/084-ronaldo-ww2`):** `buildNormandy(studio)` = sunny Normandy farmland at the
+  origin (field, a dirt road along x at `D.roadZ` with a fence on its far side, hedgerows with a gap at the farm, stone farmhouse + barn +
+  village houses, orchard, far church spire, haystacks, a 1.6–2.6 km cloud layer of sprites, a camera-following sky that darkens with
+  altitude: `followSky(camera)` every frame; `aimSun(cx, cz, half, cy)`; `party` = bunting + table + VICTORY! banner, hidden),
+  `buildBeach` (a dawn landing beach: sand, moving sea, bluffs, beach obstacles, `craft[i] = {g, ramp}`, ships, barrage balloons),
+  `buildRoom` (a student's bedroom at night). Props: `makeBomber` (generic four-engine prop bomber, nose +x), `makeSherman` (`update(dist)`,
+  `hatch` for a crewman), `makeV2`, `makeTrail` (sprite contrail), `makeBall`, `makeHelmet('allied'|'blank')`, `makePortal`, `makePhone`.
+  Generic only: no insignia beyond the Allied star, no symbols, no leaders. Lessons: a far formation/contrail needs `fog: false` materials
+  + `camera.far` ≈ 7000 and a sky dome with FEW painted clouds (white puffs on white clouds vanished); a camera that climbs 7.5 km = a
+  geometric height `40·(7500/40)^e` through the cloud sprites; a phone held 0.33 m from a toon's face puts any screen close-up inside his
+  head: hide the rig and add two POV hands (084 `povHands`); keep handwritten answers free of decimals (the demo hand's '.' is a speck:
+  "36²/19.6" read "36²/196").
 - **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
   below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
   conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in
