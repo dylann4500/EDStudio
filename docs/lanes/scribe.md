@@ -167,6 +167,7 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **Background music = the user's own tracks (Nov 10), via `audio/synth.py` `"music": {"file": …}`** (`file_start`, `file_in`,
   `file_gain_db`, `file_fade_in`, `file_fade_out`; the narrator still ducks it). The files live in the gitignored
   `/Users/dylan/Documents/GitHub/EDStudio/exports/music/` — never commit them (the repo is public and they are ripped tracks):
+  - **The music starts on FRAME 1 on every Scribe reel** (user, Nov 10): `file_in 0`, no quiet open, no waiting for the premise line.
   - **Chinese / Indian-accent narrated reels:** `tiki-phonk.mp3` (TIKI TIKI phonk, slowed) — ONLY for those reels.
   - **Vex / goth girl reels (all of them, from now on):** cute tracks — `zoom-up-kahimi-karie.mp3`, `cute-circus.mp3` (alternate;
     the user will send more). Never the phonk on a Vex reel.

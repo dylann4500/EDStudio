@@ -109,9 +109,10 @@
         "exports/music/tiki-phonk.mp3"
       ],
       "file_gain_db": -6,
-      "file_in": 0.2,
+      "file_in": 0.0,
       "file_fade_out": 2.0,
-      "file_start": 55.0
+      "file_start": 55.0,
+      "file_fade_in": 0.1
     },
     "cute": {
       "_doc": "Cute tracks for every Vex / goth girl reel (the user will send more: add them to files). Picked per video by a stable hash of the folder name, or \"pick\": i. Tracks differ in loudness (cute circus is ~4 dB quieter than ZOOM UP): measure the stems and land the music ~8 dB under the voice (081 ZOOM UP file_gain_db -8.5, 083 cute circus -4.5, both with stem music -11).",
@@ -120,8 +121,9 @@
         "exports/music/cute-circus.mp3"
       ],
       "file_gain_db": -6,
-      "file_in": 0.2,
-      "file_fade_out": 2.0
+      "file_in": 0.0,
+      "file_fade_out": 2.0,
+      "file_fade_in": 0.1
     }
   }
 }

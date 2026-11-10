@@ -110,8 +110,8 @@ cues = {
     "shots": [B[b]['t0'] for b in story['order']] + [D],
     "music": music, "ambience": amb, "events": sorted(ev, key=lambda x: x.get('t', x.get('t0'))),
 }
-# user, Nov 10: every Vex reel plays the user's own CUTE track (tools/presets.json 'cute'; 1 = cute circus, 081 had ZOOM UP),
+# user, Nov 10: music from FRAME 1 (no quiet open on Scribe reels); every Vex reel plays the user's own CUTE track (tools/presets.json 'cute'; 1 = cute circus, 081 had ZOOM UP),
 # entering on "lithium"; the synth score above is kept for reference only. ~8 dB under the voice.
-cues['music'] = {'preset': 'cute', 'pick': 1, 'file_in': round(IN, 2), 'file_fade_in': 0.6, 'file_gain_db': -4.5}
+cues['music'] = {'preset': 'cute', 'pick': 1, 'file_in': 0.0, 'file_fade_in': 0.1, 'file_gain_db': -4.5}
 json.dump(cues, open(os.path.join(HERE, 'cues.json'), 'w'), indent=1)
 print(f"cues.json: {len(ev)} events, {len(amb)} beds, {len(chords)} chords")

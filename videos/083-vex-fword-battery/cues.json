@@ -58,8 +58,8 @@
  "music": {
   "preset": "cute",
   "pick": 1,
-  "file_in": 4.0,
-  "file_fade_in": 0.6,
+  "file_in": 0.0,
+  "file_fade_in": 0.1,
   "file_gain_db": -4.5
  },
  "ambience": [

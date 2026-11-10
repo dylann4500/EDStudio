@@ -1002,7 +1002,8 @@ videos/NNN-slug/
 - **No bare scenes (user steer, 010):** dress every shot — posters, a glowing alarm clock, slippers, laundry, plants indoors;
   power poles + wires, picket fences, flower beds, a kid's bike, a gnome, parked cars, clouds outdoors; carts and produce bins in a store.
   If a still looks empty, add 4–6 props before re-rendering. Keep them out of the hero's sightline (`poleClear` in suburb.js).
-- **Open quiet (user steer after 010):** the first seconds are subtle sound only (room tone, crickets, a snore, a street) and the
+- **Open quiet (user steer after 010) — NOT for Scribe-lane reels:** since Nov 10 the user wants the music to start IMMEDIATELY
+  (frame 1) on Scribe reels (Vex/goth mommy, accent narrators, all of them); see "Scribe lane defaults". Elsewhere: the first seconds are subtle sound only (room tone, crickets, a snore, a street) and the
   music ENTERS on the premise moment (007: the brain glow; 010: the growth at 4.2 s, with a braam + boom). Don't start the score at 0.
 - **Keep beats short and busy (user, on 010 v1: "too bare… more different funny scenes"):** ~5 s per beat, 10–12 beats, something
   moving in every frame — cut away before a shot goes static (v1 held a crushed car / an empty room / a standing hero for 3–8 s).
@@ -1021,6 +1022,8 @@ A fresh session making a Scribe reel picks the voice and music from the request,
 - **"Chinese narrator" / "Indian narrator" / accent narration / the funny f-word explainers** → `"preset": "narrator-chinese"`
   (the user's favourite, #8), `"narrator-chinese-2"` (#7) or `"narrator-indian"` + `"music": {"preset": "phonk"}` (the TIKI TIKI
   phonk, ONLY under these). The comedy is about the topic, never the accent or ethnicity. Plain f-word narration = `"narrator-slax"`.
+- **The music starts on FRAME 1** (user, Nov 10: "the music should start immediately"): presets use `file_in 0`, `file_fade_in 0.1`;
+  never hold it back for a quiet open or until the premise line on a Scribe reel.
 - `"music": {"preset": "auto"}` takes the music paired with script.json's voice preset. Keys set in script.json / cues.json win.
 - The tracks are the user's ripped MP3s in the main checkout's **gitignored `exports/music/`** (worktrees find them through
   `asset_path`): never commit them (this repo is public). Add new tracks the user sends to that folder + the preset's `files`.
