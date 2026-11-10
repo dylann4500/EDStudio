@@ -1,0 +1,66 @@
+{
+ "text": "Eight years of work, and Rockstar nearly doubled, to forty-seven hundred people.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Eight",
+   "t0": 0.08,
+   "t1": 0.48
+  },
+  {
+   "w": "years",
+   "t0": 0.48,
+   "t1": 0.8
+  },
+  {
+   "w": "of",
+   "t0": 0.8,
+   "t1": 0.96
+  },
+  {
+   "w": "work,",
+   "t0": 0.96,
+   "t1": 1.44
+  },
+  {
+   "w": "and",
+   "t0": 2.0,
+   "t1": 2.24
+  },
+  {
+   "w": "Rockstar",
+   "t0": 2.24,
+   "t1": 2.88
+  },
+  {
+   "w": "nearly",
+   "t0": 2.88,
+   "t1": 3.2
+  },
+  {
+   "w": "doubled,",
+   "t0": 3.2,
+   "t1": 3.84
+  },
+  {
+   "w": "to",
+   "t0": 4.48,
+   "t1": 4.56
+  },
+  {
+   "w": "forty-seven",
+   "t0": 4.56,
+   "t1": 5.44
+  },
+  {
+   "w": "hundred",
+   "t0": 5.44,
+   "t1": 5.92
+  },
+  {
+   "w": "people.",
+   "t0": 5.92,
+   "t1": 6.48
+  }
+ ]
+}
