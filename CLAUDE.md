@@ -601,6 +601,18 @@ videos/NNN-slug/
   leave `subject` unset (a string subject printed the class line twice over the pack's). Shrink the magic pen's glow in a macro
   (`pen.glow` 0.022, it hid the H of H–O–H). Copy: the Scribe beat stays the product demo; the rest is comfort/tease (roast the
   homework → "aww" → "come here" → a wink → Scribe → "mommy won't tell" → bed) — flirty, adult, no kink lines, no promises.
+  **065/066 (Nov 9, user via manager: "make sure there's some variance… we can do another thingy"):** each Vex reel changes FORMAT,
+  PLACE and Scribe FEATURE, not just the subject — 064 POV on the night beach (snap → solve → write), 065 a RATING list in her goth
+  bedroom (pixel rating cards = `pxbox` + two `pixelText` images at y ≈ 0.095, above her head in every medium shot; 0.165 sat on her
+  hair; feature = one practice sheet + the Messiness slider), 066 a GRWM at a golden-hour café (step cards = callouts; feature = PDF
+  upload → blanks + table cells filled ON the worksheet, Pencil ink, Download PDF; a custom worksheet canvas + penKit/FIG.market drawn
+  in a graphite `loadHand(url, '#55575e')`). Check every feature claim against the Scribe README (§Worksheets, §Teaching it your
+  handwriting, §The handwriting picker). Scribe screens on a laptop: design them inside the middle ~620 px of the 1280 canvas (a
+  vertical frame crops the rest). **Never call `layoutHand` inside update()**: it makes a canvas per glyph, so 065's per-frame preview
+  crashed Chrome at frame 271 ("Target closed") — lay out once, redraw a canvas only when its value changes. Hand props (liner,
+  lipstick, latte) ride the bones (`VEX.bpos('rightIndexDistal')`) after `update`; keep the hand BESIDE the face (a hand in front of it
+  hid the face) and aim the prop at the eye/mouth (`H.rightEye`). A render that fails with "WS endpoint" / "captureScreenshot timed
+  out" while other sessions render is load (avg 50–90), not your code: retry.
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via

@@ -1,0 +1,115 @@
+{
+ "title": "POV: you brought bio homework to the beach and goth mommy found you (Vex, Scribe)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy ASMR (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.4,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "POV: you brought your bio homework to the beach... and mommy found you.",
+   "callouts": []
+  },
+  {
+   "id": "roast",
+   "say": "Look at you. Golden hour. Sand in your shoes. Lab report due at eight AM... and you're still on question one.",
+   "callouts": [
+    {
+     "at": "eight",
+     "text": "LAB DUE 8 AM",
+     "style": "term",
+     "until": "one",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pity",
+   "say": "Aww. Genetics got you, baby?",
+   "callouts": []
+  },
+  {
+   "id": "come",
+   "say": "Come here. Close the textbook.",
+   "callouts": []
+  },
+  {
+   "id": "tease",
+   "say": "Genetics fact: hot runs in mommy's family.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Snap a picture. Scribe solves the whole sheet, and writes it in your handwriting. Even the Punnett square.",
+   "callouts": [
+    {
+     "at": "scribe",
+     "text": "SCRIBE",
+     "style": "term",
+     "until": "sheet",
+     "y": 0.14
+    },
+    {
+     "at": "your",
+     "text": "YOUR HANDWRITING",
+     "style": "term",
+     "until": "handwriting",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "secret",
+   "say": "Three to one says your professor never notices.",
+   "callouts": []
+  },
+  {
+   "id": "relax",
+   "say": "There. The sun's still out.",
+   "callouts": []
+  },
+  {
+   "id": "swim",
+   "say": "Come swim with mommy.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "Last one in is recessive, baby.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "33bed5b5a88b47cd80f0a6ed85bc0bca",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.7,
+  "tempo": 1.0
+ }
+}

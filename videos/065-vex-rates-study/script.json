@@ -1,0 +1,102 @@
+{
+ "title": "Mommy rates your study habits (Vex, Scribe; rating format)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy ASMR (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.4,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Mommy's rating your study habits. Don't lie to me.",
+   "callouts": []
+  },
+  {
+   "id": "tabs",
+   "say": "Forty-seven tabs open... and not one of them is your homework? Two out of ten.",
+   "callouts": []
+  },
+  {
+   "id": "drink",
+   "say": "Third energy drink at midnight? Zero. Your heart is begging, baby.",
+   "callouts": []
+  },
+  {
+   "id": "highlight",
+   "say": "Highlighting the whole page isn't studying. It's coloring. Minus one.",
+   "callouts": []
+  },
+  {
+   "id": "bed",
+   "say": "Studying in bed? Hmm... six. Mommy does it too.",
+   "callouts": []
+  },
+  {
+   "id": "turn",
+   "say": "But this bio worksheet? Ten out of ten. Watch.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Scribe learned your handwriting from one practice sheet. Then I make it a little messy, so it looks like you rushed it. Punnett square and all.",
+   "callouts": [
+    {
+     "at": "one",
+     "text": "1 PRACTICE SHEET",
+     "style": "term",
+     "until": "sheet",
+     "y": 0.14
+    },
+    {
+     "at": "messy",
+     "text": "MESSINESS",
+     "style": "term",
+     "until": "messy",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "secret",
+   "say": "Three to one, your professor buys it.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "Final score? Ten out of ten. Now come here, baby.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "33bed5b5a88b47cd80f0a6ed85bc0bca",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.7,
+  "tempo": 1.0
+ }
+}

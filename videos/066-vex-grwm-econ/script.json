@@ -1,0 +1,129 @@
+{
+ "title": "GRWM: the econ final (Vex, Scribe; get-ready-with-me format, café at golden hour)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy ASMR (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.4,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Get ready with mommy for the econ final.",
+   "callouts": []
+  },
+  {
+   "id": "liner",
+   "say": "Step one: winged liner. Sharp enough to cut a demand curve.",
+   "callouts": [
+    {
+     "at": "one",
+     "text": "STEP 1: LINER",
+     "style": "term",
+     "until": "curve",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "lip",
+   "say": "Step two: black cherry lip. Mommy's prices only go up.",
+   "callouts": [
+    {
+     "at": "two",
+     "text": "STEP 2: LIP",
+     "style": "term",
+     "until": "up",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "coffee",
+   "say": "Step three: iced latte. Opportunity cost? My sleep.",
+   "callouts": [
+    {
+     "at": "three",
+     "text": "STEP 3: COFFEE",
+     "style": "term",
+     "until": "sleep",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "sheet",
+   "say": "Step four... the review sheet due today. Blanks, a table, a whole graph.",
+   "callouts": [
+    {
+     "at": "four",
+     "text": "STEP 4: HOMEWORK",
+     "style": "term",
+     "until": "graph",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "scribe",
+   "say": "So I uploaded the PDF, and Scribe filled every blank, every box in the table, in my handwriting... in pencil. Even the supply shift.",
+   "callouts": [
+    {
+     "at": "uploaded",
+     "text": "UPLOAD THE PDF",
+     "style": "term",
+     "until": "pdf",
+     "y": 0.14
+    },
+    {
+     "at": "pencil",
+     "text": "PENCIL",
+     "style": "term",
+     "until": "pencil",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "download",
+   "say": "Download PDF. Turned in.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "Okay. Wish mommy luck, baby.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "33bed5b5a88b47cd80f0a6ed85bc0bca",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.7,
+  "tempo": 1.0
+ }
+}

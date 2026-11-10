@@ -1,0 +1,115 @@
+{
+ "title": "POV: goth mommy finds you failing econ at the beach bar (Vex, Scribe)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy ASMR (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 200
+ },
+ "lead": 0.04,
+ "gap": 0.18,
+ "tail": 4.6,
+ "maxPause": 0.4,
+ "pauseFloor": -45,
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "POV: it's finals week... and mommy found you crying over economics.",
+   "callouts": []
+  },
+  {
+   "id": "roast",
+   "say": "At a beach bar. Twelve-dollar smoothie. Econ final tomorrow... and you can't even explain why it costs twelve dollars.",
+   "callouts": [
+    {
+     "at": "twelvedollar",
+     "text": "$12 SMOOTHIE",
+     "style": "term",
+     "until": "smoothie",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "pity",
+   "say": "Aww. Is the big scary graph being mean to you?",
+   "callouts": []
+  },
+  {
+   "id": "come",
+   "say": "Hand it over. Give mommy that pencil.",
+   "callouts": []
+  },
+  {
+   "id": "tease",
+   "say": "Here's some economics. Mommy? Limited supply. Very high demand.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "Snap a picture. Scribe solves it all, and draws the graph in your handwriting. Shifts, new price, everything.",
+   "callouts": [
+    {
+     "at": "scribe",
+     "text": "SCRIBE",
+     "style": "term",
+     "until": "all",
+     "y": 0.14
+    },
+    {
+     "at": "your",
+     "text": "YOUR HANDWRITING",
+     "style": "term",
+     "until": "handwriting",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "secret",
+   "say": "See? A frost hit the oranges. That's why your smoothie costs twelve.",
+   "callouts": []
+  },
+  {
+   "id": "relax",
+   "say": "Your professor will think you actually went to class.",
+   "callouts": []
+  },
+  {
+   "id": "pay",
+   "say": "Now drink up. Mommy's paying.",
+   "callouts": []
+  },
+  {
+   "id": "end",
+   "say": "You're welcome, baby.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "33bed5b5a88b47cd80f0a6ed85bc0bca",
+  "model": "s2.1-pro",
+  "speed": 0.95,
+  "temperature": 0.7,
+  "tempo": 1.0
+ }
+}
