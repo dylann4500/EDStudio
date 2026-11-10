@@ -633,6 +633,17 @@ videos/NNN-slug/
   files away and re-running (zsh: quote `"slug:hook"` — `$s:h` is a zsh modifier). Dolly's pauses are silent, so the shared settings
   run her ~8 % shorter than a 0.4 s cap. **Product shots render crisp: `pixel.set(sh.screen || sh.write ? 1 : Math.max(PIXEL,
   mosaicAt(t, CUTS)))`** — block 2 plus a mosaic swell at both ends of a 1.9 s Punnett macro read as pixel mush (draft fix).
+  **Props a Vex hand holds (Nov 9, user on 066: "that shit's just floating or going through her") = 066's hold kit (copy it from
+  videos/066-vex-grwm-econ/shots.js):** contact points are face-mesh VERTICES found from the Face_00_SKIN boundary loops (the outer corner
+  of the right eye opening, the lower lip's inner edge — `fpos(i)` follows blinks + mouth shapes); `holdPose(t, P, side, {target, axis,
+  palmN, grip: 'pinch'|'palm', pole, shape})` = a two-bone reach (`armR`/`armL`) + hand aim + palm twist (split 55/45 forearm/hand),
+  iterated 5× on the MEASURED grip; the prop is then placed from that hand's bones every frame (pencil/lipstick through the pinch,
+  compact on the palm, cup centre = palm + N·0.05 with its up = the knuckle line). vroid.js hands take a raw curl array
+  `[thumb, index, middle, ring, little]` (PINCH 0.62/0.7/1.15/1.3/1.35, cup grip 0.35…0.74). **054's `kiss` preset puts the hand ON her
+  chest with the forearm inside her bust at 067's proportions** (065 heart, 066 + 067 endings): reach the fingertips to the lips (7.8 cm
+  below + 8.2 cm in front of the eye bones in head space) with the elbow OUT AND FORWARD (pole her (−0.9, −0.35, 0.75)) and blend from
+  the neighbouring preset, never through the kiss preset. Check every held prop with `--cam side|side2|above|close|wide|wide2` (066).
+  A hand-held phone prop seen from overhead needs fingers + thumb curled OVER its long edges with the nails on top (065/067 snap).
   **Breath, user (Nov 9, on 067): "a tiny bit less breathing and moaning… we don't want to scare off our viewers" — the default for
   EVERY Vex reel:** script.json `"endPad": 0.2`, `"maxPause": 0.25`, `"breath": {"db": -9, "keep": 0.25, "margin": 0.06}` (narrate.py
   `soften_breaths`, opt-in: between two words the take drops 9 dB and any gap over 0.25 s loses its middle; words untouched; a beat
