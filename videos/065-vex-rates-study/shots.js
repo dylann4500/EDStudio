@@ -178,8 +178,14 @@ export async function build(studio, story) {
     const arm = new THREE.Mesh(new THREE.CapsuleGeometry(0.026, 0.34, 4, 12), skin); arm.rotation.x = PI / 2; arm.position.set(0, 0, 0.3); snap.add(arm);
     const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.05, 18), blk); cuff.rotation.x = PI / 2; cuff.position.set(0, 0, 0.16); snap.add(cuff);
     for (let i = 0; i < 8; i++) { const a = (i / 8) * 2 * PI, s = new THREE.Mesh(new THREE.ConeGeometry(0.007, 0.018, 5), silver); s.position.set(Math.cos(a) * 0.04, Math.sin(a) * 0.04, 0.16); s.rotation.z = a - PI / 2; snap.add(s); }
-    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.045, 14, 10), skin); palm.scale.set(1.1, 0.5, 1.2); palm.position.set(0, -0.012, 0.07); snap.add(palm);
-    for (let i = 0; i < 4; i++) { const f = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, 0.045, 3, 8), skin); f.rotation.z = PI / 2; f.position.set(-0.06, -0.004, 0.035 + i * 0.02); snap.add(f); const n = new THREE.Mesh(new THREE.SphereGeometry(0.008, 8, 6), blk); n.position.set(-0.09, -0.002, 0.035 + i * 0.02); snap.add(n); }
+    // the hand GRIPS the phone (Nov 9 fix: from the overhead lens the phone hid a palm whose fingers lay beside it = a floating phone):
+    // the palm under it, four fingers curled up over its left long edge and the thumb over the right, black nails on top (seen from above)
+    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.045, 14, 10), skin); palm.scale.set(1.1, 0.5, 1.2); palm.position.set(0, -0.024, 0.045); snap.add(palm);
+    const digit = (sx, z) => { const up = new THREE.Mesh(new THREE.CapsuleGeometry(0.0085, 0.022, 3, 8), skin); up.position.set(sx * 0.052, -0.007, z); snap.add(up);
+      const tip = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, 0.014, 3, 8), skin); tip.rotation.z = PI / 2; tip.position.set(sx * 0.041, 0.019, z); snap.add(tip);
+      const nail = new THREE.Mesh(new THREE.SphereGeometry(0.0052, 8, 6), blk); nail.scale.set(1, 0.4, 0.85); nail.position.set(sx * 0.034, 0.026, z); snap.add(nail); };
+    for (let i = 0; i < 4; i++) digit(-1, 0.002 + i * 0.021);
+    digit(1, 0.04);
     const phone = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.012, 0.17), toon(0xb48ad8)); phone.position.set(0, 0.006, 0); snap.add(phone);
     const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.076, 0.15), new THREE.MeshBasicMaterial({ map: practiceT, toneMapped: false })); scr.rotation.x = -PI / 2; scr.position.set(0, 0.0125, 0); snap.add(scr);
     const flash = new THREE.Mesh(new THREE.CircleGeometry(0.4, 24), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, toneMapped: false })); flash.rotation.x = PI / 2; flash.position.y = -0.02; snap.add(flash); snap.flash = flash; }
@@ -195,6 +201,34 @@ export async function build(studio, story) {
   const lips = (t) => { const w = story.words.find((x) => t >= x.t0 && t < x.t1 - 0.03); if (!w) return { mouth: 0 }; const v = (w.w.toLowerCase().match(/[aeiouy]/g) || ['a']).map((c) => (c === 'y' ? 'i' : c)), u = clamp((t - w.t0) / Math.max(0.08, w.t1 - w.t0 - 0.03)) * v.length, i = Math.min(v.length - 1, Math.floor(u)); return { mouth: 0.22 + 0.55 * Math.sin(Math.PI * (u - i)), vowel: v[i] }; };
   const armsOf = (pose) => { const A = ARMS[pose] || ARMS.rest, L = A.L || ARMS.rest.L; return { L, R: A.R || L.map((d) => [-d[0], d[1], d[2]]) }; };
   const mixArm = (a, b, k) => a.map((d, i) => d.map((v, j) => v + (b[i][j] - v) * k));
+  // ---------------------------------------------------------------- hand on her heart, for real (Nov 9 fix): 054's 'kiss' preset put the right
+  // hand on her chest with the forearm rising THROUGH her bust at these proportions. A two-bone reach + palm twist (066's hold kit) lays the
+  // palm flat on her upper-left chest above the bust, elbow out and forward, blended in by w from the previous pose.
+  const SEG = {}; for (const sd of ['left', 'right']) { const u = VEX.bpos(sd + 'UpperArm'), l = VEX.bpos(sd + 'LowerArm'), h = VEX.bpos(sd + 'Hand'); SEG[sd] = [u.distanceTo(l), l.distanceTo(h)]; }
+  const qRoot = new THREE.Quaternion(), toHer = (w) => w.clone().applyQuaternion(qRoot.clone().invert()).toArray(), fromHer = (x, y, z) => V(x, y, z).applyQuaternion(qRoot);
+  const nrm = (...vs) => vs.reduce((a, [k, v]) => a.addScaledVector(v, k), V()).normalize();
+  function reach(sd, W, pole) {
+    const S = VEX.bpos(sd + 'UpperArm'), [a, b] = SEG[sd], d = W.clone().sub(S), L = clamp(d.length(), Math.abs(a - b) + 1e-3, a + b - 1e-3), nn = d.normalize();
+    const ca = (a * a + L * L - b * b) / (2 * a * L), sa = Math.sqrt(Math.max(0, 1 - ca * ca)), p = pole.clone().addScaledVector(nn, -pole.dot(nn)).normalize();
+    const E = S.clone().addScaledVector(nn, a * ca).addScaledVector(p, a * sa), Wc = S.clone().addScaledVector(nn, L);
+    return [toHer(E.clone().sub(S)), toHer(Wc.sub(E))];
+  }
+  const handFrame = (sd) => { const b = (n) => VEX.bpos(sd + n), H = b('Hand'), M = b('MiddleProximal'), A = M.clone().sub(H).normalize(), K = b('IndexProximal').sub(b('LittleProximal')).normalize(), N = (sd === 'right' ? K.clone().cross(A) : A.clone().cross(K)).normalize(); return { H, A, N, K, palm: H.clone().lerp(M, 0.55).addScaledVector(N, 0.012) }; };
+  const twistTo = (A, N, Nd) => { const nd = Nd.clone().addScaledVector(A, -Nd.dot(A)).normalize(), nc = N.clone().addScaledVector(A, -N.dot(A)).normalize(); return Math.atan2(A.dot(nc.clone().cross(nd)), nc.dot(nd)); };
+  function heartPose(t, P, w, from) {
+    VEX.root.getWorldQuaternion(qRoot);
+    const ch = VEX.bpos('upperChest'), nk = VEX.bpos('neck'), target = ch.clone().add(fromHer(0.035, 0, 0)).setY(nk.y - 0.1).add(fromHer(0, 0, 0.115));   // over her heart, above the bust, on the skin
+    const axis = nrm([0.55, fromHer(1, 0, 0)], [0.8, fromHer(0, 1, 0)]), palmN = fromHer(0, 0, -1), Q = { ...P };
+    let W = target.clone().addScaledVector(axis, -0.085).addScaledVector(palmN, -0.02), twH = 0, twF = 0;
+    for (let it = 0; it < 5; it++) {
+      Object.assign(Q, { armR: reach('right', W, fromHer(-0.9, -0.35, 0.75)), aim: { ...(Q.aim || {}), rightHand: toHer(axis), 'twist.rightHand': twH, 'twist.rightLowerArm': twF }, hands: { ...(Q.hands || {}), R: 'open' } });
+      VEX.update(t, Q); VEX.root.updateMatrixWorld(true);
+      const hf = handFrame('right'), th = twistTo(hf.A, hf.N, palmN); twF += 0.55 * th; twH += 0.45 * th; W.add(target.clone().sub(hf.palm));
+    }
+    const base = armsOf(from).R, hd = V(...base[1]).normalize().lerp(V(...Q.aim.rightHand), w);
+    Object.assign(P, { armR: mixArm(base, Q.armR, w), aim: { ...(P.aim || {}), rightHand: hd.toArray(), 'twist.rightHand': twH * w, 'twist.rightLowerArm': twF * w }, hands: { ...(P.hands || {}), R: w > 0.5 ? 'open' : (P.hands || {}).R } });
+    VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+  }
   function glide(vexFn, t, v) {   // 064: the previous pose is re-evaluated from time, then the arms blend over 0.28 s
     for (let d = 0.04; d <= 0.32; d += 0.04) { const pv = vexFn(t - d).pose; if (pv !== v.pose) { const k = ease(clamp((d - 0.02) / 0.28)), a = armsOf(pv), b = armsOf(v.pose); return { ...v, armL: mixArm(a.L, b.L, k), armR: mixArm(a.R, b.R, k) }; } }
     return v;
@@ -242,7 +276,7 @@ export async function build(studio, story) {
     { id: 'tabs', t0: T.tabs, screen: 0.9, dx: 0.09, tex: 'tabs' },
     { id: 'two', t0: T.two - 0.25, vex: (t) => ({ ...VC, pose: 'shrug', tilt: 0.16, sway: 0.2, face: { relaxed: 0.2, sad: 0.15, blink: lids(t) } }), p: [[0.35, 1.2, 0.7], [0.3, 1.2, 0.55]], a: [[0.25, 1.15, -0.95], [0.25, 1.15, -0.95]], fov: 48 },
     { id: 'cans', t0: T.drink, p: [[1.55, DESK + 0.22, -1.62], [1.6, DESK + 0.2, -1.68]], a: [[2.02, DESK + 0.08, -1.95], [2.02, DESK + 0.08, -1.95]], fov: 42 },
-    { id: 'zero', t0: T.zero - 0.25, vex: (t) => ({ ...VC, pose: t < T.heart - 0.2 ? 'cross' : 'kiss', tilt: -0.1, sway: 0.15, face: { sad: 0.35, blink: lids(t, 0.1) } }), cam: (t) => ({ pos: [0.25, 1.6, 0.05 - 0.15 * u01(t, T.zero, T.hl)], look: [0.25, 1.48, -0.95], fov: 44 }) },
+    { id: 'zero', t0: T.zero - 0.25, heart: (t) => ease(u01(t, T.heart - 0.2, T.heart + 0.08)), vex: (t) => ({ ...VC, pose: t < T.heart - 0.2 ? 'cross' : 'kiss', tilt: -0.1, sway: 0.15, face: { sad: 0.35, blink: lids(t, 0.1) } }), cam: (t) => ({ pos: [0.25, 1.6, 0.05 - 0.15 * u01(t, T.zero, T.hl)], look: [0.25, 1.48, -0.95], fov: 44 }) },
     { id: 'book', t0: T.hl, p: [[-1.45, BEDY + 0.5, -1.05], [-1.5, BEDY + 0.42, -1.12]], a: [[-1.62, BEDY + 0.03, -1.55], [-1.62, BEDY + 0.03, -1.55]], fov: 42 },
     { id: 'minus', t0: T.its - 0.05, vex: (t) => ({ ...VC, pose: t > T.minus - 0.3 ? 'point' : 'shrug', tilt: 0.14, sway: 0.2, face: { happy: t < T.minus - 0.3 ? 0.55 : 0.2, blink: lids(t) } }), p: [[-0.1, 1.25, 0.65], [0.0, 1.25, 0.5]], a: [[0.2, 1.18, -0.95], [0.2, 1.18, -0.95]], fov: 48 },
     { id: 'bedpile', t0: T.bed, p: [[-0.35, 1.25, -0.1], [-0.45, 1.15, -0.25]], a: [[-1.4, BEDY, -1.5], [-1.4, BEDY, -1.5]], fov: 46 },
@@ -278,7 +312,7 @@ export async function build(studio, story) {
       key.target.position.copy(tg); key.position.copy(tg).addScaledVector(f, -4).addScaledVector(side, -2.5).add(V(0, 3.5, 0));
       const d = Math.max(0.6, studio.camera.position.distanceTo(tg)); fill.position.copy(studio.camera.position).add(V(0, 0.15, 0)); fill.intensity = sh.vex ? Math.min(1.8, 0.26 * Math.pow(d, 1.6)) : 0.12; }
     VEX.root.visible = !!sh.vex;
-    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)); VEX.update(t, { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }); }
+    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)), P = { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }; VEX.update(t, P); VEX.root.updateMatrixWorld(true); if (sh.heart && sh.heart(t) > 0) heartPose(t, P, sh.heart(t), 'cross'); }
     fx(t, !!sh.vex);
     drawMess(MESS0 + (MESS1 - MESS0) * ease(u01(t, T.messy - 0.25, T.messy + 0.55)));
     const tip = sheet.draw(writeP(t));
@@ -286,6 +320,8 @@ export async function build(studio, story) {
     if (sh.write) { const p = tipW(tip); pen.g.position.set(p.x, p.y + 0.004 + 0.006 * Math.abs(Math.sin(t * 23)), p.z); pen.g.rotation.set(0.35, 0, -0.3); }
     snap.visible = sh.snap === 1;
     if (sh.snap) { const sw = [-1.25, BEDY, -1.25], u = ease(u01(t, sh.t0, sh.t0 + 0.35)), tS = sh.t0 + 0.5; snap.position.set(sw[0] + 0.03, sw[1] + 0.34 - 0.08 * u, sw[2] + 0.3 - 0.12 * u); snap.rotation.set(-0.35, 0.1, 0); snap.flash.material.opacity = t > tS && t < tS + 0.18 ? 0.95 * (1 - (t - tS) / 0.18) : 0; }
+    { const D = new URLSearchParams(location.search).get('cam'); if (D && sh.vex && ['wide', 'wide2'].includes(D)) { const fo = VEX.bpos('upperChest').add(V(0, 0.05, 0)), q = new THREE.Quaternion(); VEX.root.getWorldQuaternion(q); studio.setCamera(fo.clone().add(V(D === 'wide' ? -1.1 : 1.1, 0.05, 0.25).applyQuaternion(q)).toArray(), fo.toArray(), 40, 0, 0); } }   // debug: render --cam wide|wide2 = her upper body from each side (arms vs chest)
+    if (sh.snap && location.search.includes('cam=snapside')) studio.setCamera([snap.position.x - 0.45, snap.position.y + 0.12, snap.position.z + 0.1], snap.position.toArray(), 40, 0, 0);   // debug: render --cam snapside = the phone grip from the side
     // the third can drops onto the desk on "third" (a bounce), the first two already there
     { const a = t - (T.drink + 0.05), y = a < 0 ? 0.6 : a < 0.28 ? 0.6 * (1 - (a / 0.28) ** 2) : a < 0.42 ? 0.05 * Math.sin(PI * (a - 0.28) / 0.14) : 0; cans[2].position.set(CAN2.x, CAN2.y + y, CAN2.z); cans[2].rotation.z = a > 0 && a < 0.42 ? 0.3 * (1 - a / 0.42) : 0; }
     pixel.set(Math.max(sh.screen ? 1 : sh.write ? 2 : PIXEL, mosaicAt(t, CUTS)));

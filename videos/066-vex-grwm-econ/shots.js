@@ -232,6 +232,118 @@ export async function build(studio, story) {
   const lids = (t, base = 0.14) => ((((t + 0.4) % 3.6) < 0.12) ? 1 : base);
   const tipOf = (side) => { const H = VEX.H; const n = H[`${side}IndexDistal`] ? `${side}IndexDistal` : `${side}Hand`; return VEX.bpos(n); };
 
+  // ---------------------------------------------------------------- props held for real (Nov 9 fix — the user: "the coffee… the lipstick… that shit's just
+  // floating or going through her"). Contact points are VERTICES of her face mesh (the outer corner of the right eye opening, the lower
+  // lip's inner edge), so they follow the head, the blink and every mouth shape. The holding hand is put where the prop needs it by a
+  // two-bone reach (shoulder → elbow → wrist) + a palm twist, iterated on the measured finger grip; each prop is then placed from that
+  // hand's bones every frame (it can't drift off the fingers). Debug: render --cam side | side2 | above | close (prop checks).
+  let FACE = null; VEX.model.traverse((o) => { if (o.isSkinnedMesh && /Face_00_SKIN/.test([].concat(o.material)[0]?.name || '')) FACE = o; });
+  const fpos = (i, out = V()) => FACE.getVertexPosition(i, out).applyMatrix4(FACE.matrixWorld);
+  const ANC = (() => {
+    VEX.update(0, { face: { blink: 0 } }); VEX.root.updateMatrixWorld(true);
+    const g = FACE.geometry, ix = g.index.array, P0 = g.attributes.position, n = P0.count, weld = new Map(), id = new Int32Array(n);
+    for (let i = 0; i < n; i++) { const k = `${P0.getX(i).toFixed(5)},${P0.getY(i).toFixed(5)},${P0.getZ(i).toFixed(5)}`; if (!weld.has(k)) weld.set(k, i); id[i] = weld.get(k); }
+    const ec = new Map(); for (let k = 0; k < ix.length; k += 3) for (const [a, b] of [[ix[k], ix[k + 1]], [ix[k + 1], ix[k + 2]], [ix[k + 2], ix[k]]]) { const u = id[a], w = id[b], key = u < w ? u * n + w : w * n + u; ec.set(key, (ec.get(key) || 0) + 1); }
+    const bnd = new Set(); for (const [key, c] of ec) if (c === 1) { bnd.add(Math.floor(key / n)); bnd.add(key % n); }
+    const eR = VEX.bpos('rightEye'), eL = VEX.bpos('leftEye'), mx = (eR.x + eL.x) / 2, W0 = new Map([...bnd].map((i) => [i, fpos(i)]));
+    const eyeB = [...bnd].filter((i) => { const p = W0.get(i); return Math.abs(p.y - eR.y) < 0.03 && Math.abs(p.x - eR.x) < 0.035 && p.z > eR.z - 0.015; });
+    const corner = eyeB.reduce((m, i) => (W0.get(i).x < W0.get(m).x ? i : m), eyeB[0]);   // her right = −x: the outermost point of the opening
+    const mouthB = [...bnd].filter((i) => { const p = W0.get(i); return p.y < eR.y - 0.035 && p.y > eR.y - 0.13 && Math.abs(p.x - mx) < 0.035 && p.z > eR.z - 0.01; });
+    VEX.update(0, { face: { blink: 0 }, mouth: 1, vowel: 'a' }); VEX.root.updateMatrixWorld(true);
+    const lower = mouthB.filter((i) => fpos(i).y < W0.get(i).y - 0.002).sort((a, b) => W0.get(a).x - W0.get(b).x);
+    VEX.update(0, {}); VEX.root.updateMatrixWorld(true);
+    console.warn(`[066 holds] face boundary ${bnd.size}, right-eye opening ${eyeB.length} (corner ${corner}), lower lip ${lower.length}, expressions ${Object.keys(VEX.EX).join(' ')}`);
+    return { corner, lower };
+  })();
+  const SEG = {}; for (const sd of ['left', 'right']) { const u = VEX.bpos(sd + 'UpperArm'), l = VEX.bpos(sd + 'LowerArm'), h = VEX.bpos(sd + 'Hand'); SEG[sd] = [u.distanceTo(l), l.distanceTo(h)]; }
+  const qRoot = new THREE.Quaternion(), qHead = new THREE.Quaternion();
+  const toHer = (w) => w.clone().applyQuaternion(qRoot.clone().invert()).toArray();   // a world direction → her frame (x her left, y up, z front)
+  const fromHer = (x, y, z) => V(x, y, z).applyQuaternion(qRoot);
+  function reach(sd, W, pole) {   // wrist target (world) + elbow pole (world dir) → [upper, lower] aim directions in her frame
+    const S = VEX.bpos(sd + 'UpperArm'), [a, b] = SEG[sd], d = W.clone().sub(S), L = clamp(d.length(), Math.abs(a - b) + 1e-3, a + b - 1e-3), nn = d.normalize();
+    const ca = (a * a + L * L - b * b) / (2 * a * L), sa = Math.sqrt(Math.max(0, 1 - ca * ca)), p = pole.clone().addScaledVector(nn, -pole.dot(nn)).normalize();
+    const E = S.clone().addScaledVector(nn, a * ca).addScaledVector(p, a * sa), Wc = S.clone().addScaledVector(nn, L);
+    return [toHer(E.clone().sub(S)), toHer(Wc.sub(E))];
+  }
+  const handFrame = (sd) => {   // the measured hand: wrist, axis (wrist → knuckles), palm normal, knuckle line (little → index), pinch point, palm centre
+    const b = (n) => VEX.bpos(sd + n), H = b('Hand'), M = b('MiddleProximal'), I = b('IndexProximal'), Lp = b('LittleProximal');
+    const A = M.clone().sub(H).normalize(), K = I.clone().sub(Lp).normalize(), N = (sd === 'right' ? K.clone().cross(A) : A.clone().cross(K)).normalize();
+    const tip = (f, prev) => { const d = b(f + 'Distal'); return d.clone().addScaledVector(d.clone().sub(b(f + prev)), 0.75); };
+    const pinch = tip('Thumb', 'Proximal').add(tip('Index', 'Intermediate')).multiplyScalar(0.5), palm = H.clone().lerp(M, 0.55).addScaledVector(N, 0.012);
+    return { H, A, N, K, pinch, palm };
+  };
+  const twistTo = (A, N, Nd) => { const nd = Nd.clone().addScaledVector(A, -Nd.dot(A)).normalize(), nc = N.clone().addScaledVector(A, -N.dot(A)).normalize(); return Math.atan2(A.dot(nc.clone().cross(nd)), nc.dot(nd)); };
+  // pose one hand so its grip point (pinch | palm) lands on `target` with the hand axis along `axis` and the palm facing `palmN` (world)
+  function holdPose(t, P, sd, { target, axis, palmN, grip = 'pinch', pole, shape }) {
+    const S = sd === 'right' ? 'R' : 'L', U = sd + 'UpperArm', key = sd + 'Hand';
+    let W = target.clone().addScaledVector(axis, -0.085).addScaledVector(palmN, -0.02), twH = 0, twF = 0, hf = null;
+    const aimH = toHer(axis);
+    for (let it = 0; it < 5; it++) {
+      const arm = reach(sd, W, pole);
+      Object.assign(P, { ['arm' + S]: arm, aim: { ...(P.aim || {}), [key]: aimH, ['twist.' + key]: twH, ['twist.' + sd + 'LowerArm']: twF }, hands: { ...(P.hands || {}), [S]: shape } });
+      VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+      hf = handFrame(sd); const th = twistTo(hf.A, hf.N, palmN); twF += 0.55 * th; twH += 0.45 * th;
+      W.add(target.clone().sub(hf[grip]));
+    }
+    void U; return handFrame(sd);
+  }
+  const lipLine = (u, out = V()) => { const L = ANC.lower, x = clamp(u) * (L.length - 1), i = Math.min(L.length - 2, Math.floor(x)); return fpos(L[i]).lerp(fpos(L[i + 1]), x - i); };
+  const DBG = new URLSearchParams(location.search).get('cam');
+  const PINCH = [0.62, 0.7, 1.15, 1.3, 1.35], CUPG = [0.35, 0.55, 0.62, 0.68, 0.74], FLAT = [0.15, 0.1, 0.12, 0.14, 0.18];
+  const nrm = (...vs) => vs.reduce((a, [k, v]) => a.addScaledVector(v, k), V()).normalize();   // nrm([k1, v1], [k2, v2], …) = Σ k·v, normalized
+  function placeCompact(h) {   // on the flat left palm, the lid open with its mirror toward her face
+    compact.position.copy(h.palm).addScaledVector(h.N, 0.008);
+    const y = h.N.clone(), f = VEX.bpos('head').sub(compact.position), z = f.addScaledVector(y, -f.dot(y)).normalize(), x = y.clone().cross(z);
+    compact.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z)); compact.lid.rotation.x = -1.95;
+  }
+  // the kiss (054's 'kiss' preset ended on her chest with the forearm inside her bust at 067's proportions): fingertips AT her lips,
+  // elbow out, blended in and out by w; the hand direction blends from the forearm's
+  function kissPose(t, P, w) {
+    VEX.root.getWorldQuaternion(qRoot); VEX.H.head.getWorldQuaternion(qHead);
+    const hu = V(0, 1, 0).applyQuaternion(qHead), hf = V(0, 0, 1).applyQuaternion(qHead), hl = V(1, 0, 0).applyQuaternion(qHead);
+    const base = armsOf(P.kissFrom || 'hip').R, Q = { ...P }, lip = lipLine(0.5).addScaledVector(hu, 0.006).addScaledVector(hf, 0.02);
+    holdPose(t, Q, 'right', { target: lip, axis: nrm([0.95, hu], [0.15, hl]), palmN: hf.clone().negate(), grip: 'pinch', pole: fromHer(-0.9, -0.35, 0.75), shape: [0.35, 0.3, 0.35, 0.45, 0.5] });   // elbow out AND forward: the forearm rises in front of her chest, not along it
+    const hd = V(...base[1]).normalize().lerp(V(...Q.aim.rightHand), w);
+    Object.assign(P, { armR: mixArm(base, Q.armR, w), aim: { ...(P.aim || {}), rightHand: hd.toArray(), 'twist.rightHand': Q.aim['twist.rightHand'] * w, 'twist.rightLowerArm': Q.aim['twist.rightLowerArm'] * w }, hands: { ...(P.hands || {}), R: Q.hands.R } });
+    VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+  }
+  function holds(t, sh, P) {
+    VEX.root.getWorldQuaternion(qRoot);
+    const frame = () => { VEX.H.head.getWorldQuaternion(qHead); return { hu: V(0, 1, 0).applyQuaternion(qHead), hf: V(0, 0, 1).applyQuaternion(qHead), hl: V(1, 0, 0).applyQuaternion(qHead) }; };
+    const compactHold = () => placeCompact(holdPose(t, P, 'left', { target: VEX.bpos('upperChest').add(fromHer(0.17, -0.03, 0.36)), axis: nrm([-0.45, fromHer(1, 0, 0)], [0.15, fromHer(0, 1, 0)], [0.88, fromHer(0, 0, 1)]), palmN: nrm([0.92, fromHer(0, 1, 0)], [-0.38, fromHer(0, 0, 1)]), grip: 'palm', pole: fromHer(1, -1, -0.4), shape: FLAT }));
+    if (sh.hold === 'liner') {   // the pencil comes in from the side at eye height; its tip rests on the outer corner and flicks the wing out
+      P.face = { ...P.face, blinkRight: 0.45 }; VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+      compactHold();
+      const { hu, hf, hl } = frame(), w = 0.5 - 0.5 * Math.cos((t - T.liner) * PI * 2.2);
+      const tip = fpos(ANC.corner).addScaledVector(hl, -0.007 * w).addScaledVector(hu, 0.005 * w).addScaledVector(hf, 0.002);
+      const D = nrm([-0.82, hl], [0.55, hf], [0.05, hu]);   // from the tip back toward her fingers
+      const h = holdPose(t, P, 'right', { target: tip.clone().addScaledVector(D, 0.075), axis: nrm([0.9, hf], [0.3, hl], [0.2, hu]), palmN: nrm([0.8, hl], [-0.3, hf], [-0.3, hu]), grip: 'pinch', pole: fromHer(-1, -0.9, -0.1), shape: PINCH });
+      const fresh = fpos(ANC.corner).addScaledVector(hl, -0.007 * w).addScaledVector(hu, 0.005 * w).addScaledVector(hf, 0.002);   // the corner after the final pose
+      liner.visible = true; liner.position.copy(fresh).addScaledVector(h.pinch.clone().sub(fresh).normalize(), 0.06); aimAlong(liner, h.pinch, fresh);
+    }
+    if (sh.hold === 'lipstick') {   // the tube's tip ON the lower lip, gliding along it (a slight "o"), the compact open in the other hand
+      const tA = T.lip + 0.3, tB = T.mommy2 - 0.3, app = ease(u01(t, T.lip, tA)) * (1 - ease(u01(t, tB, tB + 0.4))), raise = ease(u01(t, T.up - 0.35, T.up + 0.1));
+      if (app > 0) { P.mouth = (P.mouth || 0) * (1 - app) + 0.32 * app; if (app > 0.5) P.vowel = 'o'; }
+      VEX.update(t, P); VEX.root.updateMatrixWorld(true);
+      compactHold();
+      const { hu, hf, hl } = frame(), u = 0.5 + 0.3 * Math.sin((t - tA) * PI * 1.5);
+      const lipT = lipLine(u).addScaledVector(hu, -0.0045).addScaledVector(hf, 0.004);
+      const rest = VEX.bpos('upperChest').add(fromHer(-0.17, 0.06 + 0.2 * raise, 0.3 + 0.05 * raise)).addScaledVector(V(0, 1, 0), 0.065);   // tip of the tube held upright at her right (raised on "up")
+      const tip = rest.clone().lerp(lipT, app), D = nrm([1 - app, V(0, -1, 0)], [app, nrm([-0.45, hl], [0.85, hf], [-0.25, hu])]);
+      const h = holdPose(t, P, 'right', { target: tip.clone().addScaledVector(D, 0.065), axis: nrm([1 - app, nrm([0.95, hf], [0.2, hl], [0.2, hu])], [app, nrm([0.6, hu], [0.45, hl], [0.25, hf])]), palmN: nrm([1 - app, hl], [app, nrm([0.55, hl], [-0.7, hf], [-0.2, hu])]), grip: 'pinch', pole: fromHer(-1, -1, -0.2), shape: PINCH });
+      const tipNow = app > 0 ? rest.clone().lerp(lipLine(u).addScaledVector(hu, -0.0045).addScaledVector(hf, 0.004), app) : rest;
+      const d = tipNow.clone().sub(h.pinch).normalize(); lipstick.visible = true; lipstick.position.copy(tipNow).addScaledVector(d, -0.051); lipstick.quaternion.setFromUnitVectors(up, d);
+    }
+    if (sh.hold === 'latte') {   // the cup in the right hand: palm on its side, fingers round its front, in front of her (clear of her chest); lifted on "iced"
+      const pres = sh.id === 'coffee' ? bump(t, T.iced - 0.25, 0.55) * (1 - bump(t, T.iced + 0.9, 0.6)) : 0, droop = sh.id === 'tired' ? 1 : 0;
+      const C = VEX.bpos('upperChest').add(droop ? fromHer(-0.13, 0.03, 0.31) : fromHer(-0.11, -0.04 + 0.06 * pres, 0.37 + 0.05 * pres));   // tired close-up: at chest height on her right, so the whole cup is in frame
+      const h = holdPose(t, P, 'right', { target: C.clone().add(fromHer(-0.05, 0, 0)), axis: nrm([0.22, fromHer(1, 0, 0)], [0.97, fromHer(0, 0, 1)]), palmN: fromHer(1, 0, 0), grip: 'palm', pole: fromHer(-1, -1, -0.3), shape: CUPG });
+      const K = h.K.clone(), c = h.palm.clone().addScaledVector(h.N, 0.05);
+      const fx = fromHer(0, 0, 1), xx = fx.addScaledVector(K, -fx.dot(K)).normalize(), zz = xx.clone().cross(K);   // cup x = her front: the straw (tilted toward local +x) leans away from her
+      latte.position.copy(c).addScaledVector(K, -0.075); latte.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xx, K, zz));
+    }
+  }
+
   // ---------------------------------------------------------------- FX: pixel hearts
   const heartT = pixelTex(9, 8, (g) => { g.fillStyle = '#ff4d8d'; g.beginPath(); g.moveTo(4.5, 7.5); g.bezierCurveTo(-1, 3.5, 1, -0.5, 4.5, 2.2); g.bezierCurveTo(8, -0.5, 10, 3.5, 4.5, 7.5); g.fill(); g.fillStyle = '#ffd0e0'; g.fillRect(2, 2, 1, 1); }, { k: 6 });
   const hearts = Array.from({ length: 30 }, () => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: heartT, transparent: true, depthWrite: false, toneMapped: false })); s.visible = false; scene.add(s); return s; });
@@ -260,7 +372,7 @@ export async function build(studio, story) {
     { id: 'liner', t0: T.liner, vex: (t) => ({ ...VC, pose: 'liner', lean: 0.1, tilt: 0.18, turn: 0.12, look: [0.35, -0.25], hands: { L: 'hold', R: 'hold' }, face: { relaxed: 0.2, blink: lids(t), blinkLeft: 0.2 } }), cam: (t) => ({ pos: [-0.2, 1.5, -1.0 - 0.1 * u01(t, T.liner, T.lip)], look: [0.06, 1.46, -1.92], fov: 40 }), hold: 'liner' },
     { id: 'lip', t0: T.lip, vex: (t) => ({ ...VC, pose: t > T.up - 0.2 ? 'kissOut' : 'lipstick', hands: { R: 'hold' }, lean: 0.15, tilt: -0.12, sway: 0.15, face: { relaxed: 0.35, blink: lids(t), blinkLeft: t > T.mommy2 + 0.3 && t < T.mommy2 + 1.0 ? 1 : 0 } }), cam: (t) => { const k = bump(t, T.mommy2 - 0.1, 1.0); return { pos: [0.18, 1.5, -0.85 - 0.25 * k], look: [0.1, 1.45, -1.92], fov: 42 }; }, hold: 'lipstick' },
     { id: 'coffee', t0: T.coffee, vex: (t) => ({ ...VC, pose: 'sip', tilt: 0.1, sway: 0.18, hands: { R: 'hold' }, face: { relaxed: 0.3, blink: lids(t) } }), p: [[0.4, 1.38, 0.2], [0.32, 1.38, 0.05]], a: [[0.1, 1.3, -1.92], [0.1, 1.32, -1.92]], fov: 46, hold: 'latte' },
-    { id: 'tired', t0: T.opp - 0.05, vex: (t) => ({ ...VC, pose: 'sip', tilt: 0.2, nod: 0.12, sway: 0.1, hands: { R: 'hold' }, face: { sad: 0.35, relaxed: 0.3, blink: lids(t, 0.35) } }), cam: (t) => ({ pos: [0.12, 1.52, -0.75], look: [0.1, 1.45, -1.92], fov: 42 }), hold: 'latte' },
+    { id: 'tired', t0: T.opp - 0.05, vex: (t) => ({ ...VC, pose: 'sip', tilt: 0.2, nod: 0.12, sway: 0.1, hands: { R: 'hold' }, face: { sad: 0.35, relaxed: 0.3, blink: lids(t, 0.35) } }), cam: (t) => ({ pos: [0.12, 1.49, -0.75], look: [0.1, 1.4, -1.92], fov: 42 }), hold: 'latte' },   // aimed 5 cm lower than v1 so the held cup is in frame
     { id: 'step4', t0: T.sheet, vex: (t) => ({ ...VC, pose: t < T.the - 0.2 ? 'shrug' : 'point', lean: 0.25, tilt: 0.12, sway: 0.18, face: { sad: 0.2, relaxed: 0.2, blink: lids(t) } }), p: [[-0.2, 1.4, 0.3], [-0.12, 1.38, 0.15]], a: [[0.05, 1.2, -1.6], [0.05, 1.18, -1.6]], fov: 48 },
     { id: 'blanks', t0: T.review0 ?? (W('sheet', 'review') - 0.05), sheetCam: (t) => { const k = ease(u01(t, T.blanks - 0.3, T.graph + 0.3)); return [[480, 290], [470, 560], [380, 1000]][k < 0.5 ? 0 : 1].map((v, i) => v + ([[480, 290], [470, 560], [380, 1000]][k < 0.5 ? 1 : 2][i] - v) * (k < 0.5 ? k * 2 : k * 2 - 1)); }, h: 0.38 },
     { id: 'upload', t0: T.scribe, screen: 0.78, mode: 'upload' },
@@ -269,7 +381,7 @@ export async function build(studio, story) {
     { id: 'graph', t0: T.even - 0.15, sheetCam: () => graphC, h: 0.3, write: 1 },
     { id: 'download', t0: T.download, screen: 0.78, mode: 'download' },
     { id: 'turned', t0: T.turned - 0.1, vex: (t) => ({ ...VC, pose: 'peace', tilt: -0.14, sway: 0.2, face: { happy: 0.5, blink: lids(t), blinkLeft: t > T.turned + 0.3 ? 1 : 0 } }), cam: (t) => ({ pos: [0.12, 1.45, -0.6], look: [0.1, 1.38, -1.92], fov: 44 }) },
-    { id: 'end', t0: T.end, vex: (t) => ({ ...VC, pose: t > T.baby - 0.15 ? 'kissOut' : t > T.mommy3 - 0.3 ? 'kiss' : 'hip', tilt: -0.12, sway: 0.2, face: { relaxed: 0.4, blink: lids(t), blinkLeft: t > T.baby + 0.2 ? 1 : 0 } }), cam: (t) => { const k = bump(t, T.mommy3 - 0.1, 1.0); return { pos: [0.15, 1.42 + 0.05 * k, 0.5 - 0.9 * k], look: [0.1, 1.28 + 0.14 * k, -1.92], fov: 46 }; } },
+    { id: 'end', t0: T.end, kiss: (t) => ease(u01(t, T.mommy3 - 0.3, T.mommy3 - 0.02)) * (1 - ease(u01(t, T.baby - 0.15, T.baby + 0.13))), vex: (t) => ({ ...VC, pose: t > T.baby - 0.15 ? 'kissOut' : t > T.mommy3 - 0.3 ? 'kiss' : 'hip', tilt: -0.12, sway: 0.2, face: { relaxed: 0.4, blink: lids(t), blinkLeft: t > T.baby + 0.2 ? 1 : 0 } }), cam: (t) => { const k = bump(t, T.mommy3 - 0.1, 1.0); return { pos: [0.15, 1.42 + 0.05 * k, 0.5 - 0.9 * k], look: [0.1, 1.28 + 0.14 * k, -1.92], fov: 46 }; } },
   ];
   SH.forEach((s2, i) => (s2.t1 = SH[i + 1]?.t0 ?? story.duration));
   const CUTS = SH.slice(1).map((s2) => s2.t0);
@@ -297,24 +409,21 @@ export async function build(studio, story) {
     else if (sh.mode === 'pen' || t < T.download) drawScreen('pen', u01(t, T.pencil - 0.4, T.pencil + 0.5));
     else drawScreen('download', u01(t, T.download, T.turned - 0.2));
     const tip = drawSheet(writeP(t));
-    VEX.root.visible = !!sh.vex;
-    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)); VEX.update(t, { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }); VEX.root.updateMatrixWorld(true); }
-    fx(t, !!sh.vex);
-    // props in her hands (placed from the bones after she's posed), else back on the table
+    // props back on the table unless a hand holds them this frame (holds() places them from her finger bones)
     liner.visible = lipstick.visible = false;
     compact.position.set(...COMPACT_TABLE); compact.quaternion.identity(); compact.lid.rotation.x = -1.9;
     latte.position.set(...LATTE_TABLE); latte.quaternion.identity();
-    if (sh.vex && sh.hold) {
-      const hR = VEX.bpos('rightHand'), iR = tipOf('right');
-      const eyeR = VEX.H.rightEye ? VEX.bpos('rightEye') : VEX.bpos('head').add(V(-0.035, 0.07, 0.08)), eyeL = VEX.H.leftEye ? VEX.bpos('leftEye') : eyeR.clone().add(V(0.07, 0, 0)), mouth = eyeR.clone().add(eyeL).multiplyScalar(0.5).add(V(0, -0.075, 0.03));
-      if (sh.hold === 'liner') { liner.visible = true; const corner = eyeR.clone().add(V(-0.03, 0, 0.03)); liner.position.copy(iR).lerp(corner, 0.55); aimAlong(liner, iR, corner);   // pointed at her outer eye corner
-        const hL = VEX.bpos('leftHand'); compact.position.copy(hL).add(V(0, 0.03, 0.03)); compact.rotation.set(0.25, 0, 0); compact.lid.rotation.x = -1.3; }
-      if (sh.hold === 'lipstick') { lipstick.visible = true; lipstick.position.copy(iR).lerp(mouth, 0.45); aimAlong(lipstick, iR, mouth); }
-      if (sh.hold === 'latte') { latte.position.copy(hR).add(V(0, -0.07, 0.04)); }
-    }
+    VEX.root.visible = !!sh.vex;
+    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)), P = { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }; VEX.update(t, P); VEX.root.updateMatrixWorld(true); if (sh.hold) holds(t, sh, P); if (sh.kiss && sh.kiss(t) > 0) { P.kissFrom = t > T.baby - 0.15 ? 'kissOut' : 'hip'; kissPose(t, P, sh.kiss(t)); } }
+    fx(t, !!sh.vex);
     pencil.visible = !!sh.write;
     if (sh.write) { const p = sheetPt(tip[0], tip[1]); pencil.position.set(p.x, p.y + 0.003 + 0.005 * Math.abs(Math.sin(t * 23)), p.z); pencil.rotation.set(-0.5, 0, -0.3); }   // leaning AWAY from the lens (toward it, the 20 cm pencil filled the macro frame)
     pixel.set(Math.max(sh.screen ? 1 : sh.sheetCam ? 2 : PIXEL, mosaicAt(t, CUTS)));
+    if (DBG && sh.vex && ['side', 'side2', 'above', 'close', 'wide', 'wide2'].includes(DBG)) {   // prop checks (render --cam side|side2|above|close): look at the held prop from her right, her left, above, up close
+      const fo = DBG.startsWith('wide') ? VEX.bpos('upperChest').add(V(0, 0.05, 0)) : liner.visible ? liner.position : lipstick.visible ? lipstick.position : sh.hold === 'latte' ? latte.position.clone().add(V(0, 0.08, 0)) : VEX.bpos('head');
+      const off = { side: fromHer(-0.55, 0.02, 0.08), side2: fromHer(0.55, 0.02, 0.08), above: fromHer(0.05, 0.5, 0.25), close: fromHer(0.04, 0.02, 0.42), wide: fromHer(-1.1, 0.05, 0.25), wide2: fromHer(1.1, 0.05, 0.25) }[DBG];   // wide/wide2: her whole upper body from each side (arms vs chest)
+      studio.setCamera(fo.clone().add(off).toArray(), fo.toArray(), 40, 0, 0); pixel.set(1);
+    }
     ov.update(t);
   }
   update(0);
