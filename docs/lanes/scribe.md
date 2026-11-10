@@ -130,6 +130,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   be "shameless"; our 072 is shelved). The Vex EXPLAINER format (072: sourced numbers, Vex in the place, pixel diagram cards,
   Scribe by ~60 %) stays: use it for OTHER topics that are current this week for 18–24-year-olds (075–077).
 
+- **The Vex EXPLAINER is the user's favourite format** (Nov 9, on 076 energy drinks: "informative and it's like turning me on…
+  the educational informative ones where the goth mommy's just explaining it to me is really good"). Model: `videos/076-vex-energy-drinks`
+  (a topic college students live, sourced numbers, an hour-by-hour HUD, Vex in the place, the "Mommy" voice, Scribe ~55 %).
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.
