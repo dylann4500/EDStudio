@@ -64,7 +64,9 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   mommy videos, because those are going to be high converting"):** most new reels = (a) Roblox-/Minecraft-style takes on this
   week's memes and current events with a Scribe pivot, and (b) Vex, the goth tutor, as a recurring character.
 - **The user posts by hand (Nov 9: "from now on I'm going to post them manually… scheduled uploads from the Claude are like
-  driving down views"):** no uploader session, no scheduling. Deliver: preview + paste-ready caption + exports/ file paths.
+  driving down views"):** no uploader session, no scheduling. Deliver: preview + paste-ready caption, and copy the reel into
+  **`exports/TO-UPLOAD/`** (gitignored): `NNN-name.mp4` (upload.mp4, with music) + `NNN-name.txt` (caption) + the no-music copy
+  in its subfolder — one folder with everything finished and not yet posted (user, Nov 9). Re-renders replace the old file.
 - **Posting = the user's call (Nov 9: "Hold for my review"):** a finished reel goes to the user first (phone preview + caption);
   the manager queues it with the TikTok uploads session only after they OK it, quoting that OK.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
