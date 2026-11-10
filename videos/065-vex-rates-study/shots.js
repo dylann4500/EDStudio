@@ -25,6 +25,29 @@ const lerp3 = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 const bump = (t, t0, d = 1.2) => (t < t0 ? 0 : t > t0 + d ? 1 : ease((t - t0) / d));
 const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
+// the chest shading pass: soft rose shapes on an offscreen layer (blurred), multiplied onto the body atlas once. Atlas coords (2048²):
+// the cups are triangles, apexes (874, 395) / (1174, 395), bases y ≈ 615–625 from x 709–994 and 1052–1342; the gap centre x = 1023.
+async function shadeBody(url) {
+  const img = await loadImg(url), W = img.width, S = W / 2048;
+  const c = document.createElement('canvas'); c.width = W; c.height = img.height; const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+  const L = document.createElement('canvas'); L.width = W; L.height = img.height; const l = L.getContext('2d');
+  l.fillStyle = '#fff'; l.fillRect(0, 0, W, img.height); l.scale(S, S); l.lineCap = 'round';
+  const stroke = (pts, w, blur, col, a) => { l.save(); l.filter = `blur(${blur * S}px)`; l.globalAlpha = a; l.strokeStyle = col; l.lineWidth = w; l.beginPath(); pts.forEach(([x, y], i) => (i ? l.lineTo(x, y) : l.moveTo(x, y))); l.stroke(); l.restore(); };
+  const arc = (cx, cy, rx, ry, a0, a1, w, blur, col, a) => { const P = []; for (let i = 0; i <= 24; i++) { const t = a0 + (a1 - a0) * i / 24; P.push([cx + rx * Math.cos(t), cy + ry * Math.sin(t)]); } stroke(P, w, blur, col, a); };
+  stroke([[1023, 495], [1021, 560], [1023, 622]], 12, 9, '#b06878', 0.5);          // the cleavage shadow, fuller toward the band
+  stroke([[1023, 548], [1022, 590], [1023, 618]], 2.6, 1.2, '#8e4858', 0.7);       // its crisp core line
+  stroke([[892, 440], [1006, 620]], 16, 10, '#b87884', 0.38); stroke([[1156, 440], [1040, 620]], 16, 10, '#b87884', 0.38);   // inner-cup shade
+  arc(852, 606, 150, 34, 0.18 * PI, 0.82 * PI, 14, 9, '#b06878', 0.42); arc(1196, 606, 150, 34, 0.18 * PI, 0.82 * PI, 14, 9, '#b06878', 0.42);   // under-cup
+  arc(852, 612, 136, 28, 0.3 * PI, 0.7 * PI, 2.2, 1.0, '#8e4858', 0.45); arc(1196, 612, 136, 28, 0.3 * PI, 0.7 * PI, 2.2, 1.0, '#8e4858', 0.45);
+  g.globalCompositeOperation = 'multiply'; g.drawImage(L, 0, 0);
+  return c.toDataURL('image/png');
+}
+
+// 067's look (Nov 9, the user loved it: "that look and the shading… is great"): eyes 1.24 + head 1.08 (makeVroid below), the chest
+// shading pass, and its dominant face — a brow arch (angry 0.12) on every face but a sad or laughing one, and the half-lidded
+// `relaxed` eased toward 067's 0.1 so the bigger eyes stay open (each shot keeps its own expression on top)
+const vexLook = (f) => ({ ...f, relaxed: 0.1 + 0.5 * Math.max(0, (f.relaxed ?? 0.1) - 0.1), angry: f.angry ?? (f.sad ? 0 : 0.12 * Math.max(0, 1 - (f.happy || 0) / 0.4)) });
+
 export async function build(studio, story) {
   const { scene } = studio;
   const pixel = addPixelPass(studio);
@@ -166,7 +189,7 @@ export async function build(studio, story) {
   const key = new THREE.DirectionalLight(0xffd8c0, 1.1); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: 0.5, far: 20 }); scene.add(key, key.target);
 
   // ---------------------------------------------------------------- Vex (064's thicker, cuter build)
-  const VEX = await makeVroid('/videos/054-goth-tutor/vex.vrm', { textures: { Body_00_SKIN: '/videos/054-goth-tutor/vex-body2.png' }, bust: 1.22, thigh: 1.4, calf: 1.15, head: 1.07, eyes: 1.12 });
+  const VEX = await makeVroid('/videos/054-goth-tutor/vex.vrm', { textures: { Body_00_SKIN: await shadeBody('/videos/054-goth-tutor/vex-body2.png') }, bust: 1.22, thigh: 1.4, calf: 1.15, head: 1.08, eyes: 1.24 });   // 067's look
   dressGoth(VEX); scene.add(VEX.root);
   const fill = new THREE.PointLight(0xffd8e8, 1.0, 0, 1.6); scene.add(fill);   // fill AT the lens, intensity ∝ d^1.6 (064)
   const lips = (t) => { const w = story.words.find((x) => t >= x.t0 && t < x.t1 - 0.03); if (!w) return { mouth: 0 }; const v = (w.w.toLowerCase().match(/[aeiouy]/g) || ['a']).map((c) => (c === 'y' ? 'i' : c)), u = clamp((t - w.t0) / Math.max(0.08, w.t1 - w.t0 - 0.03)) * v.length, i = Math.min(v.length - 1, Math.floor(u)); return { mouth: 0.22 + 0.55 * Math.sin(Math.PI * (u - i)), vowel: v[i] }; };
@@ -255,7 +278,7 @@ export async function build(studio, story) {
       key.target.position.copy(tg); key.position.copy(tg).addScaledVector(f, -4).addScaledVector(side, -2.5).add(V(0, 3.5, 0));
       const d = Math.max(0.6, studio.camera.position.distanceTo(tg)); fill.position.copy(studio.camera.position).add(V(0, 0.15, 0)); fill.intensity = sh.vex ? Math.min(1.8, 0.26 * Math.pow(d, 1.6)) : 0.12; }
     VEX.root.visible = !!sh.vex;
-    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)); VEX.update(t, { ...lips(t), sway: 0.15, ...v, face: { ...(v.face || {}) }, x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }); }
+    if (sh.vex) { const v = glide(sh.vex, t, sh.vex(t)); VEX.update(t, { ...lips(t), sway: 0.15, ...v, face: vexLook(v.face || {}), x: v.x, z: v.z, y: 0, rotY: v.rotY ?? 0 }); }
     fx(t, !!sh.vex);
     drawMess(MESS0 + (MESS1 - MESS0) * ease(u01(t, T.messy - 0.25, T.messy + 0.55)));
     const tip = sheet.draw(writeP(t));

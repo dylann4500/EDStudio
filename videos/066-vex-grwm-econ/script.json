@@ -14,11 +14,10 @@
  "tail": 4.6,
  "maxPause": 0.4,
  "pauseFloor": -45,
+ "headPad": 0.1,
+ "endPad": 0.2,
+ "breathDuck": -9,
  "pauseByWords": true,
- "edgePad": [
-  0.1,
-  0.3
- ],
  "fps": 30,
  "motionBlur": 1,
  "tempo": 1.0,
