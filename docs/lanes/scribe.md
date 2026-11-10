@@ -78,6 +78,10 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   it drives more than without"):** every narrated reel that isn't Vex gets "fucking" in the narration. Vary the dose per reel, from
   every-other-word (the f-word series) to a few well-placed ones. On screen it reads F*CKING in its own colour; captions censor it
   (f*cking). Vex keeps her own persona. ElevenLabs Adam is unavailable (free tier blocked): the narrator stand-in is Fish "Slax".
+- **Props must be held properly (user, Nov 9, on 066's GRWM: "floating or going through her… make sure the stuff is rendered
+  properly"):** every handheld prop is parented to the hand bone with a real grip; things that touch the face TOUCH it (a lipstick
+  on the lip, a liner at the eye corner, a straw at the lips) and never pass inside; cups and phones never intersect the body.
+  Check with stills every 0.25 s through each prop beat + a side debug view before the full render.
 - **No builder-format reels (user, Nov 8):** "I don't want to make another generic builder vid… make like a funny vid and then copy
   that exactly, a funny vid that went viral." The toon/build LOOK is fine; the "How a ___ Becomes a ___" engineering format is not.
 - **Voice = Fish Audio since Nov 9** (ElevenLabs blocked the free-tier keys for "unusual activity"). `FISH_API_KEY` sits next to
