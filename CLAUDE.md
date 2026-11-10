@@ -762,6 +762,20 @@ videos/NNN-slug/
   n, {fire})`. 077 shots.js: `placeShip(cg, rotZ)` (pose by the CG so the flip turns about its middle), orbit + reentry on tech.js
   `buildSpace` scaled ×20 and TILTED so the sun stands high over +y (rotate `SP.root`, copy the new sun dir into `SP.lights`/`SP.atm`
   uSun; no `camera.up` change needed), plasma puffs on the belly, a 33-engine glow ripple (instanced circles under the bells).
+- **Night gym + VRoid legs (078, `engine/sets/nightgym.js`, pixel/Vex look; reel `videos/078-vex-leg-day`):** `buildNightGym(studio)` =
+  IRON MOON 24/7 at night: three power racks on wood platforms (`D.racks`, bar on the J-hooks at `D.barY`), mirror wall + an instanced
+  dumbbell rack, kettlebells, plate tree, plyo boxes, med balls, a punching bag, cable stack, steel stairs up the right wall (`D.stepY(i)`,
+  `D.stepZ(i)`, `D.rail`) to a cardio mezzanine (`D.deckY`) with treadmills, two benches (`D.benches`, top `D.benchTop`), the front desk
+  (`D.desk`, made-up tubs GRRR / KAPOW / MOONDUST), a pink LEG DAY neon, an HUD clock `setClock(h, m)`, `setMode('night'|'morning')`,
+  `update(t)`; light/neon/screens are MeshBasic, lights ≥ 2.4 m over any head. 078 shots.js: **a VRoid squat / sit with both feet
+  planted** = `legDirs(k)` (thigh + shin aim directions in her frame, hips tilt) + a foot-drift table measured once at build (`legOff`:
+  pose at k, read the feet in root space, shift the root back by the drift) + `lean 0.75k`, `nod −0.55k`; **face-anchored framing** =
+  a cam that returns `frac` instead of `look`: the look height is solved from the camera, fov and her standing eye line (head bone +
+  0.11 m) so her eyes land at that fraction of the frame (0.29–0.31 in card beats, 0.34–0.37 elsewhere) — no per-shot guessing;
+  the **Scribe dark-mode** phone (README §Dark mode: theme tokens, the drawer + account menu with the Theme row, a finger tap, the
+  camera pushing onto the row, the paper staying white with a hairline edge). Lessons: a cool LED gym light turned her skin grey
+  (205/185/180) — warm hemi/points to land ≈ 226/199/188; a seated voxel extra and the plyo boxes each ended up in front of a lens
+  (check extras against every camera); a black bench pad vanished on the dark rubber floor (maroon reads).
 - **Airport kit (062, `engine/build/airport.js`, toon look):** `buildAirfield(studio)` = ONE world at the origin: runway along +x
   (threshold x 0, 45 m, markings, edge + approach lights), a perimeter fence across the approach with a planespotter spot outside it
   (`AD.spot`), apron + gate (`AD.gate`: park jet.js `makeAirliner` there nose +x), a glass AIRPORT terminal + jet bridges, tower,
