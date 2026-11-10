@@ -636,6 +636,12 @@ videos/NNN-slug/
   a CSS `filter` on `studio.renderer.domElement` per shot (feed warm/saturated, reality flat) — the render screenshots the page, so
   CSS filters land in the video; MY FEED / REALITY pixel labels. Canvas text: no emoji (headless Chrome may lack a colour-emoji font).
   A yellow legal pad = the sheet canvas MULTIPLIED onto a yellow, ruled, red-margined canvas (no scribe.js change).
+  **Props rule for EVERY Vex reel (user, Nov 9, on 066's GRWM: props "floating or going through her… make sure the stuff is rendered
+  properly"):** every handheld prop is parented to the hand bone (`VEX.attach('rightHand', …)`) with a real grip shape, not placed
+  near the hand each frame; anything that touches the face TOUCHES it (lipstick on the lip, liner at the eye corner, a straw at the
+  lips) and never passes inside; cups, phones and books never intersect her body. Check it before the full render with stills every
+  0.25 s through each prop beat PLUS a side debug view (071: a temporary camera override in update() for two still times, rendered,
+  then the file restored from a copy).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
