@@ -163,7 +163,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   - **Chinese / Indian-accent narrated reels:** `tiki-phonk.mp3` (TIKI TIKI phonk, slowed) — ONLY for those reels.
   - **Vex / goth girl reels (all of them, from now on):** cute tracks — `zoom-up-kahimi-karie.mp3`, `cute-circus.mp3` (alternate;
     the user will send more). Never the phonk on a Vex reel.
-  Mix: music under the voice at about −18…−14 dB, the voice duck ~−6 dB; still deliver `upload-nomusic.mp4` so the user can
+  Mix: measure the stems (ffmpeg ebur128 on out/stems/music.wav vs voice.wav) and land the music ≈ 8 dB under the voice
+  (081: file_gain_db −8.5 with stem_gain_db music −11.5 → music −23 / voice −15 LUFS; −2.5 sat only 4 dB under and fought the words); still deliver `upload-nomusic.mp4` so the user can
   swap in the official sound in-app if a platform mutes the ripped track.
 
 ## Producer brief template (manager fills it)
