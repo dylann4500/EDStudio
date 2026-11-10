@@ -428,6 +428,13 @@ videos/NNN-slug/
   `tools/pace.py` (syllables/s, gaps), `density.py` (visual events/s), `scenes.py` (new looks), `flow.py` (camera speed on the
   pixels of a render), `check_voice.py` (whisper transcript + yell levels). `tools/narrate.py` reuses a finished reel's committed
   `voice/eleven-*` takes when there's no key, so any clone can rebuild voice.wav.
+- **Dorm cutaway (073, `engine/build/dorm.js`, Vex builds):** `buildDorm(studio)` = a dorm cut open at z = 0: Vex's goth room upstairs
+  (`D.FY` 2.9; bed, bookshelf, posters, fairy lights, night-campus window) over Derek's room (loft bed `D.loft`, he sits on its front edge
+  at `D.derek`), a middle slab that bows (`setSag(s)`, `sagAt(s, x, z)` for anything standing on it; `ride(obj, x, z)` makes it follow),
+  `setPower(up, down)` (blackouts dim the key + hemi too), a roof with a SNACKS vending machine. Props: `makeDoorDesk` (a door on two milk
+  crates: `set({rack, brace, spin})`, `braceEnds`), `makeTextbook`, `makeDeskLamp`, `makeMiniFridge`, `makeKettle`, `makePowerStrip`,
+  `makeCord`/`makeConduit` (draw-on tubes), `makePanel`, `makePrinter`, `makeConveyor`, `makeChute`, `makeDrill`, `makePhone`,
+  `makePaperStack`, `makeIBeam`. Lessons: docs/BUILD.md → Lessons from 073.
 - **Factory cutaway (026, `engine/build/factory.js`):** a dollhouse cut (front walls sliced at z = 0, floor slab + ground cut
   below) along x: house, garage (roll-up door in its right wall), a 50 m hall that pops up bay by bay (`setHall(k)`), the
   conveyor `D.line` (z −3.2, cars every `pitch` m), stations `D.st`, a stamping press, an e-coat pit in FRONT of the line seen in

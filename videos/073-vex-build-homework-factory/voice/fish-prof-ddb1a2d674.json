@@ -1,0 +1,51 @@
+{
+ "text": "Then my professor drops forty physics problems. Handwritten only.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Then",
+   "t0": 0.08,
+   "t1": 0.48
+  },
+  {
+   "w": "my",
+   "t0": 0.48,
+   "t1": 0.64
+  },
+  {
+   "w": "professor",
+   "t0": 0.64,
+   "t1": 1.28
+  },
+  {
+   "w": "drops",
+   "t0": 1.28,
+   "t1": 1.68
+  },
+  {
+   "w": "forty",
+   "t0": 1.76,
+   "t1": 2.08
+  },
+  {
+   "w": "physics",
+   "t0": 2.08,
+   "t1": 2.56
+  },
+  {
+   "w": "problems.",
+   "t0": 2.56,
+   "t1": 3.2
+  },
+  {
+   "w": "Handwritten",
+   "t0": 3.76,
+   "t1": 4.32
+  },
+  {
+   "w": "only.",
+   "t0": 4.32,
+   "t1": 4.72
+  }
+ ]
+}

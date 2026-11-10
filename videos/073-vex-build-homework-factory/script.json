@@ -1,0 +1,464 @@
+{
+ "title": "How a Dorm Desk Becomes a Homework Factory (Vex builds; Scribe; build format with Vex as builder + narrator)",
+ "tone": "promo",
+ "mode": "build",
+ "voice": {
+  "provider": "fish",
+  "name": "Mommy (generic Fish library voice, the user's pick Nov 9) \u2014 Vex's voice"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 215
+ },
+ "lead": 0.04,
+ "gap": 0.08,
+ "tail": 4.8,
+ "maxPause": 0.25,
+ "pauseFloor": -45,
+ "fps": 60,
+ "motionBlur": 2,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.04,
+  "bloom": 0.18,
+  "fill": 0.5,
+  "toneMapping": "neutral",
+  "vignette": 0.14,
+  "grain": 0.01,
+  "warm": 0.08,
+  "saturation": 1.1,
+  "lift": 0.012
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "I had homework, so I built a desk. A door, on two milk crates.",
+   "callouts": [
+    {
+     "at": "door",
+     "text": "THUNK!",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.6
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "crates",
+     "text": "CLACK CLACK",
+     "style": "sfx",
+     "pos": [
+      0.26,
+      0.64
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "congrats",
+   "say": "Congratulations, it's a desk. It wobbles, and my coffee's already on Derek downstairs.",
+   "callouts": [
+    {
+     "at": "desk",
+     "text": "WORLD'S WORST DESK",
+     "style": "label",
+     "hold": 1.1,
+     "y": 0.4
+    },
+    {
+     "at": "wobbles",
+     "text": "WOBBLE WOBBLE",
+     "style": "sfx",
+     "pos": [
+      0.78,
+      0.4
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "coffees",
+     "text": "SPLASH!",
+     "style": "sfx",
+     "pos": [
+      0.2,
+      0.44
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "derek",
+     "text": "HEY!",
+     "style": "sfx",
+     "pos": [
+      0.78,
+      0.44
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "brace",
+   "say": "So I bolt in a diagonal. This is called triangulation. Triangles can't fold. Unlike me, at two AM.",
+   "callouts": [
+    {
+     "at": "bolt",
+     "text": "BRRRT!",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "triangulation",
+     "text": "TRIANGULATION",
+     "style": "term",
+     "until": "triangulation",
+     "min": 0.9,
+     "y": 0.36
+    },
+    {
+     "at": "fold",
+     "text": "0 WOBBLE",
+     "style": "label",
+     "hold": 0.9,
+     "y": 0.8
+    },
+    {
+     "at": "unlike",
+     "text": "yawn.",
+     "style": "sfx",
+     "pos": [
+      0.82,
+      0.17
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "books",
+   "say": "Then my textbooks go on, and the floor sags into Derek's room.",
+   "callouts": [
+    {
+     "at": "textbooks",
+     "text": "THUD THUD THUD",
+     "style": "sfx",
+     "pos": [
+      0.72,
+      0.62
+     ],
+     "hold": 0.9
+    },
+    {
+     "at": "sags",
+     "text": "CREEEAK",
+     "style": "sfx",
+     "pos": [
+      0.24,
+      0.42
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "room",
+     "text": "BONK!",
+     "style": "sfx",
+     "pos": [
+      0.72,
+      0.64
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "beam",
+   "say": "So, a steel beam. This is called a load path. Dorm floors hold forty pounds a square foot. I brought three hundred.",
+   "callouts": [
+    {
+     "at": "steel",
+     "text": "CLANG!",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "load",
+     "text": "LOAD PATH",
+     "style": "term",
+     "until": "path",
+     "min": 0.9,
+     "y": 0.115
+    },
+    {
+     "at": "forty",
+     "text": "RATED: 40 LB / SQ FT",
+     "style": "label",
+     "until": "foot",
+     "y": 0.43
+    },
+    {
+     "at": "three",
+     "text": "{n} LB / SQ FT",
+     "style": "label",
+     "until": "hundred",
+     "y": 0.68,
+     "roll": [
+      40,
+      300
+     ],
+     "rollDur": 0.6
+    }
+   ]
+  },
+  {
+   "id": "power",
+   "say": "Lamp. Laptop. Mini fridge. Kettle. One power strip.",
+   "callouts": [
+    {
+     "at": "lamp",
+     "text": "CLICK",
+     "style": "sfx",
+     "pos": [
+      0.22,
+      0.62
+     ],
+     "hold": 0.5
+    },
+    {
+     "at": "fridge",
+     "text": "HUMMM",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.3
+     ],
+     "hold": 0.5
+    },
+    {
+     "at": "kettle",
+     "text": "FWEEE",
+     "style": "sfx",
+     "pos": [
+      0.26,
+      0.3
+     ],
+     "hold": 0.5
+    },
+    {
+     "at": "strip",
+     "text": "OVERLOAD",
+     "style": "stamp",
+     "hold": 0.8
+    },
+    {
+     "at": "strip",
+     "text": "ZAP!",
+     "style": "sfx",
+     "pos": [
+      0.72,
+      0.62
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "circuit",
+   "say": "So I run my own line. This is called a dedicated circuit. A dorm outlet gives fifteen amps. My kettle wants twelve and a half.",
+   "callouts": [
+    {
+     "at": "line",
+     "text": "ZZZIP",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "dedicated",
+     "text": "DEDICATED CIRCUIT",
+     "style": "term",
+     "until": "circuit",
+     "min": 0.9
+    },
+    {
+     "at": "fifteen",
+     "text": "OUTLET: 15 AMPS",
+     "style": "label",
+     "until": "amps",
+     "y": 0.68
+    },
+    {
+     "at": "twelve",
+     "text": "KETTLE: 12.5 AMPS",
+     "style": "label",
+     "until": "half",
+     "y": 0.68
+    }
+   ]
+  },
+  {
+   "id": "prof",
+   "say": "Then my professor drops forty physics problems. Handwritten only.",
+   "callouts": [
+    {
+     "at": "drops",
+     "text": "THOOM!",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "forty",
+     "text": "40 PROBLEMS",
+     "style": "label",
+     "hold": 1.0,
+     "y": 0.68
+    },
+    {
+     "at": "handwritten",
+     "text": "HANDWRITTEN ONLY",
+     "style": "stamp",
+     "hold": 1.1,
+     "y": 0.62
+    }
+   ]
+  },
+  {
+   "id": "scribe",
+   "say": "So I install Scribe. This is called automation. One photo, it solves all forty, and writes them in my handwriting. Diagrams too.",
+   "callouts": [
+    {
+     "at": "photo",
+     "text": "SNAP!",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.6
+    },
+    {
+     "at": "automation",
+     "text": "AUTOMATION",
+     "style": "term",
+     "until": "automation",
+     "min": 0.9,
+     "y": 0.115
+    }
+   ]
+  },
+  {
+   "id": "list",
+   "say": "Add a printer, a conveyor belt, a robot arm that staples, and a snack chute.",
+   "callouts": [
+    {
+     "at": "printer",
+     "text": "BRRRP",
+     "style": "sfx",
+     "pos": [
+      0.74,
+      0.62
+     ],
+     "hold": 0.6
+    },
+    {
+     "at": "conveyor",
+     "text": "WHIRRR",
+     "style": "sfx",
+     "pos": [
+      0.26,
+      0.64
+     ],
+     "hold": 0.6
+    },
+    {
+     "at": "staples",
+     "text": "KA-CHUNK!",
+     "style": "sfx",
+     "pos": [
+      0.72,
+      0.3
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "snack",
+     "text": "CRUNCH",
+     "style": "sfx",
+     "pos": [
+      0.26,
+      0.3
+     ],
+     "hold": 0.6
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "Congratulations, I built a homework factory. I started with a door, because desks cost money. Now my homework's done before my coffee is, and Derek lives under a steel beam.",
+   "callouts": [
+    {
+     "at": "factory",
+     "text": "HOMEWORK FACTORY",
+     "style": "label",
+     "hold": 0.75,
+     "y": 0.17
+    },
+    {
+     "at": "coffee",
+     "text": "COFFEE: 4%",
+     "style": "sfx",
+     "pos": [
+      0.78,
+      0.22
+     ],
+     "hold": 0.7
+    },
+    {
+     "at": "beam",
+     "text": "BONK!",
+     "style": "sfx",
+     "pos": [
+      0.72,
+      0.64
+     ],
+     "hold": 0.7
+    }
+   ]
+  },
+  {
+   "id": "tag",
+   "say": "He wants me to do his too. Cute.",
+   "callouts": []
+  }
+ ],
+ "fish": {
+  "reference_id": "5233336f5f44460ea0902b0802375451",
+  "model": "s2.1-pro",
+  "speed": 1.1,
+  "temperature": 0.58,
+  "tempo": 1.2
+ },
+ "endPad": 0.2,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ }
+}
