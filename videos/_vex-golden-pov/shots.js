@@ -118,8 +118,14 @@ export async function build(studio, story) {
     const arm = new THREE.Mesh(new THREE.CapsuleGeometry(0.026, 0.34, 4, 12), skin); arm.rotation.x = PI / 2; arm.position.set(0, 0, 0.3); snap.add(arm);
     const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.05, 18), black); cuff.rotation.x = PI / 2; cuff.position.set(0, 0, 0.16); snap.add(cuff);
     for (let i = 0; i < 8; i++) { const a = (i / 8) * 2 * PI, s = new THREE.Mesh(new THREE.ConeGeometry(0.007, 0.018, 5), silver); s.position.set(Math.cos(a) * 0.04, Math.sin(a) * 0.04, 0.16); s.rotation.z = a - PI / 2; snap.add(s); }
-    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.045, 14, 10), skin); palm.scale.set(1.1, 0.5, 1.2); palm.position.set(0, -0.012, 0.07); snap.add(palm);
-    for (let i = 0; i < 4; i++) { const f = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, 0.045, 3, 8), skin); f.rotation.z = PI / 2; f.position.set(-0.06, -0.004, 0.035 + i * 0.02); snap.add(f); const n = new THREE.Mesh(new THREE.SphereGeometry(0.008, 8, 6), black); n.position.set(-0.09, -0.002, 0.035 + i * 0.02); snap.add(n); }
+    // the hand GRIPS the phone (Nov 9 fix, as 065/067: the palm under it, four fingers curled over its left long edge, the thumb over
+    // the right, black nails on top — v1's fingers lay beside the phone and the overhead lens saw a floating phone)
+    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.045, 14, 10), skin); palm.scale.set(1.1, 0.5, 1.2); palm.position.set(0, -0.024, 0.045); snap.add(palm);
+    const digit = (sx, z) => { const up = new THREE.Mesh(new THREE.CapsuleGeometry(0.0085, 0.022, 3, 8), skin); up.position.set(sx * 0.052, -0.007, z); snap.add(up);
+      const tip = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, 0.014, 3, 8), skin); tip.rotation.z = PI / 2; tip.position.set(sx * 0.041, 0.019, z); snap.add(tip);
+      const nail = new THREE.Mesh(new THREE.SphereGeometry(0.0052, 8, 6), black); nail.scale.set(1, 0.4, 0.85); nail.position.set(sx * 0.034, 0.026, z); snap.add(nail); };
+    for (let i = 0; i < 4; i++) digit(-1, 0.002 + i * 0.021);
+    digit(1, 0.04);
     const phone = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.012, 0.17), toon(0xb48ad8)); phone.position.set(0, 0.006, 0); snap.add(phone);
     const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.076, 0.15), new THREE.MeshBasicMaterial({ map: sheet.tex, toneMapped: false })); scr.rotation.x = -PI / 2; scr.position.set(0, 0.0125, 0); snap.add(scr);
     const flash = new THREE.Mesh(new THREE.CircleGeometry(0.4, 24), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, toneMapped: false })); flash.rotation.x = PI / 2; flash.position.y = -0.02; snap.add(flash); snap.flash = flash; }
@@ -224,6 +230,7 @@ export async function build(studio, story) {
     pen.g.visible = !!sh.write; pen.glow.scale.setScalar(sh.macro ? 0.02 : 0.06); pen.glow.material.opacity = sh.macro ? 0.5 : 1;
     if (sh.write) { const p = tipLocal(tip); pen.g.position.set(p.x, p.y + 0.004 + 0.006 * Math.abs(Math.sin(t * 23)), p.z); pen.g.rotation.set(0.35, 0, -0.3); }
     snap.visible = sh.snap === 1;
+    { const D = new URLSearchParams(location.search).get('cam'); if (D && sh.vex && ['wide', 'wide2'].includes(D)) { const fo = VEX.bpos('upperChest').add(V(0, 0.05, 0)), q = new THREE.Quaternion(); VEX.root.getWorldQuaternion(q); studio.setCamera(fo.clone().add(V(D === 'wide' ? -1.1 : 1.1, 0.05, 0.25).applyQuaternion(q)).toArray(), fo.toArray(), 40, 0, 0); } }   // debug: render --cam wide|wide2 = her upper body from each side (arms vs chest)
     if (sh.snap) { const sw = [-0.12, 0.02, -0.42], u = ease(u01(t, sh.t0, sh.t0 + 0.35)), tS = sh.t0 + 0.45; snap.position.set(sw[0] + 0.03, sw[1] + 0.34 - 0.08 * u, sw[2] + 0.3 - 0.12 * u); snap.rotation.set(-0.35, 0.1, 0); snap.flash.material.opacity = t > tS && t < tS + 0.18 ? 0.95 * (1 - (t - tS) / 0.18) : 0; }
     // the textbook: open flat, slams shut on "close" (the right cover swings over the spine)
     const kc = ease(u01(t, T.close, T.close + 0.32)); flap.rotation.z = PI * kc;
