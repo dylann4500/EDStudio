@@ -1,0 +1,41 @@
+{
+ "text": "And fifty-nine percent higher odds of insomnia.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "And",
+   "t0": 0.08,
+   "t1": 0.16
+  },
+  {
+   "w": "fifty-nine",
+   "t0": 0.16,
+   "t1": 0.72
+  },
+  {
+   "w": "percent",
+   "t0": 0.72,
+   "t1": 1.04
+  },
+  {
+   "w": "higher",
+   "t0": 1.04,
+   "t1": 1.44
+  },
+  {
+   "w": "odds",
+   "t0": 1.44,
+   "t1": 1.68
+  },
+  {
+   "w": "of",
+   "t0": 1.68,
+   "t1": 1.76
+  },
+  {
+   "w": "insomnia.",
+   "t0": 1.76,
+   "t1": 2.4
+  }
+ ]
+}

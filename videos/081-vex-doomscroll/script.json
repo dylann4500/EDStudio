@@ -1,0 +1,148 @@
+{
+ "title": "What scrolling in bed does to your brain, hour by hour (Vex explainer in her dorm, Derek cameo; Scribe: Finish now; Sua voice)",
+ "tone": "promo",
+ "voice": {
+  "provider": "fish",
+  "name": "Sua shy voice (generic Fish library voice)"
+ },
+ "scratch": {
+  "voice": "Samantha",
+  "rate": 210
+ },
+ "lead": 0.04,
+ "gap": 0.1,
+ "tail": 4.6,
+ "maxPause": 0.15,
+ "pauseFloor": -45,
+ "headPad": 0.1,
+ "endPad": 0.15,
+ "breath": {
+  "db": -12.0,
+  "keep": 0.15,
+  "margin": 0.05
+ },
+ "fps": 30,
+ "motionBlur": 1,
+ "tempo": 1.0,
+ "joinLen": 4,
+ "look": {
+  "exposure": 1.0,
+  "bloom": 0.06,
+  "bloomThreshold": 0.98,
+  "fill": 0.0,
+  "toneMapping": "neutral",
+  "vignette": 0.1,
+  "grain": 0.0,
+  "warm": 0.0,
+  "saturation": 1.04,
+  "lift": 0.0
+ },
+ "fish": {
+  "reference_id": "ef74d84f8059411fa5794eeeb20f2254",
+  "model": "s2.1-pro",
+  "speed": 1.0,
+  "temperature": 0.58,
+  "tempo": 1.0
+ },
+ "beats": [
+  {
+   "id": "hook",
+   "say": "Scrolling in bed at night. Here's what it actually does to your brain, hour by hour.",
+   "callouts": []
+  },
+  {
+   "id": "midnight",
+   "say": "Midnight. Blue light from your screen holds back melatonin, your sleep hormone, about twice as long as green light.",
+   "callouts": [
+    {
+     "at": "melatonin",
+     "text": "MELATONIN ON HOLD",
+     "style": "term",
+     "until": "light",
+     "nth": 1,
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "study",
+   "say": "One AM. A study of forty-five thousand students found every extra hour on a screen in bed cost about twenty-four minutes of sleep.",
+   "callouts": [
+    {
+     "at": "twenty-four",
+     "text": "-24 MIN OF SLEEP",
+     "style": "term",
+     "until": "sleep",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "odds",
+   "say": "And fifty-nine percent higher odds of insomnia.",
+   "callouts": [
+    {
+     "at": "fifty-nine",
+     "text": "+59% INSOMNIA ODDS",
+     "style": "term",
+     "until": "insomnia",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "derek",
+   "say": "Derek downstairs is learning that the hard way. Cute.",
+   "callouts": []
+  },
+  {
+   "id": "pivot",
+   "say": "Two AM, and my bio homework's still due at nine.",
+   "callouts": []
+  },
+  {
+   "id": "scribe",
+   "say": "So I open Scribe. It writes the page in my handwriting, graph and all, and I tap finish now.",
+   "callouts": [
+    {
+     "at": "finish",
+     "text": "FINISH NOW",
+     "style": "term",
+     "until": "now",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "tipsy",
+   "say": "Two-ten. That's eighteen hours awake, which can test about as badly as being tipsy.",
+   "callouts": [
+    {
+     "at": "eighteen",
+     "text": "18 HOURS AWAKE",
+     "style": "term",
+     "until": "awake",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "memory",
+   "say": "Pull an all-nighter, and your brain's ability to make new memories can drop by up to forty percent.",
+   "callouts": [
+    {
+     "at": "forty",
+     "text": "UP TO -40% MEMORY",
+     "style": "term",
+     "until": "percent",
+     "y": 0.14
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "say": "So put the phone down. Go to sleep. I'll know.",
+   "callouts": []
+  }
+ ]
+}
