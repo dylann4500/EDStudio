@@ -26,7 +26,9 @@ retro VHS/90s cartoon.
 2. **A 10 s template:** `videos/_<style>-template/` (story.json, shots.js, cues.json) that renders with
    `npm run new -- NNN-slug --from _<style>-template` + `node tools/render.mjs NNN-slug` — the starting point for the next producer.
 3. **A proof reel:** one finished Scribe promo in the style (docs/lanes/scribe.md) — a style isn't done until a real reel ships.
-4. **Docs:** a row in the table above + a section below (look in one sentence, API cheat sheet, the gotchas that cost a stills
+4. **Docs:** a row in the table above, **a cell in the README's "Animation styles" gallery** (a 360 px still in
+   `docs/media/styles/<style>.jpg`: `ffmpeg -ss <t> -i videos/<reel>/final.mp4 -frames:v 1 -vf scale=360:-1 -q:v 5 …`; the repo is
+   open source and the README is the showcase, user Nov 9) + a section below (look in one sentence, API cheat sheet, the gotchas that cost a stills
    round, render time per second of video); add the API lines to CLAUDE.md's engine cheat sheet too.
 5. **Captions + end card:** reuse `engine/build/captions.js` (one word at a time) and the Scribe end card unless the look needs its
    own; text stays crisp (DOM overlay in `#ui`, never in the pixelated/stylised render).
