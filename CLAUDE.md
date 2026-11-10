@@ -613,6 +613,18 @@ videos/NNN-slug/
   lipstick, latte) ride the bones (`VEX.bpos('rightIndexDistal')`) after `update`; keep the hand BESIDE the face (a hand in front of it
   hid the face) and aim the prop at the eye/mouth (`H.rightEye`). A render that fails with "WS endpoint" / "captureScreenshot timed
   out" while other sessions render is load (avg 50–90), not your code: retry.
+  **067 (Nov 9, user via manager): real, current memes + new look + new voices.** Vex voices ALTERNATE between the user's two Fish
+  picks, "Mommy" `5233336f5f44460ea0902b0802375451` (067) and "Dolly" `ce3b16c14af54adebba5ebe50a3d4417` (breathy British, next);
+  never "Authentic Conversational Storyteller" (its own description says a young girl). Check a library voice with
+  `GET api.fish.audio/model/<id>` (title/description/tags) before using it. "Mommy" trails seconds of breathy sighs after a line:
+  script.json `"endPad": 0.35` (narrate.py, opt-in) ends each clip 0.35 s after its last word (the hook went 6.9 → 2.3 s). Trends:
+  research the week's TikTok trends (newengen.com/insights/tiktok-trends, trendhaus.ai) and pick one that fits her (067 = "Why Would
+  I Deceive You?": meme setup cards in white pixel text + her deadpan line, our own voice saying it, never the trend audio). Look:
+  eyes 1.24 + head 1.08 for "bigger, cuter, still dominant" — and **never `happy` for her resting face** (VRoid's happy closes the
+  eyes into arcs); dominant = `relaxed 0.1, angry 0.12` (a brow arch), `happy` only for a laugh. The chest shading (067
+  `shadeBody`) is a runtime canvas pass on the body atlas: blurred rose strokes (cleavage line, inner-cup shade, under-cup crescents)
+  multiplied on once — same coverage. `dressGoth` now returns `M.shades` (the hair shades); a clone on her eyes in neon pink reads as
+  party shades (black ones read as a censor bar).
 - **2-D anime characters as puppets (054 goth cheat-tutor, Nov 8):** the user's bar is a polished anime ILLUSTRATION (benchmark
   in `videos/_goth-model/`); code-built 3-D (engine/goth.js, then a Blender body + engine/anime.js) never got close ("ugly").
   So the art is generated LOCALLY: `tools/anime/gen.py job.json` = Animagine XL 4.0 (SDXL, Open RAIL++-M, commercial OK) via
