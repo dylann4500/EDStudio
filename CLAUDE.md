@@ -776,6 +776,18 @@ videos/NNN-slug/
   camera pushing onto the row, the paper staying white with a hairline edge). Lessons: a cool LED gym light turned her skin grey
   (205/185/180) — warm hemi/points to land ≈ 226/199/188; a seated voxel extra and the plyo boxes each ended up in front of a lens
   (check extras against every camera); a black bench pad vanished on the dark rubber floor (maroon reads).
+- **Thanksgiving house (080, `engine/sets/feast.js`, pixel/Vex look):** `buildFeast(studio)` = ONE open-plan ground floor along x: DINING
+  (a table spread for 8 — `makeTurkey()` on a platter with `setCarved(0..1)`, mashed potatoes, stuffing, cranberry with can ridges, green bean
+  + sweet potato casseroles, rolls, gravy boat, pumpkin + apple lattice pies, taper candles, a gourd runner; `settings[i]` place settings,
+  `chairs`, chandelier, sideboard, GIVE THANKS pennants, dusk/night windows), LOUNGE (couch facing +z with a gap behind it for a reverse,
+  coffee table + `phone {g, W, H}` on a stand, a generic HOME/AWAY football game on a TV canvas, lamp, shelf), KITCHEN (a fridge you can
+  film FROM INSIDE: `setFridge(open 0..1)`, lit glass shelves `fridge.shelves`, a kid's hand-turkey drawing on the door; counters, stove,
+  microwave clock `setMicro`, the island with the 2 AM `leftovers`). `setMode('dusk'|'night'|'late')`, `update(t)`, `family` = four voxel
+  relatives with their `seat`, `uncle` for the couch; `makeDrumstick()` (origin = the grip, r ≈ 2.7 cm there). Seat a voxel person on a
+  0.46 m chair: `y −0.09, legL/legR {x −1.57, bend 1.57}`, root 0.1 m behind the seat centre. Fridge-cam: lens 0.6 m inside, between two
+  shelves, fov 56 (the shelves frame her face; the fridge light in front of her). Vex: `GRIP [0.5, 0.62, 0.72, 0.8, 0.86]` round the
+  drumstick + 076's FIX search; R arm `fist` [[−0.3, −0.45, 0.6], [0.25, 0.92, 0.25]] = a fist beside her face; 054's `shh` sinks into
+  her bust at 067's proportions like `kiss` (use `kissOut`). Whisper heard Mommy's "I'll know" as "oh no": 080 says "I'm watching you".
 - **Airport kit (062, `engine/build/airport.js`, toon look):** `buildAirfield(studio)` = ONE world at the origin: runway along +x
   (threshold x 0, 45 m, markings, edge + approach lights), a perimeter fence across the approach with a planespotter spot outside it
   (`AD.spot`), apron + gate (`AD.gate`: park jet.js `makeAirliner` there nose +x), a glass AIRPORT terminal + jet bridges, tower,
