@@ -139,6 +139,18 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   Shuffle (072), pen/ink picker (075), typed problem in the composer (076), follow-up prompts (077), dark mode (078 AND 080 —
   used twice, retire it for a while), scanned-pages chip of 12 pages (074).
 
+- **Voices + pace (user, Nov 10 — supersedes the Nov 9 voice lines above where they differ):**
+  - **Narrated non-Vex reels:** the user's new favourite is the Chinese-accent English narrator **"chinese"**
+    `654f19c7820c4c26a0ac74c0fbfeb70e` (Fish, "funny"); rotate it with Slax `c5f56a6cc2ec4fa8920cb4c5889a3fb7`. Fast-paced:
+    `"fish": {"speed": 1.1, "temperature": 0.6}` + `maxPause 0.2`. The jokes stay about the TOPIC, never about the accent or
+    ethnicity (no stereotype lines, no fake "broken English" in the script). "Chinese accent" `fe2e4e24a3a544dc95e8e5eb7dba7c82`
+    sounds like Uncle Roger (a real comedian's character): NOT used in Scribe ads unless the user confirms (a sound-alike of a
+    famous person in an ad reads as an endorsement).
+  - **Vex = Dolly** `ce3b16c14af54adebba5ebe50a3d4417` until the user sends their own cute-girl voices. **Not breathy/sexy by
+    default, just a normal cute girl narrating at a regular pace** ("right now it's too slow"): `"fish": {"speed": 1.2,
+    "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
+    `"endPad": 0.15`, `"headPad": 0.1` → ≈ 3.4 words/s (076/077 ran 2.6–2.8). The "Mommy" voice is retired for now.
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.
