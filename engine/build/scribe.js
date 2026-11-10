@@ -33,7 +33,7 @@ export function layoutHand(G, text, { x, y, u = 24, lineH = 2.4, seed = 1, track
     if (!vars) { cx += 0.5 * u; continue; }
     const v = vars[Math.floor(rnd() * vars.length) % vars.length], uu = sup ? u * 0.62 : u;
     const base = cy - (sup ? 0.8 * u : 0) + (rnd() - 0.5) * 0.14 * u * jit;
-    const w = v.w * uu, h = v.h * uu, bottom = base - v.d * uu;
+    const w = v.w * uu, h = v.h * uu, bottom = base + v.d * uu;   // descent sign fix (Nov 8)
     out.push({ c: v.c, x: cx, y: bottom - h, w, h, rot: (rnd() - 0.5) * 0.06 * jit });
     cx += w + track * uu + (rnd() - 0.5) * 0.08 * u * jit;
   }

@@ -5,10 +5,6 @@ POV: you won No Nut November and didn't even know you were playing 💀📚
 Who's making it to December? 👇
 Send this to your study group.
 
-✍️ Scribe: your homework, in your handwriting. 10 free assignments 👉 tryscribe.ink
-
-🎬 Want to make 3D animations like this? Learn how 👉 payhip.com/b/rim0Q
-
 #nonutnovember #scribe #homework #collegelife #animation
 
 <!-- Sources: product claims from the Scribe repo README + tryscribe.ink (Nov 2026): photo/PDF upload, problems solved and written
