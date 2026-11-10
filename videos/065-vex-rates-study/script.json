@@ -14,10 +14,13 @@
  "tail": 4.6,
  "maxPause": 0.25,
  "pauseFloor": -45,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ },
  "headPad": 0.1,
  "endPad": 0.2,
- "breathDuck": -9,
- "pauseByWords": true,
  "fps": 30,
  "motionBlur": 1,
  "tempo": 1.0,
@@ -100,7 +103,7 @@
   "reference_id": "5233336f5f44460ea0902b0802375451",
   "model": "s2.1-pro",
   "speed": 0.95,
-  "temperature": 0.7,
+  "temperature": 0.58,
   "tempo": 1.0
  }
 }
