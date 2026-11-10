@@ -1,0 +1,56 @@
+{
+ "text": "Highlighting the whole page isn't studying. It's coloring. Minus one.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Highlighting",
+   "t0": 0.16,
+   "t1": 0.72
+  },
+  {
+   "w": "the",
+   "t0": 0.72,
+   "t1": 0.8
+  },
+  {
+   "w": "whole",
+   "t0": 0.8,
+   "t1": 0.96
+  },
+  {
+   "w": "page",
+   "t0": 0.96,
+   "t1": 1.36
+  },
+  {
+   "w": "isn't",
+   "t0": 1.36,
+   "t1": 1.6
+  },
+  {
+   "w": "studying.",
+   "t0": 1.6,
+   "t1": 2.32
+  },
+  {
+   "w": "It's",
+   "t0": 2.72,
+   "t1": 2.96
+  },
+  {
+   "w": "coloring.",
+   "t0": 2.96,
+   "t1": 3.6
+  },
+  {
+   "w": "Minus",
+   "t0": 4.4,
+   "t1": 4.96
+  },
+  {
+   "w": "one.",
+   "t0": 4.96,
+   "t1": 5.44
+  }
+ ]
+}

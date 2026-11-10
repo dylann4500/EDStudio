@@ -22,7 +22,7 @@ T = dict(mommy1=W('hook', 'mommy'), phone=B['phone']['t0'], my=W('phone', 'my'),
          okay=W('physics', 'okay'), lie=W('physics', 'lie'), scribe=B['scribe']['t0'], snapped=W('scribe', 'snapped'), scribeW=W('scribe', 'scribe'),
          drew=W('scribe', 'drew'), andS=W('scribe', 'and'), purple=W('scribe', 'purple'), end=B['end']['t0'], mommy2=W('end', 'mommy'), baby=W('end', 'baby'))
 T['card'] = T['baby'] + 0.55
-CUTS = [T['phone'], T['my'] + 0.7, T['why1'] - 0.1, T['chapter'], T['why2'] - 0.1, T['theres'] - 0.1, T['party'], T['why3'] - 0.15, T['physics'],
+CUTS = [T['phone'], T['my'] + 0.2, T['why1'] - 0.1, T['chapter'], T['why2'] - 0.1, T['theres'] - 0.1, T['party'], T['why3'] - 0.15, T['physics'],
         T['okay'] - 0.15, T['scribe'], T['scribeW'] - 0.05, T['drew'] - 0.1, T['andS'] - 0.05, T['purple'] - 0.2, T['end']]
 
 # ---------------------------------------------------------------- music: "DEADPAN LIBRARY" (84 bpm, A minor), enters on the first setup
@@ -64,8 +64,8 @@ for w in (T['why1'], T['why2'], T['why3']): e(w + 0.9, "low_swell", -27, 0.0, du
 for m in (T['mommy1'], T['mommy2']):
     e(m + 0.05, "gold_chime", -26, 0.15, notes=[84, 91], spacing=0.06, vel=0.22, dur=0.5)
 e(T['baby'] + 0.05, "gold_chime", -25, 0.1, notes=[79, 84, 91], spacing=0.08, vel=0.24, dur=0.6)       # the blown kiss
-t = T['my'] + 0.75
-while t < T['why1'] - 0.2: e(t, "scan_beep", -30, 0.3, pitch=0.9, dur=0.03); t += 0.09                 # the clock racing
+t = T['my'] + 0.25
+while t < T['why1'] - 0.12: e(t, "scan_beep", -30, 0.3, pitch=0.9, dur=0.03); t += 0.09                 # the clock racing
 e(T['why2'] + 0.1, "blanket_rustle", -27, -0.2, dur=0.5, intensity=0.5)                                # shrink-wrap crinkle
 for i in range(6): e(T['party'] + 0.3 + i * 0.68, "knock", -31, 0.6, pitch=0.55)                       # a party thumping next door
 e(T['why3'] - 0.05, "latch_click", -22, 0.0, kind="close", bright=1.2)                                 # shades down

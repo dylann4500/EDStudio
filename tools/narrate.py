@@ -410,6 +410,37 @@ def shelf_tail(x, words, beat, db, hz, fade=0.03):
     return out
 
 
+def head_cut(x, words, pad):
+    """Breathy voices (Nov 9, script.json "headPad", opt-in): Fish's "Mommy" ad-libs a hum or a long inhale before the first
+    scripted word ("Mmm, studying in bed?"). Keep only pad s before the first word (10 ms fade-in); word times follow. The tail
+    side is 067's "endPad"."""
+    a = int((words[0]['t0'] - pad) * SR) if words else 0
+    if a <= 0:
+        return x, words
+    y = x[a:].copy(); fi = min(len(y), int(0.01 * SR)); y[:fi] *= np.linspace(0, 1, fi).astype(y.dtype)
+    return y, [{'w': w['w'], 't0': max(0.0, w['t0'] - a / SR), 't1': max(0.0, w['t1'] - a / SR)} for w in words]
+
+
+def soften_breaths(x, words, db=-9.0, keep=0.25, margin=0.06, ramp=0.02):
+    """067 (user, Nov 9: "a tiny bit less breathing and moaning"), script.json "breath": {"db", "keep", "margin"}, opt-in: between two
+    words (the span margin s clear of both word stamps) the take is turned down by db (20 ms ramps), and a gap longer than keep s has
+    its middle cut so it lasts keep s. Words are never touched; a beat with "breathy": true keeps its sighs."""
+    if len(words) < 2:
+        return x, words
+    x = x.copy(); g = 10 ** (db / 20); R = max(1, int(ramp * SR)); cuts = []
+    for a, b in zip(words, words[1:]):
+        g0, g1 = a['t1'] + margin, b['t0'] - margin
+        if g1 - g0 > 2 * ramp:
+            i0, i1 = int(g0 * SR), int(g1 * SR)
+            env = np.full(i1 - i0, g, dtype=np.float32); env[:R] = np.linspace(1, g, R); env[-R:] = np.linspace(g, 1, R)
+            x[i0:i1] *= env
+        gap = b['t0'] - a['t1']
+        if gap > keep and g1 - g0 > gap - keep + 0.03:
+            mid = (g0 + g1) / 2; half = (gap - keep) / 2
+            cuts.append((mid - half, mid + half))
+    return cut_out(x, words, cuts)
+
+
 def trim(x, words, pad=0.04):
     """Cut leading/trailing silence from a clip; shift its word times to match."""
     loud = np.nonzero(np.abs(x) > 10 ** (-46 / 20))[0]
@@ -498,8 +529,15 @@ def narrate(slug, provider, key):
                  fish_cfg(cfg).get('tempo', cfg.get('tempo', 1.0)) if provider == 'fish' else 1.0)
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
+        if cfg.get('headPad') is not None and words:   # Nov 9, opt-in: drop an ad-libbed hum/inhale before the first scripted word
+            x, words = head_cut(x, words, cfg['headPad'])
+        bc = cfg.get('breath')   # 067, opt-in: softer, shorter breaths between words (beat "breathy": true opts out)
+        if bc and not b.get('breathy'):
+            x, words = soften_breaths(x, words, bc.get('db', -9.0), bc.get('keep', 0.25), bc.get('margin', 0.06))
         if cfg.get('maxPause'):   # turbo pace (034, opt-in): no silence between two words longer than maxPause s
-            x, words = squeeze(x, words, cfg['maxPause'], floor_db=cfg.get('pauseFloor'))
+            # Nov 9, opt-in "pauseByWords": a breathy voice fills its pauses with breath (−26…−45 dBFS), so no gap is ever true
+            # silence and the floor-guarded cuts never fire; Fish's word times are exact, so cut those gaps by the timestamps alone
+            x, words = squeeze(x, words, cfg['maxPause'], floor_db=None if cfg.get('pauseByWords') else cfg.get('pauseFloor'))
             if cfg.get('pauseFloor'):   # 034 r2, opt-in: the same cap measured on the audio (dBFS floor)
                 x, words = squeeze_audio(x, words, cfg['maxPause'], cfg['pauseFloor'], soft_db=b.get('pauseSoft'))
         ep = b.get('endPad', cfg.get('endPad'))   # 067, opt-in: a breathy voice (Fish "Mommy") trails seconds of sighs after its last word

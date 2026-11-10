@@ -3,7 +3,7 @@
  "tone": "promo",
  "voice": {
   "provider": "fish",
-  "name": "Mommy ASMR (generic Fish library voice)"
+  "name": "Dolly (Fish, user pick Nov 9; was Mommy ASMR)"
  },
  "scratch": {
   "voice": "Samantha",
@@ -12,8 +12,15 @@
  "lead": 0.04,
  "gap": 0.18,
  "tail": 4.6,
- "maxPause": 0.4,
+ "maxPause": 0.25,
  "pauseFloor": -45,
+ "breath": {
+  "db": -9.0,
+  "keep": 0.25,
+  "margin": 0.06
+ },
+ "headPad": 0.1,
+ "endPad": 0.2,
  "fps": 30,
  "motionBlur": 1,
  "tempo": 1.0,
@@ -106,10 +113,10 @@
   }
  ],
  "fish": {
-  "reference_id": "33bed5b5a88b47cd80f0a6ed85bc0bca",
+  "reference_id": "ce3b16c14af54adebba5ebe50a3d4417",
   "model": "s2.1-pro",
   "speed": 0.95,
-  "temperature": 0.7,
+  "temperature": 0.58,
   "tempo": 1.0
  }
 }
