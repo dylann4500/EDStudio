@@ -1,0 +1,56 @@
+{
+ "text": "Why your fucking phone fucking dies at twenty fucking percent.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Why",
+   "t0": 0.16,
+   "t1": 0.4
+  },
+  {
+   "w": "your",
+   "t0": 0.4,
+   "t1": 0.48
+  },
+  {
+   "w": "fucking",
+   "t0": 0.48,
+   "t1": 0.88
+  },
+  {
+   "w": "phone",
+   "t0": 0.88,
+   "t1": 1.2
+  },
+  {
+   "w": "fucking",
+   "t0": 1.2,
+   "t1": 1.6
+  },
+  {
+   "w": "dies",
+   "t0": 1.6,
+   "t1": 1.84
+  },
+  {
+   "w": "at",
+   "t0": 1.84,
+   "t1": 2.0
+  },
+  {
+   "w": "twenty",
+   "t0": 2.24,
+   "t1": 2.64
+  },
+  {
+   "w": "fucking",
+   "t0": 2.64,
+   "t1": 2.96
+  },
+  {
+   "w": "percent.",
+   "t0": 2.96,
+   "t1": 3.36
+  }
+ ]
+}

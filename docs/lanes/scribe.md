@@ -137,7 +137,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
 - **Scribe features the Vex reels have already shown** (pick a different one next time, README in `~/Documents/GitHub/math hw grift`):
   snap → solve → write (064, 070), practice sheet + Messiness slider (065), PDF upload + fill + pencil ink + Download PDF (066),
   Shuffle (072), pen/ink picker (075), typed problem in the composer (076), follow-up prompts (077), dark mode (078 AND 080 —
-  used twice, retire it for a while), scanned-pages chip of 12 pages (074).
+  used twice, retire it for a while), scanned-pages chip of 12 pages (074), Page style → yellow legal pad (071), two pages
+  (079), the set's Aa HANDWRITING PICKER → the library hand "Quick print" rewrites the page (083).
 
 - **Voices + pace (user, Nov 10 — supersedes the Nov 9 voice lines above where they differ):**
   - **Narrated non-Vex reels:** the user's new favourite is the Chinese-accent English narrator **"chinese"**
@@ -151,6 +152,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
     default, just a normal cute girl narrating at a regular pace** ("right now it's too slow"): `"fish": {"speed": 1.2,
     "temperature": 0.58, "tempo": 1.0}`, `"maxPause": 0.15`, `"gap": 0.1`, `"breath": {"db": -12, "keep": 0.15, "margin": 0.05}`,
     `"endPad": 0.15`, `"headPad": 0.1` → ≈ 3.4 words/s (076/077 ran 2.6–2.8). The "Mommy" voice is retired for now.
+    083 measured 2.8 words/s with exactly these settings (Dolly drawls "fucking" at ~0.4 s): set `"tempo": 1.2` inside the `"fish"`
+    block (a top-level tempo is ignored there) → 3.3 words/s. Check with words.json, not by ear.
 
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.

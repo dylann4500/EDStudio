@@ -795,6 +795,26 @@ videos/NNN-slug/
   shelves, fov 56 (the shelves frame her face; the fridge light in front of her). Vex: `GRIP [0.5, 0.62, 0.72, 0.8, 0.86]` round the
   drumstick + 076's FIX search; R arm `fist` [[−0.3, −0.45, 0.6], [0.25, 0.92, 0.25]] = a fist beside her face; 054's `shh` sinks into
   her bust at 067's proportions like `kiss` (use `kissOut`). Whisper heard Mommy's "I'll know" as "oh no": 080 says "I'm watching you".
+- **Vex f-word explainer + a phone in her hand (083, "Why your f*cking phone dies at 20%", `videos/083-vex-fword-battery`):** the f-word
+  series' rhythm on the Vex explainer: script.json `"swap": {"fucking": "F*CKING", "fuck": "F*CK"}` (swap "fuck" too, or "shuts the fuck
+  off" captions uncensored) + `"wordColor"` — **engine/pixelcaps.js now honours story.wordColor** (additive: a joined caption "your
+  f*cking" is drawn token by token, only the listed words in their colour; off when no story sets it). A HANDHELD PHONE = attach to
+  `leftHand` with its back on the palm (long axis = wrist → middle knuckle, screen = out of the palm, a flat grip `[0.08, 0.05, 0.05,
+  0.06, 0.08]` so no finger crosses the screen), search forearm twist + wrist per arm preset so the screen faces the lens ('show') or
+  her eyes ('look'), then SPIN it about the palm normal (a child group) so it stands upright — without the spin it lay sideways in
+  'show'. 083's `phoneCam(ph, u, v, d)` returns the screen's up as `camera.up` so a close-up of a phone in a moving hand stays upright.
+  The dorm (073) reused as an explainer place: her room upstairs, Derek downstairs (his phone dies → wide eyes, a flailing arm, a
+  pixel "NOOO!"; toon 'scream' read as a grin from below — use 'o'), the roof at night with pixel snow (no breath puffs: from the lens
+  they sit on her face). Scribe feature = the handwriting picker (README §The handwriting picker): the library hand "Quick print"
+  is in `videos/083-vex-fword-battery/quickprint.json` (loadHand reads it; it lacks a capital O like the demo hand).
+  **Dolly at Fish speed 1.2 ran 2.8 words/s, not 3.4: put `"tempo": 1.2` INSIDE the `"fish"` block** (a top-level `tempo` is ignored
+  when the fish block has its own) → 3.3 words/s.
+  **Pixel callouts dropped glyph columns in the FULL render only** ("VOLT?GE _NDER CUTOFF", 079's "16.1 BILLION MILES"): long callouts
+  shown at 5–6× (a 157-px image stretched by CSS) came out with whole columns missing once the page had rendered every frame from
+  t = 0, while stills of the very same frames (even frame by frame through the pop) were clean, and 7–8× callouts were fine. Fix =
+  `makePixelOverlay(story, { crisp: true, … })` (083, opt-in): every pixel text is scaled up in a canvas (nearest neighbour) and
+  shown 1:1, and pops by width/height instead of a scale transform — **turn it on in every new pixel reel**, and check long
+  callouts on frames pulled from final.mp4 (`--to 19` renders 0–19 s the full-render way; note it also re-muxes a short final.mp4).
 - **Deep-space dish station + a toy 1977 probe (079, Vex "Voyager 1 one light-day away" explainer, pixel look):**
   `engine/sets/dishstation.js` `buildDishStation(studio)` = a desert antenna complex at dusk (she stands on a gravel VISITOR OVERLOOK
   at the origin facing +z: camp table `S.table` with a portrait tablet group `S.tablet` (screen faces +z — add your screen mesh), a
