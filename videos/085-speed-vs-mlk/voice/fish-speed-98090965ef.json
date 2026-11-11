@@ -1,0 +1,76 @@
+{
+ "text": "Speed has sixty million fucking subscribers. One stream had a million people watching live.",
+ "ext": ".mp3",
+ "words": [
+  {
+   "w": "Speed",
+   "t0": 0.08,
+   "t1": 0.56
+  },
+  {
+   "w": "has",
+   "t0": 0.56,
+   "t1": 0.8
+  },
+  {
+   "w": "sixty",
+   "t0": 0.8,
+   "t1": 1.12
+  },
+  {
+   "w": "million",
+   "t0": 1.12,
+   "t1": 1.44
+  },
+  {
+   "w": "fucking",
+   "t0": 1.44,
+   "t1": 1.76
+  },
+  {
+   "w": "subscribers.",
+   "t0": 1.76,
+   "t1": 2.48
+  },
+  {
+   "w": "One",
+   "t0": 2.48,
+   "t1": 2.72
+  },
+  {
+   "w": "stream",
+   "t0": 2.72,
+   "t1": 3.04
+  },
+  {
+   "w": "had",
+   "t0": 3.04,
+   "t1": 3.2
+  },
+  {
+   "w": "a",
+   "t0": 3.2,
+   "t1": 3.28
+  },
+  {
+   "w": "million",
+   "t0": 3.28,
+   "t1": 3.6
+  },
+  {
+   "w": "people",
+   "t0": 3.6,
+   "t1": 3.92
+  },
+  {
+   "w": "watching",
+   "t0": 3.92,
+   "t1": 4.24
+  },
+  {
+   "w": "live.",
+   "t0": 4.24,
+   "t1": 4.56
+  }
+ ]
+}
