@@ -435,6 +435,20 @@ videos/NNN-slug/
   crates: `set({rack, brace, spin})`, `braceEnds`), `makeTextbook`, `makeDeskLamp`, `makeMiniFridge`, `makeKettle`, `makePowerStrip`,
   `makeCord`/`makeConduit` (draw-on tubes), `makePanel`, `makePrinter`, `makeConveyor`, `makeChute`, `makeDrill`, `makePhone`,
   `makePaperStack`, `makeIBeam`. Lessons: docs/BUILD.md → Lessons from 073.
+- **Split-screen VS + a 1963 Mall (085, all in `videos/085-speed-vs-mlk/shots.js`, copy it; toon look):** a split screen = render the
+  second place into a `WebGLRenderTarget` with its own camera inside update() (toggle the two set roots + fog around that render; the
+  other set's characters can stay visible, the main camera's far plane culls them) and lay it over the bottom of the frame on a
+  camera-child plane (`depthTest: false`, renderOrder 998, sized from the fov each frame; cam2.aspect = (9/16)/(1 − split)); a sepia
+  tint for that half via `onBeforeCompile` on its MeshBasicMaterial; the seam + VS badge are a DOM canvas under #ui. Slide `split`
+  for a "shoved off screen" verdict. The Mall builder: a generic marble memorial on 12 steps (`stepTop(z)`), a lectern with low dark
+  mics (tall bright mics read as teeth over a toon's chin), a 600 m reflecting pool, elm rows, an obelisk at 1.1 km, ~23k instanced
+  cheap figures + an 820-toon audience (`makeCrowd`, recoloured per instance) with placards on sticks; `SUN_DIR`/`SUN_BACK` per shot
+  (an audience facing the memorial is backlit by a sun on the lens side of the speaker). Also: a 1955 church office (mimeograph whose
+  flyers fly at the lens, a typewriter, a rotary phone), period newspapers that land on the desk, a DOM stream UI (LIVE pill, a
+  rolling viewer count, chat rows), a `selfie(d, fov, fy)` lens that rides a toon's head with his face at frame height fy, and a
+  flattened toon (lying `rx −π/2`, then `root.scale.y` squashed + `root.y = −0.45·S·f`). Real people in a hook (085 named a
+  streamer + Dr. King): stylized toons only, the named streamer never touches the product (give him his own phone screen texture —
+  a shared `makePhone(ptex)` showed the Scribe screen in his hand), the historical figure is never the joke and no speech text.
 - **1944 kit (084, `engine/build/ww2.js`, toon look; reel `videos/084-ronaldo-ww2`):** `buildNormandy(studio)` = sunny Normandy farmland at the
   origin (field, a dirt road along x at `D.roadZ` with a fence on its far side, hedgerows with a gap at the farm, stone farmhouse + barn +
   village houses, orchard, far church spire, haystacks, a 1.6–2.6 km cloud layer of sprites, a camera-following sky that darkens with
@@ -1035,6 +1049,10 @@ A fresh session making a Scribe reel picks the voice and music from the request,
   branches register one name with different parameters, keep the name and route by the arguments (`amb_fire`: `intensity` → 033,
   `size` → 037). After a merge, re-synthesize every reel whose sounds were touched and `cmp` audio.wav with the shipped one.
 - **Look at stills before every full render.** A full render is ~3–6 min; a still sheet is ~30 s.
+- **A CSS `filter` on the GL canvas vanishes in a motion-blurred full render (085):** with `motionBlur` > 1, engine/main.js averages
+  the sub-frames on a 2-D canvas laid over `#gl` (`gl.nextElementSibling`), so 085's sepia showed in every still and in none of
+  final.mp4 (082's 1945-lab sepia, motionBlur 2, probably shipped in colour too). Set the filter on both canvases (085 `useSet`), or
+  grade in-GL; check a frame pulled from final.mp4, not only stills.
 - **Anything aimed at the camera (`lookAt(camera.position)`) must be posed AFTER `setCamera` in update() (074):** before it, the
   camera still holds the previous frame — in a still batch that is another shot's camera, so 074's held worksheet turned edge-on and
   hid behind her. Same for billboards/cards placed from the camera position.
