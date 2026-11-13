@@ -1,5 +1,12 @@
-# POV story: breakdown of the reference reel
+# POV story: the genre, and a breakdown of the reel that started it
 
+**The genre (Nov 13, the user):** first-person stories told *through a person's eyes*. The camera is their head, their hands do
+things in frame, and the people around them talk to them. It is **not only thrillers**: a day in someone's life, a skill, a
+job, a journey, a big moment. Suspense is one mode of several. The default tone is **brand-safe and professional** with good
+production quality, the kind of video a brand would actually run. Humour is light and never the point. Recipe:
+[`docs/POVSTORY.md`](../POVSTORY.md); the modes are in §9 below.
+
+## The reference reel (a suspense example)
 **Reel:** instagram.com/reels/DfooX7sRz3b (@trz_ftb). Studied Nov 12–13 2026 from a local copy, for analysis only (never repost
 it). 122 s, 1080×1920, 30 fps. About 506K likes and 6.8K comments when downloaded (Instagram hid the view count).
 **Recipe for making one in ED Studio:** [`docs/POVSTORY.md`](../POVSTORY.md). **Test reel:** `videos/086-pov-library-lockin`.
@@ -97,7 +104,7 @@ sound, a new rule, a new message, a light change), and the last 20 s pile two co
    series is built in.
 6. **Readable with the sound off** (colour-coded captions, banners), and **better with sound on** (the door voice, the PA filter).
 
-## 8. Plugging a product without breaking the story
+## 8. Plugging a product without breaking the story (any mode)
 The rule from Scribe, Ally the Tutor and Write It: **the product is a prop that does something in the plot, never a break in it.**
 Three patterns, all used in the 086 test:
 1. **A character recommends it, in character.** A friend on the phone tells you to just snap the worksheet and Scribe will
@@ -111,7 +118,26 @@ Three patterns, all used in the 086 test:
    gets tenser instead of stopping for an ad.
 - Also available: the product on a background screen (a classmate's laptop), a wallpaper/sticker, or the cliffhanger's
   stakes resting on it (the deadline is real *because* the worksheet is due at 8 AM).
+- In the non-suspense modes the product is simply **the tool the person reaches for** at the moment it's needed: the app that
+  turns tonight's worksheet into done pages, the camera that catches the shot, the shoes that carry the last kilometre. Show it
+  working in the person's hands for 2–4 s, said or shown once. That's enough.
 - **Topic rules for plugged versions:** no real-violence premises (shootings, assaults, kidnapping): the platform and the
-  brand risk aren't worth it. Use the same *shape* with safe dread: locked in after hours, a power cut during finals, a
-  substitute nobody knows, a mystery text, a swapped phone. Never mock a real tragedy, and keep the threat ambiguous and
+  brand risk aren't worth it. Suspense uses the same *shape* with safe dread: locked in after hours, a power cut during finals,
+  a substitute nobody knows, a mystery text, a swapped phone. Never mock a real tragedy, and keep any threat ambiguous and
   non-violent.
+
+## 9. The genre beyond the reference: what carries over to every mode
+What made the reference work isn't the fear. It's **being someone for a minute**: their eyes, their hands, their phone, the people
+talking to them, a specific time and place, and something they're trying to get done. That works for any interesting life:
+| Mode | You are… | The pull (why keep watching) | Ending |
+|---|---|---|---|
+| **Day in the life** | a pastry chef at 4 AM, an ER nurse on nights, a stadium stagehand, a pilot before take-off | a clock that keeps moving (the stamp) + a run of small wins and near-misses | the day's last moment + "Would you do this job?" |
+| **Skill** | landing a trick, plating a dessert, a first solo climb, building a rocket model | a hard thing done step by step; a counter or a goal you can see | the moment it works, held for a beat |
+| **Job** | a lifeguard's shift, an air-traffic controller, a wedding photographer | other people need you *now*; every voice is a request or a warning | the save / the shot / the landing |
+| **Journey** | first solo trip, moving to a new city, a cross-country drive | each place a new look; strangers who help or get in the way | arriving + what changed |
+| **Big moment** | the first day, a graduation walk, a final, a launch, a match point | the build-up to one second | the second itself, then the reaction |
+| **Suspense** | the reference: locked in, a power cut, a strange message | an information drip + two sources of truth that disagree | the **choice card** + "Comment for Part 2" |
+Carry-overs: the POV camera and hands, the place/time stamp, other voices that talk *to* you (distinct, natural, each with its
+own caption colour), the phone as a second channel, something moving in every frame, a payoff or a question at the end. Drop
+the dread for the other modes: lighting, music and pace follow the mode (a bright kitchen at dawn, a warm synth bed, quicker cuts
+of head turns as the rush builds).

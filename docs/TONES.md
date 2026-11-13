@@ -140,11 +140,11 @@ Full rulebook: **docs/BUILD.md** (+ `/new-build`, reference account `docs/refere
 Gary gets hurt every time, ONE word on screen at a time, one cutaway diorama, a marimba "ta-da" on every TERM, the callback
 ending with the money. No title card / HUD / end card. Densest tone we make: a new prop, failure or effect on almost every phrase.
 
-## POV story: a multi-voice first-person thriller (`"mode": "pov"`, `videos/086-pov-library-lockin`) — its own category
-Follow **`docs/POVSTORY.md`** + `/new-povstory` (why it works: `docs/genres/pov-story.md`). You are the main character: the camera is your
-head, 4–5 voices talk around you (no narrator), each in its own caption colour and sound space (phone, PA, across the room, behind a
-door). Safe dread → a named person at risk → a phone thread → two sources of truth that disagree → a "WHAT WOULD YOU DO?" choice card.
-SFX-led sound with a drone that never stops. The product is a prop that moves the plot. No real-violence topics.
+## POV story: first person, many voices (`"mode": "pov"`, `videos/086-pov-library-lockin`) — its own category
+Follow **`docs/POVSTORY.md`** + `/new-povstory` (why it works: `docs/genres/pov-story.md`). You are the person, seen through their eyes:
+the camera is your head, your hands are in frame, and people talk to you in natural, professional voices, each with its own caption
+colour. Modes: day in the life, skill, job, journey, big moment, or suspense (086: safe dread → a choice card). Brand-safe and
+professional by default (user, Nov 13), humour light; never the accent presets. The product is the tool the person reaches for.
 
 ## Physical-premise montage (`videos/018-magnetic`) — "What if every human became magnetic?"
 One invisible force, 11 places, every beat ends in a pile-up: commuters yanked back onto a bus shelter, Gary's breakfast (forks,
