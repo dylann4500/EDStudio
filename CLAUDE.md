@@ -21,7 +21,8 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
   beat but reach the product sooner, ElevenLabs narrator at ~the reference's pace, toon look, hard cuts between places (one gliding rail
   each), no build loop/Gary; product claims checked against the product's own repo/site. Kit: `engine/build/island.js`, `brprops.js`
   (instanced toon crowd, chutes, beams, blimp, plane, crate), `brhud.js` (battle-royale HUD + product end card), `scribe.js`, `library.js`.
-- **POV story** (a multi-voice first-person thriller, `videos/086-pov-library-lockin`, TEST genre Nov 13) — **follow `docs/POVSTORY.md` and
+- **POV story** (first-person, multi-voice reels: a day in someone's life, a skill, a job, a journey or a big moment, with
+  suspense as one option; brand-safe and professional by default, natural voices only; first test `videos/086-pov-library-lockin`, Nov 13) — **follow `docs/POVSTORY.md` and
   `/new-povstory`** (breakdown of the reference reel: `docs/genres/pov-story.md`). The camera is YOUR head (fisheye + ink outlines, arms
   and a phone in frame, one continuous take of head whips), 4–5 voices and NO narrator: script.json `cast` + `who` per line →
   tools/narrate.py voices each speaker (+ phone/PA/far/room/muffled fx) and writes speaker-coloured `phrases`; a place/time stamp,
