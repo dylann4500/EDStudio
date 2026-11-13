@@ -1,0 +1,199 @@
+{
+  "_doc": "086 \u2014 POV story genre test (docs/POVSTORY.md): 'POV: you fell asleep in the library during finals week'. Five voices, no narrator. Scratch voices = free macOS say; swap each cast entry's fish/voice block in to re-voice with Fish or ElevenLabs (see docs/POVSTORY.md \u2192 Voices).",
+  "mode": "pov",
+  "fps": 30,
+  "motionBlur": 2,
+  "look": {
+    "toneMapping": "neutral",
+    "exposure": 1.0,
+    "bloom": 0.22,
+    "bloomThreshold": 0.9,
+    "fill": 0.0,
+    "vignette": 0.22,
+    "grain": 0.014,
+    "warm": 0.0,
+    "saturation": 1.06,
+    "lift": 0.01
+  },
+  "lead": 0.35,
+  "gap": 0.18,
+  "tail": 5.4,
+  "phraseMax": 4,
+  "voice": {
+    "provider": "scratch"
+  },
+  "cast": {
+    "you": {
+      "name": "Sam",
+      "color": "#ffffff",
+      "scratch": {
+        "voice": "Samantha",
+        "rate": 198
+      }
+    },
+    "theo": {
+      "name": "Theo",
+      "color": "#5fe3ff",
+      "scratch": {
+        "voice": "Daniel",
+        "rate": 212
+      },
+      "fx": "phone"
+    },
+    "pa": {
+      "name": "PA",
+      "color": "#ffa63d",
+      "scratch": {
+        "voice": "Karen",
+        "rate": 184
+      },
+      "fx": "pa",
+      "gain_db": -1.5
+    },
+    "guard": {
+      "name": "Guard",
+      "color": "#ffd84a",
+      "scratch": {
+        "voice": "Grandpa (English (US))",
+        "rate": 174
+      },
+      "fx": "far"
+    },
+    "jules": {
+      "name": "Jules",
+      "color": "#ff8fcf",
+      "scratch": {
+        "voice": "Moira",
+        "rate": 212
+      },
+      "fx": "far",
+      "gain_db": 1.5
+    }
+  },
+  "beats": [
+    {
+      "id": "pa1",
+      "who": "pa",
+      "say": "Attention. The library is now closed.",
+      "gap": 0.25
+    },
+    {
+      "id": "pa2",
+      "who": "pa",
+      "say": "All doors lock at midnight.",
+      "gap": 0.35
+    },
+    {
+      "id": "wake",
+      "who": "you",
+      "say": "Wait. What time is it?",
+      "gap": 1.1
+    },
+    {
+      "id": "nono",
+      "who": "you",
+      "say": "No, no, no. I fell asleep.",
+      "gap": 0.9
+    },
+    {
+      "id": "theo1",
+      "who": "theo",
+      "say": "Sam! Where are you? Everybody left."
+    },
+    {
+      "id": "you1",
+      "who": "you",
+      "say": "Still in the library. My worksheet's due at eight."
+    },
+    {
+      "id": "theo2",
+      "who": "theo",
+      "say": "So snap it. Scribe writes it in your handwriting."
+    },
+    {
+      "id": "snap",
+      "who": "you",
+      "say": "Fine. One photo.",
+      "gap": 1.7
+    },
+    {
+      "id": "photo",
+      "who": "you",
+      "say": "Theo. There's someone in my photo.",
+      "gap": 0.3
+    },
+    {
+      "id": "theo3",
+      "who": "theo",
+      "say": "It's probably the night guard. Go ask him.",
+      "gap": 1.0
+    },
+    {
+      "id": "g1",
+      "who": "guard",
+      "say": "The library is closed! Is anybody still up here?",
+      "gap": 0.25
+    },
+    {
+      "id": "thank",
+      "who": "you",
+      "say": "Oh, thank god. I'm over",
+      "gap": 0.05
+    },
+    {
+      "id": "dont",
+      "who": "theo",
+      "say": "Wait. Don't.",
+      "gap": 0.35
+    },
+    {
+      "id": "sick",
+      "who": "theo",
+      "say": "My cousin is the night guard. He's home sick.",
+      "gap": 0.8
+    },
+    {
+      "id": "g2",
+      "who": "guard",
+      "say": "I know you're up here.",
+      "gap": 2.4
+    },
+    {
+      "id": "g3",
+      "who": "guard",
+      "say": "What was that?",
+      "fx": "room",
+      "gap": 1.1
+    },
+    {
+      "id": "jules",
+      "who": "jules",
+      "say": "Sam! It's Jules! Theo sent me. The back stairs are open!",
+      "gap": 0.4
+    },
+    {
+      "id": "sent",
+      "who": "you",
+      "say": "Theo. You sent Jules?",
+      "gap": 0.5
+    },
+    {
+      "id": "nope",
+      "who": "theo",
+      "say": "I didn't send anyone.",
+      "gap": 0.7
+    },
+    {
+      "id": "g4",
+      "who": "guard",
+      "say": "Come on out. I'll walk you down.",
+      "fx": "room",
+      "gap": 0.3
+    },
+    {
+      "id": "hurry",
+      "who": "jules",
+      "say": "Sam, hurry!"
+    }
+  ]
+}

@@ -21,6 +21,13 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
   beat but reach the product sooner, ElevenLabs narrator at ~the reference's pace, toon look, hard cuts between places (one gliding rail
   each), no build loop/Gary; product claims checked against the product's own repo/site. Kit: `engine/build/island.js`, `brprops.js`
   (instanced toon crowd, chutes, beams, blimp, plane, crate), `brhud.js` (battle-royale HUD + product end card), `scribe.js`, `library.js`.
+- **POV story** (a multi-voice first-person thriller, `videos/086-pov-library-lockin`, TEST genre Nov 13) — **follow `docs/POVSTORY.md` and
+  `/new-povstory`** (breakdown of the reference reel: `docs/genres/pov-story.md`). The camera is YOUR head (fisheye + ink outlines, arms
+  and a phone in frame, one continuous take of head whips), 4–5 voices and NO narrator: script.json `cast` + `who` per line →
+  tools/narrate.py voices each speaker (+ phone/PA/far/room/muffled fx) and writes speaker-coloured `phrases`; a place/time stamp,
+  notification banners, and a "WHAT WOULD YOU DO?" choice card + "Comment for Part 2" at the end. The product plugs INSIDE the story
+  (a character's advice, the phone action that reveals the twist, its notification as a beat). Exempt from the opening question card
+  and the Scribe end card. Safe-dread topics only (never real violence).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts (build reels excepted:
@@ -959,6 +966,15 @@ videos/NNN-slug/
   Scribe screen (home → viewfinder + flash → 3 tiles → the page written with a nib → Download PDF) and `phoneCam(u, v, d, fov, fy)`:
   `fy` puts the macro target at that frame height (0.7 = below the one-word caption; at 0.5 the caption sat on the Lewis structure).
   A giant face at a door window: scale the toon so BOTH eyes fit the window (×10 only showed the nose; ×5 read).
+- **POV story kit (086, `engine/povstory/`, docs/POVSTORY.md):** `look.js` `addFisheyePass(studio, {k})` (barrel lens before the grade;
+  render ~15° wider) + `addInk(root, {width, filter})` (inverted-hull ink outlines as child hulls; flat/transparent/shader meshes skipped);
+  `pov.js` `makePovArms(camera)` (`L/R.set({cam, rot, pose})`, `L.hold(phone)`), `makePhone()` (`setMap` canvas or render target,
+  `setUI` overlay, `setOn`), `moves(t, start, list)` head/phone tracks (a move arrives at t after d s, then holds; ease `whip` for
+  snaps), `shake(t, amp)`, `setHead`; `hud.js` `createPovStoryHud(story, {stamp, banners, choice})`; `stacks.js` `buildStacks(studio)`
+  (a library floor at night for a seated POV: light banks `setBanks`, lamp, stairwell door `setDoor/setStair`, worksheet `sheet`).
+  tools/narrate.py: script.json `cast` {who: {name, color, scratch|fish|voice, fx, gain_db}} + beat `who` (additive; no cast = unchanged).
+  A toon silhouette = `makeToon` + `tint: [0x0b0d14, 0.9]` (eye whites stay white). A phone photo of something not in the room =
+  render a target with the scene posed at the flash time (086 `phoneWorld`). Lights toggled per frame stay in the scene at 0.
 - **Blocky-avatar game look (069, `engine/rbx/`, docs/STYLES.md → rbx; template `videos/_rbx-template`):** `import * as R from
   '@engine/rbx/index.js'`. `R.rbxWorld(studio)` = studded grey baseplate + painted sky + sun/hemi + plastic IBL (`W.aim(x, z, half)`
   per shot; story.look = `R.RBX_LOOK`, neutral tone mapping). `R.makeAvatar({skin, shirt, pants, sleeve, print, hair, hat, face})` →
