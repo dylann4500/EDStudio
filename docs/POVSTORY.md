@@ -63,6 +63,16 @@ script.json gets a `cast` and every beat gets a `who`:
   re-voice. 086's 21 lines are 643 characters, so one full voicing ≈ **$0.01 on Fish** (s2.1-pro $15 / 1M UTF-8 bytes) or
   **≈ $0.06 on ElevenLabs** Multilingual v2 (~$0.10 / 1K characters list; Flash ~$0.05). Even with 3× re-rolls a reel stays
   under $0.30. ElevenLabs v3 tags (`[whispers]`, `[shouting]`) fit the hiding lines best.
+- **086's Fish cast (Nov 13, user-approved; generic public voices, no clones of real people or game/anime characters):** Sam =
+  "Sarah" `933563129e564b19a115bedd57b7406a` (soft young f, speed 1.05), Theo = "Slax" `c5f56a6cc2ec4fa8920cb4c5889a3fb7` (the
+  narrator preset, 1.1), PA = "Dolly" `ce3b16c14af54adebba5ebe50a3d4417` (British f, 1.0), guard = "Adrian"
+  `bf322df2096a46f18c579d0baa36f41d` (deep, slow, 0.95), Jules = "Polo" `f48d143a59a946ab87c0130fd081f349` (young f, 1.1); all
+  s2.1-pro, temperature 0.6, + script pacing `maxPause 0.3, endPad 0.25, headPad 0.1, pauseByWords, breath`. One pass = 643 bytes
+  ≈ **$0.0096**; the reel went 60.3 → 67.8 s. Fish's public search (`--fish-voices`) is full of clones (Markiplier, Smash /
+  Mortal Kombat announcers, FNAF, "Sua from Alien Stage"): read each model's description (`GET /model/<id>`, free) before using it.
+- **A filtered line that blurs: transcribe the RAW take first** (`voice/fish-<beat>-*.mp3`). 086's Jules line read "You sent me…
+  the bathrooms are open" through the `far` fx while the raw take was clean: switching her to `room` fixed it for $0 (the take is
+  cached). Re-voice only when the raw take itself is wrong.
 - Caption colours that read on dark blue: white (you), cyan `#5fe3ff`, yellow `#ffd84a` (authority), orange `#ffa63d`
   (PA/system), pink `#ff8fcf`. Keep one colour per person for the whole reel.
 
