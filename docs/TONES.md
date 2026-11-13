@@ -140,6 +140,12 @@ Full rulebook: **docs/BUILD.md** (+ `/new-build`, reference account `docs/refere
 Gary gets hurt every time, ONE word on screen at a time, one cutaway diorama, a marimba "ta-da" on every TERM, the callback
 ending with the money. No title card / HUD / end card. Densest tone we make: a new prop, failure or effect on almost every phrase.
 
+## POV story: first person, many voices (`"mode": "pov"`, `videos/086-pov-library-lockin`) — its own category
+Follow **`docs/POVSTORY.md`** + `/new-povstory` (why it works: `docs/genres/pov-story.md`). You are the person, seen through their eyes:
+the camera is your head, your hands are in frame, and people talk to you in natural, professional voices, each with its own caption
+colour. Modes: day in the life, skill, job, journey, big moment, or suspense (086: safe dread → a choice card). Brand-safe and
+professional by default (user, Nov 13), humour light; never the accent presets. The product is the tool the person reaches for.
+
 ## Physical-premise montage (`videos/018-magnetic`) — "What if every human became magnetic?"
 One invisible force, 11 places, every beat ends in a pile-up: commuters yanked back onto a bus shelter, Gary's breakfast (forks,
 toaster, a pan hat) flies at him and he slams onto the fridge, a snake of shopping carts scoops a shopper and stacks up, two

@@ -10,6 +10,11 @@
     python3 -I tools/narrate.py --fish-voices "deep narrator"     search Fish Audio's public voices (most used first)
     python3 -I tools/narrate.py --fish-sample "text" id1 id2…     voice one line with several Fish voices -> $TMPDIR/fish-sample-*.mp3
 
+Multi-voice (086, POV story genre, docs/POVSTORY.md; opt-in): script.json "cast": {who: {name, color, scratch: {voice, rate},
+fish: {reference_id, …}, voice: {voice_id, …}, fx: 'phone'|'pa'|'far'|'room'|'muffled'|'radio', gain_db}} + a "who" on each beat = every
+line is voiced by its own speaker (cached per speaker + text), run through that speaker's fx, and story.json gets "cast" + a
+speaker-coloured "phrases" list (2–4 word caption chunks). Without "cast" nothing changes.
+
 Why: build reels (docs/BUILD.md) are carried by a fast narrator, and the captions show ONE word at a time, so every word needs
 a time. ElevenLabs' /with-timestamps endpoint returns per-character times with the audio; the scratch voice (until the user
 sets ELEVENLABS_API_KEY in the env, ~/.config/edstudio/.env, or a git-ignored .env at the repo root) estimates them per syllable.
@@ -472,6 +477,70 @@ def trim(x, words, pad=0.04):
 
 # ---- voicing ----------------------------------------------------------------------------------------------------------
 
+def beat_cfg(cfg, beat):
+    """086 (POV story, opt-in): the beat's speaker settings merged over the script's — script.json "cast": {who: {scratch,
+    fish, voice}} + beat "who". No cast / no who = cfg unchanged (every shipped reel voices exactly as before)."""
+    who, cast = beat.get('who'), cfg.get('cast')
+    if not who or not cast:
+        return cfg
+    c = cast.get(who)
+    if c is None:
+        sys.exit(f"beat '{beat.get('id')}': speaker '{who}' is not in script.json cast")
+    out = dict(cfg)
+    if 'scratch' in c:
+        out['scratch'] = {**cfg.get('scratch', {}), **c['scratch']}
+    if 'fish' in c:
+        out['fish'] = {**(cfg.get('fish') or {}), **c['fish']}
+    if 'voice' in c:
+        out['voice'] = {**cfg.get('voice', {}), **c['voice']}
+    return out
+
+
+def voice_fx(x, kind, gain_db=0.0):
+    """086 (POV story): a speaker's place in the scene. 'phone' = a call on speaker (300–3400 Hz + a little grit), 'radio' = a
+    walkie/PA horn (narrower + drive), 'pa' = a building intercom (band-limited + ceiling-speaker slapbacks + a hall tail),
+    'far' = someone calling from across a big room (darker, quieter, a long room tail), 'muffled' = through a closed door.
+    Reverb tails are appended (the clip gets longer; word times don't move)."""
+    if not kind and not gain_db:
+        return x
+    from scipy import signal
+    y = x.astype(np.float64)
+    def band(y, lo, hi, order=4):
+        return signal.sosfilt(signal.butter(order, [lo, hi], btype='band', fs=SR, output='sos'), y)
+    def tail(y, seconds, decay, lp_hz, mix, seed=86):
+        n = int(seconds * SR); r = np.random.default_rng(seed)
+        ir = r.standard_normal(n) * np.exp(-np.arange(n) / (decay * SR))
+        ir = signal.sosfilt(signal.butter(2, lp_hz, fs=SR, output='sos'), ir); ir /= np.sqrt(np.sum(ir ** 2)) + 1e-12
+        wet = signal.fftconvolve(np.concatenate([y, np.zeros(n)]), ir)[:len(y) + n]
+        return np.concatenate([y, np.zeros(n)]) * (1 - mix) + wet * mix * 0.6
+    if kind == 'phone':
+        y = band(y, 320, 3400); y = np.tanh(y * 2.2) / 1.6
+    elif kind == 'radio':
+        y = band(y, 450, 2800, 6); y = np.tanh(y * 3.5) / 2.0
+    elif kind == 'pa':
+        y = band(y, 380, 3800); y = np.tanh(y * 1.8) / 1.4
+        y = np.concatenate([y, np.zeros(int(0.5 * SR))])
+        for d, g in ((0.075, 0.42), (0.16, 0.26), (0.27, 0.14)):   # ceiling speakers down the floor
+            k = int(d * SR); y = y + np.concatenate([np.zeros(k), g * y[:-k]])
+        y = tail(y, 1.2, 0.35, 3000, 0.35)
+    elif kind == 'far':
+        y = signal.sosfilt(signal.butter(2, 3400, fs=SR, output='sos'), y) * 0.66
+        y = tail(y, 1.4, 0.4, 2600, 0.42)
+    elif kind == 'room':   # in the same room, a few metres off: a short tail, no filtering
+        y = tail(y, 0.7, 0.18, 4200, 0.28) * 0.9
+    elif kind == 'muffled':
+        y = signal.sosfilt(signal.butter(3, 850, fs=SR, output='sos'), y) * 0.8
+        y = tail(y, 0.6, 0.15, 900, 0.3)
+    elif kind:
+        sys.exit(f"unknown voice fx '{kind}' (phone | radio | pa | far | room | muffled)")
+    if gain_db:
+        y = y * 10 ** (gain_db / 20)
+    peak = np.max(np.abs(y)) if len(y) else 0
+    if peak > 0.98:
+        y *= 0.98 / peak
+    return y.astype(np.float32)
+
+
 def clip_stem(vdir, provider, cfg, beat):
     """The cache path of one beat's take (without extension): voice/<provider>-<beat id>-<sha1 of voice + settings + text>."""
     text = beat['say'].strip()
@@ -540,11 +609,13 @@ def narrate(slug, provider, key):
     for i, b in enumerate(beats):
         prev_t = beats[i - 1]['say'] if i else None
         next_t = beats[i + 1]['say'] if i + 1 < len(beats) else None
-        path, words, new = voice_beat(vdir, provider, cfg, b, prev_t, next_t, key)
+        bcfg = beat_cfg(cfg, b)   # 086: the line's speaker (cast + who); = cfg for single-narrator reels
+        path, words, new = voice_beat(vdir, provider, bcfg, b, prev_t, next_t, key)
         fresh += new
         # script.json "tempo": speed the delivery up at assembly (pitch kept; free — no re-voicing); word times scale with it
-        tempo = (cfg.get('tempo', 1.0) if provider == 'eleven' else
-                 fish_cfg(cfg).get('tempo', cfg.get('tempo', 1.0)) if provider == 'fish' else 1.0)
+        tempo = (bcfg.get('tempo', 1.0) if provider == 'eleven' else
+                 fish_cfg(bcfg).get('tempo', bcfg.get('tempo', 1.0)) if provider == 'fish' else
+                 bcfg.get('scratch', {}).get('tempo', 1.0) if cfg.get('cast') else 1.0)
         words = [{'w': w['w'], 't0': w['t0'] / tempo, 't1': w['t1'] / tempo} for w in words]
         x, words = trim(decode(path, tempo), words)
         if cfg.get('headPad') is not None and words:   # Nov 9, opt-in: drop an ad-libbed hum/inhale before the first scripted word
@@ -566,19 +637,33 @@ def narrate(slug, provider, key):
         ys = cfg.get('yellShelf')   # 034, opt-in: v3 [shouting]/[excited] at stability 0 runs bright — a high-shelf on the tagged part only
         if ys and TAG.search(b['say']):
             x = shelf_tail(x, words, b, b.get('shelf', ys.get('db', -4)), ys.get('hz', 5000))
-        clips.append((b, x, words, os.path.relpath(path, vd)))
+        ring = 0   # 086: samples of reverb tail that may overlap the next line (not counted in the line's length)
+        if cfg.get('cast') and b.get('who'):   # 086: the speaker's place in the scene (phone / PA / far / behind a door)
+            cw = cfg['cast'][b['who']]
+            n0 = len(x)
+            x = voice_fx(x, b.get('fx', cw.get('fx')), b.get('gain_db', cw.get('gain_db', 0.0)))
+            ring = len(x) - n0
+        clips.append((b, x, words, os.path.relpath(path, vd), ring))
     # assemble: lead + clip + gap + clip … + tail
     t = cfg.get('lead', 0.15)
     out_beats, chunks = [], [np.zeros(int(t * SR), np.float32)]
-    for i, (b, x, words, rel) in enumerate(clips):
+    rings = []   # 086: (start sample, tail) reverb tails overlap-added after assembly
+    for i, (b, x, words, rel, ring) in enumerate(clips):
+        if ring:
+            rings.append((int(round((t + (len(x) - ring) / SR) * SR)), x[len(x) - ring:].copy()))
+            x = x[:len(x) - ring]
         L = len(x) / SR
-        out_beats.append({'id': b['id'], 't0': round(t, 3), 't1': round(t + L, 3), 'clip': rel,
+        out_beats.append({'id': b['id'], 't0': round(t, 3), 't1': round(t + L, 3), 'clip': rel, **({'who': b['who']} if b.get('who') else {}),
                           'words': [{'w': w['w'], 't0': round(t + w['t0'], 3), 't1': round(t + w['t1'], 3)} for w in words]})
         chunks.append(x)
         gap = b.get('gap', cfg.get('gap', 0.14)) if i + 1 < len(clips) else cfg.get('tail', 1.5)
         chunks.append(np.zeros(int(gap * SR), np.float32))
         t += L + gap
     audio = np.concatenate(chunks)
+    for at, tl in rings:   # 086: a speaker's room/PA tail rings on under the next line instead of pushing it later
+        e = min(len(audio), at + len(tl))
+        if e > at:
+            audio[at:e] += tl[:e - at]
     write_wav(os.path.join(vd, 'voice.wav'), audio)
     wj = {'provider': provider, 'duration': round(len(audio) / SR, 3), 'beats': out_beats}
     json.dump(wj, open(os.path.join(vd, 'words.json'), 'w'), indent=1)
@@ -598,6 +683,8 @@ def layout(slug, cfg, wj):
         t1 = B[i + 1]['t0'] if i + 1 < len(B) else dur
         beats[wb['id']] = {'t0': round(t0, 3), 't1': round(t1, 3), 's0': wb['t0'], 's1': wb['t1'], 'i': i,
                            'w': [[norm(w['w']), w['t0'], w['t1']] for w in wb['words']]}  # shots.js syncs gags to spoken words
+        if wb.get('who'):   # 086 (POV story): who says this line
+            beats[wb['id']]['who'] = wb['who']
         order.append(wb['id'])
         swap = cfg.get('swap', {})   # 058, opt-in: {"fucking": "F*CKING"} = the caption shows a spoken word differently (censored on screen)
         for w in wb['words']:
@@ -657,6 +744,9 @@ def layout(slug, cfg, wj):
         story['debugView'] = cfg['debugView']
     if cfg.get('wordColor'):   # 058, opt-in: {"F*CKING": "#ff4f6a"} = caption words drawn in their own colour (engine/build/captions.js)
         story['wordColor'] = cfg['wordColor']
+    if cfg.get('cast'):   # 086 (POV story, opt-in): the cast's names + caption colours and the speaker-coloured phrase captions
+        story['cast'] = {k: {'name': v.get('name', k), 'color': v.get('color', '#ffffff')} for k, v in cfg['cast'].items()}
+        story['phrases'] = phrases(cfg, B, dur)
     json.dump(story, open(os.path.join(vd, 'story.json'), 'w'), indent=1)
     print(f'story.json: {dur:.1f} s, {len(words)} words ({len(words) / dur:.2f} w/s), {len(callouts)} callouts')
     for bid in order:
@@ -664,6 +754,31 @@ def layout(slug, cfg, wj):
         print(f"  {bid:<10} {b['t0']:6.2f} → {b['t1']:6.2f}  ({b['t1'] - b['t0']:.1f} s)")
     if short:
         print(f'⚠️  {len(short)} caption words show < 0.1 s: {short[:8]}')
+
+
+def phrases(cfg, B, dur):
+    """086 (POV story): caption chunks of 1–N words (script.json "phraseMax", default 4), split at every , . ! ? … — so each
+    caption is a breath of one speaker ("Wait." / "What time is it?"), coloured by its speaker in engine/povstory/hud.js. A chunk
+    stays up until the next one starts (if that is < 0.4 s away) or 0.3 s past its last word."""
+    mx, out = cfg.get('phraseMax', 4), []
+    swap = cfg.get('swap', {})
+    for wb in B:
+        clauses, cur = [], []
+        for k, w in enumerate(wb['words']):   # clauses end at punctuation; a long clause splits into near-equal chunks
+            cur.append(w)
+            if re.search(r'[.,!?;:…—-]["\')]*$', w['w'].strip()) or k == len(wb['words']) - 1:
+                clauses.append(cur); cur = []
+        for cl in clauses:
+            n = -(-len(cl) // mx); size = -(-len(cl) // n)
+            for j in range(0, len(cl), size):
+                ch = cl[j:j + size]
+                text = ' '.join(swap.get(norm(c['w']), c['w']) for c in ch).strip()
+                text = re.sub(r'^[,;:\s]+|[,;:\s]+$', '', text)
+                out.append({'who': wb.get('who', ''), 'text': text, 't0': round(ch[0]['t0'], 3), 't1': round(ch[-1]['t1'], 3)})
+    for k, p in enumerate(out):
+        nxt = out[k + 1]['t0'] if k + 1 < len(out) else dur
+        p['t1'] = round(nxt if nxt - p['t1'] < 0.4 else p['t1'] + 0.3, 3)
+    return out
 
 
 def main():
@@ -712,7 +827,7 @@ def main():
         os.environ['FISH_VOICE_OVERRIDE'] = a[a.index('--fish-voice') + 1]
     if '--scratch' not in a and ('--fish' in a or sc['voice'].get('provider') == 'fish'):
         fk = api_key('FISH_API_KEY')
-        fcached = all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'fish', sc, b) + '.json') for b in sc['beats'])
+        fcached = all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'fish', beat_cfg(sc, b), b) + '.json') for b in sc['beats'])
         if not fk and not fcached:
             sys.exit('no FISH_API_KEY (env, ~/.config/edstudio/.env, or .env at the repo root) — or run with --scratch')
         print(f"voice: Fish Audio ({fish_cfg(sc).get('reference_id') or 'default voice'}, {fish_cfg(sc)['model']})")
@@ -720,7 +835,7 @@ def main():
         return layout(slug, cfg, wj)
     want = '--scratch' not in a and sc['voice'].get('provider') == 'eleven'
     # a clone without a key can still rebuild a finished reel: its committed voice/eleven-* takes cover every beat
-    cached = want and all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'eleven', sc, b) + '.json') for b in sc['beats'])
+    cached = want and all(os.path.exists(clip_stem(os.path.join(vd, 'voice'), 'eleven', beat_cfg(sc, b), b) + '.json') for b in sc['beats'])
     provider = 'eleven' if want and (key or cached) else 'scratch'
     if provider == 'eleven' and not key:
         print('(no ELEVENLABS_API_KEY: every beat has a committed ElevenLabs take in voice/, reusing them)')

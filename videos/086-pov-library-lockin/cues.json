@@ -1,0 +1,946 @@
+{
+ "title": "086 POV story test: library lock-in (SFX-led thriller, synth drone, 5 voices)",
+ "duration": 67.76,
+ "target_lufs": -14.0,
+ "limiter_ceiling_dbtp": -1.5,
+ "end_fade": [
+  67.36,
+  67.76
+ ],
+ "stem_gain_db": {
+  "music": -7.0,
+  "sfx": 3.0,
+  "amb": 2.0,
+  "voice": 0.0
+ },
+ "stem_dynamics": {
+  "music": {
+   "limit_dbfs": -9.0,
+   "lim_win": 0.015
+  },
+  "sfx": {
+   "comp_thr_dbfs": -14.0,
+   "ratio": 2.5,
+   "win": 0.004,
+   "limit_dbfs": -5.0
+  },
+  "voice": {
+   "comp_thr_dbfs": -10.0,
+   "ratio": 3.0,
+   "win": 0.006,
+   "limit_dbfs": -2.5
+  }
+ },
+ "sfx_lowpass_hz": 5200,
+ "voice": {
+  "file": "voice.wav",
+  "gain_db": 0.0,
+  "duck_db": -5.0,
+  "amb_duck_db": -4.0,
+  "presence_db": 2.0,
+  "hp": 75
+ },
+ "shots": [
+  0.0,
+  6.4559999999999995,
+  12.142000000000001,
+  22.394,
+  27.419,
+  30.779,
+  37.688,
+  44.992,
+  48.949999999999996,
+  58.583,
+  62.811,
+  67.76
+ ],
+ "ambience": [
+  {
+   "sound": "room_tone",
+   "t0": 0.0,
+   "t1": 67.76,
+   "fade_in": 0.05,
+   "fade_out": 0.8,
+   "gain_db": -36
+  },
+  {
+   "sound": "lamp_hum",
+   "t0": 0.0,
+   "t1": 10.404,
+   "fade_in": 0.02,
+   "fade_out": 0.05,
+   "gain_db": -33
+  },
+  {
+   "sound": "wind",
+   "t0": 0.0,
+   "t1": 67.76,
+   "fade_in": 1.0,
+   "fade_out": 1.0,
+   "gain_db": -41,
+   "args": {
+    "darkness": 0.75,
+    "gust": 0.25,
+    "whistle": 0.05
+   },
+   "seed": 86
+  }
+ ],
+ "events": [
+  {
+   "t": 0.1,
+   "sound": "clunk",
+   "args": {
+    "size": 0.7,
+    "metal": 0.6
+   },
+   "gain_db": -17.0,
+   "pan": 0.15,
+   "room": null,
+   "hall": -10.0
+  },
+  {
+   "t": 0.11,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -26.0,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 0.9,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.7,
+    "intensity": 0.6
+   },
+   "gain_db": -26,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 2.348,
+   "sound": "clunk",
+   "args": {
+    "size": 0.7999999999999999,
+    "metal": 0.6
+   },
+   "gain_db": -15.6,
+   "pan": -0.12,
+   "room": null,
+   "hall": -9.2
+  },
+  {
+   "t": 2.358,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -24.8,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 5.327,
+   "sound": "clunk",
+   "args": {
+    "size": 0.8999999999999999,
+    "metal": 0.6
+   },
+   "gain_db": -14.2,
+   "pan": 0.09,
+   "room": null,
+   "hall": -8.4
+  },
+  {
+   "t": 5.337,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -23.6,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 6.506,
+   "sound": "phone_pickup",
+   "args": {},
+   "gain_db": -22,
+   "pan": -0.2,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 8.476,
+   "sound": "clunk",
+   "args": {
+    "size": 1.0,
+    "metal": 0.6
+   },
+   "gain_db": -12.8,
+   "pan": -0.06,
+   "room": null,
+   "hall": -7.6
+  },
+  {
+   "t": 8.486,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -22.4,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 9.444,
+   "sound": "clunk",
+   "args": {
+    "size": 1.1,
+    "metal": 0.6
+   },
+   "gain_db": -11.399999999999999,
+   "pan": 0.029999999999999992,
+   "room": null,
+   "hall": -6.8
+  },
+  {
+   "t": 9.454,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -21.2,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 10.354,
+   "sound": "clunk",
+   "args": {
+    "size": 1.2,
+    "metal": 0.6
+   },
+   "gain_db": -10.0,
+   "pan": -0.0,
+   "room": null,
+   "hall": -6.0
+  },
+  {
+   "t": 10.364,
+   "sound": "lamp_switch_click",
+   "args": {},
+   "gain_db": -20.0,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 11.562,
+   "sound": "phone_buzz",
+   "args": {
+    "dur": 0.8,
+    "pulses": 2
+   },
+   "gain_db": -17,
+   "pan": -0.15,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 24.584,
+   "sound": "shutter",
+   "args": {},
+   "gain_db": -16,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 24.684,
+   "sound": "low_swell",
+   "args": {
+    "dur": 1.2
+   },
+   "gain_db": -24,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 30.179,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -33.0,
+   "pan": -0.5,
+   "room": -8,
+   "hall": null
+  },
+  {
+   "t": 30.735,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -31.666666666666668,
+   "pan": -0.4666666666666667,
+   "room": -8,
+   "hall": null
+  },
+  {
+   "t": 31.29,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -30.333333333333332,
+   "pan": -0.43333333333333335,
+   "room": -8,
+   "hall": null
+  },
+  {
+   "t": 31.846,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -29.0,
+   "pan": -0.4,
+   "room": -8,
+   "hall": null
+  },
+  {
+   "t": 36.774,
+   "sound": "floorboard_creak",
+   "args": {},
+   "gain_db": -25,
+   "pan": 0.1,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 42.78,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -27.0,
+   "pan": -0.45,
+   "room": -10,
+   "hall": null
+  },
+  {
+   "t": 43.306,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.0
+   },
+   "gain_db": -24.0,
+   "pan": -0.10000000000000003,
+   "room": -10,
+   "hall": null
+  },
+  {
+   "t": 45.092,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.6,
+    "intensity": 1.0
+   },
+   "gain_db": -18,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 45.192,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -24.0,
+   "pan": -0.05,
+   "room": -12,
+   "hall": null
+  },
+  {
+   "t": 45.292,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -15.0,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 45.542,
+   "sound": "mattress_sit",
+   "args": {},
+   "gain_db": -24,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 45.78,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -22.333333333333332,
+   "pan": -0.03333333333333334,
+   "room": -12,
+   "hall": null
+  },
+  {
+   "t": 45.892,
+   "sound": "phone_buzz",
+   "args": {
+    "dur": 1.1,
+    "pulses": 3
+   },
+   "gain_db": -11,
+   "pan": -0.1,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 46.15,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -14.8,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 46.368,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -20.666666666666668,
+   "pan": -0.01666666666666667,
+   "room": -12,
+   "hall": null
+  },
+  {
+   "t": 46.957,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -19.0,
+   "pan": 0.0,
+   "room": -12,
+   "hall": null
+  },
+  {
+   "t": 46.978,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -14.6,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 46.992,
+   "sound": "blanket_rustle",
+   "args": {
+    "dur": 0.5,
+    "intensity": 0.8
+   },
+   "gain_db": -20,
+   "pan": -0.1,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 47.778,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -14.4,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 48.552,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -14.2,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 48.95,
+   "sound": "latch_click",
+   "args": {},
+   "gain_db": -16,
+   "pan": 0.05,
+   "room": null,
+   "hall": -10
+  },
+  {
+   "t": 49.0,
+   "sound": "door_open",
+   "args": {
+    "creak": 1.1
+   },
+   "gain_db": -21,
+   "pan": 0.05,
+   "room": null,
+   "hall": -10
+  },
+  {
+   "t": 49.304,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -14.0,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 50.035,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -13.8,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 50.747,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -13.6,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 51.441,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -13.4,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 52.119,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -13.2,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 52.781,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -13.0,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 53.429,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -12.8,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 54.064,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -12.6,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 54.685,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -12.4,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 55.295,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -12.2,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 55.894,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -12.0,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 56.482,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11.8,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 57.06,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11.6,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 57.628,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11.4,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 58.188,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11.2,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 58.583,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -19.0,
+   "pan": 0.0,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 58.738,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 59.208,
+   "sound": "footstep",
+   "args": {
+    "weight": 1.2
+   },
+   "gain_db": -15.0,
+   "pan": 0.05,
+   "room": -14,
+   "hall": null
+  },
+  {
+   "t": 59.28,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 59.815,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 60.341,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 60.861,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 61.373,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 61.879,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  },
+  {
+   "t": 62.378,
+   "sound": "heartbeat",
+   "args": {
+    "size": 1.0
+   },
+   "gain_db": -11,
+   "pan": 0.0,
+   "room": null,
+   "hall": null
+  }
+ ],
+ "music": {
+  "gain_db": 0.0,
+  "reverb_db": -8,
+  "pad_db": -3.0,
+  "pad_reverb_db": -4.0,
+  "end": 67.76,
+  "chords": [
+   [
+    0.0,
+    "Dm"
+   ]
+  ],
+  "sections": [],
+  "melody": [],
+  "mallet_melody": [],
+  "pad": [
+   {
+    "t0": 0.0,
+    "t1": 8.476,
+    "notes": [
+     26,
+     38,
+     45,
+     50
+    ],
+    "level": 0.55,
+    "attack": 0.3,
+    "release": 0.8,
+    "cutoff": 520,
+    "hp": 30
+   },
+   {
+    "t0": 8.376000000000001,
+    "t1": 24.684,
+    "notes": [
+     26,
+     38,
+     45,
+     50
+    ],
+    "level": 0.8,
+    "attack": 0.4,
+    "release": 0.8,
+    "cutoff": 620,
+    "hp": 30
+   },
+   {
+    "t0": 24.634,
+    "t1": 29.419,
+    "notes": [
+     26,
+     33,
+     38,
+     44,
+     50
+    ],
+    "level": 1.25,
+    "attack": 0.6,
+    "release": 1.0,
+    "cutoff": 900,
+    "hp": 30
+   },
+   {
+    "t0": 29.319,
+    "t1": 44.992,
+    "notes": [
+     26,
+     38,
+     45,
+     50
+    ],
+    "level": 0.9,
+    "attack": 0.8,
+    "release": 0.8,
+    "cutoff": 650,
+    "hp": 30
+   },
+   {
+    "t0": 44.891999999999996,
+    "t1": 56.332,
+    "notes": [
+     26,
+     38,
+     45,
+     50
+    ],
+    "level": 1.0,
+    "attack": 0.4,
+    "release": 0.8,
+    "cutoff": 560,
+    "hp": 30
+   },
+   {
+    "t0": 56.282000000000004,
+    "t1": 63.811,
+    "notes": [
+     26,
+     33,
+     38,
+     44,
+     50
+    ],
+    "level": 1.45,
+    "attack": 0.25,
+    "release": 1.0,
+    "cutoff": 1000,
+    "hp": 30
+   },
+   {
+    "t0": 63.711,
+    "t1": 67.76,
+    "notes": [
+     26,
+     38,
+     45,
+     50
+    ],
+    "level": 0.85,
+    "attack": 0.6,
+    "release": 0.6,
+    "cutoff": 600,
+    "hp": 30
+   },
+   {
+    "t0": 58.583,
+    "t1": 63.111,
+    "notes": [
+     62,
+     63
+    ],
+    "level": 0.35,
+    "attack": 2.5,
+    "release": 0.6,
+    "cutoff": 2400
+   }
+  ],
+  "drums": [
+   [
+    24.704,
+    0.55,
+    "boom"
+   ],
+   [
+    45.891999999999996,
+    0.35,
+    "boom"
+   ],
+   [
+    56.332,
+    0.7,
+    "boom"
+   ],
+   [
+    62.811,
+    0.85,
+    "boom"
+   ]
+  ],
+  "drums_db": -4.0,
+  "stings": [],
+  "ducks": []
+ }
+}
