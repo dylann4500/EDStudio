@@ -178,6 +178,8 @@ Real handwriting: `videos/049-scribe-promo/hand.json` (the repo's demo glyphs) v
   (081: file_gain_db −8.5 with stem_gain_db music −11.5 → music −23 / voice −15 LUFS; −2.5 sat only 4 dB under and fought the words); still deliver `upload-nomusic.mp4` so the user can
   swap in the official sound in-app if a platform mutes the ripped track.
 
+**Vex reels: run `/new-vex` (.claude/commands/new-vex.md) — it strings these rules into one workflow.**
+
 ## Producer brief template (manager fills it)
 > Make Scribe promo **NNN — "TITLE"** in the **STYLE** style. Number + premise reserved; slug `NNN-slug`.
 > Read: CLAUDE.md, docs/lanes/scribe.md, docs/PROMO.md, docs/STYLES.md, docs/reference/officialwriteit.md, + your style's doc.

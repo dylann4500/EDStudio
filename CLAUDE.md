@@ -29,6 +29,8 @@ You are making **faceless 3D story Reels** (1080×1920, 45–80 s) in several to
   notification banners, and a "WHAT WOULD YOU DO?" choice card + "Comment for Part 2" at the end. The product plugs INSIDE the story
   (a character's advice, the phone action that reveals the twist, its notification as a beat). Exempt from the opening question card
   and the Scribe end card. Safe-dread topics only (never real violence).
+- **Vex** ("goth mommy" Scribe reels, `videos/054-goth-tutor` → `083-vex-fword-battery`) — **follow `/new-vex`** (one entry point
+  for the whole recipe: model + proportions, the `vex` voice preset, cute music from frame 1, formats, props rule, QC, delivery).
 Set `"tone"` in story.json and follow **`docs/TONES.md`** for what changes between them. **Pick the harness per concept** (user steer): global what-ifs show the
 ripple in many places; don't carry them on one character (003 was felt to be too single-angle).
 Every video OPENS with only the main question, centered on screen, nothing else — then the story starts (build reels excepted:

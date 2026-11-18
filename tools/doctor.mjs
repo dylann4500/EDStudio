@@ -20,8 +20,21 @@ const ffmpeg = await findFfmpeg();
 const ff = spawnSync(ffmpeg, ['-version'], { encoding: 'utf8' });
 check(`ffmpeg works (${ffmpeg})`, ff.status === 0, 'run: npm install  (bundles ffmpeg), or install ffmpeg and set FFMPEG_PATH');
 
-const py = spawnSync('python3', ['-c', 'import numpy, scipy; print(numpy.__version__, scipy.__version__)'], { encoding: 'utf8' });
-check(`python3 + numpy + scipy${py.status === 0 ? ' (' + py.stdout.trim() + ')' : ''}`, py.status === 0, 'install Python 3, then: python3 -m pip install numpy scipy');
+// -I = isolated mode, exactly how every pipeline script runs (it ignores per-user installs: a `pip install --user` doesn't count)
+const py = spawnSync('python3', ['-I', '-c', 'import sys, numpy, scipy; print(sys.version.split()[0], numpy.__version__, scipy.__version__)'], { encoding: 'utf8' });
+check(`python3 -I + numpy + scipy${py.status === 0 ? ' (' + py.stdout.trim() + ')' : ''}`, py.status === 0, 'python3 -m pip install --break-system-packages numpy scipy   (Homebrew bumps python3 to a new version without them)');
+
+// Scribe-lane music (tools/presets.json): the user's tracks live in the main checkout's GITIGNORED exports/music/ (never committed —
+// the repo is public). Worktrees find them there (audio/synth.py asset_path). A warning, not a failure: only Scribe reels need them.
+try {
+  const presets = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/presets.json'), 'utf8'));
+  const git = spawnSync('git', ['-C', ROOT, 'rev-parse', '--path-format=absolute', '--git-common-dir'], { encoding: 'utf8' });
+  const mainRoot = git.status === 0 ? path.dirname(git.stdout.trim()) : ROOT;
+  const files = Object.values(presets.music || {}).flatMap((m) => m.files || []);
+  const missing = files.filter((f) => !fs.existsSync(path.join(ROOT, f)) && !fs.existsSync(path.join(mainRoot, f)));
+  console.log(`${missing.length ? '⚠️ ' : '✅'} Scribe music tracks (${files.length - missing.length}/${files.length} in exports/music)` +
+    (missing.length ? `\n     missing: ${missing.join(', ')}\n     fix: copy the exports/music/ folder from the machine that has it (gitignored on purpose)` : ''));
+} catch (e) { console.log('⚠️  could not read tools/presets.json: ' + e.message); }
 
 if (chrome && fs.existsSync(path.join(ROOT, 'node_modules/puppeteer-core'))) {
   try {
