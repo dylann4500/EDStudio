@@ -1,0 +1,82 @@
+{
+ "about": "The sound department's cue sheet. Everything is keyed by shot id and seconds from the start of that shot ('t'), or by a moment in timeline.CUES ('cue', then 't' is an offset from it). Never film time: post/mix.py adds the shot starts and the edit from timeline.py. 'END' is the end card. Levels are dB. Bed names are files in sound/lib (sound/fetch_lib.py).",
+ "target_lufs": -16.0,
+ "true_peak_max": -1.0,
+ "peak_round_db": 6.0,
+ "peak_round_on": "mix",
+ "peak_round_oversample": 4,
+ "peak_round_about": "Phones and laptops: aim for -16 LUFS with the true peak under -1 dBTP. Wooden knocks are nearly all peak, so one gain cannot get there; up to peak_round_db may be bent off the tips of the knocks by a fixed curve with no memory (not a limiter: it cannot pump). 0 switches it off. Check the film's own encode too: AAC rebuilds knocks about 1.7 dB above the WAV's peak (post/compose.py takes 1 dB off).",
+ "head_fade": 0.03,
+ "tail_fade": 0.45,
+ "levels": {
+  "amb": -8.0,
+  "music": -10.0,
+  "steps": 3.0,
+  "fx": 0.0
+ },
+ "levels_about": "One fixed level per layer: ambience, generated music stems (the track has its own level: music.track.under_action_lu), steps, effects.",
+ "room": {
+  "about": "a little of steps + fx through a small synthetic room, so the close recordings sit in the house",
+  "db": -17.0,
+  "rt": 0.28,
+  "hp": 220,
+  "lp": 3800,
+  "seed": 1939
+ },
+ "ambience": {
+  "about": "Per shot: the beds that play, each with a level and a tone. A shot not listed uses by_light for its light state (timeline.SHOTS). On every cut the beds cross-fade in 30 ms, so the room moves with the camera: wide shots hear the room, macro shots hear the object.",
+  "offsets": {},
+  "by_light": {
+   "golden": [
+    {
+     "bed": "amb_room",
+     "db": 0
+    }
+   ]
+  },
+  "shots": {
+   "S02": [
+    {
+     "bed": "amb_room",
+     "db": 2,
+     "lp": 3000
+    }
+   ]
+  }
+ },
+ "music": {
+  "track": {
+   "about": "The music: sound/music/track.<ext> (any format ffmpeg reads). While that file exists it is the ONLY music and the rest of this 'music' block (the generated stems) is off. start = seconds into the recording that play at 'at' on the film ('at': {shot, t}; left out = the film's first frame). The picture is cut on this recording at start 0, speed 1: do not change 'start'. LEVEL: one fixed gain for the whole film, set against the action and not against the file: under_action_lu = how many LU the music's loudness (BS.1770, gated) sits under the action's loud passages (the loudness steps + fx + room pass 5 % of the time); 'db' trims it. hp / lp = optional tone, Hz. fade_in seconds. ENDING: 'splices' leave the recording at 'out' and pick it up at 'in' (seconds in the recording; each join is an equal-power cross-fade 'xfade' long, centred on those times), and/or fade_out = seconds of fade that end with the film (0 = none). no_tune: true stops the mix from tuning pitched effects to the music under them.",
+   "start": 0.0,
+   "under_action_lu": 10.0,
+   "db": 0.0,
+   "even": 0.6,
+   "hp": null,
+   "lp": null,
+   "fade_in": 0.05,
+   "fade_out": 1.5,
+   "xfade": 0.04,
+   "splices": []
+  },
+  "about": "No track: no music (sound/music/track.* is not in git: put the film's track there; CC0 / public domain, or one the film is licensed to use).",
+  "cues": []
+ },
+ "accent_guard": {
+  "about": "In a shot whose accent kind is named here, a guarded kind that falls within 'window' seconds of the accent is moved to 'delay' seconds after it and turned by 'db', so the big hit is heard alone first.",
+  "kinds": [
+   "cheer"
+  ],
+  "window": 0.08,
+  "delay": 0.05,
+  "db": -3.0,
+  "accents": {}
+ },
+ "shots": {
+  "about": "Per-shot trims: steps_db / fx_db (how close the camera is), surface (what things stand on when a kind does not say), kinds: {kind: {db, st, hp, lp}}.",
+  "S02": {
+   "fx_db": 3.0
+  }
+ },
+ "extra_about": "One-off sounds the sets do not send. Same form as build/<set>/events.json ('shot', 't', 'kind', 'gain', 'dur'), or 'cue' for a moment in timeline.CUES ('t' is then an offset), or 'file' to play one library file ('db', 'st', 'hp', 'lp', 'pan', 'dur').",
+ "extra": []
+}

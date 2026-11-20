@@ -1408,3 +1408,13 @@ and write the docs while waiting; you can still re-render while queued (the scri
 - [ ] End card fully visible ≥ 3.5 s before the video ends (no render warning).
 - [ ] Duration matches story.json; 1080×1920, 30 fps, H.264 + AAC, < 100 MB.
 - [ ] caption.md: hook + emoji, 2–3 sentence summary, question CTA 👇, "Send this to your ___", a blank line, exactly 5 hashtags (incl. #animation, except Scribe promos). NO link and NO plug line anywhere (no payhip.com, no tryscribe.ink — user rule Nov 8: links in captions tank TikTok reach).
+
+## Films (a separate pipeline: `films/`)
+Photoreal short films made from code — any subject, any story: Python builds every scene in **Blender 5.2 (Cycles)**, a
+render farm on **Modal** (or the local Mac, slowly) renders 4K frames, Python mixes, grades and cuts. NOT reels: none of the
+rules above apply (no HUD/captions/question card; 16:9 4K by default). **Start with `/new-film <concept>`** and read
+**`docs/FILMS.md`** (the method: the look rules, music-first editing, the pace and physics checks, the agent team, costs, lessons).
+`films/_template/` = the engine + a 3-shot example (a spinning top) that builds and renders; start a film with
+`python3 films/_template/tools/new_film.py <slug>`, never edit the template in place. Scans are shared in `films/_assets/`
+(gitignored); one Blender renders locally at a time (`tools/film.py` takes a lock). `films/avalon/` ("The Night Shift", the
+user's Avalon launch film, Nov 19–20) stays out of git (films/.gitignore); its lessons are in docs/FILMS.md.

@@ -1,0 +1,4 @@
+# the scan cache every film shares (python3 tools/fetch_assets.py fills it; about 50 MB to 1 GB)
+_assets/
+# films that live only on this computer (the Avalon launch film is the owner's, not part of the kit)
+avalon/

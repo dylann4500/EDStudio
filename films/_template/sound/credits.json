@@ -1,0 +1,1399 @@
+{
+ "about": "Every file in sound/lib: its source and licence. Rebuild with: python3 sound/fetch_lib.py. Add your own sounds the same way: CC0 or public domain only, with the source written down here.",
+ "files": {
+  "step_wood_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_wood_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_wood_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_wood_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_wood_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_wood_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_wood_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_wood_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_wood_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_wood_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_rug_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_carpet_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_rug_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_carpet_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_rug_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_carpet_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_rug_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_carpet_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_rug_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_carpet_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_stone_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_concrete_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_stone_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_concrete_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_stone_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_concrete_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_stone_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_concrete_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_stone_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_concrete_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_grass_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_grass_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_grass_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_grass_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_grass_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_grass_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_grass_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_grass_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_grass_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_grass_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_snow_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_snow_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_snow_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_snow_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_snow_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_snow_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_snow_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_snow_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_snow_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): footstep_snow_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "step_board_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_0.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_04": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_05": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_4.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_06": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_5.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_07": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_6.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_08": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_7.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_09": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_8.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "step_board_10": {
+   "source": "RPG Audio by Kenney (kenney.nl): footstep_9.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "thump_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thump_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thump_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thump_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thump_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_wood_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_light_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_wood_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_light_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_wood_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_light_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_wood_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_light_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_wood_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_light_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_medium_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_medium_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_medium_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_medium_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "knock_medium_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thud_wood_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_heavy_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thud_wood_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_heavy_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thud_wood_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_heavy_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thud_wood_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_heavy_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "thud_wood_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_wood_heavy_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plank_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plank_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plank_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plank_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plank_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plank_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plank_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plank_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plank_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plank_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clink_glass_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_light_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clink_glass_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_light_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clink_glass_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_light_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clink_glass_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_light_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clink_glass_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_light_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_hit_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_hit_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_hit_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_hit_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_hit_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_heavy_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_heavy_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_heavy_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_heavy_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_heavy_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_heavy_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_heavy_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_heavy_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "glass_heavy_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_glass_heavy_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clank_metal_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_light_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clank_metal_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_light_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clank_metal_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_light_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clank_metal_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_light_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "clank_metal_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_light_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_hit_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_hit_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_hit_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_hit_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_hit_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_heavy_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_heavy_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_heavy_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_heavy_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_heavy_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_heavy_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_heavy_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_heavy_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "metal_heavy_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_metal_heavy_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "tin_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_tin_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "tin_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_tin_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "tin_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_tin_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "tin_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_tin_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "tin_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_tin_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_light_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_light_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_light_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_light_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_light_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_heavy_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_heavy_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_heavy_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_heavy_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "plate_heavy_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_plate_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "bell_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_bell_heavy_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "bell_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_bell_heavy_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "bell_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_bell_heavy_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "bell_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_bell_heavy_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "bell_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_bell_heavy_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_hit_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_hit_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_hit_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_hit_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_hit_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_heavy_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_heavy_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_heavy_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_heavy_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_heavy_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_heavy_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_heavy_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_heavy_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "soft_heavy_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_soft_heavy_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "punch_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_punch_medium_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "punch_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_punch_medium_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "punch_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_punch_medium_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "punch_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_punch_medium_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "punch_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_punch_medium_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "hit_01": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_generic_light_000.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "hit_02": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_generic_light_001.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "hit_03": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_generic_light_002.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "hit_04": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_generic_light_003.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "hit_05": {
+   "source": "Impact Sounds (1.0) by Kenney (kenney.nl): impact_generic_light_004.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/impact-sounds",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot (commit 999dd16)"
+  },
+  "cloth_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "cloth_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "cloth_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "cloth_04": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_4.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "cloth_05": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_belt.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "cloth_06": {
+   "source": "RPG Audio by Kenney (kenney.nl): cloth_belt_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "paper_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_flip_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "paper_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_flip_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "paper_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_flip_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "book_place_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_place_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "book_place_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_place_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "book_place_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_place_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "book_open_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_open.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "book_open_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): book_close.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "creak_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): creak_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "creak_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): creak_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "creak_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): creak_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_open_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_open_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_open_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_open_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_close_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_close_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_close_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_close_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_close_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_close_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "door_close_04": {
+   "source": "RPG Audio by Kenney (kenney.nl): door_close_4.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "knife_draw_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): draw_knife_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "knife_draw_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): draw_knife_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "knife_draw_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): draw_knife_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "knife_slice_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): knife_slice.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "knife_slice_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): knife_slice_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "chop_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): chop.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "pot_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): metal_pot_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "pot_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): metal_pot_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "pot_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): metal_pot_3.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "latch_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): metal_latch.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "latch_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): metal_click.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "coins_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): handle_coins.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "coins_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): handle_coins_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "leather_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): drop_leather.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "leather_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): handle_small_leather.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "leather_03": {
+   "source": "RPG Audio by Kenney (kenney.nl): handle_small_leather_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "belt_01": {
+   "source": "RPG Audio by Kenney (kenney.nl): belt_handle_1.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "belt_02": {
+   "source": "RPG Audio by Kenney (kenney.nl): belt_handle_2.ogg",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/rpg-audio",
+   "downloaded_from": "https://github.com/Boyquotes/kenney-rpg-audio-for-godot (commit 22eb79b)"
+  },
+  "click_01": {
+   "source": "UI Audio by Kenney (kenney.nl): click1.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "click_02": {
+   "source": "UI Audio by Kenney (kenney.nl): click2.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "click_03": {
+   "source": "UI Audio by Kenney (kenney.nl): click3.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "click_04": {
+   "source": "UI Audio by Kenney (kenney.nl): click4.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "click_05": {
+   "source": "UI Audio by Kenney (kenney.nl): click5.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_01": {
+   "source": "UI Audio by Kenney (kenney.nl): switch1.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_02": {
+   "source": "UI Audio by Kenney (kenney.nl): switch2.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_03": {
+   "source": "UI Audio by Kenney (kenney.nl): switch3.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_04": {
+   "source": "UI Audio by Kenney (kenney.nl): switch4.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_05": {
+   "source": "UI Audio by Kenney (kenney.nl): switch5.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_06": {
+   "source": "UI Audio by Kenney (kenney.nl): switch6.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_07": {
+   "source": "UI Audio by Kenney (kenney.nl): switch7.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_08": {
+   "source": "UI Audio by Kenney (kenney.nl): switch8.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_09": {
+   "source": "UI Audio by Kenney (kenney.nl): switch9.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_10": {
+   "source": "UI Audio by Kenney (kenney.nl): switch10.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_11": {
+   "source": "UI Audio by Kenney (kenney.nl): switch11.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "switch_12": {
+   "source": "UI Audio by Kenney (kenney.nl): switch12.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_01": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover1.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_02": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover2.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_03": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover3.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_04": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover4.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_05": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover5.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "tick_06": {
+   "source": "UI Audio by Kenney (kenney.nl): rollover6.wav",
+   "licence": "CC0 1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "page": "https://kenney.nl/assets/ui-audio",
+   "downloaded_from": "https://github.com/Calinou/kenney-ui-audio (commit 8c3d81b)"
+  },
+  "amb_room": {
+   "source": "the air of a quiet room: slowly breathing low noise (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "spin_01": {
+   "source": "something spinning on a hard surface: a purr at 9 turns a second (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "spin_02": {
+   "source": "something spinning on a hard surface: a purr at 5 turns a second (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_01": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_02": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_03": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_04": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_05": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  },
+  "whoosh_06": {
+   "source": "soft air moving past (synthesised)",
+   "licence": "made here (no recording)"
+  }
+ }
+}

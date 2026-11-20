@@ -1,0 +1,12 @@
+# heavy or re-creatable: built .blend files, frames, test stills, renders, the sound library and the music track
+build/
+stills/
+frames/
+out/
+assets/
+__pycache__/
+*.blend1
+sound/raw/
+sound/lib/
+sound/music/*
+!sound/music/.gitkeep

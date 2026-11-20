@@ -1,0 +1,14 @@
+{
+ "about": "The Poly Haven scans (CC0) this film uses: python3 tools/fetch_assets.py puts them in films/_assets/ (shared by every film). Find more with: python3 tools/fetch_assets.py --find <words>. Use 2k unless a surface fills the frame in a close-up.",
+ "textures": {
+  "wood_table_001": "2k",
+  "white_plaster_02": "2k",
+  "ash_veneer": "2k",
+  "leather_red_02": "2k",
+  "fabric_leather_01": "2k"
+ },
+ "hdris": {
+  "qwantani_dusk_2_puresky": "2k"
+ },
+ "models": {}
+}
