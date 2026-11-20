@@ -1411,7 +1411,8 @@ and write the docs while waiting; you can still re-render while queued (the scri
 
 ## Films (a separate pipeline: `films/`)
 Photoreal short films made from code — any subject, any story: Python builds every scene in **Blender 5.2 (Cycles)**, a
-render farm on **Modal** (or the local Mac, slowly) renders 4K frames, Python mixes, grades and cuts. NOT reels: none of the
+render farm renders 4K frames — **Modal**, **GPU machines on any cloud over SSH** (AWS, Azure, Google Cloud, RunPod…:
+`tools/farm_ssh.py`), or the local computer (slowly) — and Python mixes, grades and cuts. NOT reels: none of the
 rules above apply (no HUD/captions/question card; 16:9 4K by default). **Start with `/new-film <concept>`** and read
 **`docs/FILMS.md`** (the method: the look rules, music-first editing, the pace and physics checks, the agent team, costs, lessons).
 `films/_template/` = the engine + a 3-shot example (a spinning top) that builds and renders; start a film with

@@ -3,11 +3,13 @@
 
     python3 tools/finish.py [tag]          default tag: final       (log: out/_finish_<tag>.log)
     python3 tools/finish.py final --from render      skip the rebuild and upload (steps: build, render, pull, cut)
-    python3 tools/finish.py draft --pct 25           a quarter-size draft of the whole film (Modal; ~1/16 of the cost)
-    python3 tools/finish.py final --local            render on this computer instead of Modal (slow: see tools/film.py render)
+    python3 tools/finish.py draft --pct 25           a quarter-size draft of the whole film (~1/16 of the cost)
+    --farm modal   render on Modal (farm.py; the default, or set FILM_FARM)
+    --farm ssh     render on your own GPU machines on any cloud, over SSH (tools/farm_ssh.py + farm_hosts.json)
+    --farm local   (or --local) render on this computer: slow (about 2 min a 4K frame on an M5 Pro)
 
-1. build + upload every set   2. render every shot at 4K on Modal under <tag> (frames already on the volume under
-that tag are skipped, so a run that died is simply started again)   3. download the frames   4. the sound mix
+1. build (+ upload, for Modal) every set   2. render every frame the edit shows under <tag> (frames already rendered
+are skipped, so a run that died is simply started again)   3. download the frames (Modal)   4. the sound mix
 5. the edit: out/<tag>.mp4 (4K), _1080.mp4, _phone.mp4   6. checks: missing frames, motion per shot, loudness, a sheet.
 Nothing here needs a person or a model; it stops at the first step that fails and says which.
 """
@@ -20,9 +22,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 import timeline as tl  # noqa: E402
 
-VALUED = ("--from", "--pct")
+VALUED = ("--from", "--pct", "--farm")
 tag = next((a for k, a in enumerate(sys.argv[1:], 1) if not a.startswith("--") and sys.argv[k - 1] not in VALUED), "final")
-LOCAL = "--local" in sys.argv
+FARM = "local" if "--local" in sys.argv else (sys.argv[sys.argv.index("--farm") + 1] if "--farm" in sys.argv else os.environ.get("FILM_FARM", "modal"))
+if FARM not in ("modal", "ssh", "local"):
+    sys.exit("--farm modal | ssh | local")
 PCT = sys.argv[sys.argv.index("--pct") + 1] if "--pct" in sys.argv else "100"
 start = sys.argv[sys.argv.index("--from") + 1] if "--from" in sys.argv else "build"
 STEPS = ["build", "render", "pull", "cut"]
@@ -63,11 +67,13 @@ def main():
     if k0 <= 0:
         for s in tl.SETS:
             run(["python3", "tools/film.py", "build", s], 2)
-            if not LOCAL:
+            if FARM == "modal":
                 run(["python3", "tools/film.py", "push", s], 1)
     if k0 <= 1:
-        if LOCAL:
+        if FARM == "local":
             out = run(["python3", "tools/film.py", "render", tag, "--pct", PCT], 3, stream=True)
+        elif FARM == "ssh":
+            out = run(["python3", "tools/farm_ssh.py", "render", tag] + (["--pct", PCT, "--samples", "48"] if PCT != "100" else []), 3, stream=True)
         else:
             out = run(["modal", "run", "farm.py", "--sets", "all", "--tag", tag] + (["--pct", PCT, "--samples", "48"] if PCT != "100" else []), 2, stream=True)
         bad = [ln for ln in out if "JOB FAILED" in ln or "spending guard" in ln]
@@ -78,7 +84,7 @@ def main():
             say("FAILED: the farm reported failed jobs; run this script again with --from render")
             sys.exit(1)
     if k0 <= 2:
-        if not LOCAL:
+        if FARM == "modal":
             run(["python3", "tools/film.py", "pull", tag], 1)
         miss = []
         for s in tl.SHOTS:

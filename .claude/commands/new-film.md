@@ -13,6 +13,12 @@ fixed. The template's spinning top is an example to delete, not a style to follo
    if asked), how long, what the viewer should feel and do at the end, what must be true about any product shown (check
    claims against the product's own site or repo; no partner or third-party names unless asked). If the user gave
    creative freedom, decide and say what you decided. Show early, not late: a short story outline, then a draft.
+   **Ask where it will render and the budget** (docs/FILMS.md §9): **Modal** (`farm.py`, quickest to set up), **their
+   own GPU machines on any cloud over SSH** (AWS, Azure, Google Cloud, RunPod, Lambda, a spare PC: `tools/farm_ssh.py`;
+   help them rent and list the machines in `farm_hosts.json`, then `check` and `setup`), or **this computer** (slow:
+   ~50 h for a minute of 4K on a fast Mac). Every render command below takes `--farm modal|ssh|local`. Set the budget
+   guard (`FILM_LIMIT_METERED` for Modal, `budget` in farm_hosts.json for SSH) and remind them that rented machines
+   cost money while they are on: set `"after"` to stop them.
 2. **Start the folder:** `python3 films/_template/tools/new_film.py <slug>` (lowercase, dashes) → `films/<slug>/`, then
    from there `python3 tools/fetch_assets.py` and `python3 sound/fetch_lib.py`, and build + sheet the example once to
    prove the machine works (`python3 tools/film.py build table && python3 tools/film.py sheet table --tag check`).
@@ -32,13 +38,13 @@ fixed. The template's spinning top is an example to delete, not a style to follo
    shot for motion, `cuts` for the joins, `tools/film.py sweep <set>` for anything passing through, sinking or floating.
    Hold every shot to the look list and to pace (§7): a travelling camera, action under way on frame 0, something
    moving everywhere, a beat that lands on the music.
-7. **Draft:** `python3 tools/finish.py draft --pct 25` (Modal) or `--local` (slow), check `python3 tools/motion.py draft`
+7. **Draft:** `python3 tools/finish.py draft --pct 25 --farm <modal|ssh|local>`, check `python3 tools/motion.py draft`
    against the reference's median shot (`tools/motion.py --film reference.mp4`; docs/FILMS.md §7) and the sweeps, then send
    the user the draft (a phone-sized copy) and ask for notes before the 4K render.
-8. **Final:** `python3 tools/finish.py final` → `out/final.mp4` (4K), `_1080.mp4`, `_phone.mp4`. Check its log: no missing
+8. **Final:** `python3 tools/finish.py final --farm <modal|ssh|local>` → `out/final.mp4` (4K), `_1080.mp4`, `_phone.mp4`. Check its log: no missing
    frames, motion per shot, loudness of the encoded film (~−16 LUFS, true peak < 0), the contact sheet
-   (`stills/final/whole_2fps.jpg`), and look at full-size crops of the moments that matter. Keep Modal spending inside the
-   user's budget (`FILM_LIMIT_METERED`; ask what it is before the first farm run).
+   (`stills/final/whole_2fps.jpg`), and look at full-size crops of the moments that matter. Keep the render spending inside
+   the user's budget, and after an SSH render make sure the rented machines were stopped (`"after"`, or tell the user).
 9. **Deliver:** send the user the film (files over ~30 MB do not reach a phone: send a 1080p under 30 MB and a few
    seconds of true 4K), say what was checked and what was not (nobody has listened? say so), and the cost.
 10. **Write down what you learned** in docs/FILMS.md (§14 hard-won rules, or the section it belongs to) — short, concrete,

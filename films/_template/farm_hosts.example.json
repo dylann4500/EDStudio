@@ -1,0 +1,11 @@
+{
+ "about": "Copy to farm_hosts.json (not in git) and list the GPU machines that render this film: python3 tools/farm_ssh.py check, then setup, then render <tag>. rate = dollars an hour (your provider's price page; 0 for your own machines). Budget: the film's total on this farm. after = a command that stops the machines when the render ends (they cost money while they are on, rendering or not). Remove the examples you do not use.",
+ "hosts": [
+  {"name": "aws-1", "ssh": "ubuntu@203.0.113.10", "key": "~/.ssh/film-aws.pem", "rate": 1.01},
+  {"name": "azure-1", "ssh": "azureuser@198.51.100.20", "key": "~/.ssh/film-azure", "rate": 1.0},
+  {"name": "gcp-1", "ssh": "me@192.0.2.30", "rate": 0.85},
+  {"name": "my-pc", "ssh": "me@192.168.1.20", "rate": 0}
+ ],
+ "budget": {"max_cost": 40, "max_hours": 40},
+ "after": ""
+}

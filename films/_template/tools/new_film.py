@@ -14,7 +14,7 @@ import sys
 
 TEMPLATE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILMS = os.path.dirname(TEMPLATE)
-SKIP = {"build", "frames", "out", "stills", "assets", "__pycache__", "raw", "lib", "music"}
+SKIP = {"build", "frames", "out", "stills", "assets", "__pycache__", "raw", "lib", "music", "farm_hosts.json"}    # (never copy machine addresses or keys)
 
 
 def main():
@@ -39,6 +39,7 @@ def main():
     python3 sound/fetch_lib.py                 the starter sound library (CC0)
     python3 tools/film.py build table          the example set; then: python3 tools/film.py sheet table --tag v1
 then write your own film over it: timeline.py (the shot list), blender/set_<name>.py (one per set), sound/cues.json.
+Render with  python3 tools/finish.py draft --pct 25 --farm modal|ssh|local  (ssh: any cloud's GPU machines, farm_hosts.json).
 The method: docs/FILMS.md (in the repo root).""" % dest)
 
 

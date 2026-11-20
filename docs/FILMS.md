@@ -74,15 +74,18 @@ story ─► shot list (timeline.py) ─► music + beats ─► sets (blender/s
 | Look at it | `python3 tools/film.py sheet <set> --per 3 --tag v1` · `stills <set> S01@1.2 …` · `cuts <set>` | ~1 s a still |
 | Physics check | `python3 tools/film.py sweep <set>` | seconds |
 | Pace check | `python3 tools/motion.py <tag>` | seconds |
-| Whole-film draft | `python3 tools/finish.py draft --pct 25` (Modal) or `--local` | 10–30 min |
-| Final | `python3 tools/finish.py final` (or `--local`, slowly) | ~1.5–2 h for 60 s |
+| Whole-film draft | `python3 tools/finish.py draft --pct 25 [--farm modal\|ssh\|local]` | 10–30 min |
+| Final | `python3 tools/finish.py final [--farm modal\|ssh\|local]` | ~1.5–2 h for 60 s on ~8 GPUs |
 
-`tools/finish.py` does everything after the sets are right, unattended and safe to run again: build and upload
-every set, render on Modal, download, mix, cut, and check (missing frames, motion per shot, loudness, a contact
-sheet). `--from render|pull|cut` resumes a run that stopped.
+`tools/finish.py` does everything after the sets are right, unattended and safe to run again: build (and upload)
+every set, render on the farm you choose (`--farm modal|ssh|local`, default Modal or `$FILM_FARM`), download, mix,
+cut, and check (missing frames, motion per shot, loudness, a contact sheet). `--from render|pull|cut` resumes a run
+that stopped.
 
 **Requirements:** Blender 5.2 (`/Applications/Blender.app` or `$BLENDER`), Python 3 with numpy and scipy, ffmpeg.
-For the farm: the Modal CLI, logged in (`modal setup`). For screens: Node and EDStudio's `puppeteer-core`.
+To render fast, one of: **Modal** (the CLI, logged in: `modal setup`; `farm.py`), **GPU machines on any cloud you
+can SSH into** (AWS, Azure, Google Cloud, RunPod, Lambda, a spare PC: `tools/farm_ssh.py`, needs ssh + rsync), or
+**this computer** (`--farm local`, slow). For screens: Node and EDStudio's `puppeteer-core`.
 
 ## 3. A film's folder
 
@@ -211,7 +214,38 @@ rug's pile stands above its mesh (`--pile`).
   Measured: L40S ~27 s a frame (44 s for the busiest set); **1,539 4K frames in 94 minutes, about $34** with 7–10
   GPUs. A quarter-size draft (`--pct 25 --samples 48`) costs about 1/16. A spending guard reads the bill before
   starting (`FILM_LIMIT_METERED`). Never push a set while it is rendering: containers reload a newer .blend.
+- **Any cloud, over SSH** (`tools/farm_ssh.py`): rent GPU machines anywhere (below), list them in `farm_hosts.json`
+  (copy `farm_hosts.example.json`; not in git), then `python3 tools/farm_ssh.py check` (reachable? GPU? Blender?),
+  `setup` (installs Blender 5.2.1 and its libraries on each machine) and `render <tag>`, or simply
+  `python3 tools/finish.py final --farm ssh`. Every machine gets the film's code and built sets by rsync, takes chunks
+  of frames from one shared queue (a faster machine takes more), and sends its frames back into `frames/<tag>/`; a
+  failed chunk is retried elsewhere and a machine that fails three times is dropped. **Budget:** the farm cannot see
+  your provider's bill, so it counts machine time at each machine's `rate` and starts no chunk that would take the
+  film's total past `budget.max_cost` dollars or `max_hours` machine-hours (`farm_ssh.py cost` shows the ledger).
+  **Machines cost money while they are on, rendering or not:** put the command that stops them in `"after"` (it runs
+  when the render ends), or stop them in the provider's console. Mixed machines are fine (a cloud GPU and a home PC).
 - **Draft first, always:** a quarter-size draft of the whole film, cut to the music, is what the owner reacts to.
+
+### Renting GPU machines (any provider)
+
+What a machine needs: Linux, an NVIDIA GPU with a recent driver, SSH access, ~10 GB of disk; `setup` does the rest.
+Speed per frame on one GPU (a test scene at 176 samples; the first film's real frames took about 1.3–2× this):
+RTX PRO 6000 14 s · L40S 21 s · A10 45 s · L4 48 s. Several cheaper GPUs in parallel beat one fast one on wall-clock
+time; what you pay is roughly (frames × seconds per frame ÷ 3600) × the hourly rate, plus idle time.
+
+- **AWS (EC2):** GPU instance families G6e (L40S), G5 (A10G), G6 (L4). Pick an AMI with the driver installed (an
+  "AWS Deep Learning Base … Nvidia Driver" Ubuntu AMI); user `ubuntu`, your key pair's `.pem` as `key`. New accounts
+  often have a GPU quota of 0: ask for "Running On-Demand G and VT instances" in Service Quotas first. Spot instances
+  cost much less; an interrupted machine's chunks are simply redone by the others. `"after"`:
+  `aws ec2 stop-instances --instance-ids i-…`.
+- **Azure:** NVadsA10 v5 (A10) or NC-series VMs, with the NVIDIA GPU driver extension or an NVIDIA GPU-optimized image;
+  user `azureuser` by default. GPU quota is per VM family and region. `"after"`: `az vm deallocate -g <group> -n <vm>`.
+- **Google Cloud:** G2 machines (L4) or A2 (A100) from a Deep Learning VM image (drivers installed); GPU quota per
+  region. `"after"`: `gcloud compute instances stop <name> --zone <zone>`.
+- **GPU clouds (RunPod, Lambda, Vast.ai, …):** usually the cheapest per hour and the quickest to start; take an image
+  with SSH, add your public key, use the address and port they show.
+- **Your own machines:** any Linux PC with an NVIDIA GPU and SSH on (`rate: 0`). `{"name": "here", "local": true}`
+  renders through the same machinery on the computer you are at.
 
 ## 10. Sound
 

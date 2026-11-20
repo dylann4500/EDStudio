@@ -26,6 +26,10 @@ It is there to show every technique in a few hundred lines; replace it with your
 Then: `python3 tools/film.py sweep <set>` (things passing through or floating), `python3 tools/finish.py draft --pct 25`
 (the whole film at quarter size), `python3 tools/finish.py final` (4K, mixed, cut and checked: `out/final.mp4`).
 
+**Where it renders** (`--farm` on finish.py): `modal` (default; `farm.py`, needs a Modal account), `ssh` (GPU machines
+on any cloud or your own: AWS, Azure, Google Cloud, RunPod, Lambda, a spare PC; copy `farm_hosts.example.json` to
+`farm_hosts.json`, then `python3 tools/farm_ssh.py check` and `setup`), or `local` (this computer; slow).
+
 | File | What it is |
 |---|---|
 | `timeline.py` | the shot list and the clock (story, edit, music, cues) |
@@ -37,5 +41,6 @@ Then: `python3 tools/film.py sweep <set>` (things passing through or floating), 
 | `tools/motion.py` · `beats.py` · `sweep.py` | pace check · a music file's beats · the physics check (in Blender) |
 | `tools/fetch_assets.py` · `new_film.py` · `render_blend.py` | scans · a new film · the in-Blender renderer |
 | `farm.py` | the Modal render farm (`FILM` = this film's app and volume; a spending guard) |
+| `tools/farm_ssh.py` · `farm_hosts.example.json` | the render farm for any GPU machines you can SSH into (a budget guard by machine time) |
 | `post/mix.py` · `post/compose.py` | the sound mix · the edit and the film finish |
 | `sound/` | the cue sheet, the starter library builder, the credits |

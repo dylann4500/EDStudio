@@ -10,3 +10,4 @@ sound/raw/
 sound/lib/
 sound/music/*
 !sound/music/.gitkeep
+farm_hosts.json
